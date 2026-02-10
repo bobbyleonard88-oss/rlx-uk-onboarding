@@ -35,7 +35,7 @@ export default function Meetings() {
                 <Clock className="w-7 h-7 text-accent" />
               </div>
               <div>
-                <h2 className="text-3xl font-display font-bold text-foreground">Meeting Length</h2>
+                <h2 className="text-3xl font-heading font-bold text-foreground">Meeting Length</h2>
                 <p className="text-xl text-accent font-heading">20 minutes</p>
               </div>
             </div>
@@ -49,7 +49,7 @@ export default function Meetings() {
               <div className="w-14 h-14 rounded-lg bg-primary/20 flex items-center justify-center border border-accent/30">
                 <FileText className="w-7 h-7 text-accent" />
               </div>
-              <h2 className="text-3xl font-display font-bold text-foreground">Delegate Detail</h2>
+              <h2 className="text-3xl font-heading font-bold text-foreground">Delegate Detail</h2>
             </div>
             <p className="text-lg text-foreground/90 leading-relaxed mb-6">
               Each meeting is backed by a comprehensive profile outlining organisational challenges, budget cycle, 
@@ -79,7 +79,7 @@ export default function Meetings() {
           <div className="glass-card p-8 bg-accent/10 border-accent/30 rounded-lg mb-12">
             <div className="flex items-center gap-4 mb-4">
               <Target className="w-8 h-8 text-accent" />
-              <h3 className="text-2xl font-display font-bold text-foreground">Quality Assurance</h3>
+              <h3 className="text-2xl font-heading font-bold text-foreground">Quality Assurance</h3>
             </div>
             <p className="text-lg text-foreground/90 leading-relaxed">
               Only <strong className="text-accent">fully qualified senior leaders</strong> will be approved to attend. 
@@ -91,7 +91,7 @@ export default function Meetings() {
         {/* Value Proposition */}
         <AnimatedSection delay={500}>
           <div className="glass-card p-8 md:p-12 rounded-lg mb-12">
-            <h2 className="text-3xl font-display font-bold text-foreground mb-6 text-center">
+            <h2 className="text-3xl font-heading font-bold text-foreground mb-6 text-center">
               The RLX Meeting Advantage
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

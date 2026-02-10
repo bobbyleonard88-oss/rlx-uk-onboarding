@@ -32,7 +32,7 @@ export default function Packages() {
                   <Star className="w-6 h-6 text-accent" />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-display font-bold text-foreground">Foundation Package</h2>
+                  <h2 className="text-2xl font-heading font-bold text-foreground">Foundation Package</h2>
                   <p className="text-muted-foreground">12-Meeting Partner</p>
                 </div>
               </div>
@@ -86,7 +86,7 @@ export default function Packages() {
                   <Sparkles className="w-6 h-6 text-accent" />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-display font-bold text-foreground">Executive Package</h2>
+                  <h2 className="text-2xl font-heading font-bold text-foreground">Executive Package</h2>
                   <p className="text-muted-foreground">20-Meeting Partner</p>
                 </div>
               </div>
@@ -131,14 +131,14 @@ export default function Packages() {
         {/* Add-Ons */}
         <AnimatedSection delay={300}>
           <div className="mb-12">
-            <h2 className="text-3xl font-display font-bold text-foreground mb-8 text-center">Sponsorship Add-Ons</h2>
+            <h2 className="text-3xl font-heading font-bold text-foreground mb-8 text-center">Sponsorship Add-Ons</h2>
             
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {/* Private Workshop */}
               <div className="glass-card p-8 rounded-lg">
                 <div className="flex items-center gap-3 mb-4">
                   <Users className="w-8 h-8 text-accent" />
-                  <h3 className="text-2xl font-display font-bold text-foreground">Private Workshop</h3>
+                  <h3 className="text-2xl font-heading font-bold text-foreground">Private Workshop</h3>
                 </div>
                 <p className="text-muted-foreground mb-6">
                   Available as an exclusive enhancement to both packages
@@ -158,7 +158,7 @@ export default function Packages() {
               <div className="glass-card p-8 rounded-lg">
                 <div className="flex items-center gap-3 mb-4">
                   <Sparkles className="w-8 h-8 text-accent" />
-                  <h3 className="text-2xl font-display font-bold text-foreground">Private Experiential Session</h3>
+                  <h3 className="text-2xl font-heading font-bold text-foreground">Private Experiential Session</h3>
                 </div>
                 <p className="text-muted-foreground mb-6">
                   Available as an exclusive enhancement to both packages

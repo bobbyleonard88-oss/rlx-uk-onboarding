@@ -62,7 +62,7 @@ function SortableAttendee({ attendee, rank }: SortableAttendeeProps) {
       <div className="flex items-center gap-3">
         <GripVertical className="w-5 h-5 text-muted-foreground" />
         <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center border border-accent/30 flex-shrink-0">
-          <span className="text-lg font-display font-bold text-accent">{rank}</span>
+          <span className="text-lg font-heading font-bold text-accent">{rank}</span>
         </div>
       </div>
 

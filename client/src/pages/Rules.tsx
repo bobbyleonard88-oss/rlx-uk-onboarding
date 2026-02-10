@@ -55,7 +55,7 @@ export default function Rules() {
 
         <AnimatedSection delay={200}>
           <div className="glass-card p-8 bg-accent/10 border-accent/30 rounded-lg mb-12">
-            <h3 className="text-2xl font-display font-bold text-foreground mb-4">Important Note</h3>
+            <h3 className="text-2xl font-heading font-bold text-foreground mb-4">Important Note</h3>
             <p className="text-lg text-foreground/90 leading-relaxed">
               These guidelines are designed to maintain the premium, focused nature of RLX and ensure maximum value 
               for all partners and attendees. Adherence to deadlines and requirements is essential for optimal outcomes.

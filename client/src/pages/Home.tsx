@@ -65,15 +65,15 @@ export default function Home() {
             <AnimatedSection delay={500}>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
                 <div className="glass-card p-6 rounded-lg">
-                  <div className="text-5xl font-display font-bold text-accent mb-2">40+</div>
+                  <div className="text-5xl font-heading font-bold text-accent mb-2">40+</div>
                   <div className="text-sm font-heading text-muted-foreground uppercase tracking-wider">Senior Leaders</div>
                 </div>
                 <div className="glass-card p-6 rounded-lg">
-                  <div className="text-5xl font-display font-bold text-accent mb-2">2</div>
+                  <div className="text-5xl font-heading font-bold text-accent mb-2">2</div>
                   <div className="text-sm font-heading text-muted-foreground uppercase tracking-wider">Days of Excellence</div>
                 </div>
                 <div className="glass-card p-6 rounded-lg">
-                  <div className="text-5xl font-display font-bold text-accent mb-2">1:1</div>
+                  <div className="text-5xl font-heading font-bold text-accent mb-2">1:1</div>
                   <div className="text-sm font-heading text-muted-foreground uppercase tracking-wider">Curated Meetings</div>
                 </div>
               </div>

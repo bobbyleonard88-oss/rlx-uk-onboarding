@@ -40,12 +40,12 @@ export default function Team() {
         {/* Commercial Team */}
         <AnimatedSection delay={100}>
           <div className="mb-16">
-            <h2 className="text-3xl font-display font-bold text-foreground mb-8">Commercial & Events Team</h2>
+            <h2 className="text-3xl font-heading font-bold text-foreground mb-8">Commercial & Events Team</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {commercialTeam.map((member, index) => (
                 <div key={index} className="glass-card p-6 rounded-lg hover:border-accent/50 transition-all duration-300">
                   <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center mb-4 border border-accent/30">
-                    <span className="text-2xl font-display font-bold text-accent">
+                    <span className="text-2xl font-heading font-bold text-accent">
                       {member.name.split(' ').map(n => n[0]).join('')}
                     </span>
                   </div>
@@ -60,12 +60,12 @@ export default function Team() {
         {/* CS Team */}
         <AnimatedSection delay={200}>
           <div className="mb-12">
-            <h2 className="text-3xl font-display font-bold text-foreground mb-8">Customer Success Team</h2>
+            <h2 className="text-3xl font-heading font-bold text-foreground mb-8">Customer Success Team</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {csTeam.map((member, index) => (
                 <div key={index} className="glass-card p-6 rounded-lg hover:border-accent/50 transition-all duration-300">
                   <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center mb-4 border border-accent/30">
-                    <span className="text-2xl font-display font-bold text-accent">
+                    <span className="text-2xl font-heading font-bold text-accent">
                       {member.name.split(' ').map(n => n[0]).join('')}
                     </span>
                   </div>

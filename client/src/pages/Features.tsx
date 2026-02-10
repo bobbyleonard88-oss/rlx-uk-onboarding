@@ -39,7 +39,7 @@ export default function Features() {
           {/* Core Features */}
           <AnimatedSection delay={100}>
             <div className="glass-card p-8 rounded-lg h-full">
-              <h2 className="text-3xl font-display font-bold text-foreground mb-8">Core Features</h2>
+              <h2 className="text-3xl font-heading font-bold text-foreground mb-8">Core Features</h2>
               <ul className="space-y-4">
                 {coreFeatures.map((feature, index) => {
                   const Icon = feature.icon;
@@ -59,7 +59,7 @@ export default function Features() {
           {/* Partner Values */}
           <AnimatedSection delay={200}>
             <div className="glass-card p-8 rounded-lg h-full">
-              <h2 className="text-3xl font-display font-bold text-foreground mb-8">Partner Values</h2>
+              <h2 className="text-3xl font-heading font-bold text-foreground mb-8">Partner Values</h2>
               <ul className="space-y-4">
                 {partnerValues.map((value, index) => {
                   const Icon = value.icon;

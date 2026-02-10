@@ -21,7 +21,7 @@ export default function Overview() {
 
         <AnimatedSection delay={100}>
           <div className="glass-card p-8 md:p-12 rounded-lg mb-12">
-            <h2 className="text-3xl font-display font-bold text-foreground mb-6">
+            <h2 className="text-3xl font-heading font-bold text-foreground mb-6">
               The Resourcing Leaders Exchange
             </h2>
             <div className="space-y-6 text-lg leading-relaxed text-foreground/90">
@@ -41,7 +41,7 @@ export default function Overview() {
 
         <AnimatedSection delay={200}>
           <div className="glass-card p-8 md:p-12 rounded-lg mb-12">
-            <h2 className="text-3xl font-display font-bold text-foreground mb-6">
+            <h2 className="text-3xl font-heading font-bold text-foreground mb-6">
               Why We Created The RL Exchange
             </h2>
             <div className="space-y-6 text-lg leading-relaxed text-foreground/90">

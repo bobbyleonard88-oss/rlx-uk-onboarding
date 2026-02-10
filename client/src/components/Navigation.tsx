@@ -21,9 +21,11 @@ export default function Navigation() {
       <div className="p-4 lg:p-6 border-b border-border/30">
         <Link href="/">
           <div className="flex items-center gap-3 cursor-pointer group">
-            <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center border border-accent/30 group-hover:border-accent transition-colors">
-              <span className="text-accent font-display font-bold text-xl">RLX</span>
-            </div>
+            <img 
+              src="/rlx-logo.png" 
+              alt="RLX Logo" 
+              className="h-12 w-auto object-contain"
+            />
             <div className="hidden lg:block">
               <h1 className="text-foreground font-heading font-bold text-sm tracking-tight">
                 Resourcing Leaders Exchange

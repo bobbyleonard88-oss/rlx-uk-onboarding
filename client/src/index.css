@@ -41,14 +41,13 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
   
-  /* Custom fonts for RLX Luxury Editorial design */
-  --font-display: 'Playfair Display', serif;
+  /* Custom fonts for RLX Branded Splash design */
   --font-heading: 'Montserrat', sans-serif;
-  --font-body: 'Crimson Pro', serif;
+  --font-body: 'Playfair Display', serif;
 }
 
 :root {
-  /* RLX Brand Colors - Luxury Editorial Theme */
+  /* RLX Brand Colors - Branded Splash Theme */
   --primary: oklch(0.45 0.12 290); /* Rich Purple #7B4B94 */
   --primary-foreground: oklch(0.98 0.01 290);
   --secondary: oklch(0.35 0.05 240); /* Navy Blue #2C3E5A */
@@ -107,14 +106,14 @@
   }
   
   h1 {
-    font-family: var(--font-display);
-    font-weight: 900;
+    font-family: var(--font-heading);
+    font-weight: 800;
     font-size: clamp(2.5rem, 5vw, 4rem);
     line-height: 1.1;
   }
   
   h2 {
-    font-family: var(--font-display);
+    font-family: var(--font-heading);
     font-weight: 700;
     font-size: clamp(2rem, 4vw, 3rem);
     line-height: 1.2;
