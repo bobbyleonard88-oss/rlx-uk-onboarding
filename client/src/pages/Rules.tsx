@@ -1,6 +1,5 @@
 /**
  * RLX Onboarding - Rules of Engagement Page
- * Design: Luxury Editorial
  */
 
 import AnimatedSection from "@/components/AnimatedSection";
@@ -13,13 +12,9 @@ export default function Rules() {
     "20-meeting package partners can bring 2 attendees",
     "12-meeting package partners can bring 1 attendee",
     "Hotel allocation is provided - 2 nights",
-    "No vendor guest speakers will be permitted",
-    "Guest speakers must be signed off by The Recruitment Events Co.",
-    "Guest speakers will not count towards your attendee allocation",
     "Attendee representatives must be in leadership positions unless signed off by The Recruitment Events Co.",
-    "No delegate list will be shared pre-event",
-    "Session content will be reviewed by The Recruitment Events Co.",
-    "Failure to hit deadlines will result in missed marketing opportunities, potentially less relevancy of attendees",
+    "Partners will receive the delegate list to prioritize meeting preferences. Final schedules use a blend of partner priorities, current audience needs, and attendee vendor rankings. No meetings are guaranteed.",
+    "Failure to hit deadlines will result in missed marketing opportunities and potentially less relevancy of attendees",
     "No contact details are provided unless specifically requested (however, LinkedIn profiles will be)",
     "Contacts data (connection requests) won't be shared until you complete the Vendor Feedback survey",
     "If you requested to connect with a delegate and you didn't speak with them on the day, then we will not facilitate any further introductions",
@@ -57,7 +52,7 @@ export default function Rules() {
           <div className="glass-card p-8 bg-accent/10 border-accent/30 rounded-lg mb-12">
             <h3 className="text-2xl font-heading font-bold text-foreground mb-4">Important Note</h3>
             <p className="text-lg text-foreground/90 leading-relaxed">
-              These guidelines are designed to maintain the premium, focused nature of RLX and ensure maximum value 
+              These guidelines are designed to maintain the premium, focused nature of the Resourcing Leaders Exchange and ensure maximum value 
               for all partners and attendees. Adherence to deadlines and requirements is essential for optimal outcomes.
             </p>
           </div>

@@ -64,7 +64,7 @@ export default function Intake() {
         </AnimatedSection>
 
         <AnimatedSection delay={100}>
-          <div className="glass-card p-8 md:p-12 rounded-lg">
+          <div className="p-8 md:p-12 rounded-lg bg-white">
             {/* HubSpot form will be injected here */}
             <div id="hubspot-form-container" className="hubspot-form-wrapper"></div>
           </div>
@@ -87,7 +87,7 @@ export default function Intake() {
         }
         
         #hubspot-form-container .hs-form label {
-          color: oklch(0.97 0.005 240);
+          color: oklch(0.2 0.015 240);
           font-family: 'Montserrat', sans-serif;
           font-weight: 500;
           font-size: 0.875rem;
@@ -99,10 +99,10 @@ export default function Intake() {
         #hubspot-form-container .hs-form input[type="tel"],
         #hubspot-form-container .hs-form textarea,
         #hubspot-form-container .hs-form select {
-          background: oklch(0.3 0.03 240 / 0.5);
-          border: 1px solid oklch(0.35 0.05 260 / 0.3);
+          background: white;
+          border: 1px solid oklch(0.8 0.01 240);
           border-radius: 0.5rem;
-          color: oklch(0.97 0.005 240);
+          color: oklch(0.2 0.015 240);
           padding: 0.75rem;
           width: 100%;
           font-family: 'Crimson Pro', serif;

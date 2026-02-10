@@ -7,7 +7,7 @@ const navItems = [
   { path: "/features", label: "Features & Values", icon: Award },
   { path: "/rules", label: "Rules", icon: Shield },
   { path: "/team", label: "Team", icon: Users },
-  { path: "/packages", label: "Packages", icon: FileText },
+  { path: "/addons", label: "Add-Ons", icon: FileText },
   { path: "/meetings", label: "Meetings", icon: Calendar },
   { path: "/intake", label: "Intake Form", icon: FormInput },
   { path: "/prioritize", label: "Prioritize Meetings", icon: ListOrdered },
@@ -45,9 +45,9 @@ export default function Navigation() {
             return (
               <li key={item.path}>
                 <Link href={item.path}>
-                  <a
+                  <div
                     className={`
-                      flex items-center gap-3 px-3 py-3 rounded-lg transition-all duration-200
+                      flex items-center gap-3 px-3 py-3 rounded-lg transition-all duration-200 cursor-pointer
                       ${isActive 
                         ? 'bg-primary/20 text-accent border border-accent/30' 
                         : 'text-muted-foreground hover:text-foreground hover:bg-secondary/30 border border-transparent'
@@ -59,7 +59,7 @@ export default function Navigation() {
                     <span className="hidden lg:block font-heading text-sm font-medium">
                       {item.label}
                     </span>
-                  </a>
+                  </div>
                 </Link>
               </li>
             );

@@ -37,7 +37,7 @@ export default function Home() {
 
             <AnimatedSection delay={200}>
               <p className="text-xl md:text-2xl text-muted-foreground mb-8 leading-relaxed max-w-3xl mx-auto">
-                An invitation-only, five-star leadership summit meticulously crafted to remove the noise 
+                An invitation-only, five-star leadership exchange event meticulously crafted to remove the noise 
                 and inefficiency of traditional B2B events.
               </p>
             </AnimatedSection>

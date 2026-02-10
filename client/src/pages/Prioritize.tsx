@@ -1,6 +1,5 @@
 /**
  * RLX Onboarding - Meeting Prioritization Page
- * Design: Luxury Editorial
  * Drag-and-drop ranking of all attendees
  */
 
@@ -24,7 +23,7 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import AnimatedSection from "@/components/AnimatedSection";
 import { Button } from "@/components/ui/button";
-import { GripVertical, Download, Save, Building2, Briefcase, Users } from "lucide-react";
+import { GripVertical, Send, Building2, Briefcase, Users } from "lucide-react";
 import { attendees, Attendee } from "@/lib/attendees";
 import { toast } from "sonner";
 
@@ -45,7 +44,7 @@ function SortableAttendee({ attendee, rank }: SortableAttendeeProps) {
 
   const style = {
     transform: CSS.Transform.toString(transform),
-    transition,
+    transition: transition || "transform 200ms ease",
     opacity: isDragging ? 0.5 : 1,
   };
 
@@ -54,13 +53,13 @@ function SortableAttendee({ attendee, rank }: SortableAttendeeProps) {
       ref={setNodeRef}
       style={style}
       className={`glass-card p-4 rounded-lg flex items-center gap-4 cursor-move hover:border-accent/50 transition-all ${
-        isDragging ? "z-50" : ""
+        isDragging ? "z-50 shadow-lg" : ""
       }`}
       {...attributes}
       {...listeners}
     >
       <div className="flex items-center gap-3">
-        <GripVertical className="w-5 h-5 text-muted-foreground" />
+        <GripVertical className="w-5 h-5 text-muted-foreground hover:text-accent transition-colors" />
         <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center border border-accent/30 flex-shrink-0">
           <span className="text-lg font-heading font-bold text-accent">{rank}</span>
         </div>
@@ -82,7 +81,7 @@ function SortableAttendee({ attendee, rank }: SortableAttendeeProps) {
           </div>
           <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
             <Users className="w-3.5 h-3.5" />
-            <span>{attendee.budgetAuthority}</span>
+            <span title="Organization Size">{attendee.companySize} employees</span>
           </div>
         </div>
       </div>
@@ -112,7 +111,11 @@ export default function Prioritize() {
   }, []);
 
   const sensors = useSensors(
-    useSensor(PointerSensor),
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })
@@ -130,38 +133,27 @@ export default function Prioritize() {
     }
   }
 
-  function saveRankings() {
+  function submitRankings() {
+    // Save to localStorage first
     const ids = rankedAttendees.map((a) => a.id);
     localStorage.setItem("rlx-meeting-priorities", JSON.stringify(ids));
-    toast.success("Rankings saved successfully!");
-  }
 
-  function exportRankings() {
-    const csv = [
-      "Rank,First Name,Last Name,Job Title,Company,Industry,Budget Authority",
-      ...rankedAttendees.map((a, i) =>
-        [
-          i + 1,
-          a.firstName,
-          a.lastName,
-          a.jobTitle,
-          a.company,
-          a.industry,
-          a.budgetAuthority,
-        ]
-          .map((field) => `"${field}"`)
-          .join(",")
-      ),
-    ].join("\n");
+    // Create email body with rankings
+    const emailBody = rankedAttendees
+      .map((a, i) => 
+        `${i + 1}. ${a.firstName} ${a.lastName} - ${a.jobTitle} at ${a.company} (${a.companySize} employees)`
+      )
+      .join('\n');
 
-    const blob = new Blob([csv], { type: "text/csv" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "rlx-meeting-priorities.csv";
-    a.click();
-    URL.revokeObjectURL(url);
-    toast.success("Rankings exported successfully!");
+    const subject = encodeURIComponent('RLX Meeting Priorities Submission');
+    const body = encodeURIComponent(
+      `Please find my meeting priorities for the Resourcing Leaders Exchange:\n\n${emailBody}\n\nBest regards`
+    );
+
+    // Open mailto link
+    window.location.href = `mailto:clientsuccess@recruitmentevents.co?subject=${subject}&body=${body}`;
+    
+    toast.success("Opening email with your rankings...");
   }
 
   return (
@@ -172,42 +164,22 @@ export default function Prioritize() {
             <h1 className="text-foreground mb-6">Prioritize Your Meetings</h1>
             <div className="gold-divider max-w-md mx-auto mb-8"></div>
             <p className="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-              Drag and drop to rank all 47 attendees in order of meeting priority. Your rankings will help us 
+              Drag and drop to rank all {attendees.length} attendees in order of meeting priority. Your rankings will help us 
               schedule the most valuable meetings for your team.
             </p>
           </div>
         </AnimatedSection>
 
         <AnimatedSection delay={100}>
-          <div className="flex gap-3 mb-8 justify-center">
-            <Button
-              onClick={saveRankings}
-              className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading gap-2"
-            >
-              <Save className="w-4 h-4" />
-              Save Rankings
-            </Button>
-            <Button
-              onClick={exportRankings}
-              variant="outline"
-              className="font-heading gap-2 border-accent/30 hover:border-accent hover:bg-accent/10"
-            >
-              <Download className="w-4 h-4" />
-              Export CSV
-            </Button>
-          </div>
-        </AnimatedSection>
-
-        <AnimatedSection delay={200}>
           <div className="glass-card p-6 bg-accent/10 border-accent/30 rounded-lg mb-8">
             <p className="text-sm text-foreground/90 leading-relaxed text-center">
-              <strong className="text-accent">Tip:</strong> Click and drag the grip icon on the left of each card 
-              to reorder. Your top priorities should be at the top of the list.
+              <strong className="text-accent">Instructions:</strong> Click and drag the grip icon to reorder attendees. 
+              Your top priorities should be at the top. When finished, click Submit to email your rankings to clientsuccess@recruitmentevents.co
             </p>
           </div>
         </AnimatedSection>
 
-        <div className="space-y-3">
+        <div className="space-y-3 mb-12">
           <DndContext
             sensors={sensors}
             collisionDetection={closestCenter}
@@ -228,26 +200,20 @@ export default function Prioritize() {
           </DndContext>
         </div>
 
-        <AnimatedSection delay={300}>
-          <div className="mt-12 flex gap-3 justify-center">
+        <AnimatedSection delay={200}>
+          <div className="flex justify-center">
             <Button
-              onClick={saveRankings}
+              onClick={submitRankings}
               size="lg"
-              className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading gap-2"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading gap-2 px-8"
             >
-              <Save className="w-5 h-5" />
-              Save Rankings
-            </Button>
-            <Button
-              onClick={exportRankings}
-              size="lg"
-              variant="outline"
-              className="font-heading gap-2 border-accent/30 hover:border-accent hover:bg-accent/10"
-            >
-              <Download className="w-5 h-5" />
-              Export CSV
+              <Send className="w-5 h-5" />
+              Submit Rankings
             </Button>
           </div>
+          <p className="text-center text-sm text-muted-foreground mt-4">
+            This will open your email client with the rankings pre-filled
+          </p>
         </AnimatedSection>
       </div>
     </div>

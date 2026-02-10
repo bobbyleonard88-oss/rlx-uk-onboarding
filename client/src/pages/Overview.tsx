@@ -26,7 +26,7 @@ export default function Overview() {
             </h2>
             <div className="space-y-6 text-lg leading-relaxed text-foreground/90">
               <p>
-                The Resourcing Leaders Exchange (RLX) is an <strong className="text-accent">invitation-only, five-star leadership summit</strong> meticulously 
+                The Resourcing Leaders Exchange (RLX) is an <strong className="text-accent">invitation-only, five-star leadership exchange event</strong> meticulously 
                 crafted to remove the noise and inefficiency of traditional B2B events. We bring together a highly selective cohort of 
                 senior Talent Acquisition leaders from enterprise and high-growth organisations who are actively in the market for solutions.
               </p>

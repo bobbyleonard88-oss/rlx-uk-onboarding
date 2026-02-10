@@ -47,13 +47,13 @@
 }
 
 :root {
-  /* RLX Brand Colors - Branded Splash Theme */
-  --primary: oklch(0.45 0.12 290); /* Rich Purple #7B4B94 */
-  --primary-foreground: oklch(0.98 0.01 290);
-  --secondary: oklch(0.35 0.05 240); /* Navy Blue #2C3E5A */
-  --secondary-foreground: oklch(0.95 0.01 240);
-  --accent: oklch(0.75 0.15 85); /* Gold #d4af37 */
-  --accent-foreground: oklch(0.2 0.05 85);
+  /* RLX Brand Colors - From Reference Site */
+  --primary: oklch(0.55 0.25 300); /* Bright Purple/Magenta #B366FF */
+  --primary-foreground: oklch(0.98 0.01 300);
+  --secondary: oklch(0.25 0.05 270); /* Deep Navy/Purple */
+  --secondary-foreground: oklch(0.95 0.01 270);
+  --accent: oklch(0.70 0.25 300); /* Bright Purple/Magenta accent */
+  --accent-foreground: oklch(0.15 0.05 300);
   --background: oklch(0.15 0.02 240); /* Deep navy gradient base */
   --foreground: oklch(0.97 0.005 240); /* Off-white #f8f8f8 */
   --card: oklch(0.22 0.03 250 / 0.4); /* Glassmorphic card with transparency */
@@ -66,25 +66,25 @@
   --destructive-foreground: oklch(0.985 0 0);
   --border: oklch(0.35 0.05 260 / 0.3);
   --input: oklch(0.3 0.03 240 / 0.5);
-  --ring: oklch(0.75 0.15 85); /* Gold ring */
+  --ring: oklch(0.70 0.25 300); /* Purple ring */
   --radius: 0.5rem;
   
   /* Chart colors */
-  --chart-1: oklch(0.55 0.15 290);
-  --chart-2: oklch(0.45 0.12 290);
-  --chart-3: oklch(0.35 0.08 290);
-  --chart-4: oklch(0.75 0.15 85);
-  --chart-5: oklch(0.35 0.05 240);
+  --chart-1: oklch(0.70 0.25 300);
+  --chart-2: oklch(0.55 0.25 300);
+  --chart-3: oklch(0.45 0.20 300);
+  --chart-4: oklch(0.60 0.20 300);
+  --chart-5: oklch(0.35 0.05 270);
   
   /* Sidebar colors */
   --sidebar: oklch(0.18 0.02 240);
   --sidebar-foreground: oklch(0.97 0.005 240);
-  --sidebar-primary: oklch(0.45 0.12 290);
+  --sidebar-primary: oklch(0.55 0.25 300);
   --sidebar-primary-foreground: oklch(0.98 0.01 290);
   --sidebar-accent: oklch(0.25 0.03 250);
   --sidebar-accent-foreground: oklch(0.97 0.005 240);
   --sidebar-border: oklch(0.35 0.05 260 / 0.3);
-  --sidebar-ring: oklch(0.75 0.15 85);
+  --sidebar-ring: oklch(0.70 0.25 300);
 }
 
 @layer base {
@@ -95,7 +95,7 @@
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-body);
-    background: linear-gradient(135deg, #2C3E5A 0%, #1a1a2e 100%);
+    background: linear-gradient(135deg, #1e1b3d 0%, #0f0e1a 100%);
     background-attachment: fixed;
   }
   
@@ -169,10 +169,10 @@
     box-shadow: 0 8px 32px 0 oklch(0 0 0 / 0.37);
   }
   
-  /* Gold divider line */
+  /* Purple divider line */
   .gold-divider {
     height: 1px;
-    background: linear-gradient(90deg, transparent 0%, oklch(0.75 0.15 85) 50%, transparent 100%);
+    background: linear-gradient(90deg, transparent 0%, oklch(0.70 0.25 300) 50%, transparent 100%);
   }
   
   /* Fade in on scroll animation */

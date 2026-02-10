@@ -1,7 +1,8 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
-import { Route, Switch } from "wouter";
+import { Route, Switch, useLocation } from "wouter";
+import { useEffect } from "react";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Navigation from "./components/Navigation";
@@ -10,23 +11,30 @@ import Overview from "./pages/Overview";
 import Features from "./pages/Features";
 import Rules from "./pages/Rules";
 import Team from "./pages/Team";
-import Packages from "./pages/Packages";
+import AddOns from "./pages/AddOns";
 import Meetings from "./pages/Meetings";
 import Intake from "./pages/Intake";
 import Prioritize from "./pages/Prioritize";
 
 function Router() {
+  const [location] = useLocation();
+  
+  // Scroll to top on route change
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [location]);
+  
   return (
     <div className="flex">
       <Navigation />
       <main className="flex-1 ml-20 lg:ml-64">
         <Switch>
-          <Route path="/" component={Home} />
+          <Route path={"/"} component={Home} />
           <Route path="/overview" component={Overview} />
           <Route path="/features" component={Features} />
           <Route path="/rules" component={Rules} />
           <Route path="/team" component={Team} />
-          <Route path="/packages" component={Packages} />
+          <Route path="/addons" component={AddOns} />
           <Route path="/meetings" component={Meetings} />
           <Route path="/intake" component={Intake} />
           <Route path="/prioritize" component={Prioritize} />
@@ -41,10 +49,10 @@ function Router() {
 
 /**
  * RLX Onboarding Journey
- * Design: Luxury Editorial
- * - Dark theme with deep navy (#2C3E5A) to near-black (#1a1a2e) gradient background
- * - Purple (#7B4B94) primary, Gold (#d4af37) accents
- * - Playfair Display for headlines, Montserrat for structure, Crimson Pro for body
+ * Design: RLX Branded Splash
+ * - Dark theme with deep navy/purple gradient background
+ * - Purple/Magenta accent colors
+ * - Montserrat for headings, Playfair Display for body
  */
 function App() {
   return (

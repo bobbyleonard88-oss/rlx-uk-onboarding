@@ -1,24 +1,43 @@
-# RLX Branding Update Todo
+# RLX Onboarding Updates Todo
 
-## Typography Changes
-- [x] Update fonts: Montserrat for headings, Playfair Display for body
-- [x] Update index.css font definitions
-- [x] Update index.html Google Fonts import
-- [x] Replace all font-display with font-heading in components
+## Branding & Colors
+- [ ] Check reference site https://rlexchange.manus.space/ for exact colors
+- [ ] Update color palette to match reference site
+- [ ] Change all "summit" references to "exchange event"
+- [ ] Remove "RLX" standalone, use "Resourcing Leaders Exchange"
 
-## Color Palette Verification
-- [ ] Verify background gradient: #2C3E5A to #1a1a2e (currently matches)
-- [ ] Verify primary color: #7B4B94 Purple (currently matches)
-- [ ] Verify accent color: #d4af37 Gold (currently matches)
-- [ ] Verify text colors: White #ffffff or Off-white #f8f8f8
+## Content Updates - Rules Page
+- [ ] Remove: "No vendor guest speakers will be permitted"
+- [ ] Remove: "Guest speakers must be signed off by The Recruitment Events Co."
+- [ ] Remove: "Guest speakers will not count towards your attendee allocation"
+- [ ] Update: "No delegate list will be shared pre-event" → explain prioritization process
+- [ ] Remove: "Session content will be reviewed by The Recruitment Events Co."
+- [ ] Keep: "Failure to hit deadlines will result in missed marketing opportunities"
+- [ ] Keep: "No contact details provided unless requested (LinkedIn profiles will be)"
+- [ ] Keep: "Contacts data won't be shared until Vendor Feedback survey complete"
+- [ ] Add: "Dress Code: Smart casual during the day, black-tie for gala dinner"
 
-## Logo & Branding Assets
-- [ ] Ask user for RLX logo file
-- [ ] Add logo to Navigation component
-- [ ] Add favicon
-- [ ] Ensure consistent branding throughout
+## Content Updates - Meetings Page
+- [ ] Change meeting length from 20 mins to 30 mins
+- [ ] Split "Current pain points and buying triggers" into two separate boxes
+- [ ] Remove entire "The RLX Meeting Advantage" section
 
-## Design Consistency
-- [x] Glassmorphism effects present
-- [x] Smooth scroll animations implemented
-- [ ] Verify all components match RLX aesthetic
+## Structure Changes
+- [ ] Move Team section to bottom of page
+- [ ] Add headshots for team members (source from LinkedIn)
+- [ ] Replace Packages page with Add-Ons:
+  - Workshop: £3,000 (1-hour, 5-8 leaders)
+  - Experience: £3,000 (1-hour, 5-8 leaders)
+
+## Intake Form
+- [ ] Make embedded form background white
+
+## Prioritize Meetings
+- [ ] Add organization size field
+- [ ] Change button to "Submit"
+- [ ] Make submit open email with rankings in body
+- [ ] Email to: clientsuccess@recruitmentevents.co
+- [ ] Improve selection UX (make more snappy)
+
+## Navigation UX
+- [ ] Ensure all page navigations scroll to top

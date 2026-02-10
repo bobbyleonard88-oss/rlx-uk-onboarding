@@ -1,20 +1,30 @@
 /**
  * RLX Onboarding - 1:1 Meetings Details Page
- * Design: Luxury Editorial
  */
 
 import AnimatedSection from "@/components/AnimatedSection";
 import { Button } from "@/components/ui/button";
-import { Clock, FileText, Target, TrendingUp, Briefcase, CheckCircle2, ArrowRight } from "lucide-react";
+import { Clock, FileText, Target, CheckCircle2, ArrowRight } from "lucide-react";
 import { Link } from "wouter";
 
 export default function Meetings() {
-  const dataPoints = [
+  const projectDetails = [
     "Active project timelines and priorities",
     "Solution areas under evaluation",
     "Budget size and sign off",
     "Technology stack and integrations",
-    "Current pain points and buying triggers",
+  ];
+
+  const painPoints = [
+    "Current pain points in their TA operations",
+    "Operational challenges and bottlenecks",
+    "Resource constraints and gaps",
+  ];
+
+  const buyingTriggers = [
+    "Key buying triggers and decision drivers",
+    "Timeline for solution implementation",
+    "Stakeholder involvement in decisions",
   ];
 
   return (
@@ -36,7 +46,7 @@ export default function Meetings() {
               </div>
               <div>
                 <h2 className="text-3xl font-heading font-bold text-foreground">Meeting Length</h2>
-                <p className="text-xl text-accent font-heading">20 minutes</p>
+                <p className="text-xl text-accent font-heading">30 minutes</p>
               </div>
             </div>
           </div>
@@ -62,20 +72,52 @@ export default function Meetings() {
           </div>
         </AnimatedSection>
 
-        {/* Data Points */}
+        {/* Project Details */}
         <AnimatedSection delay={300}>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-            {dataPoints.map((point, index) => (
-              <div key={index} className="glass-card p-6 rounded-lg flex items-start gap-3">
-                <CheckCircle2 className="w-6 h-6 text-accent flex-shrink-0 mt-0.5" />
-                <span className="text-foreground/90 leading-relaxed">{point}</span>
+          <div className="glass-card p-8 rounded-lg mb-8">
+            <h3 className="text-xl font-heading font-semibold text-accent mb-4">Project & Solution Details</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {projectDetails.map((point, index) => (
+                <div key={index} className="flex items-start gap-3">
+                  <CheckCircle2 className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
+                  <span className="text-foreground/90 leading-relaxed">{point}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </AnimatedSection>
+
+        {/* Pain Points and Buying Triggers */}
+        <AnimatedSection delay={400}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div className="glass-card p-8 rounded-lg">
+              <h3 className="text-xl font-heading font-semibold text-accent mb-4">Pain Points</h3>
+              <div className="space-y-3">
+                {painPoints.map((point, index) => (
+                  <div key={index} className="flex items-start gap-3">
+                    <CheckCircle2 className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
+                    <span className="text-foreground/90 leading-relaxed">{point}</span>
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
+
+            <div className="glass-card p-8 rounded-lg">
+              <h3 className="text-xl font-heading font-semibold text-accent mb-4">Buying Triggers</h3>
+              <div className="space-y-3">
+                {buyingTriggers.map((trigger, index) => (
+                  <div key={index} className="flex items-start gap-3">
+                    <CheckCircle2 className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
+                    <span className="text-foreground/90 leading-relaxed">{trigger}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </AnimatedSection>
 
         {/* Qualification */}
-        <AnimatedSection delay={400}>
+        <AnimatedSection delay={500}>
           <div className="glass-card p-8 bg-accent/10 border-accent/30 rounded-lg mb-12">
             <div className="flex items-center gap-4 mb-4">
               <Target className="w-8 h-8 text-accent" />
@@ -85,44 +127,6 @@ export default function Meetings() {
               Only <strong className="text-accent">fully qualified senior leaders</strong> will be approved to attend. 
               This ensures every meeting is a high-value opportunity aligned with your solution offerings and business objectives.
             </p>
-          </div>
-        </AnimatedSection>
-
-        {/* Value Proposition */}
-        <AnimatedSection delay={500}>
-          <div className="glass-card p-8 md:p-12 rounded-lg mb-12">
-            <h2 className="text-3xl font-heading font-bold text-foreground mb-6 text-center">
-              The RLX Meeting Advantage
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="text-center">
-                <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center mx-auto mb-4 border border-accent/30">
-                  <Target className="w-8 h-8 text-accent" />
-                </div>
-                <h4 className="font-heading font-bold text-foreground mb-2">Pre-Qualified</h4>
-                <p className="text-sm text-muted-foreground">
-                  Every attendee is vetted for active buying intent
-                </p>
-              </div>
-              <div className="text-center">
-                <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center mx-auto mb-4 border border-accent/30">
-                  <TrendingUp className="w-8 h-8 text-accent" />
-                </div>
-                <h4 className="font-heading font-bold text-foreground mb-2">High-Intent</h4>
-                <p className="text-sm text-muted-foreground">
-                  Move directly from introduction to partnership conversation
-                </p>
-              </div>
-              <div className="text-center">
-                <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center mx-auto mb-4 border border-accent/30">
-                  <Briefcase className="w-8 h-8 text-accent" />
-                </div>
-                <h4 className="font-heading font-bold text-foreground mb-2">Pipeline Impact</h4>
-                <p className="text-sm text-muted-foreground">
-                  Verifiable commercial outcomes for your sales pipeline
-                </p>
-              </div>
-            </div>
           </div>
         </AnimatedSection>
 
