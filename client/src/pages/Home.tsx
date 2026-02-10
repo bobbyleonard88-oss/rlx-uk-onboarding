@@ -1,25 +1,130 @@
-import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
-import { Streamdown } from 'streamdown';
-
 /**
- * All content in this page are only for example, replace with your own feature implementation
- * When building pages, remember your instructions in Frontend Best Practices, Design Guide and Common Pitfalls
+ * RLX Onboarding Journey - Home/Hero Page
+ * Design: Luxury Editorial - Playfair Display headlines, Montserrat structure, Crimson Pro body
+ * Color: Deep navy (#2C3E5A) to near-black (#1a1a2e) gradient, purple (#7B4B94) accents, gold (#d4af37) highlights
  */
-export default function Home() {
-  // If theme is switchable in App.tsx, we can implement theme toggling like this:
-  // const { theme, toggleTheme } = useTheme();
 
+import { Button } from "@/components/ui/button";
+import { ArrowRight, Sparkles } from "lucide-react";
+import { Link } from "wouter";
+import AnimatedSection from "@/components/AnimatedSection";
+
+export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col">
-      <main>
-        {/* Example: lucide-react for icons */}
-        <Loader2 className="animate-spin" />
-        Example Page
-        {/* Example: Streamdown for markdown rendering */}
-        <Streamdown>Any **markdown** content</Streamdown>
-        <Button variant="default">Example Button</Button>
-      </main>
+    <div className="min-h-screen">
+      {/* Hero Section */}
+      <section className="min-h-screen flex items-center justify-center relative overflow-hidden">
+        {/* Background decorative elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-20 right-20 w-96 h-96 bg-primary/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 left-20 w-96 h-96 bg-accent/10 rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="container relative z-10 py-20">
+          <div className="max-w-4xl mx-auto text-center">
+            <AnimatedSection>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card border border-accent/30 mb-8">
+                <Sparkles className="w-4 h-4 text-accent" />
+                <span className="text-sm font-heading text-accent">Welcome to RLX 2026</span>
+              </div>
+            </AnimatedSection>
+
+            <AnimatedSection delay={100}>
+              <h1 className="text-foreground mb-6">
+                Resourcing Leaders Exchange
+              </h1>
+            </AnimatedSection>
+
+            <AnimatedSection delay={200}>
+              <p className="text-xl md:text-2xl text-muted-foreground mb-8 leading-relaxed max-w-3xl mx-auto">
+                An invitation-only, five-star leadership summit meticulously crafted to remove the noise 
+                and inefficiency of traditional B2B events.
+              </p>
+            </AnimatedSection>
+
+            <AnimatedSection delay={300}>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+                <Link href="/overview">
+                  <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading gap-2 px-8">
+                    Begin Your Journey
+                    <ArrowRight className="w-5 h-5" />
+                  </Button>
+                </Link>
+                <Link href="/prioritize">
+                  <Button size="lg" variant="outline" className="font-heading px-8 border-accent/30 hover:border-accent hover:bg-accent/10">
+                    Prioritize Meetings
+                  </Button>
+                </Link>
+              </div>
+            </AnimatedSection>
+
+            <AnimatedSection delay={400}>
+              <div className="gold-divider max-w-md mx-auto mb-12"></div>
+            </AnimatedSection>
+
+            <AnimatedSection delay={500}>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                <div className="glass-card p-6 rounded-lg">
+                  <div className="text-5xl font-display font-bold text-accent mb-2">40+</div>
+                  <div className="text-sm font-heading text-muted-foreground uppercase tracking-wider">Senior Leaders</div>
+                </div>
+                <div className="glass-card p-6 rounded-lg">
+                  <div className="text-5xl font-display font-bold text-accent mb-2">2</div>
+                  <div className="text-sm font-heading text-muted-foreground uppercase tracking-wider">Days of Excellence</div>
+                </div>
+                <div className="glass-card p-6 rounded-lg">
+                  <div className="text-5xl font-display font-bold text-accent mb-2">1:1</div>
+                  <div className="text-sm font-heading text-muted-foreground uppercase tracking-wider">Curated Meetings</div>
+                </div>
+              </div>
+            </AnimatedSection>
+          </div>
+        </div>
+
+        {/* Scroll indicator */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+          <div className="w-6 h-10 border-2 border-accent/30 rounded-full flex items-start justify-center p-2">
+            <div className="w-1 h-3 bg-accent rounded-full"></div>
+          </div>
+        </div>
+      </section>
+
+      {/* Quick Navigation Cards */}
+      <section className="py-20 container">
+        <AnimatedSection>
+          <h2 className="text-center mb-12 text-foreground">Your Onboarding Path</h2>
+        </AnimatedSection>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          {[
+            { title: "Overview", desc: "Understand the RLX vision and value proposition", href: "/overview" },
+            { title: "Features & Values", desc: "Core features and partner benefits", href: "/features" },
+            { title: "Rules of Engagement", desc: "Guidelines for participation and success", href: "/rules" },
+            { title: "Meet The Team", desc: "Your RLX support and commercial partners", href: "/team" },
+            { title: "Sponsorship Packages", desc: "Foundation and Executive partnership options", href: "/packages" },
+            { title: "1:1 Meetings", desc: "Details about the meeting format and process", href: "/meetings" },
+            { title: "Intake Form", desc: "Complete your partner information", href: "/intake" },
+            { title: "Prioritize Meetings", desc: "Rank attendees for optimal meeting scheduling", href: "/prioritize" },
+          ].map((card, index) => (
+            <AnimatedSection key={card.href} delay={index * 50}>
+              <Link href={card.href}>
+                <div className="glass-card p-6 rounded-lg hover:border-accent/50 transition-all duration-300 cursor-pointer group h-full">
+                  <h3 className="text-xl font-heading font-bold text-foreground mb-2 group-hover:text-accent transition-colors">
+                    {card.title}
+                  </h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">
+                    {card.desc}
+                  </p>
+                  <div className="mt-4 flex items-center text-accent text-sm font-heading">
+                    Learn more
+                    <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </div>
+              </Link>
+            </AnimatedSection>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }
