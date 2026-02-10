@@ -19,8 +19,8 @@ export default function Team() {
     { name: "Denise Stupart", role: "Commercial Partner", photo: "/denise.png" },
     { name: "Lorna Butler", role: "Commercial Partner", photo: "/lorna.png" },
     { name: "James Morris", role: "Commercial Partner", photo: "/james.png" },
-    { name: "Lauren Windsor", role: "Marketing Executive" },
-    { name: "Will Barritt", role: "RL Community Manager" },
+    { name: "Lauren Windsor", role: "Marketing Executive", photo: "/lauren.png" },
+    { name: "Will Barritt", role: "RL Community Manager", photo: "/will.png" },
     { name: "Megan Thomson", role: "RL Global Events Manager", photo: "/megan.png" },
   ];
 
