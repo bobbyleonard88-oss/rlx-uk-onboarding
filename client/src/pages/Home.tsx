@@ -23,14 +23,17 @@ export default function Home() {
         <div className="container relative z-10 py-20">
           <div className="max-w-4xl mx-auto text-center">
             <AnimatedSection>
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card border border-accent/30 mb-8">
-                <Sparkles className="w-4 h-4 text-accent" />
-                <span className="text-sm font-heading text-accent">Welcome to RLX 2026</span>
+              <div className="flex justify-center mb-8">
+                <img 
+                  src="/rlx-logo.png" 
+                  alt="RLX Logo" 
+                  className="h-32 w-auto object-contain"
+                />
               </div>
             </AnimatedSection>
 
             <AnimatedSection delay={100}>
-              <h1 className="text-foreground mb-6">
+              <h1 className="text-3xl md:text-4xl font-heading font-bold text-foreground mb-6">
                 Resourcing Leaders Exchange
               </h1>
             </AnimatedSection>
