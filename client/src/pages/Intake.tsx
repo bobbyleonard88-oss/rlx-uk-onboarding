@@ -58,7 +58,7 @@ export default function Intake() {
             <div className="gold-divider max-w-md mx-auto mb-8"></div>
             <p className="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
               Please complete this intake form to help us understand your organization and partnership goals. 
-              This information will be shared with relevant clients to facilitate meaningful connections.
+              This information will be shared with relevant delegates to facilitate meaningful connections.
             </p>
           </div>
         </AnimatedSection>

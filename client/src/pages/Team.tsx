@@ -25,9 +25,9 @@ export default function Team() {
   ];
 
   const csTeam: TeamMember[] = [
-    { name: "Natalija Tosheva", role: "CS Team Lead", email: "natalija@recruitmentevents.co", photo: "/natalija.png" },
-    { name: "Nino Bogevski", role: "CS Admin", email: "nino@recruitmentevents.co", photo: "/nino.png" },
-    { name: "Stefan Davidovski", role: "CS Admin", email: "stefan@recruitmentevents.co", photo: "/stefan.png" },
+    { name: "Natalija Tosheva", role: "Client Success Team Lead", email: "natalija@recruitmentevents.co", photo: "/natalija.png" },
+    { name: "Nino Bogevski", role: "Client Success Admin", email: "nino@recruitmentevents.co", photo: "/nino.png" },
+    { name: "Stefan Davidovski", role: "Client Success Admin", email: "stefan@recruitmentevents.co", photo: "/stefan.png" },
   ];
 
   return (
@@ -74,7 +74,7 @@ export default function Team() {
         {/* CS Team */}
         <AnimatedSection delay={200}>
           <div className="mb-12">
-            <h2 className="text-3xl font-heading font-bold text-foreground mb-8">Customer Success Team</h2>
+            <h2 className="text-3xl font-heading font-bold text-foreground mb-8">Client Success Team</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
               {csTeam.map((member, index) => (
                 <div key={index} className="glass-card p-6 rounded-lg hover:border-accent/50 transition-all duration-300">
@@ -104,7 +104,7 @@ export default function Team() {
           <div className="glass-card p-8 bg-accent/10 border-accent/30 rounded-lg mb-12">
             <p className="text-lg text-foreground/90 leading-relaxed text-center">
               Our team is committed to delivering an exceptional experience. Don't hesitate to reach out 
-              to your Customer Success contacts for any questions or support throughout your partnership.
+              to your Client Success contacts for any questions or support throughout your partnership.
             </p>
           </div>
         </AnimatedSection>

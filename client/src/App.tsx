@@ -12,6 +12,7 @@ import Features from "./pages/Features";
 import Rules from "./pages/Rules";
 import Team from "./pages/Team";
 import AddOns from "./pages/AddOns";
+import Timeline from "./pages/Timeline";
 import Meetings from "./pages/Meetings";
 import Intake from "./pages/Intake";
 import Prioritize from "./pages/Prioritize";
@@ -34,8 +35,9 @@ function Router() {
           <Route path="/features" component={Features} />
           <Route path="/rules" component={Rules} />
           <Route path="/team" component={Team} />
-          <Route path="/addons" component={AddOns} />
-          <Route path="/meetings" component={Meetings} />
+      <Route path="/addons" component={AddOns} />
+      <Route path="/timeline" component={Timeline} />
+      <Route path="/meetings" component={Meetings} />
           <Route path="/intake" component={Intake} />
           <Route path="/prioritize" component={Prioritize} />
           <Route path="/404" component={NotFound} />

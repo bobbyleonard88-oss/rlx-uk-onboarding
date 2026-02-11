@@ -23,7 +23,7 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import AnimatedSection from "@/components/AnimatedSection";
 import { Button } from "@/components/ui/button";
-import { GripVertical, Send, Building2, Briefcase, Users } from "lucide-react";
+import { GripVertical, Send, Building2, Briefcase, Users, Copy } from "lucide-react";
 import { attendees, Attendee } from "@/lib/attendees";
 import { toast } from "sonner";
 
@@ -145,15 +145,45 @@ export default function Prioritize() {
       )
       .join('\n');
 
-    const subject = encodeURIComponent('RLX Meeting Priorities Submission');
-    const body = encodeURIComponent(
-      `Please find my meeting priorities for the Resourcing Leaders Exchange:\n\n${emailBody}\n\nBest regards`
-    );
+    const fullEmailContent = `Please find my meeting priorities for the Resourcing Leaders Exchange:\n\n${emailBody}\n\nBest regards`;
 
-    // Open mailto link
-    window.location.href = `mailto:clientsuccess@recruitmentevents.co?subject=${subject}&body=${body}`;
-    
-    toast.success("Opening email with your rankings...");
+    const subject = 'RLX Meeting Priorities Submission';
+
+    // Try to open mailto link
+    try {
+      const mailtoLink = `mailto:clientsuccess@recruitmentevents.co?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(fullEmailContent)}`;
+      
+      // Create a temporary link and click it
+      const link = document.createElement('a');
+      link.href = mailtoLink;
+      link.click();
+      
+      toast.success("Opening email with your rankings...", {
+        description: "If your email client doesn't open, use the Copy button below."
+      });
+    } catch (error) {
+      toast.error("Could not open email client", {
+        description: "Please use the Copy Rankings button to copy and send manually."
+      });
+    }
+  }
+
+  function copyRankings() {
+    const emailBody = rankedAttendees
+      .map((a, i) => 
+        `${i + 1}. ${a.firstName} ${a.lastName} - ${a.jobTitle} at ${a.company} (${a.companySize} employees)`
+      )
+      .join('\n');
+
+    const fullEmailContent = `To: clientsuccess@recruitmentevents.co\nSubject: RLX Meeting Priorities Submission\n\nPlease find my meeting priorities for the Resourcing Leaders Exchange:\n\n${emailBody}\n\nBest regards`;
+
+    navigator.clipboard.writeText(fullEmailContent).then(() => {
+      toast.success("Rankings copied to clipboard!", {
+        description: "Paste into your email to clientsuccess@recruitmentevents.co"
+      });
+    }).catch(() => {
+      toast.error("Could not copy to clipboard");
+    });
   }
 
   return (
@@ -201,7 +231,7 @@ export default function Prioritize() {
         </div>
 
         <AnimatedSection delay={200}>
-          <div className="flex justify-center">
+          <div className="flex justify-center gap-4 flex-wrap">
             <Button
               onClick={submitRankings}
               size="lg"
@@ -210,9 +240,18 @@ export default function Prioritize() {
               <Send className="w-5 h-5" />
               Submit Rankings
             </Button>
+            <Button
+              onClick={copyRankings}
+              size="lg"
+              variant="outline"
+              className="font-heading gap-2 px-8 border-accent/30 hover:border-accent hover:bg-accent/10"
+            >
+              <Copy className="w-5 h-5" />
+              Copy Rankings
+            </Button>
           </div>
           <p className="text-center text-sm text-muted-foreground mt-4">
-            This will open your email client with the rankings pre-filled
+            Submit will open your email client, or use Copy to manually send to clientsuccess@recruitmentevents.co
           </p>
         </AnimatedSection>
       </div>
