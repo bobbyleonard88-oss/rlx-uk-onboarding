@@ -3,9 +3,8 @@
  */
 
 import AnimatedSection from "@/components/AnimatedSection";
-import { Button } from "@/components/ui/button";
-import { Clock, FileText, Target, CheckCircle2, ArrowRight } from "lucide-react";
-import { Link } from "wouter";
+import NextButton from "@/components/NextButton";
+import { Clock, FileText, Target, CheckCircle2 } from "lucide-react";
 
 export default function Meetings() {
   const projectDetails = [
@@ -131,19 +130,7 @@ export default function Meetings() {
         </AnimatedSection>
 
         <AnimatedSection delay={600}>
-          <div className="flex justify-center gap-4">
-            <Link href="/intake">
-              <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading gap-2">
-                Complete Intake Form
-                <ArrowRight className="w-5 h-5" />
-              </Button>
-            </Link>
-            <Link href="/prioritize">
-              <Button size="lg" variant="outline" className="font-heading border-accent/30 hover:border-accent hover:bg-accent/10">
-                Prioritize Meetings
-              </Button>
-            </Link>
-          </div>
+          <NextButton href="/matchmaking" label="Next: Matchmaking Process" />
         </AnimatedSection>
       </div>
     </div>

@@ -3,9 +3,8 @@
  */
 
 import AnimatedSection from "@/components/AnimatedSection";
-import { Button } from "@/components/ui/button";
-import { Presentation, Users, CheckCircle2, ArrowRight } from "lucide-react";
-import { Link } from "wouter";
+import NextButton from "@/components/NextButton";
+import { Presentation, Users, CheckCircle2 } from "lucide-react";
 
 export default function AddOns() {
   const workshopFeatures = [
@@ -128,19 +127,7 @@ export default function AddOns() {
         </AnimatedSection>
 
         <AnimatedSection delay={400}>
-          <div className="flex justify-center gap-4">
-            <Link href="/meetings">
-              <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading gap-2">
-                Learn About Meetings
-                <ArrowRight className="w-5 h-5" />
-              </Button>
-            </Link>
-            <Link href="/intake">
-              <Button size="lg" variant="outline" className="font-heading border-accent/30 hover:border-accent hover:bg-accent/10">
-                Complete Intake Form
-              </Button>
-            </Link>
-          </div>
+          <NextButton href="/meetings" label="Next: 1:1 Meetings" />
         </AnimatedSection>
       </div>
     </div>

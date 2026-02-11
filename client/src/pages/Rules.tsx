@@ -3,9 +3,9 @@
  */
 
 import AnimatedSection from "@/components/AnimatedSection";
-import { Button } from "@/components/ui/button";
-import { CheckCircle2, ArrowRight } from "lucide-react";
-import { Link } from "wouter";
+import NextButton from "@/components/NextButton";
+import { CheckCircle2 } from "lucide-react";
+
 
 export default function Rules() {
   const rules = [
@@ -59,14 +59,7 @@ export default function Rules() {
         </AnimatedSection>
 
         <AnimatedSection delay={300}>
-          <div className="flex justify-center gap-4">
-            <Link href="/team">
-              <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading gap-2">
-                Meet The Team
-                <ArrowRight className="w-5 h-5" />
-              </Button>
-            </Link>
-          </div>
+          <NextButton href="/timeline" label="Next: Timeline & Deadlines" />
         </AnimatedSection>
       </div>
     </div>

@@ -3,9 +3,8 @@
  */
 
 import AnimatedSection from "@/components/AnimatedSection";
+import NextButton from "@/components/NextButton";
 import { Calendar, Clock, MapPin, CheckCircle2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Link } from "wouter";
 
 interface Deadline {
   task: string;
@@ -142,18 +141,7 @@ export default function Timeline() {
         </AnimatedSection>
 
         <AnimatedSection delay={400}>
-          <div className="flex justify-center gap-4">
-            <Link href="/intake">
-              <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading">
-                Complete Intake Form
-              </Button>
-            </Link>
-            <Link href="/prioritize">
-              <Button size="lg" variant="outline" className="font-heading border-accent/30 hover:border-accent hover:bg-accent/10">
-                Prioritize Meetings
-              </Button>
-            </Link>
-          </div>
+          <NextButton href="/add-ons" label="Next: Add-Ons" />
         </AnimatedSection>
       </div>
     </div>

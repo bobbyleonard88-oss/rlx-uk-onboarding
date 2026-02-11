@@ -3,9 +3,8 @@
  */
 
 import AnimatedSection from "@/components/AnimatedSection";
-import { Button } from "@/components/ui/button";
-import { Mail, ArrowRight } from "lucide-react";
-import { Link } from "wouter";
+import NextButton from "@/components/NextButton";
+import { Mail } from "lucide-react";
 
 interface TeamMember {
   name: string;
@@ -110,19 +109,7 @@ export default function Team() {
         </AnimatedSection>
 
         <AnimatedSection delay={400}>
-          <div className="flex justify-center gap-4">
-            <Link href="/addons">
-              <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading gap-2">
-                View Add-Ons
-                <ArrowRight className="w-5 h-5" />
-              </Button>
-            </Link>
-            <Link href="/intake">
-              <Button size="lg" variant="outline" className="font-heading border-accent/30 hover:border-accent hover:bg-accent/10">
-                Complete Intake Form
-              </Button>
-            </Link>
-          </div>
+          <NextButton href="/intake" label="Next: Partner Intake Form" />
         </AnimatedSection>
       </div>
     </div>

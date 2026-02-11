@@ -92,42 +92,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Quick Navigation Cards */}
-      <section className="py-20 container">
-        <AnimatedSection>
-          <h2 className="text-center mb-12 text-foreground">Your Onboarding Path</h2>
-        </AnimatedSection>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          {[
-            { title: "Overview", desc: "Understand the RLX vision and value proposition", href: "/overview" },
-            { title: "Features & Values", desc: "Core features and partner benefits", href: "/features" },
-            { title: "Rules of Engagement", desc: "Guidelines for participation and success", href: "/rules" },
-            { title: "Meet The Team", desc: "Your RLX support and commercial partners", href: "/team" },
-            { title: "Sponsorship Packages", desc: "Foundation and Executive partnership options", href: "/packages" },
-            { title: "1:1 Meetings", desc: "Details about the meeting format and process", href: "/meetings" },
-            { title: "Intake Form", desc: "Complete your partner information", href: "/intake" },
-            { title: "Prioritize Meetings", desc: "Rank attendees for optimal meeting scheduling", href: "/prioritize" },
-          ].map((card, index) => (
-            <AnimatedSection key={card.href} delay={index * 50}>
-              <Link href={card.href}>
-                <div className="glass-card p-6 rounded-lg hover:border-accent/50 transition-all duration-300 cursor-pointer group h-full">
-                  <h3 className="text-xl font-heading font-bold text-foreground mb-2 group-hover:text-accent transition-colors">
-                    {card.title}
-                  </h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">
-                    {card.desc}
-                  </p>
-                  <div className="mt-4 flex items-center text-accent text-sm font-heading">
-                    Learn more
-                    <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </div>
-              </Link>
-            </AnimatedSection>
-          ))}
-        </div>
-      </section>
     </div>
   );
 }

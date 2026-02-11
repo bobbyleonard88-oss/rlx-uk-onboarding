@@ -4,9 +4,7 @@
  */
 
 import AnimatedSection from "@/components/AnimatedSection";
-import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
-import { Link } from "wouter";
+import NextButton from "@/components/NextButton";
 
 export default function Overview() {
   return (
@@ -64,14 +62,7 @@ export default function Overview() {
         </AnimatedSection>
 
         <AnimatedSection delay={300}>
-          <div className="flex justify-center gap-4">
-            <Link href="/features">
-              <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading gap-2">
-                Explore Features & Values
-                <ArrowRight className="w-5 h-5" />
-              </Button>
-            </Link>
-          </div>
+          <NextButton href="/features" label="Next: Features & Values" />
         </AnimatedSection>
       </div>
     </div>

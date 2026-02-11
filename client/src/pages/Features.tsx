@@ -4,9 +4,8 @@
  */
 
 import AnimatedSection from "@/components/AnimatedSection";
-import { Button } from "@/components/ui/button";
-import { Calendar, Users, Award, Sparkles, Wine, TrendingUp, Target, Handshake, ArrowRight } from "lucide-react";
-import { Link } from "wouter";
+import NextButton from "@/components/NextButton";
+import { Award, Users, Target, TrendingUp, Calendar, Sparkles, Wine, Handshake } from "lucide-react";
 
 export default function Features() {
   const coreFeatures = [
@@ -85,14 +84,7 @@ export default function Features() {
         </div>
 
         <AnimatedSection delay={300}>
-          <div className="flex justify-center gap-4">
-            <Link href="/rules">
-              <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading gap-2">
-                View Rules of Engagement
-                <ArrowRight className="w-5 h-5" />
-              </Button>
-            </Link>
-          </div>
+          <NextButton href="/rules" label="Next: Rules of Engagement" />
         </AnimatedSection>
       </div>
     </div>

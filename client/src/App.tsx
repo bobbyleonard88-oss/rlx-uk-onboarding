@@ -14,6 +14,7 @@ import Team from "./pages/Team";
 import AddOns from "./pages/AddOns";
 import Timeline from "./pages/Timeline";
 import Meetings from "./pages/Meetings";
+import Matchmaking from "./pages/Matchmaking";
 import Intake from "./pages/Intake";
 import Prioritize from "./pages/Prioritize";
 
@@ -34,10 +35,11 @@ function Router() {
           <Route path="/overview" component={Overview} />
           <Route path="/features" component={Features} />
           <Route path="/rules" component={Rules} />
+          <Route path="/timeline" component={Timeline} />
+          <Route path="/addons" component={AddOns} />
+          <Route path="/meetings" component={Meetings} />
+          <Route path="/matchmaking" component={Matchmaking} />
           <Route path="/team" component={Team} />
-      <Route path="/addons" component={AddOns} />
-      <Route path="/timeline" component={Timeline} />
-      <Route path="/meetings" component={Meetings} />
           <Route path="/intake" component={Intake} />
           <Route path="/prioritize" component={Prioritize} />
           <Route path="/404" component={NotFound} />

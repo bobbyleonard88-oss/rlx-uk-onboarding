@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { Home, Info, Award, Users, FileText, Calendar, Shield, FormInput, ListOrdered, Clock } from "lucide-react";
+import { Home, Info, Award, Users, FileText, Calendar, Shield, FormInput, ListOrdered, Clock, Target } from "lucide-react";
 
 const navItems = [
   { path: "/", label: "Home", icon: Home },
@@ -10,6 +10,7 @@ const navItems = [
   { path: "/addons", label: "Add-Ons", icon: FileText },
   { path: "/timeline", label: "Timeline", icon: Clock },
   { path: "/meetings", label: "Meetings", icon: Calendar },
+  { path: "/matchmaking", label: "Matchmaking", icon: Target },
   { path: "/intake", label: "Intake Form", icon: FormInput },
   { path: "/prioritize", label: "Prioritize Meetings", icon: ListOrdered },
 ];

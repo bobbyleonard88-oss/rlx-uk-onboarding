@@ -6,6 +6,7 @@
 
 import { useEffect } from "react";
 import AnimatedSection from "@/components/AnimatedSection";
+import NextButton from "@/components/NextButton";
 import { FormInput } from "lucide-react";
 
 declare global {
@@ -77,6 +78,10 @@ export default function Intake() {
               data privacy policy and shared only with pre-qualified attendees to facilitate relevant business connections.
             </p>
           </div>
+        </AnimatedSection>
+
+        <AnimatedSection delay={300}>
+          <NextButton href="/prioritize" label="Next: Prioritize Meetings" />
         </AnimatedSection>
       </div>
 
