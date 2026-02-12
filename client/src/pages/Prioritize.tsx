@@ -4,6 +4,15 @@
  */
 
 import { useState, useEffect } from "react";
+
+// Suppress benign ResizeObserver errors from drag-and-drop
+if (typeof window !== 'undefined') {
+  const resizeObserverErr = window.console.error;
+  window.console.error = (...args: any[]) => {
+    if (args[0]?.includes?.('ResizeObserver loop')) return;
+    resizeObserverErr(...args);
+  };
+}
 import {
   DndContext,
   closestCenter,
