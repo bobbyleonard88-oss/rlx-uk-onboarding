@@ -14,7 +14,6 @@ interface Deadline {
 
 export default function Timeline() {
   const deadlines: Deadline[] = [
-    { task: "Speaker Form", date: "27th January", important: false },
     { task: "Partner Intake Form", date: "24th February", important: true },
     { task: "Dietary Requirements Form", date: "24th February", important: true },
   ];
@@ -141,7 +140,7 @@ export default function Timeline() {
         </AnimatedSection>
 
         <AnimatedSection delay={400}>
-          <NextButton href="/add-ons" label="Next: Add-Ons" />
+          <NextButton href="/addons" label="Next: Add-Ons" />
         </AnimatedSection>
       </div>
     </div>
