@@ -17,6 +17,7 @@ import Meetings from "./pages/Meetings";
 import Matchmaking from "./pages/Matchmaking";
 import Intake from "./pages/Intake";
 import Prioritize from "./pages/Prioritize";
+import FAQ from "./pages/FAQ";
 
 function Router() {
   const [location] = useLocation();
@@ -42,6 +43,7 @@ function Router() {
           <Route path="/team" component={Team} />
           <Route path="/intake" component={Intake} />
           <Route path="/prioritize" component={Prioritize} />
+          <Route path="/faq" component={FAQ} />
           <Route path="/404" component={NotFound} />
           {/* Final fallback route */}
           <Route component={NotFound} />

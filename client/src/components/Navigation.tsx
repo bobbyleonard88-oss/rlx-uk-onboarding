@@ -1,5 +1,6 @@
 import { Link, useLocation } from "wouter";
-import { Home, Info, Award, Users, FileText, Calendar, Shield, FormInput, ListOrdered, Clock, Target } from "lucide-react";
+import { Home, Info, Award, Users, FileText, Calendar, Shield, FormInput, ListOrdered, Clock, Target, HelpCircle } from "lucide-react";
+import ProgressTracker from "./ProgressTracker";
 
 const navItems = [
   { path: "/", label: "Home", icon: Home },
@@ -13,6 +14,7 @@ const navItems = [
   { path: "/matchmaking", label: "Matchmaking", icon: Target },
   { path: "/intake", label: "Intake Form", icon: FormInput },
   { path: "/prioritize", label: "Prioritize Meetings", icon: ListOrdered },
+  { path: "/faq", label: "FAQ", icon: HelpCircle },
 ];
 
 export default function Navigation() {
@@ -69,8 +71,11 @@ export default function Navigation() {
         </ul>
       </div>
 
-      <div className="p-4 border-t border-border/30 hidden lg:block">
-        <p className="text-xs text-muted-foreground text-center">
+      <div className="p-4 border-t border-border/30 space-y-4">
+        <div className="hidden lg:block">
+          <ProgressTracker />
+        </div>
+        <p className="text-xs text-muted-foreground text-center hidden lg:block">
           © 2026 RLX
         </p>
       </div>
