@@ -127,7 +127,7 @@ export default function AddOns() {
         </AnimatedSection>
 
         <AnimatedSection delay={400}>
-          <NextButton href="/meetings" label="Next: 1:1 Meetings" />
+          <NextButton href="/timeline" label="Next: Timeline & Deadlines" />
         </AnimatedSection>
       </div>
     </div>

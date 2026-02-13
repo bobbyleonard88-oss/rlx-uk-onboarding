@@ -143,7 +143,7 @@ export default function Timeline() {
         </AnimatedSection>
 
         <AnimatedSection delay={400}>
-          <NextButton href="/addons" label="Next: Add-Ons" />
+          <NextButton href="/meetings" label="Next: 1:1 Meetings" />
         </AnimatedSection>
       </div>
     </div>

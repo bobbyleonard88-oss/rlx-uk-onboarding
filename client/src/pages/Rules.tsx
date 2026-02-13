@@ -14,7 +14,7 @@ export default function Rules() {
     "Hotel allocation is provided - 2 nights",
     "Attendee representatives must be in leadership positions unless signed off by The Recruitment Events Co.",
     "Partners will receive the delegate list to prioritise meeting preferences. Final schedules use a blend of partner priorities, current audience needs, and attendee vendor rankings. Meetings are guaranteed but there's no guarantee we'll match your top 12/20.",
-    "Failure to hit deadlines will result in potential mismatch of meetings, not attendees",
+    "Failure to hit deadlines will result in potential mismatch of meetings",
     "No contact details are provided unless specifically requested (however, LinkedIn profiles will be)",
     "Follow-ups must be made during the meetings. No contact details will be shared.",
     "Dress Code: Smart casual during the day, with a black-tie dress code for the gala dinner",
@@ -65,7 +65,7 @@ export default function Rules() {
         </AnimatedSection>
 
         <AnimatedSection delay={300}>
-          <NextButton href="/timeline" label="Next: Timeline & Deadlines" />
+          <NextButton href="/addons" label="Next: Add-Ons" />
         </AnimatedSection>
       </div>
     </div>

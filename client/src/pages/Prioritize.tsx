@@ -258,13 +258,13 @@ Best regards`;
 
         <AnimatedSection delay={100}>
           <div className="glass-card p-6 bg-destructive/20 border-destructive/50 rounded-lg mb-6">
-            <h3 className="text-lg font-heading font-bold text-destructive mb-3 text-center">⚠️ Strictly Confidential</h3>
-            <p className="text-sm text-foreground/90 leading-relaxed text-center mb-2">
+            <h3 className="text-lg font-heading font-bold text-white mb-3 text-center">⚠️ Strictly Confidential</h3>
+            <p className="text-sm text-white leading-relaxed text-center mb-2">
               The information on this page is <strong>highly confidential</strong> and must not be shared with anyone outside your organisation, 
               including your own sales team. Sharing this information or reaching out to these delegates ahead of the event will be considered 
               a <strong>breach of trust</strong> and may result in <strong>removal from this event and exclusion from all future events</strong>.
             </p>
-            <p className="text-xs text-destructive/80 italic text-center">
+            <p className="text-xs text-white italic text-center">
               By proceeding, you acknowledge and agree to maintain strict confidentiality of all delegate information.
             </p>
           </div>
@@ -272,6 +272,9 @@ Best regards`;
 
         <AnimatedSection delay={150}>
           <div className="glass-card p-6 bg-accent/10 border-accent/30 rounded-lg mb-8">
+            <p className="text-sm text-foreground/90 leading-relaxed text-center mb-3">
+              <strong className="text-accent">Meetings are guaranteed but there's no guarantee we'll match your top 12/20.</strong>
+            </p>
             <p className="text-sm text-foreground/90 leading-relaxed text-center">
               <strong className="text-accent">Instructions:</strong> Click and drag attendee cards to reorder them. 
               Your top priorities should be at the top-left. When finished, download the CSV and email it to clientsuccess@recruitmentevents.co
@@ -327,13 +330,7 @@ Best regards`;
           </p>
         </AnimatedSection>
 
-        <AnimatedSection delay={250}>
-          <div className="glass-card p-6 bg-primary/10 border-primary/30 rounded-lg mt-8">
-            <p className="text-sm text-foreground/80 leading-relaxed italic text-center">
-              Meetings are guaranteed but there's no guarantee we'll match your top 12/20.
-            </p>
-          </div>
-        </AnimatedSection>
+
       </div>
     </div>
   );
