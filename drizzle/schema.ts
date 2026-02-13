@@ -55,3 +55,75 @@ export const rankingsSubmissions = mysqlTable("rankingsSubmissions", {
 
 export type RankingsSubmission = typeof rankingsSubmissions.$inferSelect;
 export type InsertRankingsSubmission = typeof rankingsSubmissions.$inferInsert;
+
+/**
+ * Vendor profiles table - stores vendor company profiles with solutions/offerings
+ */
+export const vendorProfiles = mysqlTable("vendorProfiles", {
+  id: int("id").autoincrement().primaryKey(),
+  sponsorId: int("sponsorId").notNull(), // Link to sponsors table
+  companyName: varchar("companyName", { length: 255 }).notNull(),
+  solutions: text("solutions"), // What they offer/sell
+  painPoints: text("painPoints"), // Problems they solve
+  targetIndustries: text("targetIndustries"), // JSON array of industries
+  profileData: text("profileData"), // Full profile as JSON
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type VendorProfile = typeof vendorProfiles.$inferSelect;
+export type InsertVendorProfile = typeof vendorProfiles.$inferInsert;
+
+/**
+ * Delegate profiles table - stores delegate information and needs
+ */
+export const delegateProfiles = mysqlTable("delegateProfiles", {
+  id: int("id").autoincrement().primaryKey(),
+  attendeeId: varchar("attendeeId", { length: 64 }).notNull().unique(), // Links to frontend attendee data
+  firstName: varchar("firstName", { length: 255 }).notNull(),
+  lastName: varchar("lastName", { length: 255 }).notNull(),
+  company: varchar("company", { length: 255 }).notNull(),
+  jobTitle: varchar("jobTitle", { length: 255 }),
+  industry: varchar("industry", { length: 255 }),
+  challenges: text("challenges"), // Their pain points/needs
+  interests: text("interests"), // What they're looking for
+  profileData: text("profileData"), // Full profile as JSON
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type DelegateProfile = typeof delegateProfiles.$inferSelect;
+export type InsertDelegateProfile = typeof delegateProfiles.$inferInsert;
+
+/**
+ * Priority tags table - manual tags for must-meet delegates
+ */
+export const priorityTags = mysqlTable("priorityTags", {
+  id: int("id").autoincrement().primaryKey(),
+  sponsorId: int("sponsorId").notNull(),
+  attendeeId: varchar("attendeeId", { length: 64 }).notNull(),
+  note: text("note"), // Why this is a priority
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type PriorityTag = typeof priorityTags.$inferSelect;
+export type InsertPriorityTag = typeof priorityTags.$inferInsert;
+
+/**
+ * Meetings table - stores scheduled meetings
+ */
+export const meetings = mysqlTable("meetings", {
+  id: int("id").autoincrement().primaryKey(),
+  sponsorId: int("sponsorId").notNull(),
+  attendeeId: varchar("attendeeId", { length: 64 }).notNull(),
+  matchScore: int("matchScore"), // 0-100 AI confidence score
+  isTopRanked: int("isTopRanked").default(0), // 1 if in vendor's top 12
+  isPriority: int("isPriority").default(0), // 1 if manually tagged
+  status: mysqlEnum("status", ["suggested", "confirmed", "declined"]).default("suggested").notNull(),
+  notes: text("notes"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Meeting = typeof meetings.$inferSelect;
+export type InsertMeeting = typeof meetings.$inferInsert;

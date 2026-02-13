@@ -1,6 +1,6 @@
 import { desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users, sponsors, InsertSponsor, rankingsSubmissions, InsertRankingsSubmission } from "../drizzle/schema";
+import { InsertUser, users, sponsors, InsertSponsor, rankingsSubmissions, InsertRankingsSubmission, vendorProfiles, InsertVendorProfile, delegateProfiles, InsertDelegateProfile, priorityTags, InsertPriorityTag, meetings, InsertMeeting } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -182,4 +182,128 @@ export async function updateUserRole(userId: number, role: "user" | "admin") {
     .update(users)
     .set({ role, updatedAt: new Date() })
     .where(eq(users.id, userId));
+}
+
+// Vendor profile management
+export async function createVendorProfile(profile: Omit<InsertVendorProfile, "id" | "createdAt" | "updatedAt">) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const result = await db.insert(vendorProfiles).values(profile);
+  return result[0].insertId;
+}
+
+export async function getVendorProfiles() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db
+    .select()
+    .from(vendorProfiles)
+    .orderBy(desc(vendorProfiles.createdAt));
+}
+
+export async function deleteVendorProfile(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.delete(vendorProfiles).where(eq(vendorProfiles.id, id));
+}
+
+// Delegate profile management
+export async function createDelegateProfile(profile: Omit<InsertDelegateProfile, "id" | "createdAt" | "updatedAt">) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const result = await db.insert(delegateProfiles).values(profile);
+  return result[0].insertId;
+}
+
+export async function getDelegateProfiles() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db
+    .select()
+    .from(delegateProfiles)
+    .orderBy(desc(delegateProfiles.createdAt));
+}
+
+export async function deleteDelegateProfile(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.delete(delegateProfiles).where(eq(delegateProfiles.id, id));
+}
+
+// Priority tags management
+export async function createPriorityTag(tag: Omit<InsertPriorityTag, "id" | "createdAt">) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const result = await db.insert(priorityTags).values(tag);
+  return result[0].insertId;
+}
+
+export async function getPriorityTagsBySponsor(sponsorId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db
+    .select()
+    .from(priorityTags)
+    .where(eq(priorityTags.sponsorId, sponsorId));
+}
+
+export async function deletePriorityTag(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.delete(priorityTags).where(eq(priorityTags.id, id));
+}
+
+// Meetings management
+export async function createMeeting(meeting: Omit<InsertMeeting, "id" | "createdAt" | "updatedAt">) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const result = await db.insert(meetings).values(meeting);
+  return result[0].insertId;
+}
+
+export async function getAllMeetings() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db
+    .select()
+    .from(meetings)
+    .orderBy(desc(meetings.createdAt));
+}
+
+export async function updateMeetingStatus(id: number, status: "suggested" | "confirmed" | "declined") {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db
+    .update(meetings)
+    .set({ status, updatedAt: new Date() })
+    .where(eq(meetings.id, id));
+}
+
+export async function deleteMeeting(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.delete(meetings).where(eq(meetings.id, id));
+}
+
+export async function updateRankingsSubmissionStatus(id: number, status: "pending" | "reviewed" | "processed") {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db
+    .update(rankingsSubmissions)
+    .set({ status })
+    .where(eq(rankingsSubmissions.id, id));
 }

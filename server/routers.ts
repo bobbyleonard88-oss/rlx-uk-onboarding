@@ -6,6 +6,7 @@ import { z } from "zod";
 import * as db from "./db";
 import { notifyOwner } from "./_core/notification";
 import { sendEmail } from "./emailNotification";
+import { generateAllMatches, saveMatches } from "./matchingEngine";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -117,6 +118,151 @@ export const appRouter = router({
       }))
       .mutation(async ({ input }) => {
         await db.updateUserRole(input.userId, "admin");
+        return { success: true };
+      }),
+    
+    // Vendor profile management
+    getVendorProfiles: adminProcedure.query(async () => {
+      return await db.getVendorProfiles();
+    }),
+    
+    uploadVendorProfile: adminProcedure
+      .input(z.object({
+        profileData: z.string(),
+      }))
+      .mutation(async ({ input }) => {
+        const profile = JSON.parse(input.profileData);
+        const id = await db.createVendorProfile({
+          sponsorId: profile.sponsorId || 0,
+          companyName: profile.companyName,
+          solutions: profile.solutions || null,
+          painPoints: profile.painPoints || null,
+          targetIndustries: JSON.stringify(profile.targetIndustries || []),
+          profileData: input.profileData,
+        });
+        return { success: true, id };
+      }),
+    
+    deleteVendorProfile: adminProcedure
+      .input(z.object({
+        id: z.number(),
+      }))
+      .mutation(async ({ input }) => {
+        await db.deleteVendorProfile(input.id);
+        return { success: true };
+      }),
+    
+    // Delegate profile management
+    getDelegateProfiles: adminProcedure.query(async () => {
+      return await db.getDelegateProfiles();
+    }),
+    
+    uploadDelegateProfile: adminProcedure
+      .input(z.object({
+        profileData: z.string(),
+      }))
+      .mutation(async ({ input }) => {
+        const profile = JSON.parse(input.profileData);
+        const id = await db.createDelegateProfile({
+          attendeeId: profile.attendeeId,
+          firstName: profile.firstName,
+          lastName: profile.lastName,
+          company: profile.company,
+          jobTitle: profile.jobTitle || null,
+          industry: profile.industry || null,
+          challenges: profile.challenges || null,
+          interests: profile.interests || null,
+          profileData: input.profileData,
+        });
+        return { success: true, id };
+      }),
+    
+    deleteDelegateProfile: adminProcedure
+      .input(z.object({
+        id: z.number(),
+      }))
+      .mutation(async ({ input }) => {
+        await db.deleteDelegateProfile(input.id);
+        return { success: true };
+      }),
+    
+    // Meeting matchmaking
+    generateMatches: adminProcedure.mutation(async () => {
+      const allMatches = await generateAllMatches();
+      
+      // Save all matches to database
+      const entries = Array.from(allMatches.entries());
+      for (const [sponsorId, matches] of entries) {
+        await saveMatches(matches);
+      }
+      
+      return { success: true, totalMatches: Array.from(allMatches.values()).flat().length };
+    }),
+    
+    getAllMeetings: adminProcedure.query(async () => {
+      return await db.getAllMeetings();
+    }),
+    
+    updateMeetingStatus: adminProcedure
+      .input(z.object({
+        id: z.number(),
+        status: z.enum(["suggested", "confirmed", "declined"]),
+      }))
+      .mutation(async ({ input }) => {
+        await db.updateMeetingStatus(input.id, input.status);
+        return { success: true };
+      }),
+    
+    deleteMeeting: adminProcedure
+      .input(z.object({
+        id: z.number(),
+      }))
+      .mutation(async ({ input }) => {
+        await db.deleteMeeting(input.id);
+        return { success: true };
+      }),
+    
+    // Priority tagging
+    getPriorityTags: adminProcedure
+      .input(z.object({
+        sponsorId: z.number(),
+      }))
+      .query(async ({ input }) => {
+        return await db.getPriorityTagsBySponsor(input.sponsorId);
+      }),
+    
+    addPriorityTag: adminProcedure
+      .input(z.object({
+        sponsorId: z.number(),
+        attendeeId: z.string(),
+        note: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const id = await db.createPriorityTag({
+          sponsorId: input.sponsorId,
+          attendeeId: input.attendeeId,
+          note: input.note || null,
+        });
+        return { success: true, id };
+      }),
+    
+    deletePriorityTag: adminProcedure
+      .input(z.object({
+        id: z.number(),
+      }))
+      .mutation(async ({ input }) => {
+        await db.deletePriorityTag(input.id);
+        return { success: true };
+      }),
+    
+    // Update submission status
+    updateSubmissionStatus: adminProcedure
+      .input(z.object({
+        id: z.number(),
+        status: z.enum(["pending", "reviewed", "processed"]),
+      }))
+      .mutation(async ({ input }) => {
+        await db.updateRankingsSubmissionStatus(input.id, input.status);
         return { success: true };
       }),
   }),

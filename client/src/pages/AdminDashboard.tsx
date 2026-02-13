@@ -7,7 +7,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Download, RefreshCw, Users } from "lucide-react";
+import { Download, RefreshCw, Users, FileText, Calendar } from "lucide-react";
 import { Link } from "wouter";
 import { toast } from "sonner";
 import { attendees } from "@/lib/attendees";
@@ -15,6 +15,13 @@ import { attendees } from "@/lib/attendees";
 export default function AdminDashboard() {
   const { user, loading } = useAuth({ redirectOnUnauthenticated: true });
   const { data: submissions, isLoading, refetch } = trpc.admin.getAllSubmissions.useQuery();
+  
+  const updateStatus = trpc.admin.updateSubmissionStatus.useMutation({
+    onSuccess: () => {
+      refetch();
+      toast.success("Status updated");
+    },
+  });
 
   // Check if user is admin
   if (!loading && user && user.role !== "admin") {
@@ -100,6 +107,26 @@ export default function AdminDashboard() {
             {submissions?.length || 0} total submissions
           </div>
           <div className="flex gap-2">
+            <Link href="/admin/meetings">
+              <Button
+                variant="default"
+                size="sm"
+                className="gap-2"
+              >
+                <Calendar className="w-4 h-4" />
+                AI Matchmaking
+              </Button>
+            </Link>
+            <Link href="/admin/profiles">
+              <Button
+                variant="outline"
+                size="sm"
+                className="gap-2"
+              >
+                <FileText className="w-4 h-4" />
+                Manage Profiles
+              </Button>
+            </Link>
             <Link href="/admin/users">
               <Button
                 variant="outline"
@@ -168,6 +195,24 @@ export default function AdminDashboard() {
                       <div className="text-muted-foreground">Status</div>
                       <div className="font-medium capitalize">{submission.status}</div>
                     </div>
+                  </div>
+                  <div className="flex gap-2 mt-4">
+                    <Button
+                      onClick={() => updateStatus.mutate({ id: submission.id, status: "reviewed" })}
+                      variant={submission.status === "reviewed" ? "default" : "outline"}
+                      size="sm"
+                      disabled={updateStatus.isPending}
+                    >
+                      Mark Reviewed
+                    </Button>
+                    <Button
+                      onClick={() => updateStatus.mutate({ id: submission.id, status: "processed" })}
+                      variant={submission.status === "processed" ? "default" : "outline"}
+                      size="sm"
+                      disabled={updateStatus.isPending}
+                    >
+                      Mark Processed
+                    </Button>
                   </div>
                 </CardContent>
               </Card>
