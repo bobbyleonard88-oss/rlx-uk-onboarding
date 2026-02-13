@@ -1,20 +1,20 @@
-# RLX Onboarding Updates Todo
+# RLX Prioritize Page Updates Todo
 
-## Content Updates
-- [ ] Remove "Prioritize Meetings" button from home page
-- [ ] Convert all copy to UK English (organise, colour, favour, etc.)
-- [ ] Update meetings guarantee: "Meetings are guaranteed but no guarantee we'll match their top 12/20"
-- [ ] Update deadline consequences: "Missed deadlines will result in potential mismatch of meetings, not attendees"
-- [ ] Update contact data policy: "Follow-ups must be made during the meetings, no contact details will be shared"
-- [ ] Remove text: "If you requested to connect with a delegate and you didn't speak with them on the day, then we will not facilitate any further introductions"
-- [ ] Remove text: "You will be placed on a table with another sponsor (who is not a direct competitor)"
-- [ ] Change "Watford" to "Hertfordshire" throughout
+## Data Updates
+- [ ] Remove Jen Candee from attendee list in CSV
 
-## Navigation & Layout
-- [ ] Move Team section below FAQ in navigation
-- [ ] Make intake form background transparent
+## Layout Changes
+- [ ] Redesign Prioritize page with 5-column grid layout
+- [ ] Ensure responsive design for mobile/tablet
+
+## Functionality Updates
+- [ ] Add Download CSV button
+- [ ] Implement email functionality with CSV attachment
+- [ ] Create template message: "Hi CS, please see attached our top ranked priorities for the upcoming RLX event."
+- [ ] Ensure CSV is attached to email
 
 ## Testing
-- [ ] Test all pages for UK English spelling
-- [ ] Verify all content updates
-- [ ] Test navigation order
+- [ ] Test grid layout on different screen sizes
+- [ ] Test CSV download
+- [ ] Test email with attachment
+- [ ] Verify Jen Candee is removed
