@@ -13,7 +13,7 @@ export default function Rules() {
     "12-meeting package partners can bring 1 attendee",
     "Hotel allocation is provided - 2 nights",
     "Attendee representatives must be in leadership positions unless signed off by The Recruitment Events Co.",
-    "Partners will receive the delegate list to prioritise meeting preferences. Final schedules use a blend of partner priorities, current audience needs, and attendee vendor rankings. Meetings are guaranteed but there's no guarantee we'll match your top 12/20.",
+    "Partners will receive the delegate list to prioritise meeting preferences. Final schedules use a blend of partner priorities, current audience needs, and attendee vendor rankings.",
     "Failure to hit deadlines will result in potential mismatch of meetings",
     "No contact details are provided unless specifically requested (however, LinkedIn profiles will be)",
     "Follow-ups must be made during the meetings. No contact details will be shared.",
@@ -57,14 +57,6 @@ export default function Rules() {
         </AnimatedSection>
 
         <AnimatedSection delay={250}>
-          <div className="glass-card p-6 bg-primary/10 border-primary/30 rounded-lg mb-12">
-            <p className="text-sm text-foreground/80 leading-relaxed italic text-center">
-              Meetings are guaranteed but there's no guarantee we'll match your top 12/20.
-            </p>
-          </div>
-        </AnimatedSection>
-
-        <AnimatedSection delay={300}>
           <NextButton href="/addons" label="Next: Add-Ons" />
         </AnimatedSection>
       </div>
