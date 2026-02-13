@@ -9,9 +9,18 @@ import { useState, useEffect } from "react";
 if (typeof window !== 'undefined') {
   const resizeObserverErr = window.console.error;
   window.console.error = (...args: any[]) => {
-    if (args[0]?.includes?.('ResizeObserver loop')) return;
+    const errorMessage = typeof args[0] === 'string' ? args[0] : String(args[0]);
+    if (errorMessage.includes('ResizeObserver loop')) return;
     resizeObserverErr(...args);
   };
+  
+  // Also suppress at the window level
+  window.addEventListener('error', (e) => {
+    if (e.message && e.message.includes('ResizeObserver loop')) {
+      e.stopImmediatePropagation();
+      return false;
+    }
+  });
 }
 import {
   DndContext,
