@@ -50,7 +50,8 @@ export const rankingsSubmissions = mysqlTable("rankingsSubmissions", {
   userId: int("userId").notNull(), // Link to users table for who submitted
   rankingsData: text("rankingsData").notNull(), // JSON string of ranked attendee IDs
   submittedAt: timestamp("submittedAt").defaultNow().notNull(),
-  status: mysqlEnum("status", ["pending", "reviewed", "processed"]).default("pending").notNull(),
+  status: mysqlEnum("status", ["pending", "reviewed"]).default("pending").notNull(),
+  isReviewed: int("isReviewed").default(0).notNull(), // 0 or 1, toggle for matchmaking
 });
 
 export type RankingsSubmission = typeof rankingsSubmissions.$inferSelect;
@@ -63,6 +64,7 @@ export const vendorProfiles = mysqlTable("vendorProfiles", {
   id: int("id").autoincrement().primaryKey(),
   sponsorId: int("sponsorId").notNull(), // Link to sponsors table
   companyName: varchar("companyName", { length: 255 }).notNull(),
+  profileDocument: text("profileDocument"), // S3 URL to Word doc
   solutions: text("solutions"), // What they offer/sell
   painPoints: text("painPoints"), // Problems they solve
   targetIndustries: text("targetIndustries"), // JSON array of industries

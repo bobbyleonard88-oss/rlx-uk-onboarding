@@ -79,7 +79,11 @@ export default function AdminProfiles() {
       }
       
       profiles.forEach((profile) => {
-        uploadVendorProfile.mutate({ profileData: JSON.stringify(profile) });
+        uploadVendorProfile.mutate({ 
+          sponsorId: profile.sponsorId || 0,
+          fileData: JSON.stringify(profile),
+          fileName: 'profile.json'
+        });
       });
     } catch (error) {
       toast.error("Invalid JSON format");

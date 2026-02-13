@@ -298,7 +298,7 @@ export async function deleteMeeting(id: number) {
   await db.delete(meetings).where(eq(meetings.id, id));
 }
 
-export async function updateRankingsSubmissionStatus(id: number, status: "pending" | "reviewed" | "processed") {
+export async function updateRankingsSubmissionStatus(id: number, status: "pending" | "reviewed") {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
   
@@ -306,4 +306,46 @@ export async function updateRankingsSubmissionStatus(id: number, status: "pendin
     .update(rankingsSubmissions)
     .set({ status })
     .where(eq(rankingsSubmissions.id, id));
+}
+
+export async function getAllDelegateProfiles() {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  return await db.select().from(delegateProfiles);
+}
+
+export async function updateVendorProfileDocument(sponsorId: number, documentUrl: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  // First check if vendor profile exists
+  const existing = await db
+    .select()
+    .from(vendorProfiles)
+    .where(eq(vendorProfiles.sponsorId, sponsorId))
+    .limit(1);
+  
+  if (existing.length > 0) {
+    // Update existing
+    await db
+      .update(vendorProfiles)
+      .set({ profileDocument: documentUrl })
+      .where(eq(vendorProfiles.sponsorId, sponsorId));
+  } else {
+    // Create new
+    await db.insert(vendorProfiles).values({
+      sponsorId,
+      companyName: "Unknown",
+      profileDocument: documentUrl,
+    });
+  }
+}
+
+export async function getUserByEmail(email: string) {
+  const db = await getDb();
+  if (!db) return undefined;
+  
+  const result = await db.select().from(users).where(eq(users.email, email)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
 }

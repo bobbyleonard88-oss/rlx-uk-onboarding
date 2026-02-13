@@ -7,6 +7,8 @@ import * as db from "./db";
 import { notifyOwner } from "./_core/notification";
 import { sendEmail } from "./emailNotification";
 import { generateAllMatches, saveMatches } from "./matchingEngine";
+import { readFileSync } from "fs";
+import { join } from "path";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -121,27 +123,25 @@ export const appRouter = router({
         return { success: true };
       }),
     
+    promoteUserByEmail: adminProcedure
+      .input(z.object({
+        email: z.string().email(),
+      }))
+      .mutation(async ({ input }) => {
+        const user = await db.getUserByEmail(input.email);
+        if (!user) {
+          throw new Error("User not found. They must log in at least once before being promoted.");
+        }
+        await db.updateUserRole(user.id, "admin");
+        return { success: true };
+      }),
+    
     // Vendor profile management
     getVendorProfiles: adminProcedure.query(async () => {
       return await db.getVendorProfiles();
     }),
     
-    uploadVendorProfile: adminProcedure
-      .input(z.object({
-        profileData: z.string(),
-      }))
-      .mutation(async ({ input }) => {
-        const profile = JSON.parse(input.profileData);
-        const id = await db.createVendorProfile({
-          sponsorId: profile.sponsorId || 0,
-          companyName: profile.companyName,
-          solutions: profile.solutions || null,
-          painPoints: profile.painPoints || null,
-          targetIndustries: JSON.stringify(profile.targetIndustries || []),
-          profileData: input.profileData,
-        });
-        return { success: true, id };
-      }),
+
     
     deleteVendorProfile: adminProcedure
       .input(z.object({
@@ -259,12 +259,92 @@ export const appRouter = router({
     updateSubmissionStatus: adminProcedure
       .input(z.object({
         id: z.number(),
-        status: z.enum(["pending", "reviewed", "processed"]),
+        status: z.enum(["pending", "reviewed"]),
       }))
       .mutation(async ({ input }) => {
         await db.updateRankingsSubmissionStatus(input.id, input.status);
         return { success: true };
       }),
+    
+    // Get all delegates
+    getAllDelegates: adminProcedure.query(async () => {
+      return await db.getAllDelegateProfiles();
+    }),
+    
+    // Upload vendor profile document
+    uploadVendorProfile: adminProcedure
+      .input(z.object({
+        sponsorId: z.number(),
+        fileData: z.string(), // base64
+        fileName: z.string(),
+      }))
+      .mutation(async ({ input }) => {
+        // In production, upload to S3 and store URL
+        // For now, just store the filename
+        await db.updateVendorProfileDocument(input.sponsorId, input.fileName);
+        return { success: true };
+      }),
+    
+    // Import delegates from CSV
+    importDelegates: adminProcedure.mutation(async () => {
+      const csvPath = join(process.cwd(), 'delegates.csv');
+      const csvContent = readFileSync(csvPath, 'utf-8');
+      const lines = csvContent.split('\n').filter(line => line.trim());
+      
+      let imported = 0;
+      for (let i = 1; i < lines.length; i++) {
+        const line = lines[i];
+        if (!line.trim()) continue;
+        
+        // Parse CSV line
+        const values = [];
+        let current = '';
+        let inQuotes = false;
+        
+        for (let char of line) {
+          if (char === '"') {
+            inQuotes = !inQuotes;
+          } else if (char === ',' && !inQuotes) {
+            values.push(current.trim());
+            current = '';
+          } else {
+            current += char;
+          }
+        }
+        values.push(current.trim());
+        
+        const [
+          id, firstName, lastName, jobTitle, company, companySize,
+          industry, taTeamSize, budgetAuthority, assessmentTools,
+          ats, crm, marketIntel, otherTools
+        ] = values;
+        
+        if (!id || !firstName || !lastName) continue;
+        
+        try {
+          await db.createDelegateProfile({
+            attendeeId: id,
+            firstName: firstName.replace(/"/g, ''),
+            lastName: lastName.replace(/"/g, ''),
+            company: company?.replace(/"/g, '') || 'Unknown',
+            jobTitle: jobTitle?.replace(/"/g, '') || null,
+            industry: industry?.replace(/"/g, '') || null,
+            challenges: assessmentTools?.replace(/"/g, '') || null,
+            interests: `ATS: ${ats || 'N/A'}, CRM: ${crm || 'N/A'}`,
+            profileData: JSON.stringify({
+              companySize: companySize?.replace(/"/g, ''),
+              taTeamSize: taTeamSize?.replace(/"/g, ''),
+              budgetAuthority: budgetAuthority?.replace(/"/g, ''),
+            }),
+          });
+          imported++;
+        } catch (error) {
+          console.error(`Error importing row ${i}:`, error);
+        }
+      }
+      
+      return { success: true, imported };
+    }),
   }),
 });
 
