@@ -47,11 +47,19 @@ export default function Rules() {
         </AnimatedSection>
 
         <AnimatedSection delay={200}>
-          <div className="glass-card p-8 bg-accent/10 border-accent/30 rounded-lg mb-12">
+          <div className="glass-card p-8 bg-accent/10 border-accent/30 rounded-lg mb-8">
             <h3 className="text-2xl font-heading font-bold text-foreground mb-4">Important Note</h3>
             <p className="text-lg text-foreground/90 leading-relaxed">
               These guidelines are designed to maintain the premium, focused nature of the Resourcing Leaders Exchange and ensure maximum value 
               for all partners and attendees. Adherence to deadlines and requirements is essential for optimal outcomes.
+            </p>
+          </div>
+        </AnimatedSection>
+
+        <AnimatedSection delay={250}>
+          <div className="glass-card p-6 bg-primary/10 border-primary/30 rounded-lg mb-12">
+            <p className="text-sm text-foreground/80 leading-relaxed italic text-center">
+              Meetings are guaranteed but there's no guarantee we'll match your top 12/20.
             </p>
           </div>
         </AnimatedSection>

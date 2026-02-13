@@ -1,13 +1,14 @@
-# RLX Onboarding Updates
+# RLX Onboarding Updates Todo
 
-## Tasks
-- [ ] Fix FAQ contact details answer (encourage swapping during meetings)
-- [ ] Remove guest speaker question from FAQ
-- [ ] Remove Onboarding Progress tracker from navigation
-- [ ] Add color-changing navigation with pop animation for visited pages
-
-## Testing
-- [ ] Verify FAQ has correct contact details guidance
-- [ ] Confirm guest speaker question removed
-- [ ] Check progress tracker is removed
-- [ ] Test navigation color changes and pop animation
+## New Tasks
+- [ ] Fix Timeline page - reorder deadlines chronologically
+- [ ] Rename "Rules" to "Rules of Engagement" throughout
+- [ ] Add meeting guarantee statement to bottom of Rules of Engagement page
+- [ ] Add meeting guarantee statement to bottom of Prioritise page  
+- [ ] Add confidentiality warning to Prioritise page about:
+  - Not sharing delegate information outside organisation or with sales team
+  - Not reaching out to delegates ahead of event
+  - Consequences: removal from event and future events
+- [ ] Convert Matchmaking page to compact table format with columns
+- [ ] Update navigation label from "Rules" to "Rules of Engagement"
+- [ ] Test all changes

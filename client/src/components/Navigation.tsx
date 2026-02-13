@@ -6,7 +6,7 @@ const navItems = [
   { path: "/", label: "Home", icon: Home },
   { path: "/overview", label: "Overview", icon: Info },
   { path: "/features", label: "Features & Values", icon: Award },
-  { path: "/rules", label: "Rules", icon: Shield },
+  { path: "/rules", label: "Rules of Engagement", icon: Shield },
   { path: "/addons", label: "Add-Ons", icon: FileText },
   { path: "/timeline", label: "Timeline", icon: Clock },
   { path: "/meetings", label: "Meetings", icon: Calendar },
