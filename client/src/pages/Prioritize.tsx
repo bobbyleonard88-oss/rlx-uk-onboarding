@@ -4,6 +4,9 @@
  */
 
 import { useState, useEffect } from "react";
+import { useAuth } from "@/_core/hooks/useAuth";
+import { trpc } from "@/lib/trpc";
+import { useLocation } from "wouter";
 
 // Suppress benign ResizeObserver errors from drag-and-drop
 if (typeof window !== 'undefined') {
@@ -109,9 +112,16 @@ function SortableRow({ attendee, rank }: SortableRowProps) {
 }
 
 export default function Prioritize() {
+  const { user, loading } = useAuth({ redirectOnUnauthenticated: true });
+  const [, setLocation] = useLocation();
+  const { data: profile } = trpc.sponsor.getProfile.useQuery();
+  const submitRankings = trpc.rankings.submit.useMutation();
+  
   const [rankedAttendees, setRankedAttendees] = useState<Attendee[]>([]);
+  const [customOrder, setCustomOrder] = useState<Attendee[]>([]);
   const [sortBy, setSortBy] = useState<string>("custom");
   const [showSubmitDialog, setShowSubmitDialog] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     // Load saved rankings from localStorage or use default alphabetical order
@@ -123,12 +133,14 @@ export default function Prioritize() {
           .map((id: string) => attendees.find((a) => a.id === id))
           .filter(Boolean);
         setRankedAttendees(ordered);
+        setCustomOrder(ordered); // Save as custom order
       } catch {
         // Sort alphabetically by last name as default
         const sorted = [...attendees].sort((a, b) => 
           a.lastName.localeCompare(b.lastName)
         );
         setRankedAttendees(sorted);
+        setCustomOrder(sorted);
       }
     } else {
       // Sort alphabetically by last name as default
@@ -136,6 +148,7 @@ export default function Prioritize() {
         a.lastName.localeCompare(b.lastName)
       );
       setRankedAttendees(sorted);
+      setCustomOrder(sorted);
     }
   }, []);
 
@@ -163,6 +176,9 @@ export default function Prioritize() {
         const ids = newOrder.map((a) => a.id);
         localStorage.setItem("rlx-meeting-priorities", JSON.stringify(ids));
         
+        // Update custom order
+        setCustomOrder(newOrder);
+        
         return newOrder;
       });
       
@@ -176,6 +192,10 @@ export default function Prioritize() {
     
     let sorted: Attendee[];
     switch (value) {
+      case "custom":
+        // Restore custom order
+        sorted = customOrder;
+        break;
       case "company":
         sorted = [...rankedAttendees].sort((a, b) => a.company.localeCompare(b.company));
         break;
@@ -194,14 +214,16 @@ export default function Prioritize() {
         });
         break;
       default:
-        return; // Keep current order for "custom"
+        return;
     }
     
     setRankedAttendees(sorted);
     
-    // Save sorted order to localStorage
-    const ids = sorted.map((a) => a.id);
-    localStorage.setItem("rlx-meeting-priorities", JSON.stringify(ids));
+    // Only save to localStorage if it's custom order
+    if (value === "custom") {
+      const ids = sorted.map((a) => a.id);
+      localStorage.setItem("rlx-meeting-priorities", JSON.stringify(ids));
+    }
   }
 
   function downloadCSV() {
@@ -236,12 +258,33 @@ export default function Prioritize() {
     });
   }
 
-  function handleSubmit() {
+  async function handleSubmit() {
+    // Check if profile is set up
+    if (!profile) {
+      toast.error("Please set up your sponsor profile first");
+      setLocation("/sponsor-profile");
+      return;
+    }
+
     // Download CSV first
     downloadCSV();
     
-    // Show reminder dialog
-    setShowSubmitDialog(true);
+    // Submit to backend
+    setIsSubmitting(true);
+    try {
+      const ids = rankedAttendees.map((a) => a.id);
+      await submitRankings.mutateAsync({
+        rankingsData: JSON.stringify(ids),
+      });
+      
+      // Show success dialog
+      setShowSubmitDialog(true);
+    } catch (error) {
+      console.error("Submission error:", error);
+      toast.error("Failed to submit rankings. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -373,9 +416,10 @@ export default function Prioritize() {
             <Button
               onClick={handleSubmit}
               size="lg"
+              disabled={isSubmitting}
               className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading gap-2 px-8"
             >
-              Submit
+              {isSubmitting ? "Submitting..." : "Submit"}
             </Button>
           </div>
         </AnimatedSection>
@@ -389,10 +433,11 @@ export default function Prioritize() {
       <Dialog open={showSubmitDialog} onOpenChange={setShowSubmitDialog}>
         <DialogContent className="glass-card border-accent/30">
           <DialogHeader>
-            <DialogTitle className="text-foreground font-heading text-2xl">CSV Downloaded</DialogTitle>
+            <DialogTitle className="text-foreground font-heading text-2xl">Rankings Submitted Successfully!</DialogTitle>
             <DialogDescription className="text-foreground/90 text-base leading-relaxed pt-4">
-              Please ensure you send the downloaded CSV file to{" "}
-              <strong className="text-accent">clientsuccess@recruitmentevents.co</strong>
+              Your meeting priorities have been submitted to our team. The CS team has been notified and will review your rankings.
+              <br /><br />
+              A CSV copy has also been downloaded to your device for your records.
             </DialogDescription>
           </DialogHeader>
           <div className="flex justify-end pt-4">

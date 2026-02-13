@@ -18,7 +18,8 @@ import Matchmaking from "./pages/Matchmaking";
 import Intake from "./pages/Intake";
 import Prioritize from "./pages/Prioritize";
 import FAQ from "./pages/FAQ";
-
+import AdminDashboard from "./pages/AdminDashboard";
+import SponsorProfile from "./pages/SponsorProfile";
 function Router() {
   const [location] = useLocation();
   
@@ -44,6 +45,8 @@ function Router() {
           <Route path="/intake" component={Intake} />
           <Route path="/prioritize" component={Prioritize} />
           <Route path="/faq" component={FAQ} />
+          <Route path="/admin" component={AdminDashboard} />
+          <Route path="/sponsor-profile" component={SponsorProfile} />
           <Route path="/404" component={NotFound} />
           {/* Final fallback route */}
           <Route component={NotFound} />
