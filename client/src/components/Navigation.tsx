@@ -7,7 +7,6 @@ const navItems = [
   { path: "/overview", label: "Overview", icon: Info },
   { path: "/features", label: "Features & Values", icon: Award },
   { path: "/rules", label: "Rules", icon: Shield },
-  { path: "/team", label: "Team", icon: Users },
   { path: "/addons", label: "Add-Ons", icon: FileText },
   { path: "/timeline", label: "Timeline", icon: Clock },
   { path: "/meetings", label: "Meetings", icon: Calendar },
@@ -15,6 +14,7 @@ const navItems = [
   { path: "/intake", label: "Intake Form", icon: FormInput },
   { path: "/prioritize", label: "Prioritize Meetings", icon: ListOrdered },
   { path: "/faq", label: "FAQ", icon: HelpCircle },
+  { path: "/team", label: "Team", icon: Users },
 ];
 
 export default function Navigation() {

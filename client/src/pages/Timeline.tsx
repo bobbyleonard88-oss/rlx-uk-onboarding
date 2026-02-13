@@ -58,7 +58,7 @@ export default function Timeline() {
                 </div>
                 <h3 className="text-xl font-heading font-bold text-foreground mb-2">The Grove</h3>
                 <p className="text-muted-foreground text-sm">
-                  Watford, United Kingdom
+                  Hertfordshire, United Kingdom
                 </p>
               </div>
 

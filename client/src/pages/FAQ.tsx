@@ -38,7 +38,7 @@ const faqs: FAQItem[] = [
   },
   {
     question: "What is the event format?",
-    answer: "The Resourcing Leaders Exchange runs 24-26th March 2026 at The Grove, Watford. Arrival evening is 24th March, with event days on 25-26th March. The format includes structured 1:1 meetings, content sessions, roundtables, networking, and a black-tie gala dinner."
+    answer: "The Resourcing Leaders Exchange runs 24-26th March 2026 at The Grove, Hertfordshire. Arrival evening is 24th March, with event days on 25-26th March. The format includes structured 1:1 meetings, content sessions, roundtables, networking, and a black-tie gala dinner."
   },
   {
     question: "What is the dress code?",

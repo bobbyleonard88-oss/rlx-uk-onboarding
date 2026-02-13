@@ -46,16 +46,11 @@ export default function Home() {
             </AnimatedSection>
 
             <AnimatedSection delay={300}>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+              <div className="flex justify-center items-center mb-12">
                 <Link href="/overview">
                   <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading gap-2 px-8">
                     Begin Your Journey
                     <ArrowRight className="w-5 h-5" />
-                  </Button>
-                </Link>
-                <Link href="/prioritize">
-                  <Button size="lg" variant="outline" className="font-heading px-8 border-accent/30 hover:border-accent hover:bg-accent/10">
-                    Prioritize Meetings
                   </Button>
                 </Link>
               </div>

@@ -13,12 +13,10 @@ export default function Rules() {
     "12-meeting package partners can bring 1 attendee",
     "Hotel allocation is provided - 2 nights",
     "Attendee representatives must be in leadership positions unless signed off by The Recruitment Events Co.",
-    "Partners will receive the delegate list to prioritize meeting preferences. Final schedules use a blend of partner priorities, current audience needs, and attendee vendor rankings. No meetings are guaranteed.",
-    "Failure to hit deadlines will result in missed marketing opportunities and potentially less relevancy of attendees",
+    "Partners will receive the delegate list to prioritise meeting preferences. Final schedules use a blend of partner priorities, current audience needs, and attendee vendor rankings. Meetings are guaranteed but there's no guarantee we'll match your top 12/20.",
+    "Failure to hit deadlines will result in potential mismatch of meetings, not attendees",
     "No contact details are provided unless specifically requested (however, LinkedIn profiles will be)",
-    "Contacts data (connection requests) won't be shared until you complete the Vendor Feedback survey",
-    "If you requested to connect with a delegate and you didn't speak with them on the day, then we will not facilitate any further introductions",
-    "You will be placed on a table with another sponsor (who is not a direct competitor)",
+    "Follow-ups must be made during the meetings. No contact details will be shared.",
     "Dress Code: Smart casual during the day, with a black-tie dress code for the gala dinner",
   ];
 
