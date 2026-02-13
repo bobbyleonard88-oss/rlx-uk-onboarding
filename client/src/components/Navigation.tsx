@@ -12,7 +12,7 @@ const navItems = [
   { path: "/meetings", label: "Meetings", icon: Calendar },
   { path: "/matchmaking", label: "Matchmaking", icon: Target },
   { path: "/intake", label: "Intake Form", icon: FormInput },
-  { path: "/prioritize", label: "Prioritize Meetings", icon: ListOrdered },
+  { path: "/prioritize", label: "Prioritise Meetings", icon: ListOrdered },
   { path: "/faq", label: "FAQ", icon: HelpCircle },
   { path: "/team", label: "Team", icon: Users },
 ];
