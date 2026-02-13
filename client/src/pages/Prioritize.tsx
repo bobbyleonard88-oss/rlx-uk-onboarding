@@ -303,6 +303,10 @@ Best regards`;
           <p className="text-center text-sm text-muted-foreground mt-4">
             Download the CSV file and attach it to your email to clientsuccess@recruitmentevents.co
           </p>
+          <p className="text-center text-xs text-muted-foreground/80 mt-6 italic max-w-2xl mx-auto">
+            Please note: Meetings are guaranteed, however there is no guarantee we will match your top 12/20 priorities. 
+            We use a blend of your rankings, current delegate needs, and attendee preferences to create the most valuable connections for all participants.
+          </p>
         </AnimatedSection>
       </div>
     </div>
