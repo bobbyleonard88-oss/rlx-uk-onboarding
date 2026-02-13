@@ -309,37 +309,37 @@ export default function Prioritize() {
 
         {/* Table */}
         <AnimatedSection delay={250}>
-          <div className="glass-card rounded-lg overflow-hidden mb-8">
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead className="bg-primary/10 border-b border-border/50">
-                  <tr>
-                    <th className="py-3 px-3 text-left text-xs font-heading font-bold text-foreground uppercase tracking-wider w-20">
-                      Rank
-                    </th>
-                    <th className="py-3 px-3 text-left text-xs font-heading font-bold text-foreground uppercase tracking-wider">
-                      Name
-                    </th>
-                    <th className="py-3 px-3 text-left text-xs font-heading font-bold text-foreground uppercase tracking-wider">
-                      Job Title
-                    </th>
-                    <th className="py-3 px-3 text-left text-xs font-heading font-bold text-foreground uppercase tracking-wider">
-                      Company
-                    </th>
-                    <th className="py-3 px-3 text-left text-xs font-heading font-bold text-foreground uppercase tracking-wider">
-                      Industry
-                    </th>
-                    <th className="py-3 px-3 text-center text-xs font-heading font-bold text-foreground uppercase tracking-wider">
-                      Org Size
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <DndContext
-                    sensors={sensors}
-                    collisionDetection={closestCenter}
-                    onDragEnd={handleDragEnd}
-                  >
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
+          >
+            <div className="glass-card rounded-lg overflow-hidden mb-8">
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead className="bg-primary/10 border-b border-border/50">
+                    <tr>
+                      <th className="py-3 px-3 text-left text-xs font-heading font-bold text-foreground uppercase tracking-wider w-20">
+                        Rank
+                      </th>
+                      <th className="py-3 px-3 text-left text-xs font-heading font-bold text-foreground uppercase tracking-wider">
+                        Name
+                      </th>
+                      <th className="py-3 px-3 text-left text-xs font-heading font-bold text-foreground uppercase tracking-wider">
+                        Job Title
+                      </th>
+                      <th className="py-3 px-3 text-left text-xs font-heading font-bold text-foreground uppercase tracking-wider">
+                        Company
+                      </th>
+                      <th className="py-3 px-3 text-left text-xs font-heading font-bold text-foreground uppercase tracking-wider">
+                        Industry
+                      </th>
+                      <th className="py-3 px-3 text-center text-xs font-heading font-bold text-foreground uppercase tracking-wider">
+                        Org Size
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
                     <SortableContext
                       items={rankedAttendees.map((a) => a.id)}
                       strategy={verticalListSortingStrategy}
@@ -352,11 +352,11 @@ export default function Prioritize() {
                         />
                       ))}
                     </SortableContext>
-                  </DndContext>
-                </tbody>
-              </table>
+                  </tbody>
+                </table>
+              </div>
             </div>
-          </div>
+          </DndContext>
         </AnimatedSection>
 
         <AnimatedSection delay={300}>
