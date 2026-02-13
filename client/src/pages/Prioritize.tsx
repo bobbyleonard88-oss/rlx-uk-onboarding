@@ -1,6 +1,6 @@
 /**
  * RLX Onboarding - Meeting Prioritization Page
- * Drag-and-drop ranking of all attendees
+ * Table-based drag-and-drop ranking of all attendees
  */
 
 import { useState, useEffect } from "react";
@@ -36,21 +36,36 @@ import {
   SortableContext,
   sortableKeyboardCoordinates,
   useSortable,
-  rectSortingStrategy,
+  verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import AnimatedSection from "@/components/AnimatedSection";
+import NextButton from "@/components/NextButton";
 import { Button } from "@/components/ui/button";
-import { GripVertical, Download, Send, Building2, Briefcase, Users } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { GripVertical, Download } from "lucide-react";
 import { attendees, Attendee } from "@/lib/attendees";
 import { toast } from "sonner";
 
-interface SortableAttendeeProps {
+interface SortableRowProps {
   attendee: Attendee;
   rank: number;
 }
 
-function SortableAttendee({ attendee, rank }: SortableAttendeeProps) {
+function SortableRow({ attendee, rank }: SortableRowProps) {
   const {
     attributes,
     listeners,
@@ -67,52 +82,36 @@ function SortableAttendee({ attendee, rank }: SortableAttendeeProps) {
   };
 
   return (
-    <div
+    <tr
       ref={setNodeRef}
       style={style}
-      className={`glass-card p-4 rounded-lg cursor-move hover:border-accent/50 transition-all relative ${
-        isDragging ? "z-50 shadow-lg" : ""
+      className={`border-b border-border/30 hover:bg-accent/5 cursor-move transition-colors ${
+        isDragging ? "z-50 shadow-lg bg-accent/10" : ""
       }`}
       {...attributes}
       {...listeners}
     >
-      <div className="absolute top-2 left-2">
-        <GripVertical className="w-4 h-4 text-muted-foreground hover:text-accent transition-colors" />
-      </div>
-      
-      <div className="absolute top-2 right-2">
-        <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center border border-accent/30">
+      <td className="py-2 px-3 text-center">
+        <div className="flex items-center justify-center gap-2">
+          <GripVertical className="w-4 h-4 text-muted-foreground hover:text-accent transition-colors" />
           <span className="text-sm font-heading font-bold text-accent">{rank}</span>
         </div>
-      </div>
-
-      <div className="pt-8 pb-2">
-        <h3 className="text-base font-heading font-bold text-foreground mb-1 line-clamp-2 uppercase">
-          {attendee.firstName} {attendee.lastName}
-        </h3>
-        <p className="text-xs text-muted-foreground mb-3 line-clamp-2">{attendee.jobTitle}</p>
-        
-        <div className="space-y-1.5">
-          <div className="flex items-start gap-1.5 text-xs text-muted-foreground">
-            <Building2 className="w-3 h-3 flex-shrink-0 mt-0.5" />
-            <span className="line-clamp-1">{attendee.company}</span>
-          </div>
-          <div className="flex items-start gap-1.5 text-xs text-muted-foreground">
-            <Briefcase className="w-3 h-3 flex-shrink-0 mt-0.5" />
-            <span className="line-clamp-1">{attendee.industry}</span>
-          </div>
-          <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-            <Users className="w-3 h-3 flex-shrink-0" />
-            <span>{attendee.companySize}</span>
-          </div>
-        </div>
-      </div>
-    </div>
+      </td>
+      <td className="py-2 px-3 text-sm text-foreground font-medium uppercase">
+        {attendee.firstName} {attendee.lastName}
+      </td>
+      <td className="py-2 px-3 text-sm text-muted-foreground">{attendee.jobTitle}</td>
+      <td className="py-2 px-3 text-sm text-muted-foreground">{attendee.company}</td>
+      <td className="py-2 px-3 text-sm text-muted-foreground">{attendee.industry}</td>
+      <td className="py-2 px-3 text-sm text-muted-foreground text-center">{attendee.companySize}</td>
+    </tr>
   );
 }
 
 export default function Prioritize() {
   const [rankedAttendees, setRankedAttendees] = useState<Attendee[]>([]);
+  const [sortBy, setSortBy] = useState<string>("custom");
+  const [showSubmitDialog, setShowSubmitDialog] = useState(false);
 
   useEffect(() => {
     // Load saved rankings from localStorage or use default alphabetical order
@@ -158,9 +157,51 @@ export default function Prioritize() {
       setRankedAttendees((items) => {
         const oldIndex = items.findIndex((item) => item.id === active.id);
         const newIndex = items.findIndex((item) => item.id === over.id);
-        return arrayMove(items, oldIndex, newIndex);
+        const newOrder = arrayMove(items, oldIndex, newIndex);
+        
+        // Save to localStorage
+        const ids = newOrder.map((a) => a.id);
+        localStorage.setItem("rlx-meeting-priorities", JSON.stringify(ids));
+        
+        return newOrder;
       });
+      
+      // Reset to custom sort when manually dragging
+      setSortBy("custom");
     }
+  }
+
+  function handleSort(value: string) {
+    setSortBy(value);
+    
+    let sorted: Attendee[];
+    switch (value) {
+      case "company":
+        sorted = [...rankedAttendees].sort((a, b) => a.company.localeCompare(b.company));
+        break;
+      case "industry":
+        sorted = [...rankedAttendees].sort((a, b) => a.industry.localeCompare(b.industry));
+        break;
+      case "orgsize":
+        // Sort by company size (parse the numbers)
+        sorted = [...rankedAttendees].sort((a, b) => {
+          const parseSize = (size: string) => {
+            const match = size.match(/[\d,]+/);
+            if (!match) return 0;
+            return parseInt(match[0].replace(/,/g, ''));
+          };
+          return parseSize(b.companySize) - parseSize(a.companySize);
+        });
+        break;
+      default:
+        return; // Keep current order for "custom"
+    }
+    
+    setRankedAttendees(sorted);
+    
+    // Save sorted order to localStorage
+    const ids = sorted.map((a) => a.id);
+    localStorage.setItem("rlx-meeting-priorities", JSON.stringify(ids));
   }
 
   function downloadCSV() {
@@ -195,60 +236,12 @@ export default function Prioritize() {
     });
   }
 
-  function emailWithCSV() {
-    // Save to localStorage first
-    const ids = rankedAttendees.map((a) => a.id);
-    localStorage.setItem("rlx-meeting-priorities", JSON.stringify(ids));
-
-    // Create CSV content for attachment
-    const csvHeader = "Rank,First Name,Last Name,Job Title,Company,Industry,Company Size\n";
-    const csvRows = rankedAttendees
-      .map((a, i) => 
-        `${i + 1},"${a.firstName}","${a.lastName}","${a.jobTitle}","${a.company}","${a.industry}","${a.companySize}"`
-      )
-      .join('\n');
+  function handleSubmit() {
+    // Download CSV first
+    downloadCSV();
     
-    const csvContent = csvHeader + csvRows;
-
-    // Email template message
-    const emailBody = `Hi CS,
-
-Please see attached our top ranked priorities for the upcoming RLX event.
-
-Best regards`;
-
-    const subject = 'RLX Meeting Priorities - Top Ranked Attendees';
-
-    // Note: mailto links cannot attach files directly due to security restrictions
-    // We'll open the email with the message and prompt user to attach the downloaded CSV
-    try {
-      // First download the CSV
-      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-      const link = document.createElement('a');
-      const url = URL.createObjectURL(blob);
-      
-      link.setAttribute('href', url);
-      link.setAttribute('download', 'rlx-meeting-priorities.csv');
-      link.style.visibility = 'hidden';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-
-      // Then open email client with template
-      const mailtoLink = `mailto:clientsuccess@recruitmentevents.co?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
-      
-      const emailLink = document.createElement('a');
-      emailLink.href = mailtoLink;
-      emailLink.click();
-      
-      toast.success("CSV downloaded and email opened!", {
-        description: "Please attach the downloaded CSV file to your email before sending."
-      });
-    } catch (error) {
-      toast.error("Could not complete action", {
-        description: "Please use the Download CSV button and manually email to clientsuccess@recruitmentevents.co"
-      });
-    }
+    // Show reminder dialog
+    setShowSubmitDialog(true);
   }
 
   return (
@@ -281,66 +274,137 @@ Best regards`;
 
         <AnimatedSection delay={150}>
           <div className="glass-card p-6 bg-accent/10 border-accent/30 rounded-lg mb-8">
-            <p className="text-sm text-foreground/90 leading-relaxed text-center mb-3">
-              <strong className="text-accent">Meetings are guaranteed but there's no guarantee we'll match your top 12/20.</strong>
+            <p className="text-sm text-white leading-relaxed text-center mb-3">
+              <strong className="text-white">Meetings are guaranteed but there's no guarantee we'll match your top priorities.</strong>
             </p>
             <p className="text-sm text-foreground/90 leading-relaxed text-center">
-              <strong className="text-accent">Instructions:</strong> Click and drag attendee cards to reorder them. 
-              Your top priorities should be at the top-left. When finished, download the CSV and email it to clientsuccess@recruitmentevents.co
+              <strong className="text-accent">Instructions:</strong> Drag rows to reorder them, or use the sort dropdown below. 
+              Your top priorities should be at the top. When finished, click Submit to download the CSV.
             </p>
           </div>
         </AnimatedSection>
 
-        <div className="mb-12">
-          <DndContext
-            sensors={sensors}
-            collisionDetection={closestCenter}
-            onDragEnd={handleDragEnd}
-          >
-            <SortableContext
-              items={rankedAttendees.map((a) => a.id)}
-              strategy={rectSortingStrategy}
-            >
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-                {rankedAttendees.map((attendee, index) => (
-                  <SortableAttendee
-                    key={attendee.id}
-                    attendee={attendee}
-                    rank={index + 1}
-                  />
-                ))}
-              </div>
-            </SortableContext>
-          </DndContext>
-        </div>
-
+        {/* Sort Controls */}
         <AnimatedSection delay={200}>
-          <div className="flex justify-center gap-4 flex-wrap">
+          <div className="flex justify-between items-center mb-6">
+            <div className="flex items-center gap-3">
+              <label className="text-sm font-heading font-medium text-foreground">Sort by:</label>
+              <Select value={sortBy} onValueChange={handleSort}>
+                <SelectTrigger className="w-[200px] bg-background/50 border-accent/30">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="custom">Custom Order</SelectItem>
+                  <SelectItem value="company">Company Name</SelectItem>
+                  <SelectItem value="industry">Industry</SelectItem>
+                  <SelectItem value="orgsize">Organisation Size</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="text-sm text-muted-foreground">
+              {rankedAttendees.length} attendees
+            </div>
+          </div>
+        </AnimatedSection>
+
+        {/* Table */}
+        <AnimatedSection delay={250}>
+          <div className="glass-card rounded-lg overflow-hidden mb-8">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-primary/10 border-b border-border/50">
+                  <tr>
+                    <th className="py-3 px-3 text-left text-xs font-heading font-bold text-foreground uppercase tracking-wider w-20">
+                      Rank
+                    </th>
+                    <th className="py-3 px-3 text-left text-xs font-heading font-bold text-foreground uppercase tracking-wider">
+                      Name
+                    </th>
+                    <th className="py-3 px-3 text-left text-xs font-heading font-bold text-foreground uppercase tracking-wider">
+                      Job Title
+                    </th>
+                    <th className="py-3 px-3 text-left text-xs font-heading font-bold text-foreground uppercase tracking-wider">
+                      Company
+                    </th>
+                    <th className="py-3 px-3 text-left text-xs font-heading font-bold text-foreground uppercase tracking-wider">
+                      Industry
+                    </th>
+                    <th className="py-3 px-3 text-center text-xs font-heading font-bold text-foreground uppercase tracking-wider">
+                      Org Size
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <DndContext
+                    sensors={sensors}
+                    collisionDetection={closestCenter}
+                    onDragEnd={handleDragEnd}
+                  >
+                    <SortableContext
+                      items={rankedAttendees.map((a) => a.id)}
+                      strategy={verticalListSortingStrategy}
+                    >
+                      {rankedAttendees.map((attendee, index) => (
+                        <SortableRow
+                          key={attendee.id}
+                          attendee={attendee}
+                          rank={index + 1}
+                        />
+                      ))}
+                    </SortableContext>
+                  </DndContext>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </AnimatedSection>
+
+        <AnimatedSection delay={300}>
+          <div className="flex justify-center gap-4 flex-wrap mb-8">
             <Button
               onClick={downloadCSV}
               size="lg"
-              className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading gap-2 px-8"
+              variant="outline"
+              className="font-heading gap-2 px-8 border-accent/30 hover:border-accent hover:bg-accent/10"
             >
               <Download className="w-5 h-5" />
               Download CSV
             </Button>
             <Button
-              onClick={emailWithCSV}
+              onClick={handleSubmit}
               size="lg"
-              variant="outline"
-              className="font-heading gap-2 px-8 border-accent/30 hover:border-accent hover:bg-accent/10"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading gap-2 px-8"
             >
-              <Send className="w-5 h-5" />
-              Email to CS Team
+              Submit
             </Button>
           </div>
-          <p className="text-center text-sm text-muted-foreground mt-4">
-            Download the CSV file and attach it to your email to clientsuccess@recruitmentevents.co
-          </p>
         </AnimatedSection>
 
-
+        <AnimatedSection delay={350}>
+          <NextButton href="/faq" label="Next: FAQ" />
+        </AnimatedSection>
       </div>
+
+      {/* Submit Dialog */}
+      <Dialog open={showSubmitDialog} onOpenChange={setShowSubmitDialog}>
+        <DialogContent className="glass-card border-accent/30">
+          <DialogHeader>
+            <DialogTitle className="text-foreground font-heading text-2xl">CSV Downloaded</DialogTitle>
+            <DialogDescription className="text-foreground/90 text-base leading-relaxed pt-4">
+              Please ensure you send the downloaded CSV file to{" "}
+              <strong className="text-accent">clientsuccess@recruitmentevents.co</strong>
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex justify-end pt-4">
+            <Button
+              onClick={() => setShowSubmitDialog(false)}
+              className="bg-primary hover:bg-primary/90"
+            >
+              Got it
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
