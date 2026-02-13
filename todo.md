@@ -1,11 +1,13 @@
-# RLX Prioritise Page Updates
+# RLX Onboarding Updates
 
 ## Tasks
-- [ ] Capitalize all attendee names (display in UPPERCASE)
-- [ ] Set default order to alphabetical by last name
-- [ ] Verify Jen Candee is removed (check if she's in the CSV)
+- [ ] Fix FAQ contact details answer (encourage swapping during meetings)
+- [ ] Remove guest speaker question from FAQ
+- [ ] Remove Onboarding Progress tracker from navigation
+- [ ] Add color-changing navigation with pop animation for visited pages
 
 ## Testing
-- [ ] Check all names display in capitals
-- [ ] Verify alphabetical ordering on page load
-- [ ] Confirm Jen Candee does not appear
+- [ ] Verify FAQ has correct contact details guidance
+- [ ] Confirm guest speaker question removed
+- [ ] Check progress tracker is removed
+- [ ] Test navigation color changes and pop animation

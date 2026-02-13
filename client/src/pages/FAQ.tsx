@@ -46,11 +46,7 @@ const faqs: FAQItem[] = [
   },
   {
     question: "Will I receive delegate contact details before the event?",
-    answer: "No contact details are provided unless specifically requested. However, LinkedIn profiles will be included in your briefing packs. Full contact data (connection requests) won't be shared until you complete the Vendor Feedback survey after the event."
-  },
-  {
-    question: "Can I bring guest speakers?",
-    answer: "No guest speakers are permitted at this event. The focus is on curated 1:1 meetings and structured content sessions designed to facilitate meaningful partnerships."
+    answer: "No contact details are provided unless specifically requested. However, LinkedIn profiles will be included in your briefing packs. We encourage you to exchange contact details during your meetings and arrange follow-ups directly with delegates."
   },
   {
     question: "What are the add-on opportunities?",

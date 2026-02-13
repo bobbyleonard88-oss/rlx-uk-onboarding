@@ -1,6 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { Home, Info, Award, Users, FileText, Calendar, Shield, FormInput, ListOrdered, Clock, Target, HelpCircle } from "lucide-react";
-import ProgressTracker from "./ProgressTracker";
+import { useState, useEffect } from "react";
 
 const navItems = [
   { path: "/", label: "Home", icon: Home },
@@ -19,6 +19,28 @@ const navItems = [
 
 export default function Navigation() {
   const [location] = useLocation();
+  const [visitedPages, setVisitedPages] = useState<string[]>([]);
+
+  useEffect(() => {
+    // Load visited pages from localStorage
+    const saved = localStorage.getItem("rlx-visited-pages");
+    if (saved) {
+      try {
+        setVisitedPages(JSON.parse(saved));
+      } catch {
+        setVisitedPages([]);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    // Mark current page as visited with pop animation
+    if (location && !visitedPages.includes(location)) {
+      const newVisited = [...visitedPages, location];
+      setVisitedPages(newVisited);
+      localStorage.setItem("rlx-visited-pages", JSON.stringify(newVisited));
+    }
+  }, [location]);
 
   return (
     <nav className="fixed left-0 top-0 h-screen w-20 lg:w-64 glass-card border-r border-border/50 z-50 flex flex-col">
@@ -45,6 +67,7 @@ export default function Navigation() {
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = location === item.path;
+            const isVisited = visitedPages.includes(item.path);
             
             return (
               <li key={item.path}>
@@ -53,10 +76,13 @@ export default function Navigation() {
                     className={`
                       flex items-center gap-3 px-3 py-3 rounded-lg transition-all duration-200 cursor-pointer
                       ${isActive 
-                        ? 'bg-primary/20 text-accent border border-accent/30' 
+                        ? 'bg-primary/20 text-accent border border-accent/30 scale-105' 
+                        : isVisited
+                        ? 'bg-accent/10 text-accent/80 hover:text-accent hover:bg-accent/20 border border-accent/20'
                         : 'text-muted-foreground hover:text-foreground hover:bg-secondary/30 border border-transparent'
                       }
                       lg:justify-start justify-center
+                      ${isActive ? 'animate-pop' : ''}
                     `}
                   >
                     <Icon className="w-5 h-5 flex-shrink-0" />
@@ -71,10 +97,7 @@ export default function Navigation() {
         </ul>
       </div>
 
-      <div className="p-4 border-t border-border/30 space-y-4">
-        <div className="hidden lg:block">
-          <ProgressTracker />
-        </div>
+      <div className="p-4 border-t border-border/30">
         <p className="text-xs text-muted-foreground text-center hidden lg:block">
           © 2026 RLX
         </p>
