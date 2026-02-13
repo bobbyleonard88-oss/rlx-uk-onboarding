@@ -26,10 +26,10 @@ export default function Overview() {
           <div className="grid md:grid-cols-3 gap-8 mb-16">
             <div className="glass-card p-8 text-center hover:scale-105 transition-transform">
               <Crown className="w-16 h-16 text-accent mx-auto mb-4" />
-              <h3 className="text-4xl font-heading font-bold text-foreground mb-2">
+              <h3 className="text-3xl font-heading font-bold text-foreground mb-2">
                 INVITATION
               </h3>
-              <h3 className="text-4xl font-heading font-bold text-foreground mb-3">
+              <h3 className="text-3xl font-heading font-bold text-foreground mb-3">
                 ONLY
               </h3>
               <p className="text-lg text-muted-foreground">
@@ -39,10 +39,10 @@ export default function Overview() {
 
             <div className="glass-card p-8 text-center hover:scale-105 transition-transform">
               <Target className="w-16 h-16 text-accent mx-auto mb-4" />
-              <h3 className="text-4xl font-heading font-bold text-foreground mb-2">
+              <h3 className="text-3xl font-heading font-bold text-foreground mb-2">
                 PRE-QUALIFIED
               </h3>
-              <h3 className="text-4xl font-heading font-bold text-foreground mb-3">
+              <h3 className="text-3xl font-heading font-bold text-foreground mb-3">
                 BUYERS
               </h3>
               <p className="text-lg text-muted-foreground">
@@ -52,10 +52,10 @@ export default function Overview() {
 
             <div className="glass-card p-8 text-center hover:scale-105 transition-transform">
               <TrendingUp className="w-16 h-16 text-accent mx-auto mb-4" />
-              <h3 className="text-4xl font-heading font-bold text-foreground mb-2">
+              <h3 className="text-3xl font-heading font-bold text-foreground mb-2">
                 VERIFIABLE
               </h3>
-              <h3 className="text-4xl font-heading font-bold text-foreground mb-3">
+              <h3 className="text-3xl font-heading font-bold text-foreground mb-3">
                 OUTCOMES
               </h3>
               <p className="text-lg text-muted-foreground">
