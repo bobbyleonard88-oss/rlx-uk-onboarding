@@ -1,10 +1,11 @@
-# RLX Onboarding Fixes
+# RLX Prioritise Page Updates
 
 ## Tasks
-- [x] Remove scroll indicator from home page
-- [ ] Add meeting guarantee disclaimer to Prioritise page bottom in smaller italic text
+- [ ] Capitalize all attendee names (display in UPPERCASE)
+- [ ] Set default order to alphabetical by last name
+- [ ] Verify Jen Candee is removed (check if she's in the CSV)
 
 ## Testing
-- [ ] Verify scroll indicator is removed from home page
-- [ ] Verify disclaimer appears at bottom of Prioritise page
-- [ ] Check text formatting (smaller, italic)
+- [ ] Check all names display in capitals
+- [ ] Verify alphabetical ordering on page load
+- [ ] Confirm Jen Candee does not appear

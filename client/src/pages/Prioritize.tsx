@@ -78,7 +78,7 @@ function SortableAttendee({ attendee, rank }: SortableAttendeeProps) {
       </div>
 
       <div className="pt-8 pb-2">
-        <h3 className="text-base font-heading font-bold text-foreground mb-1 line-clamp-2">
+        <h3 className="text-base font-heading font-bold text-foreground mb-1 line-clamp-2 uppercase">
           {attendee.firstName} {attendee.lastName}
         </h3>
         <p className="text-xs text-muted-foreground mb-3 line-clamp-2">{attendee.jobTitle}</p>
@@ -106,7 +106,7 @@ export default function Prioritize() {
   const [rankedAttendees, setRankedAttendees] = useState<Attendee[]>([]);
 
   useEffect(() => {
-    // Load saved rankings from localStorage or use default order
+    // Load saved rankings from localStorage or use default alphabetical order
     const saved = localStorage.getItem("rlx-meeting-priorities");
     if (saved) {
       try {
@@ -116,10 +116,18 @@ export default function Prioritize() {
           .filter(Boolean);
         setRankedAttendees(ordered);
       } catch {
-        setRankedAttendees([...attendees]);
+        // Sort alphabetically by last name as default
+        const sorted = [...attendees].sort((a, b) => 
+          a.lastName.localeCompare(b.lastName)
+        );
+        setRankedAttendees(sorted);
       }
     } else {
-      setRankedAttendees([...attendees]);
+      // Sort alphabetically by last name as default
+      const sorted = [...attendees].sort((a, b) => 
+        a.lastName.localeCompare(b.lastName)
+      );
+      setRankedAttendees(sorted);
     }
   }, []);
 
@@ -302,10 +310,6 @@ Best regards`;
           </div>
           <p className="text-center text-sm text-muted-foreground mt-4">
             Download the CSV file and attach it to your email to clientsuccess@recruitmentevents.co
-          </p>
-          <p className="text-center text-xs text-muted-foreground/80 mt-6 italic max-w-2xl mx-auto">
-            Please note: Meetings are guaranteed, however there is no guarantee we will match your top 12/20 priorities. 
-            We use a blend of your rankings, current delegate needs, and attendee preferences to create the most valuable connections for all participants.
           </p>
         </AnimatedSection>
       </div>
