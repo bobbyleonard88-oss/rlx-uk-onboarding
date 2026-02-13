@@ -7,7 +7,8 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Download, RefreshCw } from "lucide-react";
+import { Download, RefreshCw, Users } from "lucide-react";
+import { Link } from "wouter";
 import { toast } from "sonner";
 import { attendees } from "@/lib/attendees";
 
@@ -98,15 +99,27 @@ export default function AdminDashboard() {
           <div className="text-sm text-muted-foreground">
             {submissions?.length || 0} total submissions
           </div>
-          <Button
-            onClick={() => refetch()}
-            variant="outline"
-            size="sm"
-            className="gap-2"
-          >
-            <RefreshCw className="w-4 h-4" />
-            Refresh
-          </Button>
+          <div className="flex gap-2">
+            <Link href="/admin/users">
+              <Button
+                variant="outline"
+                size="sm"
+                className="gap-2"
+              >
+                <Users className="w-4 h-4" />
+                Manage Users
+              </Button>
+            </Link>
+            <Button
+              onClick={() => refetch()}
+              variant="outline"
+              size="sm"
+              className="gap-2"
+            >
+              <RefreshCw className="w-4 h-4" />
+              Refresh
+            </Button>
+          </div>
         </div>
 
         <div className="space-y-4">

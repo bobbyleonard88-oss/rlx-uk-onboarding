@@ -20,6 +20,7 @@ import Prioritize from "./pages/Prioritize";
 import FAQ from "./pages/FAQ";
 import AdminDashboard from "./pages/AdminDashboard";
 import SponsorProfile from "./pages/SponsorProfile";
+import AdminUsers from "./pages/AdminUsers";
 function Router() {
   const [location] = useLocation();
   
@@ -46,6 +47,7 @@ function Router() {
           <Route path="/prioritize" component={Prioritize} />
           <Route path="/faq" component={FAQ} />
           <Route path="/admin" component={AdminDashboard} />
+          <Route path="/admin/users" component={AdminUsers} />
           <Route path="/sponsor-profile" component={SponsorProfile} />
           <Route path="/404" component={NotFound} />
           {/* Final fallback route */}

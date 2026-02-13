@@ -162,3 +162,24 @@ export async function getRankingsSubmissionsBySponsor(sponsorId: number) {
     .where(eq(rankingsSubmissions.sponsorId, sponsorId))
     .orderBy(desc(rankingsSubmissions.submittedAt));
 }
+
+// User management helpers
+export async function getAllUsers() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db
+    .select()
+    .from(users)
+    .orderBy(desc(users.createdAt));
+}
+
+export async function updateUserRole(userId: number, role: "user" | "admin") {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db
+    .update(users)
+    .set({ role, updatedAt: new Date() })
+    .where(eq(users.id, userId));
+}
