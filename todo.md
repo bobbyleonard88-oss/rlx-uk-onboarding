@@ -113,3 +113,24 @@
 - [x] Fix rankings submission to create sponsor record if needed (allows any order)
 - [x] Add warning banner on Prioritize page if intake form not completed
 - [x] Add success message on Intake page reminding to complete rankings
+
+## User Profile & Authentication UI
+
+### Admin Portal
+- [x] Add user profile display in admin navigation (show logged-in user email/name)
+- [x] Add logout button in admin navigation
+- [x] Make user info visible on all admin pages
+
+### Sponsor Pages
+- [x] Add user profile display in sponsor page navigation
+- [x] Add logout button for sponsors
+- [x] Show logged-in user on intake form and prioritize pages
+
+### Sponsor Dashboard
+- [x] Create sponsor dashboard page showing submission status
+- [x] Display intake form completion status (completed/pending)
+- [x] Display rankings completion status (completed/pending)
+- [x] Add "Edit Intake Form" button if already submitted
+- [x] Add "Edit Rankings" button if already submitted
+- [x] Show submission timestamps
+- [x] Add quick links to event information pages

@@ -7,7 +7,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Download, RefreshCw, Users, Calendar, CheckCircle, FileText, List, Archive, ArchiveRestore, AlertCircle } from "lucide-react";
+import { Download, RefreshCw, Users, Calendar, CheckCircle, FileText, List, Archive, ArchiveRestore, AlertCircle, LogOut, User } from "lucide-react";
 import { Link } from "wouter";
 import { toast } from "sonner";
 import { attendees } from "@/lib/attendees";
@@ -150,6 +150,23 @@ export default function AdminDashboard() {
                   </Button>
                 </Link>
               </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2 px-3 py-1.5 bg-slate-800/50 rounded-lg border border-slate-700">
+                <User className="w-4 h-4 text-slate-400" />
+                <span className="text-sm text-slate-300">{user?.email}</span>
+              </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  window.location.href = '/api/auth/logout';
+                }}
+                className="gap-2 text-slate-300 hover:text-white hover:bg-red-500/20"
+              >
+                <LogOut className="w-4 h-4" />
+                Logout
+              </Button>
             </div>
           </div>
         </div>

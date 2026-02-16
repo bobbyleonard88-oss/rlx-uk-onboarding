@@ -21,8 +21,8 @@ import FAQ from "./pages/FAQ";
 import AdminDashboard from "./pages/AdminDashboard";
 import SponsorProfile from "./pages/SponsorProfile";
 import AdminUsers from "./pages/AdminUsers";
-
 import AdminMeetings from "./pages/AdminMeetings";
+import SponsorDashboard from "./pages/SponsorDashboard";
 function Router() {
   const [location] = useLocation();
   
@@ -45,6 +45,7 @@ function Router() {
           <Route path="/meetings" component={Meetings} />
           <Route path="/matchmaking" component={Matchmaking} />
           <Route path="/team" component={Team} />
+          <Route path="/dashboard" component={SponsorDashboard} />
           <Route path="/intake" component={Intake} />
           <Route path="/prioritize" component={Prioritize} />
           <Route path="/faq" component={FAQ} />

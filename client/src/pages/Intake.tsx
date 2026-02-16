@@ -19,7 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { FormInput, Upload, CheckCircle } from "lucide-react";
+import { FormInput, Upload, CheckCircle, LogOut, User } from "lucide-react";
 import { toast } from "sonner";
 import { useLocation } from "wouter";
 
@@ -125,7 +125,30 @@ export default function Intake() {
   const showSecondRep = formData.meetingPackage === "20";
 
   return (
-    <div className="min-h-screen py-20">
+    <div className="min-h-screen">
+      {/* User Profile Header */}
+      <div className="border-b border-border/30 bg-background/50 backdrop-blur-sm sticky top-0 z-50">
+        <div className="container max-w-4xl">
+          <div className="flex items-center justify-end h-14 gap-3">
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-muted/50 rounded-lg border border-border">
+              <User className="w-4 h-4 text-muted-foreground" />
+              <span className="text-sm text-foreground">{user?.email}</span>
+            </div>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => {
+                window.location.href = '/api/auth/logout';
+              }}
+              className="gap-2 text-muted-foreground hover:text-foreground hover:bg-destructive/20"
+            >
+              <LogOut className="w-4 h-4" />
+              Logout
+            </Button>
+          </div>
+        </div>
+      </div>
+      <div className="py-20">
       <div className="container max-w-4xl">
         <AnimatedSection>
           <div className="mb-12 text-center">
@@ -449,6 +472,7 @@ export default function Intake() {
             </div>
           </AnimatedSection>
         </form>
+      </div>
       </div>
     </div>
   );

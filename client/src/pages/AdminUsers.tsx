@@ -10,7 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { Shield, UserPlus, RefreshCw } from "lucide-react";
+import { Shield, UserPlus, RefreshCw, LogOut, User } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Link } from "wouter";
@@ -119,6 +119,23 @@ export default function AdminUsers() {
                   </Button>
                 </Link>
               </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2 px-3 py-1.5 bg-slate-800/50 rounded-lg border border-slate-700">
+                <User className="w-4 h-4 text-slate-400" />
+                <span className="text-sm text-slate-300">{user?.email}</span>
+              </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  window.location.href = '/api/auth/logout';
+                }}
+                className="gap-2 text-slate-300 hover:text-white hover:bg-red-500/20"
+              >
+                <LogOut className="w-4 h-4" />
+                Logout
+              </Button>
             </div>
           </div>
         </div>
