@@ -246,9 +246,18 @@
 
 ## Time Slot Scheduling
 
-- [ ] Add day and timeSlot fields to meetings table schema
-- [ ] Add time slot assignment UI (Day 1/2, 10:00-11:00 / 1:30-2:30 / 3:30-4:30)
-- [ ] Add drag-and-drop to reorganize meetings across time slots
+- [x] Add timeSlot field (1-12) to meetings table schema
+- [x] Create time slot UI with 12 numbered slots (2 per hour):
+  * Slots 1-2: 10:00-11:00am
+  * Slots 3-4: 11:00am-12:00pm
+  * Slots 5-6: 1:30-2:30pm
+  * Slots 7-8: 2:30-3:30pm
+  * Slots 9-10: 3:30-4:30pm
+  * Slots 11-12: 4:30-5:30pm
+- [x] Display times around the numbered slots for context
+- [x] Add drag-and-drop to move meetings between slots
+- [x] Show time slot grid view for each sponsor's meetings
+- [x] Unassigned meetings pool with drag-and-drop
 - [ ] Add delegate swap functionality (replace one delegate with another)
-- [ ] Show time slot grid view for each sponsor's meetings
 - [ ] Validate that no delegate is double-booked in same time slot
+- [ ] Auto-assign meetings to slots when first generated

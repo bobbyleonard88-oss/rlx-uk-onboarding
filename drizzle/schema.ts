@@ -122,6 +122,7 @@ export const meetings = mysqlTable("meetings", {
   matchScore: int("matchScore"), // 0-100 AI confidence score
   isTopRanked: int("isTopRanked").default(0), // 1 if in vendor's top 12
   isPriority: int("isPriority").default(0), // 1 if manually tagged
+  timeSlot: int("timeSlot"), // 1-12 (2 slots per hour across 3 time blocks)
   status: mysqlEnum("status", ["suggested", "confirmed", "declined"]).default("suggested").notNull(),
   notes: text("notes"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),

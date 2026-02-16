@@ -43,6 +43,13 @@
       "when": 1771236336455,
       "tag": "0005_true_living_lightning",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1771256981776,
+      "tag": "0006_open_morgan_stark",
+      "breakpoints": true
     }
   ]
 }

@@ -10,6 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Sparkles, RefreshCw, LogOut, User, Trash2, Save } from "lucide-react";
+import TimeSlotScheduler from "@/components/TimeSlotScheduler";
 import { useState } from "react";
 import { toast } from "sonner";
 import { attendees } from "@/lib/attendees";
@@ -22,6 +23,7 @@ interface MatchResult {
   matchReason: string;
   isPriority: boolean;
   isTopRanked: boolean;
+  timeSlot?: number | null;
   delegateInfo: {
     firstName: string;
     lastName: string;
@@ -124,6 +126,7 @@ export default function AdminMeetings() {
         matchReason: m.matchReason,
         isPriority: m.isPriority,
         isTopRanked: m.isTopRanked,
+        timeSlot: m.timeSlot || null,
       })),
     });
   };
@@ -328,17 +331,17 @@ export default function AdminMeetings() {
           </Card>
         )}
         
-        {/* Generated Matches */}
+        {/* Time Slot Scheduler */}
         {editedMatches.length > 0 && (
           <Card className="glass-card">
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div>
                   <CardTitle className="text-white">
-                    Generated Matches ({editedMatches.length})
+                    Meeting Schedule ({editedMatches.length} meetings)
                   </CardTitle>
                   <CardDescription className="text-slate-300">
-                    Review and edit matches before saving
+                    Drag and drop meetings to assign time slots
                   </CardDescription>
                 </div>
                 <Button
@@ -347,63 +350,32 @@ export default function AdminMeetings() {
                   className="bg-green-600 hover:bg-green-700"
                 >
                   <Save className="w-4 h-4 mr-2" />
-                  Save Meetings
+                  Save Schedule
                 </Button>
               </div>
             </CardHeader>
             <CardContent>
-              <div className="space-y-3">
-                {editedMatches.map((match, index) => (
-                  <div
-                    key={match.attendeeId}
-                    className="flex items-center justify-between p-4 bg-slate-800/50 rounded-lg border border-slate-700"
-                  >
-                    <div className="flex items-center gap-4 flex-1">
-                      <div className="text-lg font-bold text-slate-400">#{index + 1}</div>
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2">
-                          <h4 className="font-semibold text-white">
-                            {match.delegateInfo.firstName} {match.delegateInfo.lastName}
-                          </h4>
-                          {match.isPriority && (
-                            <Badge className="bg-primary text-white">Priority</Badge>
-                          )}
-                          {match.isTopRanked && (
-                            <Badge variant="secondary">Top Ranked</Badge>
-                          )}
-                        </div>
-                        <p className="text-sm text-slate-400">
-                          {match.delegateInfo.company} • {match.delegateInfo.jobTitle}
-                        </p>
-                        <p className="text-xs text-slate-500 mt-1">
-                          {match.matchReason}
-                        </p>
-                        <p className="text-xs text-slate-500">
-                          Current meetings: {match.delegateInfo.currentMeetingCount}/8
-                        </p>
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-center gap-3">
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-primary">
-                          {match.matchScore}%
-                        </div>
-                        <div className="text-xs text-slate-400">Match Score</div>
-                      </div>
-                      
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handleRemoveMatch(match.attendeeId)}
-                        className="text-red-400 hover:text-red-300 hover:bg-red-950/20"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <TimeSlotScheduler
+                meetings={editedMatches.map((match, index) => ({
+                  id: index,
+                  attendeeId: match.attendeeId,
+                  delegateName: `${match.delegateInfo.firstName} ${match.delegateInfo.lastName}`,
+                  company: match.delegateInfo.company,
+                  jobTitle: match.delegateInfo.jobTitle,
+                  matchScore: match.matchScore,
+                  matchReason: match.matchReason,
+                  isPriority: match.isPriority,
+                  timeSlot: null, // Initially unassigned
+                }))}
+                onUpdateSlot={(meetingId, newSlot) => {
+                  setEditedMatches(prev => prev.map((match, index) => 
+                    index === meetingId ? { ...match, timeSlot: newSlot } : match
+                  ));
+                }}
+                onRemoveMeeting={(meetingId) => {
+                  setEditedMatches(prev => prev.filter((_, index) => index !== meetingId));
+                }}
+              />
             </CardContent>
           </Card>
         )}
