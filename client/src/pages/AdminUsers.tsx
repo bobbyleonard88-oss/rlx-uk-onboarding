@@ -40,6 +40,16 @@ export default function AdminUsers() {
     },
   });
 
+  const removeAdmin = trpc.admin.removeAdmin.useMutation({
+    onSuccess: () => {
+      refetch();
+      toast.success("Admin privileges removed successfully!");
+    },
+    onError: (error) => {
+      toast.error(error.message || "Failed to remove admin");
+    },
+  });
+
 
   const [newAdminEmail, setNewAdminEmail] = useState("");
 
@@ -191,7 +201,7 @@ export default function AdminUsers() {
                         Joined: {new Date(u.createdAt).toLocaleDateString()}
                       </p>
                     </div>
-                    {u.role !== "admin" && (
+                    {u.role !== "admin" ? (
                       <Button
                         onClick={() => handlePromote(u.id, u.email || "this user")}
                         disabled={promoteUser.isPending}
@@ -200,6 +210,17 @@ export default function AdminUsers() {
                       >
                         <Shield className="w-4 h-4" />
                         Promote to Admin
+                      </Button>
+                    ) : (
+                      <Button
+                        onClick={() => removeAdmin.mutate({ userId: u.id })}
+                        disabled={removeAdmin.isPending}
+                        size="sm"
+                        variant="destructive"
+                        className="gap-2"
+                      >
+                        <RefreshCw className={`w-4 h-4 ${removeAdmin.isPending ? 'animate-spin' : ''}`} />
+                        Remove Admin
                       </Button>
                     )}
                   </div>

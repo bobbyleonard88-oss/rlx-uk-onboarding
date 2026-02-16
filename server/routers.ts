@@ -239,6 +239,16 @@ export const appRouter = router({
         return { success: true };
       }),
     
+    // Remove admin privileges (demote to user)
+    removeAdmin: adminProcedure
+      .input(z.object({
+        userId: z.number(),
+      }))
+      .mutation(async ({ input }) => {
+        await db.updateUserRole(input.userId, "user");
+        return { success: true };
+      }),
+    
     // Vendor profile management
     getVendorProfiles: adminProcedure.query(async () => {
       return await db.getVendorProfiles();

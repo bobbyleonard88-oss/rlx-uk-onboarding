@@ -87,3 +87,7 @@
 
 ### Data Cleanup
 - [x] Remove Jen Candee from delegate database
+
+### Admin Management
+- [x] Add remove/demote admin functionality to user management page
+- [x] Add "Remove Admin" button next to each admin user
