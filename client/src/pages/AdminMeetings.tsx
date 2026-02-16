@@ -154,7 +154,7 @@ export default function AdminMeetings() {
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       {/* Header */}
       <header className="border-b border-slate-700 bg-slate-900/50 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+        <div className="container mx-auto px-4 py-4 flex items-center gap-6">
           <div>
             <h1 className="text-2xl font-bold text-white">RLX Admin</h1>
             <p className="text-sm text-slate-400">Meeting Generation</p>
@@ -165,11 +165,6 @@ export default function AdminMeetings() {
             <Link href="/admin">
               <Button variant="ghost" className="text-slate-300 hover:text-white">
                 Dashboard
-              </Button>
-            </Link>
-            <Link href="/matchmaking">
-              <Button variant="ghost" className="text-slate-300 hover:text-white">
-                Matchmaking
               </Button>
             </Link>
             <Link href="/admin/meetings">
@@ -183,6 +178,8 @@ export default function AdminMeetings() {
               </Button>
             </Link>
           </nav>
+          
+          <div className="flex-1"></div>
           
           {/* User Profile & Logout */}
           <div className="flex items-center gap-3">
