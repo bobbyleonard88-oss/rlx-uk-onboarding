@@ -72,9 +72,9 @@ export const appRouter = router({
         linkedinUrl: z.string(),
         meetingPackage: z.enum(["12", "20"]),
         secondRepName: z.string().optional(),
-        secondRepEmail: z.string().email().optional(),
+        secondRepEmail: z.string().email().optional().or(z.literal("")),
         secondRepJobTitle: z.string().optional(),
-        secondRepLinkedinUrl: z.string().optional(),
+        secondRepLinkedinUrl: z.string().optional().or(z.literal("")),
       }))
       .mutation(async ({ ctx, input }) => {
         // Get or create sponsor

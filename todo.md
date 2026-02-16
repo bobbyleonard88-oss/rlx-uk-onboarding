@@ -79,3 +79,11 @@
 - [x] Split form into "Company Information" and "Attendee Information" sections
 - [x] Add "Do you have 20 meetings booked?" question
 - [x] Only show 2nd representative fields if they have 20 meetings
+
+## Bug Fixes
+
+### Intake Form Validation
+- [x] Fix second representative email validation to allow empty values (optional field)
+
+### Data Cleanup
+- [x] Remove Jen Candee from delegate database

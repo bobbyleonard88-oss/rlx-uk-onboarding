@@ -751,21 +751,5 @@ export const attendees: Attendee[] = [
     crm: "HIRE (bespoke, in house)",
     marketIntelligence: "In house",
     otherTools: ""
-  },
-  {
-    id: "150796696175",
-    firstName: "Jennifer",
-    lastName: "Candee",
-    jobTitle: "Global VP TA",
-    company: "Prior IMI, Cargill, Mondelez",
-    companySize: "10,001-20,000",
-    industry: "Mechanical or Industrial Engineering",
-    teamSize: "2001-5000",
-    budgetAuthority: "Key Influencer",
-    assessmentTool: "TBC",
-    ats: "TBC",
-    crm: "TBC",
-    marketIntelligence: "TBC",
-    otherTools: ""
   }
 ];
