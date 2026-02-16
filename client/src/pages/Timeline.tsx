@@ -14,9 +14,9 @@ interface Deadline {
 
 export default function Timeline() {
   const deadlines: Deadline[] = [
+    { task: "Registration list shared with sponsors", date: "18th February (5 weeks before)", important: false },
     { task: "Partner Intake Form", date: "24th February", important: true },
     { task: "Dietary Requirements Form", date: "24th February", important: true },
-    { task: "Registration list shared with sponsors", date: "18th February (5 weeks before)", important: false },
     { task: "Meeting prioritisation completed", date: "25th February (4 weeks before)", important: false },
     { task: "Confirmed meeting schedules shared", date: "11th March (2 weeks before)", important: false },
   ];

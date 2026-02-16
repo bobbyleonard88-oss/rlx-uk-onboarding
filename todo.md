@@ -151,3 +151,7 @@
 - [x] Remove "Begin Your Journey" button from unauthenticated home page
 - [ ] Add logout button to top-right corner of content pages (Overview, Features, Rules, Timeline, etc.)
   Note: Intake, Prioritize, Admin pages already have logout in headers
+
+## Timeline Fixes
+
+- [x] Reorder key deadlines in chronological date order (earliest to latest)
