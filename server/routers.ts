@@ -516,6 +516,66 @@ export const appRouter = router({
       
       return { success: true, imported };
     }),
+    
+    // Generate meetings for a specific sponsor
+    generateMeetings: adminProcedure
+      .input(z.object({
+        sponsorId: z.number(),
+        meetingCount: z.number().min(12).max(20),
+      }))
+      .mutation(async ({ input }) => {
+        const { generateMeetingsForSponsor } = await import('./matchingAlgorithm');
+        const matches = await generateMeetingsForSponsor(input.sponsorId, input.meetingCount);
+        return { success: true, matches };
+      }),
+    
+    // Generate meetings for all sponsors
+    generateAllMeetings: adminProcedure.mutation(async () => {
+      const { generateMeetingsForAllSponsors } = await import('./matchingAlgorithm');
+      const results = await generateMeetingsForAllSponsors();
+      return { success: true, results: Array.from(results.entries()).map(([sponsorId, matches]) => ({ sponsorId, matches })) };
+    }),
+    
+    // Save generated meetings to database
+    saveMeetings: adminProcedure
+      .input(z.object({
+        sponsorId: z.number(),
+        meetings: z.array(z.object({
+          attendeeId: z.string(),
+          matchScore: z.number(),
+          matchReason: z.string(),
+          isPriority: z.boolean(),
+          isTopRanked: z.boolean(),
+        })),
+      }))
+      .mutation(async ({ input }) => {
+        // Delete existing meetings for this sponsor
+        await db.deleteMeetingsBySponsor(input.sponsorId);
+        
+        // Create new meetings
+        for (const meeting of input.meetings) {
+          await db.createMeeting({
+            sponsorId: input.sponsorId,
+            attendeeId: meeting.attendeeId,
+            matchScore: meeting.matchScore,
+            isTopRanked: meeting.isTopRanked ? 1 : 0,
+            isPriority: meeting.isPriority ? 1 : 0,
+            status: 'suggested',
+            notes: meeting.matchReason,
+          });
+        }
+        
+        return { success: true };
+      }),
+    
+    // Get meetings for a sponsor
+    getMeetingsBySponsor: adminProcedure
+      .input(z.object({
+        sponsorId: z.number(),
+      }))
+      .query(async ({ input }) => {
+        return await db.getMeetingsBySponsor(input.sponsorId);
+      }),
   }),
 });
 

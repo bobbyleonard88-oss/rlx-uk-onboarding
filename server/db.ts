@@ -106,6 +106,13 @@ export async function getSponsorById(sponsorId: number) {
   return result.length > 0 ? result[0] : undefined;
 }
 
+export async function getAllSponsors() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select().from(sponsors);
+}
+
 export async function upsertSponsor(sponsor: InsertSponsor) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
@@ -319,6 +326,24 @@ export async function deleteMeeting(id: number) {
   if (!db) throw new Error("Database not available");
   
   await db.delete(meetings).where(eq(meetings.id, id));
+}
+
+export async function getMeetingsBySponsor(sponsorId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db
+    .select()
+    .from(meetings)
+    .where(eq(meetings.sponsorId, sponsorId))
+    .orderBy(desc(meetings.matchScore));
+}
+
+export async function deleteMeetingsBySponsor(sponsorId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.delete(meetings).where(eq(meetings.sponsorId, sponsorId));
 }
 
 export async function updateRankingsSubmissionStatus(id: number, status: "pending" | "reviewed") {

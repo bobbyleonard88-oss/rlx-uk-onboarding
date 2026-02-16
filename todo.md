@@ -191,3 +191,40 @@
 - [x] Display list of currently tagged priority delegates for each sponsor
 - [x] Add remove/untag button for each tagged delegate
 - [x] Show count of tagged delegates (e.g., "3 delegates tagged as priority")
+
+## Intelligent Meeting Generation System
+
+### Core Matching Algorithm
+- [x] Create matching algorithm with three-tier priority system:
+  1. Priority delegates (tagged by admin) = 100% match score
+  2. Challenge/solution alignment (sponsor solutions match delegate challenges)
+  3. Sponsor's ranked delegate preferences
+- [x] Calculate match scores (1-100%) based on needs, painpoints, and opt-in status
+- [x] Generate one-liner match reason for each pairing
+- [x] Respect delegate capacity limit (max 8 vendor meetings per delegate)
+- [x] Filter out delegates who have reached their 8-meeting capacity
+
+### Sponsor Selection & Configuration
+- [x] Add sponsor dropdown selector on admin Meetings page
+- [x] Add meeting count dropdown (12 or 20 meetings based on sponsor's package)
+- [x] "Generate Meetings" button to run matching algorithm for selected sponsor
+- [x] "Match All" button to generate meetings for all sponsors at once
+
+### Meeting Results Display
+- [x] Show generated meeting list with delegate names, companies, job titles
+- [x] Display match score (1-100%) for each pairing
+- [x] Show one-liner match reason for each pairing
+- [x] Highlight priority delegates (100% matches)
+- [x] Show delegate's current meeting count (e.g., "3/8 meetings")
+
+### Manual Editing & Rematching
+- [x] Add "Remove" button to delete individual pairings
+- [x] Add "Rematch" button to regenerate meetings for that sponsor (just click Generate again)
+- [x] Save edited meetings to database
+- [ ] Add "Edit" button to manually swap delegates in/out (can remove and regenerate for now)
+- [ ] Prevent saving if delegate capacity would be exceeded (validation needed)
+
+### Database Schema
+- [x] Update meetings table to store match score and match reason (uses notes field)
+- [x] Add query to get delegate's current meeting count
+- [x] Add query to get available delegates (under 8 meetings)
