@@ -1,4 +1,4 @@
-import { desc, eq } from "drizzle-orm";
+import { desc, eq, and } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { InsertUser, users, sponsors, InsertSponsor, rankingsSubmissions, InsertRankingsSubmission, vendorProfiles, InsertVendorProfile, delegateProfiles, InsertDelegateProfile, priorityTags, InsertPriorityTag, meetings, InsertMeeting, intakeSubmissions, InsertIntakeSubmission } from "../drizzle/schema";
 import { ENV } from './_core/env';
@@ -270,6 +270,19 @@ export async function deletePriorityTag(id: number) {
   if (!db) throw new Error("Database not available");
   
   await db.delete(priorityTags).where(eq(priorityTags.id, id));
+}
+
+export async function removePriorityTagByAttendee(sponsorId: number, attendeeId: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.delete(priorityTags)
+    .where(
+      and(
+        eq(priorityTags.sponsorId, sponsorId),
+        eq(priorityTags.attendeeId, attendeeId)
+      )
+    );
 }
 
 // Meetings management

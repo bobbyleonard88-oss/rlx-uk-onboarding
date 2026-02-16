@@ -197,6 +197,7 @@ export const appRouter = router({
       for (const sub of rankingsSubmissions) {
         const sponsor = await db.getSponsorById(sub.sponsorId);
         const intakeSubmission = await db.getIntakeSubmissionBySponsor(sub.sponsorId);
+        const priorityTags = await db.getPriorityTagsBySponsor(sub.sponsorId);
         submissions.push({
           ...sub,
           companyName: sponsor?.companyName || "Unknown",
@@ -205,6 +206,7 @@ export const appRouter = router({
           intakeData: intakeSubmission || null,
           hasIntake: !!intakeSubmission,
           hasRankings: true,
+          priorityDelegates: priorityTags.map(t => t.attendeeId),
         });
         if (sub.sponsorId) processedSponsors.add(sub.sponsorId);
       }
@@ -213,6 +215,7 @@ export const appRouter = router({
       for (const intake of allIntakeSubmissions) {
         if (!processedSponsors.has(intake.sponsorId)) {
           const sponsor = await db.getSponsorById(intake.sponsorId);
+          const priorityTags = await db.getPriorityTagsBySponsor(intake.sponsorId);
           submissions.push({
             id: intake.id,
             sponsorId: intake.sponsorId,
@@ -225,6 +228,7 @@ export const appRouter = router({
             hasIntake: true,
             hasRankings: false,
             rankingsData: null,
+            priorityDelegates: priorityTags.map(t => t.attendeeId),
           });
         }
       }
@@ -417,6 +421,16 @@ export const appRouter = router({
           note: input.note || null,
         });
         return { success: true, id };
+      }),
+    
+    removePriorityTag: adminProcedure
+      .input(z.object({
+        sponsorId: z.number(),
+        attendeeId: z.string(),
+      }))
+      .mutation(async ({ input }) => {
+        await db.removePriorityTagByAttendee(input.sponsorId, input.attendeeId);
+        return { success: true };
       }),
     
     deletePriorityTag: adminProcedure

@@ -183,3 +183,11 @@
 - [x] Replace direct download links with "Preview" buttons that open modals
 - [x] Add delegate selection dropdown/list for priority tagging on admin dashboard
 - [x] Allow admins to select delegates from full attendee list and tag as priority
+
+## Priority Delegate Multi-Select
+
+- [x] Convert priority delegate tagging from single-select to multi-select
+- [x] Allow admins to tag multiple delegates at once for each sponsor
+- [x] Display list of currently tagged priority delegates for each sponsor
+- [x] Add remove/untag button for each tagged delegate
+- [x] Show count of tagged delegates (e.g., "3 delegates tagged as priority")

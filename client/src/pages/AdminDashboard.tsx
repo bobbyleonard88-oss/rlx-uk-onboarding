@@ -62,6 +62,13 @@ export default function AdminDashboard() {
     },
   });
 
+  const removePriorityTag = trpc.admin.removePriorityTag.useMutation({
+    onSuccess: () => {
+      refetch();
+      toast.success("Priority delegate removed");
+    },
+  });
+
   // Check if user is not logged in
   if (!loading && !user) {
     return (
@@ -356,9 +363,45 @@ export default function AdminDashboard() {
 
                   {/* Priority Tagging */}
                   <div className="pt-4 border-t border-slate-700">
-                    <label className="block text-sm font-medium text-slate-300 mb-2">
-                      Tag Priority Delegates (select from full attendee list)
-                    </label>
+                    <div className="flex items-center justify-between mb-2">
+                      <label className="block text-sm font-medium text-slate-300">
+                        Priority Delegates
+                      </label>
+                      <span className="text-xs text-slate-400">
+                        {submission.priorityDelegates?.length || 0} tagged
+                      </span>
+                    </div>
+                    
+                    {/* Currently Tagged Delegates */}
+                    {submission.priorityDelegates && submission.priorityDelegates.length > 0 && (
+                      <div className="mb-3 flex flex-wrap gap-2">
+                        {submission.priorityDelegates.map((delegateId: string) => {
+                          const delegate = attendees.find(a => a.id === delegateId);
+                          if (!delegate) return null;
+                          return (
+                            <div
+                              key={delegateId}
+                              className="inline-flex items-center gap-2 px-3 py-1.5 bg-primary/20 text-primary rounded-full text-sm"
+                            >
+                              <span>{delegate.firstName} {delegate.lastName}</span>
+                              <button
+                                onClick={() => {
+                                  removePriorityTag.mutate({
+                                    sponsorId: submission.sponsorId,
+                                    attendeeId: delegateId,
+                                  });
+                                }}
+                                className="hover:text-red-400 transition-colors"
+                              >
+                                ×
+                              </button>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                    
+                    {/* Add Delegate Dropdown */}
                     <Select
                       onValueChange={(attendeeId) => {
                         addPriorityTag.mutate({
@@ -368,14 +411,16 @@ export default function AdminDashboard() {
                       }}
                     >
                       <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select delegate to tag as priority..." />
+                        <SelectValue placeholder="Add delegate to priority list..." />
                       </SelectTrigger>
                       <SelectContent className="max-h-[300px]">
-                        {attendees.map((attendee) => (
-                          <SelectItem key={attendee.id} value={attendee.id}>
-                            {attendee.firstName} {attendee.lastName} - {attendee.company} ({attendee.jobTitle})
-                          </SelectItem>
-                        ))}
+                        {attendees
+                          .filter(a => !submission.priorityDelegates?.includes(a.id))
+                          .map((attendee) => (
+                            <SelectItem key={attendee.id} value={attendee.id}>
+                              {attendee.firstName} {attendee.lastName} - {attendee.company} ({attendee.jobTitle})
+                            </SelectItem>
+                          ))}
                       </SelectContent>
                     </Select>
                   </div>
