@@ -210,14 +210,25 @@ export default function AdminDashboard() {
               {filteredSubmissions?.length || 0} {showArchived ? "archived" : "active"} submissions
             </p>
           </div>
-          <Button
-            variant={showArchived ? "default" : "outline"}
-            onClick={() => setShowArchived(!showArchived)}
-            className="gap-2"
-          >
-            {showArchived ? <ArchiveRestore className="w-4 h-4" /> : <Archive className="w-4 h-4" />}
-            {showArchived ? "Show Active" : "Show Archived"}
-          </Button>
+          <div className="flex gap-3">
+            <Button
+              variant="outline"
+              onClick={() => refetch()}
+              className="gap-2"
+              disabled={isLoading}
+            >
+              <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
+              Refresh
+            </Button>
+            <Button
+              variant={showArchived ? "default" : "outline"}
+              onClick={() => setShowArchived(!showArchived)}
+              className="gap-2"
+            >
+              {showArchived ? <ArchiveRestore className="w-4 h-4" /> : <Archive className="w-4 h-4" />}
+              {showArchived ? "Show Active" : "Show Archived"}
+            </Button>
+          </div>
         </div>
 
         {/* Submissions Grid */}

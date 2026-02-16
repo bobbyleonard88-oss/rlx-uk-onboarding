@@ -1,0 +1,22 @@
+{
+  "query": "SELECT id, sponsorId, companyName, submittedAt FROM intakeSubmissions;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT id, sponsorId, companyName, submittedAt FROM intakeSubmissions;",
+  "rows": [
+    {
+      "id": "1",
+      "sponsorId": "1",
+      "companyName": "Test",
+      "submittedAt": "2026-02-16 11:03:15"
+    },
+    {
+      "id": "30001",
+      "sponsorId": "30001",
+      "companyName": "AI Limited",
+      "submittedAt": "2026-02-16 13:00:23"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tsponsorId\tcompanyName\tsubmittedAt\n1\t1\tTest\t2026-02-16 11:03:15\n30001\t30001\tAI Limited\t2026-02-16 13:00:23\n",
+  "stderr": "",
+  "execution_time_ms": 346
+}

@@ -1,0 +1,30 @@
+{
+  "query": "SELECT id, sponsorId, submittedAt FROM rankingsSubmissions;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT id, sponsorId, submittedAt FROM rankingsSubmissions;",
+  "rows": [
+    {
+      "id": "1",
+      "sponsorId": "1",
+      "submittedAt": "2026-02-13 21:53:57"
+    },
+    {
+      "id": "30001",
+      "sponsorId": "1",
+      "submittedAt": "2026-02-16 11:03:30"
+    },
+    {
+      "id": "60001",
+      "sponsorId": "1",
+      "submittedAt": "2026-02-16 12:14:03"
+    },
+    {
+      "id": "60002",
+      "sponsorId": "30001",
+      "submittedAt": "2026-02-16 13:00:47"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tsponsorId\tsubmittedAt\n1\t1\t2026-02-13 21:53:57\n30001\t1\t2026-02-16 11:03:30\n60001\t1\t2026-02-16 12:14:03\n60002\t30001\t2026-02-16 13:00:47\n",
+  "stderr": "",
+  "execution_time_ms": 350
+}

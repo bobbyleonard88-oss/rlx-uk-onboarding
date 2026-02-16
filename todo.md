@@ -166,3 +166,10 @@
 
 - [x] Update FAQ page next button to navigate to Team page
 - [x] Replace Team page "Next: Partner Intake Form" button with customer success contact button
+
+## Critical Bugs - Admin Portal
+
+- [x] Debug why intake form submissions are not appearing on admin portal (fixed: added isArchived field to query)
+- [x] Debug why rankings submissions are not appearing on admin portal (fixed: added isArchived field to query)
+- [x] Restore refresh button to admin dashboard sponsor submissions page
+- [ ] Add "View Details" modal to display full intake form data instead of just download

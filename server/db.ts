@@ -149,6 +149,8 @@ export async function getAllRankingsSubmissions() {
       rankingsData: rankingsSubmissions.rankingsData,
       submittedAt: rankingsSubmissions.submittedAt,
       status: rankingsSubmissions.status,
+      isArchived: rankingsSubmissions.isArchived,
+      isReviewed: rankingsSubmissions.isReviewed,
       companyName: sponsors.companyName,
       contactName: sponsors.contactName,
       contactEmail: sponsors.contactEmail,
