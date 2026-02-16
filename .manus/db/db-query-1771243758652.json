@@ -1,0 +1,24 @@
+{
+  "query": "SELECT id, email, name, role, openId FROM users ORDER BY lastSignedIn DESC LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT id, email, name, role, openId FROM users ORDER BY lastSignedIn DESC LIMIT 10;",
+  "rows": [
+    {
+      "id": "1",
+      "email": "bobbyleonard88@googlemail.com",
+      "name": "Bobby Leonard",
+      "role": "admin",
+      "openId": "dsYqpKjJP4UJTm24fKJcg6"
+    },
+    {
+      "id": "30019",
+      "email": "bobby@recruitmentevents.co",
+      "name": "Bobby Leonard",
+      "role": "admin",
+      "openId": "7SMJahC8tZCULrKXdQAiWe"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\temail\tname\trole\topenId\n1\tbobbyleonard88@googlemail.com\tBobby Leonard\tadmin\tdsYqpKjJP4UJTm24fKJcg6\n30019\tbobby@recruitmentevents.co\tBobby Leonard\tadmin\t7SMJahC8tZCULrKXdQAiWe\n",
+  "stderr": "",
+  "execution_time_ms": 349
+}

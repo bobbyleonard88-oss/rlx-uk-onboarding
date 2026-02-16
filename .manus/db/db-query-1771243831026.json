@@ -1,0 +1,18 @@
+{
+  "query": "SELECT s.id as sponsorId, s.companyName, s.userId, i.id as intakeId, i.companyName as intakeCompanyName, i.submittedAt \nFROM sponsors s \nLEFT JOIN intakeSubmissions i ON s.id = i.sponsorId \nORDER BY s.id DESC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT s.id as sponsorId, s.companyName, s.userId, i.id as intakeId, i.companyName as intakeCompanyName, i.submittedAt \nFROM sponsors s \nLEFT JOIN intakeSubmissions i ON s.id = i.sponsorId \nORDER BY s.id DESC;",
+  "rows": [
+    {
+      "sponsorId": "1",
+      "companyName": "Test",
+      "userId": "1",
+      "intakeId": "1",
+      "intakeCompanyName": "Test",
+      "submittedAt": "2026-02-16 11:03:15"
+    }
+  ],
+  "messages": [],
+  "stdout": "sponsorId\tcompanyName\tuserId\tintakeId\tintakeCompanyName\tsubmittedAt\n1\tTest\t1\t1\tTest\t2026-02-16 11:03:15\n",
+  "stderr": "",
+  "execution_time_ms": 346
+}

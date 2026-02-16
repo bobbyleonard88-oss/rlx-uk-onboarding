@@ -115,6 +115,7 @@ export default function Prioritize() {
   const { user, loading } = useAuth({ redirectOnUnauthenticated: true });
   const [, setLocation] = useLocation();
   const { data: profile } = trpc.sponsor.getProfile.useQuery();
+  const { data: existingIntake } = trpc.intake.getSubmission.useQuery();
   const submitRankings = trpc.rankings.submit.useMutation();
   
   const [rankedAttendees, setRankedAttendees] = useState<Attendee[]>([]);
@@ -300,6 +301,25 @@ export default function Prioritize() {
             </p>
           </div>
         </AnimatedSection>
+
+        {!existingIntake && (
+          <AnimatedSection delay={50}>
+            <div className="glass-card p-6 bg-yellow-900/30 border-yellow-600/50 rounded-lg mb-6">
+              <h3 className="text-lg font-heading font-bold text-yellow-400 mb-2 text-center">⚠️ Intake Form Required</h3>
+              <p className="text-sm text-yellow-200 leading-relaxed text-center mb-3">
+                You haven't completed the intake form yet. Both the intake form and meeting rankings are required for your submission to be complete.
+              </p>
+              <div className="flex justify-center">
+                <Button
+                  onClick={() => setLocation("/intake")}
+                  className="bg-yellow-600 hover:bg-yellow-700 text-white"
+                >
+                  Complete Intake Form First
+                </Button>
+              </div>
+            </div>
+          </AnimatedSection>
+        )}
 
         <AnimatedSection delay={100}>
           <div className="glass-card p-6 bg-destructive/20 border-destructive/50 rounded-lg mb-6">

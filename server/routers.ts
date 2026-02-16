@@ -126,10 +126,20 @@ export const appRouter = router({
         rankingsData: z.string(), // JSON string of ranked attendee IDs
       }))
       .mutation(async ({ ctx, input }) => {
-        // Get or create sponsor
+        // Get or create sponsor (using minimal info from user profile)
         let sponsor = await db.getSponsorByUserId(ctx.user.id);
         if (!sponsor) {
-          throw new Error("Please complete your sponsor profile first");
+          // Create a basic sponsor record if it doesn't exist
+          const sponsorId = await db.upsertSponsor({
+            userId: ctx.user.id,
+            companyName: ctx.user.name || "Unknown Company",
+            contactName: ctx.user.name || "Unknown Contact",
+            contactEmail: ctx.user.email || "unknown@example.com",
+          });
+          sponsor = await db.getSponsorById(sponsorId);
+          if (!sponsor) {
+            throw new Error("Failed to create sponsor record");
+          }
         }
 
         // Create submission
@@ -174,24 +184,55 @@ export const appRouter = router({
 
   // Admin router (CS team dashboard)
   admin: router({
-    // Get all rankings submissions with company info and intake data
+    // Get all submissions (rankings + intake, including partial submissions)
     getAllSubmissions: adminProcedure.query(async () => {
-      const submissions = await db.getAllRankingsSubmissions();
-      // Enrich with sponsor/intake data
-      const enriched = await Promise.all(
-        submissions.map(async (sub) => {
-          const sponsor = await db.getSponsorById(sub.sponsorId);
-          const intakeSubmission = await db.getIntakeSubmissionBySponsor(sub.sponsorId);
-          return {
-            ...sub,
-            companyName: sponsor?.companyName || "Unknown",
-            contactName: sponsor?.contactName || "Unknown",
-            contactEmail: sponsor?.contactEmail || "Unknown",
-            intakeData: intakeSubmission || null,
-          };
-        })
+      const rankingsSubmissions = await db.getAllRankingsSubmissions();
+      const allIntakeSubmissions = await db.getAllIntakeSubmissions();
+      
+      // Create a map to track which sponsors we've already processed
+      const processedSponsors = new Set<number>();
+      const submissions: any[] = [];
+      
+      // Process rankings submissions
+      for (const sub of rankingsSubmissions) {
+        const sponsor = await db.getSponsorById(sub.sponsorId);
+        const intakeSubmission = await db.getIntakeSubmissionBySponsor(sub.sponsorId);
+        submissions.push({
+          ...sub,
+          companyName: sponsor?.companyName || "Unknown",
+          contactName: sponsor?.contactName || "Unknown",
+          contactEmail: sponsor?.contactEmail || "Unknown",
+          intakeData: intakeSubmission || null,
+          hasIntake: !!intakeSubmission,
+          hasRankings: true,
+        });
+        if (sub.sponsorId) processedSponsors.add(sub.sponsorId);
+      }
+      
+      // Add intake-only submissions (no rankings yet)
+      for (const intake of allIntakeSubmissions) {
+        if (!processedSponsors.has(intake.sponsorId)) {
+          const sponsor = await db.getSponsorById(intake.sponsorId);
+          submissions.push({
+            id: intake.id,
+            sponsorId: intake.sponsorId,
+            submittedAt: intake.submittedAt,
+            isArchived: false,
+            companyName: intake.companyName || sponsor?.companyName || "Unknown",
+            contactName: intake.firstName + " " + intake.lastName,
+            contactEmail: intake.email,
+            intakeData: intake,
+            hasIntake: true,
+            hasRankings: false,
+            rankingsData: null,
+          });
+        }
+      }
+      
+      // Sort by submission date
+      return submissions.sort((a, b) => 
+        new Date(b.submittedAt).getTime() - new Date(a.submittedAt).getTime()
       );
-      return enriched;
     }),
     
     // Get all delegates

@@ -63,7 +63,7 @@ export default function Intake() {
   
   const submitIntake = trpc.intake.submit.useMutation({
     onSuccess: () => {
-      toast.success("Intake form submitted successfully!");
+      toast.success("Intake form submitted successfully! Please complete your meeting rankings next.");
       navigate("/prioritize");
     },
     onError: (error) => {

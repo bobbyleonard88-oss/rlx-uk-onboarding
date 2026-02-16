@@ -1,0 +1,26 @@
+{
+  "query": "SELECT rs.id, rs.sponsorId, rs.submittedAt, rs.isArchived, s.companyName, s.userId \nFROM rankingsSubmissions rs \nLEFT JOIN sponsors s ON rs.sponsorId = s.id \nORDER BY rs.submittedAt DESC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT rs.id, rs.sponsorId, rs.submittedAt, rs.isArchived, s.companyName, s.userId \nFROM rankingsSubmissions rs \nLEFT JOIN sponsors s ON rs.sponsorId = s.id \nORDER BY rs.submittedAt DESC;",
+  "rows": [
+    {
+      "id": "30001",
+      "sponsorId": "1",
+      "submittedAt": "2026-02-16 11:03:30",
+      "isArchived": "0",
+      "companyName": "Test",
+      "userId": "1"
+    },
+    {
+      "id": "1",
+      "sponsorId": "1",
+      "submittedAt": "2026-02-13 21:53:57",
+      "isArchived": "0",
+      "companyName": "Test",
+      "userId": "1"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tsponsorId\tsubmittedAt\tisArchived\tcompanyName\tuserId\n30001\t1\t2026-02-16 11:03:30\t0\tTest\t1\n1\t1\t2026-02-13 21:53:57\t0\tTest\t1\n",
+  "stderr": "",
+  "execution_time_ms": 354
+}

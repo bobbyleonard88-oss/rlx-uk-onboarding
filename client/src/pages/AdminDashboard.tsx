@@ -7,7 +7,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Download, RefreshCw, Users, Calendar, CheckCircle, FileText, List, Archive, ArchiveRestore } from "lucide-react";
+import { Download, RefreshCw, Users, Calendar, CheckCircle, FileText, List, Archive, ArchiveRestore, AlertCircle } from "lucide-react";
 import { Link } from "wouter";
 import { toast } from "sonner";
 import { attendees } from "@/lib/attendees";
@@ -229,17 +229,59 @@ export default function AdminDashboard() {
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
+                  {/* Completion Status */}
+                  <div className="flex gap-2 mb-4">
+                    {(submission as any).hasIntake ? (
+                      <span className="inline-flex items-center gap-1 px-2 py-1 bg-green-500/20 text-green-400 rounded text-xs">
+                        <CheckCircle className="w-3 h-3" />
+                        Intake Complete
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1 px-2 py-1 bg-yellow-500/20 text-yellow-400 rounded text-xs">
+                        <AlertCircle className="w-3 h-3" />
+                        Intake Missing
+                      </span>
+                    )}
+                    {(submission as any).hasRankings ? (
+                      <span className="inline-flex items-center gap-1 px-2 py-1 bg-green-500/20 text-green-400 rounded text-xs">
+                        <CheckCircle className="w-3 h-3" />
+                        Rankings Complete
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1 px-2 py-1 bg-yellow-500/20 text-yellow-400 rounded text-xs">
+                        <AlertCircle className="w-3 h-3" />
+                        Rankings Missing
+                      </span>
+                    )}
+                  </div>
+
                   {/* Action Buttons */}
                   <div className="flex gap-3">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => downloadRankings(submission)}
-                      className="gap-2"
-                    >
-                      <Download className="w-4 h-4" />
-                      Download Rankings
-                    </Button>
+                    {(submission as any).hasIntake && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          // TODO: Show intake data modal
+                          alert('View Profile feature coming soon');
+                        }}
+                        className="gap-2"
+                      >
+                        <FileText className="w-4 h-4" />
+                        View Profile
+                      </Button>
+                    )}
+                    {(submission as any).hasRankings && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => downloadRankings(submission)}
+                        className="gap-2"
+                      >
+                        <Download className="w-4 h-4" />
+                        Download Rankings
+                      </Button>
+                    )}
                   </div>
 
                   {/* Priority Tagging */}

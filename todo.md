@@ -101,3 +101,15 @@
 - [x] Pre-populate intake form with previously submitted data
 - [ ] Pre-populate rankings with previously submitted data (in progress)
 - [x] Allow sponsors to edit and resubmit to overwrite previous submissions
+
+## Urgent Fixes
+
+- [x] Re-add user as admin (accidentally removed)
+- [x] Debug and fix why sponsor submissions are not appearing on admin dashboard
+- [x] Add intake form requirement check before rankings submission
+- [x] Add rankings requirement check before intake form completion
+- [x] Show partial submissions on admin dashboard (intake only or rankings only)
+- [x] Add clear indicators for incomplete submissions
+- [x] Fix rankings submission to create sponsor record if needed (allows any order)
+- [x] Add warning banner on Prioritize page if intake form not completed
+- [x] Add success message on Intake page reminding to complete rankings

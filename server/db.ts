@@ -425,3 +425,13 @@ export async function unarchiveSubmission(submissionId: number) {
     .set({ isArchived: 0 })
     .where(eq(rankingsSubmissions.id, submissionId));
 }
+
+export async function getAllIntakeSubmissions() {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get intake submissions: database not available");
+    return [];
+  }
+  
+  return await db.select().from(intakeSubmissions).orderBy(desc(intakeSubmissions.submittedAt));
+}
