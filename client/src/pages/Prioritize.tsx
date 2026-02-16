@@ -59,7 +59,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { GripVertical, Download, LogOut, User } from "lucide-react";
+import { GripVertical, LogOut, User } from "lucide-react";
 import { attendees, Attendee } from "@/lib/attendees";
 import { toast } from "sonner";
 
@@ -227,37 +227,7 @@ export default function Prioritize() {
     }
   }
 
-  function downloadCSV() {
-    // Save to localStorage first
-    const ids = rankedAttendees.map((a) => a.id);
-    localStorage.setItem("rlx-meeting-priorities", JSON.stringify(ids));
 
-    // Create CSV content
-    const csvHeader = "Rank,First Name,Last Name,Job Title,Company,Industry,Company Size\n";
-    const csvRows = rankedAttendees
-      .map((a, i) => 
-        `${i + 1},"${a.firstName}","${a.lastName}","${a.jobTitle}","${a.company}","${a.industry}","${a.companySize}"`
-      )
-      .join('\n');
-    
-    const csvContent = csvHeader + csvRows;
-    
-    // Create blob and download
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
-    const url = URL.createObjectURL(blob);
-    
-    link.setAttribute('href', url);
-    link.setAttribute('download', 'rlx-meeting-priorities.csv');
-    link.style.visibility = 'hidden';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    
-    toast.success("CSV downloaded successfully!", {
-      description: "Your meeting priorities have been saved to a CSV file."
-    });
-  }
 
   async function handleSubmit() {
     // Check if profile is set up
@@ -267,9 +237,6 @@ export default function Prioritize() {
       return;
     }
 
-    // Download CSV first
-    downloadCSV();
-    
     // Submit to backend
     setIsSubmitting(true);
     try {
@@ -365,7 +332,7 @@ export default function Prioritize() {
             </p>
             <p className="text-sm text-foreground/90 leading-relaxed text-center">
               <strong className="text-accent">Instructions:</strong> Drag rows to reorder them, or use the sort dropdown below. 
-              Your top priorities should be at the top. When finished, click Submit to download the CSV.
+              Your top priorities should be at the top. When finished, click Submit to send your rankings to the admin team.
             </p>
           </div>
         </AnimatedSection>
@@ -448,15 +415,6 @@ export default function Prioritize() {
         <AnimatedSection delay={300}>
           <div className="flex justify-center gap-4 flex-wrap mb-8">
             <Button
-              onClick={downloadCSV}
-              size="lg"
-              variant="outline"
-              className="font-heading gap-2 px-8 border-accent/30 hover:border-accent hover:bg-accent/10"
-            >
-              <Download className="w-5 h-5" />
-              Download CSV
-            </Button>
-            <Button
               onClick={handleSubmit}
               size="lg"
               disabled={isSubmitting}
@@ -479,8 +437,6 @@ export default function Prioritize() {
             <DialogTitle className="text-foreground font-heading text-2xl">Rankings Submitted Successfully!</DialogTitle>
             <DialogDescription className="text-foreground/90 text-base leading-relaxed pt-4">
               Your meeting priorities have been submitted to our team. The CS team has been notified and will review your rankings.
-              <br /><br />
-              A CSV copy has also been downloaded to your device for your records.
             </DialogDescription>
           </DialogHeader>
           <div className="flex justify-end pt-4">

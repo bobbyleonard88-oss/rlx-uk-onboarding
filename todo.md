@@ -228,3 +228,9 @@
 - [x] Update meetings table to store match score and match reason (uses notes field)
 - [x] Add query to get delegate's current meeting count
 - [x] Add query to get available delegates (under 8 meetings)
+
+## Prioritise Meetings Page Updates
+
+- [x] Remove download CSV button from Prioritise Meetings page
+- [x] Remove any mentions of downloading rankings from Prioritise page
+- [x] Keep submission functionality only (data goes to admin portal)
