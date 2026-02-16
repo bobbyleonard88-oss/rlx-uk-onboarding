@@ -47,6 +47,60 @@ export const appRouter = router({
       }),
   }),
 
+  // Intake form router
+  intake: router({    
+    // Get user's intake submission
+    getSubmission: protectedProcedure.query(async ({ ctx }) => {
+      const sponsor = await db.getSponsorByUserId(ctx.user.id);
+      if (!sponsor) return null;
+      return await db.getIntakeSubmissionBySponsor(sponsor.id);
+    }),
+    
+    // Submit intake form
+    submit: protectedProcedure
+      .input(z.object({
+        companyName: z.string(),
+        technologyType: z.string(),
+        companyLogoUrl: z.string().optional(),
+        companyBoilerplate: z.string(),
+        keyChallenges: z.string(),
+        targetOrgSize: z.string(),
+        firstName: z.string(),
+        lastName: z.string(),
+        email: z.string().email(),
+        jobTitle: z.string(),
+        linkedinUrl: z.string(),
+        meetingPackage: z.enum(["12", "20"]),
+        secondRepName: z.string().optional(),
+        secondRepEmail: z.string().email().optional(),
+        secondRepJobTitle: z.string().optional(),
+        secondRepLinkedinUrl: z.string().optional(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        // Get or create sponsor
+        const sponsorId = await db.upsertSponsor({
+          userId: ctx.user.id,
+          companyName: input.companyName,
+          contactName: `${input.firstName} ${input.lastName}`,
+          contactEmail: input.email,
+        });
+        
+        // Create or update intake submission
+        const submissionId = await db.upsertIntakeSubmission({
+          sponsorId,
+          userId: ctx.user.id,
+          ...input,
+          companyLogoUrl: input.companyLogoUrl || null,
+          secondRepName: input.secondRepName || null,
+          secondRepEmail: input.secondRepEmail || null,
+          secondRepJobTitle: input.secondRepJobTitle || null,
+          secondRepLinkedinUrl: input.secondRepLinkedinUrl || null,
+        });
+        
+        return { success: true, submissionId };
+      }),
+  }),
+
   // Rankings router
   rankings: router({
     // Submit rankings
@@ -103,10 +157,39 @@ export const appRouter = router({
 
   // Admin router (CS team dashboard)
   admin: router({
-    // Get all rankings submissions
+    // Get all rankings submissions with company info
     getAllSubmissions: adminProcedure.query(async () => {
-      return await db.getAllRankingsSubmissions();
+      const submissions = await db.getAllRankingsSubmissions();
+      // Enrich with sponsor/intake data
+      const enriched = await Promise.all(
+        submissions.map(async (sub) => {
+          const sponsor = await db.getSponsorById(sub.sponsorId);
+          return {
+            ...sub,
+            companyName: sponsor?.companyName || "Unknown",
+            contactName: sponsor?.contactName || "Unknown",
+            contactEmail: sponsor?.contactEmail || "Unknown",
+          };
+        })
+      );
+      return enriched;
     }),
+    
+    // Get all delegates
+    getAllDelegates: adminProcedure.query(async () => {
+      return await db.getDelegateProfiles();
+    }),
+    
+    // Update submission status
+    updateSubmissionStatus: adminProcedure
+      .input(z.object({
+        id: z.number(),
+        status: z.enum(["pending", "reviewed"]),
+      }))
+      .mutation(async ({ input }) => {
+        await db.updateSubmissionStatus(input.id, input.status);
+        return { success: true };
+      }),
     
     // Get all users
     getAllUsers: adminProcedure.query(async () => {
@@ -254,22 +337,6 @@ export const appRouter = router({
         await db.deletePriorityTag(input.id);
         return { success: true };
       }),
-    
-    // Update submission status
-    updateSubmissionStatus: adminProcedure
-      .input(z.object({
-        id: z.number(),
-        status: z.enum(["pending", "reviewed"]),
-      }))
-      .mutation(async ({ input }) => {
-        await db.updateRankingsSubmissionStatus(input.id, input.status);
-        return { success: true };
-      }),
-    
-    // Get all delegates
-    getAllDelegates: adminProcedure.query(async () => {
-      return await db.getAllDelegateProfiles();
-    }),
     
     // Upload vendor profile document
     uploadVendorProfile: adminProcedure

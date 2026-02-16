@@ -21,7 +21,7 @@ import FAQ from "./pages/FAQ";
 import AdminDashboard from "./pages/AdminDashboard";
 import SponsorProfile from "./pages/SponsorProfile";
 import AdminUsers from "./pages/AdminUsers";
-import AdminProfiles from "./pages/AdminProfiles";
+
 import AdminMeetings from "./pages/AdminMeetings";
 function Router() {
   const [location] = useLocation();
@@ -50,7 +50,7 @@ function Router() {
           <Route path="/faq" component={FAQ} />
           <Route path="/admin" component={AdminDashboard} />
           <Route path="/admin/users" component={AdminUsers} />
-          <Route path="/admin/profiles" component={AdminProfiles} />
+
           <Route path="/admin/meetings" component={AdminMeetings} />
           <Route path="/sponsor-profile" component={SponsorProfile} />
           <Route path="/404" component={NotFound} />

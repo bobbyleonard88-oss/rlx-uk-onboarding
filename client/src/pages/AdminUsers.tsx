@@ -13,10 +13,12 @@ import { Badge } from "@/components/ui/badge";
 import { Shield, UserPlus, RefreshCw } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { Link } from "wouter";
 
 export default function AdminUsers() {
   const { user, loading } = useAuth({ redirectOnUnauthenticated: true });
   const { data: allUsers, isLoading, refetch } = trpc.admin.getAllUsers.useQuery();
+  
   const promoteUser = trpc.admin.promoteToAdmin.useMutation({
     onSuccess: () => {
       refetch();
@@ -27,7 +29,19 @@ export default function AdminUsers() {
     },
   });
 
+  const promoteByEmail = trpc.admin.promoteUserByEmail.useMutation({
+    onSuccess: () => {
+      setNewAdminEmail("");
+      refetch();
+      toast.success("User promoted to admin successfully!");
+    },
+    onError: (error) => {
+      toast.error(error.message || "Failed to promote user");
+    },
+  });
+
   const [searchEmail, setSearchEmail] = useState("");
+  const [newAdminEmail, setNewAdminEmail] = useState("");
 
   // Check if user is admin
   if (!loading && user && user.role !== "admin") {
@@ -51,43 +65,112 @@ export default function AdminUsers() {
     }
   }
 
+  function handlePromoteByEmail(e: React.FormEvent) {
+    e.preventDefault();
+    if (!newAdminEmail) {
+      toast.error("Please enter an email address");
+      return;
+    }
+    promoteByEmail.mutate({ email: newAdminEmail });
+  }
+
   const filteredUsers = allUsers?.filter(u => 
     !searchEmail || u.email?.toLowerCase().includes(searchEmail.toLowerCase())
   );
 
   if (loading || isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <RefreshCw className="w-8 h-8 animate-spin mx-auto mb-4 text-accent" />
-          <p className="text-muted-foreground">Loading users...</p>
-        </div>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+        <RefreshCw className="w-8 h-8 animate-spin text-primary" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen py-20 px-4">
-      <div className="container max-w-6xl">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+      {/* Admin Navigation */}
+      <nav className="border-b border-slate-700/50 bg-slate-900/50 backdrop-blur-sm sticky top-0 z-50">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center gap-8">
+              <h2 className="text-xl font-heading font-bold text-white">RLX Admin</h2>
+              <div className="flex gap-1">
+                <Link href="/admin">
+                  <Button variant="ghost" className="text-slate-300 hover:bg-primary/20 hover:text-white">
+                    Dashboard
+                  </Button>
+                </Link>
+                <Link href="/admin/meetings">
+                  <Button variant="ghost" className="text-slate-300 hover:bg-primary/20 hover:text-white">
+                    Matchmaking
+                  </Button>
+                </Link>
+                <Link href="/admin/users">
+                  <Button variant="ghost" className="text-white hover:bg-primary/20">
+                    Users
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <div className="container mx-auto py-12 px-4 max-w-6xl">
         <div className="mb-8">
-          <h1 className="text-4xl font-heading font-bold text-foreground mb-4">
+          <h1 className="text-4xl font-heading font-bold text-white mb-2">
             User Management
           </h1>
-          <p className="text-lg text-muted-foreground">
+          <p className="text-lg text-slate-300">
             Manage admin access for users
           </p>
         </div>
 
+        {/* Add Admin by Email */}
         <Card className="glass-card mb-6">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <UserPlus className="w-5 h-5" />
-              Search Users
+            <CardTitle className="flex items-center gap-2 text-white">
+              <UserPlus className="w-5 h-5 text-accent" />
+              Promote User to Admin
             </CardTitle>
+            <CardDescription className="text-slate-300">
+              Enter the email address of a user who has logged in at least once
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handlePromoteByEmail} className="flex gap-3">
+              <Input
+                type="email"
+                placeholder="user@example.com"
+                value={newAdminEmail}
+                onChange={(e) => setNewAdminEmail(e.target.value)}
+                className="flex-1"
+                required
+              />
+              <Button
+                type="submit"
+                disabled={promoteByEmail.isPending}
+                className="gap-2"
+              >
+                {promoteByEmail.isPending ? (
+                  <RefreshCw className="w-4 h-4 animate-spin" />
+                ) : (
+                  <Shield className="w-4 h-4" />
+                )}
+                Promote
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+
+        {/* Search Users */}
+        <Card className="glass-card mb-6">
+          <CardHeader>
+            <CardTitle className="text-white">Search Users</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
-              <Label htmlFor="searchEmail">Search by Email</Label>
+              <Label htmlFor="searchEmail" className="text-slate-300">Search by Email</Label>
               <Input
                 id="searchEmail"
                 type="email"
@@ -99,15 +182,16 @@ export default function AdminUsers() {
           </CardContent>
         </Card>
 
+        {/* Users List */}
         <div className="space-y-4">
           {filteredUsers && filteredUsers.length > 0 ? (
             filteredUsers.map((u) => (
-              <Card key={u.id} className="glass-card">
+              <Card key={u.id} className="glass-card border-slate-700">
                 <CardContent className="py-4">
                   <div className="flex justify-between items-center">
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-2">
-                        <h3 className="text-lg font-medium text-foreground">
+                        <h3 className="text-lg font-medium text-white">
                           {u.name || "Unnamed User"}
                         </h3>
                         <Badge variant={u.role === "admin" ? "default" : "secondary"}>
@@ -121,8 +205,8 @@ export default function AdminUsers() {
                           )}
                         </Badge>
                       </div>
-                      <p className="text-sm text-muted-foreground">{u.email}</p>
-                      <p className="text-xs text-muted-foreground mt-1">
+                      <p className="text-sm text-slate-300">{u.email}</p>
+                      <p className="text-xs text-slate-400 mt-1">
                         Joined: {new Date(u.createdAt).toLocaleDateString()}
                       </p>
                     </div>
@@ -144,8 +228,8 @@ export default function AdminUsers() {
           ) : (
             <Card className="glass-card">
               <CardContent className="py-12 text-center">
-                <p className="text-muted-foreground">
-                  {searchEmail ? "No users found matching your search." : "No users yet."}
+                <p className="text-slate-300">
+                  {searchEmail ? "No users found matching your search." : "No users yet. Users appear here after their first login."}
                 </p>
               </CardContent>
             </Card>

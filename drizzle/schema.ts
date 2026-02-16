@@ -129,3 +129,41 @@ export const meetings = mysqlTable("meetings", {
 
 export type Meeting = typeof meetings.$inferSelect;
 export type InsertMeeting = typeof meetings.$inferInsert;
+
+/**
+ * Intake form submissions table - stores sponsor intake form data
+ */
+export const intakeSubmissions = mysqlTable("intakeSubmissions", {
+  id: int("id").autoincrement().primaryKey(),
+  sponsorId: int("sponsorId").notNull(), // Link to sponsors table
+  userId: int("userId").notNull(), // Link to users table
+  
+  // Company Information
+  companyName: varchar("companyName", { length: 255 }).notNull(),
+  technologyType: varchar("technologyType", { length: 255 }).notNull(),
+  companyLogoUrl: text("companyLogoUrl"), // S3 URL
+  companyBoilerplate: text("companyBoilerplate").notNull(),
+  keyChallenges: text("keyChallenges").notNull(),
+  targetOrgSize: varchar("targetOrgSize", { length: 255 }).notNull(),
+  
+  // Primary Representative
+  firstName: varchar("firstName", { length: 255 }).notNull(),
+  lastName: varchar("lastName", { length: 255 }).notNull(),
+  email: varchar("email", { length: 320 }).notNull(),
+  jobTitle: varchar("jobTitle", { length: 255 }).notNull(),
+  linkedinUrl: text("linkedinUrl").notNull(),
+  
+  // Second Representative (optional)
+  secondRepName: varchar("secondRepName", { length: 255 }),
+  secondRepEmail: varchar("secondRepEmail", { length: 320 }),
+  secondRepJobTitle: varchar("secondRepJobTitle", { length: 255 }),
+  secondRepLinkedinUrl: text("secondRepLinkedinUrl"),
+  
+  // Metadata
+  meetingPackage: mysqlEnum("meetingPackage", ["12", "20"]).default("12").notNull(),
+  submittedAt: timestamp("submittedAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type IntakeSubmission = typeof intakeSubmissions.$inferSelect;
+export type InsertIntakeSubmission = typeof intakeSubmissions.$inferInsert;

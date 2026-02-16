@@ -1,6 +1,6 @@
 import { desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users, sponsors, InsertSponsor, rankingsSubmissions, InsertRankingsSubmission, vendorProfiles, InsertVendorProfile, delegateProfiles, InsertDelegateProfile, priorityTags, InsertPriorityTag, meetings, InsertMeeting } from "../drizzle/schema";
+import { InsertUser, users, sponsors, InsertSponsor, rankingsSubmissions, InsertRankingsSubmission, vendorProfiles, InsertVendorProfile, delegateProfiles, InsertDelegateProfile, priorityTags, InsertPriorityTag, meetings, InsertMeeting, intakeSubmissions, InsertIntakeSubmission } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -95,6 +95,14 @@ export async function getSponsorByUserId(userId: number) {
   if (!db) return undefined;
   
   const result = await db.select().from(sponsors).where(eq(sponsors.userId, userId)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function getSponsorById(sponsorId: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  
+  const result = await db.select().from(sponsors).where(eq(sponsors.id, sponsorId)).limit(1);
   return result.length > 0 ? result[0] : undefined;
 }
 
@@ -348,4 +356,52 @@ export async function getUserByEmail(email: string) {
   
   const result = await db.select().from(users).where(eq(users.email, email)).limit(1);
   return result.length > 0 ? result[0] : undefined;
+}
+
+export async function getIntakeSubmissionBySponsor(sponsorId: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db
+    .select()
+    .from(intakeSubmissions)
+    .where(eq(intakeSubmissions.sponsorId, sponsorId))
+    .limit(1);
+  
+  return result.length > 0 ? result[0] : null;
+}
+
+export async function upsertIntakeSubmission(data: InsertIntakeSubmission) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  // Check if submission already exists
+  const existing = await db
+    .select()
+    .from(intakeSubmissions)
+    .where(eq(intakeSubmissions.sponsorId, data.sponsorId))
+    .limit(1);
+  
+  if (existing.length > 0) {
+    // Update existing
+    await db
+      .update(intakeSubmissions)
+      .set(data)
+      .where(eq(intakeSubmissions.id, existing[0].id));
+    return existing[0].id;
+  } else {
+    // Create new
+    const result = await db.insert(intakeSubmissions).values(data);
+    return Number(result[0].insertId);
+  }
+}
+
+export async function updateSubmissionStatus(submissionId: number, status: "pending" | "reviewed") {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db
+    .update(rankingsSubmissions)
+    .set({ status, isReviewed: status === "reviewed" ? 1 : 0 })
+    .where(eq(rankingsSubmissions.id, submissionId));
 }
