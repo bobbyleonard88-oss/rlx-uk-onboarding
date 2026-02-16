@@ -173,3 +173,13 @@
 - [x] Debug why rankings submissions are not appearing on admin portal (fixed: added isArchived field to query)
 - [x] Restore refresh button to admin dashboard sponsor submissions page
 - [ ] Add "View Details" modal to display full intake form data instead of just download
+
+## Admin Dashboard Preview Modals & Delegate Selection
+
+- [x] Create intake profile preview modal (shows all form data in formatted view)
+- [x] Add download button inside intake profile preview modal
+- [x] Create rankings preview modal (shows ranked delegate list in formatted view)
+- [x] Add download button inside rankings preview modal
+- [x] Replace direct download links with "Preview" buttons that open modals
+- [x] Add delegate selection dropdown/list for priority tagging on admin dashboard
+- [x] Allow admins to select delegates from full attendee list and tag as priority

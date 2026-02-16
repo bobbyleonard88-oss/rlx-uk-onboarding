@@ -7,12 +7,14 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Download, RefreshCw, Users, Calendar, CheckCircle, FileText, List, Archive, ArchiveRestore, AlertCircle, LogOut, User, LogIn } from "lucide-react";
+import { Download, RefreshCw, Users, Calendar, CheckCircle, FileText, List, Archive, ArchiveRestore, AlertCircle, LogOut, User, LogIn, Eye } from "lucide-react";
 import { Link } from "wouter";
 import { toast } from "sonner";
 import { getLoginUrl } from "@/const";
 import { attendees } from "@/lib/attendees";
 import { useState } from "react";
+import IntakeProfileModal from "@/components/IntakeProfileModal";
+import RankingsPreviewModal from "@/components/RankingsPreviewModal";
 import {
   Select,
   SelectContent,
@@ -24,6 +26,10 @@ import {
 export default function AdminDashboard() {
   const { user, loading } = useAuth({ redirectOnUnauthenticated: true });
   const [showArchived, setShowArchived] = useState(false);
+  const [intakeModalOpen, setIntakeModalOpen] = useState(false);
+  const [rankingsModalOpen, setRankingsModalOpen] = useState(false);
+  const [selectedIntake, setSelectedIntake] = useState<any>(null);
+  const [selectedRankings, setSelectedRankings] = useState<{ data: string; companyName: string } | null>(null);
   
   const { data: submissions, isLoading, refetch } = trpc.admin.getAllSubmissions.useQuery();
   const { data: delegates } = trpc.admin.getAllDelegates.useQuery();
@@ -317,24 +323,33 @@ export default function AdminDashboard() {
                         variant="outline"
                         size="sm"
                         onClick={() => {
-                          // TODO: Show intake data modal
-                          alert('View Profile feature coming soon');
+                          setSelectedIntake({
+                            data: (submission as any).intakeData,
+                            companyName: submission.companyName
+                          });
+                          setIntakeModalOpen(true);
                         }}
                         className="gap-2"
                       >
-                        <FileText className="w-4 h-4" />
-                        View Profile
+                        <Eye className="w-4 h-4" />
+                        Preview Profile
                       </Button>
                     )}
                     {(submission as any).hasRankings && (
                       <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => downloadRankings(submission)}
+                        onClick={() => {
+                          setSelectedRankings({
+                            data: (submission as any).rankingsData,
+                            companyName: submission.companyName
+                          });
+                          setRankingsModalOpen(true);
+                        }}
                         className="gap-2"
                       >
-                        <Download className="w-4 h-4" />
-                        Download Rankings
+                        <Eye className="w-4 h-4" />
+                        Preview Rankings
                       </Button>
                     )}
                   </div>
@@ -342,7 +357,7 @@ export default function AdminDashboard() {
                   {/* Priority Tagging */}
                   <div className="pt-4 border-t border-slate-700">
                     <label className="block text-sm font-medium text-slate-300 mb-2">
-                      Priority Delegates (who requested this sponsor)
+                      Tag Priority Delegates (select from full attendee list)
                     </label>
                     <Select
                       onValueChange={(attendeeId) => {
@@ -355,10 +370,10 @@ export default function AdminDashboard() {
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder="Select delegate to tag as priority..." />
                       </SelectTrigger>
-                      <SelectContent>
-                        {delegates?.map((delegate) => (
-                          <SelectItem key={delegate.attendeeId} value={delegate.attendeeId}>
-                            {delegate.firstName} {delegate.lastName} - {delegate.company}
+                      <SelectContent className="max-h-[300px]">
+                        {attendees.map((attendee) => (
+                          <SelectItem key={attendee.id} value={attendee.id}>
+                            {attendee.firstName} {attendee.lastName} - {attendee.company} ({attendee.jobTitle})
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -378,6 +393,25 @@ export default function AdminDashboard() {
           )}
         </div>
       </div>
+
+      {/* Preview Modals */}
+      {selectedIntake && (
+        <IntakeProfileModal
+          open={intakeModalOpen}
+          onOpenChange={setIntakeModalOpen}
+          intakeData={selectedIntake.data}
+          companyName={selectedIntake.companyName}
+        />
+      )}
+      {selectedRankings && (
+        <RankingsPreviewModal
+          open={rankingsModalOpen}
+          onOpenChange={setRankingsModalOpen}
+          rankingsData={selectedRankings.data}
+          companyName={selectedRankings.companyName}
+          attendees={attendees}
+        />
+      )}
     </div>
   );
 }
