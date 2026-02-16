@@ -12,6 +12,7 @@ import { Sparkles, RefreshCw, Check, X, Calendar } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { attendees } from "@/lib/attendees";
+import { Link } from "wouter";
 
 export default function AdminMeetings() {
   const { user, loading } = useAuth({ redirectOnUnauthenticated: true });
@@ -93,7 +94,36 @@ export default function AdminMeetings() {
   }
 
   return (
-    <div className="min-h-screen py-20 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+      {/* Admin Navigation */}
+      <nav className="border-b border-slate-700/50 bg-slate-900/50 backdrop-blur-sm sticky top-0 z-50">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center gap-8">
+              <h2 className="text-xl font-heading font-bold text-white">RLX Admin</h2>
+              <div className="flex gap-1">
+                <Link href="/admin">
+                  <Button variant="ghost" className="text-slate-300 hover:bg-primary/20 hover:text-white">
+                    Dashboard
+                  </Button>
+                </Link>
+                <Link href="/admin/meetings">
+                  <Button variant="ghost" className="text-white hover:bg-primary/20">
+                    Matchmaking
+                  </Button>
+                </Link>
+                <Link href="/admin/users">
+                  <Button variant="ghost" className="text-slate-300 hover:bg-primary/20 hover:text-white">
+                    Users
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <div className="py-12 px-4">
       <div className="container max-w-7xl">
         <div className="mb-8">
           <h1 className="text-4xl font-heading font-bold text-foreground mb-4">
@@ -249,6 +279,7 @@ export default function AdminMeetings() {
             </CardContent>
           </Card>
         )}
+      </div>
       </div>
     </div>
   );

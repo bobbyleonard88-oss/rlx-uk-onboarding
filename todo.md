@@ -51,3 +51,31 @@
 - [x] AI matchmaking engine
 - [x] Priority tagging system
 - [x] Overview page redesign (iconographic)
+
+## Final Polish (Current Sprint)
+
+### Archive Functionality
+- [x] Add archive field to submissions database schema
+- [x] Add archive/unarchive API endpoints
+- [x] Add "Archive" button to each submission on admin dashboard
+- [x] Add toggle to show/hide archived submissions
+- [x] Archived submissions should be hidden by default
+
+### Remove Left Navigation
+- [x] Remove left sidebar from admin dashboard
+- [x] Remove left sidebar from matchmaking page
+- [x] Remove left sidebar from user management page
+- [x] Keep only top navigation bar
+
+### Simplify User Management
+- [x] Remove search functionality
+- [x] Pre-populate bobby@recruitmentevents.co as admin
+- [x] Pre-populate clientsuccess@recruitmentevents.co as admin
+- [x] Keep simple email input to add additional admins
+
+### Intake Form Updates
+- [x] Update ICP org size options to: <1000, 1k-5k, 5k-10k, 10k+
+- [x] Alphabetize technology type dropdown options
+- [x] Split form into "Company Information" and "Attendee Information" sections
+- [x] Add "Do you have 20 meetings booked?" question
+- [x] Only show 2nd representative fields if they have 20 meetings

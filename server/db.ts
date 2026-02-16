@@ -405,3 +405,23 @@ export async function updateSubmissionStatus(submissionId: number, status: "pend
     .set({ status, isReviewed: status === "reviewed" ? 1 : 0 })
     .where(eq(rankingsSubmissions.id, submissionId));
 }
+
+export async function archiveSubmission(submissionId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db
+    .update(rankingsSubmissions)
+    .set({ isArchived: 1 })
+    .where(eq(rankingsSubmissions.id, submissionId));
+}
+
+export async function unarchiveSubmission(submissionId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db
+    .update(rankingsSubmissions)
+    .set({ isArchived: 0 })
+    .where(eq(rankingsSubmissions.id, submissionId));
+}

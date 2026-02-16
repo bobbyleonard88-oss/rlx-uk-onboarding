@@ -24,9 +24,11 @@ import { toast } from "sonner";
 import { useLocation } from "wouter";
 
 const TECHNOLOGY_TYPES = [
-  "Background Screening",
+  "AI & Automation",
   "Applicant Tracking System (ATS)",
   "Assessment & Selection",
+  "Background Screening",
+  "Candidate Experience",
   "CRM (Marketing Automation)",
   "Diversity & Inclusion Solutions",
   "Early Careers Marketplace",
@@ -34,27 +36,22 @@ const TECHNOLOGY_TYPES = [
   "Employee Referral",
   "Employer Branding",
   "Global Mobility Solutions",
-  "Talent Attraction Solutions",
+  "Interviewing Platform",
   "Onboarding Technology",
   "Recruitment Process Outsourcing (RPO)",
   "Reference Checking",
   "Talent Analytics/Talent Mapping",
+  "Talent Attraction Solutions",
   "Tech Talent Marketplace",
-  "Interviewing Platform",
-  "Workforce Planning Solution",
-  "AI & Automation",
   "Training & Development",
-  "Candidate Experience",
+  "Workforce Planning Solution",
 ];
 
 const ORG_SIZES = [
-  "1-50 employees",
-  "51-200 employees",
-  "201-500 employees",
-  "501-1,000 employees",
-  "1,001-5,000 employees",
-  "5,001-10,000 employees",
-  "10,000+ employees",
+  "<1000",
+  "1k-5k",
+  "5k-10k",
+  "10k+",
 ];
 
 export default function Intake() {
@@ -87,6 +84,7 @@ export default function Intake() {
     jobTitle: existingIntake?.jobTitle || "",
     linkedinUrl: existingIntake?.linkedinUrl || "",
     meetingPackage: (existingIntake?.meetingPackage as "12" | "20") || "12",
+    has20Meetings: existingIntake?.meetingPackage === "20",
     // Second rep (optional)
     secondRepName: existingIntake?.secondRepName || "",
     secondRepEmail: existingIntake?.secondRepEmail || "",
@@ -263,21 +261,6 @@ export default function Intake() {
                   </Select>
                 </div>
 
-                <div>
-                  <Label htmlFor="meetingPackage">Meeting Package *</Label>
-                  <Select
-                    value={formData.meetingPackage}
-                    onValueChange={(value) => handleChange("meetingPackage", value as "12" | "20")}
-                  >
-                    <SelectTrigger className="mt-2">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="12">12 Meetings Package</SelectItem>
-                      <SelectItem value="20">20 Meetings Package</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
               </div>
             </div>
           </AnimatedSection>
@@ -289,8 +272,26 @@ export default function Intake() {
                 <div className="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center">
                   <span className="text-accent font-bold">2</span>
                 </div>
-                Your Information
+                Attendee Information
               </h2>
+
+              <div className="space-y-6 mb-6">
+                <div>
+                  <Label htmlFor="meetingPackage">Do you have 20 meetings booked? *</Label>
+                  <Select
+                    value={formData.meetingPackage}
+                    onValueChange={(value) => handleChange("meetingPackage", value as "12" | "20")}
+                  >
+                    <SelectTrigger className="mt-2">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="12">No - 12 Meetings Package</SelectItem>
+                      <SelectItem value="20">Yes - 20 Meetings Package</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>

@@ -40,7 +40,7 @@ export default function AdminUsers() {
     },
   });
 
-  const [searchEmail, setSearchEmail] = useState("");
+
   const [newAdminEmail, setNewAdminEmail] = useState("");
 
   // Check if user is admin
@@ -74,9 +74,7 @@ export default function AdminUsers() {
     promoteByEmail.mutate({ email: newAdminEmail });
   }
 
-  const filteredUsers = allUsers?.filter(u => 
-    !searchEmail || u.email?.toLowerCase().includes(searchEmail.toLowerCase())
-  );
+  const filteredUsers = allUsers?.filter(u => u.role === "admin");
 
   if (loading || isLoading) {
     return (
@@ -163,24 +161,7 @@ export default function AdminUsers() {
           </CardContent>
         </Card>
 
-        {/* Search Users */}
-        <Card className="glass-card mb-6">
-          <CardHeader>
-            <CardTitle className="text-white">Search Users</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              <Label htmlFor="searchEmail" className="text-slate-300">Search by Email</Label>
-              <Input
-                id="searchEmail"
-                type="email"
-                placeholder="user@example.com"
-                value={searchEmail}
-                onChange={(e) => setSearchEmail(e.target.value)}
-              />
-            </div>
-          </CardContent>
-        </Card>
+
 
         {/* Users List */}
         <div className="space-y-4">
@@ -229,7 +210,7 @@ export default function AdminUsers() {
             <Card className="glass-card">
               <CardContent className="py-12 text-center">
                 <p className="text-slate-300">
-                  {searchEmail ? "No users found matching your search." : "No users yet. Users appear here after their first login."}
+                  No admin users yet
                 </p>
               </CardContent>
             </Card>

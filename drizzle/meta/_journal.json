@@ -36,6 +36,13 @@
       "when": 1771235015404,
       "tag": "0004_safe_hardball",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1771236336455,
+      "tag": "0005_true_living_lightning",
+      "breakpoints": true
     }
   ]
 }

@@ -7,10 +7,11 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Download, RefreshCw, Users, Calendar, CheckCircle, FileText, List } from "lucide-react";
+import { Download, RefreshCw, Users, Calendar, CheckCircle, FileText, List, Archive, ArchiveRestore } from "lucide-react";
 import { Link } from "wouter";
 import { toast } from "sonner";
 import { attendees } from "@/lib/attendees";
+import { useState } from "react";
 import {
   Select,
   SelectContent,
@@ -21,6 +22,8 @@ import {
 
 export default function AdminDashboard() {
   const { user, loading } = useAuth({ redirectOnUnauthenticated: true });
+  const [showArchived, setShowArchived] = useState(false);
+  
   const { data: submissions, isLoading, refetch } = trpc.admin.getAllSubmissions.useQuery();
   const { data: delegates } = trpc.admin.getAllDelegates.useQuery();
   
@@ -28,6 +31,20 @@ export default function AdminDashboard() {
     onSuccess: () => {
       refetch();
       toast.success("Status updated");
+    },
+  });
+
+  const archiveSubmission = trpc.admin.archiveSubmission.useMutation({
+    onSuccess: () => {
+      refetch();
+      toast.success("Submission archived");
+    },
+  });
+
+  const unarchiveSubmission = trpc.admin.unarchiveSubmission.useMutation({
+    onSuccess: () => {
+      refetch();
+      toast.success("Submission restored");
     },
   });
 
@@ -54,47 +71,51 @@ export default function AdminDashboard() {
     );
   }
 
-  function downloadRankingsCSV(submission: any) {
-    try {
-      const rankingsData = JSON.parse(submission.rankingsData);
-      
-      // Map IDs to attendee details
-      const rankedAttendees = rankingsData
-        .map((id: string) => attendees.find((a) => a.id === id))
-        .filter(Boolean);
+  function handleStatusToggle(submissionId: number, currentStatus: string) {
+    const newStatus = currentStatus === "reviewed" ? "pending" : "reviewed";
+    updateStatus.mutate({ id: submissionId, status: newStatus });
+  }
 
-      // Create CSV content
-      const csvHeader = "Rank,First Name,Last Name,Job Title,Company,Industry,Company Size\n";
-      const csvRows = rankedAttendees
-        .map((a: any, i: number) => 
-          `${i + 1},"${a.firstName}","${a.lastName}","${a.jobTitle}","${a.company}","${a.industry}","${a.companySize}"`
-        )
-        .join('\n');
-
-      const csvContent = csvHeader + csvRows;
-
-      // Create download
-      const blob = new Blob([csvContent], { type: 'text/csv' });
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${submission.companyName || 'submission'}-rankings-${submission.id}.csv`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      window.URL.revokeObjectURL(url);
-      
-      toast.success("Rankings CSV downloaded");
-    } catch (error) {
-      console.error("Error downloading CSV:", error);
-      toast.error("Failed to download CSV");
+  function handleArchive(submissionId: number) {
+    if (confirm("Archive this submission? It will be hidden from the main view but can be restored later.")) {
+      archiveSubmission.mutate({ id: submissionId });
     }
   }
 
-  function downloadIntakeProfile(submission: any) {
-    // TODO: Fetch intake submission and generate Word doc
-    toast.info("Profile download coming soon");
+  function handleUnarchive(submissionId: number) {
+    unarchiveSubmission.mutate({ id: submissionId });
   }
+
+  function downloadRankings(submission: any) {
+    const rankings = JSON.parse(submission.rankingsData);
+    const csvContent = [
+      ["Rank", "Attendee ID", "Name", "Company", "Job Title"],
+      ...rankings.map((id: string, index: number) => {
+        const attendee = attendees.find((a) => a.id === id);
+        return [
+          index + 1,
+          id,
+          attendee ? `${attendee.firstName} ${attendee.lastName}` : "Unknown",
+          attendee?.company || "Unknown",
+          attendee?.jobTitle || "Unknown",
+        ];
+      }),
+    ]
+      .map((row) => row.join(","))
+      .join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${submission.companyName}-rankings.csv`;
+    a.click();
+  }
+
+  // Filter submissions based on archive toggle
+  const filteredSubmissions = submissions?.filter(
+    (sub: any) => showArchived ? sub.isArchived === 1 : sub.isArchived === 0
+  );
 
   if (loading || isLoading) {
     return (
@@ -130,184 +151,131 @@ export default function AdminDashboard() {
                 </Link>
               </div>
             </div>
-            <Button onClick={() => refetch()} variant="outline" size="sm" className="gap-2">
-              <RefreshCw className="w-4 h-4" />
-              Refresh
-            </Button>
           </div>
         </div>
       </nav>
 
       <div className="container mx-auto py-12 px-4">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-heading font-bold text-white mb-2">
-            Sponsor Submissions
-          </h1>
-          <p className="text-lg text-slate-300">
-            {submissions?.length || 0} total submissions • View intake forms, rankings, and manage priorities
-          </p>
+        <div className="mb-8 flex items-center justify-between">
+          <div>
+            <h1 className="text-4xl font-heading font-bold text-white mb-2">
+              Sponsor Submissions
+            </h1>
+            <p className="text-lg text-slate-300">
+              {filteredSubmissions?.length || 0} {showArchived ? "archived" : "active"} submissions
+            </p>
+          </div>
+          <Button
+            variant={showArchived ? "default" : "outline"}
+            onClick={() => setShowArchived(!showArchived)}
+            className="gap-2"
+          >
+            {showArchived ? <ArchiveRestore className="w-4 h-4" /> : <Archive className="w-4 h-4" />}
+            {showArchived ? "Show Active" : "Show Archived"}
+          </Button>
         </div>
 
-        {/* Quick Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-          <Card className="glass-card">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-lg flex items-center gap-2">
-                <FileText className="w-5 h-5 text-primary" />
-                Total Submissions
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-3xl font-bold text-white">{submissions?.length || 0}</p>
-            </CardContent>
-          </Card>
-
-          <Card className="glass-card">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-lg flex items-center gap-2">
-                <CheckCircle className="w-5 h-5 text-accent" />
-                Reviewed
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-3xl font-bold text-white">
-                {submissions?.filter(s => s.status === "reviewed").length || 0}
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="glass-card">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-lg flex items-center gap-2">
-                <Users className="w-5 h-5 text-gold" />
-                Delegates
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-3xl font-bold text-white">{delegates?.length || 0}</p>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Submissions List */}
-        <div className="space-y-6">
-          {submissions && submissions.length > 0 ? (
-            submissions.map((submission) => (
+        {/* Submissions Grid */}
+        <div className="grid gap-6">
+          {filteredSubmissions && filteredSubmissions.length > 0 ? (
+            filteredSubmissions.map((submission) => (
               <Card key={submission.id} className="glass-card border-slate-700">
                 <CardHeader>
-                  <div className="flex justify-between items-start">
+                  <div className="flex items-start justify-between">
                     <div className="flex-1">
-                      <CardTitle className="text-2xl text-white mb-2">
-                        {submission.companyName || "Unknown Company"}
+                      <CardTitle className="text-white text-2xl mb-2">
+                        {submission.companyName}
                       </CardTitle>
-                      <CardDescription className="text-slate-300">
-                        {submission.contactName} • {submission.contactEmail}
+                      <CardDescription className="text-slate-300 space-y-1">
+                        <div>{submission.contactName} • {submission.contactEmail}</div>
+                        <div className="text-sm text-slate-400">
+                          Submitted: {new Date(submission.submittedAt).toLocaleString()}
+                        </div>
                       </CardDescription>
-                      <div className="flex gap-4 mt-3 text-sm text-slate-400">
-                        <div>
-                          <span className="text-slate-500">Submitted:</span>{" "}
-                          {new Date(submission.submittedAt).toLocaleDateString()} at{" "}
-                          {new Date(submission.submittedAt).toLocaleTimeString()}
-                        </div>
-                        <div>
-                          <span className="text-slate-500">ID:</span> #{submission.id}
-                        </div>
-                        <div>
-                          <span className="text-slate-500">Status:</span>{" "}
-                          <span className={`capitalize ${submission.status === "reviewed" ? "text-accent" : "text-slate-400"}`}>
-                            {submission.status}
-                          </span>
-                        </div>
-                      </div>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button
+                        variant={submission.status === "reviewed" ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => handleStatusToggle(submission.id, submission.status)}
+                        className="gap-2"
+                      >
+                        <CheckCircle className="w-4 h-4" />
+                        {submission.status === "reviewed" ? "Reviewed" : "Mark Reviewed"}
+                      </Button>
+                      {showArchived ? (
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleUnarchive(submission.id)}
+                          className="gap-2"
+                        >
+                          <ArchiveRestore className="w-4 h-4" />
+                          Restore
+                        </Button>
+                      ) : (
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleArchive(submission.id)}
+                          className="gap-2 text-slate-400 hover:text-white"
+                        >
+                          <Archive className="w-4 h-4" />
+                          Archive
+                        </Button>
+                      )}
                     </div>
                   </div>
                 </CardHeader>
-                <CardContent>
-                  {/* Action Buttons Row */}
-                  <div className="flex flex-wrap gap-3 mb-4">
+                <CardContent className="space-y-4">
+                  {/* Action Buttons */}
+                  <div className="flex gap-3">
                     <Button
-                      onClick={() => updateStatus.mutate({ 
-                        id: submission.id, 
-                        status: submission.status === "reviewed" ? "pending" : "reviewed" 
-                      })}
-                      variant={submission.status === "reviewed" ? "default" : "outline"}
-                      size="sm"
-                      disabled={updateStatus.isPending}
-                      className="gap-2"
-                    >
-                      {submission.status === "reviewed" ? (
-                        <>
-                          <CheckCircle className="w-4 h-4" />
-                          Reviewed
-                        </>
-                      ) : (
-                        "Mark Reviewed"
-                      )}
-                    </Button>
-
-                    <Button
-                      onClick={() => downloadIntakeProfile(submission)}
-                      size="sm"
                       variant="outline"
-                      className="gap-2"
-                    >
-                      <FileText className="w-4 h-4" />
-                      View/Download Profile
-                    </Button>
-
-                    <Button
-                      onClick={() => downloadRankingsCSV(submission)}
                       size="sm"
-                      variant="outline"
+                      onClick={() => downloadRankings(submission)}
                       className="gap-2"
                     >
-                      <List className="w-4 h-4" />
+                      <Download className="w-4 h-4" />
                       Download Rankings
                     </Button>
-
-                    {delegates && delegates.length > 0 && (
-                      <Select
-                        onValueChange={(attendeeId) => {
-                          addPriorityTag.mutate({
-                            sponsorId: submission.sponsorId,
-                            attendeeId,
-                          });
-                        }}
-                      >
-                        <SelectTrigger className="w-[240px] h-9">
-                          <SelectValue placeholder="Tag Priority Delegate" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {delegates.map((delegate) => (
-                            <SelectItem key={delegate.attendeeId} value={delegate.attendeeId}>
-                              {delegate.firstName} {delegate.lastName} ({delegate.company})
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    )}
                   </div>
 
-                  {/* Rankings Preview */}
-                  {submission.rankingsData && (
-                    <div className="mt-4 p-4 rounded-lg bg-slate-800/50 border border-slate-700">
-                      <p className="text-sm text-slate-400 mb-2">
-                        <strong className="text-white">Rankings:</strong> {JSON.parse(submission.rankingsData).length} delegates prioritized
-                      </p>
-                      <p className="text-xs text-slate-500">
-                        Click "Download Rankings" to see full list
-                      </p>
-                    </div>
-                  )}
+                  {/* Priority Tagging */}
+                  <div className="pt-4 border-t border-slate-700">
+                    <label className="block text-sm font-medium text-slate-300 mb-2">
+                      Priority Delegates (who requested this sponsor)
+                    </label>
+                    <Select
+                      onValueChange={(attendeeId) => {
+                        addPriorityTag.mutate({
+                          sponsorId: submission.sponsorId,
+                          attendeeId,
+                        });
+                      }}
+                    >
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select delegate to tag as priority..." />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {delegates?.map((delegate) => (
+                          <SelectItem key={delegate.attendeeId} value={delegate.attendeeId}>
+                            {delegate.firstName} {delegate.lastName} - {delegate.company}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </CardContent>
               </Card>
             ))
           ) : (
             <Card className="glass-card">
               <CardContent className="py-12 text-center">
-                <FileText className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-                <p className="text-muted-foreground">No submissions yet</p>
+                <p className="text-slate-300">
+                  {showArchived ? "No archived submissions" : "No submissions yet"}
+                </p>
               </CardContent>
             </Card>
           )}

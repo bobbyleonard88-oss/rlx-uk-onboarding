@@ -191,6 +191,26 @@ export const appRouter = router({
         return { success: true };
       }),
     
+    // Archive submission
+    archiveSubmission: adminProcedure
+      .input(z.object({
+        id: z.number(),
+      }))
+      .mutation(async ({ input }) => {
+        await db.archiveSubmission(input.id);
+        return { success: true };
+      }),
+    
+    // Unarchive submission
+    unarchiveSubmission: adminProcedure
+      .input(z.object({
+        id: z.number(),
+      }))
+      .mutation(async ({ input }) => {
+        await db.unarchiveSubmission(input.id);
+        return { success: true };
+      }),
+    
     // Get all users
     getAllUsers: adminProcedure.query(async () => {
       return await db.getAllUsers();
