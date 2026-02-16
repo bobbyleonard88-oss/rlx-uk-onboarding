@@ -179,6 +179,15 @@ export const appRouter = router({
       if (!sponsor) return [];
       return await db.getRankingsSubmissionsBySponsor(sponsor.id);
     }),
+    
+    // Get user's latest rankings (for pre-populating form)
+    getLatestRankings: protectedProcedure.query(async ({ ctx }) => {
+      const sponsor = await db.getSponsorByUserId(ctx.user.id);
+      if (!sponsor) return null;
+      const submissions = await db.getRankingsSubmissionsBySponsor(sponsor.id);
+      // Return the most recent submission
+      return submissions.length > 0 ? submissions[0] : null;
+    }),
   }),
 
   // Admin router (CS team dashboard)
@@ -309,6 +318,16 @@ export const appRouter = router({
       }))
       .mutation(async ({ input }) => {
         await db.updateUserRole(input.userId, "user");
+        return { success: true };
+      }),
+    
+    // Delete sponsor and all related data
+    deleteSponsor: adminProcedure
+      .input(z.object({
+        sponsorId: z.number(),
+      }))
+      .mutation(async ({ input }) => {
+        await db.deleteSponsor(input.sponsorId);
         return { success: true };
       }),
     

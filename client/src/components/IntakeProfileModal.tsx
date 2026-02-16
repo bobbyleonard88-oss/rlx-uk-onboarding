@@ -5,7 +5,13 @@
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Download, Building2, Users, Mail, Briefcase, Linkedin } from "lucide-react";
+import { Download, Building2, Users, Mail, Briefcase, Linkedin, ChevronDown } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface IntakeProfileModalProps {
   open: boolean;
@@ -16,6 +22,127 @@ interface IntakeProfileModalProps {
 
 export default function IntakeProfileModal({ open, onOpenChange, intakeData, companyName }: IntakeProfileModalProps) {
   if (!intakeData) return null;
+
+  const downloadPDF = () => {
+    // Create HTML content for PDF
+    const htmlContent = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="UTF-8">
+        <style>
+          body { font-family: Arial, sans-serif; padding: 40px; color: #1a1a2e; }
+          h1 { color: #7B4B94; border-bottom: 3px solid #d4af37; padding-bottom: 10px; }
+          h2 { color: #2C3E5A; margin-top: 30px; border-left: 4px solid #7B4B94; padding-left: 15px; }
+          .section { margin-bottom: 30px; }
+          .field { margin-bottom: 15px; }
+          .label { font-weight: bold; color: #666; font-size: 12px; text-transform: uppercase; }
+          .value { margin-top: 5px; font-size: 14px; }
+          .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        </style>
+      </head>
+      <body>
+        <h1>${companyName} - Intake Profile</h1>
+        
+        <div class="section">
+          <h2>Company Information</h2>
+          <div class="grid">
+            <div class="field">
+              <div class="label">Company Name</div>
+              <div class="value">${intakeData.companyName || 'N/A'}</div>
+            </div>
+            <div class="field">
+              <div class="label">Technology Type</div>
+              <div class="value">${intakeData.technologyType || 'N/A'}</div>
+            </div>
+          </div>
+          <div class="field">
+            <div class="label">Company Boilerplate</div>
+            <div class="value">${intakeData.companyBoilerplate || 'N/A'}</div>
+          </div>
+          <div class="field">
+            <div class="label">Key Challenges Addressed</div>
+            <div class="value">${intakeData.keyChallenges || 'N/A'}</div>
+          </div>
+          <div class="grid">
+            <div class="field">
+              <div class="label">Target Organization Size</div>
+              <div class="value">${intakeData.targetOrgSize || 'N/A'}</div>
+            </div>
+            <div class="field">
+              <div class="label">Meeting Package</div>
+              <div class="value">${intakeData.meetingPackage || 'N/A'} meetings</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="section">
+          <h2>Primary Representative</h2>
+          <div class="grid">
+            <div class="field">
+              <div class="label">Name</div>
+              <div class="value">${intakeData.firstName} ${intakeData.lastName}</div>
+            </div>
+            <div class="field">
+              <div class="label">Job Title</div>
+              <div class="value">${intakeData.jobTitle || 'N/A'}</div>
+            </div>
+            <div class="field">
+              <div class="label">Email</div>
+              <div class="value">${intakeData.email || 'N/A'}</div>
+            </div>
+            <div class="field">
+              <div class="label">LinkedIn</div>
+              <div class="value">${intakeData.linkedinUrl || 'N/A'}</div>
+            </div>
+          </div>
+        </div>
+        
+        ${intakeData.secondRepName ? `
+        <div class="section">
+          <h2>Second Representative</h2>
+          <div class="grid">
+            <div class="field">
+              <div class="label">Name</div>
+              <div class="value">${intakeData.secondRepName}</div>
+            </div>
+            <div class="field">
+              <div class="label">Job Title</div>
+              <div class="value">${intakeData.secondRepJobTitle || 'N/A'}</div>
+            </div>
+            <div class="field">
+              <div class="label">Email</div>
+              <div class="value">${intakeData.secondRepEmail || 'N/A'}</div>
+            </div>
+            <div class="field">
+              <div class="label">LinkedIn</div>
+              <div class="value">${intakeData.secondRepLinkedinUrl || 'N/A'}</div>
+            </div>
+          </div>
+        </div>
+        ` : ''}
+        
+        <div class="section">
+          <div class="field">
+            <div class="label">Submitted At</div>
+            <div class="value">${intakeData.submittedAt ? new Date(intakeData.submittedAt).toLocaleString() : 'N/A'}</div>
+          </div>
+        </div>
+      </body>
+      </html>
+    `;
+
+    // Open print dialog which allows saving as PDF
+    const printWindow = window.open('', '_blank');
+    if (printWindow) {
+      printWindow.document.write(htmlContent);
+      printWindow.document.close();
+      printWindow.focus();
+      setTimeout(() => {
+        printWindow.print();
+      }, 250);
+    }
+  };
 
   const downloadCSV = () => {
     const headers = [
@@ -213,10 +340,23 @@ export default function IntakeProfileModal({ open, onOpenChange, intakeData, com
                   {intakeData.submittedAt ? new Date(intakeData.submittedAt).toLocaleString() : "N/A"}
                 </p>
               </div>
-              <Button onClick={downloadCSV} variant="outline" className="gap-2">
-                <Download className="w-4 h-4" />
-                Download CSV
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" className="gap-2">
+                    <Download className="w-4 h-4" />
+                    Download
+                    <ChevronDown className="w-4 h-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={downloadCSV}>
+                    Download as CSV
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={downloadPDF}>
+                    Download as PDF
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
         </div>

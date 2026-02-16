@@ -1,0 +1,16 @@
+{
+  "query": "SELECT s.id, s.companyName, s.contactName, s.contactEmail\nFROM sponsors s\nWHERE s.companyName LIKE '%test%' OR s.companyName LIKE '%Test%'\nORDER BY s.id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT s.id, s.companyName, s.contactName, s.contactEmail\nFROM sponsors s\nWHERE s.companyName LIKE '%test%' OR s.companyName LIKE '%Test%'\nORDER BY s.id;",
+  "rows": [
+    {
+      "id": "1",
+      "companyName": "Test",
+      "contactName": "Bob Leo",
+      "contactEmail": "bobby@recruitmentevents.co"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tcompanyName\tcontactName\tcontactEmail\n1\tTest\tBob Leo\tbobby@recruitmentevents.co\n",
+  "stderr": "",
+  "execution_time_ms": 361
+}

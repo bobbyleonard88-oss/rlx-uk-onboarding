@@ -1,0 +1,26 @@
+{
+  "query": "SELECT s.id, s.companyName, s.contactName, s.contactEmail, \n       (SELECT COUNT(*) FROM intakeSubmissions WHERE sponsorId = s.id) as intakeCount,\n       (SELECT COUNT(*) FROM rankingsSubmissions WHERE sponsorId = s.id) as rankingsCount\nFROM sponsors s \nORDER BY s.companyName;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT s.id, s.companyName, s.contactName, s.contactEmail, \n       (SELECT COUNT(*) FROM intakeSubmissions WHERE sponsorId = s.id) as intakeCount,\n       (SELECT COUNT(*) FROM rankingsSubmissions WHERE sponsorId = s.id) as rankingsCount\nFROM sponsors s \nORDER BY s.companyName;",
+  "rows": [
+    {
+      "id": "30001",
+      "companyName": "AI Limited",
+      "contactName": "Rob Lemon",
+      "contactEmail": "bobby@recruitmentevents.co",
+      "intakeCount": "1",
+      "rankingsCount": "1"
+    },
+    {
+      "id": "1",
+      "companyName": "Test",
+      "contactName": "Bob Leo",
+      "contactEmail": "bobby@recruitmentevents.co",
+      "intakeCount": "1",
+      "rankingsCount": "3"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tcompanyName\tcontactName\tcontactEmail\tintakeCount\trankingsCount\n30001\tAI Limited\tRob Lemon\tbobby@recruitmentevents.co\t1\t1\n1\tTest\tBob Leo\tbobby@recruitmentevents.co\t1\t3\n",
+  "stderr": "",
+  "execution_time_ms": 369
+}

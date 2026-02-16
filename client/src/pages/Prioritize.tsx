@@ -116,6 +116,7 @@ export default function Prioritize() {
   const [, setLocation] = useLocation();
   const { data: profile } = trpc.sponsor.getProfile.useQuery();
   const { data: existingIntake } = trpc.intake.getSubmission.useQuery();
+  const { data: existingRankings } = trpc.rankings.getLatestRankings.useQuery();
   const submitRankings = trpc.rankings.submit.useMutation();
   
   const [rankedAttendees, setRankedAttendees] = useState<Attendee[]>([]);
@@ -125,7 +126,24 @@ export default function Prioritize() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    // Load saved rankings from localStorage or use default alphabetical order
+    // Priority: Load from database > localStorage > default alphabetical
+    if (existingRankings?.rankingsData) {
+      try {
+        const savedIds = JSON.parse(existingRankings.rankingsData);
+        const ordered = savedIds
+          .map((id: string) => attendees.find((a) => a.id === id))
+          .filter(Boolean);
+        setRankedAttendees(ordered);
+        setCustomOrder(ordered);
+        // Also save to localStorage for offline access
+        localStorage.setItem("rlx-meeting-priorities", existingRankings.rankingsData);
+        return;
+      } catch {
+        // Fall through to localStorage/default
+      }
+    }
+    
+    // Fallback to localStorage
     const saved = localStorage.getItem("rlx-meeting-priorities");
     if (saved) {
       try {
@@ -134,24 +152,20 @@ export default function Prioritize() {
           .map((id: string) => attendees.find((a) => a.id === id))
           .filter(Boolean);
         setRankedAttendees(ordered);
-        setCustomOrder(ordered); // Save as custom order
+        setCustomOrder(ordered);
+        return;
       } catch {
-        // Sort alphabetically by last name as default
-        const sorted = [...attendees].sort((a, b) => 
-          a.lastName.localeCompare(b.lastName)
-        );
-        setRankedAttendees(sorted);
-        setCustomOrder(sorted);
+        // Fall through to default
       }
-    } else {
-      // Sort alphabetically by last name as default
-      const sorted = [...attendees].sort((a, b) => 
-        a.lastName.localeCompare(b.lastName)
-      );
-      setRankedAttendees(sorted);
-      setCustomOrder(sorted);
     }
-  }, []);
+    
+    // Default: Sort alphabetically by last name
+    const sorted = [...attendees].sort((a, b) => 
+      a.lastName.localeCompare(b.lastName)
+    );
+    setRankedAttendees(sorted);
+    setCustomOrder(sorted);
+  }, [existingRankings]);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {

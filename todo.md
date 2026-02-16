@@ -261,3 +261,38 @@
 - [ ] Add delegate swap functionality (replace one delegate with another)
 - [ ] Validate that no delegate is double-booked in same time slot
 - [ ] Auto-assign meetings to slots when first generated
+
+## Admin Panel Enhancements (New Requirements)
+
+- [x] Add CSV/PDF download dropdown to intake profile preview modal
+- [x] Remove archived sponsors from matchmaking sponsor selection list
+- [x] Add ability to delete test accounts from admin panel
+- [x] Improve matching algorithm scoring:
+  * [x] Weight organization size matching more heavily
+  * [x] Match free-text fields (challenges, pain points) with sponsor profile data
+  * [x] Increase score for delegates ranked higher by sponsor
+  * [x] Add "Top 20" tag for delegates in sponsor's top 20 rankings
+- [x] Remove "Match All" button from admin meetings page
+
+## Time Slot Scheduling Improvements (New Requirements)
+
+- [x] Redesign time slot UI with clear Day 1 / Day 2 structure
+- [x] Change slot labels to "Slot 1, Slot 2, Slot 3" (3 slots per day = 6 total)
+- [x] Each slot shows "Meeting 1" and "Meeting 2" clearly
+- [x] Ensure drag-and-drop replacement functionality works properly
+- [x] Auto-assign matched meetings directly to time slots based on match %
+
+## Sponsor Meeting Schedule View (New Feature)
+
+- [x] Add "Meeting Schedule" navigation tab (appears after schedule is saved)
+- [x] Display sponsor's scheduled meetings with time slots
+- [x] Download individual delegate profile as PDF (exclude email address)
+- [x] Bulk download all meeting profiles as one PDF
+- [x] Include all profile data: challenges, pain points, budget, org size, etc.
+
+## Sponsor Data Persistence (New Feature)
+
+- [x] Load sponsor's intake form data from database on page load
+- [x] Load sponsor's rankings data from database on page load
+- [x] Allow sponsors to access their data from any browser after login
+- [x] Pre-populate forms with saved data if it exists

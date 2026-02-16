@@ -3,7 +3,7 @@ import { Home, Info, Award, Users, FileText, Calendar, Shield, FormInput, ListOr
 import { useState, useEffect } from "react";
 import { useAuth } from "@/_core/hooks/useAuth";
 
-const navItems = [
+const baseNavItems = [
   { path: "/", label: "Home", icon: Home },
   { path: "/overview", label: "Overview", icon: Info },
   { path: "/features", label: "Features & Values", icon: Award },
@@ -21,7 +21,24 @@ const navItems = [
 export default function Navigation() {
   const [location] = useLocation();
   const [visitedPages, setVisitedPages] = useState<string[]>([]);
+  const [hasMeetings, setHasMeetings] = useState(false);
   const { user, loading } = useAuth();
+  
+  // Check if user has saved meetings (for showing Meeting Schedule tab)
+  useEffect(() => {
+    const checkMeetings = async () => {
+      const saved = localStorage.getItem('rlx-has-meetings');
+      if (saved) {
+        setHasMeetings(true);
+      }
+    };
+    checkMeetings();
+  }, []);
+  
+  // Add Meeting Schedule to nav items if user has meetings
+  const navItems = hasMeetings 
+    ? [...baseNavItems.slice(0, 10), { path: "/meeting-schedule", label: "Meeting Schedule", icon: Calendar }, ...baseNavItems.slice(10)]
+    : baseNavItems;
 
   useEffect(() => {
     // Load visited pages from localStorage

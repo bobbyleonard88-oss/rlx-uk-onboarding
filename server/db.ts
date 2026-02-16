@@ -488,3 +488,18 @@ export async function getAllIntakeSubmissions() {
   
   return await db.select().from(intakeSubmissions).orderBy(desc(intakeSubmissions.submittedAt));
 }
+
+export async function deleteSponsor(sponsorId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  // Delete all related data first (foreign key constraints)
+  await db.delete(meetings).where(eq(meetings.sponsorId, sponsorId));
+  await db.delete(priorityTags).where(eq(priorityTags.sponsorId, sponsorId));
+  await db.delete(intakeSubmissions).where(eq(intakeSubmissions.sponsorId, sponsorId));
+  await db.delete(rankingsSubmissions).where(eq(rankingsSubmissions.sponsorId, sponsorId));
+  await db.delete(vendorProfiles).where(eq(vendorProfiles.sponsorId, sponsorId));
+  
+  // Finally delete the sponsor
+  await db.delete(sponsors).where(eq(sponsors.id, sponsorId));
+}

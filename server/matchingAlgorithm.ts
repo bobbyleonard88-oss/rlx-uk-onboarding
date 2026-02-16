@@ -6,6 +6,8 @@ export interface MatchResult {
   matchReason: string;
   isPriority: boolean;
   isTopRanked: boolean;
+  isTop20: boolean; // New: delegate in sponsor's top 20 rankings
+  timeSlot?: number | null; // 1-6 for Day 1/Day 2 slots
   delegateInfo: {
     firstName: string;
     lastName: string;
@@ -16,19 +18,63 @@ export interface MatchResult {
 }
 
 /**
- * Calculate text similarity between two strings (simple keyword matching)
+ * Calculate text similarity between two strings (improved keyword matching)
  * Returns a score from 0-1
  */
 function calculateTextSimilarity(text1: string, text2: string): number {
   if (!text1 || !text2) return 0;
   
-  const words1 = text1.toLowerCase().split(/\W+/).filter(w => w.length > 3);
-  const words2 = text2.toLowerCase().split(/\W+/).filter(w => w.length > 3);
+  const words1 = text1.toLowerCase().split(/\W+/).filter(w => w.length > 2);
+  const words2 = text2.toLowerCase().split(/\W+/).filter(w => w.length > 2);
   
   if (words1.length === 0 || words2.length === 0) return 0;
   
   const matches = words1.filter(w => words2.includes(w)).length;
-  return matches / Math.max(words1.length, words2.length);
+  const avgLength = (words1.length + words2.length) / 2;
+  return matches / avgLength;
+}
+
+/**
+ * Check if org sizes match or overlap
+ * Returns a score from 0-1
+ */
+function calculateOrgSizeMatch(sponsorOrgSize: string, delegateOrgSize: string): number {
+  if (!sponsorOrgSize || !delegateOrgSize) return 0;
+  
+  // Exact match
+  if (sponsorOrgSize === delegateOrgSize) return 1.0;
+  
+  // Parse size ranges
+  const parseSize = (size: string): { min: number, max: number } => {
+    size = size.toLowerCase().replace(/,/g, '');
+    if (size.includes('<') || size.includes('under')) return { min: 0, max: 1000 };
+    if (size.includes('+') || size.includes('over')) {
+      const num = parseInt(size.match(/\d+/)?.[0] || '10000');
+      return { min: num, max: 999999 };
+    }
+    const parts = size.match(/(\d+)\s*-\s*(\d+)/);
+    if (parts) return { min: parseInt(parts[1]), max: parseInt(parts[2]) };
+    const single = parseInt(size.match(/\d+/)?.[0] || '0');
+    return { min: single, max: single };
+  };
+  
+  const sponsor = parseSize(sponsorOrgSize);
+  const delegate = parseSize(delegateOrgSize);
+  
+  // Check for overlap
+  const overlapMin = Math.max(sponsor.min, delegate.min);
+  const overlapMax = Math.min(sponsor.max, delegate.max);
+  
+  if (overlapMin <= overlapMax) {
+    // Calculate overlap percentage
+    const overlapSize = overlapMax - overlapMin;
+    const sponsorSize = sponsor.max - sponsor.min;
+    const delegateSize = delegate.max - delegate.min;
+    const avgSize = (sponsorSize + delegateSize) / 2;
+    return Math.min(1.0, overlapSize / avgSize);
+  }
+  
+  return 0;
 }
 
 /**
@@ -37,30 +83,48 @@ function calculateTextSimilarity(text1: string, text2: string): number {
 function generateMatchReason(
   isPriority: boolean,
   challengeScore: number,
+  orgSizeScore: number,
   rankPosition: number | null,
+  isTop20: boolean,
   delegateName: string
 ): string {
   if (isPriority) {
     return `Priority delegate - manually tagged by admin as must-meet`;
   }
   
-  if (challengeScore > 0.6 && rankPosition !== null && rankPosition <= 5) {
-    return `Strong alignment on challenges + ranked #${rankPosition} by sponsor`;
+  if (isTop20 && challengeScore > 0.5 && orgSizeScore > 0.7) {
+    return `Top 20 ranking + strong org size match + aligned challenges`;
+  }
+  
+  if (isTop20 && challengeScore > 0.5) {
+    return `In sponsor's top 20 preferred delegates with strong challenge alignment`;
+  }
+  
+  if (isTop20) {
+    return `Ranked #${rankPosition} in sponsor's top 20 preferred delegates`;
+  }
+  
+  if (challengeScore > 0.6 && orgSizeScore > 0.7) {
+    return `Excellent org size match with high alignment on challenges`;
+  }
+  
+  if (orgSizeScore > 0.8) {
+    return `Perfect org size match for sponsor's target market`;
   }
   
   if (challengeScore > 0.6) {
     return `High alignment between delegate needs and sponsor solutions`;
   }
   
-  if (rankPosition !== null && rankPosition <= 10) {
-    return `Ranked #${rankPosition} in sponsor's preferred delegate list`;
+  if (rankPosition !== null && rankPosition <= 30) {
+    return `Ranked #${rankPosition} in sponsor's delegate preferences`;
   }
   
   if (challengeScore > 0.3) {
     return `Moderate alignment on pain points and challenges`;
   }
   
-  return `Potential fit based on sponsor criteria`;
+  return `Potential fit based on sponsor criteria and delegate profile`;
 }
 
 /**
@@ -149,6 +213,7 @@ export async function generateMeetingsForSponsor(
     const isPriority = priorityAttendeeIds.has(delegate.attendeeId);
     const rankPosition = rankedAttendeeIds.indexOf(delegate.attendeeId);
     const isTopRanked = rankPosition >= 0 && rankPosition < 12;
+    const isTop20 = rankPosition >= 0 && rankPosition < 20;
     
     let matchScore = 0;
     
@@ -156,28 +221,63 @@ export async function generateMeetingsForSponsor(
     if (isPriority) {
       matchScore = 100;
     } else {
-      // Calculate challenge/solution alignment
+      // Calculate challenge/solution alignment (sponsor challenges vs delegate needs)
       const sponsorChallenges = intakeSubmission.keyChallenges || "";
+      const sponsorBoilerplate = intakeSubmission.companyBoilerplate || "";
       const delegateChallenges = delegate.challenges || "";
-      const challengeScore = calculateTextSimilarity(sponsorChallenges, delegateChallenges);
+      const delegateInterests = delegate.interests || "";
       
-      // Base score from challenge alignment (0-70 points)
-      matchScore = Math.round(challengeScore * 70);
+      // Match sponsor's solutions with delegate's challenges
+      const challengeScore = Math.max(
+        calculateTextSimilarity(sponsorChallenges, delegateChallenges),
+        calculateTextSimilarity(sponsorBoilerplate, delegateChallenges),
+        calculateTextSimilarity(sponsorBoilerplate, delegateInterests)
+      );
       
-      // Bonus points for being in sponsor's rankings (0-30 points)
+      // Calculate org size match
+      const orgSizeScore = calculateOrgSizeMatch(
+        intakeSubmission.targetOrgSize || "",
+        (delegate as any).orgSize || ""
+      );
+      
+      // Weighted scoring:
+      // - Challenge alignment: 35 points
+      // - Org size match: 25 points (increased weight)
+      // - Rankings position: up to 40 points (increased weight)
+      matchScore = Math.round(challengeScore * 35 + orgSizeScore * 25);
+      
+      // Bonus points for being in sponsor's rankings (0-40 points)
       if (rankPosition >= 0) {
-        const rankBonus = Math.max(0, 30 - rankPosition * 2); // Higher rank = more points
-        matchScore += rankBonus;
+        // Top 20 get significant bonus
+        if (rankPosition < 20) {
+          const rankBonus = Math.max(0, 40 - rankPosition * 1.5); // Top rank = 40 points
+          matchScore += rankBonus;
+        } else {
+          // Ranks 21-40 get smaller bonus
+          const rankBonus = Math.max(0, 10 - (rankPosition - 20) * 0.5);
+          matchScore += rankBonus;
+        }
       }
       
       // Cap at 99 (only priority tags get 100)
-      matchScore = Math.min(99, matchScore);
+      matchScore = Math.min(99, Math.max(1, matchScore));
     }
+    
+    const challengeScore = Math.max(
+      calculateTextSimilarity(intakeSubmission.keyChallenges || "", delegate.challenges || ""),
+      calculateTextSimilarity(intakeSubmission.companyBoilerplate || "", delegate.challenges || "")
+    );
+    const orgSizeScore = calculateOrgSizeMatch(
+      intakeSubmission.targetOrgSize || "",
+      (delegate as any).orgSize || ""
+    );
     
     const matchReason = generateMatchReason(
       isPriority,
-      calculateTextSimilarity(intakeSubmission.keyChallenges || "", delegate.challenges || ""),
+      challengeScore,
+      orgSizeScore,
       rankPosition >= 0 ? rankPosition + 1 : null,
+      isTop20,
       `${delegate.firstName} ${delegate.lastName}`
     );
     
@@ -187,6 +287,7 @@ export async function generateMeetingsForSponsor(
       matchReason,
       isPriority,
       isTopRanked,
+      isTop20,
       delegateInfo: {
         firstName: delegate.firstName,
         lastName: delegate.lastName,

@@ -23,6 +23,7 @@ import SponsorProfile from "./pages/SponsorProfile";
 import AdminUsers from "./pages/AdminUsers";
 import AdminMeetings from "./pages/AdminMeetings";
 import SponsorDashboard from "./pages/SponsorDashboard";
+import MeetingSchedule from "./pages/MeetingSchedule";
 function Router() {
   const [location] = useLocation();
   
@@ -54,6 +55,7 @@ function Router() {
 
           <Route path="/admin/meetings" component={AdminMeetings} />
           <Route path="/sponsor-profile" component={SponsorProfile} />
+          <Route path="/meeting-schedule" component={MeetingSchedule} />
           <Route path="/404" component={NotFound} />
           {/* Final fallback route */}
           <Route component={NotFound} />

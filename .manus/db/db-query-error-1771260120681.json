@@ -1,0 +1,8 @@
+{
+  "query": "SELECT s.id, s.companyName, s.contactName, s.contactEmail,\n       rs.isArchived as rankingsArchived,\n       i.isArchived as intakeArchived\nFROM sponsors s\nLEFT JOIN rankingsSubmissions rs ON s.id = rs.sponsorId\nLEFT JOIN intakeSubmissions i ON s.id = i.sponsorId\nWHERE s.companyName LIKE '%test%' OR s.companyName LIKE '%Test%'\nORDER BY s.id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT s.id, s.companyName, s.contactName, s.contactEmail,\n       rs.isArchived as rankingsArchived,\n       i.isArchived as intakeArchived\nFROM sponsors s\nLEFT JOIN rankingsSubmissions rs ON s.id = rs.sponsorId\nLEFT JOIN intakeSubmissions i ON s.id = i.sponsorId\nWHERE s.companyName LIKE '%test%' OR s.companyName LIKE '%Test%'\nORDER BY s.id;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'i.isarchived' in 'field list'"
+  ]
+}

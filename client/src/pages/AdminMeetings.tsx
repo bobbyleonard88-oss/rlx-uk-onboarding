@@ -23,6 +23,7 @@ interface MatchResult {
   matchReason: string;
   isPriority: boolean;
   isTopRanked: boolean;
+  isTop20: boolean;
   timeSlot?: number | null;
   delegateInfo: {
     firstName: string;
@@ -45,9 +46,19 @@ export default function AdminMeetings() {
   
   const generateMeetings = trpc.admin.generateMeetings.useMutation({
     onSuccess: (data) => {
-      setGeneratedMatches(data.matches);
-      setEditedMatches(data.matches);
-      toast.success(`Generated ${data.matches.length} meeting matches!`);
+      // Auto-assign meetings to time slots based on match score
+      const matchesWithSlots = data.matches.map((match, index) => {
+        // Assign to slots 1-6 (max 2 meetings per slot)
+        const slotNumber = Math.floor(index / 2) + 1;
+        return {
+          ...match,
+          timeSlot: slotNumber <= 6 ? slotNumber : null, // Only assign first 12 meetings to slots
+        };
+      });
+      
+      setGeneratedMatches(matchesWithSlots);
+      setEditedMatches(matchesWithSlots);
+      toast.success(`Generated ${data.matches.length} meeting matches and auto-assigned to time slots!`);
     },
     onError: (error) => {
       toast.error(error.message || "Failed to generate meetings");
@@ -65,6 +76,8 @@ export default function AdminMeetings() {
   
   const saveMeetings = trpc.admin.saveMeetings.useMutation({
     onSuccess: () => {
+      // Set flag for sponsor to show Meeting Schedule tab
+      localStorage.setItem('rlx-has-meetings', 'true');
       toast.success("Meetings saved successfully!");
     },
     onError: (error) => {
@@ -223,7 +236,7 @@ export default function AdminMeetings() {
                   </SelectTrigger>
                   <SelectContent className="max-h-[300px]">
                     {submissions
-                      ?.filter(s => s.hasIntake) // Only show sponsors with intake forms
+                      ?.filter(s => s.hasIntake && !s.isArchived) // Only show non-archived sponsors with intake forms
                       ?.map((submission) => (
                         <SelectItem key={submission.sponsorId} value={submission.sponsorId.toString()}>
                           {submission.companyName} - {submission.contactEmail}
@@ -273,27 +286,7 @@ export default function AdminMeetings() {
               </div>
             </div>
             
-            {/* Match All Button */}
-            <div className="pt-4 border-t border-slate-700">
-              <Button
-                onClick={() => generateAllMeetings.mutate()}
-                disabled={generateAllMeetings.isPending}
-                variant="outline"
-                className="w-full"
-              >
-                {generateAllMeetings.isPending ? (
-                  <>
-                    <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
-                    Generating for all sponsors...
-                  </>
-                ) : (
-                  <>
-                    <Sparkles className="w-4 h-4 mr-2" />
-                    Match All Sponsors
-                  </>
-                )}
-              </Button>
-            </div>
+
           </CardContent>
         </Card>
         
@@ -365,7 +358,8 @@ export default function AdminMeetings() {
                   matchScore: match.matchScore,
                   matchReason: match.matchReason,
                   isPriority: match.isPriority,
-                  timeSlot: null, // Initially unassigned
+                  isTop20: match.isTop20,
+                  timeSlot: match.timeSlot || null,
                 }))}
                 onUpdateSlot={(meetingId, newSlot) => {
                   setEditedMatches(prev => prev.map((match, index) => 
