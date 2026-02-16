@@ -89,7 +89,17 @@ export const appRouter = router({
         const submissionId = await db.upsertIntakeSubmission({
           sponsorId,
           userId: ctx.user.id,
-          ...input,
+          companyName: input.companyName,
+          technologyType: input.technologyType,
+          companyBoilerplate: input.companyBoilerplate,
+          keyChallenges: input.keyChallenges,
+          targetOrgSize: input.targetOrgSize,
+          firstName: input.firstName,
+          lastName: input.lastName,
+          email: input.email,
+          jobTitle: input.jobTitle,
+          linkedinUrl: input.linkedinUrl,
+          meetingPackage: input.meetingPackage,
           companyLogoUrl: input.companyLogoUrl || null,
           secondRepName: input.secondRepName || null,
           secondRepEmail: input.secondRepEmail || null,
@@ -103,6 +113,13 @@ export const appRouter = router({
 
   // Rankings router
   rankings: router({
+    // Get user's previous rankings submission
+    myRankingsSubmission: protectedProcedure.query(async ({ ctx }) => {
+      const sponsor = await db.getSponsorByUserId(ctx.user.id);
+      if (!sponsor) return null;
+      const submissions = await db.getRankingsSubmissionsBySponsor(sponsor.id);
+      return submissions.length > 0 ? submissions[0] : null;
+    }),
     // Submit rankings
     submit: protectedProcedure
       .input(z.object({
@@ -157,18 +174,20 @@ export const appRouter = router({
 
   // Admin router (CS team dashboard)
   admin: router({
-    // Get all rankings submissions with company info
+    // Get all rankings submissions with company info and intake data
     getAllSubmissions: adminProcedure.query(async () => {
       const submissions = await db.getAllRankingsSubmissions();
       // Enrich with sponsor/intake data
       const enriched = await Promise.all(
         submissions.map(async (sub) => {
           const sponsor = await db.getSponsorById(sub.sponsorId);
+          const intakeSubmission = await db.getIntakeSubmissionBySponsor(sub.sponsorId);
           return {
             ...sub,
             companyName: sponsor?.companyName || "Unknown",
             contactName: sponsor?.contactName || "Unknown",
             contactEmail: sponsor?.contactEmail || "Unknown",
+            intakeData: intakeSubmission || null,
           };
         })
       );

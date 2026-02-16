@@ -1,0 +1,33 @@
+{
+  "query": "SELECT * FROM intakeSubmissions ORDER BY submittedAt DESC LIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT * FROM intakeSubmissions ORDER BY submittedAt DESC LIMIT 5;",
+  "rows": [
+    {
+      "id": "1",
+      "sponsorId": "1",
+      "userId": "1",
+      "companyName": "TREC TEST",
+      "technologyType": "Interviewing Platform",
+      "companyLogoUrl": "RL US Circle Logo.png",
+      "companyBoilerplate": "Lots and lots and lots",
+      "keyChallenges": "ai hiring, screening, high volume, ats, etc.",
+      "targetOrgSize": "5k-10k",
+      "firstName": "Bobby",
+      "lastName": "Leonard",
+      "email": "bobby@recruitmentevents.co",
+      "jobTitle": "CRO",
+      "linkedinUrl": "https://www.linkedin.com/in/receventsbob/",
+      "secondRepName": "NULL",
+      "secondRepEmail": "NULL",
+      "secondRepJobTitle": "NULL",
+      "secondRepLinkedinUrl": "NULL",
+      "meetingPackage": "12",
+      "submittedAt": "2026-02-16 11:03:15",
+      "updatedAt": "2026-02-16 11:03:15"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tsponsorId\tuserId\tcompanyName\ttechnologyType\tcompanyLogoUrl\tcompanyBoilerplate\tkeyChallenges\ttargetOrgSize\tfirstName\tlastName\temail\tjobTitle\tlinkedinUrl\tsecondRepName\tsecondRepEmail\tsecondRepJobTitle\tsecondRepLinkedinUrl\tmeetingPackage\tsubmittedAt\tupdatedAt\n1\t1\t1\tTREC TEST\tInterviewing Platform\tRL US Circle Logo.png\tLots and lots and lots\tai hiring, screening, high volume, ats, etc.\t5k-10k\tBobby\tLeonard\tbobby@recruitmentevents.co\tCRO\thttps://www.linkedin.com/in/receventsbob/\tNULL\tNULL\tNULL\tNULL\t12\t2026-02-16 11:03:15\t2026-02-16 11:03:15\n",
+  "stderr": "",
+  "execution_time_ms": 344
+}

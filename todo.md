@@ -91,3 +91,13 @@
 ### Admin Management
 - [x] Add remove/demote admin functionality to user management page
 - [x] Add "Remove Admin" button next to each admin user
+
+### Submission Display Bug
+- [x] Debug why submitted intake forms and rankings are not appearing on admin portal
+- [x] Fix admin dashboard query to show all submissions
+- [x] Add intake data to getAllSubmissions query
+
+### Sponsor Edit Functionality
+- [x] Pre-populate intake form with previously submitted data
+- [ ] Pre-populate rankings with previously submitted data (in progress)
+- [x] Allow sponsors to edit and resubmit to overwrite previous submissions
