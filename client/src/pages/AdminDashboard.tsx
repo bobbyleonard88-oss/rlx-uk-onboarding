@@ -191,7 +191,7 @@ export default function AdminDashboard() {
                 </Link>
                 <Link href="/admin/meetings">
                   <Button variant="ghost" className="text-slate-300 hover:bg-primary/20 hover:text-white">
-                    Matchmaking
+                    Meetings
                   </Button>
                 </Link>
                 <Link href="/admin/users">

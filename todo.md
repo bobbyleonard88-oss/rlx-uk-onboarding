@@ -350,3 +350,11 @@
 - [x] Include all delegate information in PDF (challenges, pain points, budget, org size, etc.)
 - [x] Exclude email addresses from profile view and PDF downloads
 - [x] Ensure profile modal shows same data as admin intake profile preview
+
+## UI Improvements
+
+- [x] Increase delegate profile modal width to show more information
+- [x] Replace "Other" with "Global" for Regional Remit field
+- [x] Fix PDF download to include all delegate information matching the preview modal (confirmed complete)
+- [x] Remove "Meeting Generation" section from admin meetings page
+- [x] Fix navigation name changing from "Meetings" to "Matchmaking" when switching pages
