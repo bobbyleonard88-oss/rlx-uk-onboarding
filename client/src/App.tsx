@@ -24,6 +24,7 @@ import AdminUsers from "./pages/AdminUsers";
 import AdminMeetings from "./pages/AdminMeetings";
 import SponsorDashboard from "./pages/SponsorDashboard";
 import MeetingSchedule from "./pages/MeetingSchedule";
+import NewMeetingNotification from "./components/NewMeetingNotification";
 function Router() {
   const [location] = useLocation();
   
@@ -35,6 +36,7 @@ function Router() {
   return (
     <div className="flex">
       <Navigation />
+      <NewMeetingNotification />
       <main className="flex-1 ml-20 lg:ml-64">
         <Switch>
           <Route path={"/"} component={Home} />

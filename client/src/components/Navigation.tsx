@@ -22,18 +22,32 @@ export default function Navigation() {
   const [location] = useLocation();
   const [visitedPages, setVisitedPages] = useState<string[]>([]);
   const [hasMeetings, setHasMeetings] = useState(false);
+  const [hasNewMeetings, setHasNewMeetings] = useState(false);
   const { user, loading } = useAuth();
   
   // Check if user has saved meetings (for showing Meeting Schedule tab)
   useEffect(() => {
     const checkMeetings = async () => {
       const saved = localStorage.getItem('rlx-has-meetings');
+      const viewed = localStorage.getItem('rlx-meetings-viewed');
       if (saved) {
         setHasMeetings(true);
+        // Show notification if meetings exist but haven't been viewed
+        if (!viewed) {
+          setHasNewMeetings(true);
+        }
       }
     };
     checkMeetings();
   }, []);
+  
+  // Mark meetings as viewed when user visits the schedule page
+  useEffect(() => {
+    if (location === '/meeting-schedule' && hasNewMeetings) {
+      localStorage.setItem('rlx-meetings-viewed', 'true');
+      setHasNewMeetings(false);
+    }
+  }, [location, hasNewMeetings]);
   
   // Add Meeting Schedule to nav items if user has meetings
   const navItems = hasMeetings 
@@ -110,13 +124,14 @@ export default function Navigation() {
                   <Link href={item.path}>
                     <div
                       className={`
-                        flex items-center gap-3 px-3 py-3 rounded-lg transition-all duration-200 cursor-pointer
+                        flex items-center gap-3 px-3 py-3 rounded-lg transition-all duration-200 cursor-pointer relative
                         ${isActive 
                           ? 'bg-primary/20 text-accent border border-accent/30 scale-105' 
                           : isVisited
                           ? 'bg-accent/10 text-accent/80 hover:text-accent hover:bg-accent/20 border border-accent/20'
                           : 'text-muted-foreground hover:text-foreground hover:bg-secondary/30 border border-transparent'
                         }
+                        ${item.path === '/meeting-schedule' && hasNewMeetings ? 'ring-2 ring-green-500 ring-opacity-50 animate-pulse' : ''}
                         lg:justify-start justify-center
                         ${isActive ? 'animate-pop' : ''}
                       `}
@@ -125,6 +140,12 @@ export default function Navigation() {
                       <span className="hidden lg:block font-heading text-sm font-medium">
                         {item.label}
                       </span>
+                      {item.path === '/meeting-schedule' && hasNewMeetings && (
+                        <span className="absolute top-1 right-1 w-3 h-3 bg-green-500 rounded-full animate-ping" />
+                      )}
+                      {item.path === '/meeting-schedule' && hasNewMeetings && (
+                        <span className="absolute top-1 right-1 w-3 h-3 bg-green-500 rounded-full" />
+                      )}
                     </div>
                   </Link>
                 )}

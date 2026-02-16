@@ -78,6 +78,9 @@ export default function AdminMeetings() {
     onSuccess: () => {
       // Set flag for sponsor to show Meeting Schedule tab
       localStorage.setItem('rlx-has-meetings', 'true');
+      // Clear notification flags so sponsor sees the popup
+      localStorage.removeItem('rlx-meetings-viewed');
+      localStorage.removeItem('rlx-meetings-notification-seen');
       toast.success("Meetings saved successfully!");
     },
     onError: (error) => {
@@ -158,12 +161,12 @@ export default function AdminMeetings() {
           
           {/* Admin Navigation */}
           <nav className="flex items-center gap-4">
-            <Link href="/admin/dashboard">
+            <Link href="/admin">
               <Button variant="ghost" className="text-slate-300 hover:text-white">
                 Dashboard
               </Button>
             </Link>
-            <Link href="/admin/matchmaking">
+            <Link href="/matchmaking">
               <Button variant="ghost" className="text-slate-300 hover:text-white">
                 Matchmaking
               </Button>

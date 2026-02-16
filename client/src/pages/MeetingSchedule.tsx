@@ -32,16 +32,16 @@ const TIME_SLOTS = [
 export default function MeetingSchedule() {
   const { user, loading } = useAuth({ redirectOnUnauthenticated: true });
   
-  // Get sponsor data for current user
-  const { data: sponsor } = trpc.sponsor.getProfile.useQuery(
+  // Get meetings for this sponsor
+  const { data: meetings, isLoading } = trpc.sponsor.getMyMeetings.useQuery(
     undefined,
     { enabled: !!user }
   );
   
-  // Get meetings for this sponsor
-  const { data: meetings, isLoading } = trpc.admin.getMeetingsBySponsor.useQuery(
-    { sponsorId: sponsor?.id || 0 },
-    { enabled: !!sponsor }
+  // Get sponsor data for current user
+  const { data: sponsor } = trpc.sponsor.getProfile.useQuery(
+    undefined,
+    { enabled: !!user }
   );
 
   const downloadDelegateProfile = (attendeeId: string, format: 'pdf' | 'individual') => {

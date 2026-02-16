@@ -296,3 +296,28 @@
 - [x] Load sponsor's rankings data from database on page load
 - [x] Allow sponsors to access their data from any browser after login
 - [x] Pre-populate forms with saved data if it exists
+
+## Navigation & UX Fixes (New Requirements)
+
+- [x] Fix 404 error when navigating from Meetings page back to Matchmaking/Dashboard
+- [x] Verify all navigation links work correctly across the application
+
+## Time Slot Scheduler Improvements (New Requirements)
+
+- [x] Move unassigned meetings box to right side of schedule for better visibility
+- [x] Add delegate swap functionality (drag delegate over existing meeting to swap)
+- [x] Add "Show All Delegates" panel with meeting count for each delegate
+- [x] Enforce 8-meeting maximum per delegate (visual indicator showing count)
+- [x] Display all delegates with collapsible panel
+
+## Meeting Schedule Visibility (Bug Fix)
+
+- [x] Fix issue where saved meetings don't appear in sponsor's meeting schedule
+- [x] Ensure meeting schedule loads correctly after admin saves meetings
+
+## New Meeting Notifications (New Feature)
+
+- [x] Add popup notification when sponsor logs in and has new scheduled meetings
+- [x] Add glowing/pulsing green indicator on "Meeting Schedule" nav item
+- [x] Remove glow after sponsor clicks on Meeting Schedule tab
+- [x] Store notification state in localStorage to persist across sessions

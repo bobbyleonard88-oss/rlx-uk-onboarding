@@ -1,13 +1,15 @@
 /**
  * Time Slot Scheduler Component
  * Displays 6 meeting slots (3 per day) with drag-and-drop reorganization
+ * Layout: Schedule on left, unassigned meetings + all delegates on right
  */
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Clock, GripVertical, X } from "lucide-react";
+import { Clock, GripVertical, X, Users, ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
+import { attendees } from "@/lib/attendees";
 
 interface Meeting {
   id: number;
@@ -41,6 +43,7 @@ const TIME_SLOTS = [
 
 export default function TimeSlotScheduler({ meetings, onUpdateSlot, onRemoveMeeting }: TimeSlotSchedulerProps) {
   const [draggedMeeting, setDraggedMeeting] = useState<number | null>(null);
+  const [showAllDelegates, setShowAllDelegates] = useState(false);
 
   const handleDragStart = (meetingId: number) => {
     setDraggedMeeting(meetingId);
@@ -50,9 +53,22 @@ export default function TimeSlotScheduler({ meetings, onUpdateSlot, onRemoveMeet
     e.preventDefault();
   };
 
-  const handleDrop = (slot: number) => {
+  const handleDrop = (slot: number, targetMeetingId?: number) => {
     if (draggedMeeting !== null) {
-      onUpdateSlot(draggedMeeting, slot);
+      // If dropping on an existing meeting, swap them
+      if (targetMeetingId && targetMeetingId !== draggedMeeting) {
+        const draggedMeetingData = meetings.find(m => m.id === draggedMeeting);
+        const targetMeetingData = meetings.find(m => m.id === targetMeetingId);
+        
+        if (draggedMeetingData && targetMeetingData) {
+          // Swap the time slots
+          onUpdateSlot(draggedMeeting, targetMeetingData.timeSlot);
+          onUpdateSlot(targetMeetingId, draggedMeetingData.timeSlot);
+        }
+      } else {
+        // Normal drop to slot
+        onUpdateSlot(draggedMeeting, slot);
+      }
       setDraggedMeeting(null);
     }
   };
@@ -66,12 +82,27 @@ export default function TimeSlotScheduler({ meetings, onUpdateSlot, onRemoveMeet
 
   const unassignedMeetings = meetings.filter(m => !m.timeSlot);
   const assignedMeetings = meetings.filter(m => m.timeSlot);
+  
+  // Calculate meeting count for each delegate
+  const delegateMeetingCounts = meetings.reduce((acc, meeting) => {
+    if (meeting.timeSlot) {
+      acc[meeting.attendeeId] = (acc[meeting.attendeeId] || 0) + 1;
+    }
+    return acc;
+  }, {} as Record<string, number>);
 
-  const renderMeetingCard = (meeting: Meeting, compact: boolean = false) => (
+  const renderMeetingCard = (meeting: Meeting, compact: boolean = false, allowSwap: boolean = false) => (
     <div
       key={meeting.id}
       draggable
       onDragStart={() => handleDragStart(meeting.id)}
+      onDragOver={handleDragOver}
+      onDrop={(e) => {
+        e.stopPropagation();
+        if (allowSwap && draggedMeeting !== null && draggedMeeting !== meeting.id) {
+          handleDrop(meeting.timeSlot || 0, meeting.id);
+        }
+      }}
       className={`bg-slate-800/50 rounded cursor-move hover:bg-slate-700/50 transition-colors border border-slate-600 ${compact ? 'p-2' : 'p-3'}`}
     >
       <div className="flex items-start gap-2">
@@ -110,33 +141,9 @@ export default function TimeSlotScheduler({ meetings, onUpdateSlot, onRemoveMeet
   );
 
   return (
-    <div className="space-y-6">
-      {/* Unassigned Meetings Pool */}
-      <Card className="glass-card border-slate-700">
-        <CardHeader>
-          <CardTitle className="text-white flex items-center gap-2">
-            <Clock className="w-5 h-5 text-accent" />
-            Unassigned Meetings ({unassignedMeetings.length})
-          </CardTitle>
-        </CardHeader>
-        <CardContent
-          className="min-h-[100px] border-2 border-dashed border-slate-600 rounded-lg p-4"
-          onDragOver={handleDragOver}
-          onDrop={handleDropUnassigned}
-        >
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-            {unassignedMeetings.map((meeting) => renderMeetingCard(meeting, false))}
-          </div>
-          {unassignedMeetings.length === 0 && (
-            <div className="text-center text-slate-400 py-8">
-              All meetings assigned to time slots
-            </div>
-          )}
-        </CardContent>
-      </Card>
-
-      {/* Time Slot Grid - Day 1 & Day 2 */}
-      <div className="space-y-6">
+    <div className="flex gap-6">
+      {/* Left Side: Time Slot Schedule */}
+      <div className="flex-1 space-y-6">
         {[1, 2].map(day => (
           <div key={day}>
             <h3 className="text-xl font-heading font-semibold text-white mb-4 flex items-center gap-2">
@@ -179,7 +186,7 @@ export default function TimeSlotScheduler({ meetings, onUpdateSlot, onRemoveMeet
                             >
                               <div className="text-xs text-slate-400 mb-1 font-medium">Meeting {meetingNum}</div>
                               {meeting ? (
-                                renderMeetingCard(meeting, true)
+                                renderMeetingCard(meeting, true, true)
                               ) : (
                                 <div className="text-center text-slate-500 text-xs py-2">
                                   Drop here
@@ -196,6 +203,84 @@ export default function TimeSlotScheduler({ meetings, onUpdateSlot, onRemoveMeet
             </div>
           </div>
         ))}
+      </div>
+
+      {/* Right Side: Unassigned Meetings + All Delegates */}
+      <div className="w-80 space-y-4 flex-shrink-0">
+        {/* Unassigned Meetings */}
+        <Card className="glass-card border-slate-700">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-white flex items-center gap-2 text-base">
+              <Clock className="w-4 h-4 text-accent" />
+              Unassigned ({unassignedMeetings.length})
+            </CardTitle>
+          </CardHeader>
+          <CardContent
+            className="min-h-[120px] max-h-[300px] overflow-y-auto border-2 border-dashed border-slate-600 rounded-lg p-3"
+            onDragOver={handleDragOver}
+            onDrop={handleDropUnassigned}
+          >
+            <div className="space-y-2">
+              {unassignedMeetings.map((meeting) => renderMeetingCard(meeting, true))}
+            </div>
+            {unassignedMeetings.length === 0 && (
+              <div className="text-center text-slate-400 py-8 text-sm">
+                All meetings assigned
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* All Delegates Panel */}
+        <Card className="glass-card border-slate-700">
+          <CardHeader className="pb-3">
+            <Button
+              variant="ghost"
+              onClick={() => setShowAllDelegates(!showAllDelegates)}
+              className="w-full justify-between p-0 h-auto hover:bg-transparent"
+            >
+              <div className="flex items-center gap-2">
+                <Users className="w-4 h-4 text-accent" />
+                <span className="text-white font-semibold text-base">All Delegates ({attendees.length})</span>
+              </div>
+              {showAllDelegates ? <ChevronUp className="w-4 h-4 text-slate-400" /> : <ChevronDown className="w-4 h-4 text-slate-400" />}
+            </Button>
+          </CardHeader>
+          {showAllDelegates && (
+            <CardContent className="pt-0 max-h-[400px] overflow-y-auto">
+              <div className="space-y-2">
+                {attendees.map((delegate) => {
+                  const meetingCount = delegateMeetingCounts[delegate.id] || 0;
+                  const isMaxed = meetingCount >= 8;
+                  
+                  return (
+                    <div
+                      key={delegate.id}
+                      className={`bg-slate-800/50 rounded p-2 border border-slate-600 ${
+                        isMaxed ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:bg-slate-700/50'
+                      }`}
+                    >
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="flex-1 min-w-0">
+                          <div className="font-medium text-white text-sm truncate">
+                            {delegate.firstName} {delegate.lastName}
+                          </div>
+                          <div className="text-slate-300 text-xs truncate">{delegate.company}</div>
+                        </div>
+                        <Badge 
+                          variant={isMaxed ? "destructive" : "outline"} 
+                          className="text-xs flex-shrink-0"
+                        >
+                          {meetingCount}/8
+                        </Badge>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </CardContent>
+          )}
+        </Card>
       </div>
     </div>
   );

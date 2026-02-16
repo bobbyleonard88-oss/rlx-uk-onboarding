@@ -44,6 +44,13 @@ export const appRouter = router({
         });
         return { success: true, sponsorId };
       }),
+    
+    // Get sponsor's own meetings
+    getMyMeetings: protectedProcedure.query(async ({ ctx }) => {
+      const sponsor = await db.getSponsorByUserId(ctx.user.id);
+      if (!sponsor) return [];
+      return await db.getMeetingsBySponsor(sponsor.id);
+    }),
   }),
 
   // Intake form router
