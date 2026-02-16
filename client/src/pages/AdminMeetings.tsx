@@ -43,6 +43,7 @@ export default function AdminMeetings() {
   const [editedMatches, setEditedMatches] = useState<MatchResult[]>([]);
   
   const { data: submissions } = trpc.admin.getAllSubmissions.useQuery();
+  const utils = trpc.useUtils();
   
   const generateMeetings = trpc.admin.generateMeetings.useMutation({
     onSuccess: (data) => {
@@ -221,16 +222,60 @@ export default function AdminMeetings() {
                 <label className="text-sm font-medium text-slate-300">Select Sponsor</label>
                 <Select
                   value={selectedSponsorId?.toString() || ""}
-                  onValueChange={(value) => {
+                  onValueChange={async (value) => {
                     const sponsorId = parseInt(value);
                     setSelectedSponsorId(sponsorId);
-                    setGeneratedMatches([]);
-                    setEditedMatches([]);
                     
                     // Auto-set meeting count from intake form
                     const submission = submissions?.find(s => s.sponsorId === sponsorId);
                     if (submission?.intakeData?.meetingPackage) {
                       setMeetingCount(parseInt(submission.intakeData.meetingPackage));
+                    }
+                    
+                    // Try to load existing meetings for this sponsor
+                    try {
+                      const existingMeetings = await utils.admin.getMeetingsBySponsor.fetch({ sponsorId });
+                      
+                      if (existingMeetings && existingMeetings.length > 0) {
+                        // Convert existing meetings to MatchResult format
+                        const matchResults: MatchResult[] = existingMeetings.map((meeting: any) => {
+                          const delegate = attendees.find(a => a.id === meeting.attendeeId);
+                          return {
+                            attendeeId: meeting.attendeeId,
+                            matchScore: meeting.matchScore || 0,
+                            matchReason: meeting.notes || '',
+                            isPriority: meeting.isPriority === 1,
+                            isTopRanked: meeting.isTopRanked === 1,
+                            isTop20: meeting.isTopRanked === 1, // Assuming isTopRanked maps to isTop20
+                            timeSlot: meeting.timeSlot,
+                            delegateInfo: delegate ? {
+                              firstName: delegate.firstName,
+                              lastName: delegate.lastName,
+                              company: delegate.company,
+                              jobTitle: delegate.jobTitle,
+                              currentMeetingCount: 0, // Will be calculated if needed
+                            } : {
+                              firstName: 'Unknown',
+                              lastName: 'Delegate',
+                              company: 'N/A',
+                              jobTitle: 'N/A',
+                              currentMeetingCount: 0,
+                            },
+                          };
+                        });
+                        
+                        setGeneratedMatches(matchResults);
+                        setEditedMatches(matchResults);
+                        toast.success(`Loaded ${existingMeetings.length} existing meetings`);
+                      } else {
+                        // No existing meetings, clear the state
+                        setGeneratedMatches([]);
+                        setEditedMatches([]);
+                      }
+                    } catch (error) {
+                      console.error('Failed to load existing meetings:', error);
+                      setGeneratedMatches([]);
+                      setEditedMatches([]);
                     }
                   }}
                 >

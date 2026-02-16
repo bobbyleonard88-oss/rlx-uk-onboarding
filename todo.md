@@ -321,3 +321,15 @@
 - [x] Add glowing/pulsing green indicator on "Meeting Schedule" nav item
 - [x] Remove glow after sponsor clicks on Meeting Schedule tab
 - [x] Store notification state in localStorage to persist across sessions
+
+## Meeting Schedule Display Issues (Bug Fixes)
+
+- [x] Fix meeting schedule not displaying meetings for sponsors (shows "12 scheduled meetings" but empty slots)
+- [x] Investigate why sponsor.getMyMeetings returns data but UI doesn't render it
+- [x] Ensure meeting data includes all required fields for display
+
+## Admin Portal Improvements (New Feature)
+
+- [x] Load existing schedule when admin selects a sponsor who already has saved meetings
+- [x] Show current schedule instead of asking to generate new meetings
+- [x] Allow admin to edit existing schedules

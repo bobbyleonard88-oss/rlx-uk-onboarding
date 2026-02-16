@@ -1,0 +1,80 @@
+{
+  "query": "SELECT m.*, s.companyName \nFROM meetings m \nJOIN sponsors s ON m.sponsorId = s.id \nLIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT m.*, s.companyName \nFROM meetings m \nJOIN sponsors s ON m.sponsorId = s.id \nLIMIT 5;",
+  "rows": [
+    {
+      "id": "13",
+      "sponsorId": "30001",
+      "attendeeId": "12731251",
+      "matchScore": "100",
+      "isTopRanked": "1",
+      "isPriority": "1",
+      "status": "suggested",
+      "notes": "Priority delegate - manually tagged by admin as must-meet",
+      "createdAt": "2026-02-16 17:27:18",
+      "updatedAt": "2026-02-16 17:27:18",
+      "timeSlot": "NULL",
+      "companyName": "AI Limited"
+    },
+    {
+      "id": "14",
+      "sponsorId": "30001",
+      "attendeeId": "194698768792",
+      "matchScore": "100",
+      "isTopRanked": "0",
+      "isPriority": "1",
+      "status": "suggested",
+      "notes": "Priority delegate - manually tagged by admin as must-meet",
+      "createdAt": "2026-02-16 17:27:18",
+      "updatedAt": "2026-02-16 17:27:18",
+      "timeSlot": "NULL",
+      "companyName": "AI Limited"
+    },
+    {
+      "id": "15",
+      "sponsorId": "30001",
+      "attendeeId": "185464523694",
+      "matchScore": "100",
+      "isTopRanked": "0",
+      "isPriority": "1",
+      "status": "suggested",
+      "notes": "Priority delegate - manually tagged by admin as must-meet",
+      "createdAt": "2026-02-16 17:27:18",
+      "updatedAt": "2026-02-16 17:27:18",
+      "timeSlot": "NULL",
+      "companyName": "AI Limited"
+    },
+    {
+      "id": "16",
+      "sponsorId": "30001",
+      "attendeeId": "13454401",
+      "matchScore": "40",
+      "isTopRanked": "1",
+      "isPriority": "0",
+      "status": "suggested",
+      "notes": "Ranked #1 in sponsor's top 20 preferred delegates",
+      "createdAt": "2026-02-16 17:27:18",
+      "updatedAt": "2026-02-16 17:27:18",
+      "timeSlot": "NULL",
+      "companyName": "AI Limited"
+    },
+    {
+      "id": "17",
+      "sponsorId": "30001",
+      "attendeeId": "91862577670",
+      "matchScore": "39",
+      "isTopRanked": "1",
+      "isPriority": "0",
+      "status": "suggested",
+      "notes": "Ranked #2 in sponsor's top 20 preferred delegates",
+      "createdAt": "2026-02-16 17:27:18",
+      "updatedAt": "2026-02-16 17:27:18",
+      "timeSlot": "NULL",
+      "companyName": "AI Limited"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tsponsorId\tattendeeId\tmatchScore\tisTopRanked\tisPriority\tstatus\tnotes\tcreatedAt\tupdatedAt\ttimeSlot\tcompanyName\n13\t30001\t12731251\t100\t1\t1\tsuggested\tPriority delegate - manually tagged by admin as must-meet\t2026-02-16 17:27:18\t2026-02-16 17:27:18\tNULL\tAI Limited\n14\t30001\t194698768792\t100\t0\t1\tsuggested\tPriority delegate - manually tagged by admin as must-meet\t2026-02-16 17:27:18\t2026-02-16 17:27:18\tNULL\tAI Limited\n15\t30001\t185464523694\t100\t0\t1\tsuggested\tPriority delegate - manually tagged by admin as must-meet\t2026-02-16 17:27:18\t2026-02-16 17:27:18\tNULL\tAI Limited\n16\t30001\t13454401\t40\t1\t0\tsuggested\tRanked #1 in sponsor's top 20 preferred delegates\t2026-02-16 17:27:18\t2026-02-16 17:27:18\tNULL\tAI Limited\n17\t30001\t91862577670\t39\t1\t0\tsuggested\tRanked #2 in sponsor's top 20 preferred delegates\t2026-02-16 17:27:18\t2026-02-16 17:27:18\tNULL\tAI Limited\n",
+  "stderr": "",
+  "execution_time_ms": 984
+}

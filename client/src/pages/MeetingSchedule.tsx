@@ -267,13 +267,18 @@ export default function MeetingSchedule() {
     );
   }
 
-  // Group meetings by time slot
-  const meetingsBySlot = meetings.reduce((acc, meeting) => {
-    const slot = meeting.timeSlot || 0;
-    if (!acc[slot]) acc[slot] = [];
-    acc[slot].push(meeting);
-    return acc;
-  }, {} as Record<number, typeof meetings>);
+  // Group meetings by time slot (filter out meetings without timeSlot)
+  const meetingsBySlot = meetings
+    .filter(m => m.timeSlot !== null && m.timeSlot !== undefined)
+    .reduce((acc, meeting) => {
+      const slot = meeting.timeSlot!;
+      if (!acc[slot]) acc[slot] = [];
+      acc[slot].push(meeting);
+      return acc;
+    }, {} as Record<number, typeof meetings>);
+  
+  // Count only meetings with assigned time slots
+  const assignedMeetingsCount = meetings.filter(m => m.timeSlot !== null && m.timeSlot !== undefined).length;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-8">
@@ -288,7 +293,7 @@ export default function MeetingSchedule() {
                   Your Meeting Schedule
                 </CardTitle>
                 <CardDescription className="text-slate-300 text-lg">
-                  {sponsor?.companyName} - {meetings.length} scheduled meetings
+                  {sponsor?.companyName} - {assignedMeetingsCount} scheduled meetings
                 </CardDescription>
               </div>
               <Button
