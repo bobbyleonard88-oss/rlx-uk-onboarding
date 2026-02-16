@@ -8,7 +8,9 @@ import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Download, FileText, Clock, Building2, User, ChevronDown } from "lucide-react";
+import { Calendar, Download, FileText, Clock, Building2, User, ChevronDown, Eye } from "lucide-react";
+import DelegateProfileModal from "@/components/DelegateProfileModal";
+import { useState } from "react";
 import { toast } from "sonner";
 import { attendees } from "@/lib/attendees";
 import {
@@ -31,6 +33,8 @@ const TIME_SLOTS = [
 
 export default function MeetingSchedule() {
   const { user, loading } = useAuth({ redirectOnUnauthenticated: true });
+  const [selectedDelegate, setSelectedDelegate] = useState<any>(null);
+  const [profileModalOpen, setProfileModalOpen] = useState(false);
   
   // Get meetings for this sponsor
   const { data: meetings, isLoading } = trpc.sponsor.getMyMeetings.useQuery(
@@ -96,7 +100,7 @@ export default function MeetingSchedule() {
           <h2>Assessment & Needs</h2>
           <div class="field">
             <div class="label">Assessment Tool</div>
-            <div class="value">${delegate!.assessmentTool || 'N/A'}</div>
+            <div class="value">${delegate!.assessmentTools || 'N/A'}</div>
           </div>
           <div class="field">
             <div class="label">ATS</div>
@@ -197,7 +201,7 @@ export default function MeetingSchedule() {
             <h2>Assessment & Needs</h2>
             <div class="field">
               <div class="label">Assessment Tool</div>
-              <div class="value">${delegate.assessmentTool || 'N/A'}</div>
+              <div class="value">${delegate.assessmentTools || 'N/A'}</div>
             </div>
             <div class="field">
               <div class="label">ATS</div>
@@ -350,20 +354,34 @@ export default function MeetingSchedule() {
                                   <div className="text-slate-400 text-sm">{delegate.jobTitle}</div>
                                 </div>
                                 
-                                <DropdownMenu>
-                                  <DropdownMenuTrigger asChild>
-                                    <Button variant="outline" size="sm" className="w-full gap-2">
-                                      <FileText className="w-4 h-4" />
-                                      Download Profile
-                                      <ChevronDown className="w-4 h-4" />
-                                    </Button>
-                                  </DropdownMenuTrigger>
-                                  <DropdownMenuContent align="end">
-                                    <DropdownMenuItem onClick={() => downloadDelegateProfile(delegate.id, 'pdf')}>
-                                      Download as PDF
-                                    </DropdownMenuItem>
-                                  </DropdownMenuContent>
-                                </DropdownMenu>
+                                <div className="flex gap-2">
+                                  <Button 
+                                    variant="outline" 
+                                    size="sm" 
+                                    className="flex-1 gap-2"
+                                    onClick={() => {
+                                      setSelectedDelegate(delegate);
+                                      setProfileModalOpen(true);
+                                    }}
+                                  >
+                                    <Eye className="w-4 h-4" />
+                                    View Profile
+                                  </Button>
+                                  <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                      <Button variant="outline" size="sm" className="flex-1 gap-2">
+                                        <FileText className="w-4 h-4" />
+                                        Download
+                                        <ChevronDown className="w-4 h-4" />
+                                      </Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent align="end">
+                                      <DropdownMenuItem onClick={() => downloadDelegateProfile(delegate.id, 'pdf')}>
+                                        Download as PDF
+                                      </DropdownMenuItem>
+                                    </DropdownMenuContent>
+                                  </DropdownMenu>
+                                </div>
                               </div>
                             ) : (
                               <div className="text-center text-slate-500 text-sm py-4">
@@ -381,6 +399,12 @@ export default function MeetingSchedule() {
           </div>
         ))}
       </div>
+      
+      <DelegateProfileModal 
+        open={profileModalOpen}
+        onOpenChange={setProfileModalOpen}
+        delegate={selectedDelegate}
+      />
     </div>
   );
 }
