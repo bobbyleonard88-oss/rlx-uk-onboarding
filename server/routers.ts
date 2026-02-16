@@ -557,6 +557,7 @@ export const appRouter = router({
           matchReason: z.string(),
           isPriority: z.boolean(),
           isTopRanked: z.boolean(),
+          timeSlot: z.number().nullable().optional(),
         })),
       }))
       .mutation(async ({ input }) => {
@@ -571,6 +572,7 @@ export const appRouter = router({
             matchScore: meeting.matchScore,
             isTopRanked: meeting.isTopRanked ? 1 : 0,
             isPriority: meeting.isPriority ? 1 : 0,
+            timeSlot: meeting.timeSlot ?? null,
             status: 'suggested',
             notes: meeting.matchReason,
           });

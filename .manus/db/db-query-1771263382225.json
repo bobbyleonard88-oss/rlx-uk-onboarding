@@ -1,0 +1,82 @@
+{
+  "query": "SELECT id, attendeeId, timeSlot, matchScore \nFROM meetings \nWHERE sponsorId = (SELECT id FROM sponsors WHERE companyName LIKE '%AI Limited%' LIMIT 1)\nORDER BY timeSlot;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT id, attendeeId, timeSlot, matchScore \nFROM meetings \nWHERE sponsorId = (SELECT id FROM sponsors WHERE companyName LIKE '%AI Limited%' LIMIT 1)\nORDER BY timeSlot;",
+  "rows": [
+    {
+      "id": "25",
+      "attendeeId": "12731251",
+      "timeSlot": "NULL",
+      "matchScore": "100"
+    },
+    {
+      "id": "26",
+      "attendeeId": "194698768792",
+      "timeSlot": "NULL",
+      "matchScore": "100"
+    },
+    {
+      "id": "27",
+      "attendeeId": "185464523694",
+      "timeSlot": "NULL",
+      "matchScore": "100"
+    },
+    {
+      "id": "28",
+      "attendeeId": "13454401",
+      "timeSlot": "NULL",
+      "matchScore": "40"
+    },
+    {
+      "id": "29",
+      "attendeeId": "91862577670",
+      "timeSlot": "NULL",
+      "matchScore": "39"
+    },
+    {
+      "id": "30",
+      "attendeeId": "76678269091",
+      "timeSlot": "NULL",
+      "matchScore": "37"
+    },
+    {
+      "id": "31",
+      "attendeeId": "93380106578",
+      "timeSlot": "NULL",
+      "matchScore": "36"
+    },
+    {
+      "id": "32",
+      "attendeeId": "91889321035",
+      "timeSlot": "NULL",
+      "matchScore": "34"
+    },
+    {
+      "id": "33",
+      "attendeeId": "7258470500",
+      "timeSlot": "NULL",
+      "matchScore": "31"
+    },
+    {
+      "id": "34",
+      "attendeeId": "92953690026",
+      "timeSlot": "NULL",
+      "matchScore": "30"
+    },
+    {
+      "id": "35",
+      "attendeeId": "93174643474",
+      "timeSlot": "NULL",
+      "matchScore": "28"
+    },
+    {
+      "id": "36",
+      "attendeeId": "91862579761",
+      "timeSlot": "NULL",
+      "matchScore": "27"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tattendeeId\ttimeSlot\tmatchScore\n25\t12731251\tNULL\t100\n26\t194698768792\tNULL\t100\n27\t185464523694\tNULL\t100\n28\t13454401\tNULL\t40\n29\t91862577670\tNULL\t39\n30\t76678269091\tNULL\t37\n31\t93380106578\tNULL\t36\n32\t91889321035\tNULL\t34\n33\t7258470500\tNULL\t31\n34\t92953690026\tNULL\t30\n35\t93174643474\tNULL\t28\n36\t91862579761\tNULL\t27\n",
+  "stderr": "",
+  "execution_time_ms": 371
+}
