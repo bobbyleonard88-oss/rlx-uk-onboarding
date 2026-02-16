@@ -141,3 +141,13 @@
 - [x] Add "Login/Register" button to admin portal landing page
 - [x] Show login button when user is not authenticated
 - [x] Hide login button and show user profile when authenticated
+
+## Authentication Blocking & Logout UI
+
+- [x] Update home page to show ONLY "Login / Register" button when unauthenticated
+- [x] Block all navigation tabs until user logs in
+- [x] Redirect unauthenticated users to login from all pages (via useAuth redirectOnUnauthenticated)
+- [x] After login, land users on home page with "Begin Your Journey" button
+- [x] Remove "Begin Your Journey" button from unauthenticated home page
+- [ ] Add logout button to top-right corner of content pages (Overview, Features, Rules, Timeline, etc.)
+  Note: Intake, Prioritize, Admin pages already have logout in headers

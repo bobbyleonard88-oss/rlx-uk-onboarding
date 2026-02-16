@@ -1,6 +1,7 @@
 import { Link, useLocation } from "wouter";
 import { Home, Info, Award, Users, FileText, Calendar, Shield, FormInput, ListOrdered, Clock, Target, HelpCircle } from "lucide-react";
 import { useState, useEffect } from "react";
+import { useAuth } from "@/_core/hooks/useAuth";
 
 const navItems = [
   { path: "/", label: "Home", icon: Home },
@@ -20,6 +21,7 @@ const navItems = [
 export default function Navigation() {
   const [location] = useLocation();
   const [visitedPages, setVisitedPages] = useState<string[]>([]);
+  const { user, loading } = useAuth();
 
   useEffect(() => {
     // Load visited pages from localStorage
@@ -69,28 +71,46 @@ export default function Navigation() {
             const isActive = location === item.path;
             const isVisited = visitedPages.includes(item.path);
             
+            // Block navigation if not authenticated (except home page)
+            const isBlocked = !loading && !user && item.path !== "/";
+            
             return (
               <li key={item.path}>
-                <Link href={item.path}>
+                {isBlocked ? (
                   <div
-                    className={`
-                      flex items-center gap-3 px-3 py-3 rounded-lg transition-all duration-200 cursor-pointer
-                      ${isActive 
-                        ? 'bg-primary/20 text-accent border border-accent/30 scale-105' 
-                        : isVisited
-                        ? 'bg-accent/10 text-accent/80 hover:text-accent hover:bg-accent/20 border border-accent/20'
-                        : 'text-muted-foreground hover:text-foreground hover:bg-secondary/30 border border-transparent'
-                      }
+                    className="
+                      flex items-center gap-3 px-3 py-3 rounded-lg transition-all duration-200 cursor-not-allowed opacity-40
+                      text-muted-foreground border border-transparent
                       lg:justify-start justify-center
-                      ${isActive ? 'animate-pop' : ''}
-                    `}
+                    "
                   >
                     <Icon className="w-5 h-5 flex-shrink-0" />
                     <span className="hidden lg:block font-heading text-sm font-medium">
                       {item.label}
                     </span>
                   </div>
-                </Link>
+                ) : (
+                  <Link href={item.path}>
+                    <div
+                      className={`
+                        flex items-center gap-3 px-3 py-3 rounded-lg transition-all duration-200 cursor-pointer
+                        ${isActive 
+                          ? 'bg-primary/20 text-accent border border-accent/30 scale-105' 
+                          : isVisited
+                          ? 'bg-accent/10 text-accent/80 hover:text-accent hover:bg-accent/20 border border-accent/20'
+                          : 'text-muted-foreground hover:text-foreground hover:bg-secondary/30 border border-transparent'
+                        }
+                        lg:justify-start justify-center
+                        ${isActive ? 'animate-pop' : ''}
+                      `}
+                    >
+                      <Icon className="w-5 h-5 flex-shrink-0" />
+                      <span className="hidden lg:block font-heading text-sm font-medium">
+                        {item.label}
+                      </span>
+                    </div>
+                  </Link>
+                )}
               </li>
             );
           })}

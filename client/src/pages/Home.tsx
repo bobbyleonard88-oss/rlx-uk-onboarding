@@ -51,7 +51,7 @@ export default function Home() {
 
             <AnimatedSection delay={300}>
               <div className="flex justify-center items-center gap-4 mb-12">
-                {!loading && !user && (
+                {!loading && !user ? (
                   <Button 
                     size="lg" 
                     onClick={() => window.location.href = getLoginUrl()}
@@ -60,13 +60,14 @@ export default function Home() {
                     <LogIn className="w-5 h-5" />
                     Login / Register
                   </Button>
+                ) : (
+                  <Link href="/overview">
+                    <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading gap-2 px-8">
+                      Begin Your Journey
+                      <ArrowRight className="w-5 h-5" />
+                    </Button>
+                  </Link>
                 )}
-                <Link href="/overview">
-                  <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading gap-2 px-8">
-                    Begin Your Journey
-                    <ArrowRight className="w-5 h-5" />
-                  </Button>
-                </Link>
               </div>
             </AnimatedSection>
 
