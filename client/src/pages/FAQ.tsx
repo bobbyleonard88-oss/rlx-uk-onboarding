@@ -3,6 +3,7 @@
  */
 
 import AnimatedSection from "@/components/AnimatedSection";
+import NextButton from "@/components/NextButton";
 import { HelpCircle, ChevronDown } from "lucide-react";
 import { useState } from "react";
 
@@ -137,6 +138,12 @@ export default function FAQ() {
             >
               Contact Client Success
             </a>
+          </div>
+        </AnimatedSection>
+
+        <AnimatedSection delay={500}>
+          <div className="mt-16">
+            <NextButton href="/team" label="Meet the Team" />
           </div>
         </AnimatedSection>
       </div>

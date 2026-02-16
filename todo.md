@@ -155,3 +155,14 @@
 ## Timeline Fixes
 
 - [x] Reorder key deadlines in chronological date order (earliest to latest)
+
+## Intake Form Submission Changes
+
+- [x] Remove automatic CSV download after intake form submission (already not present)
+- [x] Remove download button from intake form success state (already not present)
+- [x] Keep submission data flowing only to admin portal (already implemented)
+
+## FAQ and Team Page Navigation Updates
+
+- [x] Update FAQ page next button to navigate to Team page
+- [x] Replace Team page "Next: Partner Intake Form" button with customer success contact button

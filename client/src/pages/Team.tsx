@@ -109,7 +109,14 @@ export default function Team() {
         </AnimatedSection>
 
         <AnimatedSection delay={400}>
-          <NextButton href="/intake" label="Next: Partner Intake Form" />
+          <div className="flex justify-center">
+            <a
+              href="mailto:clientsuccess@recruitmentevents.co"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-primary to-accent text-white font-heading font-semibold rounded-lg hover:opacity-90 transition-opacity text-lg"
+            >
+              Contact Client Success
+            </a>
+          </div>
         </AnimatedSection>
       </div>
     </div>
