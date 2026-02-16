@@ -6,6 +6,8 @@ import { z } from "zod";
 import * as db from "./db";
 import { notifyOwner } from "./_core/notification";
 import { sendEmail } from "./emailNotification";
+import { notifyIntakeSubmission, notifyRankingsSubmission } from "./_core/emailNotification";
+import { ENV } from "./_core/env";
 import { generateAllMatches, saveMatches } from "./matchingEngine";
 
 
@@ -113,6 +115,14 @@ export const appRouter = router({
           secondRepLinkedinUrl: input.secondRepLinkedinUrl || null,
         });
         
+        // Send email notification to admin team
+        const dashboardUrl = `${ENV.isProduction ? 'https' : 'http'}://${ctx.req.headers.host || 'localhost:3000'}/dashboard`;
+        await notifyIntakeSubmission(
+          input.companyName,
+          sponsorId,
+          dashboardUrl
+        ).catch(err => console.error('Failed to send intake notification:', err));
+        
         return { success: true, submissionId };
       }),
   }),
@@ -155,27 +165,13 @@ export const appRouter = router({
           rankingsData: input.rankingsData,
         });
 
-        // Send notification to CS team and Bobby
-        try {
-          // Get admin portal URL
-          const adminUrl = `${process.env.VITE_APP_URL || 'https://your-domain.com'}/admin`;
-          
-          // Send to Manus notification (project owner)
-          await notifyOwner({
-            title: "New Rankings Submission - RLX",
-            content: `${sponsor.companyName} has submitted their meeting priorities.\n\nContact: ${sponsor.contactName} (${sponsor.contactEmail})\n\nView and download in admin dashboard: ${adminUrl}`,
-          });
-          
-          // Send email to CS team and Bobby
-          await sendEmail({
-            to: ['clientsuccess@recruitmentevents.co', 'bobby@recruitmentevents.co'],
-            subject: `New Rankings Submission - ${sponsor.companyName}`,
-            body: `Hello,\n\n${sponsor.companyName} has submitted their meeting priorities for the RLX event.\n\nCompany: ${sponsor.companyName}\nContact: ${sponsor.contactName}\nEmail: ${sponsor.contactEmail}\nSubmission ID: #${submissionId}\n\nYou can view and download all submissions in the admin dashboard:\n${adminUrl}\n\nBest regards,\nRLX Onboarding System`,
-            html: `<p>Hello,</p><p><strong>${sponsor.companyName}</strong> has submitted their meeting priorities for the RLX event.</p><ul><li><strong>Company:</strong> ${sponsor.companyName}</li><li><strong>Contact:</strong> ${sponsor.contactName}</li><li><strong>Email:</strong> ${sponsor.contactEmail}</li><li><strong>Submission ID:</strong> #${submissionId}</li></ul><p><a href="${adminUrl}" style="background-color: #7B4B94; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">View Admin Dashboard</a></p><p>Best regards,<br>RLX Onboarding System</p>`,
-          });
-        } catch (error) {
-          console.error("Failed to send notification:", error);
-        }
+        // Send email notification to admin team
+        const dashboardUrl = `${ENV.isProduction ? 'https' : 'http'}://${ctx.req.headers.host || 'localhost:3000'}/dashboard`;
+        await notifyRankingsSubmission(
+          sponsor.companyName,
+          sponsor.id,
+          dashboardUrl
+        ).catch(err => console.error('Failed to send rankings notification:', err));
 
         return { success: true, submissionId };
       }),
