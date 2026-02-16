@@ -30,90 +30,106 @@ export default function DelegateProfileModal({ open, onOpenChange, delegate }: D
       <head>
         <meta charset="UTF-8">
         <style>
+          @page { 
+            size: A4; 
+            margin: 15mm; 
+          }
           * { margin: 0; padding: 0; box-sizing: border-box; }
           body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            padding: 50px; 
+            max-width: 210mm;
+            margin: 0 auto;
+            padding: 20mm; 
             color: #1a1a2e; 
-            background: #f8f9fa;
-            line-height: 1.6;
+            background: white;
+            line-height: 1.7;
+            font-size: 11pt;
           }
           .header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 40px;
-            border-radius: 15px 15px 0 0;
-            margin-bottom: 30px;
+            padding: 25mm 20mm;
+            border-radius: 8px 8px 0 0;
+            margin-bottom: 8mm;
+            page-break-after: avoid;
           }
           .header h1 { 
-            font-size: 32px; 
-            margin-bottom: 10px;
+            font-size: 24pt; 
+            margin-bottom: 3mm;
             font-weight: 600;
+            line-height: 1.3;
           }
           .header .subtitle { 
-            font-size: 18px; 
+            font-size: 14pt; 
             opacity: 0.95;
             font-weight: 400;
+            line-height: 1.5;
           }
           .header .company {
-            font-size: 16px;
+            font-size: 12pt;
             opacity: 0.9;
-            margin-top: 5px;
+            margin-top: 2mm;
+            line-height: 1.5;
           }
           
           .content {
             background: white;
-            padding: 40px;
-            border-radius: 0 0 15px 15px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 15mm 20mm;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
           }
           
           .section { 
-            margin-bottom: 35px;
+            margin-bottom: 8mm;
             page-break-inside: avoid;
           }
           .section:last-child { margin-bottom: 0; }
+          .section:not(:first-child) { margin-top: 8mm; }
           
           h2 { 
             color: #667eea; 
-            font-size: 20px;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 3px solid #e0e7ff;
+            font-size: 14pt;
+            margin-bottom: 5mm;
+            padding-bottom: 3mm;
+            border-bottom: 2px solid #e0e7ff;
             font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 3mm;
+            line-height: 1.4;
+            page-break-after: avoid;
           }
           
           .grid { 
             display: grid; 
             grid-template-columns: repeat(2, 1fr); 
-            gap: 25px;
-            margin-bottom: 20px;
+            gap: 5mm;
+            margin-bottom: 5mm;
           }
           
           .field { 
             background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            border-left: 4px solid #667eea;
+            padding: 4mm;
+            border-radius: 4px;
+            border-left: 3px solid #667eea;
+            page-break-inside: avoid;
           }
           
           .label { 
             font-weight: 600; 
             color: #4a5568; 
-            font-size: 11px; 
+            font-size: 9pt; 
             text-transform: uppercase; 
-            letter-spacing: 0.5px;
-            margin-bottom: 8px;
+            letter-spacing: 0.3pt;
+            margin-bottom: 2mm;
             display: block;
+            line-height: 1.3;
           }
           
           .value { 
-            font-size: 14px;
+            font-size: 11pt;
             color: #1a202c;
-            line-height: 1.5;
+            line-height: 1.7;
           }
           
           .full-width {
@@ -133,17 +149,24 @@ export default function DelegateProfileModal({ open, onOpenChange, delegate }: D
           }
           
           .footer {
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 2px solid #e2e8f0;
+            margin-top: 10mm;
+            padding-top: 5mm;
+            border-top: 1px solid #e2e8f0;
             text-align: center;
             color: #718096;
-            font-size: 12px;
+            font-size: 9pt;
+            line-height: 1.6;
+            page-break-before: avoid;
           }
           
           @media print {
-            body { background: white; padding: 20px; }
+            body { 
+              background: white; 
+              padding: 0;
+              margin: 0;
+            }
             .content { box-shadow: none; }
+            .header { border-radius: 0; }
           }
         </style>
       </head>
