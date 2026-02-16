@@ -7,9 +7,10 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Download, RefreshCw, Users, Calendar, CheckCircle, FileText, List, Archive, ArchiveRestore, AlertCircle, LogOut, User } from "lucide-react";
+import { Download, RefreshCw, Users, Calendar, CheckCircle, FileText, List, Archive, ArchiveRestore, AlertCircle, LogOut, User, LogIn } from "lucide-react";
 import { Link } from "wouter";
 import { toast } from "sonner";
+import { getLoginUrl } from "@/const";
 import { attendees } from "@/lib/attendees";
 import { useState } from "react";
 import {
@@ -55,15 +56,41 @@ export default function AdminDashboard() {
     },
   });
 
+  // Check if user is not logged in
+  if (!loading && !user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+        <Card className="max-w-md glass-card">
+          <CardHeader>
+            <CardTitle className="text-white text-center">Admin Portal</CardTitle>
+            <CardDescription className="text-slate-300 text-center">
+              Please log in to access the RLX admin dashboard.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="flex justify-center">
+            <Button
+              size="lg"
+              onClick={() => window.location.href = getLoginUrl()}
+              className="bg-accent hover:bg-accent/90 text-white gap-2 px-8"
+            >
+              <LogIn className="w-5 h-5" />
+              Login / Register
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   // Check if user is admin
   if (!loading && user && user.role !== "admin") {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Card className="max-w-md">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+        <Card className="max-w-md glass-card">
           <CardHeader>
-            <CardTitle>Access Denied</CardTitle>
-            <CardDescription>
-              You do not have permission to access this page.
+            <CardTitle className="text-white">Access Denied</CardTitle>
+            <CardDescription className="text-slate-300">
+              You do not have permission to access this page. Only administrators can view the admin dashboard.
             </CardDescription>
           </CardHeader>
         </Card>

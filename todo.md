@@ -134,3 +134,10 @@
 - [x] Add "Edit Rankings" button if already submitted
 - [x] Show submission timestamps
 - [x] Add quick links to event information pages
+
+## Login/Register Buttons
+
+- [x] Add prominent "Login/Register" button to home page hero section for sponsors
+- [x] Add "Login/Register" button to admin portal landing page
+- [x] Show login button when user is not authenticated
+- [x] Hide login button and show user profile when authenticated

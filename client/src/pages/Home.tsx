@@ -5,11 +5,15 @@
  */
 
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, LogIn } from "lucide-react";
 import { Link } from "wouter";
 import AnimatedSection from "@/components/AnimatedSection";
+import { useAuth } from "@/_core/hooks/useAuth";
+import { getLoginUrl } from "@/const";
 
 export default function Home() {
+  const { user, loading } = useAuth();
+  
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -46,7 +50,17 @@ export default function Home() {
             </AnimatedSection>
 
             <AnimatedSection delay={300}>
-              <div className="flex justify-center items-center mb-12">
+              <div className="flex justify-center items-center gap-4 mb-12">
+                {!loading && !user && (
+                  <Button 
+                    size="lg" 
+                    onClick={() => window.location.href = getLoginUrl()}
+                    className="bg-accent hover:bg-accent/90 text-white font-heading gap-2 px-8"
+                  >
+                    <LogIn className="w-5 h-5" />
+                    Login / Register
+                  </Button>
+                )}
                 <Link href="/overview">
                   <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading gap-2 px-8">
                     Begin Your Journey
