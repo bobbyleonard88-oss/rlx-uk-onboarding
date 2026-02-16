@@ -234,3 +234,21 @@
 - [x] Remove download CSV button from Prioritise Meetings page
 - [x] Remove any mentions of downloading rankings from Prioritise page
 - [x] Keep submission functionality only (data goes to admin portal)
+
+## Meeting Matching Algorithm Bug
+
+- [x] Debug why AI Limited sponsor returns no matches
+- [x] Check if sponsor data exists in database (data exists)
+- [x] Root cause: Matching algorithm was looking for delegateProfiles in database
+- [x] Update matching algorithm to use attendees.ts list directly instead of database
+- [x] Remove delegate import UI from admin Users page
+- [ ] Test matching algorithm with AI Limited (ready to test now)
+
+## Time Slot Scheduling
+
+- [ ] Add day and timeSlot fields to meetings table schema
+- [ ] Add time slot assignment UI (Day 1/2, 10:00-11:00 / 1:30-2:30 / 3:30-4:30)
+- [ ] Add drag-and-drop to reorganize meetings across time slots
+- [ ] Add delegate swap functionality (replace one delegate with another)
+- [ ] Show time slot grid view for each sponsor's meetings
+- [ ] Validate that no delegate is double-booked in same time slot

@@ -1,0 +1,19 @@
+{
+  "query": "SELECT * FROM sponsors WHERE companyName LIKE '%AI%' LIMIT 1;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT * FROM sponsors WHERE companyName LIKE '%AI%' LIMIT 1;",
+  "rows": [
+    {
+      "id": "30001",
+      "userId": "30019",
+      "companyName": "AI Limited",
+      "contactName": "Rob Lemon",
+      "contactEmail": "bobby@recruitmentevents.co",
+      "createdAt": "2026-02-16 13:00:23",
+      "updatedAt": "2026-02-16 13:00:23"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tuserId\tcompanyName\tcontactName\tcontactEmail\tcreatedAt\tupdatedAt\n30001\t30019\tAI Limited\tRob Lemon\tbobby@recruitmentevents.co\t2026-02-16 13:00:23\t2026-02-16 13:00:23\n",
+  "stderr": "",
+  "execution_time_ms": 362
+}

@@ -73,12 +73,22 @@ export async function generateMeetingsForSponsor(
   sponsorId: number,
   meetingCount: number
 ): Promise<MatchResult[]> {
+  console.log(`[Matching] Starting match generation for sponsor ${sponsorId}, requesting ${meetingCount} meetings`);
+  
   // Get sponsor data
   const sponsor = await db.getSponsorById(sponsorId);
-  if (!sponsor) throw new Error("Sponsor not found");
+  if (!sponsor) {
+    console.error(`[Matching] Sponsor ${sponsorId} not found`);
+    throw new Error("Sponsor not found");
+  }
+  console.log(`[Matching] Found sponsor: ${sponsor.companyName}`);
   
   const intakeSubmission = await db.getIntakeSubmissionBySponsor(sponsorId);
-  if (!intakeSubmission) throw new Error("Sponsor has not completed intake form");
+  if (!intakeSubmission) {
+    console.error(`[Matching] No intake submission found for sponsor ${sponsorId}`);
+    throw new Error("Sponsor has not completed intake form");
+  }
+  console.log(`[Matching] Found intake submission with keyChallenges: ${intakeSubmission.keyChallenges?.substring(0, 50)}...`);
   
   // Get priority tags for this sponsor
   const priorityTags = await db.getPriorityTagsBySponsor(sponsorId);
@@ -96,8 +106,26 @@ export async function generateMeetingsForSponsor(
     }
   }
   
-  // Get all delegates
-  const allDelegates = await db.getAllDelegateProfiles();
+  // Get all delegates from attendees list
+  const { attendees } = await import('./attendees');
+  console.log(`[Matching] Loaded ${attendees.length} attendees from attendees list`);
+  
+  // Transform attendees to delegate format
+  const allDelegates = attendees.map(a => ({
+    id: 0, // Not used
+    attendeeId: a.id,
+    firstName: a.firstName,
+    lastName: a.lastName,
+    company: a.company || 'Unknown',
+    jobTitle: a.jobTitle || '',
+    industry: a.industry || null,
+    challenges: a.assessmentTool || '',
+    interests: `${a.ats || ''} ${a.crm || ''} ${a.marketIntelligence || ''}`,
+    profileData: null,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  }));
+  console.log(`[Matching] Transformed ${allDelegates.length} delegates for matching`);
   
   // Get all existing meetings to check delegate capacity
   const allMeetings = await db.getAllMeetings();
@@ -112,6 +140,7 @@ export async function generateMeetingsForSponsor(
     const currentCount = delegateMeetingCounts.get(delegate.attendeeId) || 0;
     return currentCount < 8;
   });
+  console.log(`[Matching] ${availableDelegates.length} delegates available (under 8 meetings capacity)`);
   
   // Score each available delegate
   const scoredMatches: MatchResult[] = [];
@@ -177,7 +206,10 @@ export async function generateMeetingsForSponsor(
   });
   
   // Return top N matches
-  return scoredMatches.slice(0, meetingCount);
+  const topMatches = scoredMatches.slice(0, meetingCount);
+  console.log(`[Matching] Returning ${topMatches.length} matches (requested ${meetingCount})`);
+  console.log(`[Matching] Top 3 scores: ${topMatches.slice(0, 3).map(m => `${m.delegateInfo.firstName} ${m.delegateInfo.lastName}: ${m.matchScore}%`).join(', ')}`);
+  return topMatches;
 }
 
 /**

@@ -363,6 +363,19 @@ export async function getAllDelegateProfiles() {
   return await db.select().from(delegateProfiles);
 }
 
+export async function getDelegateByAttendeeId(attendeeId: string) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const results = await db
+    .select()
+    .from(delegateProfiles)
+    .where(eq(delegateProfiles.attendeeId, attendeeId))
+    .limit(1);
+  
+  return results[0] || null;
+}
+
 export async function updateVendorProfileDocument(sponsorId: number, documentUrl: string) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");

@@ -7,8 +7,7 @@ import * as db from "./db";
 import { notifyOwner } from "./_core/notification";
 import { sendEmail } from "./emailNotification";
 import { generateAllMatches, saveMatches } from "./matchingEngine";
-import { readFileSync } from "fs";
-import { join } from "path";
+
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -456,65 +455,51 @@ export const appRouter = router({
         return { success: true };
       }),
     
-    // Import delegates from CSV
+    // Import delegates from attendees list
     importDelegates: adminProcedure.mutation(async () => {
-      const csvPath = join(process.cwd(), 'delegates.csv');
-      const csvContent = readFileSync(csvPath, 'utf-8');
-      const lines = csvContent.split('\n').filter(line => line.trim());
+      const { attendees } = await import('./attendees');
       
       let imported = 0;
-      for (let i = 1; i < lines.length; i++) {
-        const line = lines[i];
-        if (!line.trim()) continue;
-        
-        // Parse CSV line
-        const values = [];
-        let current = '';
-        let inQuotes = false;
-        
-        for (let char of line) {
-          if (char === '"') {
-            inQuotes = !inQuotes;
-          } else if (char === ',' && !inQuotes) {
-            values.push(current.trim());
-            current = '';
-          } else {
-            current += char;
-          }
+      let skipped = 0;
+      
+      for (const attendee of attendees) {
+        if (!attendee.id || !attendee.firstName || !attendee.lastName) {
+          skipped++;
+          continue;
         }
-        values.push(current.trim());
-        
-        const [
-          id, firstName, lastName, jobTitle, company, companySize,
-          industry, taTeamSize, budgetAuthority, assessmentTools,
-          ats, crm, marketIntel, otherTools
-        ] = values;
-        
-        if (!id || !firstName || !lastName) continue;
         
         try {
+          // Check if delegate already exists
+          const existing = await db.getDelegateByAttendeeId(attendee.id);
+          if (existing) {
+            skipped++;
+            continue;
+          }
+          
           await db.createDelegateProfile({
-            attendeeId: id,
-            firstName: firstName.replace(/"/g, ''),
-            lastName: lastName.replace(/"/g, ''),
-            company: company?.replace(/"/g, '') || 'Unknown',
-            jobTitle: jobTitle?.replace(/"/g, '') || null,
-            industry: industry?.replace(/"/g, '') || null,
-            challenges: assessmentTools?.replace(/"/g, '') || null,
-            interests: `ATS: ${ats || 'N/A'}, CRM: ${crm || 'N/A'}`,
+            attendeeId: attendee.id,
+            firstName: attendee.firstName,
+            lastName: attendee.lastName,
+            company: attendee.company || 'Unknown',
+            jobTitle: attendee.jobTitle || null,
+            industry: attendee.industry || null,
+            challenges: attendee.assessmentTool || null,
+            interests: `ATS: ${attendee.ats || 'N/A'}, CRM: ${attendee.crm || 'N/A'}, Market Intel: ${attendee.marketIntelligence || 'N/A'}`,
             profileData: JSON.stringify({
-              companySize: companySize?.replace(/"/g, ''),
-              taTeamSize: taTeamSize?.replace(/"/g, ''),
-              budgetAuthority: budgetAuthority?.replace(/"/g, ''),
+              companySize: attendee.companySize,
+              teamSize: attendee.teamSize,
+              budgetAuthority: attendee.budgetAuthority,
+              otherTools: attendee.otherTools,
             }),
           });
           imported++;
         } catch (error) {
-          console.error(`Error importing row ${i}:`, error);
+          console.error(`Error importing attendee ${attendee.id}:`, error);
+          skipped++;
         }
       }
       
-      return { success: true, imported };
+      return { success: true, imported, skipped, total: attendees.length };
     }),
     
     // Generate meetings for a specific sponsor
