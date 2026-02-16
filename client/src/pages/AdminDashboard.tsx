@@ -381,7 +381,7 @@ export default function AdminDashboard() {
                           return (
                             <div
                               key={delegateId}
-                              className="inline-flex items-center gap-2 px-3 py-1.5 bg-primary/20 text-primary rounded-full text-sm"
+                              className="inline-flex items-center gap-2 px-3 py-1.5 bg-primary/30 text-white rounded-full text-sm"
                             >
                               <span>{delegate.firstName} {delegate.lastName}</span>
                               <button
