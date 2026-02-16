@@ -381,9 +381,9 @@ export default function AdminDashboard() {
                           return (
                             <div
                               key={delegateId}
-                              className="inline-flex items-center gap-2 px-3 py-1.5 bg-primary/30 text-white rounded-full text-sm"
+                              className="inline-flex items-center gap-2 px-3 py-1.5 bg-primary/80 rounded-full text-sm"
                             >
-                              <span>{delegate.firstName} {delegate.lastName}</span>
+                              <span className="text-white font-medium">{delegate.firstName} {delegate.lastName}</span>
                               <button
                                 onClick={() => {
                                   removePriorityTag.mutate({
