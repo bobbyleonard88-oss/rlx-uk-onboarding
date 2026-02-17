@@ -371,3 +371,8 @@
 - [x] Send email when sponsor submits intake form with link to admin dashboard
 - [x] Send email when sponsor submits rankings with link to admin dashboard
 - [x] Include sponsor name and submission details in notification emails
+
+## Intake Form Label Improvements
+
+- [x] Change "Meeting Package" label to "How many meetings have you purchased?"
+- [x] Update dropdown options from "12" and "20" to "12 Meetings" and "20 Meetings"

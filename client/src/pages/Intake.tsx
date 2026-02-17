@@ -300,7 +300,7 @@ export default function Intake() {
 
               <div className="space-y-6 mb-6">
                 <div>
-                  <Label htmlFor="meetingPackage">Do you have 20 meetings booked? *</Label>
+                  <Label htmlFor="meetingPackage">How many meetings have you purchased? *</Label>
                   <Select
                     value={formData.meetingPackage}
                     onValueChange={(value) => handleChange("meetingPackage", value as "12" | "20")}
@@ -309,8 +309,8 @@ export default function Intake() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="12">No - 12 Meetings Package</SelectItem>
-                      <SelectItem value="20">Yes - 20 Meetings Package</SelectItem>
+                      <SelectItem value="12">12 Meetings</SelectItem>
+                      <SelectItem value="20">20 Meetings</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
