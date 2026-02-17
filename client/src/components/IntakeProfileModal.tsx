@@ -203,13 +203,26 @@ export default function IntakeProfileModal({ open, onOpenChange, intakeData, com
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-slate-900 border-slate-700">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-heading text-white flex items-center gap-2">
-            <Building2 className="w-6 h-6 text-primary" />
-            {companyName} - Intake Profile
-          </DialogTitle>
-          <DialogDescription className="text-slate-400">
-            Complete intake form submission details
-          </DialogDescription>
+          <div className="flex items-start gap-4">
+            {intakeData.companyLogoUrl && (
+              <div className="w-16 h-16 bg-white rounded-lg p-2 flex items-center justify-center flex-shrink-0">
+                <img 
+                  src={intakeData.companyLogoUrl} 
+                  alt={`${companyName} logo`}
+                  className="max-w-full max-h-full object-contain"
+                />
+              </div>
+            )}
+            <div className="flex-1">
+              <DialogTitle className="text-2xl font-heading text-white flex items-center gap-2">
+                <Building2 className="w-6 h-6 text-primary" />
+                {companyName} - Intake Profile
+              </DialogTitle>
+              <DialogDescription className="text-slate-400">
+                Complete intake form submission details
+              </DialogDescription>
+            </div>
+          </div>
         </DialogHeader>
 
         <div className="space-y-6 mt-4">

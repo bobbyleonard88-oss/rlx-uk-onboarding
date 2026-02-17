@@ -10,6 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Calendar, Download, FileText, Clock, Building2, User, ChevronDown, Eye } from "lucide-react";
+import PageHeader from "@/components/PageHeader";
 import DelegateProfileModal from "@/components/DelegateProfileModal";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -303,7 +304,9 @@ export default function MeetingSchedule() {
   const assignedMeetingsCount = meetings.filter(m => m.timeSlot !== null && m.timeSlot !== undefined).length;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+      <PageHeader title="Your Meeting Schedule" description="View and download your confirmed meetings" />
+      <div className="p-8">
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Header */}
         <Card className="glass-card border-slate-700">
@@ -758,6 +761,7 @@ export default function MeetingSchedule() {
           onOpenChange={setProfileModalOpen}
           delegate={selectedDelegate}
         />
+      </div>
       </div>
     </div>
   );

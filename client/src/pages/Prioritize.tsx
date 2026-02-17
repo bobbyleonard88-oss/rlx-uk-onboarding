@@ -59,7 +59,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { GripVertical, LogOut, User } from "lucide-react";
+import { GripVertical } from "lucide-react";
+import PageHeader from "@/components/PageHeader";
 import { attendees, Attendee } from "@/lib/attendees";
 import { toast } from "sonner";
 
@@ -275,28 +276,7 @@ export default function Prioritize() {
 
   return (
     <div className="min-h-screen">
-      {/* User Profile Header */}
-      <div className="border-b border-border/30 bg-background/50 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container max-w-7xl">
-          <div className="flex items-center justify-end h-14 gap-3">
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-muted/50 rounded-lg border border-border">
-              <User className="w-4 h-4 text-muted-foreground" />
-              <span className="text-sm text-foreground">{user?.email}</span>
-            </div>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => {
-                window.location.href = '/api/auth/logout';
-              }}
-              className="gap-2 text-muted-foreground hover:text-foreground hover:bg-destructive/20"
-            >
-              <LogOut className="w-4 h-4" />
-              Logout
-            </Button>
-          </div>
-        </div>
-      </div>
+      <PageHeader title="Prioritise Your Meetings" description="Rank delegates in order of preference for your meeting schedule" />
       <div className="py-20">
       <div className="container max-w-7xl">
         <AnimatedSection>
