@@ -580,3 +580,28 @@
 - [x] Ensure sufficient color contrast throughout
 - [x] Increase button text sizes where needed
 - [x] Improve form label and input text sizes
+
+## Intake Form & Rankings Font Size Improvements
+
+- [x] Increase font sizes on Intake Form page (labels, inputs, text)
+- [ ] Increase font sizes on Prioritize/Rankings page (table text, labels)
+- [x] Ensure all form fields are easily readable
+- [x] Improve label and input text sizes for better accessibility
+
+## Navigation Visual Improvements
+
+- [x] Remove grey border from right side of navigation panel
+
+## 20-Meeting Package Schedule Loading Bug
+
+- [x] Fix admin portal not loading saved schedules for sponsors with 20-meeting packages
+- [x] Ensure getMeetingsBySponsor returns all meetings regardless of package type
+- [x] Verify meeting count dropdown correctly identifies 20-meeting sponsors
+- [x] Test that Natalija's saved meetings appear when selecting her company
+
+## Sponsor Meeting Schedule Visibility Bug
+
+- [x] Fix Meeting Schedule tab not appearing for sponsors with confirmed meetings
+- [x] Debug getMyMeetings query to ensure it returns confirmed meetings
+- [x] Check Navigation component logic for showing Meeting Schedule tab
+- [x] Verify meeting status is set to 'confirmed' after publishing

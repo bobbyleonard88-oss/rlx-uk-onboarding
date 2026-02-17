@@ -1,0 +1,14 @@
+{
+  "query": "SELECT status, COUNT(*) as count FROM meetings GROUP BY status;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT status, COUNT(*) as count FROM meetings GROUP BY status;",
+  "rows": [
+    {
+      "status": "suggested",
+      "count": "44"
+    }
+  ],
+  "messages": [],
+  "stdout": "status\tcount\nsuggested\t44\n",
+  "stderr": "",
+  "execution_time_ms": 359
+}

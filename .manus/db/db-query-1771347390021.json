@@ -1,0 +1,9 @@
+{
+  "query": "SELECT * FROM sponsors WHERE companyName LIKE '%Natalija%'; SELECT m.* FROM meetings m JOIN sponsors s ON m.sponsorId = s.id WHERE s.companyName LIKE '%Natalija%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT * FROM sponsors WHERE companyName LIKE '%Natalija%'; SELECT m.* FROM meetings m JOIN sponsors s ON m.sponsorId = s.id WHERE s.companyName LIKE '%Natalija%';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 1210
+}

@@ -191,7 +191,7 @@ export default function Intake() {
 
                 <div>
                   <Label htmlFor="logo">Company Logo * (Transparent Background)</Label>
-                  <p className="text-sm text-muted-foreground mt-1 mb-2">
+                  <p className="text-base text-muted-foreground mt-1 mb-2">
                     HD png logo (svg or eps if available)
                   </p>
                   <div className="relative">
@@ -203,7 +203,7 @@ export default function Intake() {
                       className="mt-2"
                     />
                     {logoFile && (
-                      <p className="text-sm text-accent mt-2 flex items-center gap-2">
+                      <p className="text-base text-accent mt-2 flex items-center gap-2">
                         <CheckCircle className="w-4 h-4" />
                         {logoFile.name}
                       </p>
@@ -213,7 +213,7 @@ export default function Intake() {
 
                 <div>
                   <Label htmlFor="boilerplate">Company Boilerplate *</Label>
-                  <p className="text-sm text-muted-foreground mt-1 mb-2">
+                  <p className="text-base text-muted-foreground mt-1 mb-2">
                     A short, standardised description of your company, including mission, core services, and key details. 
                     This will be used in event and marketing materials. Max 200 words.
                   </p>
@@ -230,7 +230,7 @@ export default function Intake() {
 
                 <div>
                   <Label htmlFor="challenges">Key Challenges Your Solution Solves *</Label>
-                  <p className="text-sm text-muted-foreground mt-1 mb-2">
+                  <p className="text-base text-muted-foreground mt-1 mb-2">
                     Please identify specific pain points you address, such as fragmented tech stacks, 
                     slow time-to-hire or low hiring manager adoption, etc...
                   </p>
@@ -371,7 +371,7 @@ export default function Intake() {
                     <span className="text-accent font-bold">3</span>
                   </div>
                   Second Representative Information
-                  <span className="text-sm text-muted-foreground font-normal ml-auto">
+                  <span className="text-base text-muted-foreground font-normal ml-auto">
                     (20-Meeting Package)
                   </span>
                 </h2>
@@ -434,7 +434,7 @@ export default function Intake() {
           {/* Submit Section */}
           <AnimatedSection delay={400}>
             <div className="glass-card p-6 bg-accent/10 border-accent/30 rounded-lg mb-8">
-              <p className="text-sm text-foreground/90 leading-relaxed text-center">
+              <p className="text-base text-foreground/90 leading-relaxed text-center">
                 <strong className="text-accent">Note:</strong> All information provided will be handled in accordance with our 
                 data privacy policy and shared only with pre-qualified attendees to facilitate relevant business connections.
               </p>

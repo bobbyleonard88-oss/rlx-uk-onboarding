@@ -1,0 +1,406 @@
+{
+  "query": "SELECT m.id, m.sponsorId, s.companyName, m.attendeeId, m.status, m.timeSlot, m.attendeeNumber FROM meetings m JOIN sponsors s ON m.sponsorId = s.id ORDER BY m.sponsorId, m.attendeeNumber, m.timeSlot;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT m.id, m.sponsorId, s.companyName, m.attendeeId, m.status, m.timeSlot, m.attendeeNumber FROM meetings m JOIN sponsors s ON m.sponsorId = s.id ORDER BY m.sponsorId, m.attendeeNumber, m.timeSlot;",
+  "rows": [
+    {
+      "id": "37",
+      "sponsorId": "30001",
+      "companyName": "AI Limited",
+      "attendeeId": "12731251",
+      "status": "suggested",
+      "timeSlot": "1",
+      "attendeeNumber": "1"
+    },
+    {
+      "id": "38",
+      "sponsorId": "30001",
+      "companyName": "AI Limited",
+      "attendeeId": "194698768792",
+      "status": "suggested",
+      "timeSlot": "1",
+      "attendeeNumber": "1"
+    },
+    {
+      "id": "39",
+      "sponsorId": "30001",
+      "companyName": "AI Limited",
+      "attendeeId": "185464523694",
+      "status": "suggested",
+      "timeSlot": "2",
+      "attendeeNumber": "1"
+    },
+    {
+      "id": "40",
+      "sponsorId": "30001",
+      "companyName": "AI Limited",
+      "attendeeId": "13454401",
+      "status": "suggested",
+      "timeSlot": "2",
+      "attendeeNumber": "1"
+    },
+    {
+      "id": "41",
+      "sponsorId": "30001",
+      "companyName": "AI Limited",
+      "attendeeId": "91862577670",
+      "status": "suggested",
+      "timeSlot": "3",
+      "attendeeNumber": "1"
+    },
+    {
+      "id": "42",
+      "sponsorId": "30001",
+      "companyName": "AI Limited",
+      "attendeeId": "76678269091",
+      "status": "suggested",
+      "timeSlot": "3",
+      "attendeeNumber": "1"
+    },
+    {
+      "id": "43",
+      "sponsorId": "30001",
+      "companyName": "AI Limited",
+      "attendeeId": "93380106578",
+      "status": "suggested",
+      "timeSlot": "4",
+      "attendeeNumber": "1"
+    },
+    {
+      "id": "44",
+      "sponsorId": "30001",
+      "companyName": "AI Limited",
+      "attendeeId": "91889321035",
+      "status": "suggested",
+      "timeSlot": "4",
+      "attendeeNumber": "1"
+    },
+    {
+      "id": "45",
+      "sponsorId": "30001",
+      "companyName": "AI Limited",
+      "attendeeId": "7258470500",
+      "status": "suggested",
+      "timeSlot": "5",
+      "attendeeNumber": "1"
+    },
+    {
+      "id": "46",
+      "sponsorId": "30001",
+      "companyName": "AI Limited",
+      "attendeeId": "92953690026",
+      "status": "suggested",
+      "timeSlot": "5",
+      "attendeeNumber": "1"
+    },
+    {
+      "id": "47",
+      "sponsorId": "30001",
+      "companyName": "AI Limited",
+      "attendeeId": "93174643474",
+      "status": "suggested",
+      "timeSlot": "6",
+      "attendeeNumber": "1"
+    },
+    {
+      "id": "48",
+      "sponsorId": "30001",
+      "companyName": "AI Limited",
+      "attendeeId": "91862579761",
+      "status": "suggested",
+      "timeSlot": "6",
+      "attendeeNumber": "1"
+    },
+    {
+      "id": "60093",
+      "sponsorId": "60001",
+      "companyName": "Elevate Assess",
+      "attendeeId": "174442448959",
+      "status": "suggested",
+      "timeSlot": "1",
+      "attendeeNumber": "1"
+    },
+    {
+      "id": "60104",
+      "sponsorId": "60001",
+      "companyName": "Elevate Assess",
+      "attendeeId": "11132851",
+      "status": "suggested",
+      "timeSlot": "1",
+      "attendeeNumber": "1"
+    },
+    {
+      "id": "60094",
+      "sponsorId": "60001",
+      "companyName": "Elevate Assess",
+      "attendeeId": "200923910443",
+      "status": "suggested",
+      "timeSlot": "2",
+      "attendeeNumber": "1"
+    },
+    {
+      "id": "60095",
+      "sponsorId": "60001",
+      "companyName": "Elevate Assess",
+      "attendeeId": "194698768792",
+      "status": "suggested",
+      "timeSlot": "2",
+      "attendeeNumber": "1"
+    },
+    {
+      "id": "60096",
+      "sponsorId": "60001",
+      "companyName": "Elevate Assess",
+      "attendeeId": "200101377371",
+      "status": "suggested",
+      "timeSlot": "3",
+      "attendeeNumber": "1"
+    },
+    {
+      "id": "60097",
+      "sponsorId": "60001",
+      "companyName": "Elevate Assess",
+      "attendeeId": "195183358360",
+      "status": "suggested",
+      "timeSlot": "3",
+      "attendeeNumber": "1"
+    },
+    {
+      "id": "60098",
+      "sponsorId": "60001",
+      "companyName": "Elevate Assess",
+      "attendeeId": "122796319563",
+      "status": "suggested",
+      "timeSlot": "4",
+      "attendeeNumber": "1"
+    },
+    {
+      "id": "60099",
+      "sponsorId": "60001",
+      "companyName": "Elevate Assess",
+      "attendeeId": "190898269597",
+      "status": "suggested",
+      "timeSlot": "4",
+      "attendeeNumber": "1"
+    },
+    {
+      "id": "60100",
+      "sponsorId": "60001",
+      "companyName": "Elevate Assess",
+      "attendeeId": "185464523694",
+      "status": "suggested",
+      "timeSlot": "5",
+      "attendeeNumber": "1"
+    },
+    {
+      "id": "60101",
+      "sponsorId": "60001",
+      "companyName": "Elevate Assess",
+      "attendeeId": "183232510638",
+      "status": "suggested",
+      "timeSlot": "5",
+      "attendeeNumber": "1"
+    },
+    {
+      "id": "60103",
+      "sponsorId": "60001",
+      "companyName": "Elevate Assess",
+      "attendeeId": "128491656706",
+      "status": "suggested",
+      "timeSlot": "6",
+      "attendeeNumber": "1"
+    },
+    {
+      "id": "60102",
+      "sponsorId": "60001",
+      "companyName": "Elevate Assess",
+      "attendeeId": "110260566550",
+      "status": "suggested",
+      "timeSlot": "6",
+      "attendeeNumber": "1"
+    },
+    {
+      "id": "60165",
+      "sponsorId": "90001",
+      "companyName": "NexaTalent Solutions Ltd",
+      "attendeeId": "92353346050",
+      "status": "suggested",
+      "timeSlot": "1",
+      "attendeeNumber": "1"
+    },
+    {
+      "id": "60166",
+      "sponsorId": "90001",
+      "companyName": "NexaTalent Solutions Ltd",
+      "attendeeId": "195183358360",
+      "status": "suggested",
+      "timeSlot": "1",
+      "attendeeNumber": "1"
+    },
+    {
+      "id": "60167",
+      "sponsorId": "90001",
+      "companyName": "NexaTalent Solutions Ltd",
+      "attendeeId": "185464523694",
+      "status": "suggested",
+      "timeSlot": "2",
+      "attendeeNumber": "1"
+    },
+    {
+      "id": "60168",
+      "sponsorId": "90001",
+      "companyName": "NexaTalent Solutions Ltd",
+      "attendeeId": "192905181704",
+      "status": "suggested",
+      "timeSlot": "2",
+      "attendeeNumber": "1"
+    },
+    {
+      "id": "60169",
+      "sponsorId": "90001",
+      "companyName": "NexaTalent Solutions Ltd",
+      "attendeeId": "200923910443",
+      "status": "suggested",
+      "timeSlot": "3",
+      "attendeeNumber": "1"
+    },
+    {
+      "id": "60170",
+      "sponsorId": "90001",
+      "companyName": "NexaTalent Solutions Ltd",
+      "attendeeId": "93174643474",
+      "status": "suggested",
+      "timeSlot": "3",
+      "attendeeNumber": "1"
+    },
+    {
+      "id": "60171",
+      "sponsorId": "90001",
+      "companyName": "NexaTalent Solutions Ltd",
+      "attendeeId": "452351",
+      "status": "suggested",
+      "timeSlot": "4",
+      "attendeeNumber": "1"
+    },
+    {
+      "id": "60172",
+      "sponsorId": "90001",
+      "companyName": "NexaTalent Solutions Ltd",
+      "attendeeId": "194698768792",
+      "status": "suggested",
+      "timeSlot": "4",
+      "attendeeNumber": "1"
+    },
+    {
+      "id": "60173",
+      "sponsorId": "90001",
+      "companyName": "NexaTalent Solutions Ltd",
+      "attendeeId": "128491656706",
+      "status": "suggested",
+      "timeSlot": "5",
+      "attendeeNumber": "1"
+    },
+    {
+      "id": "60174",
+      "sponsorId": "90001",
+      "companyName": "NexaTalent Solutions Ltd",
+      "attendeeId": "76678269091",
+      "status": "suggested",
+      "timeSlot": "5",
+      "attendeeNumber": "1"
+    },
+    {
+      "id": "60175",
+      "sponsorId": "90001",
+      "companyName": "NexaTalent Solutions Ltd",
+      "attendeeId": "113145184682",
+      "status": "suggested",
+      "timeSlot": "1",
+      "attendeeNumber": "2"
+    },
+    {
+      "id": "60176",
+      "sponsorId": "90001",
+      "companyName": "NexaTalent Solutions Ltd",
+      "attendeeId": "9322701",
+      "status": "suggested",
+      "timeSlot": "1",
+      "attendeeNumber": "2"
+    },
+    {
+      "id": "60177",
+      "sponsorId": "90001",
+      "companyName": "NexaTalent Solutions Ltd",
+      "attendeeId": "110260566550",
+      "status": "suggested",
+      "timeSlot": "2",
+      "attendeeNumber": "2"
+    },
+    {
+      "id": "60178",
+      "sponsorId": "90001",
+      "companyName": "NexaTalent Solutions Ltd",
+      "attendeeId": "91889321035",
+      "status": "suggested",
+      "timeSlot": "2",
+      "attendeeNumber": "2"
+    },
+    {
+      "id": "60179",
+      "sponsorId": "90001",
+      "companyName": "NexaTalent Solutions Ltd",
+      "attendeeId": "93380106578",
+      "status": "suggested",
+      "timeSlot": "3",
+      "attendeeNumber": "2"
+    },
+    {
+      "id": "60180",
+      "sponsorId": "90001",
+      "companyName": "NexaTalent Solutions Ltd",
+      "attendeeId": "17812226737",
+      "status": "suggested",
+      "timeSlot": "3",
+      "attendeeNumber": "2"
+    },
+    {
+      "id": "60181",
+      "sponsorId": "90001",
+      "companyName": "NexaTalent Solutions Ltd",
+      "attendeeId": "5140258",
+      "status": "suggested",
+      "timeSlot": "4",
+      "attendeeNumber": "2"
+    },
+    {
+      "id": "60182",
+      "sponsorId": "90001",
+      "companyName": "NexaTalent Solutions Ltd",
+      "attendeeId": "116903349643",
+      "status": "suggested",
+      "timeSlot": "4",
+      "attendeeNumber": "2"
+    },
+    {
+      "id": "60183",
+      "sponsorId": "90001",
+      "companyName": "NexaTalent Solutions Ltd",
+      "attendeeId": "191181142545",
+      "status": "suggested",
+      "timeSlot": "5",
+      "attendeeNumber": "2"
+    },
+    {
+      "id": "60184",
+      "sponsorId": "90001",
+      "companyName": "NexaTalent Solutions Ltd",
+      "attendeeId": "194295425320",
+      "status": "suggested",
+      "timeSlot": "5",
+      "attendeeNumber": "2"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tsponsorId\tcompanyName\tattendeeId\tstatus\ttimeSlot\tattendeeNumber\n37\t30001\tAI Limited\t12731251\tsuggested\t1\t1\n38\t30001\tAI Limited\t194698768792\tsuggested\t1\t1\n39\t30001\tAI Limited\t185464523694\tsuggested\t2\t1\n40\t30001\tAI Limited\t13454401\tsuggested\t2\t1\n41\t30001\tAI Limited\t91862577670\tsuggested\t3\t1\n42\t30001\tAI Limited\t76678269091\tsuggested\t3\t1\n43\t30001\tAI Limited\t93380106578\tsuggested\t4\t1\n44\t30001\tAI Limited\t91889321035\tsuggested\t4\t1\n45\t30001\tAI Limited\t7258470500\tsuggested\t5\t1\n46\t30001\tAI Limited\t92953690026\tsuggested\t5\t1\n47\t30001\tAI Limited\t93174643474\tsuggested\t6\t1\n48\t30001\tAI Limited\t91862579761\tsuggested\t6\t1\n60093\t60001\tElevate Assess\t174442448959\tsuggested\t1\t1\n60104\t60001\tElevate Assess\t11132851\tsuggested\t1\t1\n60094\t60001\tElevate Assess\t200923910443\tsuggested\t2\t1\n60095\t60001\tElevate Assess\t194698768792\tsuggested\t2\t1\n60096\t60001\tElevate Assess\t200101377371\tsuggested\t3\t1\n60097\t60001\tElevate Assess\t195183358360\tsuggested\t3\t1\n60098\t60001\tElevate Assess\t122796319563\tsuggested\t4\t1\n60099\t60001\tElevate Assess\t190898269597\tsuggested\t4\t1\n60100\t60001\tElevate Assess\t185464523694\tsuggested\t5\t1\n60101\t60001\tElevate Assess\t183232510638\tsuggested\t5\t1\n60103\t60001\tElevate Assess\t128491656706\tsuggested\t6\t1\n60102\t60001\tElevate Assess\t110260566550\tsuggested\t6\t1\n60165\t90001\tNexaTalent Solutions Ltd\t92353346050\tsuggested\t1\t1\n60166\t90001\tNexaTalent Solutions Ltd\t195183358360\tsuggested\t1\t1\n60167\t90001\tNexaTalent Solutions Ltd\t185464523694\tsuggested\t2\t1\n60168\t90001\tNexaTalent Solutions Ltd\t192905181704\tsuggested\t2\t1\n60169\t90001\tNexaTalent Solutions Ltd\t200923910443\tsuggested\t3\t1\n60170\t90001\tNexaTalent Solutions Ltd\t93174643474\tsuggested\t3\t1\n60171\t90001\tNexaTalent Solutions Ltd\t452351\tsuggested\t4\t1\n60172\t90001\tNexaTalent Solutions Ltd\t194698768792\tsuggested\t4\t1\n60173\t90001\tNexaTalent Solutions Ltd\t128491656706\tsuggested\t5\t1\n60174\t90001\tNexaTalent Solutions Ltd\t76678269091\tsuggested\t5\t1\n60175\t90001\tNexaTalent Solutions Ltd\t113145184682\tsuggested\t1\t2\n60176\t90001\tNexaTalent Solutions Ltd\t9322701\tsuggested\t1\t2\n60177\t90001\tNexaTalent Solutions Ltd\t110260566550\tsuggested\t2\t2\n60178\t90001\tNexaTalent Solutions Ltd\t91889321035\tsuggested\t2\t2\n60179\t90001\tNexaTalent Solutions Ltd\t93380106578\tsuggested\t3\t2\n60180\t90001\tNexaTalent Solutions Ltd\t17812226737\tsuggested\t3\t2\n60181\t90001\tNexaTalent Solutions Ltd\t5140258\tsuggested\t4\t2\n60182\t90001\tNexaTalent Solutions Ltd\t116903349643\tsuggested\t4\t2\n60183\t90001\tNexaTalent Solutions Ltd\t191181142545\tsuggested\t5\t2\n60184\t90001\tNexaTalent Solutions Ltd\t194295425320\tsuggested\t5\t2\n",
+  "stderr": "",
+  "execution_time_ms": 352
+}

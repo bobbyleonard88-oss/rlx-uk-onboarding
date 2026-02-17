@@ -92,7 +92,7 @@ export default function Navigation() {
   }, [location]);
 
   return (
-    <nav className="fixed left-0 top-0 h-screen w-20 lg:w-64 glass-card border-r border-border/50 z-50 flex flex-col">
+    <nav className="fixed left-0 top-0 h-screen w-20 lg:w-64 glass-card z-50 flex flex-col">
       <div className="p-4 lg:p-6 border-b border-border/30">
         <Link href="/">
           <div className="flex items-center gap-3 cursor-pointer group">

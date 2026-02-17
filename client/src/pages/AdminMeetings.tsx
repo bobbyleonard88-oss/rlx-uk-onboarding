@@ -276,6 +276,7 @@ export default function AdminMeetings() {
                             isTopRanked: meeting.isTopRanked === 1,
                             isTop20: meeting.isTopRanked === 1, // Assuming isTopRanked maps to isTop20
                             timeSlot: meeting.timeSlot,
+                            attendeeNumber: meeting.attendeeNumber || 1, // Load attendeeNumber from database
                             delegateInfo: delegate ? {
                               firstName: delegate.firstName,
                               lastName: delegate.lastName,
