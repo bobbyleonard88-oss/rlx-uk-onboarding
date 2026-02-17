@@ -102,16 +102,16 @@ export default function Navigation() {
               className="h-12 w-auto object-contain"
             />
             <div className="hidden lg:block">
-              <h1 className="text-white font-heading font-bold text-base tracking-tight">
+              <h1 className="text-white font-heading font-bold text-sm tracking-tight">
                 Resourcing Leaders Exchange
               </h1>
-              <p className="text-white/80 text-sm">Onboarding Journey</p>
+              <p className="text-white/80 text-xs">Onboarding Journey</p>
             </div>
           </div>
         </Link>
       </div>
 
-      <div className="flex-1 overflow-y-auto py-6">
+      <div className="flex-1 overflow-y-auto py-4">
         <ul className="space-y-1 px-2 lg:px-4">
           {navItems.map((item) => {
             const Icon = item.icon;
@@ -137,7 +137,7 @@ export default function Navigation() {
                     "
                   >
                     <Icon className="w-5 h-5 flex-shrink-0" />
-                    <span className="hidden lg:block font-heading text-base font-medium">
+                    <span className="hidden lg:block font-heading text-sm font-medium">
                       {item.label}
                     </span>
                   </div>
@@ -158,7 +158,7 @@ export default function Navigation() {
                       `}
                     >
                       <Icon className="w-6 h-6 flex-shrink-0" />
-                      <span className="hidden lg:block font-heading text-base font-medium flex-1">
+                      <span className="hidden lg:block font-heading text-sm font-medium flex-1">
                         {item.label}
                       </span>
                       {isCompleted && (
