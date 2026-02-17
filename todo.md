@@ -376,3 +376,11 @@
 
 - [x] Change "Meeting Package" label to "How many meetings have you purchased?"
 - [x] Update dropdown options from "12" and "20" to "12 Meetings" and "20 Meetings"
+
+
+## Navigation Completion Indicators
+
+- [x] Add checkmark icon to "Intake Form" nav item when sponsor completes intake submission
+- [x] Add checkmark icon to "Prioritise Meetings" nav item when sponsor completes rankings submission
+- [x] Query completion status from database in Navigation component
+- [x] Display visual feedback for completed steps in onboarding journey

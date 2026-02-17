@@ -1,7 +1,8 @@
 import { Link, useLocation } from "wouter";
-import { Home, Info, Award, Users, FileText, Calendar, Shield, FormInput, ListOrdered, Clock, Target, HelpCircle } from "lucide-react";
+import { Home, Info, Award, Users, FileText, Calendar, Shield, FormInput, ListOrdered, Clock, Target, HelpCircle, CheckCircle } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useAuth } from "@/_core/hooks/useAuth";
+import { trpc } from "@/lib/trpc";
 
 const baseNavItems = [
   { path: "/", label: "Home", icon: Home },
@@ -24,6 +25,17 @@ export default function Navigation() {
   const [hasMeetings, setHasMeetings] = useState(false);
   const [hasNewMeetings, setHasNewMeetings] = useState(false);
   const { user, loading } = useAuth();
+  
+  // Query completion status for intake and rankings
+  const { data: intakeStatus } = trpc.intake.getSubmission.useQuery(undefined, {
+    enabled: !!user,
+  });
+  const { data: rankingsStatus } = trpc.rankings.myRankingsSubmission.useQuery(undefined, {
+    enabled: !!user,
+  });
+  
+  const isIntakeComplete = !!intakeStatus;
+  const isRankingsComplete = !!rankingsStatus;
   
   // Check if user has saved meetings (for showing Meeting Schedule tab)
   useEffect(() => {
@@ -102,6 +114,11 @@ export default function Navigation() {
             const isActive = location === item.path;
             const isVisited = visitedPages.includes(item.path);
             
+            // Check if this item is completed
+            const isCompleted = 
+              (item.path === '/intake' && isIntakeComplete) ||
+              (item.path === '/prioritize' && isRankingsComplete);
+            
             // Block navigation if not authenticated (except home page)
             const isBlocked = !loading && !user && item.path !== "/";
             
@@ -137,9 +154,12 @@ export default function Navigation() {
                       `}
                     >
                       <Icon className="w-5 h-5 flex-shrink-0" />
-                      <span className="hidden lg:block font-heading text-sm font-medium">
+                      <span className="hidden lg:block font-heading text-sm font-medium flex-1">
                         {item.label}
                       </span>
+                      {isCompleted && (
+                        <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
+                      )}
                       {item.path === '/meeting-schedule' && hasNewMeetings && (
                         <span className="absolute top-1 right-1 w-3 h-3 bg-green-500 rounded-full animate-ping" />
                       )}
