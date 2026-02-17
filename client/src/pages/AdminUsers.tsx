@@ -14,6 +14,7 @@ import { Shield, UserPlus, RefreshCw, LogOut, User } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Link } from "wouter";
+import AdminHeader from "@/components/AdminHeader";
 
 export default function AdminUsers() {
   const { user, loading } = useAuth({ redirectOnUnauthenticated: true });
@@ -98,55 +99,7 @@ export default function AdminUsers() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-      {/* Admin Navigation */}
-      <nav className="border-b border-slate-700/50 bg-slate-900/50 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-8">
-              <h2 className="text-xl font-heading font-bold text-white">RLX Admin</h2>
-              <div className="flex gap-1">
-                <Link href="/admin">
-                  <Button variant="ghost" className="text-slate-300 hover:bg-primary/20 hover:text-white">
-                    Dashboard
-                  </Button>
-                </Link>
-                <Link href="/admin/meetings">
-                  <Button variant="ghost" className="text-slate-300 hover:bg-primary/20 hover:text-white">
-                    Meetings
-                  </Button>
-                </Link>
-                <Link href="/admin/delegate-overview">
-                  <Button variant="ghost" className="text-slate-300 hover:bg-primary/20 hover:text-white">
-                    Delegate Overview
-                  </Button>
-                </Link>
-                <Link href="/admin/users">
-                  <Button variant="ghost" className="text-white hover:bg-primary/20">
-                    Users
-                  </Button>
-                </Link>
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="flex items-center gap-2 px-3 py-1.5 bg-slate-800/50 rounded-lg border border-slate-700">
-                <User className="w-4 h-4 text-slate-400" />
-                <span className="text-sm text-slate-300">{user?.email}</span>
-              </div>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => {
-                  window.location.href = '/api/auth/logout';
-                }}
-                className="gap-2 text-slate-300 hover:text-white hover:bg-red-500/20"
-              >
-                <LogOut className="w-4 h-4" />
-                Logout
-              </Button>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <AdminHeader />
 
       <div className="container mx-auto py-12 px-4 max-w-6xl">
         <div className="mb-8">

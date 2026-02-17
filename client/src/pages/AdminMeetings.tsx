@@ -16,6 +16,7 @@ import { toast } from "sonner";
 import { attendees } from "@/lib/attendees";
 import { Link } from "wouter";
 import { getLoginUrl } from "@/const";
+import AdminHeader from "@/components/AdminHeader";
 
 interface MatchResult {
   attendeeId: string;
@@ -185,57 +186,7 @@ export default function AdminMeetings() {
   
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-      {/* Header */}
-      <header className="border-b border-slate-700 bg-slate-900/50 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4 flex items-center gap-2 lg:gap-6 flex-wrap">
-          <div>
-            <h1 className="text-2xl font-bold text-white">RLX Admin</h1>
-          </div>
-          
-          {/* Admin Navigation */}
-          <nav className="flex items-center gap-2 flex-wrap">
-            <Link href="/admin">
-              <Button variant="ghost" className="text-slate-300 hover:text-white">
-                Dashboard
-              </Button>
-            </Link>
-            <Link href="/admin/meetings">
-              <Button variant="default" className="bg-primary">
-                Meetings
-              </Button>
-            </Link>
-            <Link href="/admin/delegate-overview">
-              <Button variant="ghost" className="text-slate-300 hover:text-white">
-                Delegate Overview
-              </Button>
-            </Link>
-            <Link href="/admin/users">
-              <Button variant="ghost" className="text-slate-300 hover:text-white">
-                Users
-              </Button>
-            </Link>
-          </nav>
-          
-          <div className="flex-1"></div>
-          
-          {/* User Profile & Logout */}
-          <div className="flex items-center gap-2 flex-shrink-0">
-            <div className="hidden lg:flex items-center gap-2 text-slate-300">
-              <User className="w-4 h-4" />
-              <span className="text-sm">{user?.email}</span>
-            </div>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={logout}
-              className="flex items-center gap-2"
-            >
-              <LogOut className="w-4 h-4" />
-              Logout
-            </Button>
-          </div>
-        </div>
-      </header>
+      <AdminHeader />
       
       <div className="container mx-auto p-6 space-y-6">
         {/* Sponsor Selection */}
