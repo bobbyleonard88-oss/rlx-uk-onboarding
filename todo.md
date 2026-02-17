@@ -535,3 +535,30 @@
 - [x] Display replacement delegate names in confirmation after cancellation
 - [ ] Update meeting schedule and notify affected sponsors (future enhancement)
 - [ ] Add cancellation reason field (optional)
+
+
+## CRITICAL: Delegate Double-Booking Bug
+
+- [ ] Fix delegates being assigned to same time slot across multiple sponsors
+- [ ] Add time slot conflict detection to meeting generation algorithm
+- [ ] Check delegate availability before assigning to time slot
+- [ ] Ensure each delegate can only have one meeting per time slot globally
+- [ ] Update TimeSlotScheduler to prevent manual double-booking
+
+## CRITICAL: Meeting Persistence Bug
+
+- [ ] Fix meetings not saving to database when admin clicks "Save Meetings"
+- [ ] Investigate saveMeetings backend procedure
+- [ ] Ensure sponsorId is correctly passed and associated with meetings
+- [ ] Verify meetings are actually being inserted into database
+- [ ] Fix getMeetingsBySponsor to correctly retrieve saved meetings
+- [ ] Test that Natalija's meetings persist and display correctly
+
+## Meeting Notification & PDF Download Fixes
+
+- [x] Fix "Your Meetings Are Ready!" popup to only show when sponsor's own meetings are updated
+- [x] Add logic to check if current user is the sponsor being updated before showing notification
+- [x] Simplify delegate profile PDF download (cleaner, simpler format)
+- [ ] Add second download button for full meeting schedule view
+- [ ] Generate full schedule PDF with days, slots, and all meeting details
+- [ ] Format schedule PDF to match the visual layout of the meeting schedule page

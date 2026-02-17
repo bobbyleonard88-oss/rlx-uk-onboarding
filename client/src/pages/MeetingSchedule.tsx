@@ -64,73 +64,24 @@ export default function MeetingSchedule() {
       <head>
         <meta charset="UTF-8">
         <style>
-          body { font-family: Arial, sans-serif; padding: 40px; color: #1a1a2e; }
-          h1 { color: #7B4B94; border-bottom: 3px solid #d4af37; padding-bottom: 10px; }
-          h2 { color: #2C3E5A; margin-top: 30px; border-left: 4px solid #7B4B94; padding-left: 15px; }
-          .section { margin-bottom: 30px; }
-          .field { margin-bottom: 15px; }
-          .label { font-weight: bold; color: #666; font-size: 12px; text-transform: uppercase; }
-          .value { margin-top: 5px; font-size: 14px; }
-          .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+          body { font-family: Arial, sans-serif; padding: 30px; color: #1a1a2e; max-width: 800px; margin: 0 auto; }
+          h1 { color: #7B4B94; font-size: 24px; margin-bottom: 20px; }
+          .info-grid { display: grid; grid-template-columns: 150px 1fr; gap: 12px; margin-bottom: 20px; }
+          .label { font-weight: 600; color: #666; }
+          .value { color: #1a1a2e; }
         </style>
       </head>
       <body>
-        <h1>${delegate.firstName} ${delegate.lastName} - Delegate Profile</h1>
-        
-        <div class="section">
-          <h2>Professional Information</h2>
-          <div class="grid">
-            <div class="field">
-              <div class="label">Name</div>
-              <div class="value">${delegate.firstName} ${delegate.lastName}</div>
-            </div>
-            <div class="field">
-              <div class="label">Company</div>
-              <div class="value">${delegate.company || 'N/A'}</div>
-            </div>
-            <div class="field">
-              <div class="label">Job Title</div>
-              <div class="value">${delegate.jobTitle || 'N/A'}</div>
-            </div>
-            <div class="field">
-              <div class="label">Industry</div>
-              <div class="value">${delegate!.industry || 'N/A'}</div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="section">
-          <h2>Assessment & Needs</h2>
-          <div class="field">
-            <div class="label">Assessment Tool</div>
-            <div class="value">${delegate!.assessmentTools || 'N/A'}</div>
-          </div>
-          <div class="field">
-            <div class="label">ATS</div>
-            <div class="value">${delegate!.ats || 'N/A'}</div>
-          </div>
-          <div class="field">
-            <div class="label">CRM</div>
-            <div class="value">${delegate!.crm || 'N/A'}</div>
-          </div>
-          <div class="field">
-            <div class="label">Market Intelligence</div>
-            <div class="value">${delegate!.marketIntelligence || 'N/A'}</div>
-          </div>
-        </div>
-        
-        <div class="section">
-          <h2>Budget & Organization</h2>
-          <div class="grid">
-          <div class="field">
-            <div class="label">Budget Authority</div>
-            <div class="value">${delegate.budgetAuthority || 'N/A'}</div>
-          </div>
-          <div class="field">
-            <div class="label">Company Size</div>
-            <div class="value">${delegate.companySize || 'N/A'}</div>
-          </div>
-          </div>
+        <h1>${delegate.firstName} ${delegate.lastName}</h1>
+        <div class="info-grid">
+          <div class="label">Company:</div>
+          <div class="value">${delegate.company || 'N/A'}</div>
+          <div class="label">Job Title:</div>
+          <div class="value">${delegate.jobTitle || 'N/A'}</div>
+          <div class="label">Industry:</div>
+          <div class="value">${delegate!.industry || 'N/A'}</div>
+          <div class="label">Company Size:</div>
+          <div class="value">${delegate.companySize || 'N/A'}</div>
         </div>
       </body>
       </html>

@@ -91,11 +91,6 @@ export default function AdminMeetings() {
   
   const saveMeetings = trpc.admin.saveMeetings.useMutation({
     onSuccess: () => {
-      // Set flag for sponsor to show Meeting Schedule tab
-      localStorage.setItem('rlx-has-meetings', 'true');
-      // Clear notification flags so sponsor sees the popup
-      localStorage.removeItem('rlx-meetings-viewed');
-      localStorage.removeItem('rlx-meetings-notification-seen');
       toast.success("Meetings saved successfully!");
     },
     onError: (error) => {
