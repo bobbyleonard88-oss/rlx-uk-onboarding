@@ -37,21 +37,25 @@ export default function Navigation() {
   const isIntakeComplete = !!intakeStatus;
   const isRankingsComplete = !!rankingsStatus;
   
+  // Query actual meetings from database instead of localStorage
+  const { data: meetings } = trpc.sponsor.getMyMeetings.useQuery(undefined, {
+    enabled: !!user,
+  });
+  
   // Check if user has saved meetings (for showing Meeting Schedule tab)
   useEffect(() => {
-    const checkMeetings = async () => {
-      const saved = localStorage.getItem('rlx-has-meetings');
+    if (meetings && meetings.length > 0) {
+      setHasMeetings(true);
+      // Show notification if meetings exist but haven't been viewed
       const viewed = localStorage.getItem('rlx-meetings-viewed');
-      if (saved) {
-        setHasMeetings(true);
-        // Show notification if meetings exist but haven't been viewed
-        if (!viewed) {
-          setHasNewMeetings(true);
-        }
+      if (!viewed) {
+        setHasNewMeetings(true);
       }
-    };
-    checkMeetings();
-  }, []);
+    } else {
+      setHasMeetings(false);
+      setHasNewMeetings(false);
+    }
+  }, [meetings]);
   
   // Mark meetings as viewed when user visits the schedule page
   useEffect(() => {

@@ -18,7 +18,7 @@ export default function Timeline() {
     { task: "Partner Intake Form", date: "24th February", important: true },
     { task: "Dietary Requirements Form", date: "24th February", important: true },
     { task: "Meeting prioritisation completed", date: "25th February (4 weeks before)", important: false },
-    { task: "Confirmed meeting schedules shared", date: "11th March (2 weeks before)", important: false },
+    { task: "Confirmed meeting schedules shared", date: "11th March (10 days before)", important: false },
   ];
 
   return (
@@ -136,7 +136,7 @@ export default function Timeline() {
               </li>
               <li className="flex items-start gap-3">
                 <span className="text-accent mt-1">•</span>
-                <span>Confirmed meeting schedules will be shared 2 weeks before the event</span>
+                <span>Confirmed meeting schedules will be shared 10 days before the event</span>
               </li>
             </ul>
           </div>

@@ -421,8 +421,7 @@ export default function MeetingSchedule() {
                                   <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
                                       <Button variant="outline" size="sm" className="flex-1 gap-2">
-                                        <FileText className="w-4 h-4" />
-                                        Download
+                                        <Download className="w-4 h-4" />
                                         <ChevronDown className="w-4 h-4" />
                                       </Button>
                                     </DropdownMenuTrigger>
@@ -629,8 +628,7 @@ export default function MeetingSchedule() {
                                       <DropdownMenu>
                                         <DropdownMenuTrigger asChild>
                                           <Button variant="outline" size="sm" className="flex-1 gap-2">
-                                            <FileText className="w-4 h-4" />
-                                            Download
+                                            <Download className="w-4 h-4" />
                                             <ChevronDown className="w-4 h-4" />
                                           </Button>
                                         </DropdownMenuTrigger>
@@ -724,8 +722,7 @@ export default function MeetingSchedule() {
                                       <DropdownMenu>
                                         <DropdownMenuTrigger asChild>
                                           <Button variant="outline" size="sm" className="flex-1 gap-2">
-                                            <FileText className="w-4 h-4" />
-                                            Download
+                                            <Download className="w-4 h-4" />
                                             <ChevronDown className="w-4 h-4" />
                                           </Button>
                                         </DropdownMenuTrigger>

@@ -490,3 +490,29 @@
 - [x] Fix sponsor logo display in admin portal popup profile
 - [x] Ensure logos are high definition and visible
 - [x] Verify logo display in sponsor profile modal/popup
+
+
+## Draft/Publish Workflow for Meeting Schedules
+
+- [ ] Add meeting status field to database (draft, confirmed, cancelled)
+- [ ] Implement "Save Draft" button in admin portal (saves meetings as draft, hidden from sponsors)
+- [ ] Implement "Publish to Sponsor" button in admin portal (changes status to confirmed, visible to sponsors)
+- [ ] Update sponsor getMyMeetings to only show confirmed meetings
+- [ ] Add visual indicator in admin portal showing draft vs published status
+- [ ] Add unpublish/revert to draft functionality
+
+## Timeline Text Updates
+
+- [x] Change 'Confirmed meeting schedules shared 11th March (2 weeks before)' to '10 days before'
+- [x] Find and update all other occurrences of '2 weeks before' to '10 days before' in timeline
+
+## Critical Bugs to Fix
+
+- [ ] Fix font overlap on sponsor preview profile modal
+- [ ] Add remove/delete functionality for delegates in admin meeting scheduler
+- [ ] Fix attendee 2 meeting removal bug (X button removes Day 1 meetings instead of Attendee 2)
+- [ ] Fix meeting persistence issue - meetings not saving to database after admin generates them
+- [ ] Fix sponsor meeting view - sponsors can't see their generated meetings (e.g., Natalija@recruitmentevents.co)
+- [ ] Investigate data association between admin save and sponsor view
+- [ ] Fix meeting schedule navigation not appearing for sponsors despite having meetings
+- [x] Remove duplicate 'Download' text on meeting cards (keep only icon)
