@@ -330,7 +330,7 @@ export default function MeetingSchedule() {
                         
                         return (
                           <div key={meetingNum} className="border-2 border-dashed border-slate-600 rounded-lg p-4 min-h-[200px] flex flex-col">
-                            <div className="text-xs text-slate-400 mb-2 font-medium">Meeting {meetingNum}</div>
+                            <div className="text-sm text-slate-400 mb-2 font-medium">Meeting {meetingNum}</div>
                             {delegate ? (
                               <div className="space-y-3">
                                 <div>
@@ -425,7 +425,7 @@ export default function MeetingSchedule() {
                         
                         return (
                           <div key={meetingNum} className="border-2 border-dashed border-slate-600 rounded-lg p-4 min-h-[200px] flex flex-col">
-                            <div className="text-xs text-slate-400 mb-2 font-medium">Meeting {meetingNum}</div>
+                            <div className="text-sm text-slate-400 mb-2 font-medium">Meeting {meetingNum}</div>
                             {delegate ? (
                               <div className="space-y-3">
                                 <div>
@@ -448,7 +448,7 @@ export default function MeetingSchedule() {
                                     <Building2 className="w-3 h-3" />
                                     <span>{delegate.company}</span>
                                   </div>
-                                  <div className="text-slate-400 text-xs">{delegate.jobTitle}</div>
+                                  <div className="text-slate-400 text-sm">{delegate.jobTitle}</div>
                                 </div>
                                 <div className="flex gap-2">
                                   <Button
@@ -537,7 +537,7 @@ export default function MeetingSchedule() {
                             
                             return (
                               <div key={meetingNum} className="border-2 border-dashed border-slate-600 rounded-lg p-4">
-                                <div className="text-xs text-slate-400 mb-2 font-medium">Meeting {meetingNum}</div>
+                                <div className="text-sm text-slate-400 mb-2 font-medium">Meeting {meetingNum}</div>
                                 {delegate ? (
                                   <div className="space-y-3">
                                     <div>
@@ -631,7 +631,7 @@ export default function MeetingSchedule() {
                             
                             return (
                               <div key={meetingNum} className="border-2 border-dashed border-slate-600 rounded-lg p-4">
-                                <div className="text-xs text-slate-400 mb-2 font-medium">Meeting {meetingNum}</div>
+                                <div className="text-sm text-slate-400 mb-2 font-medium">Meeting {meetingNum}</div>
                                 {delegate ? (
                                   <div className="space-y-3">
                                     <div>
@@ -654,7 +654,7 @@ export default function MeetingSchedule() {
                                         <Building2 className="w-3 h-3" />
                                         <span>{delegate.company}</span>
                                       </div>
-                                      <div className="text-slate-400 text-xs">{delegate.jobTitle}</div>
+                                      <div className="text-slate-400 text-sm">{delegate.jobTitle}</div>
                                     </div>
                                     <div className="flex gap-2">
                                       <Button

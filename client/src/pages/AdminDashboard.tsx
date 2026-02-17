@@ -345,23 +345,23 @@ export default function AdminDashboard() {
                   {/* Completion Status */}
                   <div className="flex gap-2 mb-4">
                     {(submission as any).hasIntake ? (
-                      <span className="inline-flex items-center gap-1 px-2 py-1 bg-green-500/20 text-green-400 rounded text-xs">
+                      <span className="inline-flex items-center gap-1 px-2 py-1 bg-green-500/20 text-green-400 rounded text-sm">
                         <CheckCircle className="w-3 h-3" />
                         Intake Complete
                       </span>
                     ) : (
-                      <span className="inline-flex items-center gap-1 px-2 py-1 bg-yellow-500/20 text-yellow-400 rounded text-xs">
+                      <span className="inline-flex items-center gap-1 px-2 py-1 bg-yellow-500/20 text-yellow-400 rounded text-sm">
                         <AlertCircle className="w-3 h-3" />
                         Intake Missing
                       </span>
                     )}
                     {(submission as any).hasRankings ? (
-                      <span className="inline-flex items-center gap-1 px-2 py-1 bg-green-500/20 text-green-400 rounded text-xs">
+                      <span className="inline-flex items-center gap-1 px-2 py-1 bg-green-500/20 text-green-400 rounded text-sm">
                         <CheckCircle className="w-3 h-3" />
                         Rankings Complete
                       </span>
                     ) : (
-                      <span className="inline-flex items-center gap-1 px-2 py-1 bg-yellow-500/20 text-yellow-400 rounded text-xs">
+                      <span className="inline-flex items-center gap-1 px-2 py-1 bg-yellow-500/20 text-yellow-400 rounded text-sm">
                         <AlertCircle className="w-3 h-3" />
                         Rankings Missing
                       </span>
@@ -412,7 +412,7 @@ export default function AdminDashboard() {
                       <label className="block text-sm font-medium text-slate-300">
                         Priority Delegates
                       </label>
-                      <span className="text-xs text-slate-400">
+                      <span className="text-sm text-slate-400">
                         {submission.priorityDelegates?.length || 0} tagged
                       </span>
                     </div>
@@ -482,7 +482,7 @@ export default function AdminDashboard() {
                                 >
                                   <div className="flex flex-col">
                                     <span className="font-medium">{attendee.firstName} {attendee.lastName}</span>
-                                    <span className="text-xs text-slate-400">{attendee.company} • {attendee.jobTitle}</span>
+                                    <span className="text-sm text-slate-400">{attendee.company} • {attendee.jobTitle}</span>
                                   </div>
                                 </CommandItem>
                               ))}

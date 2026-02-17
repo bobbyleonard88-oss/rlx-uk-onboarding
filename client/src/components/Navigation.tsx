@@ -102,10 +102,10 @@ export default function Navigation() {
               className="h-12 w-auto object-contain"
             />
             <div className="hidden lg:block">
-              <h1 className="text-foreground font-heading font-bold text-sm tracking-tight">
+              <h1 className="text-white font-heading font-bold text-base tracking-tight">
                 Resourcing Leaders Exchange
               </h1>
-              <p className="text-muted-foreground text-xs">Onboarding Journey</p>
+              <p className="text-white/80 text-sm">Onboarding Journey</p>
             </div>
           </div>
         </Link>
@@ -132,12 +132,12 @@ export default function Navigation() {
                   <div
                     className="
                       flex items-center gap-3 px-3 py-3 rounded-lg transition-all duration-200 cursor-not-allowed opacity-40
-                      text-muted-foreground border border-transparent
+                      text-white/50 border border-transparent
                       lg:justify-start justify-center
                     "
                   >
                     <Icon className="w-5 h-5 flex-shrink-0" />
-                    <span className="hidden lg:block font-heading text-sm font-medium">
+                    <span className="hidden lg:block font-heading text-base font-medium">
                       {item.label}
                     </span>
                   </div>
@@ -147,18 +147,18 @@ export default function Navigation() {
                       className={`
                         flex items-center gap-3 px-3 py-3 rounded-lg transition-all duration-200 cursor-pointer relative
                         ${isActive 
-                          ? 'bg-primary/20 text-accent border border-accent/30 scale-105' 
+                          ? 'bg-primary/20 text-white border border-white/30 scale-105' 
                           : isVisited
-                          ? 'bg-accent/10 text-accent/80 hover:text-accent hover:bg-accent/20 border border-accent/20'
-                          : 'text-muted-foreground hover:text-foreground hover:bg-secondary/30 border border-transparent'
+                          ? 'bg-white/10 text-white hover:text-white hover:bg-white/20 border border-white/20'
+                          : 'text-white/70 hover:text-white hover:bg-white/10 border border-transparent'
                         }
                         ${item.path === '/meeting-schedule' && hasNewMeetings ? 'ring-2 ring-green-500 ring-opacity-50 animate-pulse' : ''}
                         lg:justify-start justify-center
                         ${isActive ? 'animate-pop' : ''}
                       `}
                     >
-                      <Icon className="w-5 h-5 flex-shrink-0" />
-                      <span className="hidden lg:block font-heading text-sm font-medium flex-1">
+                      <Icon className="w-6 h-6 flex-shrink-0" />
+                      <span className="hidden lg:block font-heading text-base font-medium flex-1">
                         {item.label}
                       </span>
                       {isCompleted && (
@@ -180,7 +180,7 @@ export default function Navigation() {
       </div>
 
       <div className="p-4 border-t border-border/30">
-        <p className="text-xs text-muted-foreground text-center hidden lg:block">
+        <p className="text-sm text-white/60 text-center hidden lg:block">
           © 2026 RLX
         </p>
       </div>

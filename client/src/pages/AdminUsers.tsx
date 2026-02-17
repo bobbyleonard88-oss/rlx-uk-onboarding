@@ -221,7 +221,7 @@ export default function AdminUsers() {
                         </Badge>
                       </div>
                       <p className="text-sm text-slate-300">{u.email}</p>
-                      <p className="text-xs text-slate-400 mt-1">
+                      <p className="text-sm text-slate-400 mt-1">
                         Joined: {new Date(u.createdAt).toLocaleDateString()}
                       </p>
                     </div>

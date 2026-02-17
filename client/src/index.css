@@ -95,8 +95,15 @@
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
     background: linear-gradient(135deg, #1e1b3d 0%, #0f0e1a 100%);
     background-attachment: fixed;
+  }
+  
+  /* Ensure minimum readable font size */
+  p, span, div, label, input, button, a {
+    font-size: max(14px, 1em);
   }
   
   h1, h2, h3, h4, h5, h6 {

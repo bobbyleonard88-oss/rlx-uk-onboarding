@@ -390,22 +390,22 @@ export default function Prioritize() {
                 <table className="w-full">
                   <thead className="bg-primary/10 border-b border-border/50">
                     <tr>
-                      <th className="py-3 px-3 text-left text-xs font-heading font-bold text-foreground uppercase tracking-wider w-20">
+                      <th className="py-3 px-3 text-left text-sm font-heading font-bold text-foreground uppercase tracking-wider w-20">
                         Rank
                       </th>
-                      <th className="py-3 px-3 text-left text-xs font-heading font-bold text-foreground uppercase tracking-wider">
+                      <th className="py-3 px-3 text-left text-sm font-heading font-bold text-foreground uppercase tracking-wider">
                         Name
                       </th>
-                      <th className="py-3 px-3 text-left text-xs font-heading font-bold text-foreground uppercase tracking-wider">
+                      <th className="py-3 px-3 text-left text-sm font-heading font-bold text-foreground uppercase tracking-wider">
                         Job Title
                       </th>
-                      <th className="py-3 px-3 text-left text-xs font-heading font-bold text-foreground uppercase tracking-wider">
+                      <th className="py-3 px-3 text-left text-sm font-heading font-bold text-foreground uppercase tracking-wider">
                         Company
                       </th>
-                      <th className="py-3 px-3 text-left text-xs font-heading font-bold text-foreground uppercase tracking-wider">
+                      <th className="py-3 px-3 text-left text-sm font-heading font-bold text-foreground uppercase tracking-wider">
                         Industry
                       </th>
-                      <th className="py-3 px-3 text-center text-xs font-heading font-bold text-foreground uppercase tracking-wider">
+                      <th className="py-3 px-3 text-center text-sm font-heading font-bold text-foreground uppercase tracking-wider">
                         Org Size
                       </th>
                     </tr>

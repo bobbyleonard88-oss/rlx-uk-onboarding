@@ -570,3 +570,13 @@
 - [ ] Add second download button for full meeting schedule view
 - [ ] Generate full schedule PDF with days, slots, and all meeting details
 - [ ] Format schedule PDF to match the visual layout of the meeting schedule page
+
+
+## Accessibility & Readability Improvements
+
+- [x] Make left navigation text white on purple for better contrast
+- [x] Increase font sizes in small text areas across the platform
+- [x] Improve text hierarchy and readability
+- [x] Ensure sufficient color contrast throughout
+- [x] Increase button text sizes where needed
+- [x] Improve form label and input text sizes
