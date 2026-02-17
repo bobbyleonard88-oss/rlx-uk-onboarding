@@ -185,6 +185,11 @@ export default function AdminMeetings() {
                 Meetings
               </Button>
             </Link>
+            <Link href="/admin/delegate-overview">
+              <Button variant="ghost" className="text-slate-300 hover:text-white">
+                Delegate Overview
+              </Button>
+            </Link>
             <Link href="/admin/users">
               <Button variant="ghost" className="text-slate-300 hover:text-white">
                 Users

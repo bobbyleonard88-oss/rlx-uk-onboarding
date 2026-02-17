@@ -650,6 +650,48 @@ export const appRouter = router({
         
         return counts;
       }),
+    
+    // Get delegate overview report - all delegates with their meeting schedules
+    getDelegateOverview: adminProcedure
+      .query(async () => {
+        const { attendees } = await import('./attendees');
+        const allSponsors = await db.getAllSponsors();
+        const allMeetings = await db.getAllMeetings();
+        
+        // Build overview for each delegate
+        const overview = await Promise.all(attendees.map(async (delegate) => {
+          const delegateMeetings = allMeetings.filter(m => m.attendeeId === delegate.id);
+          
+          // Group meetings by sponsor
+          const sponsorMeetings = delegateMeetings.map(meeting => {
+            const sponsor = allSponsors.find(s => s.id === meeting.sponsorId);
+            return {
+              sponsorId: meeting.sponsorId,
+              sponsorName: sponsor?.companyName || 'Unknown',
+              timeSlot: meeting.timeSlot,
+              attendeeNumber: meeting.attendeeNumber,
+              matchScore: meeting.matchScore,
+            };
+          });
+          
+          return {
+            delegateId: delegate.id,
+            delegateName: `${delegate.firstName} ${delegate.lastName}`,
+            company: delegate.company,
+            jobTitle: delegate.jobTitle,
+            totalMeetings: delegateMeetings.length,
+            meetings: sponsorMeetings,
+          };
+        }));
+        
+        // Sort by total meetings (descending) then by name
+        return overview.sort((a, b) => {
+          if (b.totalMeetings !== a.totalMeetings) {
+            return b.totalMeetings - a.totalMeetings;
+          }
+          return a.delegateName.localeCompare(b.delegateName);
+        });
+      }),
   }),
 });
 

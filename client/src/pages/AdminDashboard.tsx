@@ -22,6 +22,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Check, ChevronsUpDown } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export default function AdminDashboard() {
   const { user, loading } = useAuth({ redirectOnUnauthenticated: true });
@@ -30,6 +44,7 @@ export default function AdminDashboard() {
   const [rankingsModalOpen, setRankingsModalOpen] = useState(false);
   const [selectedIntake, setSelectedIntake] = useState<any>(null);
   const [selectedRankings, setSelectedRankings] = useState<{ data: string; companyName: string } | null>(null);
+  const [openCombobox, setOpenCombobox] = useState<Record<number, boolean>>({});
   
   const { data: submissions, isLoading, refetch } = trpc.admin.getAllSubmissions.useQuery();
   const { data: delegates } = trpc.admin.getAllDelegates.useQuery();
@@ -192,6 +207,11 @@ export default function AdminDashboard() {
                 <Link href="/admin/meetings">
                   <Button variant="ghost" className="text-slate-300 hover:bg-primary/20 hover:text-white">
                     Meetings
+                  </Button>
+                </Link>
+                <Link href="/admin/delegate-overview">
+                  <Button variant="ghost" className="text-slate-300 hover:bg-primary/20 hover:text-white">
+                    Delegate Overview
                   </Button>
                 </Link>
                 <Link href="/admin/users">
@@ -426,28 +446,50 @@ export default function AdminDashboard() {
                       </div>
                     )}
                     
-                    {/* Add Delegate Dropdown */}
-                    <Select
-                      onValueChange={(attendeeId) => {
-                        addPriorityTag.mutate({
-                          sponsorId: submission.sponsorId,
-                          attendeeId,
-                        });
-                      }}
+                    {/* Add Delegate Dropdown - Searchable */}
+                    <Popover 
+                      open={openCombobox[submission.sponsorId] || false} 
+                      onOpenChange={(open) => setOpenCombobox(prev => ({ ...prev, [submission.sponsorId]: open }))}
                     >
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Add delegate to priority list..." />
-                      </SelectTrigger>
-                      <SelectContent className="max-h-[300px]">
-                        {attendees
-                          .filter(a => !submission.priorityDelegates?.includes(a.id))
-                          .map((attendee) => (
-                            <SelectItem key={attendee.id} value={attendee.id}>
-                              {attendee.firstName} {attendee.lastName} - {attendee.company} ({attendee.jobTitle})
-                            </SelectItem>
-                          ))}
-                      </SelectContent>
-                    </Select>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          role="combobox"
+                          className="w-full justify-between text-slate-300 hover:text-white"
+                        >
+                          Add delegate to priority list...
+                          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-[500px] p-0" align="start">
+                        <Command>
+                          <CommandInput placeholder="Search delegates..." />
+                          <CommandEmpty>No delegate found.</CommandEmpty>
+                          <CommandGroup className="max-h-[300px] overflow-auto">
+                            {attendees
+                              .filter(a => !submission.priorityDelegates?.includes(a.id))
+                              .map((attendee) => (
+                                <CommandItem
+                                  key={attendee.id}
+                                  value={`${attendee.firstName} ${attendee.lastName} ${attendee.company} ${attendee.jobTitle}`}
+                                  onSelect={() => {
+                                    addPriorityTag.mutate({
+                                      sponsorId: submission.sponsorId,
+                                      attendeeId: attendee.id,
+                                    });
+                                    setOpenCombobox(prev => ({ ...prev, [submission.sponsorId]: false }));
+                                  }}
+                                >
+                                  <div className="flex flex-col">
+                                    <span className="font-medium">{attendee.firstName} {attendee.lastName}</span>
+                                    <span className="text-xs text-slate-400">{attendee.company} • {attendee.jobTitle}</span>
+                                  </div>
+                                </CommandItem>
+                              ))}
+                          </CommandGroup>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
                   </div>
                 </CardContent>
               </Card>

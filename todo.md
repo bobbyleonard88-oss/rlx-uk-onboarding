@@ -416,3 +416,20 @@
 - [x] Add validation to prevent double-booking delegates across all sponsors
 - [x] Display conflict warnings when attempting to assign over-booked delegates
 - [ ] Update time slot scheduler to handle 2 attendees with separate meeting lists
+
+
+## Delegate Overview Report (Admin Feature)
+
+- [x] Create backend API to fetch all delegates with their meeting schedules across all sponsors
+- [x] Create DelegateOverview admin page component
+- [x] Display table showing: delegate name, company, total meetings, list of sponsors they're meeting
+- [x] Show time slot assignments for each delegate-sponsor pairing
+- [x] Add CSV export functionality for delegate overview report
+- [x] Add "Delegate Overview" navigation tab to admin portal
+- [x] Integrate with existing admin navigation structure
+
+## Admin Dashboard Improvements
+
+- [x] Add search functionality to priority delegate dropdown on admin dashboard
+- [x] Replace basic dropdown with searchable combobox component
+- [x] Allow typing to filter delegate names in priority tagging

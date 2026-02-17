@@ -24,6 +24,7 @@ import AdminUsers from "./pages/AdminUsers";
 import AdminMeetings from "./pages/AdminMeetings";
 import SponsorDashboard from "./pages/SponsorDashboard";
 import MeetingSchedule from "./pages/MeetingSchedule";
+import DelegateOverview from "./pages/DelegateOverview";
 import NewMeetingNotification from "./components/NewMeetingNotification";
 function Router() {
   const [location] = useLocation();
@@ -53,9 +54,10 @@ function Router() {
           <Route path="/prioritize" component={Prioritize} />
           <Route path="/faq" component={FAQ} />
           <Route path="/admin" component={AdminDashboard} />
+          <Route path="/admin/dashboard" component={AdminDashboard} />
           <Route path="/admin/users" component={AdminUsers} />
-
           <Route path="/admin/meetings" component={AdminMeetings} />
+          <Route path="/admin/delegate-overview" component={DelegateOverview} />
           <Route path="/sponsor-profile" component={SponsorProfile} />
           <Route path="/meeting-schedule" component={MeetingSchedule} />
           <Route path="/404" component={NotFound} />
