@@ -25,6 +25,7 @@ import { toast } from "sonner";
 import { getLoginUrl } from "@/const";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import AdminHeader from "@/components/AdminHeader";
 
 const TIME_SLOT_LABELS: Record<number, string> = {
   1: "Day 1 - Slot 1",
@@ -151,51 +152,7 @@ export default function DelegateOverview() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-      {/* Navigation Header */}
-      <div className="bg-slate-900/50 border-b border-slate-700 px-6 py-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-6">
-            <h1 className="text-xl font-heading font-semibold text-white">RLX Admin Portal</h1>
-            <nav className="flex gap-4">
-              <Link href="/admin/dashboard">
-                <Button variant="ghost" className="text-slate-300 hover:text-white">
-                  Dashboard
-                </Button>
-              </Link>
-              <Link href="/admin/meetings">
-                <Button variant="ghost" className="text-slate-300 hover:text-white">
-                  Meetings
-                </Button>
-              </Link>
-              <Link href="/admin/delegate-overview">
-                <Button variant="ghost" className="text-white bg-slate-800">
-                  Delegate Overview
-                </Button>
-              </Link>
-              <Link href="/admin/users">
-                <Button variant="ghost" className="text-slate-300 hover:text-white">
-                  Users
-                </Button>
-              </Link>
-            </nav>
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 text-slate-300">
-              <UserIcon className="w-4 h-4" />
-              <span className="text-sm">{user.email}</span>
-            </div>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => logout()}
-              className="text-slate-300 hover:text-white"
-            >
-              <LogOut className="w-4 h-4 mr-2" />
-              Logout
-            </Button>
-          </div>
-        </div>
-      </div>
+      <AdminHeader />
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto p-8 space-y-6">
