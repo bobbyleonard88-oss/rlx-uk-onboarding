@@ -384,3 +384,11 @@
 - [x] Add checkmark icon to "Prioritise Meetings" nav item when sponsor completes rankings submission
 - [x] Query completion status from database in Navigation component
 - [x] Display visual feedback for completed steps in onboarding journey
+
+
+## Confidentiality Notice Updates
+
+- [x] Update confidentiality notice text on Prioritise page with new warning message
+- [x] Add checkbox requirement for sponsors to confirm understanding before viewing delegate list
+- [x] Hide delegate rankings until checkbox is ticked
+- [x] Persist checkbox state so sponsors don't need to re-confirm on every visit

@@ -124,6 +124,10 @@ export default function Prioritize() {
   const [sortBy, setSortBy] = useState<string>("custom");
   const [showSubmitDialog, setShowSubmitDialog] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [hasAgreedToTerms, setHasAgreedToTerms] = useState(() => {
+    // Check if user has previously agreed (persisted in localStorage)
+    return localStorage.getItem('rlx-confidentiality-agreed') === 'true';
+  });
 
   useEffect(() => {
     // Priority: Load from database > localStorage > default alphabetical
@@ -327,32 +331,52 @@ export default function Prioritize() {
 
         <AnimatedSection delay={100}>
           <div className="glass-card p-6 bg-destructive/20 border-destructive/50 rounded-lg mb-6">
-            <h3 className="text-lg font-heading font-bold text-white mb-3 text-center">⚠️ Strictly Confidential</h3>
-            <p className="text-sm text-white leading-relaxed text-center mb-2">
-              The information on this page is <strong>highly confidential</strong> and must not be shared with anyone outside your organisation, 
-              including your own sales team. Sharing this information or reaching out to these delegates ahead of the event will be considered 
-              a <strong>breach of trust</strong> and may result in <strong>removal from this event and exclusion from all future events</strong>.
-            </p>
-            <p className="text-xs text-white italic text-center">
-              By proceeding, you acknowledge and agree to maintain strict confidentiality of all delegate information.
-            </p>
+            <h3 className="text-lg font-heading font-bold text-white mb-4 text-center">⚠️ Strictly Confidential</h3>
+            <div className="space-y-3 text-white text-sm leading-relaxed">
+              <p>
+                The information on this page is confidential and for authorised use only. It must not be shared outside your organisation or used for outreach to delegates before the event.
+              </p>
+              <p>
+                Any unauthorised sharing or pre-event contact with delegates will result in <strong>immediate removal from this event</strong> and may lead to <strong>exclusion from future events</strong>.
+              </p>
+              <p className="font-semibold">
+                By proceeding, you confirm that you understand and agree to these terms.
+              </p>
+            </div>
+            <div className="mt-4 flex items-start gap-3 bg-white/10 p-4 rounded-lg">
+              <input
+                type="checkbox"
+                id="confidentiality-agreement"
+                checked={hasAgreedToTerms}
+                onChange={(e) => {
+                  setHasAgreedToTerms(e.target.checked);
+                  localStorage.setItem('rlx-confidentiality-agreed', e.target.checked.toString());
+                }}
+                className="mt-1 w-4 h-4 accent-accent cursor-pointer"
+              />
+              <label htmlFor="confidentiality-agreement" className="text-sm text-white cursor-pointer flex-1">
+                I understand and agree to maintain strict confidentiality of all delegate information and will not engage in any pre-event outreach.
+              </label>
+            </div>
           </div>
         </AnimatedSection>
 
-        <AnimatedSection delay={150}>
-          <div className="glass-card p-6 bg-accent/10 border-accent/30 rounded-lg mb-8">
-            <p className="text-sm text-white leading-relaxed text-center mb-3">
-              <strong className="text-white">Meetings are guaranteed but there's no guarantee we'll match your top priorities.</strong>
-            </p>
-            <p className="text-sm text-foreground/90 leading-relaxed text-center">
-              <strong className="text-accent">Instructions:</strong> Drag rows to reorder them, or use the sort dropdown below. 
-              Your top priorities should be at the top. When finished, click Submit to send your rankings to the admin team.
-            </p>
-          </div>
-        </AnimatedSection>
+        {hasAgreedToTerms ? (
+          <>
+            <AnimatedSection delay={150}>
+              <div className="glass-card p-6 bg-accent/10 border-accent/30 rounded-lg mb-8">
+                <p className="text-sm text-white leading-relaxed text-center mb-3">
+                  <strong className="text-white">Meetings are guaranteed but there's no guarantee we'll match your top priorities.</strong>
+                </p>
+                <p className="text-sm text-foreground/90 leading-relaxed text-center">
+                  <strong className="text-accent">Instructions:</strong> Drag rows to reorder them, or use the sort dropdown below. 
+                  Your top priorities should be at the top. When finished, click Submit to send your rankings to the admin team.
+                </p>
+              </div>
+            </AnimatedSection>
 
-        {/* Sort Controls */}
-        <AnimatedSection delay={200}>
+            {/* Sort Controls */}
+            <AnimatedSection delay={200}>
           <div className="flex justify-between items-center mb-6">
             <div className="flex items-center gap-3">
               <label className="text-sm font-heading font-medium text-foreground">Sort by:</label>
@@ -426,22 +450,31 @@ export default function Prioritize() {
           </DndContext>
         </AnimatedSection>
 
-        <AnimatedSection delay={300}>
-          <div className="flex justify-center gap-4 flex-wrap mb-8">
-            <Button
-              onClick={handleSubmit}
-              size="lg"
-              disabled={isSubmitting}
-              className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading gap-2 px-8"
-            >
-              {isSubmitting ? "Submitting..." : "Submit"}
-            </Button>
-          </div>
-        </AnimatedSection>
+            <AnimatedSection delay={300}>
+              <div className="flex justify-center">
+                <Button
+                  onClick={handleSubmit}
+                  disabled={isSubmitting}
+                  className="bg-primary hover:bg-primary/90 text-white px-8 py-3 rounded-lg font-heading font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-200"
+                >
+                  {isSubmitting ? "Submitting..." : "Submit"}
+                </Button>
+              </div>
+            </AnimatedSection>
 
-        <AnimatedSection delay={350}>
-          <NextButton href="/faq" label="Next: FAQ" />
-        </AnimatedSection>
+            <AnimatedSection delay={350}>
+              <NextButton href="/faq" label="Next: FAQ" />
+            </AnimatedSection>
+          </>
+        ) : (
+          <AnimatedSection delay={150}>
+            <div className="glass-card p-8 bg-accent/5 border-accent/20 rounded-lg text-center">
+              <p className="text-foreground/80 text-lg">
+                Please check the box above to confirm your understanding of the confidentiality terms before viewing delegate information.
+              </p>
+            </div>
+          </AnimatedSection>
+        )}
       </div>
 
       {/* Submit Dialog */}
