@@ -433,3 +433,17 @@
 - [x] Add search functionality to priority delegate dropdown on admin dashboard
 - [x] Replace basic dropdown with searchable combobox component
 - [x] Allow typing to filter delegate names in priority tagging
+
+
+## Admin Meetings - Attendee Tab Switcher
+
+- [x] Add tab switcher to AdminMeetings page for Attendee 1 / Attendee 2
+- [x] Filter displayed meetings by selected attendee number
+- [x] Update time slot scheduler to show only selected attendee's meetings
+- [x] Maintain separate state for each attendee's meeting assignments
+
+## Sponsor Meeting Schedule - Alignment Fix
+
+- [x] Fix meeting box alignment on sponsor Meeting Schedule page
+- [x] Ensure all meeting cards line up properly without offset
+- [x] Maintain consistent grid layout across Day 1 and Day 2 sections

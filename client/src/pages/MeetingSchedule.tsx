@@ -373,7 +373,7 @@ export default function MeetingSchedule() {
                         const delegate = meeting ? attendees.find(a => a.id === meeting.attendeeId) : null;
                         
                         return (
-                          <div key={meetingNum} className="border-2 border-dashed border-slate-600 rounded-lg p-4">
+                          <div key={meetingNum} className="border-2 border-dashed border-slate-600 rounded-lg p-4 min-h-[200px] flex flex-col">
                             <div className="text-xs text-slate-400 mb-2 font-medium">Meeting {meetingNum}</div>
                             {delegate ? (
                               <div className="space-y-3">
@@ -421,7 +421,7 @@ export default function MeetingSchedule() {
                                 </div>
                               </div>
                             ) : (
-                              <div className="text-center text-slate-500 text-sm py-4">
+                              <div className="flex-1 flex items-center justify-center text-slate-500 text-sm">
                                 No meeting scheduled
                               </div>
                             )}
@@ -459,7 +459,7 @@ export default function MeetingSchedule() {
                         const delegate = meeting ? attendees.find(a => a.id === meeting.attendeeId) : null;
                         
                         return (
-                          <div key={meetingNum} className="border-2 border-dashed border-slate-600 rounded-lg p-4">
+                          <div key={meetingNum} className="border-2 border-dashed border-slate-600 rounded-lg p-4 min-h-[200px] flex flex-col">
                             <div className="text-xs text-slate-400 mb-2 font-medium">Meeting {meetingNum}</div>
                             {delegate ? (
                               <div className="space-y-3">
@@ -506,7 +506,7 @@ export default function MeetingSchedule() {
                                 </div>
                               </div>
                             ) : (
-                              <div className="text-center text-slate-500 text-sm py-4">
+                              <div className="flex-1 flex items-center justify-center text-slate-500 text-sm">
                                 No meeting scheduled
                               </div>
                             )}

@@ -42,6 +42,7 @@ export default function AdminMeetings() {
   const [meetingCount, setMeetingCount] = useState<number>(12);
   const [generatedMatches, setGeneratedMatches] = useState<MatchResult[]>([]);
   const [editedMatches, setEditedMatches] = useState<MatchResult[]>([]);
+  const [selectedAttendee, setSelectedAttendee] = useState<1 | 2>(1); // For 20-meeting packages
   
   const { data: submissions } = trpc.admin.getAllSubmissions.useQuery();
   const utils = trpc.useUtils();
@@ -411,8 +412,30 @@ export default function AdminMeetings() {
               </div>
             </CardHeader>
             <CardContent>
+              {/* Attendee Tab Switcher for 20-meeting packages */}
+              {meetingCount === 20 && (
+                <div className="mb-6 flex gap-2 border-b border-slate-700">
+                  <Button
+                    variant={selectedAttendee === 1 ? "default" : "ghost"}
+                    onClick={() => setSelectedAttendee(1)}
+                    className={selectedAttendee === 1 ? "bg-primary" : "text-slate-300 hover:text-white"}
+                  >
+                    Attendee 1 ({editedMatches.filter(m => m.attendeeNumber === 1).length} meetings)
+                  </Button>
+                  <Button
+                    variant={selectedAttendee === 2 ? "default" : "ghost"}
+                    onClick={() => setSelectedAttendee(2)}
+                    className={selectedAttendee === 2 ? "bg-primary" : "text-slate-300 hover:text-white"}
+                  >
+                    Attendee 2 ({editedMatches.filter(m => m.attendeeNumber === 2).length} meetings)
+                  </Button>
+                </div>
+              )}
+              
               <TimeSlotScheduler
-                meetings={editedMatches.map((match, index) => ({
+                meetings={editedMatches
+                  .filter(match => meetingCount === 20 ? match.attendeeNumber === selectedAttendee : true)
+                  .map((match, index) => ({
                   id: index,
                   attendeeId: match.attendeeId,
                   delegateName: `${match.delegateInfo.firstName} ${match.delegateInfo.lastName}`,
@@ -437,6 +460,9 @@ export default function AdminMeetings() {
                   const delegate = attendees.find(a => a.id === attendeeId);
                   if (!delegate) return;
                   
+                  // For 20-meeting packages, assign to current selected attendee
+                  const attendeeNumber = meetingCount === 20 ? selectedAttendee : 1;
+                  
                   // Create new match result
                   const newMatch: MatchResult = {
                     attendeeId: delegate.id,
@@ -446,6 +472,7 @@ export default function AdminMeetings() {
                     isTopRanked: false,
                     isTop20: false,
                     timeSlot: slot,
+                    attendeeNumber,
                     delegateInfo: {
                       firstName: delegate.firstName,
                       lastName: delegate.lastName,
