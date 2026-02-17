@@ -100,7 +100,13 @@ export default function AdminMeetings() {
   
   const publishMeetings = trpc.admin.publishMeetings.useMutation({
     onSuccess: (data) => {
-      toast.success(`Published ${data.publishedCount} meetings to sponsor!`);
+      if (data.publishedCount > 0) {
+        toast.success(`Published ${data.publishedCount} new meetings to sponsor!`);
+      } else if (data.alreadyPublished > 0) {
+        toast.success(`All ${data.totalMeetings} meetings are already published to sponsor.`);
+      } else {
+        toast.info('No meetings to publish.');
+      }
     },
     onError: (error) => {
       toast.error(error.message || "Failed to publish meetings");
@@ -181,13 +187,13 @@ export default function AdminMeetings() {
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       {/* Header */}
       <header className="border-b border-slate-700 bg-slate-900/50 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4 flex items-center gap-6">
+        <div className="container mx-auto px-4 py-4 flex items-center gap-2 lg:gap-6 flex-wrap">
           <div>
             <h1 className="text-2xl font-bold text-white">RLX Admin</h1>
           </div>
           
           {/* Admin Navigation */}
-          <nav className="flex items-center gap-4">
+          <nav className="flex items-center gap-2 flex-wrap">
             <Link href="/admin">
               <Button variant="ghost" className="text-slate-300 hover:text-white">
                 Dashboard
@@ -213,8 +219,8 @@ export default function AdminMeetings() {
           <div className="flex-1"></div>
           
           {/* User Profile & Logout */}
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2 text-slate-300">
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <div className="hidden lg:flex items-center gap-2 text-slate-300">
               <User className="w-4 h-4" />
               <span className="text-sm">{user?.email}</span>
             </div>

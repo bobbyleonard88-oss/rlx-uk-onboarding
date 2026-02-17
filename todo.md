@@ -610,3 +610,16 @@
 
 - [x] Reduce navigation text size to eliminate grey scroll bar
 - [x] Ensure all navigation items fit without scrolling
+
+## Admin Meetings Page Bugs
+
+- [x] Fix publish button showing "0 meetings published" when meetings are already confirmed
+- [x] Update publish logic to provide better feedback to admin
+- [x] Fix horizontal scrolling on admin meetings page
+- [x] Make admin meetings page fully responsive without horizontal scroll
+
+## Cancel All Meetings Error
+
+- [x] Fix "No vendor profile found" error when canceling meetings
+- [x] Add proper error handling for sponsors without vendor profiles
+- [x] Ensure cancel all works regardless of intake form completion status

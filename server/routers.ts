@@ -591,14 +591,21 @@ export const appRouter = router({
         // Get all meetings for this sponsor
         const meetings = await db.getMeetingsBySponsor(input.sponsorId);
         
+        // Count suggested meetings BEFORE updating
+        const suggestedMeetings = meetings.filter(m => m.status === 'suggested');
+        const suggestedCount = suggestedMeetings.length;
+        
         // Update all suggested meetings to confirmed
-        for (const meeting of meetings) {
-          if (meeting.status === 'suggested') {
-            await db.updateMeetingStatus(meeting.id, 'confirmed');
-          }
+        for (const meeting of suggestedMeetings) {
+          await db.updateMeetingStatus(meeting.id, 'confirmed');
         }
         
-        return { success: true, publishedCount: meetings.filter(m => m.status === 'suggested').length };
+        return { 
+          success: true, 
+          publishedCount: suggestedCount,
+          totalMeetings: meetings.length,
+          alreadyPublished: meetings.length - suggestedCount
+        };
       }),
     
     // Get meetings for a sponsor
@@ -752,7 +759,15 @@ export const appRouter = router({
           
           // Get all matches for this sponsor
           const { generateMatchesForSponsor } = await import('./matchingEngine');
-          const allMatches = await generateMatchesForSponsor(sponsor.id);
+          let allMatches;
+          try {
+            allMatches = await generateMatchesForSponsor(sponsor.id);
+          } catch (error) {
+            // Skip if vendor profile not found (sponsor hasn't completed intake)
+            console.warn(`Skipping sponsor ${sponsor.id}: ${error}`);
+            await db.deleteMeeting(meeting.id);
+            continue;
+          }
           
           // Filter out: cancelled delegate, delegates already at capacity (8 meetings), delegates already meeting this sponsor
           const existingMeetings = await db.getMeetingsBySponsor(meeting.sponsorId);
