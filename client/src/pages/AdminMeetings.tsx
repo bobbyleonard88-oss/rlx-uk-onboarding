@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Sparkles, RefreshCw, LogOut, User, Trash2, Save } from "lucide-react";
+import { Sparkles, RefreshCw, LogOut, User, Trash2, Save, Send } from "lucide-react";
 import TimeSlotScheduler from "@/components/TimeSlotScheduler";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -91,10 +91,19 @@ export default function AdminMeetings() {
   
   const saveMeetings = trpc.admin.saveMeetings.useMutation({
     onSuccess: () => {
-      toast.success("Meetings saved successfully!");
+      toast.success("Draft saved successfully! Click 'Publish to Sponsor' to make meetings visible.");
     },
     onError: (error) => {
       toast.error(error.message || "Failed to save meetings");
+    },
+  });
+  
+  const publishMeetings = trpc.admin.publishMeetings.useMutation({
+    onSuccess: (data) => {
+      toast.success(`Published ${data.publishedCount} meetings to sponsor!`);
+    },
+    onError: (error) => {
+      toast.error(error.message || "Failed to publish meetings");
     },
   });
   
@@ -155,6 +164,14 @@ export default function AdminMeetings() {
         timeSlot: m.timeSlot || null,
         attendeeNumber: m.attendeeNumber || 1,
       })),
+    });
+  };
+  
+  const handlePublishMeetings = () => {
+    if (!selectedSponsorId) return;
+    
+    publishMeetings.mutate({
+      sponsorId: selectedSponsorId,
     });
   };
   
@@ -396,14 +413,25 @@ export default function AdminMeetings() {
                     Drag and drop meetings to assign time slots
                   </CardDescription>
                 </div>
-                <Button
-                  onClick={handleSaveMeetings}
-                  disabled={saveMeetings.isPending}
-                  className="bg-green-600 hover:bg-green-700"
-                >
-                  <Save className="w-4 h-4 mr-2" />
-                  Save Schedule
-                </Button>
+                <div className="flex gap-2">
+                  <Button
+                    onClick={handleSaveMeetings}
+                    disabled={saveMeetings.isPending}
+                    variant="outline"
+                    className="border-slate-600 text-slate-200 hover:bg-slate-800"
+                  >
+                    <Save className="w-4 h-4 mr-2" />
+                    Save Draft
+                  </Button>
+                  <Button
+                    onClick={handlePublishMeetings}
+                    disabled={publishMeetings.isPending || !selectedSponsorId}
+                    className="bg-green-600 hover:bg-green-700"
+                  >
+                    <Send className="w-4 h-4 mr-2" />
+                    Publish to Sponsor
+                  </Button>
+                </div>
               </div>
             </CardHeader>
             <CardContent>

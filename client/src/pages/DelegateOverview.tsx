@@ -372,9 +372,10 @@ export default function DelegateOverview() {
                                     toast.info(`Replacements:\n${replacementSummary}`, { duration: 10000 });
                                   }
                                   refetch();
-                                } catch (error) {
-                                  toast.error("Failed to cancel delegate");
-                                  console.error(error);
+                                } catch (error: any) {
+                                  const errorMessage = error?.message || "Failed to cancel delegate";
+                                  toast.error(errorMessage);
+                                  console.error("Cancel delegate error:", error);
                                 }
                               }}
                             >

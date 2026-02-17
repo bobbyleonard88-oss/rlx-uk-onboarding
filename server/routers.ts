@@ -51,7 +51,9 @@ export const appRouter = router({
     getMyMeetings: protectedProcedure.query(async ({ ctx }) => {
       const sponsor = await db.getSponsorByUserId(ctx.user.id);
       if (!sponsor) return [];
-      return await db.getMeetingsBySponsor(sponsor.id);
+      const allMeetings = await db.getMeetingsBySponsor(sponsor.id);
+      // Only return confirmed meetings (published to sponsor)
+      return allMeetings.filter(m => m.status === 'confirmed');
     }),
   }),
 
@@ -578,6 +580,25 @@ export const appRouter = router({
         }
         
         return { success: true };
+      }),
+    
+    // Publish meetings to sponsor (change status from suggested to confirmed)
+    publishMeetings: adminProcedure
+      .input(z.object({
+        sponsorId: z.number(),
+      }))
+      .mutation(async ({ input }) => {
+        // Get all meetings for this sponsor
+        const meetings = await db.getMeetingsBySponsor(input.sponsorId);
+        
+        // Update all suggested meetings to confirmed
+        for (const meeting of meetings) {
+          if (meeting.status === 'suggested') {
+            await db.updateMeetingStatus(meeting.id, 'confirmed');
+          }
+        }
+        
+        return { success: true, publishedCount: meetings.filter(m => m.status === 'suggested').length };
       }),
     
     // Get meetings for a sponsor

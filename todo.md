@@ -501,12 +501,12 @@
 
 ## Draft/Publish Workflow for Meeting Schedules
 
-- [ ] Meetings saved as "suggested" status (draft) are hidden from sponsors
-- [ ] Implement "Save Draft" button in admin portal (saves meetings as suggested status)
-- [ ] Implement "Publish to Sponsor" button in admin portal (changes status to confirmed, visible to sponsors)
-- [ ] Update sponsor getMyMeetings to only show confirmed meetings
+- [x] Meetings saved as "suggested" status (draft) are hidden from sponsors
+- [x] Implement "Save Draft" button in admin portal (saves meetings as suggested status)
+- [x] Implement "Publish to Sponsor" button in admin portal (changes status to confirmed, visible to sponsors)
+- [x] Update sponsor getMyMeetings to only show confirmed meetings
 - [ ] Add visual indicator in admin portal showing draft vs published status per sponsor
-- [ ] Replace current "Save Meetings" with two separate buttons: Save Draft and Publish
+- [x] Replace current "Save Schedule" with two separate buttons: Save Draft and Publish
 
 ## Timeline Text Updates
 
@@ -536,6 +536,14 @@
 - [ ] Update meeting schedule and notify affected sponsors (future enhancement)
 - [ ] Add cancellation reason field (optional)
 
+
+## CRITICAL: Cancel Delegate Functionality Bug
+
+- [ ] Fix cancel delegate API error - currently failing when clicked
+- [ ] Debug cancelDelegate backend endpoint
+- [ ] Check error messages and logs
+- [ ] Verify database operations are working correctly
+- [ ] Test delegate cancellation and replacement flow
 
 ## CRITICAL: Delegate Double-Booking Bug
 
