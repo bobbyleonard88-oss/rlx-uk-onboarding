@@ -120,6 +120,7 @@ export const meetings = mysqlTable("meetings", {
   sponsorId: int("sponsorId").notNull(),
   attendeeId: varchar("attendeeId", { length: 64 }).notNull(),
   matchScore: int("matchScore"), // 0-100 AI confidence score
+  matchReason: text("matchReason"), // One-liner explanation of why they match
   isTopRanked: int("isTopRanked").default(0), // 1 if in vendor's top 12
   isPriority: int("isPriority").default(0), // 1 if manually tagged
   timeSlot: int("timeSlot"), // 1-6 (3 slots per day × 2 days)

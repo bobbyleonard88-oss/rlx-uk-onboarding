@@ -8,10 +8,12 @@ import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Download, Users, Calendar, Building2, LogOut, User as UserIcon } from "lucide-react";
+import { Download, Users, Calendar, Building2, LogOut, User as UserIcon, Search, Filter } from "lucide-react";
 import { Link } from "wouter";
 import { toast } from "sonner";
 import { getLoginUrl } from "@/const";
+import { Input } from "@/components/ui/input";
+import { useState } from "react";
 
 const TIME_SLOT_LABELS: Record<number, string> = {
   1: "Day 1 - Slot 1",
@@ -25,6 +27,8 @@ const TIME_SLOT_LABELS: Record<number, string> = {
 export default function DelegateOverview() {
   const { user, loading, logout } = useAuth({ redirectOnUnauthenticated: true });
   const { data: overview, isLoading } = trpc.admin.getDelegateOverview.useQuery();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterStatus, setFilterStatus] = useState<"all" | "available" | "at-capacity" | "over-capacity">("all");
 
   const downloadCSV = () => {
     if (!overview) return;
@@ -208,10 +212,79 @@ export default function DelegateOverview() {
           </CardHeader>
         </Card>
 
+        {/* Search and Filters */}
+        <Card className="glass-card border-slate-700">
+          <CardContent className="pt-6">
+            <div className="flex flex-col md:flex-row gap-4">
+              {/* Search Bar */}
+              <div className="flex-1 relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <Input
+                  placeholder="Search by delegate name or company..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10 bg-slate-800/50 border-slate-600 text-white placeholder:text-slate-400"
+                />
+              </div>
+              
+              {/* Filter Buttons */}
+              <div className="flex gap-2">
+                <Button
+                  variant={filterStatus === "all" ? "default" : "outline"}
+                  onClick={() => setFilterStatus("all")}
+                  className={filterStatus === "all" ? "bg-accent hover:bg-accent/90" : "border-slate-600 text-slate-300"}
+                >
+                  All
+                </Button>
+                <Button
+                  variant={filterStatus === "available" ? "default" : "outline"}
+                  onClick={() => setFilterStatus("available")}
+                  className={filterStatus === "available" ? "bg-accent hover:bg-accent/90" : "border-slate-600 text-slate-300"}
+                >
+                  Available
+                </Button>
+                <Button
+                  variant={filterStatus === "at-capacity" ? "default" : "outline"}
+                  onClick={() => setFilterStatus("at-capacity")}
+                  className={filterStatus === "at-capacity" ? "bg-accent hover:bg-accent/90" : "border-slate-600 text-slate-300"}
+                >
+                  At Capacity
+                </Button>
+                <Button
+                  variant={filterStatus === "over-capacity" ? "default" : "outline"}
+                  onClick={() => setFilterStatus("over-capacity")}
+                  className={filterStatus === "over-capacity" ? "bg-accent hover:bg-accent/90" : "border-slate-600 text-slate-300"}
+                >
+                  Over Capacity
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Delegate List */}
         <div className="space-y-4">
           {overview && overview.length > 0 ? (
-            overview.map((delegate) => (
+            overview
+              .filter(delegate => {
+                // Search filter
+                const matchesSearch = searchQuery === "" ||
+                  delegate.delegateName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                  delegate.company.toLowerCase().includes(searchQuery.toLowerCase());
+                
+                // Status filter
+                let matchesStatus = true;
+                if (filterStatus === "available") {
+                  matchesStatus = delegate.totalMeetings < 8;
+                } else if (filterStatus === "at-capacity") {
+                  matchesStatus = delegate.totalMeetings === 8;
+                } else if (filterStatus === "over-capacity") {
+                  matchesStatus = delegate.totalMeetings > 8;
+                }
+                
+                return matchesSearch && matchesStatus;
+              })
+              .map((delegate) => (
               <Card key={delegate.delegateId} className="glass-card border-slate-700">
                 <CardHeader>
                   <div className="flex items-start justify-between">
@@ -219,10 +292,18 @@ export default function DelegateOverview() {
                       <CardTitle className="text-white text-xl flex items-center gap-3">
                         {delegate.delegateName}
                         <Badge 
-                          variant={delegate.totalMeetings >= 8 ? "destructive" : "secondary"}
-                          className="text-sm"
+                          className={
+                            delegate.totalMeetings > 8
+                              ? "bg-red-500/20 text-red-300 border-red-500/30 text-sm"
+                              : delegate.totalMeetings === 8
+                              ? "bg-yellow-500/20 text-yellow-300 border-yellow-500/30 text-sm"
+                              : "bg-green-500/20 text-green-300 border-green-500/30 text-sm"
+                          }
                         >
                           {delegate.totalMeetings}/8 meetings
+                          {delegate.totalMeetings > 8 && " - Over Capacity"}
+                          {delegate.totalMeetings === 8 && " - At Capacity"}
+                          {delegate.totalMeetings < 8 && " - Available"}
                         </Badge>
                       </CardTitle>
                       <CardDescription className="text-slate-300 mt-1">

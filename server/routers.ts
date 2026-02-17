@@ -567,12 +567,13 @@ export const appRouter = router({
             sponsorId: input.sponsorId,
             attendeeId: meeting.attendeeId,
             matchScore: meeting.matchScore,
+            matchReason: meeting.matchReason,
             isTopRanked: meeting.isTopRanked ? 1 : 0,
             isPriority: meeting.isPriority ? 1 : 0,
             timeSlot: meeting.timeSlot ?? null,
             attendeeNumber: meeting.attendeeNumber ?? 1,
             status: 'suggested',
-            notes: meeting.matchReason,
+            notes: null,
           });
         }
         

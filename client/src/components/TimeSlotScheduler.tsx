@@ -7,6 +7,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Clock, GripVertical, X, Users, ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
 import { attendees } from "@/lib/attendees";
@@ -132,7 +133,17 @@ export default function TimeSlotScheduler({ meetings, onUpdateSlot, onRemoveMeet
           <GripVertical className="w-4 h-4 text-slate-400 flex-shrink-0 mt-0.5" />
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2">
-              <div className="font-medium text-white truncate">{meeting.delegateName}</div>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <div className="font-medium text-white truncate cursor-help border-b border-dotted border-slate-500">{meeting.delegateName}</div>
+                  </TooltipTrigger>
+                  <TooltipContent className="max-w-xs">
+                    <p className="font-semibold mb-1">Match Score: {meeting.matchScore}/100</p>
+                    <p className="text-sm">{meeting.matchReason}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
               {meeting.attendeeNumber && (
                 <Badge className="bg-blue-500/20 text-blue-300 border-blue-500/30 text-xs flex-shrink-0">
                   Attendee {meeting.attendeeNumber}

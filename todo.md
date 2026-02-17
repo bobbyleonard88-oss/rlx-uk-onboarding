@@ -447,3 +447,21 @@
 - [x] Fix meeting box alignment on sponsor Meeting Schedule page
 - [x] Ensure all meeting cards line up properly without offset
 - [x] Maintain consistent grid layout across Day 1 and Day 2 sections
+
+
+## Match Reason Tooltips
+
+- [x] Add hover tooltip to meeting cards showing match reason (one-liner explanation)
+- [x] Implement tooltip on admin meeting scheduler (TimeSlotScheduler component)
+- [x] Implement tooltip on sponsor Meeting Schedule page
+- [x] Display match score and reason together in tooltip
+- [x] Confirm matching algorithm uses delegate free-text vs sponsor intake fields
+
+## Delegate Overview Report Redesign
+
+- [x] Replace plain table with card-based layout for better visual hierarchy
+- [x] Add filtering options (by meeting count, by capacity status)
+- [x] Add search functionality to filter delegates by name or company
+- [x] Improve visual design with better spacing and color coding
+- [x] Add capacity status badges (available, at capacity, over capacity)
+- [x] Maintain CSV export functionality in redesigned layout

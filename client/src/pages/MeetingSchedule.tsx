@@ -8,6 +8,7 @@ import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Calendar, Download, FileText, Clock, Building2, User, ChevronDown, Eye } from "lucide-react";
 import DelegateProfileModal from "@/components/DelegateProfileModal";
 import { useState } from "react";
@@ -380,9 +381,19 @@ export default function MeetingSchedule() {
                                 <div>
                                   <div className="flex items-center gap-2 mb-2">
                                     <User className="w-4 h-4 text-accent" />
-                                    <span className="font-semibold text-white text-lg">
-                                      {delegate.firstName} {delegate.lastName}
-                                    </span>
+                                    <TooltipProvider>
+                                      <Tooltip>
+                                        <TooltipTrigger asChild>
+                                          <span className="font-semibold text-white text-lg cursor-help border-b border-dotted border-slate-500">
+                                            {delegate.firstName} {delegate.lastName}
+                                          </span>
+                                        </TooltipTrigger>
+                                        <TooltipContent className="max-w-xs">
+                                          <p className="font-semibold mb-1">Match Score: {meeting.matchScore}/100</p>
+                                          <p className="text-sm">{meeting.matchReason}</p>
+                                        </TooltipContent>
+                                      </Tooltip>
+                                    </TooltipProvider>
                                   </div>
                                   <div className="flex items-center gap-2 text-slate-300 text-sm mb-1">
                                     <Building2 className="w-3 h-3" />
@@ -466,9 +477,19 @@ export default function MeetingSchedule() {
                                 <div>
                                   <div className="flex items-center gap-2 mb-2">
                                     <User className="w-4 h-4 text-accent" />
-                                    <span className="font-semibold text-white text-lg">
-                                      {delegate.firstName} {delegate.lastName}
-                                    </span>
+                                    <TooltipProvider>
+                                      <Tooltip>
+                                        <TooltipTrigger asChild>
+                                          <span className="font-semibold text-white text-lg cursor-help border-b border-dotted border-slate-500">
+                                            {delegate.firstName} {delegate.lastName}
+                                          </span>
+                                        </TooltipTrigger>
+                                        <TooltipContent className="max-w-xs">
+                                          <p className="font-semibold mb-1">Match Score: {meeting.matchScore}/100</p>
+                                          <p className="text-sm">{meeting.matchReason}</p>
+                                        </TooltipContent>
+                                      </Tooltip>
+                                    </TooltipProvider>
                                   </div>
                                   <div className="flex items-center gap-2 text-slate-300 text-sm mb-1">
                                     <Building2 className="w-3 h-3" />
@@ -568,9 +589,19 @@ export default function MeetingSchedule() {
                                     <div>
                                       <div className="flex items-center gap-2 mb-2">
                                         <User className="w-4 h-4 text-accent" />
-                                        <span className="font-semibold text-white text-lg">
-                                          {delegate.firstName} {delegate.lastName}
-                                        </span>
+                                        <TooltipProvider>
+                                          <Tooltip>
+                                            <TooltipTrigger asChild>
+                                              <span className="font-semibold text-white text-lg cursor-help border-b border-dotted border-slate-500">
+                                                {delegate.firstName} {delegate.lastName}
+                                              </span>
+                                            </TooltipTrigger>
+                                            <TooltipContent className="max-w-xs">
+                                              <p className="font-semibold mb-1">Match Score: {meeting.matchScore}/100</p>
+                                              <p className="text-sm">{meeting.matchReason}</p>
+                                            </TooltipContent>
+                                          </Tooltip>
+                                        </TooltipProvider>
                                       </div>
                                       <div className="flex items-center gap-2 text-slate-300 text-sm mb-1">
                                         <Building2 className="w-3 h-3" />
@@ -654,9 +685,19 @@ export default function MeetingSchedule() {
                                     <div>
                                       <div className="flex items-center gap-2 mb-2">
                                         <User className="w-4 h-4 text-accent" />
-                                        <span className="font-semibold text-white text-lg">
-                                          {delegate.firstName} {delegate.lastName}
-                                        </span>
+                                        <TooltipProvider>
+                                          <Tooltip>
+                                            <TooltipTrigger asChild>
+                                              <span className="font-semibold text-white text-lg cursor-help border-b border-dotted border-slate-500">
+                                                {delegate.firstName} {delegate.lastName}
+                                              </span>
+                                            </TooltipTrigger>
+                                            <TooltipContent className="max-w-xs">
+                                              <p className="font-semibold mb-1">Match Score: {meeting.matchScore}/100</p>
+                                              <p className="text-sm">{meeting.matchReason}</p>
+                                            </TooltipContent>
+                                          </Tooltip>
+                                        </TooltipProvider>
                                       </div>
                                       <div className="flex items-center gap-2 text-slate-300 text-sm mb-1">
                                         <Building2 className="w-3 h-3" />
