@@ -36,6 +36,7 @@ const TIME_SLOTS = [
 export default function MeetingSchedule() {
   const { user, loading } = useAuth({ redirectOnUnauthenticated: true });
   const [selectedDelegate, setSelectedDelegate] = useState<any>(null);
+  const [selectedMatchReason, setSelectedMatchReason] = useState<string | undefined>(undefined);
   const [profileModalOpen, setProfileModalOpen] = useState(false);
   
   // Get meetings for this sponsor
@@ -392,7 +393,6 @@ export default function MeetingSchedule() {
                                           </span>
                                         </TooltipTrigger>
                                         <TooltipContent className="max-w-xs">
-                                          <p className="font-semibold mb-1">Match Score: {meeting.matchScore}/100</p>
                                           <p className="text-sm">{meeting.matchReason}</p>
                                         </TooltipContent>
                                       </Tooltip>
@@ -412,6 +412,7 @@ export default function MeetingSchedule() {
                                     className="flex-1 gap-2"
                                     onClick={() => {
                                       setSelectedDelegate(delegate);
+                                      setSelectedMatchReason(meeting.matchReason || undefined);
                                       setProfileModalOpen(true);
                                     }}
                                   >
@@ -487,7 +488,6 @@ export default function MeetingSchedule() {
                                           </span>
                                         </TooltipTrigger>
                                         <TooltipContent className="max-w-xs">
-                                          <p className="font-semibold mb-1">Match Score: {meeting.matchScore}/100</p>
                                           <p className="text-sm">{meeting.matchReason}</p>
                                         </TooltipContent>
                                       </Tooltip>
@@ -505,6 +505,7 @@ export default function MeetingSchedule() {
                                     size="sm"
                                     onClick={() => {
                                       setSelectedDelegate(delegate);
+                                      setSelectedMatchReason(meeting.matchReason || undefined);
                                       setProfileModalOpen(true);
                                     }}
                                     className="flex-1 gap-2"
@@ -599,7 +600,6 @@ export default function MeetingSchedule() {
                                               </span>
                                             </TooltipTrigger>
                                             <TooltipContent className="max-w-xs">
-                                              <p className="font-semibold mb-1">Match Score: {meeting.matchScore}/100</p>
                                               <p className="text-sm">{meeting.matchReason}</p>
                                             </TooltipContent>
                                           </Tooltip>
@@ -694,7 +694,6 @@ export default function MeetingSchedule() {
                                               </span>
                                             </TooltipTrigger>
                                             <TooltipContent className="max-w-xs">
-                                              <p className="font-semibold mb-1">Match Score: {meeting.matchScore}/100</p>
                                               <p className="text-sm">{meeting.matchReason}</p>
                                             </TooltipContent>
                                           </Tooltip>
@@ -757,6 +756,7 @@ export default function MeetingSchedule() {
           open={profileModalOpen}
           onOpenChange={setProfileModalOpen}
           delegate={selectedDelegate}
+          matchReason={selectedMatchReason}
         />
       </div>
       </div>

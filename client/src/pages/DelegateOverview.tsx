@@ -8,7 +8,18 @@ import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Download, Users, Calendar, Building2, LogOut, User as UserIcon, Search, Filter } from "lucide-react";
+import { Download, Users, Calendar, Building2, LogOut, User as UserIcon, Search, Filter, UserX } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Link } from "wouter";
 import { toast } from "sonner";
 import { getLoginUrl } from "@/const";
@@ -26,9 +37,10 @@ const TIME_SLOT_LABELS: Record<number, string> = {
 
 export default function DelegateOverview() {
   const { user, loading, logout } = useAuth({ redirectOnUnauthenticated: true });
-  const { data: overview, isLoading } = trpc.admin.getDelegateOverview.useQuery();
+  const { data: overview, isLoading, refetch } = trpc.admin.getDelegateOverview.useQuery();
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState<"all" | "available" | "at-capacity" | "over-capacity">("all");
+  const cancelDelegate = trpc.admin.cancelDelegate.useMutation();
 
   const downloadCSV = () => {
     if (!overview) return;
@@ -311,6 +323,67 @@ export default function DelegateOverview() {
                         {delegate.company} • {delegate.jobTitle}
                       </CardDescription>
                     </div>
+                    {delegate.totalMeetings > 0 && (
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button
+                            variant="destructive"
+                            size="sm"
+                            className="bg-red-500/20 hover:bg-red-500/30 text-red-300 border-red-500/30"
+                          >
+                            <UserX className="w-4 h-4 mr-2" />
+                            Cancel Delegate
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent className="bg-slate-900 border-slate-700">
+                          <AlertDialogHeader>
+                            <AlertDialogTitle className="text-white">
+                              Cancel {delegate.delegateName}?
+                            </AlertDialogTitle>
+                            <AlertDialogDescription className="text-slate-300">
+                              This will remove {delegate.delegateName} from all {delegate.totalMeetings} scheduled meeting(s) and automatically replace them with the next best available match for each sponsor.
+                              <br /><br />
+                              <strong>Affected Sponsors:</strong>
+                              <ul className="mt-2 space-y-1">
+                                {delegate.meetings.map((meeting, idx) => (
+                                  <li key={idx} className="text-sm">
+                                    • {meeting.sponsorName} ({meeting.timeSlot ? TIME_SLOT_LABELS[meeting.timeSlot] : "Unassigned"})
+                                  </li>
+                                ))}
+                              </ul>
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel className="bg-slate-800 text-white border-slate-600 hover:bg-slate-700">
+                              Keep Delegate
+                            </AlertDialogCancel>
+                            <AlertDialogAction
+                              className="bg-red-500 hover:bg-red-600 text-white"
+                              onClick={async () => {
+                                try {
+                                  const result = await cancelDelegate.mutateAsync({
+                                    delegateId: delegate.delegateId,
+                                  });
+                                  toast.success(result.message || "Delegate cancelled successfully");
+                                  if (result.replacements && result.replacements.length > 0) {
+                                    const replacementSummary = result.replacements
+                                      .map(r => `${r.sponsorName}: ${r.newDelegateName} (${r.matchScore}% match)`)
+                                      .join("\n");
+                                    toast.info(`Replacements:\n${replacementSummary}`, { duration: 10000 });
+                                  }
+                                  refetch();
+                                } catch (error) {
+                                  toast.error("Failed to cancel delegate");
+                                  console.error(error);
+                                }
+                              }}
+                            >
+                              Cancel & Replace
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    )}
                   </div>
                 </CardHeader>
                 <CardContent>

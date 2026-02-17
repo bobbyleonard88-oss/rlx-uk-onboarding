@@ -693,6 +693,102 @@ export const appRouter = router({
           return a.delegateName.localeCompare(b.delegateName);
         });
       }),
+    
+    // Cancel delegate and replace with next best matches
+    cancelDelegate: adminProcedure
+      .input(z.object({
+        delegateId: z.string(),
+        reason: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        // Get all meetings for this delegate
+        const delegateMeetings = await db.getMeetingsByDelegate(input.delegateId);
+        
+        if (delegateMeetings.length === 0) {
+          return { success: true, replacements: [], message: 'No meetings to cancel' };
+        }
+        
+        const replacements: Array<{
+          sponsorId: number;
+          sponsorName: string;
+          oldDelegate: string;
+          newDelegate: string;
+          newDelegateName: string;
+          matchScore: number;
+        }> = [];
+        
+        // For each sponsor, find the next best available match
+        for (const meeting of delegateMeetings) {
+          const sponsor = await db.getSponsorById(meeting.sponsorId);
+          if (!sponsor) continue;
+          
+          // Generate fresh matches for this sponsor
+          const { attendees } = await import('./attendees');
+          const intakeSubmission = await db.getIntakeSubmissionBySponsor(meeting.sponsorId);
+          const priorityTags = await db.getPriorityTagsBySponsor(meeting.sponsorId);
+          
+          if (!intakeSubmission) continue;
+          
+          // Get all matches for this sponsor
+          const { generateMatchesForSponsor } = await import('./matchingEngine');
+          const allMatches = await generateMatchesForSponsor(sponsor.id);
+          
+          // Filter out: cancelled delegate, delegates already at capacity (8 meetings), delegates already meeting this sponsor
+          const existingMeetings = await db.getMeetingsBySponsor(meeting.sponsorId);
+          const existingDelegateIds = new Set(existingMeetings.map(m => m.attendeeId));
+          
+          const availableMatches = [];
+          for (const match of allMatches) {
+            if (match.attendeeId === input.delegateId) continue; // Skip cancelled delegate
+            if (existingDelegateIds.has(match.attendeeId)) continue; // Skip already scheduled
+            
+            const meetingCount = await db.getDelegateMeetingCount(match.attendeeId);
+            if (meetingCount >= 8) continue; // Skip at capacity
+            
+            availableMatches.push(match);
+          }
+          
+          // Sort by match score and take the best
+          availableMatches.sort((a, b) => b.matchScore - a.matchScore);
+          const bestMatch = availableMatches[0];
+          
+          if (bestMatch) {
+            // Update the meeting with new delegate
+            await db.updateMeeting(meeting.id, {
+              attendeeId: bestMatch.attendeeId,
+              matchScore: bestMatch.matchScore,
+              matchReason: bestMatch.reasoning,
+            });
+            
+            const newDelegate = attendees.find(a => a.id === bestMatch.attendeeId);
+            replacements.push({
+              sponsorId: sponsor.id,
+              sponsorName: sponsor.companyName,
+              oldDelegate: input.delegateId,
+              newDelegate: bestMatch.attendeeId,
+              newDelegateName: newDelegate ? `${newDelegate.firstName} ${newDelegate.lastName}` : 'Unknown',
+              matchScore: bestMatch.matchScore,
+            });
+          } else {
+            // No replacement found - delete the meeting
+            await db.deleteMeeting(meeting.id);
+            replacements.push({
+              sponsorId: sponsor.id,
+              sponsorName: sponsor.companyName,
+              oldDelegate: input.delegateId,
+              newDelegate: 'NONE',
+              newDelegateName: 'No replacement available',
+              matchScore: 0,
+            });
+          }
+        }
+        
+        return {
+          success: true,
+          replacements,
+          message: `Cancelled ${delegateMeetings.length} meetings and found ${replacements.filter(r => r.newDelegate !== 'NONE').length} replacements`,
+        };
+      }),
   }),
 });
 

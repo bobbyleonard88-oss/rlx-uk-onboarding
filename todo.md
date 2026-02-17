@@ -492,14 +492,21 @@
 - [x] Verify logo display in sponsor profile modal/popup
 
 
+## UI Improvements
+
+- [x] Remove match score display from sponsor meeting schedule view
+- [x] Add "Why This Match?" section to delegate profile preview modal
+- [x] Display AI-generated match reasoning in delegate profile
+- [x] Show how delegate's needs align with sponsor's solutions
+
 ## Draft/Publish Workflow for Meeting Schedules
 
-- [ ] Add meeting status field to database (draft, confirmed, cancelled)
-- [ ] Implement "Save Draft" button in admin portal (saves meetings as draft, hidden from sponsors)
+- [ ] Meetings saved as "suggested" status (draft) are hidden from sponsors
+- [ ] Implement "Save Draft" button in admin portal (saves meetings as suggested status)
 - [ ] Implement "Publish to Sponsor" button in admin portal (changes status to confirmed, visible to sponsors)
 - [ ] Update sponsor getMyMeetings to only show confirmed meetings
-- [ ] Add visual indicator in admin portal showing draft vs published status
-- [ ] Add unpublish/revert to draft functionality
+- [ ] Add visual indicator in admin portal showing draft vs published status per sponsor
+- [ ] Replace current "Save Meetings" with two separate buttons: Save Draft and Publish
 
 ## Timeline Text Updates
 
@@ -516,3 +523,15 @@
 - [ ] Investigate data association between admin save and sponsor view
 - [ ] Fix meeting schedule navigation not appearing for sponsors despite having meetings
 - [x] Remove duplicate 'Download' text on meeting cards (keep only icon)
+
+
+## Delegate Cancellation with Auto-Replacement
+
+- [x] Add "Cancel Delegate" button to Delegate Overview Report
+- [x] Create backend API endpoint to cancel delegate and find replacements
+- [x] For each sponsor meeting, find next best available match (highest score, not already at capacity)
+- [x] Replace cancelled delegate with new match in all affected meetings
+- [x] Add confirmation dialog showing which sponsors will be affected
+- [x] Display replacement delegate names in confirmation after cancellation
+- [ ] Update meeting schedule and notify affected sponsors (future enhancement)
+- [ ] Add cancellation reason field (optional)

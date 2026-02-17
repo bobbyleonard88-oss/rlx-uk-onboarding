@@ -529,6 +529,22 @@ export async function getDelegateMeetings(attendeeId: string) {
     .orderBy(meetings.timeSlot);
 }
 
+// Alias for getDelegateMeetings (for consistency)
+export async function getMeetingsByDelegate(attendeeId: string) {
+  return await getDelegateMeetings(attendeeId);
+}
+
+// Update meeting fields
+export async function updateMeeting(id: number, updates: Partial<Omit<InsertMeeting, "id" | "createdAt" | "updatedAt">>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db
+    .update(meetings)
+    .set({ ...updates, updatedAt: new Date() })
+    .where(eq(meetings.id, id));
+}
+
 // Check for time slot conflicts across all sponsors
 export async function checkTimeSlotConflict(attendeeId: string, timeSlot: number, excludeSponsorId?: number) {
   const db = await getDb();
