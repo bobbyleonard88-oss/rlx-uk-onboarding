@@ -61,19 +61,25 @@ Pain Points They Solve: ${vendorProfile.painPoints}
 Target Industries: ${vendorProfile.targetIndustries}
 
 DELEGATES TO MATCH:
-${batch.map((d, idx) => `
+${batch.map((d, idx) => {
+  // Parse profileData to get all free-text fields
+  const profile = d.profileData ? JSON.parse(d.profileData) : {};
+  return `
 ${idx + 1}. ID: ${d.attendeeId}
    Name: ${d.firstName} ${d.lastName}
    Company: ${d.company}
    Title: ${d.jobTitle}
    Industry: ${d.industry}
-   Challenges: ${d.challenges}
-   Interests: ${d.interests}
-`).join('\n')}
+   Pain Points: ${profile.painPoints || d.challenges || 'N/A'}
+   Solution Areas: ${profile.solutionAreas || d.interests || 'N/A'}
+   Active Projects: ${profile.activeProjects || 'N/A'}
+   Meeting Objective: ${profile.meetingObjective || 'N/A'}
+   Project Stage: ${profile.projectStage || 'N/A'}
+`}).join('\n')}
 
 For each delegate, provide:
-1. Match score (0-100) based on solution-need alignment
-2. Brief reasoning (1-2 sentences)
+1. Match score (0-100) based on how well the vendor's solutions address the delegate's pain points, solution areas, active projects, and meeting objectives
+2. Brief reasoning (1-2 sentences) explaining the key alignment between vendor solutions and delegate needs
 
 Respond in JSON format:
 {
