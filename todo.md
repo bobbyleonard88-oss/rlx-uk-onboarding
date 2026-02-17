@@ -392,3 +392,14 @@
 - [x] Add checkbox requirement for sponsors to confirm understanding before viewing delegate list
 - [x] Hide delegate rankings until checkbox is ticked
 - [x] Persist checkbox state so sponsors don't need to re-confirm on every visit
+
+
+## Schedule Layout & Drag Functionality Fixes
+
+- [x] Fix dragging delegates from "Show All Delegates" panel to time slots
+- [x] Add onAddDelegate handler to AdminMeetings to create meetings from dragged delegates
+- [x] Remove Jen Candee from attendees list (OOW - out of work)
+- [x] Redesign admin meeting schedule to two-column layout (Day 1 left, Day 2 right)
+- [x] Update sponsor meeting schedule to match two-column layout
+- [x] Ensure all 3 slots per day display vertically in each column
+- [x] Each slot shows Meeting 1 and Meeting 2 clearly

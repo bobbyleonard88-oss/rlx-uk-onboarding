@@ -413,6 +413,32 @@ export default function AdminMeetings() {
                 onRemoveMeeting={(meetingId) => {
                   setEditedMatches(prev => prev.filter((_, index) => index !== meetingId));
                 }}
+                onAddDelegate={(attendeeId, slot) => {
+                  // Find delegate info
+                  const delegate = attendees.find(a => a.id === attendeeId);
+                  if (!delegate) return;
+                  
+                  // Create new match result
+                  const newMatch: MatchResult = {
+                    attendeeId: delegate.id,
+                    matchScore: 0,
+                    matchReason: "Manually added",
+                    isPriority: false,
+                    isTopRanked: false,
+                    isTop20: false,
+                    timeSlot: slot,
+                    delegateInfo: {
+                      firstName: delegate.firstName,
+                      lastName: delegate.lastName,
+                      company: delegate.company,
+                      jobTitle: delegate.jobTitle,
+                      currentMeetingCount: 0,
+                    },
+                  };
+                  
+                  setEditedMatches(prev => [...prev, newMatch]);
+                  toast.success(`Added ${delegate.firstName} ${delegate.lastName} to schedule`);
+                }}
               />
             </CardContent>
           </Card>

@@ -1151,29 +1151,5 @@ export const attendees: Attendee[] = [
     "solutionAreas": "See above",
     "painPoints": "Improve Quality of Hire; Precision at scale in selection and assessment; standardisation of process and roles across a huge global TA team; agile and data led capacity sharing; demand planning. BUT - we build ALL our tech in house so although I am interested in what is out there I am really unlikely to buy anything!",
     "projectStage": "Benchmarking for Future Use (6-12 Months)"
-  },
-  {
-    "id": "150796696175",
-    "firstName": "Jennifer",
-    "lastName": "Candee",
-    "jobTitle": "Global VP TA",
-    "company": "Prior IMI, Cargill, Mondelez ",
-    "companySize": "10,001-20,000",
-    "industry": "Mechanical or Industrial Engineering",
-    "hiresPerYear": "2001-5000",
-    "regionalRemit": "Global",
-    "decisionLevel": "Key Influencer",
-    "activeProjects": "TBC. In between roles ",
-    "activeProjectBudget": "£100-500k",
-    "meetingObjective": "Interviewing now for global vp ta roles both consultancy and perm. Look to multinational ai solutions integrate well into global enterprise ats ",
-    "budgetAuthority": "£50-100k",
-    "assessmentTools": "TBC ",
-    "ats": "TBC ",
-    "crm": "TBC ",
-    "marketIntelligence": "TBC ",
-    "otherTools": "",
-    "solutionAreas": "TBC ",
-    "painPoints": "TBC based on new contract or perm role ",
-    "projectStage": "Benchmarking for Future Use (6-12 Months)"
   }
 ];
