@@ -25,6 +25,7 @@ interface MatchResult {
   isTopRanked: boolean;
   isTop20: boolean;
   timeSlot?: number | null;
+  attendeeNumber?: number; // 1 or 2 (for 20-meeting packages)
   delegateInfo: {
     firstName: string;
     lastName: string;
@@ -48,18 +49,30 @@ export default function AdminMeetings() {
   const generateMeetings = trpc.admin.generateMeetings.useMutation({
     onSuccess: (data) => {
       // Auto-assign meetings to time slots based on match score
+      // For 20-meeting packages, split between 2 attendees (10 each)
       const matchesWithSlots = data.matches.map((match, index) => {
-        // Assign to slots 1-6 (max 2 meetings per slot)
-        const slotNumber = Math.floor(index / 2) + 1;
+        const is20MeetingPackage = meetingCount === 20;
+        const attendeeNumber = is20MeetingPackage ? (index < 10 ? 1 : 2) : 1;
+        
+        // For 20 meetings: first 10 go to attendee 1, next 10 to attendee 2
+        // For 12 meetings: all go to attendee 1
+        const attendeeIndex = is20MeetingPackage ? (index < 10 ? index : index - 10) : index;
+        const slotNumber = Math.floor(attendeeIndex / 2) + 1;
+        
         return {
           ...match,
           timeSlot: slotNumber <= 6 ? slotNumber : null, // Only assign first 12 meetings to slots
+          attendeeNumber,
         };
       });
       
       setGeneratedMatches(matchesWithSlots);
       setEditedMatches(matchesWithSlots);
-      toast.success(`Generated ${data.matches.length} meeting matches and auto-assigned to time slots!`);
+      
+      const message = meetingCount === 20 
+        ? `Generated ${data.matches.length} meetings (10 for Attendee 1, 10 for Attendee 2) and auto-assigned to time slots!`
+        : `Generated ${data.matches.length} meeting matches and auto-assigned to time slots!`;
+      toast.success(message);
     },
     onError: (error) => {
       toast.error(error.message || "Failed to generate meetings");
@@ -144,6 +157,7 @@ export default function AdminMeetings() {
         isPriority: m.isPriority,
         isTopRanked: m.isTopRanked,
         timeSlot: m.timeSlot || null,
+        attendeeNumber: m.attendeeNumber || 1,
       })),
     });
   };

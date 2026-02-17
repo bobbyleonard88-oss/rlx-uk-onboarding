@@ -403,3 +403,16 @@
 - [x] Update sponsor meeting schedule to match two-column layout
 - [x] Ensure all 3 slots per day display vertically in each column
 - [x] Each slot shows Meeting 1 and Meeting 2 clearly
+
+
+## 20-Meeting Package Implementation
+
+- [x] Add admin override for meeting count (catch sponsors who misrepresent package size)
+- [x] Update database schema to add `attendeeNumber` field (1 or 2) to meetings table
+- [x] Modify meeting generation to auto-split 20 meetings: 10 to Attendee 1, 10 to Attendee 2
+- [x] Update sponsor meeting schedule to show both attendees' schedules on same page
+- [x] Add attendee labels (Attendee 1 / Attendee 2) to meeting cards
+- [x] Implement cross-sponsor delegate conflict detection (max 8 meetings per delegate)
+- [x] Add validation to prevent double-booking delegates across all sponsors
+- [x] Display conflict warnings when attempting to assign over-booked delegates
+- [ ] Update time slot scheduler to handle 2 attendees with separate meeting lists

@@ -1,0 +1,1 @@
+ALTER TABLE `meetings` ADD `attendeeNumber` int DEFAULT 1;

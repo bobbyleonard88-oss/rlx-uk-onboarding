@@ -1,4 +1,4 @@
-import { desc, eq, and } from "drizzle-orm";
+import { desc, eq, and, sql, ne } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { InsertUser, users, sponsors, InsertSponsor, rankingsSubmissions, InsertRankingsSubmission, vendorProfiles, InsertVendorProfile, delegateProfiles, InsertDelegateProfile, priorityTags, InsertPriorityTag, meetings, InsertMeeting, intakeSubmissions, InsertIntakeSubmission } from "../drizzle/schema";
 import { ENV } from './_core/env';
@@ -502,4 +502,51 @@ export async function deleteSponsor(sponsorId: number) {
   
   // Finally delete the sponsor
   await db.delete(sponsors).where(eq(sponsors.id, sponsorId));
+}
+
+// Get delegate meeting count across ALL sponsors
+export async function getDelegateMeetingCount(attendeeId: string): Promise<number> {
+  const db = await getDb();
+  if (!db) return 0;
+  
+  const result = await db
+    .select({ count: sql<number>`COUNT(*)` })
+    .from(meetings)
+    .where(eq(meetings.attendeeId, attendeeId));
+  
+  return result[0]?.count || 0;
+}
+
+// Get all meetings for a delegate across all sponsors with time slot info
+export async function getDelegateMeetings(attendeeId: string) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db
+    .select()
+    .from(meetings)
+    .where(eq(meetings.attendeeId, attendeeId))
+    .orderBy(meetings.timeSlot);
+}
+
+// Check for time slot conflicts across all sponsors
+export async function checkTimeSlotConflict(attendeeId: string, timeSlot: number, excludeSponsorId?: number) {
+  const db = await getDb();
+  if (!db) return false;
+  
+  const conditions = [
+    eq(meetings.attendeeId, attendeeId),
+    eq(meetings.timeSlot, timeSlot)
+  ];
+  
+  if (excludeSponsorId) {
+    conditions.push(ne(meetings.sponsorId, excludeSponsorId));
+  }
+  
+  const result = await db
+    .select({ count: sql<number>`COUNT(*)` })
+    .from(meetings)
+    .where(and(...conditions));
+  
+  return (result[0]?.count || 0) > 0;
 }

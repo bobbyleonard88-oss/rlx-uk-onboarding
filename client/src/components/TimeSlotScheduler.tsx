@@ -22,6 +22,7 @@ interface Meeting {
   isPriority: boolean;
   isTop20?: boolean;
   timeSlot: number | null;
+  attendeeNumber?: number | null;
 }
 
 interface TimeSlotSchedulerProps {
@@ -130,7 +131,14 @@ export default function TimeSlotScheduler({ meetings, onUpdateSlot, onRemoveMeet
         <div className="flex items-start gap-2 flex-1 min-w-0">
           <GripVertical className="w-4 h-4 text-slate-400 flex-shrink-0 mt-0.5" />
           <div className="flex-1 min-w-0">
-            <div className="font-medium text-white truncate">{meeting.delegateName}</div>
+            <div className="flex items-center gap-2">
+              <div className="font-medium text-white truncate">{meeting.delegateName}</div>
+              {meeting.attendeeNumber && (
+                <Badge className="bg-blue-500/20 text-blue-300 border-blue-500/30 text-xs flex-shrink-0">
+                  Attendee {meeting.attendeeNumber}
+                </Badge>
+              )}
+            </div>
             <div className="text-slate-300 text-xs truncate">{meeting.company}</div>
             {!compact && (
               <>

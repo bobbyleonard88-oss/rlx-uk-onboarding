@@ -554,6 +554,7 @@ export const appRouter = router({
           isPriority: z.boolean(),
           isTopRanked: z.boolean(),
           timeSlot: z.number().nullable().optional(),
+          attendeeNumber: z.number().optional(),
         })),
       }))
       .mutation(async ({ input }) => {
@@ -569,6 +570,7 @@ export const appRouter = router({
             isTopRanked: meeting.isTopRanked ? 1 : 0,
             isPriority: meeting.isPriority ? 1 : 0,
             timeSlot: meeting.timeSlot ?? null,
+            attendeeNumber: meeting.attendeeNumber ?? 1,
             status: 'suggested',
             notes: meeting.matchReason,
           });
@@ -584,6 +586,69 @@ export const appRouter = router({
       }))
       .query(async ({ input }) => {
         return await db.getMeetingsBySponsor(input.sponsorId);
+      }),
+    
+    // Check for delegate conflicts (capacity and time slots)
+    getDelegateConflicts: adminProcedure
+      .input(z.object({
+        meetings: z.array(z.object({
+          attendeeId: z.string(),
+          timeSlot: z.number().nullable(),
+        })),
+        excludeSponsorId: z.number().optional(),
+      }))
+      .query(async ({ input }) => {
+        const conflicts: Array<{
+          attendeeId: string;
+          type: 'capacity' | 'timeslot';
+          currentCount?: number;
+          conflictingSlot?: number;
+        }> = [];
+        
+        // Check each delegate
+        for (const meeting of input.meetings) {
+          // Check capacity (max 8 meetings total)
+          const currentCount = await db.getDelegateMeetingCount(meeting.attendeeId);
+          if (currentCount >= 8) {
+            conflicts.push({
+              attendeeId: meeting.attendeeId,
+              type: 'capacity',
+              currentCount,
+            });
+          }
+          
+          // Check time slot conflicts if slot is assigned
+          if (meeting.timeSlot !== null) {
+            const hasConflict = await db.checkTimeSlotConflict(
+              meeting.attendeeId,
+              meeting.timeSlot,
+              input.excludeSponsorId
+            );
+            
+            if (hasConflict) {
+              conflicts.push({
+                attendeeId: meeting.attendeeId,
+                type: 'timeslot',
+                conflictingSlot: meeting.timeSlot,
+              });
+            }
+          }
+        }
+        
+        return conflicts;
+      }),
+    
+    // Get all delegate meeting counts for display
+    getAllDelegateCounts: adminProcedure
+      .query(async () => {
+        const { attendees } = await import('./attendees');
+        const counts: Record<string, number> = {};
+        
+        for (const attendee of attendees) {
+          counts[attendee.id] = await db.getDelegateMeetingCount(attendee.id);
+        }
+        
+        return counts;
       }),
   }),
 });

@@ -271,15 +271,32 @@ export default function MeetingSchedule() {
     );
   }
 
-  // Group meetings by time slot (filter out meetings without timeSlot)
-  const meetingsBySlot = meetings
-    .filter(m => m.timeSlot !== null && m.timeSlot !== undefined)
-    .reduce((acc, meeting) => {
+  // Group meetings by attendee number first, then by time slot
+  const attendee1Meetings = meetings.filter(m => 
+    m.timeSlot !== null && 
+    m.timeSlot !== undefined && 
+    (m.attendeeNumber === 1 || m.attendeeNumber === null)
+  );
+  
+  const attendee2Meetings = meetings.filter(m => 
+    m.timeSlot !== null && 
+    m.timeSlot !== undefined && 
+    m.attendeeNumber === 2
+  );
+  
+  const hasAttendee2 = attendee2Meetings.length > 0;
+  
+  // Group meetings by time slot for each attendee
+  const groupBySlot = (meetingList: typeof meetings) => 
+    meetingList.reduce((acc, meeting) => {
       const slot = meeting.timeSlot!;
       if (!acc[slot]) acc[slot] = [];
       acc[slot].push(meeting);
       return acc;
     }, {} as Record<number, typeof meetings>);
+  
+  const attendee1BySlot = groupBySlot(attendee1Meetings);
+  const attendee2BySlot = groupBySlot(attendee2Meetings);
   
   // Count only meetings with assigned time slots
   const assignedMeetingsCount = meetings.filter(m => m.timeSlot !== null && m.timeSlot !== undefined).length;
@@ -298,6 +315,11 @@ export default function MeetingSchedule() {
                 </CardTitle>
                 <CardDescription className="text-slate-300 text-lg">
                   {sponsor?.companyName} - {assignedMeetingsCount} scheduled meetings
+                  {hasAttendee2 && (
+                    <span className="block mt-1 text-accent font-medium">
+                      20-Meeting Package: 2 Attendees
+                    </span>
+                  )}
                 </CardDescription>
               </div>
               <Button
@@ -312,7 +334,21 @@ export default function MeetingSchedule() {
         </Card>
 
         {/* Meeting Schedule by Day - Two Column Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Attendee 1 Schedule */}
+        {hasAttendee2 && (
+          <Card className="glass-card border-slate-700 mb-6">
+            <CardHeader>
+              <CardTitle className="text-white text-2xl flex items-center gap-2">
+                <User className="w-6 h-6 text-accent" />
+                Attendee 1 Schedule
+              </CardTitle>
+              <CardDescription className="text-slate-300">
+                {attendee1Meetings.length} meetings assigned
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        )}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           {/* Day 1 Column */}
           <div>
             <h2 className="text-2xl font-heading font-semibold text-white mb-4 flex items-center gap-2">
@@ -321,7 +357,7 @@ export default function MeetingSchedule() {
             </h2>
             <div className="space-y-4">
               {TIME_SLOTS.filter(ts => ts.day === 1).map(({ slot, label}) => {
-                const slotMeetings = meetingsBySlot[slot] || [];
+                const slotMeetings = attendee1BySlot[slot] || [];
                 
                 return (
                   <Card key={slot} className="glass-card border-slate-700">
@@ -407,7 +443,7 @@ export default function MeetingSchedule() {
             </h2>
             <div className="space-y-4">
               {TIME_SLOTS.filter(ts => ts.day === 2).map(({ slot, label }) => {
-                const slotMeetings = meetingsBySlot[slot] || [];
+                const slotMeetings = attendee1BySlot[slot] || [];
                 
                 return (
                   <Card key={slot} className="glass-card border-slate-700">
@@ -484,13 +520,204 @@ export default function MeetingSchedule() {
             </div>
           </div>
         </div>
+
+        {/* Attendee 2 Schedule (if 20-meeting package) */}
+        {hasAttendee2 && (
+          <>
+            <Card className="glass-card border-slate-700 mb-6">
+              <CardHeader>
+                <CardTitle className="text-white text-2xl flex items-center gap-2">
+                  <User className="w-6 h-6 text-accent" />
+                  Attendee 2 Schedule
+                </CardTitle>
+                <CardDescription className="text-slate-300">
+                  {attendee2Meetings.length} meetings assigned
+                </CardDescription>
+              </CardHeader>
+            </Card>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Day 1 Column */}
+              <div>
+                <h2 className="text-2xl font-heading font-semibold text-white mb-4 flex items-center gap-2">
+                  <Clock className="w-6 h-6 text-accent" />
+                  Day 1
+                </h2>
+                <div className="space-y-4">
+                  {TIME_SLOTS.filter(ts => ts.day === 1).map(({ slot, label}) => {
+                    const slotMeetings = attendee2BySlot[slot] || [];
+                    
+                    return (
+                      <Card key={slot} className="glass-card border-slate-700">
+                        <CardHeader>
+                          <CardTitle className="text-white text-xl">{label}</CardTitle>
+                          <CardDescription className="text-slate-400">
+                            {slotMeetings.length} meeting{slotMeetings.length !== 1 ? 's' : ''}
+                          </CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                          {[1, 2].map(meetingNum => {
+                            const meeting = slotMeetings[meetingNum - 1];
+                            const delegate = meeting ? attendees.find(a => a.id === meeting.attendeeId) : null;
+                            
+                            return (
+                              <div key={meetingNum} className="border-2 border-dashed border-slate-600 rounded-lg p-4">
+                                <div className="text-xs text-slate-400 mb-2 font-medium">Meeting {meetingNum}</div>
+                                {delegate ? (
+                                  <div className="space-y-3">
+                                    <div>
+                                      <div className="flex items-center gap-2 mb-2">
+                                        <User className="w-4 h-4 text-accent" />
+                                        <span className="font-semibold text-white text-lg">
+                                          {delegate.firstName} {delegate.lastName}
+                                        </span>
+                                      </div>
+                                      <div className="flex items-center gap-2 text-slate-300 text-sm mb-1">
+                                        <Building2 className="w-3 h-3" />
+                                        {delegate.company}
+                                      </div>
+                                      <div className="text-slate-400 text-sm">{delegate.jobTitle}</div>
+                                    </div>
+                                    
+                                    <div className="flex gap-2">
+                                      <Button 
+                                        variant="outline" 
+                                        size="sm" 
+                                        className="flex-1 gap-2"
+                                        onClick={() => {
+                                          setSelectedDelegate(delegate);
+                                          setProfileModalOpen(true);
+                                        }}
+                                      >
+                                        <Eye className="w-4 h-4" />
+                                        View Profile
+                                      </Button>
+                                      <DropdownMenu>
+                                        <DropdownMenuTrigger asChild>
+                                          <Button variant="outline" size="sm" className="flex-1 gap-2">
+                                            <FileText className="w-4 h-4" />
+                                            Download
+                                            <ChevronDown className="w-4 h-4" />
+                                          </Button>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent align="end">
+                                          <DropdownMenuItem onClick={() => downloadDelegateProfile(delegate.id, 'pdf')}>
+                                            Download as PDF
+                                          </DropdownMenuItem>
+                                        </DropdownMenuContent>
+                                      </DropdownMenu>
+                                    </div>
+                                  </div>
+                                ) : (
+                                  <div className="text-center text-slate-500 text-sm py-4">
+                                    No meeting scheduled
+                                  </div>
+                                )}
+                              </div>
+                            );
+                          })}
+                        </CardContent>
+                      </Card>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Day 2 Column */}
+              <div>
+                <h2 className="text-2xl font-heading font-semibold text-white mb-4 flex items-center gap-2">
+                  <Clock className="w-6 h-6 text-accent" />
+                  Day 2
+                </h2>
+                <div className="space-y-4">
+                  {TIME_SLOTS.filter(ts => ts.day === 2).map(({ slot, label }) => {
+                    const slotMeetings = attendee2BySlot[slot] || [];
+                    
+                    return (
+                      <Card key={slot} className="glass-card border-slate-700">
+                        <CardHeader>
+                          <CardTitle className="text-white text-xl">{label}</CardTitle>
+                          <CardDescription className="text-slate-400">
+                            {slotMeetings.length} meeting{slotMeetings.length !== 1 ? 's' : ''}
+                          </CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                          {[1, 2].map(meetingNum => {
+                            const meeting = slotMeetings[meetingNum - 1];
+                            const delegate = meeting ? attendees.find(a => a.id === meeting.attendeeId) : null;
+                            
+                            return (
+                              <div key={meetingNum} className="border-2 border-dashed border-slate-600 rounded-lg p-4">
+                                <div className="text-xs text-slate-400 mb-2 font-medium">Meeting {meetingNum}</div>
+                                {delegate ? (
+                                  <div className="space-y-3">
+                                    <div>
+                                      <div className="flex items-center gap-2 mb-2">
+                                        <User className="w-4 h-4 text-accent" />
+                                        <span className="font-semibold text-white text-lg">
+                                          {delegate.firstName} {delegate.lastName}
+                                        </span>
+                                      </div>
+                                      <div className="flex items-center gap-2 text-slate-300 text-sm mb-1">
+                                        <Building2 className="w-3 h-3" />
+                                        <span>{delegate.company}</span>
+                                      </div>
+                                      <div className="text-slate-400 text-xs">{delegate.jobTitle}</div>
+                                    </div>
+                                    <div className="flex gap-2">
+                                      <Button
+                                        variant="outline"
+                                        size="sm"
+                                        className="flex-1 gap-2"
+                                        onClick={() => {
+                                          setSelectedDelegate(delegate);
+                                          setProfileModalOpen(true);
+                                        }}
+                                      >
+                                        <Eye className="w-4 h-4" />
+                                        View Profile
+                                      </Button>
+                                      <DropdownMenu>
+                                        <DropdownMenuTrigger asChild>
+                                          <Button variant="outline" size="sm" className="flex-1 gap-2">
+                                            <FileText className="w-4 h-4" />
+                                            Download
+                                            <ChevronDown className="w-4 h-4" />
+                                          </Button>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent align="end">
+                                          <DropdownMenuItem onClick={() => downloadDelegateProfile(delegate.id, 'pdf')}>
+                                            Download as PDF
+                                          </DropdownMenuItem>
+                                        </DropdownMenuContent>
+                                      </DropdownMenu>
+                                    </div>
+                                  </div>
+                                ) : (
+                                  <div className="text-center text-slate-500 text-sm py-4">
+                                    No meeting scheduled
+                                  </div>
+                                )}
+                              </div>
+                            );
+                          })}
+                        </CardContent>
+                      </Card>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+
+        {/* Delegate Profile Modal */}
+        <DelegateProfileModal
+          open={profileModalOpen}
+          onOpenChange={setProfileModalOpen}
+          delegate={selectedDelegate}
+        />
       </div>
-      
-      <DelegateProfileModal 
-        open={profileModalOpen}
-        onOpenChange={setProfileModalOpen}
-        delegate={selectedDelegate}
-      />
     </div>
   );
 }
