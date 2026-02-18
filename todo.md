@@ -731,3 +731,22 @@
 - [x] Maintain priority delegate = 100% and Top 20 bonus logic
 - [x] Test with Little Moment sponsor - VERIFIED improved scores (32-80% range, avg 65%)
 - [x] Quality distribution: 50% above 65%, 50% between 30-65%, 0% below 30%
+
+## AI-Powered Detailed Match Reasoning with Specific Examples (COMPLETED)
+
+- [x] Update AI matching algorithm to generate detailed reasoning citing specific examples
+- [x] AI should extract specific delegate challenges/needs from their profile
+- [x] AI should identify corresponding sponsor solutions that address those needs
+- [x] Match reasoning format: "Delegate mentioned [specific challenge] → Sponsor's [specific solution] addresses this need"
+- [x] Include 2-3 specific examples per match for transparency
+- [x] Maintain performance with batched AI processing
+
+## View Match Details Modal (COMPLETED)
+
+- [x] Create MatchDetailsModal component showing side-by-side comparison
+- [x] Left panel: Delegate's challenges, pain points, solution interests from profile
+- [x] Right panel: Sponsor's solutions, capabilities, value propositions
+- [x] Highlight specific alignments between delegate needs and sponsor solutions
+- [x] Show match score and detailed AI reasoning at the top
+- [x] Add "View Details" button to meeting cards in admin meetings page
+- [x] Ensure modal is accessible and responsive

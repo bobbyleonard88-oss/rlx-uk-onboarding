@@ -480,6 +480,13 @@ export default function AdminMeetings() {
                   toast.info("Drag a delegate from the list to replace this meeting");
                 }}
                 sponsorId={selectedSponsorId}
+                sponsorData={selectedSponsorId ? {
+                  companyName: submissions?.find(s => s.sponsorId === selectedSponsorId)?.companyName || '',
+                  solutions: submissions?.find(s => s.sponsorId === selectedSponsorId)?.intakeData?.companyBoilerplate || '',
+                  painPointsSolved: submissions?.find(s => s.sponsorId === selectedSponsorId)?.intakeData?.keyChallenges || '',
+                  targetOrgSize: submissions?.find(s => s.sponsorId === selectedSponsorId)?.intakeData?.targetOrgSize || '',
+                  targetIndustries: submissions?.find(s => s.sponsorId === selectedSponsorId)?.intakeData?.targetIndustries || '',
+                } : null}
               />
             </CardContent>
           </Card>

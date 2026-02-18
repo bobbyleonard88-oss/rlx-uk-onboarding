@@ -19,14 +19,14 @@ export interface MatchResult {
 
 /**
  * Batch score all delegates against sponsor using AI
- * Returns a map of delegateId -> score (0-1)
+ * Returns a map of delegateId -> { score: 0-1, reasoning: string }
  */
 async function batchScoreDelegates(
   sponsorSolutions: string,
   sponsorChallenges: string,
   delegates: Array<{ id: string; challenges: string; interests: string }>
-): Promise<Map<string, number>> {
-  const scores = new Map<string, number>();
+): Promise<Map<string, { score: number; reasoning: string }>> {
+  const scores = new Map<string, { score: number; reasoning: string }>();
   
   if (delegates.length === 0) return scores;
   
@@ -38,7 +38,7 @@ async function batchScoreDelegates(
       `DELEGATE ${idx + 1} (ID: ${d.id}):\nChallenges: ${d.challenges}\nInterests: ${d.interests}`
     ).join("\n\n");
     
-    const prompt = `You are a B2B matchmaking expert. Score how well this sponsor matches each delegate.
+    const prompt = `You are a B2B matchmaking expert. Score how well this sponsor matches each delegate AND provide specific reasoning.
 
 SPONSOR PROFILE:
 Solutions: ${sponsorSolutions}
@@ -46,17 +46,29 @@ Challenges they solve: ${sponsorChallenges}
 
 ${delegateList}
 
-For each delegate, score the alignment from 0-100 where:
-- 90-100: Direct match - sponsor's solutions directly address delegate's stated needs
-- 75-89: Strong alignment - sponsor can solve most of delegate's challenges  
-- 60-74: Moderate alignment - sponsor addresses some needs
-- 40-59: Weak alignment - limited overlap
-- 0-39: Poor alignment - minimal relevance
+For each delegate:
+1. Score the alignment from 0-100 where:
+   - 90-100: Direct match - sponsor's solutions directly address delegate's stated needs
+   - 75-89: Strong alignment - sponsor can solve most of delegate's challenges  
+   - 60-74: Moderate alignment - sponsor addresses some needs
+   - 40-59: Weak alignment - limited overlap
+   - 0-39: Poor alignment - minimal relevance
+
+2. Generate 1-2 sentence reasoning that:
+   - Cites SPECIFIC examples from the delegate's challenges/interests
+   - Explains HOW the sponsor's solutions address those specific needs
+   - Uses concrete language, not generic phrases
+   
+   Example good reasoning:
+   "Delegate mentioned high volume screening of AI candidates → Sponsor's AI recruitment platform directly addresses this need"
+   
+   Example bad reasoning:
+   "Strong match: High alignment between sponsor's solutions and delegate's needs"
 
 IMPORTANT: Be generous with scoring. If there's ANY reasonable alignment, score at least 60.
 
-Respond with ONLY a JSON object mapping delegate IDs to scores, like:
-{"10001": 85, "10002": 72, ...}
+Respond with ONLY a JSON object mapping delegate IDs to {score, reasoning}, like:
+{"10001": {"score": 85, "reasoning": "Delegate seeks AI-powered candidate screening → Sponsor's ML recruitment platform directly solves this"}, "10002": {"score": 72, "reasoning": "..."}, ...}
 
 No other text, just the JSON.`;
     
@@ -71,7 +83,7 @@ No other text, just the JSON.`;
     const jsonText = typeof content === 'string' ? content.trim() : "{}";
     
     // Extract JSON from response (might have markdown code blocks)
-    const jsonMatch = jsonText.match(/\{[^}]+\}/);
+    const jsonMatch = jsonText.match(/\{[\s\S]+\}/);
     if (!jsonMatch) {
       console.error("[Matching] AI response not valid JSON:", jsonText);
       return scores;
@@ -79,10 +91,22 @@ No other text, just the JSON.`;
     
     const scoresObj = JSON.parse(jsonMatch[0]);
     
-    // Convert to Map with 0-1 scale
-    for (const [delegateId, score] of Object.entries(scoresObj)) {
-      const numScore = typeof score === 'number' ? score : parseInt(String(score));
-      scores.set(delegateId, Math.min(100, Math.max(0, numScore)) / 100);
+    // Convert to Map with 0-1 scale score + reasoning
+    for (const [delegateId, data] of Object.entries(scoresObj)) {
+      if (typeof data === 'object' && data !== null && 'score' in data && 'reasoning' in data) {
+        const numScore = typeof (data as any).score === 'number' ? (data as any).score : parseInt(String((data as any).score));
+        scores.set(delegateId, {
+          score: Math.min(100, Math.max(0, numScore)) / 100,
+          reasoning: String((data as any).reasoning || "Match based on needs alignment")
+        });
+      } else {
+        // Fallback for old format (just numbers)
+        const numScore = typeof data === 'number' ? data : parseInt(String(data));
+        scores.set(delegateId, {
+          score: Math.min(100, Math.max(0, numScore)) / 100,
+          reasoning: "Match based on needs alignment"
+        });
+      }
     }
     
     console.log(`[Matching] Batch scored ${scores.size} delegates via AI`);
@@ -420,8 +444,10 @@ export async function generateMeetingsForSponsor(
     const isTopRanked = rankPosition >= 0 && rankPosition < 12;
     const isTop20 = rankPosition >= 0 && rankPosition < 20;
     
-    // Get AI score for this delegate (0-1 scale)
-    const needsSolutionScore = aiScores.get(delegate.attendeeId) || 0;
+    // Get AI score and reasoning for this delegate
+    const aiResult = aiScores.get(delegate.attendeeId) || { score: 0, reasoning: "" };
+    const needsSolutionScore = aiResult.score; // 0-1 scale
+    const aiMatchReasoning = aiResult.reasoning;
     
     // Keep delegate data for match reasoning
     const delegateChallenges = delegate.challenges || "";
@@ -455,29 +481,21 @@ export async function generateMeetingsForSponsor(
       matchScore = Math.max(1, matchScore);
     }
     
-    // Generate match reason based on scoring factors
+    // Generate match reason - use AI-generated reasoning from batch call
     let matchReason = "";
     if (isPriority) {
       matchReason = "Priority delegate: Manually selected as must-meet by event organizers.";
     } else {
-      const reasons = [];
-      if (needsSolutionScore >= 0.7) {
-        reasons.push("Strong alignment between sponsor solutions and delegate needs");
-      } else if (needsSolutionScore >= 0.5) {
-        reasons.push("Moderate alignment between sponsor solutions and delegate needs");
-      } else {
-        reasons.push("Some alignment between sponsor solutions and delegate needs");
-      }
+      // Use AI reasoning from batch scoring (already includes specific examples)
+      matchReason = aiMatchReasoning || "Match based on needs-solution alignment";
       
+      // Enhance with additional context if available
       if (isTop20) {
-        reasons.push("ranked in sponsor's top 20 preferred delegates");
+        matchReason += " (Ranked in sponsor's top 20 preferred delegates)";
       }
-      
       if (orgSizeScore >= 0.8) {
-        reasons.push("excellent org size match");
+        matchReason += " Excellent org size match.";
       }
-      
-      matchReason = reasons.join(", ") + ".";
     }
     
     scoredMatches.push({

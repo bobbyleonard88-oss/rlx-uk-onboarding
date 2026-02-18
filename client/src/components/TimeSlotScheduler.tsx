@@ -8,9 +8,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Clock, GripVertical, X, Users, ChevronDown, ChevronUp, RefreshCw } from "lucide-react";
+import { Clock, GripVertical, X, Users, ChevronDown, ChevronUp, RefreshCw, Eye } from "lucide-react";
 import { useState } from "react";
 import { attendees } from "@/lib/attendees";
+import { MatchDetailsModal } from "@/components/MatchDetailsModal";
 import { trpc } from "@/lib/trpc";
 
 interface Meeting {
@@ -34,6 +35,13 @@ interface TimeSlotSchedulerProps {
   onAddDelegate?: (attendeeId: string, slot: number) => void;
   onReplaceMeeting?: (meetingId: number) => void;
   sponsorId?: number | null; // For calculating delegate match scores
+  sponsorData?: {
+    companyName: string;
+    solutions?: string;
+    painPointsSolved?: string;
+    targetOrgSize?: string;
+    targetIndustries?: string;
+  } | null;
 }
 
 const DAY1_SLOTS = [
@@ -48,10 +56,11 @@ const DAY2_SLOTS = [
   { day: 2, slot: 6, label: "Slot 3" },
 ];
 
-export default function TimeSlotScheduler({ meetings, onUpdateSlot, onRemoveMeeting, onAddDelegate, onReplaceMeeting, sponsorId }: TimeSlotSchedulerProps) {
+export default function TimeSlotScheduler({ meetings, onUpdateSlot, onRemoveMeeting, onAddDelegate, onReplaceMeeting, sponsorId, sponsorData }: TimeSlotSchedulerProps) {
   const [draggedMeeting, setDraggedMeeting] = useState<number | null>(null);
   const [draggedDelegate, setDraggedDelegate] = useState<string | null>(null);
   const [showAllDelegates, setShowAllDelegates] = useState(false);
+  const [selectedMeetingForDetails, setSelectedMeetingForDetails] = useState<Meeting | null>(null);
   
   // Fetch delegate match scores for the selected sponsor
   const { data: delegateScores } = trpc.admin.calculateDelegateScores.useQuery(
@@ -188,6 +197,26 @@ export default function TimeSlotScheduler({ meetings, onUpdateSlot, onRemoveMeet
           </div>
         </div>
         <div className="flex gap-1">
+          {sponsorData && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedMeetingForDetails(meeting);
+                  }}
+                  className="h-6 w-6 p-0 hover:bg-purple-500/20 hover:text-purple-400 flex-shrink-0"
+                >
+                  <Eye className="w-3 h-3" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>View match details</p>
+              </TooltipContent>
+            </Tooltip>
+          )}
           {onReplaceMeeting && (
             <Tooltip>
               <TooltipTrigger asChild>
@@ -260,6 +289,7 @@ export default function TimeSlotScheduler({ meetings, onUpdateSlot, onRemoveMeet
   };
 
   return (
+    <>
     <div className="flex gap-6">
       {/* Day 1 Column */}
       <div className="flex-1 space-y-4">
@@ -398,5 +428,34 @@ export default function TimeSlotScheduler({ meetings, onUpdateSlot, onRemoveMeet
         </Card>
       </div>
     </div>
+    
+    {/* Match Details Modal */}
+    {selectedMeetingForDetails && sponsorData && (
+      <MatchDetailsModal
+        isOpen={!!selectedMeetingForDetails}
+        onClose={() => setSelectedMeetingForDetails(null)}
+        matchScore={selectedMeetingForDetails.matchScore}
+        matchReason={selectedMeetingForDetails.matchReason}
+        delegate={{
+          firstName: selectedMeetingForDetails.delegateName.split(' ')[0] || '',
+          lastName: selectedMeetingForDetails.delegateName.split(' ').slice(1).join(' ') || '',
+          company: selectedMeetingForDetails.company,
+          jobTitle: selectedMeetingForDetails.jobTitle,
+          challenges: attendees.find(a => a.id === selectedMeetingForDetails.attendeeId)?.assessmentTools || '',
+          interests: [
+            attendees.find(a => a.id === selectedMeetingForDetails.attendeeId)?.ats,
+            attendees.find(a => a.id === selectedMeetingForDetails.attendeeId)?.crm,
+            attendees.find(a => a.id === selectedMeetingForDetails.attendeeId)?.marketIntelligence
+          ].filter(Boolean).join(', ') || '',
+          painPoints: attendees.find(a => a.id === selectedMeetingForDetails.attendeeId)?.painPoints || '',
+          budget: attendees.find(a => a.id === selectedMeetingForDetails.attendeeId)?.budgetAuthority || '',
+          orgSize: attendees.find(a => a.id === selectedMeetingForDetails.attendeeId)?.companySize || '',
+          regionalRemit: attendees.find(a => a.id === selectedMeetingForDetails.attendeeId)?.regionalRemit || '',
+          industry: attendees.find(a => a.id === selectedMeetingForDetails.attendeeId)?.industry || '',
+        }}
+        sponsor={sponsorData}
+      />
+    )}
+    </>
   );
 }
