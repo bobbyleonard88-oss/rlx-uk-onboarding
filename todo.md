@@ -650,3 +650,14 @@
 - [x] Show why each delegate was matched (priority, ranking, industry, seniority, etc.)
 - [x] Make match scores more transparent and actionable
 - [x] Display match quality indicators (excellent, good, fair, poor)
+
+## Delegate-Level Cancel and Replace Feature
+
+- [x] Create backend procedure to cancel delegate across all their meetings
+- [x] Find all meetings for a specific delegate (across multiple sponsors)
+- [x] Remove delegate from all meetings
+- [x] Regenerate best match for each affected sponsor
+- [x] Add Cancel & Replace button to Delegate Overview page
+- [x] Show confirmation dialog with list of affected sponsors
+- [x] Display progress/success message after replacement completes
+- [x] Test with delegate who has multiple meetings across different sponsors
