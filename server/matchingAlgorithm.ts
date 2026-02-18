@@ -78,53 +78,51 @@ function calculateOrgSizeMatch(sponsorOrgSize: string, delegateOrgSize: string):
 }
 
 /**
- * Generate match reason based on scoring factors
+ * Generate match reason based on needs-to-solutions alignment
+ * Focus on how sponsor solutions address delegate needs/challenges
  */
 function generateMatchReason(
   isPriority: boolean,
-  challengeScore: number,
+  needsSolutionScore: number,
   orgSizeScore: number,
   rankPosition: number | null,
   isTop20: boolean,
   delegateName: string
 ): string {
-  if (isPriority) {
-    return `Priority delegate - manually tagged by admin as must-meet`;
+  // Exceptional alignment (90-100%)
+  if (needsSolutionScore > 0.9 && orgSizeScore > 0.8) {
+    return `Exceptional match: Sponsor's solutions directly address delegate's stated pain points and challenges. Perfect org size alignment for target market.`;
   }
   
-  if (isTop20 && challengeScore > 0.5 && orgSizeScore > 0.7) {
-    return `Top 20 ranking + strong org size match + aligned challenges`;
+  if (needsSolutionScore > 0.9) {
+    return `Exceptional match: Sponsor's solutions directly address delegate's stated pain points, challenges, and expressed interests.`;
   }
   
-  if (isTop20 && challengeScore > 0.5) {
-    return `In sponsor's top 20 preferred delegates with strong challenge alignment`;
+  // Strong alignment (75-89%)
+  if (needsSolutionScore > 0.75 && orgSizeScore > 0.7) {
+    return `Strong match: High alignment between sponsor's solutions and delegate's needs. Good org size compatibility for effective partnership.`;
   }
   
-  if (isTop20) {
-    return `Ranked #${rankPosition} in sponsor's top 20 preferred delegates`;
+  if (needsSolutionScore > 0.75) {
+    return `Strong match: Sponsor's solutions align well with delegate's challenges and areas of interest.`;
   }
   
-  if (challengeScore > 0.6 && orgSizeScore > 0.7) {
-    return `Excellent org size match with high alignment on challenges`;
+  // Moderate alignment (60-74%)
+  if (needsSolutionScore > 0.6 && orgSizeScore > 0.7) {
+    return `Moderate match: Sponsor's solutions address some delegate needs. Strong org size alignment enhances potential value.`;
   }
   
-  if (orgSizeScore > 0.8) {
-    return `Perfect org size match for sponsor's target market`;
+  if (needsSolutionScore > 0.6) {
+    return `Moderate match: Sponsor's solutions address some of the delegate's stated challenges and interests.`;
   }
   
-  if (challengeScore > 0.6) {
-    return `High alignment between delegate needs and sponsor solutions`;
+  // Weak alignment (40-59%)
+  if (needsSolutionScore > 0.4) {
+    return `Weak match: Limited alignment between sponsor's solutions and delegate's needs. May have potential in specific areas.`;
   }
   
-  if (rankPosition !== null && rankPosition <= 30) {
-    return `Ranked #${rankPosition} in sponsor's delegate preferences`;
-  }
-  
-  if (challengeScore > 0.3) {
-    return `Moderate alignment on pain points and challenges`;
-  }
-  
-  return `Potential fit based on sponsor criteria and delegate profile`;
+  // Poor match (<40%)
+  return `Limited match: Minimal alignment between sponsor's solutions and delegate's stated needs and challenges.`;
 }
 
 /**
@@ -215,66 +213,46 @@ export async function generateMeetingsForSponsor(
     const isTopRanked = rankPosition >= 0 && rankPosition < 12;
     const isTop20 = rankPosition >= 0 && rankPosition < 20;
     
-    let matchScore = 0;
+    // Calculate needs-to-solutions alignment
+    // Sponsor offers solutions (keyChallenges = what they solve, companyBoilerplate = their solutions)
+    // Delegate has needs (challenges, interests, pain points)
+    const sponsorSolutions = intakeSubmission.companyBoilerplate || "";
+    const sponsorPainPointsSolved = intakeSubmission.keyChallenges || ""; // What pain points the sponsor solves
+    const delegateChallenges = delegate.challenges || "";
+    const delegateInterests = delegate.interests || "";
     
-    // Priority delegates get 100% match
-    if (isPriority) {
-      matchScore = 100;
-    } else {
-      // Calculate challenge/solution alignment (sponsor challenges vs delegate needs)
-      const sponsorChallenges = intakeSubmission.keyChallenges || "";
-      const sponsorBoilerplate = intakeSubmission.companyBoilerplate || "";
-      const delegateChallenges = delegate.challenges || "";
-      const delegateInterests = delegate.interests || "";
-      
-      // Match sponsor's solutions with delegate's challenges
-      const challengeScore = Math.max(
-        calculateTextSimilarity(sponsorChallenges, delegateChallenges),
-        calculateTextSimilarity(sponsorBoilerplate, delegateChallenges),
-        calculateTextSimilarity(sponsorBoilerplate, delegateInterests)
-      );
-      
-      // Calculate org size match
-      const orgSizeScore = calculateOrgSizeMatch(
-        intakeSubmission.targetOrgSize || "",
-        (delegate as any).orgSize || ""
-      );
-      
-      // Weighted scoring:
-      // - Challenge alignment: 35 points
-      // - Org size match: 25 points (increased weight)
-      // - Rankings position: up to 40 points (increased weight)
-      matchScore = Math.round(challengeScore * 35 + orgSizeScore * 25);
-      
-      // Bonus points for being in sponsor's rankings (0-40 points)
-      if (rankPosition >= 0) {
-        // Top 20 get significant bonus
-        if (rankPosition < 20) {
-          const rankBonus = Math.max(0, 40 - rankPosition * 1.5); // Top rank = 40 points
-          matchScore += rankBonus;
-        } else {
-          // Ranks 21-40 get smaller bonus
-          const rankBonus = Math.max(0, 10 - (rankPosition - 20) * 0.5);
-          matchScore += rankBonus;
-        }
-      }
-      
-      // Cap at 99 (only priority tags get 100)
-      matchScore = Math.min(99, Math.max(1, matchScore));
-    }
-    
-    const challengeScore = Math.max(
-      calculateTextSimilarity(intakeSubmission.keyChallenges || "", delegate.challenges || ""),
-      calculateTextSimilarity(intakeSubmission.companyBoilerplate || "", delegate.challenges || "")
+    // Primary alignment: How well sponsor's solutions address delegate's challenges/interests
+    const needsSolutionScore = Math.max(
+      calculateTextSimilarity(sponsorSolutions, delegateChallenges),
+      calculateTextSimilarity(sponsorSolutions, delegateInterests),
+      calculateTextSimilarity(sponsorPainPointsSolved, delegateChallenges)
     );
+    
+    // Secondary alignment: Org size compatibility
     const orgSizeScore = calculateOrgSizeMatch(
       intakeSubmission.targetOrgSize || "",
       (delegate as any).orgSize || ""
     );
     
+    // Needs-based scoring (0-100):
+    // - Needs-solution alignment: 80 points (primary factor)
+    // - Org size match: 20 points (secondary factor)
+    let matchScore = Math.round(needsSolutionScore * 80 + orgSizeScore * 20);
+    
+    // Apply calibrated scale:
+    // - 90-100: Exceptional direct match
+    // - 75-89: Strong alignment
+    // - 60-74: Moderate alignment
+    // - 40-59: Weak alignment
+    // - 0-39: Poor match
+    
+    // Ensure minimum score of 1
+    matchScore = Math.max(1, matchScore);
+    
+    // Generate match reason based on needs-solution alignment
     const matchReason = generateMatchReason(
       isPriority,
-      challengeScore,
+      needsSolutionScore,
       orgSizeScore,
       rankPosition >= 0 ? rankPosition + 1 : null,
       isTop20,

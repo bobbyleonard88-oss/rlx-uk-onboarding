@@ -685,3 +685,18 @@
 - [x] Calculate match scores for all delegates when sponsor is selected
 - [x] Show visual indicator for best matches (e.g., green for 80+%, yellow for 60-79%, etc.)
 - [x] Update UI to make best-fit delegates immediately visible
+
+## Needs-Based Matching Refactor
+
+- [x] Remove priority tag and ranking bias from match scoring
+- [x] Score purely based on delegate needs (pain points, solution areas, projects) vs vendor solutions
+- [x] Update scoring: 90-100% for direct need-solution match, 80-89% for strong alignment, 60-79% moderate, <60% weak
+- [x] Update match reasoning to cite specific delegate needs and how vendor solutions address them
+- [x] Example: "Delegate mentioned reducing advertising spend → EB agency scores 95%"
+- [x] Test with real delegate-vendor pairs to verify accurate need-solution matching
+
+## Filter Already-Booked Delegates from All Delegates List
+
+- [x] Remove delegates already scheduled with selected sponsor from "All Delegates" panel
+- [x] Check both attendee 1 and attendee 2 slots for 20-meeting packages
+- [x] Only show available delegates who haven't been booked yet

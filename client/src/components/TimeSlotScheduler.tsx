@@ -324,8 +324,14 @@ export default function TimeSlotScheduler({ meetings, onUpdateSlot, onRemoveMeet
             <CardContent className="pt-0 max-h-[400px] overflow-y-auto">
               <div className="space-y-2">
                 {(() => {
-                  // Sort delegates by match score if scores are available
-                  let sortedDelegates = [...attendees];
+                  // Get list of delegate IDs already booked with this sponsor
+                  const bookedDelegateIds = new Set(
+                    meetings.map(m => m.attendeeId)
+                  );
+                  
+                  // Filter out delegates already booked and sort by match score
+                  let sortedDelegates = attendees.filter(delegate => !bookedDelegateIds.has(delegate.id));
+                  
                   if (delegateScores && delegateScores.length > 0) {
                     const scoreMap = new Map(delegateScores.map(s => [s.attendeeId, s.matchScore]));
                     sortedDelegates.sort((a, b) => {
