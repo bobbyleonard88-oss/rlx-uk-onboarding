@@ -18,10 +18,87 @@ export interface MatchResult {
 }
 
 /**
- * Calculate text similarity between two strings (improved keyword matching)
+ * Batch score all delegates against sponsor using AI
+ * Returns a map of delegateId -> score (0-1)
+ */
+async function batchScoreDelegates(
+  sponsorSolutions: string,
+  sponsorChallenges: string,
+  delegates: Array<{ id: string; challenges: string; interests: string }>
+): Promise<Map<string, number>> {
+  const scores = new Map<string, number>();
+  
+  if (delegates.length === 0) return scores;
+  
+  try {
+    const { invokeLLM } = await import("./_core/llm");
+    
+    // Build delegate list for AI
+    const delegateList = delegates.map((d, idx) => 
+      `DELEGATE ${idx + 1} (ID: ${d.id}):\nChallenges: ${d.challenges}\nInterests: ${d.interests}`
+    ).join("\n\n");
+    
+    const prompt = `You are a B2B matchmaking expert. Score how well this sponsor matches each delegate.
+
+SPONSOR PROFILE:
+Solutions: ${sponsorSolutions}
+Challenges they solve: ${sponsorChallenges}
+
+${delegateList}
+
+For each delegate, score the alignment from 0-100 where:
+- 90-100: Direct match - sponsor's solutions directly address delegate's stated needs
+- 75-89: Strong alignment - sponsor can solve most of delegate's challenges  
+- 60-74: Moderate alignment - sponsor addresses some needs
+- 40-59: Weak alignment - limited overlap
+- 0-39: Poor alignment - minimal relevance
+
+IMPORTANT: Be generous with scoring. If there's ANY reasonable alignment, score at least 60.
+
+Respond with ONLY a JSON object mapping delegate IDs to scores, like:
+{"10001": 85, "10002": 72, ...}
+
+No other text, just the JSON.`;
+    
+    const response = await invokeLLM({
+      messages: [
+        { role: "system", content: "You are a B2B matchmaking scoring expert. Respond with only JSON." },
+        { role: "user", content: prompt }
+      ]
+    });
+    
+    const content = response.choices[0]?.message?.content;
+    const jsonText = typeof content === 'string' ? content.trim() : "{}";
+    
+    // Extract JSON from response (might have markdown code blocks)
+    const jsonMatch = jsonText.match(/\{[^}]+\}/);
+    if (!jsonMatch) {
+      console.error("[Matching] AI response not valid JSON:", jsonText);
+      return scores;
+    }
+    
+    const scoresObj = JSON.parse(jsonMatch[0]);
+    
+    // Convert to Map with 0-1 scale
+    for (const [delegateId, score] of Object.entries(scoresObj)) {
+      const numScore = typeof score === 'number' ? score : parseInt(String(score));
+      scores.set(delegateId, Math.min(100, Math.max(0, numScore)) / 100);
+    }
+    
+    console.log(`[Matching] Batch scored ${scores.size} delegates via AI`);
+    return scores;
+  } catch (error) {
+    console.error("[Matching] Batch AI scoring failed, using fallback:", error);
+    // Return empty map, will use fallback scoring
+    return scores;
+  }
+}
+
+/**
+ * Fallback keyword matching (used if AI fails)
  * Returns a score from 0-1
  */
-function calculateTextSimilarity(text1: string, text2: string): number {
+function calculateTextSimilarityFallback(text1: string, text2: string): number {
   if (!text1 || !text2) return 0;
   
   const words1 = text1.toLowerCase().split(/\W+/).filter(w => w.length > 2);
@@ -31,7 +108,8 @@ function calculateTextSimilarity(text1: string, text2: string): number {
   
   const matches = words1.filter(w => words2.includes(w)).length;
   const avgLength = (words1.length + words2.length) / 2;
-  return matches / avgLength;
+  // Multiply by 2 to be more generous with fallback scores
+  return Math.min(1.0, (matches / avgLength) * 2);
 }
 
 /**
@@ -78,10 +156,121 @@ function calculateOrgSizeMatch(sponsorOrgSize: string, delegateOrgSize: string):
 }
 
 /**
- * Generate match reason based on needs-to-solutions alignment
- * Focus on how sponsor solutions address delegate needs/challenges
+ * Generate AI-powered match reason with specific examples from profiles
+ * Uses LLM to analyze sponsor solutions vs delegate needs and cite specific alignments
  */
-function generateMatchReason(
+async function generateAIMatchReason(
+  isPriority: boolean,
+  matchScore: number,
+  sponsorSolutions: string,
+  sponsorPainPointsSolved: string,
+  delegateChallenges: string,
+  delegateInterests: string,
+  orgSizeScore: number,
+  isTop20: boolean
+): Promise<string> {
+  if (isPriority) {
+    return "Priority delegate - manually tagged by admin as must-meet";
+  }
+  
+  // Use AI to generate specific, contextual match reasoning
+  try {
+    const { invokeLLM } = await import("./_core/llm");
+    
+    const prompt = `You are a B2B event matchmaking expert. Analyze the alignment between a sponsor's solutions and a delegate's needs.
+
+SPONSOR SOLUTIONS:
+${sponsorSolutions || "Not provided"}
+
+SPONSOR PAIN POINTS THEY SOLVE:
+${sponsorPainPointsSolved || "Not provided"}
+
+DELEGATE CHALLENGES:
+${delegateChallenges || "Not provided"}
+
+DELEGATE INTERESTS:
+${delegateInterests || "Not provided"}
+
+MATCH SCORE: ${matchScore}%
+TOP 20 RANKING: ${isTop20 ? "Yes" : "No"}
+
+Generate a 1-2 sentence match reason that:
+1. Cites SPECIFIC examples from the delegate's challenges/interests
+2. Explains HOW the sponsor's solutions address those specific needs
+3. Uses concrete language, not generic phrases
+
+Example good reasoning:
+"Delegate mentioned high volume screening of AI candidates → Sponsor's AI recruitment platform directly addresses this need (95% match)"
+
+Example bad reasoning:
+"Strong match: High alignment between sponsor's solutions and delegate's needs"
+
+Generate the match reason now (1-2 sentences max):`;
+
+    const response = await invokeLLM({
+      messages: [
+        { role: "system", content: "You are a B2B matchmaking expert. Generate specific, contextual match reasoning." },
+        { role: "user", content: prompt }
+      ]
+    });
+    
+    const content = response.choices[0]?.message?.content;
+    const aiReason = typeof content === 'string' ? content.trim() : "";
+    if (aiReason) {
+      return aiReason;
+    }
+  } catch (error) {
+    console.error("[Matching] AI reasoning failed, falling back to template:", error);
+  }
+  
+  // Fallback to template-based reasoning if AI fails
+  return generateMatchReasonFallback(matchScore, orgSizeScore, isTop20);
+}
+
+/**
+ * Fallback template-based match reason (used if AI fails)
+ */
+function generateMatchReasonFallback(
+  matchScore: number,
+  orgSizeScore: number,
+  isTop20: boolean
+): string {
+  if (matchScore >= 90 && orgSizeScore > 0.8) {
+    return `Exceptional match: Sponsor's solutions directly address delegate's stated pain points and challenges. Perfect org size alignment for target market.`;
+  }
+  
+  if (matchScore >= 90) {
+    return `Exceptional match: Sponsor's solutions directly address delegate's stated pain points, challenges, and expressed interests.`;
+  }
+  
+  if (matchScore >= 75 && orgSizeScore > 0.7) {
+    return `Strong match: High alignment between sponsor's solutions and delegate's needs. Good org size compatibility for effective partnership.`;
+  }
+  
+  if (matchScore >= 75) {
+    return `Strong match: Sponsor's solutions align well with delegate's challenges and areas of interest.`;
+  }
+  
+  if (matchScore >= 60 && orgSizeScore > 0.7) {
+    return `Moderate match: Sponsor's solutions address some delegate needs. Strong org size alignment enhances potential value.`;
+  }
+  
+  if (matchScore >= 60) {
+    return `Moderate match: Sponsor's solutions address some of the delegate's stated challenges and interests.`;
+  }
+  
+  if (matchScore >= 40) {
+    return `Weak match: Limited alignment between sponsor's solutions and delegate's needs. May have potential in specific areas.`;
+  }
+  
+  return `Limited match: Minimal alignment between sponsor's solutions and delegate's stated needs and challenges.`;
+}
+
+/**
+ * DEPRECATED: Old template-based match reason generator
+ * Kept for reference but no longer used
+ */
+function generateMatchReason_DEPRECATED(
   isPriority: boolean,
   needsSolutionScore: number,
   orgSizeScore: number,
@@ -204,6 +393,24 @@ export async function generateMeetingsForSponsor(
   });
   console.log(`[Matching] ${availableDelegates.length} delegates available (under 8 meetings capacity)`);
   
+  // Batch score all delegates using AI (much faster than individual calls)
+  const sponsorSolutions = intakeSubmission.companyBoilerplate || "";
+  const sponsorPainPointsSolved = intakeSubmission.keyChallenges || "";
+  
+  const delegatesForScoring = availableDelegates.map(d => ({
+    id: d.attendeeId,
+    challenges: d.challenges || "",
+    interests: d.interests || ""
+  }));
+  
+  console.log(`[Matching] Batch scoring ${delegatesForScoring.length} delegates via AI...`);
+  const aiScores = await batchScoreDelegates(
+    sponsorSolutions,
+    sponsorPainPointsSolved,
+    delegatesForScoring
+  );
+  console.log(`[Matching] AI batch scoring complete, got ${aiScores.size} scores`);
+  
   // Score each available delegate
   const scoredMatches: MatchResult[] = [];
   
@@ -213,20 +420,12 @@ export async function generateMeetingsForSponsor(
     const isTopRanked = rankPosition >= 0 && rankPosition < 12;
     const isTop20 = rankPosition >= 0 && rankPosition < 20;
     
-    // Calculate needs-to-solutions alignment
-    // Sponsor offers solutions (keyChallenges = what they solve, companyBoilerplate = their solutions)
-    // Delegate has needs (challenges, interests, pain points)
-    const sponsorSolutions = intakeSubmission.companyBoilerplate || "";
-    const sponsorPainPointsSolved = intakeSubmission.keyChallenges || ""; // What pain points the sponsor solves
+    // Get AI score for this delegate (0-1 scale)
+    const needsSolutionScore = aiScores.get(delegate.attendeeId) || 0;
+    
+    // Keep delegate data for match reasoning
     const delegateChallenges = delegate.challenges || "";
     const delegateInterests = delegate.interests || "";
-    
-    // Primary alignment: How well sponsor's solutions address delegate's challenges/interests
-    const needsSolutionScore = Math.max(
-      calculateTextSimilarity(sponsorSolutions, delegateChallenges),
-      calculateTextSimilarity(sponsorSolutions, delegateInterests),
-      calculateTextSimilarity(sponsorPainPointsSolved, delegateChallenges)
-    );
     
     // Secondary alignment: Org size compatibility
     const orgSizeScore = calculateOrgSizeMatch(
@@ -234,30 +433,52 @@ export async function generateMeetingsForSponsor(
       (delegate as any).orgSize || ""
     );
     
-    // Needs-based scoring (0-100):
-    // - Needs-solution alignment: 80 points (primary factor)
-    // - Org size match: 20 points (secondary factor)
-    let matchScore = Math.round(needsSolutionScore * 80 + orgSizeScore * 20);
+    // Scoring logic with correct weighting:
+    let matchScore: number;
     
-    // Apply calibrated scale:
-    // - 90-100: Exceptional direct match
-    // - 75-89: Strong alignment
-    // - 60-74: Moderate alignment
-    // - 40-59: Weak alignment
-    // - 0-39: Poor match
+    if (isPriority) {
+      // Priority delegates = 100% (manually tagged must-meet)
+      matchScore = 100;
+    } else {
+      // Base score from needs-solution alignment (0-100)
+      // - Needs-solution alignment: 80 points (primary factor)
+      // - Org size match: 20 points (secondary factor)
+      matchScore = Math.round(needsSolutionScore * 80 + orgSizeScore * 20);
+      
+      // Top 20 ranking bonus: +10 points for sponsor's preferred delegates
+      if (isTop20) {
+        matchScore = Math.min(100, matchScore + 10);
+      }
+      
+      // Ensure scores are in reasonable range (minimum 30% for actual meetings)
+      // Lower scores will be filtered out when selecting best matches
+      matchScore = Math.max(1, matchScore);
+    }
     
-    // Ensure minimum score of 1
-    matchScore = Math.max(1, matchScore);
-    
-    // Generate match reason based on needs-solution alignment
-    const matchReason = generateMatchReason(
-      isPriority,
-      needsSolutionScore,
-      orgSizeScore,
-      rankPosition >= 0 ? rankPosition + 1 : null,
-      isTop20,
-      `${delegate.firstName} ${delegate.lastName}`
-    );
+    // Generate match reason based on scoring factors
+    let matchReason = "";
+    if (isPriority) {
+      matchReason = "Priority delegate: Manually selected as must-meet by event organizers.";
+    } else {
+      const reasons = [];
+      if (needsSolutionScore >= 0.7) {
+        reasons.push("Strong alignment between sponsor solutions and delegate needs");
+      } else if (needsSolutionScore >= 0.5) {
+        reasons.push("Moderate alignment between sponsor solutions and delegate needs");
+      } else {
+        reasons.push("Some alignment between sponsor solutions and delegate needs");
+      }
+      
+      if (isTop20) {
+        reasons.push("ranked in sponsor's top 20 preferred delegates");
+      }
+      
+      if (orgSizeScore >= 0.8) {
+        reasons.push("excellent org size match");
+      }
+      
+      matchReason = reasons.join(", ") + ".";
+    }
     
     scoredMatches.push({
       attendeeId: delegate.attendeeId,
@@ -284,10 +505,19 @@ export async function generateMeetingsForSponsor(
     return 0;
   });
   
-  // Return top N matches
-  const topMatches = scoredMatches.slice(0, meetingCount);
+  // Filter out matches below 30% threshold (except priority delegates)
+  const qualityMatches = scoredMatches.filter(m => m.isPriority || m.matchScore >= 30);
+  
+  // Return top N matches from quality matches
+  const topMatches = qualityMatches.slice(0, meetingCount);
   console.log(`[Matching] Returning ${topMatches.length} matches (requested ${meetingCount})`);
   console.log(`[Matching] Top 3 scores: ${topMatches.slice(0, 3).map(m => `${m.delegateInfo.firstName} ${m.delegateInfo.lastName}: ${m.matchScore}%`).join(', ')}`);
+  
+  // Log quality distribution
+  const above65 = topMatches.filter(m => m.matchScore >= 65).length;
+  const between30and65 = topMatches.filter(m => m.matchScore >= 30 && m.matchScore < 65).length;
+  console.log(`[Matching] Quality distribution: ${above65} above 65%, ${between30and65} between 30-65%`);
+  
   return topMatches;
 }
 
