@@ -159,13 +159,16 @@ export default function Analytics() {
             </CardContent>
           </Card>
 
-          {/* Top Requested Delegates */}
+          {/* Top Priority Delegates */}
           <Card className="bg-slate-800/50 border-slate-700">
             <CardHeader>
               <CardTitle className="text-white flex items-center gap-2">
                 <Award className="w-5 h-5" />
-                Top 10 Most Requested Delegates
+                Top 10 Priority Delegates
               </CardTitle>
+              <p className="text-sm text-slate-400 mt-1">
+                Delegates who requested to meet vendors
+              </p>
             </CardHeader>
             <CardContent>
               <div className="space-y-2">
@@ -186,6 +189,55 @@ export default function Analytics() {
                     <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30">
                       {delegate.meetingCount} meetings
                     </Badge>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Most In-Demand Delegates */}
+          <Card className="bg-slate-800/50 border-slate-700">
+            <CardHeader>
+              <CardTitle className="text-white flex items-center gap-2">
+                <TrendingUp className="w-5 h-5" />
+                Most In-Demand Delegates
+              </CardTitle>
+              <p className="text-sm text-slate-400 mt-1">
+                Based on sponsor rankings - higher ranked delegates score more points
+              </p>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2">
+                {analytics.mostInDemandDelegates.map((delegate, index) => (
+                  <div
+                    key={delegate.attendeeId}
+                    className="flex items-center justify-between p-2 bg-slate-700/50 rounded"
+                  >
+                    <div className="flex items-center gap-3">
+                      <Badge 
+                        variant="secondary" 
+                        className={`w-6 h-6 flex items-center justify-center p-0 ${
+                          index === 0 ? 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30' :
+                          index === 1 ? 'bg-slate-400/20 text-slate-300 border-slate-400/30' :
+                          index === 2 ? 'bg-orange-500/20 text-orange-300 border-orange-500/30' :
+                          ''
+                        }`}
+                      >
+                        {index + 1}
+                      </Badge>
+                      <div>
+                        <div className="text-white font-medium">{delegate.name}</div>
+                        <div className="text-slate-400 text-xs">{delegate.company}</div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Badge className="bg-blue-500/20 text-blue-300 border-blue-500/30">
+                        {delegate.demandScore} pts
+                      </Badge>
+                      <Badge variant="outline" className="text-slate-400 border-slate-600">
+                        {delegate.rankingCount} sponsors
+                      </Badge>
+                    </div>
                   </div>
                 ))}
               </div>

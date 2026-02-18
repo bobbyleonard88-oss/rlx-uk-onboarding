@@ -927,7 +927,7 @@ export const appRouter = router({
           else scoreDistribution[5].count++;
         }
         
-        // Time slot distribution
+        // Time slot distribution - count total meetings per time slot
         const timeSlotDistribution = [
           { slot: 1, label: 'Day 1 - Slot 1', count: 0 },
           { slot: 2, label: 'Day 1 - Slot 2', count: 0 },
@@ -960,6 +960,40 @@ export const appRouter = router({
           .sort((a, b) => b.meetingCount - a.meetingCount)
           .slice(0, 10);
         
+        // Most in-demand delegates based on sponsor rankings
+        const allRankings = await db.getAllRankingsSubmissions();
+        const demandScores = new Map<string, number>();
+        
+        // Calculate demand score: higher ranking = higher score
+        // Top ranked delegate gets more points than lower ranked
+        for (const ranking of allRankings) {
+          if (ranking.rankingsData) {
+            const rankedList = JSON.parse(ranking.rankingsData);
+            rankedList.forEach((delegateId: string, index: number) => {
+              // Score: (total delegates - rank position) to give higher scores to top-ranked
+              const score = rankedList.length - index;
+              demandScores.set(delegateId, (demandScores.get(delegateId) || 0) + score);
+            });
+          }
+        }
+        
+        const mostInDemandDelegates = Array.from(demandScores.entries())
+          .map(([attendeeId, demandScore]) => {
+            const delegate = attendees.find(d => d.id === attendeeId);
+            return {
+              attendeeId,
+              name: delegate ? `${delegate.firstName} ${delegate.lastName}` : 'Unknown',
+              company: delegate?.company || 'Unknown',
+              demandScore,
+              rankingCount: allRankings.filter(r => {
+                const rankedList = r.rankingsData ? JSON.parse(r.rankingsData) : [];
+                return rankedList.includes(attendeeId);
+              }).length,
+            };
+          })
+          .sort((a, b) => b.demandScore - a.demandScore)
+          .slice(0, 10);
+        
         // Sponsor statistics
         const sponsorStats = await Promise.all(
           allSponsors.map(async (sponsor) => {
@@ -989,6 +1023,7 @@ export const appRouter = router({
           scoreDistribution,
           timeSlotDistribution,
           topDelegates: delegateStats,
+          mostInDemandDelegates,
           sponsorStats,
         };
       }),

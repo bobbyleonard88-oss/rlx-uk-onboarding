@@ -910,3 +910,13 @@
 - [x] Add Analytics link to admin header navigation (between Meetings and Delegate Overview)
 - [x] Test layout with both 12 and 20 meeting packages
 - [x] Verify no horizontal scrolling on standard viewport widths
+
+
+## Analytics Dashboard Enhancements (CURRENT SPRINT)
+
+- [ ] Break down time slot distribution into 12 individual meeting slots (2 per hour) instead of 6 grouped slots
+- [ ] Update "Top 10 Most Requested Delegates" wording to clarify these are priority delegates who requested to meet vendors
+- [ ] Add new "Most In-Demand Delegates" leaderboard based on sponsor rankings
+- [ ] Calculate demand score by counting how many sponsors ranked each delegate highly
+- [ ] Display master leaderboard showing delegates sorted by demand score
+- [ ] Test analytics dashboard with real data to verify all metrics display correctly
