@@ -8,10 +8,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Clock, GripVertical, X, Users, ChevronDown, ChevronUp, RefreshCw, Eye } from "lucide-react";
+import { Clock, GripVertical, X, Users, ChevronDown, ChevronUp, RefreshCw, Eye, FileText } from "lucide-react";
 import { useState } from "react";
 import { attendees } from "@/lib/attendees";
 import MatchReasonModal from "@/components/MatchReasonModal";
+import { MeetingNotesModal } from "@/components/MeetingNotesModal";
 
 import { trpc } from "@/lib/trpc";
 
@@ -27,6 +28,7 @@ interface Meeting {
   isTop20?: boolean;
   timeSlot: number | null;
   attendeeNumber?: number | null;
+  adminNotes?: string | null;
 }
 
 interface TimeSlotSchedulerProps {
@@ -80,7 +82,33 @@ export default function TimeSlotScheduler({
     matchScore: number;
     matchReason: string;
   }>({ open: false, delegateName: "", matchScore: 0, matchReason: "" });
+  const [notesModal, setNotesModal] = useState<{
+    open: boolean;
+    meetingId: number;
+    delegateName: string;
+    initialNotes: string;
+  }>({ open: false, meetingId: 0, delegateName: "", initialNotes: "" });
+  const [dragOverSlot, setDragOverSlot] = useState<number | null>(null);
+  const [isDragValid, setIsDragValid] = useState<boolean>(true);
+  const [dragInvalidReason, setDragInvalidReason] = useState<string>("");
   const utils = trpc.useUtils();
+  
+  const updateNotesMutation = trpc.admin.updateMeetingNotes.useMutation({
+    onSuccess: () => {
+      // Refresh meetings to show updated notes
+      if (onReplaceMeeting) {
+        // Trigger a refresh by calling the parent's refresh function
+        window.location.reload();
+      }
+    },
+  });
+  
+  const handleSaveNotes = async (meetingId: number, notes: string) => {
+    await updateNotesMutation.mutateAsync({
+      meetingId,
+      adminNotes: notes,
+    });
+  };
   
   // Fetch delegate match scores for the selected sponsor
   const { data: delegateScores } = trpc.admin.calculateDelegateScores.useQuery(
@@ -100,6 +128,37 @@ export default function TimeSlotScheduler({
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
+    
+    // Get slot from data attribute
+    const target = e.currentTarget as HTMLElement;
+    const slot = parseInt(target.getAttribute('data-slot') || '0');
+    
+    if (slot > 0) {
+      setDragOverSlot(slot);
+      
+      // Check if dragging a delegate and validate availability
+      if (draggedDelegate) {
+        utils.admin.checkDelegateAvailability.fetch({
+          attendeeId: draggedDelegate,
+          timeSlot: slot,
+        }).then(availabilityCheck => {
+          setIsDragValid(availabilityCheck.isAvailable);
+          if (!availabilityCheck.isAvailable) {
+            setDragInvalidReason(`Already booked in this time slot`);
+          }
+        }).catch(() => {
+          setIsDragValid(true); // Default to valid if check fails
+        });
+      } else {
+        setIsDragValid(true);
+      }
+    }
+  };
+
+  const handleDragLeave = () => {
+    setDragOverSlot(null);
+    setIsDragValid(true);
+    setDragInvalidReason("");
   };
 
   const handleDrop = async (slot: number, targetMeetingId?: number) => {
@@ -258,6 +317,31 @@ export default function TimeSlotScheduler({
               </TooltipContent>
             </Tooltip>
           )}
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setNotesModal({
+                    open: true,
+                    meetingId: meeting.id,
+                    delegateName: meeting.delegateName,
+                    initialNotes: meeting.adminNotes || "",
+                  });
+                }}
+                className={`h-6 w-6 p-0 hover:bg-yellow-500/20 hover:text-yellow-400 flex-shrink-0 ${
+                  meeting.adminNotes ? 'text-yellow-400' : ''
+                }`}
+              >
+                <FileText className="w-3 h-3" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>{meeting.adminNotes ? 'Edit notes' : 'Add notes'}</p>
+            </TooltipContent>
+          </Tooltip>
           {onReplaceMeeting && (
             <Tooltip>
               <TooltipTrigger asChild>
@@ -305,10 +389,24 @@ export default function TimeSlotScheduler({
           {slotInfo.label}
         </h4>
         <div
-          className="space-y-2 min-h-[200px] border-2 border-dashed border-slate-600 rounded-lg p-3 bg-slate-900/30"
+          data-slot={slotInfo.slot}
+          className={`space-y-2 min-h-[200px] border-2 border-dashed rounded-lg p-3 transition-all duration-200 ${
+            dragOverSlot === slotInfo.slot
+              ? isDragValid
+                ? 'border-green-500 bg-green-500/10'
+                : 'border-red-500 bg-red-500/10'
+              : 'border-slate-600 bg-slate-900/30'
+          }`}
           onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
           onDrop={() => handleDrop(slotInfo.slot)}
         >
+          {dragOverSlot === slotInfo.slot && !isDragValid && (
+            <div className="text-red-400 text-xs font-medium mb-2 flex items-center gap-1">
+              <span>⚠️</span>
+              <span>{dragInvalidReason}</span>
+            </div>
+          )}
           {[1, 2].map((meetingNum) => {
             const meeting = slotMeetings[meetingNum - 1];
             return (
@@ -466,6 +564,16 @@ export default function TimeSlotScheduler({
       delegateName={matchReasonModal.delegateName}
       matchScore={matchReasonModal.matchScore}
       matchReason={matchReasonModal.matchReason}
+    />
+    
+    {/* Meeting Notes Modal */}
+    <MeetingNotesModal
+      open={notesModal.open}
+      onClose={() => setNotesModal({ ...notesModal, open: false })}
+      meetingId={notesModal.meetingId}
+      delegateName={notesModal.delegateName}
+      initialNotes={notesModal.initialNotes}
+      onSave={handleSaveNotes}
     />
     </>
   );

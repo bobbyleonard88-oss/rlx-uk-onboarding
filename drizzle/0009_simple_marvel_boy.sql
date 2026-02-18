@@ -1,0 +1,1 @@
+ALTER TABLE `meetings` ADD `adminNotes` text;

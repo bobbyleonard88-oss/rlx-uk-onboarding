@@ -437,6 +437,16 @@ export const appRouter = router({
         return { success: true };
       }),
     
+    updateMeetingNotes: adminProcedure
+      .input(z.object({
+        meetingId: z.number(),
+        adminNotes: z.string(),
+      }))
+      .mutation(async ({ input }) => {
+        await db.updateMeetingNotes(input.meetingId, input.adminNotes);
+        return { success: true };
+      }),
+    
     // Priority tagging
     getPriorityTags: adminProcedure
       .input(z.object({
@@ -862,6 +872,124 @@ export const appRouter = router({
           company: m.delegateInfo.company,
           currentMeetingCount: m.delegateInfo.currentMeetingCount,
         }));
+      }),
+    
+    // Get analytics dashboard data
+    getAnalytics: adminProcedure
+      .query(async () => {
+
+        const allMeetings = await db.getAllMeetings();
+        const allDelegates = await db.getDelegateProfiles();
+        const allSponsors = await db.getAllSponsors();
+        
+        // Calculate average match score
+        const totalScore = allMeetings.reduce((sum, m) => sum + (m.matchScore || 0), 0);
+        const averageMatchScore = allMeetings.length > 0 ? totalScore / allMeetings.length : 0;
+        
+        // Count unique delegates booked
+        const uniqueDelegates = new Set(allMeetings.map(m => m.attendeeId));
+        const delegatesBooked = uniqueDelegates.size;
+        
+        // Calculate average utilization (meetings per delegate / max 8)
+        const delegateMeetingCounts = new Map<string, number>();
+        for (const meeting of allMeetings) {
+          delegateMeetingCounts.set(
+            meeting.attendeeId,
+            (delegateMeetingCounts.get(meeting.attendeeId) || 0) + 1
+          );
+        }
+        const totalUtilization = Array.from(delegateMeetingCounts.values()).reduce(
+          (sum, count) => sum + (count / 8) * 100,
+          0
+        );
+        const averageUtilization = delegateMeetingCounts.size > 0 
+          ? totalUtilization / delegateMeetingCounts.size 
+          : 0;
+        
+        // Score distribution
+        const scoreDistribution = [
+          { range: '90-100%', count: 0 },
+          { range: '80-89%', count: 0 },
+          { range: '70-79%', count: 0 },
+          { range: '60-69%', count: 0 },
+          { range: '50-59%', count: 0 },
+          { range: 'Below 50%', count: 0 },
+        ];
+        
+        for (const meeting of allMeetings) {
+          const score = meeting.matchScore || 0;
+          if (score >= 90) scoreDistribution[0].count++;
+          else if (score >= 80) scoreDistribution[1].count++;
+          else if (score >= 70) scoreDistribution[2].count++;
+          else if (score >= 60) scoreDistribution[3].count++;
+          else if (score >= 50) scoreDistribution[4].count++;
+          else scoreDistribution[5].count++;
+        }
+        
+        // Time slot distribution
+        const timeSlotDistribution = [
+          { slot: 1, label: 'Day 1 - Slot 1', count: 0 },
+          { slot: 2, label: 'Day 1 - Slot 2', count: 0 },
+          { slot: 3, label: 'Day 1 - Slot 3', count: 0 },
+          { slot: 4, label: 'Day 2 - Slot 1', count: 0 },
+          { slot: 5, label: 'Day 2 - Slot 2', count: 0 },
+          { slot: 6, label: 'Day 2 - Slot 3', count: 0 },
+        ];
+        
+        for (const meeting of allMeetings) {
+          if (meeting.timeSlot) {
+            const slotIndex = meeting.timeSlot - 1;
+            if (slotIndex >= 0 && slotIndex < 6) {
+              timeSlotDistribution[slotIndex].count++;
+            }
+          }
+        }
+        
+        // Top 10 most requested delegates
+        const delegateStats = Array.from(delegateMeetingCounts.entries())
+          .map(([attendeeId, count]) => {
+            const delegate = allDelegates.find(d => d.attendeeId === attendeeId);
+            return {
+              attendeeId,
+              name: delegate ? `${delegate.firstName} ${delegate.lastName}` : 'Unknown',
+              company: delegate?.company || 'Unknown',
+              meetingCount: count,
+            };
+          })
+          .sort((a, b) => b.meetingCount - a.meetingCount)
+          .slice(0, 10);
+        
+        // Sponsor statistics
+        const sponsorStats = await Promise.all(
+          allSponsors.map(async (sponsor) => {
+            const sponsorMeetings = allMeetings.filter(m => m.sponsorId === sponsor.id);
+            const intakeSubmission = await db.getIntakeSubmissionBySponsor(sponsor.id);
+            const totalSlots = intakeSubmission?.meetingPackage === '20' ? 20 : 12;
+            const avgScore = sponsorMeetings.length > 0
+              ? sponsorMeetings.reduce((sum, m) => sum + (m.matchScore || 0), 0) / sponsorMeetings.length
+              : 0;
+            
+            return {
+              sponsorId: sponsor.id,
+              companyName: sponsor.companyName,
+              meetingsScheduled: sponsorMeetings.length,
+              totalSlots,
+              avgMatchScore: avgScore,
+            };
+          })
+        );
+        
+        return {
+          averageMatchScore,
+          totalMeetings: allMeetings.length,
+          delegatesBooked,
+          totalDelegates: allDelegates.length,
+          averageUtilization,
+          scoreDistribution,
+          timeSlotDistribution,
+          topDelegates: delegateStats,
+          sponsorStats,
+        };
       }),
   }),
 });

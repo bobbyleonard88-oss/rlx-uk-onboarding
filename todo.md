@@ -813,3 +813,41 @@
 - [x] Update admin portal to use modal instead of alert for "View Match Reason" button
 - [x] Sponsor schedule already uses DelegateProfileModal (native modal, not alert)
 - [x] Test both admin and sponsor sides to ensure modal works correctly
+
+
+## Visual Drag Feedback (COMPLETED)
+
+- [x] Add onDragOver state tracking to detect which drop zone is being hovered
+- [x] Highlight drop zones in green when dragging a valid delegate (available for that time slot)
+- [x] Highlight drop zones in red when dragging an invalid delegate (already booked in that time slot)
+- [x] Add visual indicator showing why drop is invalid (alert message)
+- [x] Apply smooth transitions for highlight effects
+- [x] Test with both single and double-booked scenarios
+
+## Admin-Only Meeting Notes Feature (COMPLETED)
+
+- [x] Add `adminNotes` text field to meetings table schema
+- [x] Add "Add Note" button (FileText icon) to meeting cards in admin portal (visible only to admins)
+- [x] Create MeetingNotesModal component for adding/editing notes
+- [x] Display note indicator icon on meeting cards that have notes (yellow highlight)
+- [x] Show note preview in modal when editing
+- [x] Ensure notes are admin-only (not visible to sponsors)
+- [x] Save notes to database when edited via updateMeetingNotes procedure
+- [x] Test note creation, editing, and deletion
+
+## Meeting Analytics Dashboard (COMPLETED)
+
+- [x] Create new "Analytics" page accessible at /admin/analytics
+- [x] Add backend getAnalytics procedure to calculate analytics metrics:
+  - Average match score across all meetings
+  - Match score distribution (90-100%, 80-89%, 70-79%, 60-69%, 50-59%, Below 50%)
+  - Delegate utilization rate (meetings booked / 8 max capacity)
+  - Time slot distribution (6 slots across 2 days)
+  - Top 10 most requested delegates
+  - Sponsor statistics with fill rates and average match scores
+- [x] Design dashboard layout with summary cards for key metrics
+- [x] Add progress bar visualizations for match score distribution
+- [x] Add progress bar visualizations for time slot distribution
+- [x] Display top 10 delegates with meeting counts
+- [x] Show sponsor fill rates and average match scores
+- [x] Test with real meeting data

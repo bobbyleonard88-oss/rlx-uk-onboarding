@@ -545,6 +545,16 @@ export async function updateMeeting(id: number, updates: Partial<Omit<InsertMeet
     .where(eq(meetings.id, id));
 }
 
+export async function updateMeetingNotes(meetingId: number, adminNotes: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db
+    .update(meetings)
+    .set({ adminNotes, updatedAt: new Date() })
+    .where(eq(meetings.id, meetingId));
+}
+
 // Check for time slot conflicts across all sponsors
 export async function checkTimeSlotConflict(attendeeId: string, timeSlot: number, excludeSponsorId?: number) {
   const db = await getDb();
