@@ -851,3 +851,41 @@
 - [x] Display top 10 delegates with meeting counts
 - [x] Show sponsor fill rates and average match scores
 - [x] Test with real meeting data
+
+
+## BUG FIXES FROM COMPREHENSIVE TESTING (CURRENT SPRINT)
+
+### BUG #1: Meeting Card Button Order Issue
+- [ ] Fix button rendering order in TimeSlotScheduler component
+- [ ] Ensure Eye icon (match reasoning) is first button
+- [ ] Ensure FileText icon (notes) is second button
+- [ ] Ensure Refresh icon (replace) is third button
+- [ ] Ensure X icon (remove) is fourth button
+- [ ] Test button clicks to verify correct modals open
+
+### BUG #2: Unknown Delegates in Analytics Dashboard
+- [ ] Fix getAnalytics procedure to join delegate names
+- [ ] Replace "Unknown" with actual delegate names in Top 10 list
+- [ ] Ensure delegate names display correctly in analytics
+
+### BUG #3: Delegate Count Shows 0 in Analytics
+- [ ] Fix delegate utilization calculation
+- [ ] Change "29 Out of 0 total" to "29 Out of 47 total"
+- [ ] Ensure total delegate count is calculated correctly
+
+### BUG #4: Publish to Sponsor Not Working (CRITICAL)
+- [ ] Fix "Publish to Sponsor" button handler
+- [ ] Ensure backend procedure updates publishedToSponsor flag
+- [ ] Verify MeetingSchedule component queries published meetings correctly
+- [ ] Add success toast notification after publish
+- [ ] Test sponsor-side meeting viewing after publish
+- [ ] Test delegate profile viewing from sponsor side
+- [ ] Test PDF download functionality
+
+
+### BUG #5: Publish to Sponsor Button Not Working (CRITICAL - ADDED DURING TESTING)
+- [ ] Find "Publish to Sponsor" button handler in AdminMeetings or TimeSlotScheduler
+- [ ] Create backend procedure to update publishedToSponsor flag for all sponsor meetings
+- [ ] Update MeetingSchedule component to query only published meetings
+- [ ] Add success toast notification after publish
+- [ ] Test sponsor-side meeting viewing after publish

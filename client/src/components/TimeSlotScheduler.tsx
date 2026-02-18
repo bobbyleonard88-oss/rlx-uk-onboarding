@@ -292,31 +292,32 @@ export default function TimeSlotScheduler({
           </div>
         </div>
         <div className="flex gap-1">
-          {meeting.matchReason && meeting.matchReason !== "Manually added" && (
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={(e) => {
-                    e.stopPropagation();
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (meeting.matchReason && meeting.matchReason !== "Manually added") {
                     setMatchReasonModal({
                       open: true,
                       delegateName: meeting.delegateName,
                       matchScore: meeting.matchScore,
                       matchReason: meeting.matchReason,
                     });
-                  }}
-                  className="h-6 w-6 p-0 hover:bg-purple-500/20 hover:text-purple-400 flex-shrink-0"
-                >
-                  <Eye className="w-3 h-3" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>View match reason</p>
-              </TooltipContent>
-            </Tooltip>
-          )}
+                  }
+                }}
+                disabled={!meeting.matchReason || meeting.matchReason === "Manually added"}
+                className="h-6 w-6 p-0 hover:bg-purple-500/20 hover:text-purple-400 flex-shrink-0 disabled:opacity-30 disabled:cursor-not-allowed"
+              >
+                <Eye className="w-3 h-3" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>{meeting.matchReason && meeting.matchReason !== "Manually added" ? "View match reason" : "No match reason available"}</p>
+            </TooltipContent>
+          </Tooltip>
           <Tooltip>
             <TooltipTrigger asChild>
               <Button

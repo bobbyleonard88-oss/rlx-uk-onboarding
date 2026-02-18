@@ -9,6 +9,7 @@ import { sendEmail } from "./emailNotification";
 import { notifyIntakeSubmission, notifyRankingsSubmission } from "./_core/emailNotification";
 import { ENV } from "./_core/env";
 import { generateAllMatches, saveMatches } from "./matchingEngine";
+import { attendees } from "../client/src/lib/attendees";
 
 
 export const appRouter = router({
@@ -879,8 +880,8 @@ export const appRouter = router({
       .query(async () => {
 
         const allMeetings = await db.getAllMeetings();
-        const allDelegates = await db.getDelegateProfiles();
         const allSponsors = await db.getAllSponsors();
+        const totalDelegates = attendees.length;
         
         // Calculate average match score
         const totalScore = allMeetings.reduce((sum, m) => sum + (m.matchScore || 0), 0);
@@ -948,7 +949,7 @@ export const appRouter = router({
         // Top 10 most requested delegates
         const delegateStats = Array.from(delegateMeetingCounts.entries())
           .map(([attendeeId, count]) => {
-            const delegate = allDelegates.find(d => d.attendeeId === attendeeId);
+            const delegate = attendees.find(d => d.id === attendeeId);
             return {
               attendeeId,
               name: delegate ? `${delegate.firstName} ${delegate.lastName}` : 'Unknown',
@@ -983,7 +984,7 @@ export const appRouter = router({
           averageMatchScore,
           totalMeetings: allMeetings.length,
           delegatesBooked,
-          totalDelegates: allDelegates.length,
+          totalDelegates,
           averageUtilization,
           scoreDistribution,
           timeSlotDistribution,
