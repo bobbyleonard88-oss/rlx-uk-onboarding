@@ -11,6 +11,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { Clock, GripVertical, X, Users, ChevronDown, ChevronUp, RefreshCw } from "lucide-react";
 import { useState } from "react";
 import { attendees } from "@/lib/attendees";
+import { trpc } from "@/lib/trpc";
 
 interface Meeting {
   id: number;
@@ -32,6 +33,7 @@ interface TimeSlotSchedulerProps {
   onRemoveMeeting: (meetingId: number) => void;
   onAddDelegate?: (attendeeId: string, slot: number) => void;
   onReplaceMeeting?: (meetingId: number) => void;
+  sponsorId?: number | null; // For calculating delegate match scores
 }
 
 const DAY1_SLOTS = [
@@ -46,10 +48,16 @@ const DAY2_SLOTS = [
   { day: 2, slot: 6, label: "Slot 3" },
 ];
 
-export default function TimeSlotScheduler({ meetings, onUpdateSlot, onRemoveMeeting, onAddDelegate, onReplaceMeeting }: TimeSlotSchedulerProps) {
+export default function TimeSlotScheduler({ meetings, onUpdateSlot, onRemoveMeeting, onAddDelegate, onReplaceMeeting, sponsorId }: TimeSlotSchedulerProps) {
   const [draggedMeeting, setDraggedMeeting] = useState<number | null>(null);
   const [draggedDelegate, setDraggedDelegate] = useState<string | null>(null);
   const [showAllDelegates, setShowAllDelegates] = useState(false);
+  
+  // Fetch delegate match scores for the selected sponsor
+  const { data: delegateScores } = trpc.admin.calculateDelegateScores.useQuery(
+    { sponsorId: sponsorId! },
+    { enabled: !!sponsorId }
+  );
 
   const handleDragStart = (meetingId: number) => {
     setDraggedMeeting(meetingId);
@@ -315,36 +323,69 @@ export default function TimeSlotScheduler({ meetings, onUpdateSlot, onRemoveMeet
           {showAllDelegates && (
             <CardContent className="pt-0 max-h-[400px] overflow-y-auto">
               <div className="space-y-2">
-                {attendees.map((delegate) => {
-                  const meetingCount = delegateMeetingCounts[delegate.id] || 0;
-                  const isMaxed = meetingCount >= 8;
+                {(() => {
+                  // Sort delegates by match score if scores are available
+                  let sortedDelegates = [...attendees];
+                  if (delegateScores && delegateScores.length > 0) {
+                    const scoreMap = new Map(delegateScores.map(s => [s.attendeeId, s.matchScore]));
+                    sortedDelegates.sort((a, b) => {
+                      const scoreA = scoreMap.get(a.id) || 0;
+                      const scoreB = scoreMap.get(b.id) || 0;
+                      return scoreB - scoreA; // Highest first
+                    });
+                  }
                   
-                  return (
-                    <div
-                      key={delegate.id}
-                      draggable={!isMaxed}
-                      onDragStart={() => !isMaxed && handleDelegateDragStart(delegate.id)}
-                      className={`bg-slate-800/50 rounded p-2 border border-slate-600 ${
-                        isMaxed ? 'opacity-50 cursor-not-allowed' : 'cursor-move hover:bg-slate-700/50 hover:border-accent/50'
-                      }`}
-                    >
-                      <div className="flex items-start justify-between gap-2">
-                        <div className="flex-1 min-w-0">
-                          <div className="font-medium text-white text-sm truncate">
-                            {delegate.firstName} {delegate.lastName}
+                  return sortedDelegates.map((delegate) => {
+                    const meetingCount = delegateMeetingCounts[delegate.id] || 0;
+                    const isMaxed = meetingCount >= 8;
+                    const delegateScore = delegateScores?.find(s => s.attendeeId === delegate.id);
+                    const matchScore = delegateScore?.matchScore || 0;
+                    
+                    // Color code based on match score
+                    const getScoreColor = (score: number) => {
+                      if (score >= 80) return "text-green-400";
+                      if (score >= 60) return "text-yellow-400";
+                      if (score >= 40) return "text-orange-400";
+                      return "text-slate-400";
+                    };
+                    
+                    return (
+                      <div
+                        key={delegate.id}
+                        draggable={!isMaxed}
+                        onDragStart={() => !isMaxed && handleDelegateDragStart(delegate.id)}
+                        className={`bg-slate-800/50 rounded p-2 border border-slate-600 ${
+                          isMaxed ? 'opacity-50 cursor-not-allowed' : 'cursor-move hover:bg-slate-700/50 hover:border-accent/50'
+                        }`}
+                      >
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="flex-1 min-w-0">
+                            <div className="font-medium text-white text-sm truncate">
+                              {delegate.firstName} {delegate.lastName}
+                            </div>
+                            <div className="text-slate-300 text-xs truncate">{delegate.company}</div>
                           </div>
-                          <div className="text-slate-300 text-xs truncate">{delegate.company}</div>
+                          <div className="flex items-center gap-1.5 flex-shrink-0">
+                            {sponsorId && delegateScore && (
+                              <Badge 
+                                variant="outline" 
+                                className={`text-xs ${getScoreColor(matchScore)} border-current`}
+                              >
+                                {matchScore}%
+                              </Badge>
+                            )}
+                            <Badge 
+                              variant={isMaxed ? "destructive" : "outline"} 
+                              className="text-xs"
+                            >
+                              {meetingCount}/8
+                            </Badge>
+                          </div>
                         </div>
-                        <Badge 
-                          variant={isMaxed ? "destructive" : "outline"} 
-                          className="text-xs flex-shrink-0"
-                        >
-                          {meetingCount}/8
-                        </Badge>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  });
+                })()}
               </div>
             </CardContent>
           )}

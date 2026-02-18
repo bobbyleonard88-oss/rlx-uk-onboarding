@@ -78,7 +78,15 @@ ${idx + 1}. ID: ${d.attendeeId}
 `}).join('\n')}
 
 For each delegate, provide:
-1. Match score (0-100) based on how well the vendor's solutions address the delegate's pain points, solution areas, active projects, and meeting objectives
+1. Match score (0-100) using this calibrated scale:
+   - 90-100: Exceptional match - Vendor solutions directly solve delegate's top pain points, strong industry/size alignment, active project match
+   - 75-89: Strong match - Good solution-need alignment, some shared context (industry, size, or project stage)
+   - 60-74: Moderate match - Partial alignment on solutions or pain points, potential value exists
+   - 40-59: Weak match - Limited alignment, vendor could help but not ideal fit
+   - 0-39: Poor match - Little to no alignment between vendor solutions and delegate needs
+   
+   IMPORTANT: Most good matches should score 70-90. Be generous with scores when there's clear value - don't artificially deflate scores.
+   
 2. Detailed reasoning (2-3 sentences minimum) explaining the match with this exact structure:
    - Start with PRIMARY ALIGNMENT: Explain the main connection between vendor solutions and delegate needs
    - Add SECONDARY FACTORS: Mention industry match, company size, project stage, or other relevant alignments

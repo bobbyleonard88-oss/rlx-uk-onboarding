@@ -825,6 +825,29 @@ export const appRouter = router({
           message: `Cancelled ${delegateMeetings.length} meetings and found ${replacements.filter(r => r.newDelegate !== 'NONE').length} replacements`,
         };
       }),
+    
+    // Calculate match scores for all delegates against a specific sponsor
+    calculateDelegateScores: adminProcedure
+      .input(z.object({
+        sponsorId: z.number(),
+      }))
+      .query(async ({ input }) => {
+        const { generateMeetingsForSponsor } = await import('./matchingAlgorithm');
+        
+        // Generate matches for ALL delegates (use a high number like 100)
+        const matches = await generateMeetingsForSponsor(input.sponsorId, 100);
+        
+        // Return all delegate scores sorted by match score (highest first)
+        return matches.map(m => ({
+          attendeeId: m.attendeeId,
+          matchScore: m.matchScore,
+          matchReason: m.matchReason,
+          firstName: m.delegateInfo.firstName,
+          lastName: m.delegateInfo.lastName,
+          company: m.delegateInfo.company,
+          currentMeetingCount: m.delegateInfo.currentMeetingCount,
+        }));
+      }),
   }),
 });
 

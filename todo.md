@@ -669,3 +669,19 @@
 - [x] Show primary alignment, secondary factors, and potential value
 - [x] Make reasoning prominent and easy to scan
 - [x] Test with various match scenarios (priority, ranking, industry, seniority)
+
+## Match Scoring Improvement
+
+- [x] Analyze current match scores in database to identify scoring patterns
+- [x] Recalibrate AI scoring to use full 0-100 range more effectively
+- [x] Ensure good matches score 70-90%, not 30-40%
+- [x] Adjust scoring guidance in AI prompt for better calibration
+- [x] Test improved scoring with real sponsor-delegate pairs
+
+## Delegate List Sorting by Match Score
+
+- [x] Add match score display to each delegate in "All Delegates" panel
+- [x] Sort delegates by match score (highest to lowest) for selected sponsor
+- [x] Calculate match scores for all delegates when sponsor is selected
+- [x] Show visual indicator for best matches (e.g., green for 80+%, yellow for 60-79%, etc.)
+- [x] Update UI to make best-fit delegates immediately visible

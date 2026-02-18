@@ -1,0 +1,50 @@
+{
+  "query": "SELECT matchScore, notes FROM meetings WHERE matchScore IS NOT NULL ORDER BY matchScore DESC LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT matchScore, notes FROM meetings WHERE matchScore IS NOT NULL ORDER BY matchScore DESC LIMIT 10;",
+  "rows": [
+    {
+      "matchScore": "100",
+      "notes": "NULL"
+    },
+    {
+      "matchScore": "100",
+      "notes": "Priority delegate - manually tagged by admin as must-meet"
+    },
+    {
+      "matchScore": "100",
+      "notes": "NULL"
+    },
+    {
+      "matchScore": "100",
+      "notes": "NULL"
+    },
+    {
+      "matchScore": "46",
+      "notes": "NULL"
+    },
+    {
+      "matchScore": "40",
+      "notes": "NULL"
+    },
+    {
+      "matchScore": "40",
+      "notes": "Ranked #1 in sponsor's top 20 preferred delegates"
+    },
+    {
+      "matchScore": "40",
+      "notes": "NULL"
+    },
+    {
+      "matchScore": "40",
+      "notes": "NULL"
+    },
+    {
+      "matchScore": "40",
+      "notes": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "matchScore\tnotes\n100\tNULL\n100\tPriority delegate - manually tagged by admin as must-meet\n100\tNULL\n100\tNULL\n46\tNULL\n40\tNULL\n40\tRanked #1 in sponsor's top 20 preferred delegates\n40\tNULL\n40\tNULL\n40\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 353
+}

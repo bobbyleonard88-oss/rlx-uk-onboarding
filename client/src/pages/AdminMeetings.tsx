@@ -479,6 +479,7 @@ export default function AdminMeetings() {
                   setReplacingMeetingId(meetingId);
                   toast.info("Drag a delegate from the list to replace this meeting");
                 }}
+                sponsorId={selectedSponsorId}
               />
             </CardContent>
           </Card>
