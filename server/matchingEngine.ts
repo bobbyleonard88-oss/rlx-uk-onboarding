@@ -79,17 +79,20 @@ ${idx + 1}. ID: ${d.attendeeId}
 
 For each delegate, provide:
 1. Match score (0-100) based on how well the vendor's solutions address the delegate's pain points, solution areas, active projects, and meeting objectives
-2. Detailed reasoning with specific categories:
-   - Primary alignment: The main reason for the match (e.g., "Vendor's AI automation directly addresses delegate's need for workflow efficiency")
-   - Secondary factors: Additional alignment points (e.g., "Both in Healthcare industry", "Project stage matches vendor's implementation timeline")
-   - Potential value: What the delegate would gain from this meeting (e.g., "Could reduce operational costs by 30%")
+2. Detailed reasoning (2-3 sentences minimum) explaining the match with this exact structure:
+   - Start with PRIMARY ALIGNMENT: Explain the main connection between vendor solutions and delegate needs
+   - Add SECONDARY FACTORS: Mention industry match, company size, project stage, or other relevant alignments
+   - End with POTENTIAL VALUE: Describe what the delegate would gain from this meeting
 
-Keep reasoning concise but specific - cite actual pain points and solutions from the profiles.
+Example reasoning format:
+"Primary alignment: Vendor's recruitment automation platform directly addresses delegate's pain point around manual screening processes. Secondary factors: Both operate in Tech industry with 5k-10k employees, delegate is actively evaluating ATS solutions. Potential value: Could reduce time-to-hire by 40% and improve candidate quality through AI-powered matching."
+
+IMPORTANT: Every reasoning MUST be at least 2 full sentences and cite specific details from both profiles.
 
 Respond in JSON format:
 {
   "matches": [
-    {"attendeeId": "att_001", "score": 85, "reasoning": "Strong alignment because..."},
+    {"attendeeId": "att_001", "score": 85, "reasoning": "Primary alignment: ... Secondary factors: ... Potential value: ..."},
     ...
   ]
 }`;
