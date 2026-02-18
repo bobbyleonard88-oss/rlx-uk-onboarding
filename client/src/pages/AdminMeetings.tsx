@@ -44,6 +44,7 @@ export default function AdminMeetings() {
   const [generatedMatches, setGeneratedMatches] = useState<MatchResult[]>([]);
   const [editedMatches, setEditedMatches] = useState<MatchResult[]>([]);
   const [selectedAttendee, setSelectedAttendee] = useState<1 | 2>(1); // For 20-meeting packages
+  const [replacingMeetingId, setReplacingMeetingId] = useState<number | null>(null);
   
   const { data: submissions } = trpc.admin.getAllSubmissions.useQuery();
   const utils = trpc.useUtils();
@@ -441,6 +442,12 @@ export default function AdminMeetings() {
                   const delegate = attendees.find(a => a.id === attendeeId);
                   if (!delegate) return;
                   
+                  // If replacing, remove the old meeting first
+                  if (replacingMeetingId !== null) {
+                    setEditedMatches(prev => prev.filter((_, index) => index !== replacingMeetingId));
+                    setReplacingMeetingId(null);
+                  }
+                  
                   // For 20-meeting packages, assign to current selected attendee
                   const attendeeNumber = meetingCount === 20 ? selectedAttendee : 1;
                   
@@ -464,7 +471,13 @@ export default function AdminMeetings() {
                   };
                   
                   setEditedMatches(prev => [...prev, newMatch]);
-                  toast.success(`Added ${delegate.firstName} ${delegate.lastName} to schedule`);
+                  toast.success(replacingMeetingId !== null 
+                    ? `Replaced with ${delegate.firstName} ${delegate.lastName}`
+                    : `Added ${delegate.firstName} ${delegate.lastName} to schedule`);
+                }}
+                onReplaceMeeting={(meetingId) => {
+                  setReplacingMeetingId(meetingId);
+                  toast.info("Drag a delegate from the list to replace this meeting");
                 }}
               />
             </CardContent>

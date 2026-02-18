@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Clock, GripVertical, X, Users, ChevronDown, ChevronUp } from "lucide-react";
+import { Clock, GripVertical, X, Users, ChevronDown, ChevronUp, RefreshCw } from "lucide-react";
 import { useState } from "react";
 import { attendees } from "@/lib/attendees";
 
@@ -31,6 +31,7 @@ interface TimeSlotSchedulerProps {
   onUpdateSlot: (meetingId: number, newSlot: number | null) => void;
   onRemoveMeeting: (meetingId: number) => void;
   onAddDelegate?: (attendeeId: string, slot: number) => void;
+  onReplaceMeeting?: (meetingId: number) => void;
 }
 
 const DAY1_SLOTS = [
@@ -45,7 +46,7 @@ const DAY2_SLOTS = [
   { day: 2, slot: 6, label: "Slot 3" },
 ];
 
-export default function TimeSlotScheduler({ meetings, onUpdateSlot, onRemoveMeeting, onAddDelegate }: TimeSlotSchedulerProps) {
+export default function TimeSlotScheduler({ meetings, onUpdateSlot, onRemoveMeeting, onAddDelegate, onReplaceMeeting }: TimeSlotSchedulerProps) {
   const [draggedMeeting, setDraggedMeeting] = useState<number | null>(null);
   const [draggedDelegate, setDraggedDelegate] = useState<string | null>(null);
   const [showAllDelegates, setShowAllDelegates] = useState(false);
@@ -169,18 +170,49 @@ export default function TimeSlotScheduler({ meetings, onUpdateSlot, onRemoveMeet
                     </Badge>
                   )}
                 </div>
+                {meeting.matchReason && meeting.matchReason !== "Manually added" && (
+                  <div className="mt-2 text-xs text-slate-400 italic border-l-2 border-blue-500/30 pl-2">
+                    {meeting.matchReason}
+                  </div>
+                )}
               </>
             )}
           </div>
         </div>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => onRemoveMeeting(meeting.id)}
-          className="h-6 w-6 p-0 hover:bg-red-500/20 hover:text-red-400 flex-shrink-0"
-        >
-          <X className="w-3 h-3" />
-        </Button>
+        <div className="flex gap-1">
+          {onReplaceMeeting && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => onReplaceMeeting(meeting.id)}
+                  className="h-6 w-6 p-0 hover:bg-blue-500/20 hover:text-blue-400 flex-shrink-0"
+                >
+                  <RefreshCw className="w-3 h-3" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Replace with another delegate</p>
+              </TooltipContent>
+            </Tooltip>
+          )}
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => onRemoveMeeting(meeting.id)}
+                className="h-6 w-6 p-0 hover:bg-red-500/20 hover:text-red-400 flex-shrink-0"
+              >
+                <X className="w-3 h-3" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Remove meeting</p>
+            </TooltipContent>
+          </Tooltip>
+        </div>
       </div>
     </div>
   );

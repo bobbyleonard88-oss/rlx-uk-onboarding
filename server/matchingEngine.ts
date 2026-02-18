@@ -79,7 +79,12 @@ ${idx + 1}. ID: ${d.attendeeId}
 
 For each delegate, provide:
 1. Match score (0-100) based on how well the vendor's solutions address the delegate's pain points, solution areas, active projects, and meeting objectives
-2. Brief reasoning (1-2 sentences) explaining the key alignment between vendor solutions and delegate needs
+2. Detailed reasoning with specific categories:
+   - Primary alignment: The main reason for the match (e.g., "Vendor's AI automation directly addresses delegate's need for workflow efficiency")
+   - Secondary factors: Additional alignment points (e.g., "Both in Healthcare industry", "Project stage matches vendor's implementation timeline")
+   - Potential value: What the delegate would gain from this meeting (e.g., "Could reduce operational costs by 30%")
+
+Keep reasoning concise but specific - cite actual pain points and solutions from the profiles.
 
 Respond in JSON format:
 {
