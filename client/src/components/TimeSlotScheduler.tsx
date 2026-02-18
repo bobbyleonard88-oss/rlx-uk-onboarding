@@ -384,14 +384,14 @@ export default function TimeSlotScheduler({
     const slotMeetings = assignedMeetings.filter(m => m.timeSlot === slotInfo.slot);
     
     return (
-      <div key={slotInfo.slot} className="space-y-2">
-        <h4 className="text-white font-semibold text-sm flex items-center gap-2">
-          <Clock className="w-4 h-4 text-accent" />
+      <div key={slotInfo.slot} className="space-y-1.5">
+        <h4 className="text-white font-semibold text-xs flex items-center gap-1.5">
+          <Clock className="w-3 h-3 text-accent" />
           {slotInfo.label}
         </h4>
         <div
           data-slot={slotInfo.slot}
-          className={`space-y-2 min-h-[200px] border-2 border-dashed rounded-lg p-3 transition-all duration-200 ${
+          className={`space-y-1.5 min-h-[140px] border-2 border-dashed rounded-lg p-2 transition-all duration-200 ${
             dragOverSlot === slotInfo.slot
               ? isDragValid
                 ? 'border-green-500 bg-green-500/10'
@@ -416,7 +416,7 @@ export default function TimeSlotScheduler({
                 {meeting ? (
                   renderMeetingCard(meeting, false, true)
                 ) : (
-                  <div className="border-2 border-dashed border-slate-700 rounded-lg p-4 text-center text-slate-500 text-sm">
+                  <div className="border-2 border-dashed border-slate-700 rounded-lg p-2 text-center text-slate-500 text-xs">
                     Drop meeting here
                   </div>
                 )}
@@ -430,28 +430,29 @@ export default function TimeSlotScheduler({
 
   return (
     <>
-    <div className="flex gap-4 overflow-x-auto">
+    <div className="flex gap-3">
       {/* Day 1 Column */}
-      <div className="flex-1 space-y-4">
-        <h3 className="text-xl font-heading font-bold text-white flex items-center gap-2">
-          <Clock className="w-5 h-5 text-accent" />
+      <div className="w-[340px] space-y-3 flex-shrink-0">
+        <h3 className="text-lg font-heading font-bold text-white flex items-center gap-2">
+          <Clock className="w-4 h-4 text-accent" />
           Day 1
         </h3>
         {DAY1_SLOTS.map(renderSlot)}
       </div>
 
       {/* Day 2 Column */}
-      <div className="flex-1 space-y-4">
-        <h3 className="text-xl font-heading font-bold text-white flex items-center gap-2">
-          <Clock className="w-5 h-5 text-accent" />
+      <div className="w-[340px] space-y-3 flex-shrink-0">
+        <h3 className="text-lg font-heading font-bold text-white flex items-center gap-2">
+          <Clock className="w-4 h-4 text-accent" />
           Day 2
         </h3>
         {DAY2_SLOTS.map(renderSlot)}
       </div>
 
       {/* Right Side: All Delegates */}
-      <div className="w-72 space-y-4 flex-shrink-0">
-        {/* All Delegates Panel */}
+      <div className="w-64 space-y-3 flex-shrink-0">
+        {/* All Delegates Panel - Aligned with first meeting slot */}
+        <div className="h-[22px]"></div> {/* Spacer to align with Day 1/Day 2 headers */}
         <Card className="glass-card border-slate-700">
           <CardHeader className="pb-3">
             <Button

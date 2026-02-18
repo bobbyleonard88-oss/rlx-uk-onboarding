@@ -15,6 +15,7 @@ export default function AdminHeader() {
   const navItems = [
     { path: "/admin", label: "Dashboard" },
     { path: "/admin/meetings", label: "Meetings" },
+    { path: "/admin/analytics", label: "Analytics" },
     { path: "/admin/delegate-overview", label: "Delegate Overview" },
     { path: "/admin/users", label: "Users" },
   ];

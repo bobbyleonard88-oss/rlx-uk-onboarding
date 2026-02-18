@@ -889,3 +889,24 @@
 - [ ] Update MeetingSchedule component to query only published meetings
 - [ ] Add success toast notification after publish
 - [ ] Test sponsor-side meeting viewing after publish
+
+
+## Admin Meetings Page Layout Fixes (CURRENT SPRINT)
+
+- [ ] Reduce meeting box widths to eliminate horizontal scrolling
+- [ ] Make Day 1 and Day 2 columns equal width
+- [ ] Shorten meeting box heights to fit more content on screen
+- [ ] Align "All Delegates" panel height with first row of meeting boxes
+- [ ] Add Analytics link to admin header navigation
+- [ ] Test layout on standard viewport sizes (1920x1080, 1366x768)
+
+
+## Admin Meetings Page Layout Fixes (COMPLETED)
+
+- [x] Reduce meeting box widths to eliminate horizontal scrolling (340px fixed width)
+- [x] Make Day 1 and Day 2 columns equal width (both 340px)
+- [x] Shorten meeting box heights to fit more content on screen (min-h-140px, p-2)
+- [x] Align "All Delegates" panel at same height as first row of meeting boxes (22px spacer)
+- [x] Add Analytics link to admin header navigation (between Meetings and Delegate Overview)
+- [x] Test layout with both 12 and 20 meeting packages
+- [x] Verify no horizontal scrolling on standard viewport widths
