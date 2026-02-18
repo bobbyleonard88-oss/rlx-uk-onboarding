@@ -11,6 +11,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { Clock, GripVertical, X, Users, ChevronDown, ChevronUp, RefreshCw, Eye } from "lucide-react";
 import { useState } from "react";
 import { attendees } from "@/lib/attendees";
+import MatchReasonModal from "@/components/MatchReasonModal";
 
 import { trpc } from "@/lib/trpc";
 
@@ -60,11 +61,25 @@ const DAY2_SLOTS = [
   { day: 2, slot: 6, label: "Slot 3" },
 ];
 
-export default function TimeSlotScheduler({ meetings, onUpdateSlot, onRemoveMeeting, onAddDelegate, onReplaceMeeting, sponsorId, sponsorData, attendeeNames }: TimeSlotSchedulerProps) {
-  const [draggedMeeting, setDraggedMeeting] = useState<number | null>(null);
+export default function TimeSlotScheduler({
+  meetings,
+  onUpdateSlot,
+  onRemoveMeeting,
+  onAddDelegate,
+  onReplaceMeeting,
+  sponsorId,
+  sponsorData,
+  attendeeNames,
+}: TimeSlotSchedulerProps) {
+  const [draggedMeeting, setDraggedMeeting] = useState<Meeting | null>(null);
   const [draggedDelegate, setDraggedDelegate] = useState<string | null>(null);
-  const [showAllDelegates, setShowAllDelegates] = useState(false);
-
+  const [isDelegateListExpanded, setIsDelegateListExpanded] = useState(false);
+  const [matchReasonModal, setMatchReasonModal] = useState<{
+    open: boolean;
+    delegateName: string;
+    matchScore: number;
+    matchReason: string;
+  }>({ open: false, delegateName: "", matchScore: 0, matchReason: "" });
   const utils = trpc.useUtils();
   
   // Fetch delegate match scores for the selected sponsor
@@ -73,8 +88,8 @@ export default function TimeSlotScheduler({ meetings, onUpdateSlot, onRemoveMeet
     { enabled: !!sponsorId }
   );
 
-  const handleDragStart = (meetingId: number) => {
-    setDraggedMeeting(meetingId);
+  const handleDragStart = (meeting: Meeting) => {
+    setDraggedMeeting(meeting);
     setDraggedDelegate(null);
   };
 
@@ -116,18 +131,17 @@ export default function TimeSlotScheduler({ meetings, onUpdateSlot, onRemoveMeet
     // Handle meeting drop
     if (draggedMeeting !== null) {
       // If dropping on an existing meeting, swap them
-      if (targetMeetingId && targetMeetingId !== draggedMeeting) {
-        const draggedMeetingData = meetings.find(m => m.id === draggedMeeting);
+      if (targetMeetingId && targetMeetingId !== draggedMeeting.id) {
         const targetMeetingData = meetings.find(m => m.id === targetMeetingId);
         
-        if (draggedMeetingData && targetMeetingData) {
+        if (targetMeetingData) {
           // Swap the time slots
-          onUpdateSlot(draggedMeeting, targetMeetingData.timeSlot);
-          onUpdateSlot(targetMeetingId, draggedMeetingData.timeSlot);
+          onUpdateSlot(draggedMeeting.id, targetMeetingData.timeSlot);
+          onUpdateSlot(targetMeetingId, draggedMeeting.timeSlot);
         }
       } else {
         // Normal drop to slot
-        onUpdateSlot(draggedMeeting, slot);
+        onUpdateSlot(draggedMeeting.id, slot);
       }
       setDraggedMeeting(null);
     }
@@ -136,7 +150,7 @@ export default function TimeSlotScheduler({ meetings, onUpdateSlot, onRemoveMeet
   const handleDropToRemove = () => {
     if (draggedMeeting !== null) {
       // Remove the meeting entirely when dragged to delegate list
-      onRemoveMeeting(draggedMeeting);
+      onRemoveMeeting(draggedMeeting.id);
       setDraggedMeeting(null);
     }
     setDraggedDelegate(null);
@@ -157,7 +171,7 @@ export default function TimeSlotScheduler({ meetings, onUpdateSlot, onRemoveMeet
     <div
       key={meeting.id}
       draggable
-      onDragStart={() => handleDragStart(meeting.id)}
+      onDragStart={() => handleDragStart(meeting)}
       onDragOver={handleDragOver}
       onDrop={(e) => {
         e.stopPropagation();
@@ -227,7 +241,12 @@ export default function TimeSlotScheduler({ meetings, onUpdateSlot, onRemoveMeet
                   size="sm"
                   onClick={(e) => {
                     e.stopPropagation();
-                    alert(meeting.matchReason);
+                    setMatchReasonModal({
+                      open: true,
+                      delegateName: meeting.delegateName,
+                      matchScore: meeting.matchScore,
+                      matchReason: meeting.matchReason,
+                    });
                   }}
                   className="h-6 w-6 p-0 hover:bg-purple-500/20 hover:text-purple-400 flex-shrink-0"
                 >
@@ -338,17 +357,17 @@ export default function TimeSlotScheduler({ meetings, onUpdateSlot, onRemoveMeet
           <CardHeader className="pb-3">
             <Button
               variant="ghost"
-              onClick={() => setShowAllDelegates(!showAllDelegates)}
+              onClick={() => setIsDelegateListExpanded(!isDelegateListExpanded)}
               className="w-full justify-between p-0 h-auto hover:bg-transparent"
             >
               <div className="flex items-center gap-2">
                 <Users className="w-4 h-4 text-accent" />
                 <span className="text-white font-semibold text-base">All Delegates ({attendees.length})</span>
               </div>
-              {showAllDelegates ? <ChevronUp className="w-4 h-4 text-slate-400" /> : <ChevronDown className="w-4 h-4 text-slate-400" />}
+              {isDelegateListExpanded ? <ChevronUp className="w-4 h-4 text-slate-400" /> : <ChevronDown className="w-4 h-4 text-slate-400" />}
             </Button>
           </CardHeader>
-          {showAllDelegates && (
+          {isDelegateListExpanded && (
             <CardContent 
               className="pt-0 max-h-[400px] overflow-y-auto border-2 border-dashed border-slate-600/50 rounded-lg"
               onDragOver={handleDragOver}
@@ -440,7 +459,14 @@ export default function TimeSlotScheduler({ meetings, onUpdateSlot, onRemoveMeet
       </div>
     </div>
     
-
+    {/* Match Reason Modal */}
+    <MatchReasonModal
+      open={matchReasonModal.open}
+      onOpenChange={(open) => setMatchReasonModal({ ...matchReasonModal, open })}
+      delegateName={matchReasonModal.delegateName}
+      matchScore={matchReasonModal.matchScore}
+      matchReason={matchReasonModal.matchReason}
+    />
     </>
   );
 }

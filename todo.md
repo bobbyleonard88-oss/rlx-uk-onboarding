@@ -801,3 +801,15 @@
 - [x] Prevent double-booking - block dragging delegate into time slot where they already have a meeting with another sponsor
 - [x] Add visual feedback when drag is blocked due to double-booking conflict (alert dialog)
 - [x] Test swapping functionality with both 12 and 20 meeting packages
+
+
+## Match Score and Reasoning Display Fixes (COMPLETED)
+
+- [x] Fix 0% match score bug when manually dragging delegates into schedule
+- [x] Calculate match score and reasoning when delegate is manually added via drag-and-drop
+- [x] Ensure match score from delegate list is preserved when adding to schedule
+- [x] Replace system alert (alert()) with native modal component for match reasoning
+- [x] Create MatchReasonModal component with proper styling matching site theme
+- [x] Update admin portal to use modal instead of alert for "View Match Reason" button
+- [x] Sponsor schedule already uses DelegateProfileModal (native modal, not alert)
+- [x] Test both admin and sponsor sides to ensure modal works correctly

@@ -443,7 +443,7 @@ export default function AdminMeetings() {
                 onRemoveMeeting={(meetingId) => {
                   setEditedMatches(prev => prev.filter((_, index) => index !== meetingId));
                 }}
-                onAddDelegate={(attendeeId, slot) => {
+                onAddDelegate={async (attendeeId, slot) => {
                   // Find delegate info
                   const delegate = attendees.find(a => a.id === attendeeId);
                   if (!delegate) return;
@@ -457,14 +457,37 @@ export default function AdminMeetings() {
                   // For 20-meeting packages, assign to current selected attendee
                   const attendeeNumber = meetingCount === 20 ? selectedAttendee : 1;
                   
+                  // Fetch delegate's actual match score and reasoning
+                  let matchScore = 0;
+                  let matchReason = "Manually added";
+                  let isPriority = false;
+                  let isTopRanked = false;
+                  let isTop20 = false;
+                  
+                  try {
+                    const delegateScores = await utils.admin.calculateDelegateScores.fetch({
+                      sponsorId: selectedSponsorId!,
+                    });
+                    
+                    const delegateScore = delegateScores.find(s => s.attendeeId === attendeeId);
+                    if (delegateScore) {
+                      matchScore = delegateScore.matchScore;
+                      matchReason = delegateScore.matchReason;
+                      // Note: isPriority, isTopRanked, isTop20 are not returned by calculateDelegateScores
+                      // These are calculated during generateMeetings, so we'll leave them as false for manually added delegates
+                    }
+                  } catch (error) {
+                    console.error('Failed to fetch delegate scores:', error);
+                  }
+                  
                   // Create new match result
                   const newMatch: MatchResult = {
                     attendeeId: delegate.id,
-                    matchScore: 0,
-                    matchReason: "Manually added",
-                    isPriority: false,
-                    isTopRanked: false,
-                    isTop20: false,
+                    matchScore,
+                    matchReason,
+                    isPriority,
+                    isTopRanked,
+                    isTop20,
                     timeSlot: slot,
                     attendeeNumber,
                     delegateInfo: {
