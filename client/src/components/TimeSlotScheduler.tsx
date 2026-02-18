@@ -11,7 +11,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { Clock, GripVertical, X, Users, ChevronDown, ChevronUp, RefreshCw, Eye } from "lucide-react";
 import { useState } from "react";
 import { attendees } from "@/lib/attendees";
-import { MatchDetailsModal } from "@/components/MatchDetailsModal";
+
 import { trpc } from "@/lib/trpc";
 
 interface Meeting {
@@ -42,6 +42,10 @@ interface TimeSlotSchedulerProps {
     targetOrgSize?: string;
     targetIndustries?: string;
   } | null;
+  attendeeNames?: {
+    attendee1Name?: string;
+    attendee2Name?: string;
+  } | null;
 }
 
 const DAY1_SLOTS = [
@@ -56,11 +60,11 @@ const DAY2_SLOTS = [
   { day: 2, slot: 6, label: "Slot 3" },
 ];
 
-export default function TimeSlotScheduler({ meetings, onUpdateSlot, onRemoveMeeting, onAddDelegate, onReplaceMeeting, sponsorId, sponsorData }: TimeSlotSchedulerProps) {
+export default function TimeSlotScheduler({ meetings, onUpdateSlot, onRemoveMeeting, onAddDelegate, onReplaceMeeting, sponsorId, sponsorData, attendeeNames }: TimeSlotSchedulerProps) {
   const [draggedMeeting, setDraggedMeeting] = useState<number | null>(null);
   const [draggedDelegate, setDraggedDelegate] = useState<string | null>(null);
   const [showAllDelegates, setShowAllDelegates] = useState(false);
-  const [selectedMeetingForDetails, setSelectedMeetingForDetails] = useState<Meeting | null>(null);
+
   
   // Fetch delegate match scores for the selected sponsor
   const { data: delegateScores } = trpc.admin.calculateDelegateScores.useQuery(
@@ -110,12 +114,12 @@ export default function TimeSlotScheduler({ meetings, onUpdateSlot, onRemoveMeet
     }
   };
 
-  const handleDropUnassigned = () => {
+  const handleDropToRemove = () => {
     if (draggedMeeting !== null) {
-      onUpdateSlot(draggedMeeting, null);
+      // Remove the meeting entirely when dragged to delegate list
+      onRemoveMeeting(draggedMeeting);
       setDraggedMeeting(null);
     }
-    // Ignore delegate drops on unassigned area
     setDraggedDelegate(null);
   };
 
@@ -162,9 +166,12 @@ export default function TimeSlotScheduler({ meetings, onUpdateSlot, onRemoveMeet
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
-              {meeting.attendeeNumber && (
+              {meeting.attendeeNumber && attendeeNames && (
                 <Badge className="bg-blue-500/20 text-blue-300 border-blue-500/30 text-xs flex-shrink-0">
-                  Attendee {meeting.attendeeNumber}
+                  {meeting.attendeeNumber === 1 
+                    ? (attendeeNames.attendee1Name || `Attendee 1`) 
+                    : (attendeeNames.attendee2Name || `Attendee 2`)
+                  }
                 </Badge>
               )}
             </div>
@@ -187,17 +194,13 @@ export default function TimeSlotScheduler({ meetings, onUpdateSlot, onRemoveMeet
                     </Badge>
                   )}
                 </div>
-                {meeting.matchReason && meeting.matchReason !== "Manually added" && (
-                  <div className="mt-2 text-xs text-slate-400 italic border-l-2 border-blue-500/30 pl-2">
-                    {meeting.matchReason}
-                  </div>
-                )}
+
               </>
             )}
           </div>
         </div>
         <div className="flex gap-1">
-          {sponsorData && (
+          {meeting.matchReason && meeting.matchReason !== "Manually added" && (
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
@@ -205,7 +208,7 @@ export default function TimeSlotScheduler({ meetings, onUpdateSlot, onRemoveMeet
                   size="sm"
                   onClick={(e) => {
                     e.stopPropagation();
-                    setSelectedMeetingForDetails(meeting);
+                    alert(meeting.matchReason);
                   }}
                   className="h-6 w-6 p-0 hover:bg-purple-500/20 hover:text-purple-400 flex-shrink-0"
                 >
@@ -213,7 +216,7 @@ export default function TimeSlotScheduler({ meetings, onUpdateSlot, onRemoveMeet
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
-                <p>View match details</p>
+                <p>View match reason</p>
               </TooltipContent>
             </Tooltip>
           )}
@@ -290,7 +293,7 @@ export default function TimeSlotScheduler({ meetings, onUpdateSlot, onRemoveMeet
 
   return (
     <>
-    <div className="flex gap-6">
+    <div className="flex gap-4 overflow-x-auto">
       {/* Day 1 Column */}
       <div className="flex-1 space-y-4">
         <h3 className="text-xl font-heading font-bold text-white flex items-center gap-2">
@@ -309,32 +312,8 @@ export default function TimeSlotScheduler({ meetings, onUpdateSlot, onRemoveMeet
         {DAY2_SLOTS.map(renderSlot)}
       </div>
 
-      {/* Right Side: Unassigned Meetings + All Delegates */}
-      <div className="w-80 space-y-4 flex-shrink-0">
-        {/* Unassigned Meetings */}
-        <Card className="glass-card border-slate-700">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-white flex items-center gap-2 text-base">
-              <Clock className="w-4 h-4 text-accent" />
-              Unassigned ({unassignedMeetings.length})
-            </CardTitle>
-          </CardHeader>
-          <CardContent
-            className="min-h-[120px] max-h-[300px] overflow-y-auto border-2 border-dashed border-slate-600 rounded-lg p-3"
-            onDragOver={handleDragOver}
-            onDrop={handleDropUnassigned}
-          >
-            <div className="space-y-2">
-              {unassignedMeetings.map((meeting) => renderMeetingCard(meeting, true))}
-            </div>
-            {unassignedMeetings.length === 0 && (
-              <div className="text-center text-slate-400 py-8 text-sm">
-                All meetings assigned
-              </div>
-            )}
-          </CardContent>
-        </Card>
-
+      {/* Right Side: All Delegates */}
+      <div className="w-72 space-y-4 flex-shrink-0">
         {/* All Delegates Panel */}
         <Card className="glass-card border-slate-700">
           <CardHeader className="pb-3">
@@ -351,16 +330,15 @@ export default function TimeSlotScheduler({ meetings, onUpdateSlot, onRemoveMeet
             </Button>
           </CardHeader>
           {showAllDelegates && (
-            <CardContent className="pt-0 max-h-[400px] overflow-y-auto">
+            <CardContent 
+              className="pt-0 max-h-[400px] overflow-y-auto border-2 border-dashed border-slate-600/50 rounded-lg"
+              onDragOver={handleDragOver}
+              onDrop={handleDropToRemove}
+            >
               <div className="space-y-2">
                 {(() => {
-                  // Get list of delegate IDs already booked with this sponsor
-                  const bookedDelegateIds = new Set(
-                    meetings.map(m => m.attendeeId)
-                  );
-                  
-                  // Filter out delegates already booked and sort by match score
-                  let sortedDelegates = attendees.filter(delegate => !bookedDelegateIds.has(delegate.id));
+                  // Sort all delegates by match score (don't filter out booked ones)
+                  let sortedDelegates = [...attendees];
                   
                   if (delegateScores && delegateScores.length > 0) {
                     const scoreMap = new Map(delegateScores.map(s => [s.attendeeId, s.matchScore]));
@@ -371,9 +349,15 @@ export default function TimeSlotScheduler({ meetings, onUpdateSlot, onRemoveMeet
                     });
                   }
                   
+                  // Get list of delegate IDs already booked with this sponsor
+                  const bookedDelegateIds = new Set(
+                    meetings.filter(m => m.timeSlot).map(m => m.attendeeId)
+                  );
+                  
                   return sortedDelegates.map((delegate) => {
                     const meetingCount = delegateMeetingCounts[delegate.id] || 0;
                     const isMaxed = meetingCount >= 8;
+                    const isBooked = bookedDelegateIds.has(delegate.id);
                     const delegateScore = delegateScores?.find(s => s.attendeeId === delegate.id);
                     const matchScore = delegateScore?.matchScore || 0;
                     
@@ -388,10 +372,10 @@ export default function TimeSlotScheduler({ meetings, onUpdateSlot, onRemoveMeet
                     return (
                       <div
                         key={delegate.id}
-                        draggable={!isMaxed}
-                        onDragStart={() => !isMaxed && handleDelegateDragStart(delegate.id)}
+                        draggable={!isMaxed && !isBooked}
+                        onDragStart={() => !isMaxed && !isBooked && handleDelegateDragStart(delegate.id)}
                         className={`bg-slate-800/50 rounded p-2 border border-slate-600 ${
-                          isMaxed ? 'opacity-50 cursor-not-allowed' : 'cursor-move hover:bg-slate-700/50 hover:border-accent/50'
+                          isMaxed || isBooked ? 'opacity-50 cursor-not-allowed' : 'cursor-move hover:bg-slate-700/50 hover:border-accent/50'
                         }`}
                       >
                         <div className="flex items-start justify-between gap-2">
@@ -402,7 +386,15 @@ export default function TimeSlotScheduler({ meetings, onUpdateSlot, onRemoveMeet
                             <div className="text-slate-300 text-xs truncate">{delegate.company}</div>
                           </div>
                           <div className="flex items-center gap-1.5 flex-shrink-0">
-                            {sponsorId && delegateScore && (
+                            {isBooked && (
+                              <Badge 
+                                variant="outline" 
+                                className="text-xs text-blue-400 border-blue-400"
+                              >
+                                Booked
+                              </Badge>
+                            )}
+                            {sponsorId && delegateScore && !isBooked && (
                               <Badge 
                                 variant="outline" 
                                 className={`text-xs ${getScoreColor(matchScore)} border-current`}
@@ -429,33 +421,7 @@ export default function TimeSlotScheduler({ meetings, onUpdateSlot, onRemoveMeet
       </div>
     </div>
     
-    {/* Match Details Modal */}
-    {selectedMeetingForDetails && sponsorData && (
-      <MatchDetailsModal
-        isOpen={!!selectedMeetingForDetails}
-        onClose={() => setSelectedMeetingForDetails(null)}
-        matchScore={selectedMeetingForDetails.matchScore}
-        matchReason={selectedMeetingForDetails.matchReason}
-        delegate={{
-          firstName: selectedMeetingForDetails.delegateName.split(' ')[0] || '',
-          lastName: selectedMeetingForDetails.delegateName.split(' ').slice(1).join(' ') || '',
-          company: selectedMeetingForDetails.company,
-          jobTitle: selectedMeetingForDetails.jobTitle,
-          challenges: attendees.find(a => a.id === selectedMeetingForDetails.attendeeId)?.assessmentTools || '',
-          interests: [
-            attendees.find(a => a.id === selectedMeetingForDetails.attendeeId)?.ats,
-            attendees.find(a => a.id === selectedMeetingForDetails.attendeeId)?.crm,
-            attendees.find(a => a.id === selectedMeetingForDetails.attendeeId)?.marketIntelligence
-          ].filter(Boolean).join(', ') || '',
-          painPoints: attendees.find(a => a.id === selectedMeetingForDetails.attendeeId)?.painPoints || '',
-          budget: attendees.find(a => a.id === selectedMeetingForDetails.attendeeId)?.budgetAuthority || '',
-          orgSize: attendees.find(a => a.id === selectedMeetingForDetails.attendeeId)?.companySize || '',
-          regionalRemit: attendees.find(a => a.id === selectedMeetingForDetails.attendeeId)?.regionalRemit || '',
-          industry: attendees.find(a => a.id === selectedMeetingForDetails.attendeeId)?.industry || '',
-        }}
-        sponsor={sponsorData}
-      />
-    )}
+
     </>
   );
 }

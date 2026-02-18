@@ -750,3 +750,45 @@
 - [x] Show match score and detailed AI reasoning at the top
 - [x] Add "View Details" button to meeting cards in admin meetings page
 - [x] Ensure modal is accessible and responsive
+
+
+## Admin Matchmaking Page - Critical Bug Fixes (COMPLETED)
+
+### Drag-and-Drop Functionality
+- [x] Fix drag-and-drop from full delegate list to schedule (currently broken)
+- [x] Fix drag-and-drop from schedule back to full delegate list (currently broken)
+- [x] Ensure delegates can be moved bidirectionally between lists
+- [x] Fix drag-and-drop bugs on 20-meeting packages with two attendees
+- [x] Test drag-and-drop thoroughly for both 12 and 20 meeting packages
+
+### Match Reasoning Display
+- [x] Remove match reasoning text from meeting cards (the italic paragraph)
+- [x] Add "View Match Reason" button to meeting cards in admin portal
+- [x] Show match reasoning only when button is clicked (alert dialog)
+- [x] Keep match reasoning concise (few sentences, not side-by-side comparison)
+- [x] Remove MatchDetailsModal component usage from TimeSlotScheduler
+
+### UI/UX Improvements
+- [x] Fix horizontal scrolling issue on admin meetings page
+- [x] Make page fully responsive without sideways scrolling
+- [x] Remove "Unassigned" section (redundant with full delegate list)
+- [x] Ensure all content fits within viewport width
+
+### Attendee Naming
+- [x] Replace "Attendee 1" with actual attendee name + company in brackets
+- [x] Replace "Attendee 2" with actual attendee name + company in brackets
+- [x] Update all references across admin portal
+- [x] Update all references on sponsor-facing pages
+- [x] Apply to meeting cards, schedule headers, and navigation
+
+### Priority Delegate Clarification
+- [x] Update priority delegate dropdown label/description
+- [x] Clarify that priority delegates are those who WANT to meet the sponsor
+- [x] Update any admin UI text referring to priority delegates
+- [x] Ensure admin understands this is delegate preference, not admin preference
+
+### Sponsor-Side Match Reasoning
+- [x] Add match reasoning to sponsor's delegate profile preview modal (already implemented)
+- [x] Show match reasoning when sponsor clicks "View Profile" on meeting card
+- [x] Include match reasoning in delegate profile PDF download for sponsors
+- [x] Ensure reasoning is clear and helpful for sponsors

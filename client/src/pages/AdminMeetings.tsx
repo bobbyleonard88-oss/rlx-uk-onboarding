@@ -189,7 +189,7 @@ export default function AdminMeetings() {
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       <AdminHeader />
       
-      <div className="container mx-auto p-6 space-y-6">
+      <div className="container mx-auto p-6 space-y-6 max-w-full overflow-x-hidden">
         {/* Sponsor Selection */}
         <Card className="glass-card">
           <CardHeader>
@@ -395,24 +395,30 @@ export default function AdminMeetings() {
             </CardHeader>
             <CardContent>
               {/* Attendee Tab Switcher for 20-meeting packages */}
-              {meetingCount === 20 && (
-                <div className="mb-6 flex gap-2 border-b border-slate-700">
-                  <Button
-                    variant={selectedAttendee === 1 ? "default" : "ghost"}
-                    onClick={() => setSelectedAttendee(1)}
-                    className={selectedAttendee === 1 ? "bg-primary" : "text-slate-300 hover:text-white"}
-                  >
-                    Attendee 1 ({editedMatches.filter(m => m.attendeeNumber === 1).length} meetings)
-                  </Button>
-                  <Button
-                    variant={selectedAttendee === 2 ? "default" : "ghost"}
-                    onClick={() => setSelectedAttendee(2)}
-                    className={selectedAttendee === 2 ? "bg-primary" : "text-slate-300 hover:text-white"}
-                  >
-                    Attendee 2 ({editedMatches.filter(m => m.attendeeNumber === 2).length} meetings)
-                  </Button>
-                </div>
-              )}
+              {meetingCount === 20 && (() => {
+                const intake = submissions?.find(s => s.sponsorId === selectedSponsorId)?.intakeData;
+                const attendee1Name = intake ? `${intake.firstName} ${intake.lastName}` : "Attendee 1";
+                const attendee2Name = intake?.secondRepName || "Attendee 2";
+                
+                return (
+                  <div className="mb-6 flex gap-2 border-b border-slate-700">
+                    <Button
+                      variant={selectedAttendee === 1 ? "default" : "ghost"}
+                      onClick={() => setSelectedAttendee(1)}
+                      className={selectedAttendee === 1 ? "bg-primary" : "text-slate-300 hover:text-white"}
+                    >
+                      {attendee1Name} ({editedMatches.filter(m => m.attendeeNumber === 1).length} meetings)
+                    </Button>
+                    <Button
+                      variant={selectedAttendee === 2 ? "default" : "ghost"}
+                      onClick={() => setSelectedAttendee(2)}
+                      className={selectedAttendee === 2 ? "bg-primary" : "text-slate-300 hover:text-white"}
+                    >
+                      {attendee2Name} ({editedMatches.filter(m => m.attendeeNumber === 2).length} meetings)
+                    </Button>
+                  </div>
+                );
+              })()}
               
               <TimeSlotScheduler
                 meetings={editedMatches
@@ -486,6 +492,18 @@ export default function AdminMeetings() {
                   painPointsSolved: submissions?.find(s => s.sponsorId === selectedSponsorId)?.intakeData?.keyChallenges || '',
                   targetOrgSize: submissions?.find(s => s.sponsorId === selectedSponsorId)?.intakeData?.targetOrgSize || '',
                   targetIndustries: submissions?.find(s => s.sponsorId === selectedSponsorId)?.intakeData?.targetIndustries || '',
+                } : null}
+                attendeeNames={selectedSponsorId ? {
+                  attendee1Name: (() => {
+                    const intake = submissions?.find(s => s.sponsorId === selectedSponsorId)?.intakeData;
+                    if (!intake) return undefined;
+                    return `${intake.firstName} ${intake.lastName} (${intake.companyName})`;
+                  })(),
+                  attendee2Name: (() => {
+                    const intake = submissions?.find(s => s.sponsorId === selectedSponsorId)?.intakeData;
+                    if (!intake?.secondRepName) return undefined;
+                    return `${intake.secondRepName} (${intake.companyName})`;
+                  })(),
                 } : null}
               />
             </CardContent>
