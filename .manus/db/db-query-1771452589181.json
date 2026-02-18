@@ -1,0 +1,73 @@
+{
+  "query": "SELECT id, name, email, role, createdAt FROM users ORDER BY createdAt DESC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT id, name, email, role, createdAt FROM users ORDER BY createdAt DESC;",
+  "rows": [
+    {
+      "id": "990024",
+      "name": "amardeep.dharwar",
+      "email": "amardeep.dharwar@stepstone.com",
+      "role": "user",
+      "createdAt": "2026-02-18 10:26:22"
+    },
+    {
+      "id": "990003",
+      "name": "stefan",
+      "email": "stefan@recruitmentevents.co",
+      "role": "user",
+      "createdAt": "2026-02-18 10:14:44"
+    },
+    {
+      "id": "960014",
+      "name": "kayleigh.nunn",
+      "email": "kayleigh.nunn@harver.com",
+      "role": "user",
+      "createdAt": "2026-02-18 09:52:17"
+    },
+    {
+      "id": "960009",
+      "name": "James M",
+      "email": "james@recruitmentevents.co",
+      "role": "user",
+      "createdAt": "2026-02-18 09:35:07"
+    },
+    {
+      "id": "480001",
+      "name": "Natalija Tosheva",
+      "email": "natalija@recruitmentevents.co",
+      "role": "user",
+      "createdAt": "2026-02-17 10:18:14"
+    },
+    {
+      "id": "450018",
+      "name": "clientsuccess",
+      "email": "clientsuccess@recruitmentevents.co",
+      "role": "admin",
+      "createdAt": "2026-02-17 09:47:54"
+    },
+    {
+      "id": "450001",
+      "name": "nino",
+      "email": "nino@recruitmentevents.co",
+      "role": "user",
+      "createdAt": "2026-02-17 09:36:23"
+    },
+    {
+      "id": "30019",
+      "name": "Bobby Leonard",
+      "email": "bobby@recruitmentevents.co",
+      "role": "admin",
+      "createdAt": "2026-02-13 21:58:17"
+    },
+    {
+      "id": "1",
+      "name": "Bobby Leonard",
+      "email": "bobbyleonard88@googlemail.com",
+      "role": "admin",
+      "createdAt": "2026-02-13 17:27:28"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\temail\trole\tcreatedAt\n990024\tamardeep.dharwar\tamardeep.dharwar@stepstone.com\tuser\t2026-02-18 10:26:22\n990003\tstefan\tstefan@recruitmentevents.co\tuser\t2026-02-18 10:14:44\n960014\tkayleigh.nunn\tkayleigh.nunn@harver.com\tuser\t2026-02-18 09:52:17\n960009\tJames M\tjames@recruitmentevents.co\tuser\t2026-02-18 09:35:07\n480001\tNatalija Tosheva\tnatalija@recruitmentevents.co\tuser\t2026-02-17 10:18:14\n450018\tclientsuccess\tclientsuccess@recruitmentevents.co\tadmin\t2026-02-17 09:47:54\n450001\tnino\tnino@recruitmentevents.co\tuser\t2026-02-17 09:36:23\n30019\tBobby Leonard\tbobby@recruitmentevents.co\tadmin\t2026-02-13 21:58:17\n1\tBobby Leonard\tbobbyleonard88@googlemail.com\tadmin\t2026-02-13 17:27:28\n",
+  "stderr": "",
+  "execution_time_ms": 373
+}

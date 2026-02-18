@@ -1,0 +1,17 @@
+{
+  "query": "SELECT id, companyName, contactName, contactEmail, userId FROM sponsors WHERE LOWER(companyName) LIKE '%test%' OR LOWER(contactName) LIKE '%test%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT id, companyName, contactName, contactEmail, userId FROM sponsors WHERE LOWER(companyName) LIKE '%test%' OR LOWER(contactName) LIKE '%test%';",
+  "rows": [
+    {
+      "id": "1",
+      "companyName": "Test",
+      "contactName": "Bob Leo",
+      "contactEmail": "bobby@recruitmentevents.co",
+      "userId": "1"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tcompanyName\tcontactName\tcontactEmail\tuserId\n1\tTest\tBob Leo\tbobby@recruitmentevents.co\t1\n",
+  "stderr": "",
+  "execution_time_ms": 366
+}
