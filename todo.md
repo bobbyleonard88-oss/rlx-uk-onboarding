@@ -792,3 +792,12 @@
 - [x] Show match reasoning when sponsor clicks "View Profile" on meeting card
 - [x] Include match reasoning in delegate profile PDF download for sponsors
 - [x] Ensure reasoning is clear and helpful for sponsors
+
+
+## Drag-and-Drop Improvements (COMPLETED)
+
+- [x] Enable delegate swapping when dragging from full list to occupied meeting slot
+- [x] Replace existing delegate with dragged delegate (swap functionality)
+- [x] Prevent double-booking - block dragging delegate into time slot where they already have a meeting with another sponsor
+- [x] Add visual feedback when drag is blocked due to double-booking conflict (alert dialog)
+- [x] Test swapping functionality with both 12 and 20 meeting packages

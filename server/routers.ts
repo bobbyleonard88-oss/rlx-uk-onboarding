@@ -403,6 +403,21 @@ export const appRouter = router({
       return await db.getAllMeetings();
     }),
     
+    // Check if delegate is available for a specific time slot
+    checkDelegateAvailability: adminProcedure
+      .input(z.object({
+        attendeeId: z.string(),
+        timeSlot: z.number(),
+      }))
+      .query(async ({ input }) => {
+        const delegateMeetings = await db.getDelegateMeetings(input.attendeeId);
+        const conflictingMeeting = delegateMeetings.find(m => m.timeSlot === input.timeSlot);
+        return {
+          isAvailable: !conflictingMeeting,
+          conflictingMeeting: conflictingMeeting || null,
+        };
+      }),
+    
     updateMeetingStatus: adminProcedure
       .input(z.object({
         id: z.number(),

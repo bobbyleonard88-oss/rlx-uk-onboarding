@@ -65,6 +65,7 @@ export default function TimeSlotScheduler({ meetings, onUpdateSlot, onRemoveMeet
   const [draggedDelegate, setDraggedDelegate] = useState<string | null>(null);
   const [showAllDelegates, setShowAllDelegates] = useState(false);
 
+  const utils = trpc.useUtils();
   
   // Fetch delegate match scores for the selected sponsor
   const { data: delegateScores } = trpc.admin.calculateDelegateScores.useQuery(
@@ -86,9 +87,27 @@ export default function TimeSlotScheduler({ meetings, onUpdateSlot, onRemoveMeet
     e.preventDefault();
   };
 
-  const handleDrop = (slot: number, targetMeetingId?: number) => {
-    // Handle delegate drop (create new meeting)
+  const handleDrop = async (slot: number, targetMeetingId?: number) => {
+    // Handle delegate drop (create new meeting or swap with existing)
     if (draggedDelegate && onAddDelegate) {
+      // Check if delegate is already booked in this time slot with another sponsor
+      const availabilityCheck = await utils.admin.checkDelegateAvailability.fetch({
+        attendeeId: draggedDelegate,
+        timeSlot: slot,
+      });
+
+      if (!availabilityCheck.isAvailable) {
+        alert(`This delegate is already booked in this time slot with another sponsor.`);
+        setDraggedDelegate(null);
+        return;
+      }
+
+      // If dropping on an existing meeting, remove the old meeting first
+      if (targetMeetingId) {
+        onRemoveMeeting(targetMeetingId);
+      }
+
+      // Add the new delegate
       onAddDelegate(draggedDelegate, slot);
       setDraggedDelegate(null);
       return;
