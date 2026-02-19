@@ -233,7 +233,7 @@ export default function AdminMeetings() {
                           return {
                             attendeeId: meeting.attendeeId,
                             matchScore: meeting.matchScore || 0,
-                            matchReason: meeting.notes || '',
+                            matchReason: meeting.matchReason || '',
                             isPriority: meeting.isPriority === 1,
                             isTopRanked: meeting.isTopRanked === 1,
                             isTop20: meeting.isTopRanked === 1, // Assuming isTopRanked maps to isTop20

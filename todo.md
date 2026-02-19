@@ -966,3 +966,25 @@
 - [x] Fix generate meetings affecting all sponsors instead of just selected sponsor
 - [x] Fix meeting cancellation not finding replacement delegates (shows "0 replacements")
 - [x] Ensure sponsor-specific meeting operations are properly isolated
+
+## Match Reasons and Notes Bugs
+
+- [x] Fix match reasons disappearing when switching sponsors (should persist from database)
+- [x] Verify notes are meeting-specific and not tied to delegates or sponsors
+- [x] Ensure match reasons don't cross over between sponsors
+
+## AI Matching Field Selection
+
+- [x] Update AI matching to ONLY use these delegate fields:
+  - Total Org Employees (Yes)
+  - Active Confirmed Projects (Yes)
+  - Primary Meeting Objective (Yes)
+  - Key Solution Areas of Interest (Yes)
+  - Current Pain Points (Yes)
+- [x] Exclude these fields from AI matching:
+  - First Name, Last Name, Job Title, Company Name
+  - Industry, Hires per Year, RL Events Registration
+  - Event Status, Decision Making Level
+  - Active Project Budget Range, Contract sign-off
+  - Tools (Assessments, ATS, CRM, Talent Intelligence, Other)
+  - Current Project Stage

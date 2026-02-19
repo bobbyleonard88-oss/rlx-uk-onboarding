@@ -62,25 +62,21 @@ Target Industries: ${vendorProfile.targetIndustries}
 
 DELEGATES TO MATCH:
 ${batch.map((d, idx) => {
-  // Parse profileData to get all free-text fields
+  // Parse profileData to get ONLY the approved matching fields
   const profile = d.profileData ? JSON.parse(d.profileData) : {};
   return `
 ${idx + 1}. ID: ${d.attendeeId}
-   Name: ${d.firstName} ${d.lastName}
-   Company: ${d.company}
-   Title: ${d.jobTitle}
-   Industry: ${d.industry}
-   Pain Points: ${profile.painPoints || d.challenges || 'N/A'}
-   Solution Areas: ${profile.solutionAreas || d.interests || 'N/A'}
-   Active Projects: ${profile.activeProjects || 'N/A'}
-   Meeting Objective: ${profile.meetingObjective || 'N/A'}
-   Project Stage: ${profile.projectStage || 'N/A'}
+   Total Org Employees: ${profile.totalOrgEmployees || 'N/A'}
+   Active Confirmed Projects: ${profile.activeProjects || 'N/A'}
+   Primary Meeting Objective: ${profile.meetingObjective || 'N/A'}
+   Key Solution Areas of Interest: ${profile.solutionAreas || d.interests || 'N/A'}
+   Current Pain Points: ${profile.painPoints || d.challenges || 'N/A'}
 `}).join('\n')}
 
 For each delegate, provide:
 1. Match score (0-100) using this calibrated scale:
-   - 90-100: Exceptional match - Vendor solutions directly solve delegate's top pain points, strong industry/size alignment, active project match
-   - 75-89: Strong match - Good solution-need alignment, some shared context (industry, size, or project stage)
+   - 90-100: Exceptional match - Vendor solutions directly solve delegate's pain points, active project alignment, strong company size fit
+   - 75-89: Strong match - Good solution-need alignment based on pain points and solution areas of interest
    - 60-74: Moderate match - Partial alignment on solutions or pain points, potential value exists
    - 40-59: Weak match - Limited alignment, vendor could help but not ideal fit
    - 0-39: Poor match - Little to no alignment between vendor solutions and delegate needs
@@ -88,14 +84,17 @@ For each delegate, provide:
    IMPORTANT: Most good matches should score 70-90. Be generous with scores when there's clear value - don't artificially deflate scores.
    
 2. Detailed reasoning (2-3 sentences minimum) explaining the match with this exact structure:
-   - Start with PRIMARY ALIGNMENT: Explain the main connection between vendor solutions and delegate needs
-   - Add SECONDARY FACTORS: Mention industry match, company size, project stage, or other relevant alignments
+   - Start with PRIMARY ALIGNMENT: Explain the main connection between vendor solutions and delegate's pain points/solution areas
+   - Add SECONDARY FACTORS: Mention company size fit, active projects, or meeting objective alignment
    - End with POTENTIAL VALUE: Describe what the delegate would gain from this meeting
 
 Example reasoning format:
-"Primary alignment: Vendor's recruitment automation platform directly addresses delegate's pain point around manual screening processes. Secondary factors: Both operate in Tech industry with 5k-10k employees, delegate is actively evaluating ATS solutions. Potential value: Could reduce time-to-hire by 40% and improve candidate quality through AI-powered matching."
+"Primary alignment: Vendor's recruitment automation platform directly addresses delegate's pain point around manual screening processes. Secondary factors: Delegate's company size (5k-10k employees) fits vendor's target market, and they have active projects evaluating ATS solutions. Potential value: Could reduce time-to-hire by 40% and improve candidate quality through AI-powered matching."
 
-IMPORTANT: Every reasoning MUST be at least 2 full sentences and cite specific details from both profiles.
+IMPORTANT: 
+- Every reasoning MUST be at least 2 full sentences and cite specific details from ONLY the 5 approved fields
+- DO NOT mention delegate name, job title, company name, or industry in your reasoning
+- Focus exclusively on: Total Org Employees, Active Projects, Meeting Objective, Solution Areas, and Pain Points
 
 Respond in JSON format:
 {
