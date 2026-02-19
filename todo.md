@@ -954,3 +954,8 @@
 ## Bug Fixes
 
 - [x] Fix sponsor.getProfile query returning undefined for admin users (should return null)
+
+## Admin Dashboard Sponsor Display Issue
+
+- [x] Investigate why sponsors appearing in dropdown are not showing on dashboard homepage
+- [x] Fix sponsor display logic to show all sponsors consistently

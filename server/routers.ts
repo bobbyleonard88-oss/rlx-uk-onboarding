@@ -234,7 +234,7 @@ export const appRouter = router({
             id: intake.id,
             sponsorId: intake.sponsorId,
             submittedAt: intake.submittedAt,
-            isArchived: false,
+            isArchived: 0,
             companyName: intake.companyName || sponsor?.companyName || "Unknown",
             contactName: intake.firstName + " " + intake.lastName,
             contactEmail: intake.email,
