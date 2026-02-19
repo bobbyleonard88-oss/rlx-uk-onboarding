@@ -784,15 +784,42 @@ export const appRouter = router({
           if (!intakeSubmission) continue;
           
           // Get all matches for this sponsor
-          const { generateMatchesForSponsor } = await import('./matchingEngine');
           let allMatches;
+          
+          // Try AI matching first
           try {
+            const { generateMatchesForSponsor } = await import('./matchingEngine');
             allMatches = await generateMatchesForSponsor(sponsor.id);
           } catch (error) {
-            // Skip if vendor profile not found (sponsor hasn't completed intake)
-            console.warn(`Skipping sponsor ${sponsor.id}: ${error}`);
-            await db.deleteMeeting(meeting.id);
-            continue;
+            // Fallback to rankings-based matching if AI matching fails
+            console.warn(`AI matching failed for sponsor ${sponsor.id}, falling back to rankings: ${error}`);
+            
+            const rankingsSubmissions = await db.getRankingsSubmissionsBySponsor(sponsor.id);
+            const rankingsSubmission = rankingsSubmissions[0]; // Get the first (most recent) submission
+            if (!rankingsSubmission || !rankingsSubmission.rankingsData) {
+              console.warn(`No rankings data found for sponsor ${sponsor.id}, deleting meeting`);
+              await db.deleteMeeting(meeting.id);
+              continue;
+            }
+            
+            // Use rankings data to create simple matches
+            const rankings = JSON.parse(rankingsSubmission.rankingsData);
+            const { attendees } = await import('./attendees');
+            
+            allMatches = rankings.map((attendeeId: string, index: number) => {
+              const delegate = attendees.find(a => a.id === attendeeId);
+              return {
+                attendeeId,
+                matchScore: Math.max(100 - (index * 5), 50), // Decreasing score based on rank
+                reasoning: `Ranked #${index + 1} by sponsor`,
+                delegateInfo: delegate ? {
+                  firstName: delegate.firstName,
+                  lastName: delegate.lastName,
+                  company: delegate.company,
+                  jobTitle: delegate.jobTitle,
+                } : null,
+              };
+            });
           }
           
           // Filter out: cancelled delegate, delegates already at capacity (8 meetings), delegates already meeting this sponsor

@@ -212,6 +212,10 @@ export default function AdminMeetings() {
                     const sponsorId = parseInt(value);
                     setSelectedSponsorId(sponsorId);
                     
+                    // CRITICAL: Clear state immediately to prevent cross-sponsor contamination
+                    setGeneratedMatches([]);
+                    setEditedMatches([]);
+                    
                     // Auto-set meeting count from intake form
                     const submission = submissions?.find(s => s.sponsorId === sponsorId);
                     if (submission?.intakeData?.meetingPackage) {

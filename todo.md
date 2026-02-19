@@ -959,3 +959,10 @@
 
 - [x] Investigate why sponsors appearing in dropdown are not showing on dashboard homepage
 - [x] Fix sponsor display logic to show all sponsors consistently
+
+## Critical Matchmaking Bugs
+
+- [x] Fix draft meetings saving for all sponsors instead of just selected sponsor
+- [x] Fix generate meetings affecting all sponsors instead of just selected sponsor
+- [x] Fix meeting cancellation not finding replacement delegates (shows "0 replacements")
+- [x] Ensure sponsor-specific meeting operations are properly isolated
