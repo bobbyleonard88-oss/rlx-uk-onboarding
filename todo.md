@@ -945,3 +945,8 @@
 
 - [x] Add admin navigation header to Analytics page
 - [x] Ensure consistent navigation across all admin pages
+
+## Intake Form Updates
+
+- [x] Add "HR Technology Consultancy" to technology type options
+- [x] Change "Technology Type" label to "Tech/Service Type"

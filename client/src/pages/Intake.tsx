@@ -37,6 +37,7 @@ const TECHNOLOGY_TYPES = [
   "Employee Referral",
   "Employer Branding",
   "Global Mobility Solutions",
+  "HR Technology Consultancy",
   "Interviewing Platform",
   "Onboarding Technology",
   "Recruitment Process Outsourcing (RPO)",
@@ -181,7 +182,7 @@ export default function Intake() {
                 </div>
 
                 <div>
-                  <Label htmlFor="technologyType">Technology Type *</Label>
+                  <Label htmlFor="technologyType">Tech/Service Type *</Label>
                   <Select
                     value={formData.technologyType}
                     onValueChange={(value) => handleChange("technologyType", value)}
