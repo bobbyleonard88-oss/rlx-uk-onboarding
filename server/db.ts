@@ -92,18 +92,18 @@ export async function getUserByOpenId(openId: string) {
 // Sponsor helpers
 export async function getSponsorByUserId(userId: number) {
   const db = await getDb();
-  if (!db) return undefined;
+  if (!db) return null;
   
   const result = await db.select().from(sponsors).where(eq(sponsors.userId, userId)).limit(1);
-  return result.length > 0 ? result[0] : undefined;
+  return result.length > 0 ? result[0] : null;
 }
 
 export async function getSponsorById(sponsorId: number) {
   const db = await getDb();
-  if (!db) return undefined;
+  if (!db) return null;
   
   const result = await db.select().from(sponsors).where(eq(sponsors.id, sponsorId)).limit(1);
-  return result.length > 0 ? result[0] : undefined;
+  return result.length > 0 ? result[0] : null;
 }
 
 export async function getAllSponsors() {

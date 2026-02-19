@@ -950,3 +950,7 @@
 
 - [x] Add "HR Technology Consultancy" to technology type options
 - [x] Change "Technology Type" label to "Tech/Service Type"
+
+## Bug Fixes
+
+- [x] Fix sponsor.getProfile query returning undefined for admin users (should return null)
