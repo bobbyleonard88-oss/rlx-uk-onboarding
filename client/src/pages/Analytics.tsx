@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { trpc } from "@/lib/trpc";
 import { BarChart3, Users, Calendar, TrendingUp, Award } from "lucide-react";
+import AdminHeader from "@/components/AdminHeader";
 
 export default function Analytics() {
   const { data: analytics, isLoading } = trpc.admin.getAnalytics.useQuery();
@@ -29,8 +30,10 @@ export default function Analytics() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900/20 to-slate-900 p-6">
-      <div className="container mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900/20 to-slate-900">
+      <AdminHeader />
+      <div className="p-6">
+        <div className="container mx-auto">
         <h1 className="text-3xl font-bold text-white mb-6">Meeting Analytics</h1>
 
         {/* Summary Cards */}
@@ -281,6 +284,7 @@ export default function Analytics() {
               </div>
             </CardContent>
           </Card>
+        </div>
         </div>
       </div>
     </div>

@@ -920,3 +920,28 @@
 - [ ] Calculate demand score by counting how many sponsors ranked each delegate highly
 - [ ] Display master leaderboard showing delegates sorted by demand score
 - [ ] Test analytics dashboard with real data to verify all metrics display correctly
+
+## Duplicate Submission Prevention
+
+- [x] Add duplicate submission check for intake form
+- [x] Add duplicate submission check for rankings
+- [x] Show native warning dialog if sponsor has already submitted
+- [x] Allow sponsor to confirm overwrite or cancel to keep original submission
+
+## Archived Sponsor Filtering (CRITICAL BUG)
+
+- [x] Fix getAllSponsors() to exclude archived sponsors
+- [x] Fix getAllMeetings() to exclude meetings from archived sponsors
+- [x] Verify archived sponsors don't count in analytics
+- [x] Verify archived meetings don't count toward delegate capacity
+- [x] Test that archived sponsors are fully excluded from all systems
+
+## Archive View Navigation
+
+- [x] "Show Active" button already exists on archived view (toggles back to active sponsors)
+- [x] Navigation back to normal dashboard works via existing toggle button
+
+## Analytics Page Navigation
+
+- [x] Add admin navigation header to Analytics page
+- [x] Ensure consistent navigation across all admin pages

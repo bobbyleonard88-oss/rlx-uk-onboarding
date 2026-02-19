@@ -110,7 +110,16 @@ export async function getAllSponsors() {
   const db = await getDb();
   if (!db) return [];
   
-  return await db.select().from(sponsors);
+  // Get all sponsors that don't have archived rankings
+  const allSponsors = await db.select().from(sponsors);
+  const archivedRankings = await db
+    .select({ sponsorId: rankingsSubmissions.sponsorId })
+    .from(rankingsSubmissions)
+    .where(eq(rankingsSubmissions.isArchived, 1));
+  
+  const archivedSponsorIds = new Set(archivedRankings.map(r => r.sponsorId));
+  
+  return allSponsors.filter(s => !archivedSponsorIds.has(s.id));
 }
 
 export async function upsertSponsor(sponsor: InsertSponsor) {
@@ -305,10 +314,22 @@ export async function getAllMeetings() {
   const db = await getDb();
   if (!db) return [];
   
-  return await db
+  // Get all meetings, then filter out those from archived sponsors
+  const allMeetings = await db
     .select()
     .from(meetings)
     .orderBy(desc(meetings.createdAt));
+  
+  // Get archived sponsor IDs
+  const archivedRankings = await db
+    .select({ sponsorId: rankingsSubmissions.sponsorId })
+    .from(rankingsSubmissions)
+    .where(eq(rankingsSubmissions.isArchived, 1));
+  
+  const archivedSponsorIds = new Set(archivedRankings.map(r => r.sponsorId));
+  
+  // Filter out meetings from archived sponsors
+  return allMeetings.filter(m => !archivedSponsorIds.has(m.sponsorId));
 }
 
 export async function updateMeetingStatus(id: number, status: "suggested" | "confirmed" | "declined") {

@@ -110,6 +110,16 @@ export default function Intake() {
       return;
     }
 
+    // Check for duplicate submission
+    if (existingIntake) {
+      const confirmed = window.confirm(
+        "You have already submitted an intake form. Submitting again will overwrite your previous submission. Do you want to continue?"
+      );
+      if (!confirmed) {
+        return;
+      }
+    }
+
     // TODO: Upload logo to S3 if provided
     let logoUrl = "";
     if (logoFile) {

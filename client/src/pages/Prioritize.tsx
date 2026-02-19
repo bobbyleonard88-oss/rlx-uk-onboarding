@@ -256,6 +256,16 @@ export default function Prioritize() {
       return;
     }
 
+    // Check for duplicate submission
+    if (existingRankings) {
+      const confirmed = window.confirm(
+        "You have already submitted your delegate rankings. Submitting again will overwrite your previous submission. Do you want to continue?"
+      );
+      if (!confirmed) {
+        return;
+      }
+    }
+
     // Submit to backend
     setIsSubmitting(true);
     try {
