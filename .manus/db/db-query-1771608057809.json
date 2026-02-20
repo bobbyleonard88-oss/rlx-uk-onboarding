@@ -1,0 +1,18 @@
+{
+  "query": "SELECT sponsorId, 'intake' as source FROM intakeSubmissions WHERE sponsorId IN (SELECT id FROM sponsors WHERE contactEmail = 'bobby@recruitmentevents.co')\nUNION ALL  \nSELECT sponsorId, 'rankings' as source FROM rankingsSubmissions WHERE sponsorId IN (SELECT id FROM sponsors WHERE contactEmail = 'bobby@recruitmentevents.co');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT sponsorId, 'intake' as source FROM intakeSubmissions WHERE sponsorId IN (SELECT id FROM sponsors WHERE contactEmail = 'bobby@recruitmentevents.co')\nUNION ALL  \nSELECT sponsorId, 'rankings' as source FROM rankingsSubmissions WHERE sponsorId IN (SELECT id FROM sponsors WHERE contactEmail = 'bobby@recruitmentevents.co');",
+  "rows": [
+    {
+      "sponsorId": "30001",
+      "source": "intake"
+    },
+    {
+      "sponsorId": "30001",
+      "source": "rankings"
+    }
+  ],
+  "messages": [],
+  "stdout": "sponsorId\tsource\n30001\tintake\n30001\trankings\n",
+  "stderr": "",
+  "execution_time_ms": 360
+}

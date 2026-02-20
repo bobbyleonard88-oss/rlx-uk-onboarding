@@ -54,21 +54,16 @@ For each delegate:
    - 40-59: Weak alignment - limited overlap
    - 0-39: Poor alignment - minimal relevance
 
-2. Generate 1-2 sentence reasoning that MUST:
-   - Quote or reference a SPECIFIC phrase from the delegate's challenges/interests
-   - Explain HOW the sponsor's specific product/service addresses that exact need
-   - Be self-explanatory without needing to see the full profiles
-   - Avoid generic terms like AI platform, optimization, or alignment
+2. Generate 1-2 sentence reasoning that:
+   - Cites SPECIFIC examples from the delegate's challenges/interests
+   - Explains HOW the sponsor's solutions address those specific needs
+   - Uses concrete language, not generic phrases
    
-   REQUIRED FORMAT:
-   Delegate's challenge 'exact quote' -> Sponsor's specific solution addresses this by explaining how
+   Example good reasoning:
+   "Delegate mentioned high volume screening of AI candidates → Sponsor's AI recruitment platform directly addresses this need"
    
-   Example GOOD reasoning:
-   Delegate uses 'over 40 ATSs' and seeks 'ATS integration' -> Sponsor's multi-ATS connector platform unifies disparate systems
-   
-   Example BAD reasoning:
-   Sponsor's AI platform can help with delegate's ATS optimization needs
-   Strong match: High alignment between solutions and needs
+   Example bad reasoning:
+   "Strong match: High alignment between sponsor's solutions and delegate's needs"
 
 IMPORTANT: Be generous with scoring. If there's ANY reasonable alignment, score at least 60.
 

@@ -1,0 +1,60 @@
+{
+  "query": "SELECT id, companyName, contactEmail FROM sponsors ORDER BY id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT id, companyName, contactEmail FROM sponsors ORDER BY id;",
+  "rows": [
+    {
+      "id": "30001",
+      "companyName": "AI Limited",
+      "contactEmail": "bobby@recruitmentevents.co"
+    },
+    {
+      "id": "60001",
+      "companyName": "Elevate Assess",
+      "contactEmail": "nino@recruitmentevents.co"
+    },
+    {
+      "id": "90001",
+      "companyName": "NexaTalent Solutions Ltd",
+      "contactEmail": "natalija@recruitmentevents.co"
+    },
+    {
+      "id": "120001",
+      "companyName": "Little Moment",
+      "contactEmail": "stefan@recruitmentevents.co"
+    },
+    {
+      "id": "150001",
+      "companyName": "Stepstone Group UK Ltd",
+      "contactEmail": "luke.mckend@stepstone.com"
+    },
+    {
+      "id": "180001",
+      "companyName": "Maki People",
+      "contactEmail": "marc.dewind@makipeople.com"
+    },
+    {
+      "id": "210001",
+      "companyName": "Harver",
+      "contactEmail": "elliot.thompson@harver.com"
+    },
+    {
+      "id": "240001",
+      "companyName": "Sapia.ai",
+      "contactEmail": "barb@sapia.ai"
+    },
+    {
+      "id": "270001",
+      "companyName": "Visibility Test Company",
+      "contactEmail": "visibility-test@example.com"
+    },
+    {
+      "id": "270002",
+      "companyName": "Appcast",
+      "contactEmail": "roy.jacques@appcast.io"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tcompanyName\tcontactEmail\n30001\tAI Limited\tbobby@recruitmentevents.co\n60001\tElevate Assess\tnino@recruitmentevents.co\n90001\tNexaTalent Solutions Ltd\tnatalija@recruitmentevents.co\n120001\tLittle Moment\tstefan@recruitmentevents.co\n150001\tStepstone Group UK Ltd\tluke.mckend@stepstone.com\n180001\tMaki People\tmarc.dewind@makipeople.com\n210001\tHarver\telliot.thompson@harver.com\n240001\tSapia.ai\tbarb@sapia.ai\n270001\tVisibility Test Company\tvisibility-test@example.com\n270002\tAppcast\troy.jacques@appcast.io\n",
+  "stderr": "",
+  "execution_time_ms": 357
+}

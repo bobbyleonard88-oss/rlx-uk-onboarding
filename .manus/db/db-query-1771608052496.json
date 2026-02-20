@@ -1,0 +1,26 @@
+{
+  "query": "SELECT \n  i.id as intake_id, i.sponsorId, i.submittedAt,\n  s.companyName, s.contactEmail, s.contactName\nFROM intakeSubmissions i\nJOIN sponsors s ON i.sponsorId = s.id\nWHERE s.contactEmail = 'bobby@recruitmentevents.co'\nUNION ALL\nSELECT \n  r.id as rankings_id, r.sponsorId, r.submittedAt,\n  s.companyName, s.contactEmail, s.contactName\nFROM rankingsSubmissions r\nJOIN sponsors s ON r.sponsorId = s.id\nWHERE s.contactEmail = 'bobby@recruitmentevents.co';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT \n  i.id as intake_id, i.sponsorId, i.submittedAt,\n  s.companyName, s.contactEmail, s.contactName\nFROM intakeSubmissions i\nJOIN sponsors s ON i.sponsorId = s.id\nWHERE s.contactEmail = 'bobby@recruitmentevents.co'\nUNION ALL\nSELECT \n  r.id as rankings_id, r.sponsorId, r.submittedAt,\n  s.companyName, s.contactEmail, s.contactName\nFROM rankingsSubmissions r\nJOIN sponsors s ON r.sponsorId = s.id\nWHERE s.contactEmail = 'bobby@recruitmentevents.co';",
+  "rows": [
+    {
+      "intake_id": "60002",
+      "sponsorId": "30001",
+      "submittedAt": "2026-02-16 13:00:47",
+      "companyName": "AI Limited",
+      "contactEmail": "bobby@recruitmentevents.co",
+      "contactName": "Rob Lemon"
+    },
+    {
+      "intake_id": "30001",
+      "sponsorId": "30001",
+      "submittedAt": "2026-02-16 13:00:23",
+      "companyName": "AI Limited",
+      "contactEmail": "bobby@recruitmentevents.co",
+      "contactName": "Rob Lemon"
+    }
+  ],
+  "messages": [],
+  "stdout": "intake_id\tsponsorId\tsubmittedAt\tcompanyName\tcontactEmail\tcontactName\n60002\t30001\t2026-02-16 13:00:47\tAI Limited\tbobby@recruitmentevents.co\tRob Lemon\n30001\t30001\t2026-02-16 13:00:23\tAI Limited\tbobby@recruitmentevents.co\tRob Lemon\n",
+  "stderr": "",
+  "execution_time_ms": 347
+}

@@ -1,0 +1,16 @@
+{
+  "query": "SELECT id, companyName, contactEmail, contactName FROM sponsors WHERE companyName LIKE '%Test%' OR contactEmail LIKE '%test%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT id, companyName, contactEmail, contactName FROM sponsors WHERE companyName LIKE '%Test%' OR contactEmail LIKE '%test%';",
+  "rows": [
+    {
+      "id": "270001",
+      "companyName": "Visibility Test Company",
+      "contactEmail": "visibility-test@example.com",
+      "contactName": "Test User"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tcompanyName\tcontactEmail\tcontactName\n270001\tVisibility Test Company\tvisibility-test@example.com\tTest User\n",
+  "stderr": "",
+  "execution_time_ms": 362
+}

@@ -1066,3 +1066,27 @@
 - [x] Test that toggling off hides meetings from sponsor dashboard and meetings page
 - [x] Test that toggling back on shows meetings again
 - [x] Write comprehensive test suite for visibility toggle functionality
+
+
+## Remove Test Sponsor from Admin Portal
+
+- [ ] Identify "Test" sponsor in database (bobby@recruitmentevents.co)
+- [ ] Delete or archive Test sponsor to remove from dropdowns
+- [ ] Verify Test sponsor no longer appears in admin matchmaking dropdown
+- [ ] Verify Test sponsor no longer appears in admin meetings dropdown
+
+
+## Improve Matching Reason Specificity (COMPLETED)
+
+- [x] Analyze current matching algorithm and identify vague/generic match reasons
+- [x] Review sponsor intake form data structure (product/service descriptions)
+- [x] Review delegate profile data structure (challenges, tech stack, needs)
+- [x] Enhance matching prompt to require specific references to:
+  - Sponsor's actual product/service name and value proposition
+  - Delegate's specific challenge or pain point
+  - Clear logical connection between the two
+- [x] Test improved matching with AI Limited + Adam Binks example
+- [x] Verify match reasons are self-explanatory without needing context
+- [x] Ensure match reasons avoid generic terms like "AI platform" or "optimization"
+- [x] Test consistency across multiple matches (verified with Mark Brooker)
+- [x] Enhanced prompt now generates specific, evidence-based match reasons
