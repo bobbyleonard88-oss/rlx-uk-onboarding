@@ -1,0 +1,1 @@
+ALTER TABLE `meetings` ADD `isVisible` int DEFAULT 1 NOT NULL;

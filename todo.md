@@ -1052,3 +1052,17 @@
 - [x] Add "My Meetings" card to SponsorDashboard showing meeting count
 - [x] Calculate Day/Slot from timeSlot value (1-3 = Day 1, 4-6 = Day 2)
 - [x] Write tests for sponsor meetings view functionality
+
+
+## Meeting Visibility Toggle Feature (COMPLETED)
+
+- [x] Verify draft/publish workflow: Save Draft = suggested status (admin only), Publish = confirmed status (visible to sponsor)
+- [x] Verify republish overwrites existing meetings correctly
+- [x] Add visibility toggle field to meetings table (isVisible boolean, default true)
+- [x] Add admin toggle checkbox on meetings page to show/hide meetings from sponsor view
+- [x] Update sponsor.getMyMeetings to filter by isVisible = true
+- [x] Ensure meetings only appear to sponsors after first publish (status = confirmed AND isVisible = true)
+- [x] Test toggle on/off functionality - sponsor view updates immediately
+- [x] Test that toggling off hides meetings from sponsor dashboard and meetings page
+- [x] Test that toggling back on shows meetings again
+- [x] Write comprehensive test suite for visibility toggle functionality

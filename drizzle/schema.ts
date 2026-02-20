@@ -143,6 +143,7 @@ export const meetings = mysqlTable("meetings", {
   timeSlot: int("timeSlot"), // 1-6 (3 slots per day × 2 days)
   attendeeNumber: int("attendeeNumber").default(1), // 1 or 2 (for 20-meeting packages split between 2 attendees)
   status: mysqlEnum("status", ["suggested", "confirmed", "declined"]).default("suggested").notNull(),
+  isVisible: int("isVisible").default(1).notNull(), // 1 = visible to sponsor, 0 = hidden (admin toggle)
   notes: text("notes"),
   adminNotes: text("adminNotes"), // Admin-only notes not visible to sponsors
   createdAt: timestamp("createdAt").defaultNow().notNull(),

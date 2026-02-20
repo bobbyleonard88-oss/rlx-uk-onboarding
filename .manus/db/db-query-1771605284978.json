@@ -1,0 +1,45 @@
+{
+  "query": "SELECT id, sponsorId, attendeeId, status, isVisible FROM meetings WHERE sponsorId = (SELECT id FROM sponsors WHERE contactEmail = 'luke.mckend@stepstone.com') LIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT id, sponsorId, attendeeId, status, isVisible FROM meetings WHERE sponsorId = (SELECT id FROM sponsors WHERE contactEmail = 'luke.mckend@stepstone.com') LIMIT 5;",
+  "rows": [
+    {
+      "id": "210013",
+      "sponsorId": "150001",
+      "attendeeId": "76678269091",
+      "status": "confirmed",
+      "isVisible": "0"
+    },
+    {
+      "id": "210014",
+      "sponsorId": "150001",
+      "attendeeId": "200923910443",
+      "status": "confirmed",
+      "isVisible": "0"
+    },
+    {
+      "id": "210015",
+      "sponsorId": "150001",
+      "attendeeId": "185464523694",
+      "status": "confirmed",
+      "isVisible": "0"
+    },
+    {
+      "id": "210016",
+      "sponsorId": "150001",
+      "attendeeId": "91889321035",
+      "status": "confirmed",
+      "isVisible": "0"
+    },
+    {
+      "id": "210017",
+      "sponsorId": "150001",
+      "attendeeId": "116903349643",
+      "status": "confirmed",
+      "isVisible": "0"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tsponsorId\tattendeeId\tstatus\tisVisible\n210013\t150001\t76678269091\tconfirmed\t0\n210014\t150001\t200923910443\tconfirmed\t0\n210015\t150001\t185464523694\tconfirmed\t0\n210016\t150001\t91889321035\tconfirmed\t0\n210017\t150001\t116903349643\tconfirmed\t0\n",
+  "stderr": "",
+  "execution_time_ms": 408
+}

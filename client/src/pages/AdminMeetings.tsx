@@ -127,6 +127,16 @@ export default function AdminMeetings() {
     },
   });
   
+  const toggleVisibility = trpc.admin.toggleMeetingsVisibility.useMutation({
+    onSuccess: (data: any) => {
+      toast.success(data.isVisible ? "Meetings are now visible to sponsor" : "Meetings hidden from sponsor view");
+      refetchSavedMeetings();
+    },
+    onError: (error: any) => {
+      toast.error(error.message || "Failed to toggle visibility");
+    },
+  });
+  
   const { data: savedMeetings, refetch: refetchSavedMeetings } = trpc.admin.getMeetingsBySponsor.useQuery(
     { sponsorId: selectedSponsorId! },
     { enabled: !!selectedSponsorId }
@@ -202,6 +212,16 @@ export default function AdminMeetings() {
     
     publishMeetings.mutate({
       sponsorId: selectedSponsorId,
+    });
+  };
+  
+  const handleToggleVisibility = () => {
+    if (!selectedSponsorId) return;
+    
+    const currentVisibility = savedMeetings?.[0]?.isVisible === 1;
+    toggleVisibility.mutate({
+      sponsorId: selectedSponsorId,
+      isVisible: !currentVisibility,
     });
   };
   
@@ -427,6 +447,22 @@ export default function AdminMeetings() {
                   </Button>
                 </div>
               </div>
+              
+              {/* Visibility Toggle - Only show if meetings are published (confirmed status) */}
+              {savedMeetings && savedMeetings.length > 0 && savedMeetings.some(m => m.status === 'confirmed') && (
+                <div className="flex items-center gap-3 p-3 bg-slate-800/50 rounded-lg border border-slate-700 mt-4">
+                  <input
+                    type="checkbox"
+                    id="visibility-toggle"
+                    checked={savedMeetings[0]?.isVisible === 1}
+                    onChange={handleToggleVisibility}
+                    className="w-5 h-5 rounded border-slate-600 text-primary focus:ring-primary focus:ring-offset-slate-900"
+                  />
+                  <label htmlFor="visibility-toggle" className="text-slate-200 text-sm font-medium cursor-pointer">
+                    Show meetings to sponsor (toggle off to temporarily hide from sponsor view)
+                  </label>
+                </div>
+              )}
             </CardHeader>
             <CardContent>
               {/* Attendee Tab Switcher for 20-meeting packages */}

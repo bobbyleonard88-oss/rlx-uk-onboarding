@@ -342,6 +342,18 @@ export async function updateMeetingStatus(id: number, status: "suggested" | "con
     .where(eq(meetings.id, id));
 }
 
+export async function toggleMeetingsVisibility(sponsorId: number, isVisible: boolean) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db
+    .update(meetings)
+    .set({ isVisible: isVisible ? 1 : 0, updatedAt: new Date() })
+    .where(eq(meetings.sponsorId, sponsorId));
+  
+  return { isVisible };
+}
+
 export async function deleteMeeting(id: number) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
@@ -365,6 +377,7 @@ export async function getMeetingsBySponsor(sponsorId: number) {
       timeSlot: meetings.timeSlot,
       attendeeNumber: meetings.attendeeNumber,
       status: meetings.status,
+      isVisible: meetings.isVisible,
       notes: meetings.notes,
       adminNotes: meetings.adminNotes,
       createdAt: meetings.createdAt,

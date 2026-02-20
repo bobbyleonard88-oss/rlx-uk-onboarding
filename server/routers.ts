@@ -53,8 +53,8 @@ export const appRouter = router({
       const sponsor = await db.getSponsorByUserId(ctx.user.id);
       if (!sponsor) return [];
       const allMeetings = await db.getMeetingsBySponsor(sponsor.id);
-      // Only return confirmed meetings (published to sponsor)
-      return allMeetings.filter(m => m.status === 'confirmed');
+      // Only return confirmed meetings that are visible (published to sponsor AND not hidden by admin)
+      return allMeetings.filter(m => m.status === 'confirmed' && m.isVisible === 1);
     }),
   }),
 
@@ -646,6 +646,16 @@ export const appRouter = router({
           totalMeetings: meetings.length,
           alreadyPublished: meetings.length - suggestedCount
         };
+      }),
+    
+    // Toggle meetings visibility for sponsor
+    toggleMeetingsVisibility: adminProcedure
+      .input(z.object({
+        sponsorId: z.number(),
+        isVisible: z.boolean(),
+      }))
+      .mutation(async ({ input }) => {
+        return await db.toggleMeetingsVisibility(input.sponsorId, input.isVisible);
       }),
     
     // Get meetings for a sponsor
