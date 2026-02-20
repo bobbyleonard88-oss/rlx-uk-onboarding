@@ -71,6 +71,13 @@
       "when": 1771449078807,
       "tag": "0009_simple_marvel_boy",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "5",
+      "when": 1771581368031,
+      "tag": "0010_sticky_patch",
+      "breakpoints": true
     }
   ]
 }

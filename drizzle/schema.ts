@@ -88,9 +88,26 @@ export const delegateProfiles = mysqlTable("delegateProfiles", {
   company: varchar("company", { length: 255 }).notNull(),
   jobTitle: varchar("jobTitle", { length: 255 }),
   industry: varchar("industry", { length: 255 }),
-  challenges: text("challenges"), // Their pain points/needs
-  interests: text("interests"), // What they're looking for
-  profileData: text("profileData"), // Full profile as JSON
+  // New fields from HubSpot CSV
+  totalOrgEmployees: varchar("totalOrgEmployees", { length: 255 }),
+  hiresPerYear: varchar("hiresPerYear", { length: 255 }),
+  decisionMakingLevel: varchar("decisionMakingLevel", { length: 255 }),
+  activeConfirmedProjects: text("activeConfirmedProjects"),
+  activeProjectBudget: varchar("activeProjectBudget", { length: 255 }),
+  primaryMeetingObjective: text("primaryMeetingObjective"),
+  contractSignoff: varchar("contractSignoff", { length: 255 }),
+  toolsAssessments: text("toolsAssessments"),
+  toolsATS: text("toolsATS"),
+  toolsCRM: text("toolsCRM"),
+  toolsTalentIntelligence: text("toolsTalentIntelligence"),
+  toolsOther: text("toolsOther"),
+  keySolutionAreas: text("keySolutionAreas"),
+  currentPainPoints: text("currentPainPoints"),
+  currentProjectStage: varchar("currentProjectStage", { length: 255 }),
+  // Legacy fields
+  challenges: text("challenges"), // Their pain points/needs (legacy)
+  interests: text("interests"), // What they're looking for (legacy)
+  profileData: text("profileData"), // Full profile as JSON (legacy)
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });

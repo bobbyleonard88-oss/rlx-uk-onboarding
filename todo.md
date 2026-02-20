@@ -988,3 +988,13 @@
   - Active Project Budget Range, Contract sign-off
   - Tools (Assessments, ATS, CRM, Talent Intelligence, Other)
   - Current Project Stage
+
+## Delegate List Update
+
+- [x] Read and parse new delegate CSV file
+- [x] Update database with new delegate data
+- [x] Exclude Jen Candee from the upload
+- [x] Verify all delegates are updated correctly
+- [x] Added 15 new fields to delegateProfiles schema (totalOrgEmployees, hiresPerYear, etc.)
+- [x] Migrated database schema successfully
+- [x] Imported 47 delegates (skipped 1 - Jen Candee)
