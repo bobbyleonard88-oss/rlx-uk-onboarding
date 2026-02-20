@@ -430,9 +430,9 @@ export default function TimeSlotScheduler({
 
   return (
     <>
-    <div className="flex gap-3">
+    <div className="grid grid-cols-[1fr_1fr_320px] gap-4 w-full">
       {/* Day 1 Column */}
-      <div className="w-[340px] space-y-3 flex-shrink-0">
+      <div className="space-y-3">
         <h3 className="text-lg font-heading font-bold text-white flex items-center gap-2">
           <Clock className="w-4 h-4 text-accent" />
           Day 1
@@ -441,7 +441,7 @@ export default function TimeSlotScheduler({
       </div>
 
       {/* Day 2 Column */}
-      <div className="w-[340px] space-y-3 flex-shrink-0">
+      <div className="space-y-3">
         <h3 className="text-lg font-heading font-bold text-white flex items-center gap-2">
           <Clock className="w-4 h-4 text-accent" />
           Day 2
@@ -450,7 +450,7 @@ export default function TimeSlotScheduler({
       </div>
 
       {/* Right Side: All Delegates */}
-      <div className="w-64 space-y-3 flex-shrink-0">
+      <div className="space-y-3">
         {/* All Delegates Panel - Aligned with first meeting slot */}
         <div className="h-[22px]"></div> {/* Spacer to align with Day 1/Day 2 headers */}
         <Card className="glass-card border-slate-700">
