@@ -353,11 +353,33 @@ export async function getMeetingsBySponsor(sponsorId: number) {
   const db = await getDb();
   if (!db) return [];
   
-  return await db
-    .select()
+  const results = await db
+    .select({
+      id: meetings.id,
+      sponsorId: meetings.sponsorId,
+      attendeeId: meetings.attendeeId,
+      matchScore: meetings.matchScore,
+      matchReason: meetings.matchReason,
+      isTopRanked: meetings.isTopRanked,
+      isPriority: meetings.isPriority,
+      timeSlot: meetings.timeSlot,
+      attendeeNumber: meetings.attendeeNumber,
+      status: meetings.status,
+      notes: meetings.notes,
+      adminNotes: meetings.adminNotes,
+      createdAt: meetings.createdAt,
+      updatedAt: meetings.updatedAt,
+      attendeeFirstName: delegateProfiles.firstName,
+      attendeeLastName: delegateProfiles.lastName,
+      attendeeCompany: delegateProfiles.company,
+      attendeeJobTitle: delegateProfiles.jobTitle,
+    })
     .from(meetings)
+    .leftJoin(delegateProfiles, eq(meetings.attendeeId, delegateProfiles.id))
     .where(eq(meetings.sponsorId, sponsorId))
     .orderBy(desc(meetings.matchScore));
+  
+  return results;
 }
 
 // Match Cache helpers

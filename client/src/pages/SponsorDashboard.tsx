@@ -7,7 +7,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle, AlertCircle, FileText, List, LogOut, User, ArrowRight } from "lucide-react";
+import { CheckCircle, AlertCircle, FileText, List, LogOut, User, ArrowRight, Calendar } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import AnimatedSection from "@/components/AnimatedSection";
 
@@ -17,9 +17,11 @@ export default function SponsorDashboard() {
   
   const { data: intakeSubmission, isLoading: intakeLoading } = trpc.intake.getSubmission.useQuery();
   const { data: rankingsSubmission, isLoading: rankingsLoading } = trpc.rankings.myRankingsSubmission.useQuery();
+  const { data: meetings = [], isLoading: meetingsLoading } = trpc.sponsor.getMyMeetings.useQuery();
 
   const hasIntake = !!intakeSubmission;
   const hasRankings = !!rankingsSubmission;
+  const hasMeetings = meetings.length > 0;
   const isComplete = hasIntake && hasRankings;
 
   if (loading || intakeLoading || rankingsLoading) {
@@ -100,7 +102,7 @@ export default function SponsorDashboard() {
           </AnimatedSection>
 
           {/* Submission Cards */}
-          <div className="grid md:grid-cols-2 gap-6 mb-8">
+          <div className="grid md:grid-cols-3 gap-6 mb-8">
             {/* Intake Form Card */}
             <AnimatedSection delay={150}>
               <Card className="glass-card h-full">
@@ -207,6 +209,59 @@ export default function SponsorDashboard() {
                         >
                           Prioritize Meetings
                           <ArrowRight className="w-4 h-4" />
+                        </Button>
+                      </>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            </AnimatedSection>
+
+            {/* My Meetings Card */}
+            <AnimatedSection delay={250}>
+              <Card className="glass-card h-full">
+                <CardHeader>
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${hasMeetings ? 'bg-accent/20' : 'bg-muted'}`}>
+                        <Calendar className={`w-6 h-6 ${hasMeetings ? 'text-accent' : 'text-muted-foreground'}`} />
+                      </div>
+                      <div>
+                        <CardTitle className="text-xl">My Meetings</CardTitle>
+                        <CardDescription>View your scheduled meetings</CardDescription>
+                      </div>
+                    </div>
+                    {hasMeetings && (
+                      <CheckCircle className="w-5 h-5 text-green-500" />
+                    )}
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {hasMeetings ? (
+                      <>
+                        <p className="text-sm text-muted-foreground">
+                          You have {meetings.length} confirmed meeting{meetings.length !== 1 ? 's' : ''} scheduled
+                        </p>
+                        <Button
+                          onClick={() => navigate("/sponsor/meetings")}
+                          className="w-full gap-2"
+                        >
+                          View Meeting Schedule
+                          <ArrowRight className="w-4 h-4" />
+                        </Button>
+                      </>
+                    ) : (
+                      <>
+                        <p className="text-sm text-muted-foreground mb-4">
+                          Your meetings will appear here once they are published by the RLX team.
+                        </p>
+                        <Button
+                          disabled
+                          variant="outline"
+                          className="w-full"
+                        >
+                          No Meetings Yet
                         </Button>
                       </>
                     )}

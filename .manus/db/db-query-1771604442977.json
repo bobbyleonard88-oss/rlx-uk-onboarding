@@ -1,0 +1,9 @@
+{
+  "query": "SELECT m.id, m.sponsorId, m.attendeeId, m.timeSlot, m.status, m.matchReason, d.firstName, d.lastName, d.company \nFROM meetings m \nJOIN delegateProfiles d ON m.attendeeId = d.id \nWHERE m.sponsorId = (SELECT id FROM sponsors WHERE contactEmail = 'luke.mckend@stepstone.com')\nORDER BY m.timeSlot;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT m.id, m.sponsorId, m.attendeeId, m.timeSlot, m.status, m.matchReason, d.firstName, d.lastName, d.company \nFROM meetings m \nJOIN delegateProfiles d ON m.attendeeId = d.id \nWHERE m.sponsorId = (SELECT id FROM sponsors WHERE contactEmail = 'luke.mckend@stepstone.com')\nORDER BY m.timeSlot;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 369
+}

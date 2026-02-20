@@ -23,6 +23,7 @@ import SponsorProfile from "./pages/SponsorProfile";
 import AdminUsers from "./pages/AdminUsers";
 import AdminMeetings from "./pages/AdminMeetings";
 import SponsorDashboard from "./pages/SponsorDashboard";
+import SponsorMeetings from "./pages/SponsorMeetings";
 import MeetingSchedule from "./pages/MeetingSchedule";
 import DelegateOverview from "./pages/DelegateOverview";
 import Analytics from "./pages/Analytics";
@@ -51,6 +52,7 @@ function Router() {
           <Route path="/matchmaking" component={Matchmaking} />
           <Route path="/team" component={Team} />
           <Route path="/dashboard" component={SponsorDashboard} />
+          <Route path="/sponsor/meetings" component={SponsorMeetings} />
           <Route path="/intake" component={Intake} />
           <Route path="/prioritize" component={Prioritize} />
           <Route path="/faq" component={FAQ} />
