@@ -1,0 +1,13 @@
+{
+  "query": "\n-- Delete meetings for Test sponsor\nDELETE FROM meetings WHERE sponsorId IN (SELECT id FROM sponsors WHERE contactEmail = 'bobby@recruitmentevents.co' AND companyName = 'Test');\n\n-- Delete rankings submissions for Test sponsor\nDELETE FROM rankingsSubmissions WHERE sponsorId IN (SELECT id FROM sponsors WHERE contactEmail = 'bobby@recruitmentevents.co' AND companyName = 'Test');\n\n-- Delete intake submissions for Test sponsor\nDELETE FROM intakeSubmissions WHERE sponsorId IN (SELECT id FROM sponsors WHERE contactEmail = 'bobby@recruitmentevents.co' AND companyName = 'Test');\n\n-- Delete Test sponsor\nDELETE FROM sponsors WHERE contactEmail = 'bobby@recruitmentevents.co' AND companyName = 'Test';\n\n-- Verify deletion\nSELECT COUNT(*) as remaining_test_sponsors FROM sponsors WHERE contactEmail = 'bobby@recruitmentevents.co' AND companyName = 'Test';\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \n-- Delete meetings for Test sponsor\nDELETE FROM meetings WHERE sponsorId IN (SELECT id FROM sponsors WHERE contactEmail = 'bobby@recruitmentevents.co' AND companyName = 'Test');\n\n-- Delete rankings submissions for Test sponsor\nDELETE FROM rankingsSubmissions WHERE sponsorId IN (SELECT id FROM sponsors WHERE contactEmail = 'bobby@recruitmentevents.co' AND companyName = 'Test');\n\n-- Delete intake submissions for Test sponsor\nDELETE FROM intakeSubmissions WHERE sponsorId IN (SELECT id FROM sponsors WHERE contactEmail = 'bobby@recruitmentevents.co' AND companyName = 'Test');\n\n-- Delete Test sponsor\nDELETE FROM sponsors WHERE contactEmail = 'bobby@recruitmentevents.co' AND companyName = 'Test';\n\n-- Verify deletion\nSELECT COUNT(*) as remaining_test_sponsors FROM sponsors WHERE contactEmail = 'bobby@recruitmentevents.co' AND companyName = 'Test';\n",
+  "rows": [
+    {
+      "remaining_test_sponsors": "0"
+    }
+  ],
+  "messages": [],
+  "stdout": "remaining_test_sponsors\n0\n",
+  "stderr": "",
+  "execution_time_ms": 561
+}

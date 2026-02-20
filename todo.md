@@ -1005,3 +1005,17 @@
 - [x] Ensure meeting schedule cards use full width efficiently
 - [x] Position "All Delegates" panel properly
 - [x] Ensure layout stays consistent when switching between sponsors
+
+## Clear Meetings Feature
+
+- [x] Add "Clear Meetings" button to AdminMeetings page
+- [x] Create backend procedure to delete all meetings for a sponsor
+- [x] Retain AI matching data (match scores, reasons) when clearing meetings
+- [x] Add confirmation dialog before clearing meetings
+- [x] Optimize credit usage by reusing cached AI matching data
+
+## Remove Test Sponsor
+
+- [x] Delete Test sponsor (bobby@recruitmentevents.co) from database
+- [x] Remove all associated data (meetings, rankings, intake forms)
+- [x] Verify Test sponsor no longer appears in dropdown

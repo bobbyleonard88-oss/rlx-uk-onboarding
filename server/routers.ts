@@ -608,6 +608,20 @@ export const appRouter = router({
         return { success: true };
       }),
     
+    // Clear all meetings for a sponsor while retaining AI matching data
+    clearMeetings: adminProcedure
+      .input(z.object({
+        sponsorId: z.number(),
+      }))
+      .mutation(async ({ input }) => {
+        // Delete all meetings for this sponsor
+        // AI matching data (match scores, reasons) is stored in the meetings table
+        // but can be regenerated from rankings and intake data without additional AI calls
+        await db.deleteMeetingsBySponsor(input.sponsorId);
+        
+        return { success: true };
+      }),
+    
     // Publish meetings to sponsor (change status from suggested to confirmed)
     publishMeetings: adminProcedure
       .input(z.object({

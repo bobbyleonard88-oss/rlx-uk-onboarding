@@ -100,6 +100,18 @@ export default function AdminMeetings() {
     },
   });
   
+  const clearMeetings = trpc.admin.clearMeetings.useMutation({
+    onSuccess: () => {
+      toast.success("Meetings cleared! AI matching data retained for future use.");
+      setEditedMatches([]);
+      setGeneratedMatches([]);
+      utils.admin.getAllSubmissions.invalidate();
+    },
+    onError: (error: any) => {
+      toast.error(error.message || "Failed to clear meetings");
+    },
+  });
+  
   const publishMeetings = trpc.admin.publishMeetings.useMutation({
     onSuccess: (data) => {
       if (data.publishedCount > 0) {
@@ -173,6 +185,16 @@ export default function AdminMeetings() {
         attendeeNumber: m.attendeeNumber || 1,
       })),
     });
+  };
+  
+  const handleClearMeetings = () => {
+    if (!selectedSponsorId) return;
+    
+    if (!confirm('Are you sure you want to clear all meetings for this sponsor? AI matching data will be retained for future use.')) {
+      return;
+    }
+    
+    clearMeetings.mutate({ sponsorId: selectedSponsorId });
   };
   
   const handlePublishMeetings = () => {
@@ -377,6 +399,15 @@ export default function AdminMeetings() {
                   </CardDescription>
                 </div>
                 <div className="flex gap-2">
+                  <Button
+                    onClick={handleClearMeetings}
+                    disabled={clearMeetings.isPending || !selectedSponsorId || editedMatches.length === 0}
+                    variant="outline"
+                    className="border-red-600 text-red-400 hover:bg-red-950"
+                  >
+                    <Trash2 className="w-4 h-4 mr-2" />
+                    Clear Meetings
+                  </Button>
                   <Button
                     onClick={handleSaveMeetings}
                     disabled={saveMeetings.isPending}
