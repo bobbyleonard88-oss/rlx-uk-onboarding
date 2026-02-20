@@ -1034,3 +1034,8 @@
 
 - [x] Find Private Workshop text mentioning "thought leadership and solution demonstrations"
 - [x] Remove those phrases from the wording
+
+## Experience Add-On Wording Update
+
+- [x] Find Experience text mentioning "creative demonstrations"
+- [x] Remove that phrase from the wording

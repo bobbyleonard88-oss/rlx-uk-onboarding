@@ -99,7 +99,7 @@ export default function AddOns() {
 
               <div className="glass-card p-4 bg-accent/10 border-accent/30 rounded-lg">
                 <p className="text-sm text-foreground/90 leading-relaxed">
-                  <strong className="text-accent">Perfect for:</strong> Immersive brand experiences, creative demonstrations, and building deeper connections beyond traditional presentations.
+                  <strong className="text-accent">Perfect for:</strong> Immersive brand experiences and building deeper connections beyond traditional presentations.
                 </p>
               </div>
             </div>
