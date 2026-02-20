@@ -1029,3 +1029,8 @@
 - [x] Update Clear Meetings to only delete meetings table, not match cache (already working correctly)
 - [x] Ensure each sponsor's match data is stored independently
 - [ ] Test that regenerating meetings reuses cached data without AI calls
+
+## Private Workshop Wording Update
+
+- [x] Find Private Workshop text mentioning "thought leadership and solution demonstrations"
+- [x] Remove those phrases from the wording

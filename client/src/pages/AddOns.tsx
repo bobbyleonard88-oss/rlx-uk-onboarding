@@ -65,7 +65,7 @@ export default function AddOns() {
 
               <div className="glass-card p-4 bg-accent/10 border-accent/30 rounded-lg">
                 <p className="text-sm text-foreground/90 leading-relaxed">
-                  <strong className="text-accent">Perfect for:</strong> Solution demonstrations, thought leadership presentations, and interactive discussions on specific TA challenges.
+                  <strong className="text-accent">Perfect for:</strong> Interactive discussions on specific TA challenges.
                 </p>
               </div>
             </div>

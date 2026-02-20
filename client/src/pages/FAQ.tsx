@@ -51,7 +51,7 @@ const faqs: FAQItem[] = [
   },
   {
     question: "What are the add-on opportunities?",
-    answer: "We offer two add-on experiences at £3,000 each (1-hour sessions with 5-8 leaders): Workshop - interactive learning session focused on a specific topic; Experience - immersive activity designed to build relationships and demonstrate thought leadership."
+    answer: "We offer two add-on experiences at £3,000 each (1-hour sessions with 5-8 leaders): Workshop - interactive learning session focused on a specific topic; Experience - immersive activity designed to build relationships."
   },
   {
     question: "What happens if I miss a deadline?",
