@@ -1,6 +1,6 @@
 import { desc, eq, and, sql, ne } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users, sponsors, InsertSponsor, rankingsSubmissions, InsertRankingsSubmission, vendorProfiles, InsertVendorProfile, delegateProfiles, InsertDelegateProfile, priorityTags, InsertPriorityTag, meetings, InsertMeeting, intakeSubmissions, InsertIntakeSubmission } from "../drizzle/schema";
+import { InsertUser, users, sponsors, InsertSponsor, rankingsSubmissions, InsertRankingsSubmission, vendorProfiles, InsertVendorProfile, delegateProfiles, InsertDelegateProfile, priorityTags, InsertPriorityTag, meetings, InsertMeeting, intakeSubmissions, InsertIntakeSubmission, matchCache, InsertMatchCache } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -358,6 +358,24 @@ export async function getMeetingsBySponsor(sponsorId: number) {
     .from(meetings)
     .where(eq(meetings.sponsorId, sponsorId))
     .orderBy(desc(meetings.matchScore));
+}
+
+// Match Cache helpers
+export async function getMatchCacheBySponsor(sponsorId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db
+    .select()
+    .from(matchCache)
+    .where(eq(matchCache.sponsorId, sponsorId));
+}
+
+export async function createMatchCache(cache: InsertMatchCache) {
+  const db = await getDb();
+  if (!db) return;
+  
+  await db.insert(matchCache).values(cache);
 }
 
 export async function deleteMeetingsBySponsor(sponsorId: number) {

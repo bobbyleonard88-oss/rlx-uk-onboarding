@@ -78,6 +78,13 @@
       "when": 1771581368031,
       "tag": "0010_sticky_patch",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "5",
+      "when": 1771596589589,
+      "tag": "0011_oval_reavers",
+      "breakpoints": true
     }
   ]
 }

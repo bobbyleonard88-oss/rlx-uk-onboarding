@@ -17,6 +17,7 @@ export type MatchResult = {
 
 /**
  * Generate AI-powered matches for a specific sponsor
+ * Uses permanent cache to avoid re-analyzing sponsor-delegate pairs
  */
 export async function generateMatchesForSponsor(sponsorId: number): Promise<MatchResult[]> {
   // Get vendor profile
@@ -34,6 +35,15 @@ export async function generateMatchesForSponsor(sponsorId: number): Promise<Matc
     throw new Error("No delegate profiles available for matching");
   }
 
+  // Check cache first - get all cached matches for this sponsor
+  const cachedMatches = await db.getMatchCacheBySponsor(sponsorId);
+  const cachedAttendeeIds = new Set(cachedMatches.map((m: any) => m.attendeeId));
+  
+  // Separate delegates into cached and uncached
+  const uncachedDelegates = delegateProfiles.filter(d => !cachedAttendeeIds.has(d.attendeeId));
+  
+  console.log(`[Match Cache] Sponsor ${sponsorId}: ${cachedMatches.length} cached, ${uncachedDelegates.length} need AI analysis`);
+
   // Get sponsor's rankings
   const submissions = await db.getRankingsSubmissionsBySponsor(sponsorId);
   const latestSubmission = submissions[0];
@@ -45,12 +55,32 @@ export async function generateMatchesForSponsor(sponsorId: number): Promise<Matc
   const priorityTags = await db.getPriorityTagsBySponsor(sponsorId);
   const priorityAttendeeIds = priorityTags.map(t => t.attendeeId);
 
-  // Batch process delegates in groups for efficiency
-  const batchSize = 10;
-  const results: MatchResult[] = [];
+  // Convert cached matches to MatchResult format
+  const cachedResults: MatchResult[] = cachedMatches.map((cache: any) => ({
+    sponsorId,
+    attendeeId: cache.attendeeId,
+    matchScore: cache.matchScore,
+    reasoning: cache.matchReason,
+    isTopRanked: topRankedIds.includes(cache.attendeeId),
+    isPriority: priorityAttendeeIds.includes(cache.attendeeId),
+  }));
 
-  for (let i = 0; i < delegateProfiles.length; i += batchSize) {
-    const batch = delegateProfiles.slice(i, i + batchSize);
+  // If all delegates are cached, return immediately without AI call
+  if (uncachedDelegates.length === 0) {
+    console.log(`[Match Cache] All ${cachedResults.length} delegates cached for sponsor ${sponsorId} - no AI calls needed`);
+    return cachedResults.sort((a, b) => {
+      if (a.isPriority !== b.isPriority) return b.isPriority ? 1 : -1;
+      if (a.isTopRanked !== b.isTopRanked) return b.isTopRanked ? 1 : -1;
+      return b.matchScore - a.matchScore;
+    });
+  }
+
+  // Batch process only uncached delegates
+  const batchSize = 10;
+  const newResults: MatchResult[] = [];
+
+  for (let i = 0; i < uncachedDelegates.length; i += batchSize) {
+    const batch = uncachedDelegates.slice(i, i + batchSize);
     
     const prompt = `You are an expert B2B matchmaker. Analyze how well this vendor matches with each delegate.
 
@@ -145,28 +175,46 @@ Respond in JSON format:
       const parsed = JSON.parse(content);
       
       for (const match of parsed.matches) {
-        results.push({
+        const matchResult = {
           sponsorId,
           attendeeId: match.attendeeId,
           matchScore: Math.round(match.score),
           reasoning: match.reasoning,
           isTopRanked: topRankedIds.includes(match.attendeeId),
           isPriority: priorityAttendeeIds.includes(match.attendeeId),
-        });
+        };
+        newResults.push(matchResult);
+        
+        // Store in permanent cache
+        try {
+          await db.createMatchCache({
+            sponsorId,
+            attendeeId: match.attendeeId,
+            matchScore: Math.round(match.score),
+            matchReason: match.reasoning,
+          });
+        } catch (error) {
+          console.error(`[Match Cache] Failed to cache match for ${match.attendeeId}:`, error);
+        }
       }
     } catch (error) {
       console.error(`Error processing batch ${i / batchSize}:`, error);
     }
   }
 
+  console.log(`[Match Cache] Sponsor ${sponsorId}: Generated ${newResults.length} new matches, combined with ${cachedResults.length} cached`);
+
+  // Combine cached and new results
+  const allResults = [...cachedResults, ...newResults];
+  
   // Sort by priority first, then top-ranked, then score
-  results.sort((a, b) => {
+  allResults.sort((a, b) => {
     if (a.isPriority !== b.isPriority) return b.isPriority ? 1 : -1;
     if (a.isTopRanked !== b.isTopRanked) return b.isTopRanked ? 1 : -1;
     return b.matchScore - a.matchScore;
   });
 
-  return results;
+  return allResults;
 }
 
 /**

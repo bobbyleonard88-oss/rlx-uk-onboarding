@@ -1,4 +1,4 @@
-import { int, mysqlEnum, mysqlTable, text, timestamp, varchar } from "drizzle-orm/mysql-core";
+import { int, mysqlEnum, mysqlTable, text, timestamp, varchar, uniqueIndex } from "drizzle-orm/mysql-core";
 
 /**
  * Core user table backing auth flow.
@@ -151,6 +151,26 @@ export const meetings = mysqlTable("meetings", {
 
 export type Meeting = typeof meetings.$inferSelect;
 export type InsertMeeting = typeof meetings.$inferInsert;
+
+/**
+ * Match Cache table - permanently stores AI-generated match scores and reasons
+ * Each sponsor-delegate pair is analyzed once and cached to optimize credit usage
+ */
+export const matchCache = mysqlTable("matchCache", {
+  id: int("id").autoincrement().primaryKey(),
+  sponsorId: int("sponsorId").notNull(),
+  attendeeId: varchar("attendeeId", { length: 64 }).notNull(),
+  matchScore: int("matchScore").notNull(), // 0-100 AI confidence score
+  matchReason: text("matchReason").notNull(), // AI explanation of why they match
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  // Unique constraint: one cache entry per sponsor-delegate pair
+  sponsorAttendeeUnique: uniqueIndex("sponsor_attendee_unique").on(table.sponsorId, table.attendeeId),
+}));
+
+export type MatchCache = typeof matchCache.$inferSelect;
+export type InsertMatchCache = typeof matchCache.$inferInsert;
 
 /**
  * Intake form submissions table - stores sponsor intake form data
