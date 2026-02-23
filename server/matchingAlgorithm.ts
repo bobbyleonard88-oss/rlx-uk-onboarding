@@ -399,8 +399,9 @@ export async function generateMeetingsForSponsor(
     company: a.company || 'Unknown',
     jobTitle: a.jobTitle || '',
     industry: a.industry || null,
-    challenges: a.assessmentTool || '',
-    interests: `${a.ats || ''} ${a.crm || ''} ${a.marketIntelligence || ''}`,
+    // Use actual challenges/needs fields, NOT tools
+    challenges: [a.currentPainPoints, a.activeConfirmedProjects].filter(Boolean).join('. '),
+    interests: [a.primaryMeetingObjective, a.keySolutionAreasOfInterest].filter(Boolean).join('. '),
     profileData: null,
     createdAt: new Date(),
     updatedAt: new Date(),
