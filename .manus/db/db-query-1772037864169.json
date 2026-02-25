@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE intakeSubmissions \nSET submittedAt = '2026-02-25 14:20:50' \nWHERE sponsorId = (SELECT id FROM sponsors WHERE companyName = 'Harver' LIMIT 1);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute UPDATE intakeSubmissions \nSET submittedAt = '2026-02-25 14:20:50' \nWHERE sponsorId = (SELECT id FROM sponsors WHERE companyName = 'Harver' LIMIT 1);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 411
+}

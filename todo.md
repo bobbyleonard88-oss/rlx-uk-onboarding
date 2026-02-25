@@ -1153,3 +1153,13 @@
 - [x] Change UPDATE query to include submittedAt = new Date()
 - [x] Updated server/db.ts line 529 to set submittedAt on re-submissions
 - [x] Next re-submission will show current date for both submittedAt and updatedAt
+
+
+## Update Harver Timestamp and Add Sponsor Sorting (COMPLETED)
+
+- [x] Manually update Harver's submittedAt timestamp to 2026-02-25 14:20:50 (when they re-submitted)
+- [x] Add sorting to getAllSubmissions to order by submittedAt DESC (most recent first) - already implemented
+- [x] Add visual indicator (badge/highlight) for submissions updated in last 24-48 hours
+- [x] Added "Updated" badge in purple/primary color for sponsors updated within 48 hours
+- [x] Test that Harver appears near top of sponsor list with updated timestamp and badge
+- [x] Harver now shows at position #4 with "Updated" badge (3 other sponsors updated more recently)

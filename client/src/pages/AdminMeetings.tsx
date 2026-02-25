@@ -318,11 +318,26 @@ export default function AdminMeetings() {
                   <SelectContent className="max-h-[300px]">
                     {submissions
                       ?.filter(s => s.hasIntake && !s.isArchived) // Only show non-archived sponsors with intake forms
-                      ?.map((submission) => (
-                        <SelectItem key={submission.sponsorId} value={submission.sponsorId.toString()}>
-                          {submission.companyName} - {submission.contactEmail}
-                        </SelectItem>
-                      ))}
+                      ?.map((submission) => {
+                        // Check if submission was updated in last 48 hours
+                        const submittedDate = new Date(submission.submittedAt);
+                        const now = new Date();
+                        const hoursSinceSubmission = (now.getTime() - submittedDate.getTime()) / (1000 * 60 * 60);
+                        const isRecent = hoursSinceSubmission <= 48;
+                        
+                        return (
+                          <SelectItem key={submission.sponsorId} value={submission.sponsorId.toString()}>
+                            <div className="flex items-center gap-2">
+                              <span>{submission.companyName} - {submission.contactEmail}</span>
+                              {isRecent && (
+                                <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-primary/20 text-primary border border-primary/30">
+                                  Updated
+                                </span>
+                              )}
+                            </div>
+                          </SelectItem>
+                        );
+                      })}
                   </SelectContent>
                 </Select>
               </div>
