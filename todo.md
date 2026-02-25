@@ -1123,3 +1123,13 @@
 - [x] Enhanced upsertSponsor to check by both userId AND contactEmail
 - [x] When email match found, updates existing sponsor and links to current user
 - [x] Test with Harver re-submission scenario - will now overwrite instead of duplicate
+
+
+## Increase Sponsor Profile Popup Width (COMPLETED)
+
+- [x] Find sponsor profile preview popup component in AdminMeetings
+- [x] Increase width from current size to double (make it wider for better readability)
+- [x] Changed from 2-column to 3-column grid layout
+- [x] Increased padding from default to p-8 for more spacious feel
+- [x] Increased gap between items from gap-4 to gap-6
+- [x] Test popup appearance with sponsor data - looks much more spacious and readable

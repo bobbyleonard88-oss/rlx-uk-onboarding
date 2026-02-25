@@ -395,8 +395,8 @@ export default function AdminMeetings() {
                 </div>
               </div>
             </CardHeader>
-            <CardContent className="space-y-2">
-              <div className="grid grid-cols-2 gap-4 text-sm">
+            <CardContent className="space-y-4 p-8">
+              <div className="grid grid-cols-3 gap-6 text-sm">
                 <div>
                   <span className="text-slate-400">Meeting Package:</span>
                   <span className="ml-2 text-white font-medium">
