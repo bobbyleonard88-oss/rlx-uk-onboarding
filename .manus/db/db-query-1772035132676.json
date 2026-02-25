@@ -1,0 +1,18 @@
+{
+  "query": "SELECT s.id, s.companyName, s.contactEmail, i.submittedAt, i.updatedAt, r.isArchived as rankingsArchived FROM sponsors s LEFT JOIN intakeSubmissions i ON s.id = i.sponsorId LEFT JOIN rankingsSubmissions r ON s.id = r.sponsorId WHERE s.companyName LIKE '%Harver%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT s.id, s.companyName, s.contactEmail, i.submittedAt, i.updatedAt, r.isArchived as rankingsArchived FROM sponsors s LEFT JOIN intakeSubmissions i ON s.id = i.sponsorId LEFT JOIN rankingsSubmissions r ON s.id = r.sponsorId WHERE s.companyName LIKE '%Harver%';",
+  "rows": [
+    {
+      "id": "210001",
+      "companyName": "Harver",
+      "contactEmail": "elliot.thompson@harver.com",
+      "submittedAt": "2026-02-19 13:48:40",
+      "updatedAt": "2026-02-25 09:20:50",
+      "rankingsArchived": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tcompanyName\tcontactEmail\tsubmittedAt\tupdatedAt\trankingsArchived\n210001\tHarver\telliot.thompson@harver.com\t2026-02-19 13:48:40\t2026-02-25 09:20:50\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 370
+}

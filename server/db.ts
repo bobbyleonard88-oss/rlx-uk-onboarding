@@ -523,10 +523,10 @@ export async function upsertIntakeSubmission(data: InsertIntakeSubmission) {
     .limit(1);
   
   if (existing.length > 0) {
-    // Update existing
+    // Update existing - refresh submittedAt to reflect re-submission date
     await db
       .update(intakeSubmissions)
-      .set(data)
+      .set({ ...data, submittedAt: new Date() })
       .where(eq(intakeSubmissions.id, existing[0].id));
     return existing[0].id;
   } else {

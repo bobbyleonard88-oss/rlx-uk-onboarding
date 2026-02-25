@@ -1,0 +1,17 @@
+{
+  "query": "SELECT id, sponsorId, companyName, submittedAt, updatedAt FROM intakeSubmissions WHERE companyName LIKE '%Harver%' ORDER BY updatedAt DESC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT id, sponsorId, companyName, submittedAt, updatedAt FROM intakeSubmissions WHERE companyName LIKE '%Harver%' ORDER BY updatedAt DESC;",
+  "rows": [
+    {
+      "id": "210001",
+      "sponsorId": "210001",
+      "companyName": "Harver",
+      "submittedAt": "2026-02-19 13:48:40",
+      "updatedAt": "2026-02-25 09:20:50"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tsponsorId\tcompanyName\tsubmittedAt\tupdatedAt\n210001\t210001\tHarver\t2026-02-19 13:48:40\t2026-02-25 09:20:50\n",
+  "stderr": "",
+  "execution_time_ms": 354
+}

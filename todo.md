@@ -1133,3 +1133,23 @@
 - [x] Increased padding from default to p-8 for more spacious feel
 - [x] Increased gap between items from gap-4 to gap-6
 - [x] Test popup appearance with sponsor data - looks much more spacious and readable
+
+
+## Investigate Harver Missing Submission (25th Feb) - RESOLVED
+
+- [x] Check database for Harver intake submissions on 25th February 2026
+- [x] Verify submission timestamps and data
+- [x] Check if submission was filtered out (archived, missing data, etc.)
+- [x] Investigate why submission isn't appearing in admin portal
+- [x] CONFIRMED: Harver IS in the database and DOES appear in admin meetings dropdown
+- [x] Submission was originally created Feb 19th, last updated Feb 25th at 14:20:50 UTC (today)
+- [x] Harver appears in sponsor dropdown on admin meetings page (7th option)
+
+
+## Update submittedAt Timestamp on Re-submissions (COMPLETED)
+
+- [x] Update upsertIntakeSubmission to refresh submittedAt when sponsors re-submit
+- [x] Currently only updatedAt changes, but submittedAt stays at original date
+- [x] Change UPDATE query to include submittedAt = new Date()
+- [x] Updated server/db.ts line 529 to set submittedAt on re-submissions
+- [x] Next re-submission will show current date for both submittedAt and updatedAt
