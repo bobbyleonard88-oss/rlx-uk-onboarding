@@ -1,0 +1,8 @@
+{
+  "query": "SELECT id, companyName, contactEmail, logoUrl FROM sponsors WHERE companyName = 'Harver' OR contactEmail LIKE '%harver%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT id, companyName, contactEmail, logoUrl FROM sponsors WHERE companyName = 'Harver' OR contactEmail LIKE '%harver%';",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'logourl' in 'field list'"
+  ]
+}

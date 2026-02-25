@@ -375,10 +375,25 @@ export default function AdminMeetings() {
         {selectedSubmission && (
           <Card className="glass-card">
             <CardHeader>
-              <CardTitle className="text-white">{selectedSubmission.companyName}</CardTitle>
-              <CardDescription className="text-slate-300">
-                {selectedSubmission.contactName} • {selectedSubmission.contactEmail}
-              </CardDescription>
+              <div className="flex items-start gap-4">
+                {selectedSubmission.intakeData?.companyLogoUrl && (
+                  <img
+                    src={selectedSubmission.intakeData.companyLogoUrl}
+                    alt={`${selectedSubmission.companyName} logo`}
+                    className="w-16 h-16 object-contain rounded-md bg-white/10 p-2"
+                    onError={(e) => {
+                      // Hide image if it fails to load
+                      e.currentTarget.style.display = 'none';
+                    }}
+                  />
+                )}
+                <div className="flex-1">
+                  <CardTitle className="text-white">{selectedSubmission.companyName}</CardTitle>
+                  <CardDescription className="text-slate-300">
+                    {selectedSubmission.contactName} • {selectedSubmission.contactEmail}
+                  </CardDescription>
+                </div>
+              </div>
             </CardHeader>
             <CardContent className="space-y-2">
               <div className="grid grid-cols-2 gap-4 text-sm">

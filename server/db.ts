@@ -126,17 +126,30 @@ export async function upsertSponsor(sponsor: InsertSponsor) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
   
-  const existing = await getSponsorByUserId(sponsor.userId);
+  // First check by userId
+  let existing = await getSponsorByUserId(sponsor.userId);
+  
+  // If not found by userId, check by contactEmail to prevent duplicates from different accounts
+  if (!existing) {
+    const emailMatch = await db
+      .select()
+      .from(sponsors)
+      .where(eq(sponsors.contactEmail, sponsor.contactEmail))
+      .limit(1);
+    existing = emailMatch.length > 0 ? emailMatch[0] : null;
+  }
   
   if (existing) {
+    // Update existing sponsor (update userId to current user to link accounts)
     await db.update(sponsors)
       .set({
+        userId: sponsor.userId, // Update userId to current user
         companyName: sponsor.companyName,
         contactName: sponsor.contactName,
         contactEmail: sponsor.contactEmail,
         updatedAt: new Date(),
       })
-      .where(eq(sponsors.userId, sponsor.userId));
+      .where(eq(sponsors.id, existing.id));
     return existing.id;
   } else {
     const result = await db.insert(sponsors).values(sponsor);

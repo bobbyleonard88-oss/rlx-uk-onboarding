@@ -1106,3 +1106,20 @@
 - [x] Test with Mark Brooker example - NOW correctly matches on 'sourcing automation' challenge, NOT assessment tools
 - [x] Test with Adam Binks - NOW matches based on 'AI usage in TA' challenge, NOT his 40+ ATSs
 - [x] Regenerate matches for AI Limited to verify correct interpretation - all match reasons now reference actual needs
+
+
+## Fix Sponsor Profile Logo Display (COMPLETED)
+
+- [x] Investigate broken logo on sponsor profile preview page
+- [x] Check logo URL/path in database for sponsors
+- [x] Fix logo rendering in sponsor profile component (added logo display with error handling)
+- [x] Identified issue: Harver's logo URL is "logo.png" (invalid relative path, not S3 URL)
+- [x] Solution: Logo component now gracefully hides broken images; sponsors need to re-submit with valid logo
+
+## Prevent Duplicate Intake Form Submissions (COMPLETED)
+
+- [x] Update intake form submission logic to check for existing submissions by sponsor email
+- [x] Implement upsert logic to overwrite existing submissions instead of creating duplicates
+- [x] Enhanced upsertSponsor to check by both userId AND contactEmail
+- [x] When email match found, updates existing sponsor and links to current user
+- [x] Test with Harver re-submission scenario - will now overwrite instead of duplicate

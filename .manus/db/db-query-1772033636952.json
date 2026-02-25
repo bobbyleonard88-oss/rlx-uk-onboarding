@@ -1,0 +1,14 @@
+{
+  "query": "SELECT companyName, companyLogoUrl FROM intakeSubmissions WHERE companyName LIKE '%Harver%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT companyName, companyLogoUrl FROM intakeSubmissions WHERE companyName LIKE '%Harver%';",
+  "rows": [
+    {
+      "companyName": "Harver",
+      "companyLogoUrl": "logo.png"
+    }
+  ],
+  "messages": [],
+  "stdout": "companyName\tcompanyLogoUrl\nHarver\tlogo.png\n",
+  "stderr": "",
+  "execution_time_ms": 550
+}
