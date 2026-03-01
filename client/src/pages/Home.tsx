@@ -6,13 +6,22 @@
 
 import { Button } from "@/components/ui/button";
 import { ArrowRight, LogIn } from "lucide-react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import AnimatedSection from "@/components/AnimatedSection";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { getLoginUrl } from "@/const";
+import { useEffect } from "react";
 
 export default function Home() {
   const { user, loading } = useAuth();
+  const [, navigate] = useLocation();
+
+  // Redirect authenticated users straight to their dashboard
+  useEffect(() => {
+    if (!loading && user) {
+      navigate("/dashboard");
+    }
+  }, [user, loading, navigate]);
   
   return (
     <div className="min-h-screen">
