@@ -166,6 +166,37 @@ export async function createRankingsSubmission(submission: InsertRankingsSubmiss
   return Number(result[0].insertId);
 }
 
+// Upsert rankings: overwrite existing row for this sponsor, or insert if none exists
+export async function upsertRankingsSubmission(submission: InsertRankingsSubmission) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const existing = await db
+    .select()
+    .from(rankingsSubmissions)
+    .where(eq(rankingsSubmissions.sponsorId, submission.sponsorId))
+    .orderBy(desc(rankingsSubmissions.submittedAt))
+    .limit(1);
+
+  if (existing.length > 0) {
+    // Overwrite the existing row with fresh data and a new timestamp
+    await db
+      .update(rankingsSubmissions)
+      .set({
+        userId: submission.userId,
+        rankingsData: submission.rankingsData,
+        submittedAt: new Date(),
+        status: 'pending',
+        isReviewed: 0,
+      })
+      .where(eq(rankingsSubmissions.id, existing[0].id));
+    return existing[0].id;
+  } else {
+    const result = await db.insert(rankingsSubmissions).values(submission);
+    return Number(result[0].insertId);
+  }
+}
+
 export async function getAllRankingsSubmissions() {
   const db = await getDb();
   if (!db) return [];

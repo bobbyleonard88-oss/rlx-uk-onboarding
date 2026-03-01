@@ -161,8 +161,8 @@ export const appRouter = router({
           }
         }
 
-        // Create submission
-        const submissionId = await db.createRankingsSubmission({
+        // Upsert submission — overwrites any existing row for this sponsor
+        const submissionId = await db.upsertRankingsSubmission({
           sponsorId: sponsor.id,
           userId: ctx.user.id,
           rankingsData: input.rankingsData,

@@ -7,7 +7,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Download, RefreshCw, Users, Calendar, CheckCircle, FileText, List, Archive, ArchiveRestore, AlertCircle, LogOut, User, LogIn, Eye, Trash2 } from "lucide-react";
+import { Download, RefreshCw, Users, Calendar, CheckCircle, FileText, List, Archive, ArchiveRestore, AlertCircle, LogOut, User, LogIn, Eye } from "lucide-react";
 import { Link } from "wouter";
 import { toast } from "sonner";
 import { getLoginUrl } from "@/const";
@@ -82,16 +82,6 @@ export default function AdminDashboard() {
     onSuccess: () => {
       refetch();
       toast.success("Priority delegate removed");
-    },
-  });
-
-  const deleteSponsor = trpc.admin.deleteSponsor.useMutation({
-    onSuccess: () => {
-      refetch();
-      toast.success("Sponsor deleted permanently");
-    },
-    onError: (error) => {
-      toast.error(`Failed to delete sponsor: ${error.message}`);
     },
   });
 
@@ -276,19 +266,7 @@ export default function AdminDashboard() {
                             <Archive className="w-4 h-4" />
                             Archive
                           </Button>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => {
-                              if (confirm(`Are you sure you want to permanently delete ${submission.companyName}? This cannot be undone.`)) {
-                                deleteSponsor.mutate({ sponsorId: submission.sponsorId });
-                              }
-                            }}
-                            className="gap-2 text-red-400 hover:text-red-300 hover:bg-red-500/10"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                            Delete
-                          </Button>
+
                         </>
                       )}
                     </div>

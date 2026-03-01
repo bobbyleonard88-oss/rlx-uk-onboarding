@@ -1179,3 +1179,10 @@
 - [x] Re-inserted intake submission with full company boilerplate and key challenges
 - [x] Fixed duplicate Stepstone entries (3x → 1x) by deduplicating rankings submissions in getAllSubmissions
 - [x] PerchPeek now appears at position #3 in admin meetings dropdown
+
+## Rankings Overwrite & Admin Dashboard Cleanup
+
+- [x] Change rankings submission to upsert (overwrite existing row instead of inserting new one)
+- [x] Add upsertRankingsSubmission helper in db.ts
+- [x] Update rankings.submit router to call upsertRankingsSubmission
+- [x] Remove delete button from admin dashboard (keep archive only)
