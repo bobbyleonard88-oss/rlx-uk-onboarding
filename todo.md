@@ -1202,3 +1202,4 @@
 - [x] Show submission count indicator on sponsor dashboard ("X of Y sponsors have submitted")
 - [x] Change sponsor participation card to show percentages instead of raw counts
 - [x] Redirect authenticated users from homepage (/) to /dashboard automatically
+- [x] Highlight past timeline dates with a distinct visual style (dimmed/completed look)

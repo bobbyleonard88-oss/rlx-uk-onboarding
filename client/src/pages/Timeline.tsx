@@ -9,17 +9,28 @@ import { Calendar, Clock, MapPin, CheckCircle2 } from "lucide-react";
 interface Deadline {
   task: string;
   date: string;
+  /** ISO date string used to determine if this deadline has passed */
+  isoDate: string;
   important?: boolean;
 }
 
 export default function Timeline() {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
   const deadlines: Deadline[] = [
-    { task: "Registration list shared with sponsors", date: "18th February (5 weeks before)", important: false },
-    { task: "Partner Intake Form", date: "24th February", important: true },
-    { task: "Dietary Requirements Form", date: "24th February", important: true },
-    { task: "Meeting prioritisation completed", date: "25th February (4 weeks before)", important: false },
-    { task: "Confirmed meeting schedules shared", date: "11th March (10 days before)", important: false },
+    { task: "Registration list shared with sponsors", date: "18th February (5 weeks before)", isoDate: "2026-02-18", important: false },
+    { task: "Partner Intake Form", date: "24th February", isoDate: "2026-02-24", important: true },
+    { task: "Dietary Requirements Form", date: "24th February", isoDate: "2026-02-24", important: true },
+    { task: "Meeting prioritisation completed", date: "25th February (4 weeks before)", isoDate: "2026-02-25", important: false },
+    { task: "Confirmed meeting schedules shared", date: "11th March (10 days before)", isoDate: "2026-03-11", important: false },
   ];
+
+  const isPast = (isoDate: string) => {
+    const d = new Date(isoDate);
+    d.setHours(0, 0, 0, 0);
+    return d < today;
+  };
 
   return (
     <div className="min-h-screen py-20">
@@ -85,31 +96,53 @@ export default function Timeline() {
             <h2 className="text-3xl font-heading font-bold text-foreground mb-8 text-center">Key Deadlines</h2>
             
             <div className="space-y-4">
-              {deadlines.map((deadline, index) => (
-                <div 
-                  key={index} 
-                  className={`glass-card p-6 rounded-lg flex items-center justify-between hover:border-accent/50 transition-all duration-300 ${
-                    deadline.important ? 'border-accent/50 bg-accent/5' : ''
-                  }`}
-                >
-                  <div className="flex items-center gap-4">
-                    <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                      deadline.important ? 'bg-accent/20 border-2 border-accent/40' : 'bg-primary/20 border-2 border-primary/30'
-                    }`}>
-                      <CheckCircle2 className={`w-6 h-6 ${deadline.important ? 'text-accent' : 'text-primary'}`} />
+              {deadlines.map((deadline, index) => {
+                const past = isPast(deadline.isoDate);
+                return (
+                  <div
+                    key={index}
+                    className={`glass-card p-6 rounded-lg flex items-center justify-between transition-all duration-300 ${
+                      past
+                        ? 'border-green-500/40 bg-green-500/5 opacity-75'
+                        : deadline.important
+                          ? 'border-accent/50 bg-accent/5 hover:border-accent/70'
+                          : 'hover:border-accent/50'
+                    }`}
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
+                        past
+                          ? 'bg-green-500/20 border-2 border-green-500/50'
+                          : deadline.important
+                            ? 'bg-accent/20 border-2 border-accent/40'
+                            : 'bg-primary/20 border-2 border-primary/30'
+                      }`}>
+                        <CheckCircle2 className={`w-6 h-6 ${
+                          past ? 'text-green-400' : deadline.important ? 'text-accent' : 'text-primary'
+                        }`} />
+                      </div>
+                      <div>
+                        <h3 className={`text-xl font-heading font-semibold ${past ? 'text-foreground/60 line-through decoration-green-500/50' : 'text-foreground'}`}>
+                          {deadline.task}
+                        </h3>
+                        {past ? (
+                          <span className="text-xs text-green-400 font-heading font-semibold uppercase tracking-wide">Passed</span>
+                        ) : deadline.important ? (
+                          <span className="text-xs text-accent font-heading font-semibold uppercase tracking-wide">Required</span>
+                        ) : null}
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="text-xl font-heading font-semibold text-foreground">{deadline.task}</h3>
-                      {deadline.important && (
-                        <span className="text-xs text-accent font-heading font-semibold uppercase tracking-wide">Required</span>
+                    <div className="text-right">
+                      <p className={`text-lg font-heading font-bold ${past ? 'text-green-400/70' : 'text-accent'}`}>
+                        {deadline.date}
+                      </p>
+                      {past && (
+                        <p className="text-xs text-green-400/60 mt-0.5">Deadline passed</p>
                       )}
                     </div>
                   </div>
-                  <div className="text-right">
-                    <p className="text-lg font-heading font-bold text-accent">{deadline.date}</p>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </AnimatedSection>
