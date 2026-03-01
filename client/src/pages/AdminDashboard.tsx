@@ -233,6 +233,15 @@ export default function AdminDashboard() {
                         <div className="text-sm text-slate-400">
                           Submitted: {new Date(submission.submittedAt).toLocaleString()}
                         </div>
+                        {submission.status === "reviewed" && submission.reviewedBy && (
+                          <div className="text-sm text-green-400/80 flex items-center gap-1 mt-1">
+                            <CheckCircle className="w-3 h-3" />
+                            Reviewed by {submission.reviewedBy}
+                            {submission.reviewedAt && (
+                              <span className="text-slate-500"> · {new Date(submission.reviewedAt).toLocaleString()}</span>
+                            )}
+                          </div>
+                        )}
                       </CardDescription>
                     </div>
                     <div className="flex gap-2">

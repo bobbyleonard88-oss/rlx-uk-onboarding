@@ -48,6 +48,20 @@ export const appRouter = router({
         return { success: true, sponsorId };
       }),
     
+    // Get submission stats for the progress indicator shown to sponsors
+    getSubmissionStats: publicProcedure.query(async () => {
+      const allIntake = await db.getAllIntakeSubmissions();
+      const allRankings = await db.getAllRankingsSubmissions();
+      // Count unique sponsors who have submitted intake
+      const intakeCount = new Set(allIntake.map((s: any) => s.sponsorId)).size;
+      // Count unique sponsors who have submitted rankings
+      const rankingsCount = new Set(allRankings.map((s: any) => s.sponsorId)).size;
+      // Total registered sponsors
+      const allSponsors = await db.getAllSponsors();
+      const totalSponsors = allSponsors.length;
+      return { intakeCount, rankingsCount, totalSponsors };
+    }),
+
     // Get sponsor's own meetings
     getMyMeetings: protectedProcedure.query(async ({ ctx }) => {
       const sponsor = await db.getSponsorByUserId(ctx.user.id);
@@ -275,8 +289,10 @@ export const appRouter = router({
         id: z.number(),
         status: z.enum(["pending", "reviewed"]),
       }))
-      .mutation(async ({ input }) => {
-        await db.updateSubmissionStatus(input.id, input.status);
+      .mutation(async ({ ctx, input }) => {
+        // Pass the admin's display name or email as the reviewer
+        const reviewedBy = ctx.user.name || ctx.user.email || 'Admin';
+        await db.updateSubmissionStatus(input.id, input.status, reviewedBy);
         return { success: true };
       }),
     

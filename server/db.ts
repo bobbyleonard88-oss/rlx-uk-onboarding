@@ -180,6 +180,7 @@ export async function upsertRankingsSubmission(submission: InsertRankingsSubmiss
 
   if (existing.length > 0) {
     // Overwrite the existing row with fresh data and a new timestamp
+    // Also clear reviewer info so admin must re-review the updated submission
     await db
       .update(rankingsSubmissions)
       .set({
@@ -188,6 +189,8 @@ export async function upsertRankingsSubmission(submission: InsertRankingsSubmiss
         submittedAt: new Date(),
         status: 'pending',
         isReviewed: 0,
+        reviewedBy: null,
+        reviewedAt: null,
       })
       .where(eq(rankingsSubmissions.id, existing[0].id));
     return existing[0].id;
@@ -211,6 +214,8 @@ export async function getAllRankingsSubmissions() {
       status: rankingsSubmissions.status,
       isArchived: rankingsSubmissions.isArchived,
       isReviewed: rankingsSubmissions.isReviewed,
+      reviewedBy: rankingsSubmissions.reviewedBy,
+      reviewedAt: rankingsSubmissions.reviewedAt,
       companyName: sponsors.companyName,
       contactName: sponsors.contactName,
       contactEmail: sponsors.contactEmail,
@@ -567,13 +572,31 @@ export async function upsertIntakeSubmission(data: InsertIntakeSubmission) {
   }
 }
 
-export async function updateSubmissionStatus(submissionId: number, status: "pending" | "reviewed") {
+export async function updateSubmissionStatus(
+  submissionId: number,
+  status: "pending" | "reviewed",
+  reviewedBy?: string
+) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
-  
+
+  const updateData: Record<string, unknown> = {
+    status,
+    isReviewed: status === "reviewed" ? 1 : 0,
+  };
+
+  if (status === "reviewed" && reviewedBy) {
+    updateData.reviewedBy = reviewedBy;
+    updateData.reviewedAt = new Date();
+  } else if (status === "pending") {
+    // Clear reviewer info when reset to pending
+    updateData.reviewedBy = null;
+    updateData.reviewedAt = null;
+  }
+
   await db
     .update(rankingsSubmissions)
-    .set({ status, isReviewed: status === "reviewed" ? 1 : 0 })
+    .set(updateData)
     .where(eq(rankingsSubmissions.id, submissionId));
 }
 

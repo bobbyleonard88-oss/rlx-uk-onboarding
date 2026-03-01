@@ -7,7 +7,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle, AlertCircle, FileText, List, LogOut, User, ArrowRight, Calendar } from "lucide-react";
+import { CheckCircle, AlertCircle, FileText, List, LogOut, User, ArrowRight, Calendar, Users } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import AnimatedSection from "@/components/AnimatedSection";
 
@@ -18,6 +18,7 @@ export default function SponsorDashboard() {
   const { data: intakeSubmission, isLoading: intakeLoading } = trpc.intake.getSubmission.useQuery();
   const { data: rankingsSubmission, isLoading: rankingsLoading } = trpc.rankings.myRankingsSubmission.useQuery();
   const { data: meetings = [], isLoading: meetingsLoading } = trpc.sponsor.getMyMeetings.useQuery();
+  const { data: submissionStats } = trpc.sponsor.getSubmissionStats.useQuery();
 
   const hasIntake = !!intakeSubmission;
   const hasRankings = !!rankingsSubmission;
@@ -100,6 +101,50 @@ export default function SponsorDashboard() {
               </CardHeader>
             </Card>
           </AnimatedSection>
+
+          {/* Submission Count Indicator */}
+          {submissionStats && submissionStats.totalSponsors > 0 && (
+            <AnimatedSection delay={150}>
+              <Card className="glass-card mb-8 border-primary/20 bg-primary/5">
+                <CardContent className="pt-5 pb-5">
+                  <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center">
+                        <Users className="w-5 h-5 text-primary" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-foreground">Sponsor Participation</p>
+                        <p className="text-xs text-muted-foreground">How your peers are progressing</p>
+                      </div>
+                    </div>
+                    <div className="flex gap-6 text-center">
+                      <div>
+                        <p className="text-2xl font-bold text-primary">{submissionStats.intakeCount}</p>
+                        <p className="text-xs text-muted-foreground">of {submissionStats.totalSponsors} intake forms submitted</p>
+                        <div className="mt-1 h-1.5 w-28 bg-muted rounded-full overflow-hidden">
+                          <div
+                            className="h-full bg-primary rounded-full transition-all duration-700"
+                            style={{ width: `${Math.round((submissionStats.intakeCount / submissionStats.totalSponsors) * 100)}%` }}
+                          />
+                        </div>
+                      </div>
+                      <div className="w-px bg-border" />
+                      <div>
+                        <p className="text-2xl font-bold text-accent">{submissionStats.rankingsCount}</p>
+                        <p className="text-xs text-muted-foreground">of {submissionStats.totalSponsors} rankings submitted</p>
+                        <div className="mt-1 h-1.5 w-28 bg-muted rounded-full overflow-hidden">
+                          <div
+                            className="h-full bg-accent rounded-full transition-all duration-700"
+                            style={{ width: `${Math.round((submissionStats.rankingsCount / submissionStats.totalSponsors) * 100)}%` }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </AnimatedSection>
+          )}
 
           {/* Submission Cards */}
           <div className="grid md:grid-cols-3 gap-6 mb-8">

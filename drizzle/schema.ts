@@ -53,6 +53,8 @@ export const rankingsSubmissions = mysqlTable("rankingsSubmissions", {
   status: mysqlEnum("status", ["pending", "reviewed"]).default("pending").notNull(),
   isReviewed: int("isReviewed").default(0).notNull(), // 0 or 1, toggle for matchmaking
   isArchived: int("isArchived").default(0).notNull(), // 0 or 1, hide from main view
+  reviewedBy: varchar("reviewedBy", { length: 255 }), // Name/email of admin who reviewed
+  reviewedAt: timestamp("reviewedAt"), // When it was last reviewed
 });
 
 export type RankingsSubmission = typeof rankingsSubmissions.$inferSelect;
