@@ -1200,3 +1200,4 @@
 - [x] Show "Last reviewed by X at Y" label on admin dashboard for reviewed submissions
 - [x] Add getSubmissionStats backend procedure returning total/submitted counts
 - [x] Show submission count indicator on sponsor dashboard ("X of Y sponsors have submitted")
+- [x] Change sponsor participation card to show percentages instead of raw counts

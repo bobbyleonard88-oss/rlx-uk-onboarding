@@ -119,23 +119,31 @@ export default function SponsorDashboard() {
                     </div>
                     <div className="flex gap-6 text-center">
                       <div>
-                        <p className="text-2xl font-bold text-primary">{submissionStats.intakeCount}</p>
-                        <p className="text-xs text-muted-foreground">of {submissionStats.totalSponsors} intake forms submitted</p>
+                        <p className="text-2xl font-bold text-primary">
+                          {submissionStats.totalSponsors > 0
+                            ? `${Math.round((submissionStats.intakeCount / submissionStats.totalSponsors) * 100)}%`
+                            : '—'}
+                        </p>
+                        <p className="text-xs text-muted-foreground">of sponsors have completed intake</p>
                         <div className="mt-1 h-1.5 w-28 bg-muted rounded-full overflow-hidden">
                           <div
                             className="h-full bg-primary rounded-full transition-all duration-700"
-                            style={{ width: `${Math.round((submissionStats.intakeCount / submissionStats.totalSponsors) * 100)}%` }}
+                            style={{ width: submissionStats.totalSponsors > 0 ? `${Math.round((submissionStats.intakeCount / submissionStats.totalSponsors) * 100)}%` : '0%' }}
                           />
                         </div>
                       </div>
                       <div className="w-px bg-border" />
                       <div>
-                        <p className="text-2xl font-bold text-accent">{submissionStats.rankingsCount}</p>
-                        <p className="text-xs text-muted-foreground">of {submissionStats.totalSponsors} rankings submitted</p>
+                        <p className="text-2xl font-bold text-accent">
+                          {submissionStats.totalSponsors > 0
+                            ? `${Math.round((submissionStats.rankingsCount / submissionStats.totalSponsors) * 100)}%`
+                            : '—'}
+                        </p>
+                        <p className="text-xs text-muted-foreground">of sponsors have completed rankings</p>
                         <div className="mt-1 h-1.5 w-28 bg-muted rounded-full overflow-hidden">
                           <div
                             className="h-full bg-accent rounded-full transition-all duration-700"
-                            style={{ width: `${Math.round((submissionStats.rankingsCount / submissionStats.totalSponsors) * 100)}%` }}
+                            style={{ width: submissionStats.totalSponsors > 0 ? `${Math.round((submissionStats.rankingsCount / submissionStats.totalSponsors) * 100)}%` : '0%' }}
                           />
                         </div>
                       </div>
