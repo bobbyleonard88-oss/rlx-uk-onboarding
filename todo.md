@@ -1186,3 +1186,8 @@
 - [x] Add upsertRankingsSubmission helper in db.ts
 - [x] Update rankings.submit router to call upsertRankingsSubmission
 - [x] Remove delete button from admin dashboard (keep archive only)
+
+## Database Cleanup & Reviewed Badge Fix
+
+- [x] Clean up duplicate rankings rows - keep only the most recent row per sponsor
+- [x] Fix Reviewed badge to reset visually when sponsor re-submits rankings (status resets to pending)

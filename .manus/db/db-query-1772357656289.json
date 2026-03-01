@@ -1,0 +1,9 @@
+{
+  "query": "DELETE r FROM rankingsSubmissions r INNER JOIN ( SELECT sponsorId, MAX(submittedAt) as maxDate FROM rankingsSubmissions GROUP BY sponsorId ) latest ON r.sponsorId = latest.sponsorId WHERE r.submittedAt < latest.maxDate;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute DELETE r FROM rankingsSubmissions r INNER JOIN ( SELECT sponsorId, MAX(submittedAt) as maxDate FROM rankingsSubmissions GROUP BY sponsorId ) latest ON r.sponsorId = latest.sponsorId WHERE r.submittedAt < latest.maxDate;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 353
+}

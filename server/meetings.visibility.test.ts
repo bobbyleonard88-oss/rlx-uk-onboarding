@@ -3,20 +3,23 @@
  * Verifies that admin can control whether published meetings are visible to sponsors
  */
 
-import { describe, it, expect, beforeAll } from 'vitest';
+import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import * as db from './db';
 import { eq } from 'drizzle-orm';
-import { meetings } from '../drizzle/schema';
+import { meetings, sponsors } from '../drizzle/schema';
 
 describe('Meetings Visibility Toggle', () => {
   let testSponsorId: number;
   let testMeetingIds: number[] = [];
+  // Use a unique email per test run to avoid cross-run contamination
+  const uniqueEmail = `visibility-test-${Date.now()}@example.com`;
+  const uniqueUserId = 900000 + Math.floor(Math.random() * 99999);
 
   beforeAll(async () => {
     // Create a test sponsor using upsertSponsor
     testSponsorId = await db.upsertSponsor({
-      userId: 999999, // Test user ID
-      contactEmail: 'visibility-test@example.com',
+      userId: uniqueUserId,
+      contactEmail: uniqueEmail,
       companyName: 'Visibility Test Company',
       contactName: 'Test User',
       packageType: '12-meetings',
@@ -124,6 +127,15 @@ describe('Meetings Visibility Toggle', () => {
       m => m.status === 'confirmed' && m.isVisible === 1
     );
     expect(sponsorVisibleMeetings.length).toBe(0);
+  });
+
+  afterAll(async () => {
+    // Clean up test data
+    const dbInstance = await db.getDb();
+    if (dbInstance) {
+      await dbInstance.delete(meetings).where(eq(meetings.sponsorId, testSponsorId));
+      await dbInstance.delete(sponsors).where(eq(sponsors.id, testSponsorId));
+    }
   });
 
   it('should toggle visibility multiple times correctly', async () => {

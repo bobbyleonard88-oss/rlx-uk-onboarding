@@ -1,0 +1,70 @@
+{
+  "query": "SELECT r.sponsorId, s.companyName, COUNT(*) as submissionCount FROM rankingsSubmissions r LEFT JOIN sponsors s ON r.sponsorId = s.id GROUP BY r.sponsorId, s.companyName ORDER BY submissionCount DESC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT r.sponsorId, s.companyName, COUNT(*) as submissionCount FROM rankingsSubmissions r LEFT JOIN sponsors s ON r.sponsorId = s.id GROUP BY r.sponsorId, s.companyName ORDER BY submissionCount DESC;",
+  "rows": [
+    {
+      "sponsorId": "150001",
+      "companyName": "Stepstone Group UK Ltd",
+      "submissionCount": "4"
+    },
+    {
+      "sponsorId": "180001",
+      "companyName": "Maki People",
+      "submissionCount": "3"
+    },
+    {
+      "sponsorId": "300001",
+      "companyName": "Zinc",
+      "submissionCount": "2"
+    },
+    {
+      "sponsorId": "270002",
+      "companyName": "Appcast",
+      "submissionCount": "1"
+    },
+    {
+      "sponsorId": "120001",
+      "companyName": "Little Moment",
+      "submissionCount": "1"
+    },
+    {
+      "sponsorId": "210001",
+      "companyName": "Harver",
+      "submissionCount": "1"
+    },
+    {
+      "sponsorId": "240001",
+      "companyName": "Sapia.ai",
+      "submissionCount": "1"
+    },
+    {
+      "sponsorId": "330001",
+      "companyName": "Symphony Talent ",
+      "submissionCount": "1"
+    },
+    {
+      "sponsorId": "390001",
+      "companyName": "Bright Apply",
+      "submissionCount": "1"
+    },
+    {
+      "sponsorId": "60001",
+      "companyName": "Elevate Assess",
+      "submissionCount": "1"
+    },
+    {
+      "sponsorId": "30001",
+      "companyName": "AI Limited",
+      "submissionCount": "1"
+    },
+    {
+      "sponsorId": "90001",
+      "companyName": "NexaTalent Solutions Ltd",
+      "submissionCount": "1"
+    }
+  ],
+  "messages": [],
+  "stdout": "sponsorId\tcompanyName\tsubmissionCount\n150001\tStepstone Group UK Ltd\t4\n180001\tMaki People\t3\n300001\tZinc\t2\n270002\tAppcast\t1\n120001\tLittle Moment\t1\n210001\tHarver\t1\n240001\tSapia.ai\t1\n330001\tSymphony Talent \t1\n390001\tBright Apply\t1\n60001\tElevate Assess\t1\n30001\tAI Limited\t1\n90001\tNexaTalent Solutions Ltd\t1\n",
+  "stderr": "",
+  "execution_time_ms": 357
+}

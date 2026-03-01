@@ -1,0 +1,70 @@
+{
+  "query": "SELECT sponsorId, COUNT(*) as count, GROUP_CONCAT(id ORDER BY submittedAt DESC SEPARATOR ',') as ids FROM rankingsSubmissions GROUP BY sponsorId ORDER BY count DESC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT sponsorId, COUNT(*) as count, GROUP_CONCAT(id ORDER BY submittedAt DESC SEPARATOR ',') as ids FROM rankingsSubmissions GROUP BY sponsorId ORDER BY count DESC;",
+  "rows": [
+    {
+      "sponsorId": "150001",
+      "count": "4",
+      "ids": "360002,360001,180002,180001"
+    },
+    {
+      "sponsorId": "180001",
+      "count": "3",
+      "ids": "270003,270002,270001"
+    },
+    {
+      "sponsorId": "300001",
+      "count": "2",
+      "ids": "240002,240001"
+    },
+    {
+      "sponsorId": "30001",
+      "count": "1",
+      "ids": "60002"
+    },
+    {
+      "sponsorId": "60001",
+      "count": "1",
+      "ids": "90001"
+    },
+    {
+      "sponsorId": "90001",
+      "count": "1",
+      "ids": "120001"
+    },
+    {
+      "sponsorId": "120001",
+      "count": "1",
+      "ids": "150001"
+    },
+    {
+      "sponsorId": "240001",
+      "count": "1",
+      "ids": "210001"
+    },
+    {
+      "sponsorId": "330001",
+      "count": "1",
+      "ids": "300001"
+    },
+    {
+      "sponsorId": "270002",
+      "count": "1",
+      "ids": "330001"
+    },
+    {
+      "sponsorId": "210001",
+      "count": "1",
+      "ids": "390001"
+    },
+    {
+      "sponsorId": "390001",
+      "count": "1",
+      "ids": "420001"
+    }
+  ],
+  "messages": [],
+  "stdout": "sponsorId\tcount\tids\n150001\t4\t360002,360001,180002,180001\n180001\t3\t270003,270002,270001\n300001\t2\t240002,240001\n30001\t1\t60002\n60001\t1\t90001\n90001\t1\t120001\n120001\t1\t150001\n240001\t1\t210001\n330001\t1\t300001\n270002\t1\t330001\n210001\t1\t390001\n390001\t1\t420001\n",
+  "stderr": "",
+  "execution_time_ms": 348
+}

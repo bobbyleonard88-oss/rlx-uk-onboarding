@@ -244,6 +244,8 @@ export const appRouter = router({
             sponsorId: intake.sponsorId,
             submittedAt: intake.submittedAt,
             isArchived: 0,
+            status: 'pending', // intake-only submissions always start as pending
+            isReviewed: 0,
             companyName: intake.companyName || sponsor?.companyName || "Unknown",
             contactName: intake.firstName + " " + intake.lastName,
             contactEmail: intake.email,
