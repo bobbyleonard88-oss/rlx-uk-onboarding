@@ -1,0 +1,17 @@
+{
+  "query": "SELECT id, userId, companyName, contactEmail, createdAt FROM sponsors WHERE companyName LIKE '%Stepstone%' ORDER BY id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT id, userId, companyName, contactEmail, createdAt FROM sponsors WHERE companyName LIKE '%Stepstone%' ORDER BY id;",
+  "rows": [
+    {
+      "id": "150001",
+      "userId": "990024",
+      "companyName": "Stepstone Group UK Ltd",
+      "contactEmail": "luke.mckend@stepstone.com",
+      "createdAt": "2026-02-18 17:13:26"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tuserId\tcompanyName\tcontactEmail\tcreatedAt\n150001\t990024\tStepstone Group UK Ltd\tluke.mckend@stepstone.com\t2026-02-18 17:13:26\n",
+  "stderr": "",
+  "execution_time_ms": 348
+}

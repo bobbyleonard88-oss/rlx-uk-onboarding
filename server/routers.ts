@@ -207,8 +207,17 @@ export const appRouter = router({
       const processedSponsors = new Set<number>();
       const submissions: any[] = [];
       
-      // Process rankings submissions
+      // Deduplicate rankings submissions - keep only the most recent per sponsor
+      const latestRankingsBySponsor = new Map<number, typeof rankingsSubmissions[0]>();
       for (const sub of rankingsSubmissions) {
+        const existing = latestRankingsBySponsor.get(sub.sponsorId);
+        if (!existing || new Date(sub.submittedAt) > new Date(existing.submittedAt)) {
+          latestRankingsBySponsor.set(sub.sponsorId, sub);
+        }
+      }
+      
+      // Process deduplicated rankings submissions
+      for (const sub of Array.from(latestRankingsBySponsor.values())) {
         const sponsor = await db.getSponsorById(sub.sponsorId);
         const intakeSubmission = await db.getIntakeSubmissionBySponsor(sub.sponsorId);
         const priorityTags = await db.getPriorityTagsBySponsor(sub.sponsorId);

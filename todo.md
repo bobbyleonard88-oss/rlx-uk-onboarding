@@ -1163,3 +1163,19 @@
 - [x] Added "Updated" badge in purple/primary color for sponsors updated within 48 hours
 - [x] Test that Harver appears near top of sponsor list with updated timestamp and badge
 - [x] Harver now shows at position #4 with "Updated" badge (3 other sponsors updated more recently)
+
+
+## Restore Perchpeek Sponsor Profile
+
+- [ ] Check database for remaining Perchpeek data
+- [ ] Restore sponsor record and intake submission
+- [ ] Restore any rankings/meetings data
+
+## Restore Perchpeek Sponsor Profile (COMPLETED)
+
+- [x] Check database for remaining Perchpeek data - completely deleted
+- [x] Recovered data from network request logs
+- [x] Re-inserted sponsor record (PerchPeek, samuel@perchpeek.com, 12 meetings)
+- [x] Re-inserted intake submission with full company boilerplate and key challenges
+- [x] Fixed duplicate Stepstone entries (3x → 1x) by deduplicating rankings submissions in getAllSubmissions
+- [x] PerchPeek now appears at position #3 in admin meetings dropdown

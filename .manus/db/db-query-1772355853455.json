@@ -1,0 +1,40 @@
+{
+  "query": "SELECT table_name FROM information_schema.tables WHERE table_schema = DATABASE();",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT table_name FROM information_schema.tables WHERE table_schema = DATABASE();",
+  "rows": [
+    {
+      "table_name": "__drizzle_migrations"
+    },
+    {
+      "table_name": "users"
+    },
+    {
+      "table_name": "rankingsSubmissions"
+    },
+    {
+      "table_name": "sponsors"
+    },
+    {
+      "table_name": "delegateProfiles"
+    },
+    {
+      "table_name": "meetings"
+    },
+    {
+      "table_name": "priorityTags"
+    },
+    {
+      "table_name": "vendorProfiles"
+    },
+    {
+      "table_name": "intakeSubmissions"
+    },
+    {
+      "table_name": "matchCache"
+    }
+  ],
+  "messages": [],
+  "stdout": "table_name\n__drizzle_migrations\nusers\nrankingsSubmissions\nsponsors\ndelegateProfiles\nmeetings\npriorityTags\nvendorProfiles\nintakeSubmissions\nmatchCache\n",
+  "stderr": "",
+  "execution_time_ms": 371
+}

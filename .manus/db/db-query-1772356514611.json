@@ -1,0 +1,22 @@
+{
+  "query": "SELECT id, sponsorId, companyName, submittedAt FROM intakeSubmissions WHERE companyName LIKE '%Stepstone%' ORDER BY id;\nSELECT id, sponsorId, submittedAt FROM rankingsSubmissions WHERE sponsorId = 150001 ORDER BY id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT id, sponsorId, companyName, submittedAt FROM intakeSubmissions WHERE companyName LIKE '%Stepstone%' ORDER BY id;\nSELECT id, sponsorId, submittedAt FROM rankingsSubmissions WHERE sponsorId = 150001 ORDER BY id;",
+  "rows": [
+    {
+      "id": "150001",
+      "sponsorId": "150001",
+      "companyName": "Stepstone Group UK Ltd",
+      "submittedAt": "2026-02-18 17:13:26"
+    }
+  ],
+  "messages": [
+    "id\tsponsorId\tsubmittedAt",
+    "180001\t150001\t2026-02-18 18:27:11",
+    "180002\t150001\t2026-02-18 18:27:21",
+    "360001\t150001\t2026-02-25 18:06:42",
+    "360002\t150001\t2026-02-25 18:06:50"
+  ],
+  "stdout": "id\tsponsorId\tcompanyName\tsubmittedAt\n150001\t150001\tStepstone Group UK Ltd\t2026-02-18 17:13:26\nid\tsponsorId\tsubmittedAt\n180001\t150001\t2026-02-18 18:27:11\n180002\t150001\t2026-02-18 18:27:21\n360001\t150001\t2026-02-25 18:06:42\n360002\t150001\t2026-02-25 18:06:50\n",
+  "stderr": "",
+  "execution_time_ms": 400
+}
