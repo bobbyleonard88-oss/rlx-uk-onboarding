@@ -1203,3 +1203,7 @@
 - [x] Change sponsor participation card to show percentages instead of raw counts
 - [x] Redirect authenticated users from homepage (/) to /dashboard automatically
 - [x] Highlight past timeline dates with a distinct visual style (dimmed/completed look)
+- [x] Investigate and fix misleading "12 delegates booked" on analytics page
+- [x] Add adminActivityLog table to schema (action, adminName, details, timestamp)
+- [x] Log key admin actions: approve/review, archive, generate meetings, cancel delegate, import delegates
+- [x] Build Activity Log page in admin portal showing chronological feed of admin actions

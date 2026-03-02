@@ -18,6 +18,7 @@ export default function AdminHeader() {
     { path: "/admin/analytics", label: "Analytics" },
     { path: "/admin/delegate-overview", label: "Delegate Overview" },
     { path: "/admin/users", label: "Users" },
+    { path: "/admin/activity-log", label: "Activity Log" },
   ];
 
   return (

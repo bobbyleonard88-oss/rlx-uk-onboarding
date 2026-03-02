@@ -1,0 +1,8 @@
+{
+  "query": "SELECT m.id, m.sponsorId, m.delegateName, m.delegateCompany, m.timeSlot, m.isVisible, s.companyName as sponsorName FROM meetings m LEFT JOIN sponsors s ON m.sponsorId = s.id ORDER BY m.sponsorId LIMIT 50;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT m.id, m.sponsorId, m.delegateName, m.delegateCompany, m.timeSlot, m.isVisible, s.companyName as sponsorName FROM meetings m LEFT JOIN sponsors s ON m.sponsorId = s.id ORDER BY m.sponsorId LIMIT 50;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'm.delegatename' in 'field list'"
+  ]
+}

@@ -293,6 +293,18 @@ export const appRouter = router({
         // Pass the admin's display name or email as the reviewer
         const reviewedBy = ctx.user.name || ctx.user.email || 'Admin';
         await db.updateSubmissionStatus(input.id, input.status, reviewedBy);
+        // Get sponsor name for the log
+        const submission = await db.getRankingsSubmissionById(input.id);
+        const sponsor = submission ? await db.getSponsorById(submission.sponsorId) : null;
+        await db.logAdminActivity({
+          adminId: ctx.user.id,
+          adminName: reviewedBy,
+          action: input.status === 'reviewed' ? 'reviewed' : 'reset_to_pending',
+          entityType: 'submission',
+          entityId: String(input.id),
+          entityName: sponsor?.companyName || `Submission #${input.id}`,
+          details: `Rankings marked as ${input.status}`,
+        });
         return { success: true };
       }),
     
@@ -301,8 +313,20 @@ export const appRouter = router({
       .input(z.object({
         id: z.number(),
       }))
-      .mutation(async ({ input }) => {
+      .mutation(async ({ ctx, input }) => {
         await db.archiveSubmission(input.id);
+        const submission = await db.getRankingsSubmissionById(input.id);
+        const sponsor = submission ? await db.getSponsorById(submission.sponsorId) : null;
+        const adminName = ctx.user.name || ctx.user.email || 'Admin';
+        await db.logAdminActivity({
+          adminId: ctx.user.id,
+          adminName,
+          action: 'archived',
+          entityType: 'sponsor',
+          entityId: String(submission?.sponsorId ?? input.id),
+          entityName: sponsor?.companyName || `Submission #${input.id}`,
+          details: 'Sponsor archived from admin dashboard',
+        });
         return { success: true };
       }),
     
@@ -311,8 +335,20 @@ export const appRouter = router({
       .input(z.object({
         id: z.number(),
       }))
-      .mutation(async ({ input }) => {
+      .mutation(async ({ ctx, input }) => {
         await db.unarchiveSubmission(input.id);
+        const submission = await db.getRankingsSubmissionById(input.id);
+        const sponsor = submission ? await db.getSponsorById(submission.sponsorId) : null;
+        const adminName = ctx.user.name || ctx.user.email || 'Admin';
+        await db.logAdminActivity({
+          adminId: ctx.user.id,
+          adminName,
+          action: 'unarchived',
+          entityType: 'sponsor',
+          entityId: String(submission?.sponsorId ?? input.id),
+          entityName: sponsor?.companyName || `Submission #${input.id}`,
+          details: 'Sponsor restored from archive',
+        });
         return { success: true };
       }),
     
@@ -612,7 +648,7 @@ export const appRouter = router({
           attendeeNumber: z.number().optional(),
         })),
       }))
-      .mutation(async ({ input }) => {
+      .mutation(async ({ ctx, input }) => {
         // Delete existing meetings for this sponsor
         await db.deleteMeetingsBySponsor(input.sponsorId);
         
@@ -631,7 +667,17 @@ export const appRouter = router({
             notes: null,
           });
         }
-        
+        const sponsor = await db.getSponsorById(input.sponsorId);
+        const adminName = ctx.user.name || ctx.user.email || 'Admin';
+        await db.logAdminActivity({
+          adminId: ctx.user.id,
+          adminName,
+          action: 'saved_meetings',
+          entityType: 'sponsor',
+          entityId: String(input.sponsorId),
+          entityName: sponsor?.companyName || `Sponsor #${input.sponsorId}`,
+          details: `${input.meetings.length} meetings saved`,
+        });
         return { success: true };
       }),
     
@@ -640,12 +686,19 @@ export const appRouter = router({
       .input(z.object({
         sponsorId: z.number(),
       }))
-      .mutation(async ({ input }) => {
-        // Delete all meetings for this sponsor
-        // AI matching data (match scores, reasons) is stored in the meetings table
-        // but can be regenerated from rankings and intake data without additional AI calls
+      .mutation(async ({ ctx, input }) => {
         await db.deleteMeetingsBySponsor(input.sponsorId);
-        
+        const sponsor = await db.getSponsorById(input.sponsorId);
+        const adminName = ctx.user.name || ctx.user.email || 'Admin';
+        await db.logAdminActivity({
+          adminId: ctx.user.id,
+          adminName,
+          action: 'cleared_meetings',
+          entityType: 'sponsor',
+          entityId: String(input.sponsorId),
+          entityName: sponsor?.companyName || `Sponsor #${input.sponsorId}`,
+          details: 'All meetings cleared for sponsor',
+        });
         return { success: true };
       }),
     
@@ -654,19 +707,24 @@ export const appRouter = router({
       .input(z.object({
         sponsorId: z.number(),
       }))
-      .mutation(async ({ input }) => {
-        // Get all meetings for this sponsor
+      .mutation(async ({ ctx, input }) => {
         const meetings = await db.getMeetingsBySponsor(input.sponsorId);
-        
-        // Count suggested meetings BEFORE updating
         const suggestedMeetings = meetings.filter(m => m.status === 'suggested');
         const suggestedCount = suggestedMeetings.length;
-        
-        // Update all suggested meetings to confirmed
         for (const meeting of suggestedMeetings) {
           await db.updateMeetingStatus(meeting.id, 'confirmed');
         }
-        
+        const sponsor = await db.getSponsorById(input.sponsorId);
+        const adminName = ctx.user.name || ctx.user.email || 'Admin';
+        await db.logAdminActivity({
+          adminId: ctx.user.id,
+          adminName,
+          action: 'published_meetings',
+          entityType: 'sponsor',
+          entityId: String(input.sponsorId),
+          entityName: sponsor?.companyName || `Sponsor #${input.sponsorId}`,
+          details: `${suggestedCount} meetings published to sponsor`,
+        });
         return { 
           success: true, 
           publishedCount: suggestedCount,
@@ -681,8 +739,20 @@ export const appRouter = router({
         sponsorId: z.number(),
         isVisible: z.boolean(),
       }))
-      .mutation(async ({ input }) => {
-        return await db.toggleMeetingsVisibility(input.sponsorId, input.isVisible);
+      .mutation(async ({ ctx, input }) => {
+        const result = await db.toggleMeetingsVisibility(input.sponsorId, input.isVisible);
+        const sponsor = await db.getSponsorById(input.sponsorId);
+        const adminName = ctx.user.name || ctx.user.email || 'Admin';
+        await db.logAdminActivity({
+          adminId: ctx.user.id,
+          adminName,
+          action: input.isVisible ? 'meetings_made_visible' : 'meetings_hidden',
+          entityType: 'sponsor',
+          entityId: String(input.sponsorId),
+          entityName: sponsor?.companyName || `Sponsor #${input.sponsorId}`,
+          details: `Meetings ${input.isVisible ? 'made visible' : 'hidden'} for sponsor`,
+        });
+        return result;
       }),
     
     // Get meetings for a sponsor
@@ -1104,6 +1174,13 @@ export const appRouter = router({
           mostInDemandDelegates,
           sponsorStats,
         };
+      }),
+
+    // Get admin activity log
+    getActivityLog: adminProcedure
+      .input(z.object({ limit: z.number().min(1).max(500).optional() }).optional())
+      .query(async ({ input }) => {
+        return await db.getAdminActivityLog(input?.limit ?? 100);
       }),
   }),
 });

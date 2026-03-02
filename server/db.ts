@@ -1,6 +1,6 @@
 import { desc, eq, and, sql, ne } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users, sponsors, InsertSponsor, rankingsSubmissions, InsertRankingsSubmission, vendorProfiles, InsertVendorProfile, delegateProfiles, InsertDelegateProfile, priorityTags, InsertPriorityTag, meetings, InsertMeeting, intakeSubmissions, InsertIntakeSubmission, matchCache, InsertMatchCache } from "../drizzle/schema";
+import { InsertUser, users, sponsors, InsertSponsor, rankingsSubmissions, InsertRankingsSubmission, vendorProfiles, InsertVendorProfile, delegateProfiles, InsertDelegateProfile, priorityTags, InsertPriorityTag, meetings, InsertMeeting, intakeSubmissions, InsertIntakeSubmission, matchCache, InsertMatchCache, adminActivityLog, InsertAdminActivityLog } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -716,4 +716,33 @@ export async function checkTimeSlotConflict(attendeeId: string, timeSlot: number
     .where(and(...conditions));
   
   return (result[0]?.count || 0) > 0;
+}
+
+// ─── Admin Activity Log ───────────────────────────────────────────────────────
+
+export async function logAdminActivity(entry: InsertAdminActivityLog): Promise<void> {
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(adminActivityLog).values(entry);
+}
+
+export async function getAdminActivityLog(limit = 100) {
+  const db = await getDb();
+  if (!db) return [];
+  return await db
+    .select()
+    .from(adminActivityLog)
+    .orderBy(desc(adminActivityLog.createdAt))
+    .limit(limit);
+}
+
+export async function getRankingsSubmissionById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const results = await db
+    .select()
+    .from(rankingsSubmissions)
+    .where(eq(rankingsSubmissions.id, id))
+    .limit(1);
+  return results[0] || null;
 }

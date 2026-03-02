@@ -7,24 +7,35 @@ import * as db from './db';
 
 describe('Sponsor Meetings View', () => {
   describe('sponsor.getMyMeetings', () => {
-    it('should return meetings with delegate details for a sponsor with confirmed meetings', async () => {
-      // Get a sponsor that has meetings
-      const sponsors = await db.getAllSponsors();
-      const sponsorWithMeetings = sponsors.find(s => s.companyName === 'Stepstone Group UK Ltd');
-      
-      if (!sponsorWithMeetings) {
-        console.log('Skipping test - Stepstone sponsor not found');
-        return;
-      }
+    it('should return meetings with correct fields when a sponsor has confirmed meetings', async () => {
+      // Create a test sponsor and seed a confirmed meeting
+      const suffix = `mtgtest-${Date.now()}`;
+      const sponsorId = await db.upsertSponsor({
+        userId: 99990,
+        companyName: `Test Sponsor ${suffix}`,
+        contactName: 'Test Contact',
+        contactEmail: `test-${suffix}@example.com`,
+      });
 
-      // Get meetings for this sponsor
-      const meetings = await db.getMeetingsBySponsor(sponsorWithMeetings.id);
+      // Insert a confirmed meeting directly
+      await db.createMeeting({
+        sponsorId,
+        attendeeId: `delegate-${suffix}`,
+        matchScore: 85,
+        matchReason: 'Strong alignment',
+        isTopRanked: 1,
+        isPriority: 0,
+        timeSlot: 2,
+        attendeeNumber: 1,
+        status: 'confirmed',
+        notes: null,
+      });
+
+      const meetings = await db.getMeetingsBySponsor(sponsorId);
       const confirmedMeetings = meetings.filter(m => m.status === 'confirmed');
 
-      // Verify meetings exist
       expect(confirmedMeetings.length).toBeGreaterThan(0);
 
-      // Verify each meeting has required fields
       for (const meeting of confirmedMeetings) {
         expect(meeting).toHaveProperty('id');
         expect(meeting).toHaveProperty('sponsorId');
@@ -33,11 +44,12 @@ describe('Sponsor Meetings View', () => {
         expect(meeting).toHaveProperty('status');
         expect(meeting.status).toBe('confirmed');
         expect(meeting).toHaveProperty('matchReason');
-        
-        // Verify timeSlot is valid (1-6)
         expect(meeting.timeSlot).toBeGreaterThanOrEqual(1);
         expect(meeting.timeSlot).toBeLessThanOrEqual(6);
       }
+
+      // Cleanup
+      await db.deleteMeetingsBySponsor(sponsorId);
     });
 
     it('should calculate correct day and slot from timeSlot value', () => {

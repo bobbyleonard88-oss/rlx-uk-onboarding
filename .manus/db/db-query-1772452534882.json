@@ -1,0 +1,14 @@
+{
+  "query": "\nSELECT s.id, s.companyName \nFROM sponsors s\nWHERE s.id IN (SELECT DISTINCT sponsorId FROM meetings);\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT s.id, s.companyName \nFROM sponsors s\nWHERE s.id IN (SELECT DISTINCT sponsorId FROM meetings);\n",
+  "rows": [
+    {
+      "id": "270001",
+      "companyName": "Visibility Test Company"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tcompanyName\n270001\tVisibility Test Company\n",
+  "stderr": "",
+  "execution_time_ms": 355
+}

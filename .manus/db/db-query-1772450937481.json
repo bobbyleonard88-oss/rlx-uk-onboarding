@@ -1,0 +1,106 @@
+{
+  "query": "SELECT id, sponsorId, attendeeId, timeSlot, matchScore, isVisible FROM meetings ORDER BY sponsorId;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT id, sponsorId, attendeeId, timeSlot, matchScore, isVisible FROM meetings ORDER BY sponsorId;",
+  "rows": [
+    {
+      "id": "210025",
+      "sponsorId": "270001",
+      "attendeeId": "test-attendee-0",
+      "timeSlot": "1",
+      "matchScore": "80",
+      "isVisible": "1"
+    },
+    {
+      "id": "210026",
+      "sponsorId": "270001",
+      "attendeeId": "test-attendee-1",
+      "timeSlot": "2",
+      "matchScore": "80",
+      "isVisible": "1"
+    },
+    {
+      "id": "210027",
+      "sponsorId": "270001",
+      "attendeeId": "test-attendee-2",
+      "timeSlot": "3",
+      "matchScore": "80",
+      "isVisible": "1"
+    },
+    {
+      "id": "210028",
+      "sponsorId": "270001",
+      "attendeeId": "draft-attendee",
+      "timeSlot": "4",
+      "matchScore": "75",
+      "isVisible": "1"
+    },
+    {
+      "id": "300001",
+      "sponsorId": "270001",
+      "attendeeId": "test-attendee-0",
+      "timeSlot": "1",
+      "matchScore": "80",
+      "isVisible": "1"
+    },
+    {
+      "id": "300002",
+      "sponsorId": "270001",
+      "attendeeId": "test-attendee-1",
+      "timeSlot": "2",
+      "matchScore": "80",
+      "isVisible": "1"
+    },
+    {
+      "id": "300003",
+      "sponsorId": "270001",
+      "attendeeId": "test-attendee-2",
+      "timeSlot": "3",
+      "matchScore": "80",
+      "isVisible": "1"
+    },
+    {
+      "id": "300004",
+      "sponsorId": "270001",
+      "attendeeId": "draft-attendee",
+      "timeSlot": "4",
+      "matchScore": "75",
+      "isVisible": "1"
+    },
+    {
+      "id": "300005",
+      "sponsorId": "270001",
+      "attendeeId": "test-attendee-0",
+      "timeSlot": "1",
+      "matchScore": "80",
+      "isVisible": "1"
+    },
+    {
+      "id": "300006",
+      "sponsorId": "270001",
+      "attendeeId": "test-attendee-1",
+      "timeSlot": "2",
+      "matchScore": "80",
+      "isVisible": "1"
+    },
+    {
+      "id": "300007",
+      "sponsorId": "270001",
+      "attendeeId": "test-attendee-2",
+      "timeSlot": "3",
+      "matchScore": "80",
+      "isVisible": "1"
+    },
+    {
+      "id": "300008",
+      "sponsorId": "270001",
+      "attendeeId": "draft-attendee",
+      "timeSlot": "4",
+      "matchScore": "75",
+      "isVisible": "1"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tsponsorId\tattendeeId\ttimeSlot\tmatchScore\tisVisible\n210025\t270001\ttest-attendee-0\t1\t80\t1\n210026\t270001\ttest-attendee-1\t2\t80\t1\n210027\t270001\ttest-attendee-2\t3\t80\t1\n210028\t270001\tdraft-attendee\t4\t75\t1\n300001\t270001\ttest-attendee-0\t1\t80\t1\n300002\t270001\ttest-attendee-1\t2\t80\t1\n300003\t270001\ttest-attendee-2\t3\t80\t1\n300004\t270001\tdraft-attendee\t4\t75\t1\n300005\t270001\ttest-attendee-0\t1\t80\t1\n300006\t270001\ttest-attendee-1\t2\t80\t1\n300007\t270001\ttest-attendee-2\t3\t80\t1\n300008\t270001\tdraft-attendee\t4\t75\t1\n",
+  "stderr": "",
+  "execution_time_ms": 345
+}

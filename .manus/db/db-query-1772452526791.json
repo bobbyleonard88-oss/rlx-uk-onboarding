@@ -1,0 +1,16 @@
+{
+  "query": "\nSELECT m.sponsorId, s.companyName, COUNT(m.id) as meetings, COUNT(DISTINCT m.attendeeId) as uniqueDelegates\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nGROUP BY m.sponsorId, s.companyName;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT m.sponsorId, s.companyName, COUNT(m.id) as meetings, COUNT(DISTINCT m.attendeeId) as uniqueDelegates\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nGROUP BY m.sponsorId, s.companyName;\n",
+  "rows": [
+    {
+      "sponsorId": "270001",
+      "companyName": "Visibility Test Company",
+      "meetings": "12",
+      "uniqueDelegates": "4"
+    }
+  ],
+  "messages": [],
+  "stdout": "sponsorId\tcompanyName\tmeetings\tuniqueDelegates\n270001\tVisibility Test Company\t12\t4\n",
+  "stderr": "",
+  "execution_time_ms": 346
+}

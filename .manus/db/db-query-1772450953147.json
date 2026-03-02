@@ -1,0 +1,22 @@
+{
+  "query": "SELECT DISTINCT attendeeId FROM meetings;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT DISTINCT attendeeId FROM meetings;",
+  "rows": [
+    {
+      "attendeeId": "test-attendee-2"
+    },
+    {
+      "attendeeId": "test-attendee-1"
+    },
+    {
+      "attendeeId": "test-attendee-0"
+    },
+    {
+      "attendeeId": "draft-attendee"
+    }
+  ],
+  "messages": [],
+  "stdout": "attendeeId\ntest-attendee-2\ntest-attendee-1\ntest-attendee-0\ndraft-attendee\n",
+  "stderr": "",
+  "execution_time_ms": 362
+}

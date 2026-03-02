@@ -1,0 +1,84 @@
+{
+  "query": "SELECT id, companyName FROM sponsors ORDER BY id; SELECT attendeeId FROM meetings;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT id, companyName FROM sponsors ORDER BY id; SELECT attendeeId FROM meetings;",
+  "rows": [
+    {
+      "id": "30001",
+      "companyName": "AI Limited"
+    },
+    {
+      "id": "60001",
+      "companyName": "Elevate Assess"
+    },
+    {
+      "id": "90001",
+      "companyName": "NexaTalent Solutions Ltd"
+    },
+    {
+      "id": "120001",
+      "companyName": "Little Moment"
+    },
+    {
+      "id": "150001",
+      "companyName": "Stepstone Group UK Ltd"
+    },
+    {
+      "id": "180001",
+      "companyName": "Maki People"
+    },
+    {
+      "id": "210001",
+      "companyName": "Harver"
+    },
+    {
+      "id": "240001",
+      "companyName": "Sapia.ai"
+    },
+    {
+      "id": "270001",
+      "companyName": "Visibility Test Company"
+    },
+    {
+      "id": "270002",
+      "companyName": "Appcast"
+    },
+    {
+      "id": "300001",
+      "companyName": "Zinc"
+    },
+    {
+      "id": "330001",
+      "companyName": "Symphony Talent "
+    },
+    {
+      "id": "360001",
+      "companyName": "The Udder Group Ltd"
+    },
+    {
+      "id": "390001",
+      "companyName": "Bright Apply"
+    },
+    {
+      "id": "450001",
+      "companyName": "PerchPeek"
+    }
+  ],
+  "messages": [
+    "attendeeId",
+    "test-attendee-0",
+    "test-attendee-1",
+    "test-attendee-2",
+    "draft-attendee",
+    "test-attendee-0",
+    "test-attendee-1",
+    "test-attendee-2",
+    "draft-attendee",
+    "test-attendee-0",
+    "test-attendee-1",
+    "test-attendee-2",
+    "draft-attendee"
+  ],
+  "stdout": "id\tcompanyName\n30001\tAI Limited\n60001\tElevate Assess\n90001\tNexaTalent Solutions Ltd\n120001\tLittle Moment\n150001\tStepstone Group UK Ltd\n180001\tMaki People\n210001\tHarver\n240001\tSapia.ai\n270001\tVisibility Test Company\n270002\tAppcast\n300001\tZinc\n330001\tSymphony Talent \n360001\tThe Udder Group Ltd\n390001\tBright Apply\n450001\tPerchPeek\nattendeeId\ntest-attendee-0\ntest-attendee-1\ntest-attendee-2\ndraft-attendee\ntest-attendee-0\ntest-attendee-1\ntest-attendee-2\ndraft-attendee\ntest-attendee-0\ntest-attendee-1\ntest-attendee-2\ndraft-attendee\n",
+  "stderr": "",
+  "execution_time_ms": 394
+}

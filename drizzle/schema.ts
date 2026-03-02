@@ -212,3 +212,20 @@ export const intakeSubmissions = mysqlTable("intakeSubmissions", {
 
 export type IntakeSubmission = typeof intakeSubmissions.$inferSelect;
 export type InsertIntakeSubmission = typeof intakeSubmissions.$inferInsert;
+/**
+ * Admin Activity Log - records all significant admin actions for audit trail
+ */
+export const adminActivityLog = mysqlTable("adminActivityLog", {
+  id: int("id").autoincrement().primaryKey(),
+  adminId: int("adminId").notNull(), // Link to users table
+  adminName: varchar("adminName", { length: 255 }).notNull(), // Denormalised for fast display
+  action: varchar("action", { length: 64 }).notNull(), // e.g. "reviewed", "archived", "generated_meetings"
+  entityType: varchar("entityType", { length: 64 }).notNull(), // e.g. "sponsor", "meeting", "delegate"
+  entityId: varchar("entityId", { length: 64 }), // ID of the affected entity (nullable for bulk ops)
+  entityName: varchar("entityName", { length: 255 }), // Human-readable name of the entity
+  details: text("details"), // Optional JSON or free-text description
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type AdminActivityLog = typeof adminActivityLog.$inferSelect;
+export type InsertAdminActivityLog = typeof adminActivityLog.$inferInsert;

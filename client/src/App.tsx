@@ -27,6 +27,7 @@ import SponsorMeetings from "./pages/SponsorMeetings";
 import MeetingSchedule from "./pages/MeetingSchedule";
 import DelegateOverview from "./pages/DelegateOverview";
 import Analytics from "./pages/Analytics";
+import ActivityLog from "./pages/ActivityLog";
 import NewMeetingNotification from "./components/NewMeetingNotification";
 function Router() {
   const [location] = useLocation();
@@ -62,6 +63,7 @@ function Router() {
           <Route path="/admin/analytics" component={Analytics} />
           <Route path="/admin/meetings" component={AdminMeetings} />
           <Route path="/admin/delegate-overview" component={DelegateOverview} />
+          <Route path="/admin/activity-log" component={ActivityLog} />
           <Route path="/sponsor-profile" component={SponsorProfile} />
           <Route path="/meeting-schedule" component={MeetingSchedule} />
           <Route path="/404" component={NotFound} />

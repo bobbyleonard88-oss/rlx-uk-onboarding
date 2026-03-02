@@ -1,0 +1,13 @@
+{
+  "query": "SELECT COUNT(*) as total_meetings FROM meetings;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT COUNT(*) as total_meetings FROM meetings;",
+  "rows": [
+    {
+      "total_meetings": "12"
+    }
+  ],
+  "messages": [],
+  "stdout": "total_meetings\n12\n",
+  "stderr": "",
+  "execution_time_ms": 905
+}

@@ -1,0 +1,13 @@
+{
+  "query": "SELECT sponsorId FROM meetings LIMIT 1;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT sponsorId FROM meetings LIMIT 1;",
+  "rows": [
+    {
+      "sponsorId": "270001"
+    }
+  ],
+  "messages": [],
+  "stdout": "sponsorId\n270001\n",
+  "stderr": "",
+  "execution_time_ms": 351
+}
