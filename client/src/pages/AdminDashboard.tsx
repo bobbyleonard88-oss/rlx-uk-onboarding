@@ -49,6 +49,34 @@ export default function AdminDashboard() {
   
   const { data: submissions, isLoading, refetch } = trpc.admin.getAllSubmissions.useQuery();
   const { data: delegates } = trpc.admin.getAllDelegates.useQuery();
+  const { refetch: fetchExport, isFetching: isExporting } = trpc.admin.exportAllSubmissions.useQuery(
+    undefined,
+    { enabled: false }
+  );
+
+  const handleDownloadAll = async () => {
+    const result = await fetchExport();
+    const rows = result.data;
+    if (!rows || rows.length === 0) {
+      toast.error('No submissions to export');
+      return;
+    }
+    const headers = Object.keys(rows[0]);
+    const escape = (v: string) => '"' + (v ?? '').replace(/"/g, '""') + '"';
+    const csvLines = [
+      headers.map(escape).join(','),
+      ...rows.map((row: Record<string, string>) => headers.map(h => escape(row[h] ?? '')).join(','))
+    ];
+    const csv = csvLines.join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'rlx-all-submissions-' + new Date().toISOString().split('T')[0] + '.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success('Downloaded ' + rows.length + ' sponsor submissions');
+  };
   
   const updateStatus = trpc.admin.updateSubmissionStatus.useMutation({
     onSuccess: () => {
@@ -197,6 +225,15 @@ export default function AdminDashboard() {
             </p>
           </div>
           <div className="flex gap-3">
+            <Button
+              variant="outline"
+              onClick={handleDownloadAll}
+              className="gap-2 border-purple-600 text-purple-300 hover:bg-purple-900/30"
+              disabled={isExporting}
+            >
+              <Download className={`w-4 h-4 ${isExporting ? 'animate-pulse' : ''}`} />
+              {isExporting ? 'Preparing...' : 'Download All'}
+            </Button>
             <Button
               variant="outline"
               onClick={() => refetch()}

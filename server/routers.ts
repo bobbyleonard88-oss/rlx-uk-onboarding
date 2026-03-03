@@ -1182,6 +1182,102 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return await db.getAdminActivityLog(input?.limit ?? 100);
       }),
+
+    // Export all submissions: intake data + top 10 ranked priorities per sponsor
+    exportAllSubmissions: adminProcedure.query(async () => {
+      const rankingsSubmissions = await db.getAllRankingsSubmissions();
+      const allIntakeSubmissions = await db.getAllIntakeSubmissions();
+
+      // Build lookup: sponsorId -> latest rankings
+      const latestRankingsBySponsor = new Map<number, typeof rankingsSubmissions[0]>();
+      for (const sub of rankingsSubmissions) {
+        const existing = latestRankingsBySponsor.get(sub.sponsorId);
+        if (!existing || new Date(sub.submittedAt) > new Date(existing.submittedAt)) {
+          latestRankingsBySponsor.set(sub.sponsorId, sub);
+        }
+      }
+
+      // Build lookup: sponsorId -> intake
+      const intakeBySponsor = new Map<number, typeof allIntakeSubmissions[0]>();
+      for (const intake of allIntakeSubmissions) {
+        intakeBySponsor.set(intake.sponsorId, intake);
+      }
+
+      // Collect all unique sponsorIds
+      const allSponsorIds = new Set([
+        ...Array.from(latestRankingsBySponsor.keys()),
+        ...Array.from(intakeBySponsor.keys()),
+      ]);
+
+      const rows: Record<string, string>[] = [];
+
+      for (const sponsorId of Array.from(allSponsorIds)) {
+        const rankings = latestRankingsBySponsor.get(sponsorId);
+        const intake = intakeBySponsor.get(sponsorId);
+        const sponsor = await db.getSponsorById(sponsorId);
+
+        // Skip archived sponsors
+        if (rankings?.isArchived === 1) continue;
+
+        // Parse top 10 ranked delegate IDs from rankingsData JSON
+        let top10: string[] = [];
+        if (rankings?.rankingsData) {
+          try {
+            const parsed = JSON.parse(rankings.rankingsData as string);
+            // rankingsData is an array of {id, ...} or just an array of IDs
+            const ids: string[] = Array.isArray(parsed)
+              ? parsed.map((item: any) => (typeof item === 'string' ? item : item.id ?? item.attendeeId ?? ''))
+              : [];
+            top10 = ids.slice(0, 10);
+          } catch {
+            top10 = [];
+          }
+        }
+
+        // Resolve delegate names from attendees list
+        const top10Names = top10.map((id, idx) => {
+          const delegate = attendees.find(a => a.id === id);
+          return delegate ? `${delegate.firstName} ${delegate.lastName} (${delegate.company})` : id;
+        });
+
+        const row: Record<string, string> = {
+          // Sponsor info
+          'Company Name': intake?.companyName || sponsor?.companyName || '',
+          'Contact Name': intake ? `${intake.firstName} ${intake.lastName}` : sponsor?.contactName || '',
+          'Contact Email': intake?.email || sponsor?.contactEmail || '',
+          'Job Title': intake?.jobTitle || '',
+          'LinkedIn': intake?.linkedinUrl || '',
+          'Meeting Package': intake?.meetingPackage || '',
+          // Intake fields
+          'Technology Type': intake?.technologyType || '',
+          'Target Org Size': intake?.targetOrgSize || '',
+          'Company Boilerplate': intake?.companyBoilerplate || '',
+          'Key Challenges': intake?.keyChallenges || '',
+          // Second rep
+          'Second Rep Name': intake?.secondRepName || '',
+          'Second Rep Email': intake?.secondRepEmail || '',
+          'Second Rep Job Title': intake?.secondRepJobTitle || '',
+          'Second Rep LinkedIn': intake?.secondRepLinkedinUrl || '',
+          // Submission metadata
+          'Intake Submitted': intake?.submittedAt ? new Date(intake.submittedAt).toLocaleDateString('en-GB') : '',
+          'Rankings Submitted': rankings?.submittedAt ? new Date(rankings.submittedAt).toLocaleDateString('en-GB') : '',
+          'Rankings Status': rankings?.status || 'pending',
+          'Reviewed By': rankings?.reviewedBy || '',
+        };
+
+        // Add top 10 priorities as individual columns
+        for (let i = 0; i < 10; i++) {
+          row[`Priority ${i + 1}`] = top10Names[i] || '';
+        }
+
+        rows.push(row);
+      }
+
+      // Sort by company name
+      rows.sort((a, b) => a['Company Name'].localeCompare(b['Company Name']));
+
+      return rows;
+    }),
   }),
 });
 

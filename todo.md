@@ -1207,3 +1207,4 @@
 - [x] Add adminActivityLog table to schema (action, adminName, details, timestamp)
 - [x] Log key admin actions: approve/review, archive, generate meetings, cancel delegate, import delegates
 - [x] Build Activity Log page in admin portal showing chronological feed of admin actions
+- [x] Add Download All button to admin portal exporting all intake submissions and top 10 priorities per sponsor
