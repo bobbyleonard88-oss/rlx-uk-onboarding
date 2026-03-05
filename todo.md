@@ -1221,3 +1221,7 @@
 - [x] Fix admin preview modal to display logo image using the S3 URL
 - [x] Fix Download All CSV to include working logo URL
 - [x] Ensure sponsor dashboard content is fully visible above the fold on first load (no scroll required)
+
+## Logo Preview & Download All Fixes
+- [x] Fix broken logo image in admin preview modal (broken img src)
+- [x] Fix Download All button to trigger actual CSV file download (not just show filename)

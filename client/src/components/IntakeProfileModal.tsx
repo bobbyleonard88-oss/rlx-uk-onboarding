@@ -204,15 +204,27 @@ export default function IntakeProfileModal({ open, onOpenChange, intakeData, com
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-slate-900 border-slate-700">
         <DialogHeader>
           <div className="flex items-start gap-4">
-            {intakeData.companyLogoUrl && (
-              <div className="w-16 h-16 bg-white rounded-lg p-2 flex items-center justify-center flex-shrink-0">
+            <div className="w-16 h-16 bg-white rounded-lg p-2 flex items-center justify-center flex-shrink-0 overflow-hidden">
+              {intakeData.companyLogoUrl && (intakeData.companyLogoUrl.startsWith('http://') || intakeData.companyLogoUrl.startsWith('https://')) ? (
                 <img 
                   src={intakeData.companyLogoUrl} 
                   alt={`${companyName} logo`}
                   className="max-w-full max-h-full object-contain"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    target.style.display = 'none';
+                    const fallback = target.nextElementSibling as HTMLElement;
+                    if (fallback) fallback.style.display = 'flex';
+                  }}
                 />
+              ) : null}
+              <div
+                style={{ display: (intakeData.companyLogoUrl && (intakeData.companyLogoUrl.startsWith('http://') || intakeData.companyLogoUrl.startsWith('https://'))) ? 'none' : 'flex' }}
+                className="w-full h-full items-center justify-center bg-primary/10 rounded text-primary font-bold text-lg"
+              >
+                {companyName?.charAt(0)?.toUpperCase() ?? '?'}
               </div>
-            )}
+            </div>
             <div className="flex-1">
               <DialogTitle className="text-2xl font-heading text-white flex items-center gap-2">
                 <Building2 className="w-6 h-6 text-primary" />

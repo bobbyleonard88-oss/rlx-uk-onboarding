@@ -1,0 +1,8 @@
+{
+  "query": "SELECT companyName, companyLogoUrl FROM intake_submissions LIMIT 8",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT companyName, companyLogoUrl FROM intake_submissions LIMIT 8",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1146 (42S02) at line 1: Table 'ahkzvnyzsgv4nexzoiv78q.intake_submissions' doesn't exist"
+  ]
+}

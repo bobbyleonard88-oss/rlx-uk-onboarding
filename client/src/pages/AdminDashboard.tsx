@@ -73,8 +73,13 @@ export default function AdminDashboard() {
     const a = document.createElement('a');
     a.href = url;
     a.download = 'rlx-all-submissions-' + new Date().toISOString().split('T')[0] + '.csv';
+    a.style.display = 'none';
+    document.body.appendChild(a);
     a.click();
-    URL.revokeObjectURL(url);
+    setTimeout(() => {
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }, 200);
     toast.success('Downloaded ' + rows.length + ' sponsor submissions');
   };
   
@@ -193,7 +198,13 @@ export default function AdminDashboard() {
     const a = document.createElement("a");
     a.href = url;
     a.download = `${submission.companyName}-rankings.csv`;
+    a.style.display = 'none';
+    document.body.appendChild(a);
     a.click();
+    setTimeout(() => {
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }, 200);
   }
 
   // Filter submissions based on archive toggle
