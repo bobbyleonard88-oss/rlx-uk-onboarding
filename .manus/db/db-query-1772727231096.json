@@ -1,0 +1,30 @@
+{
+  "query": "SELECT s.companyName, i.companyLogoUrl FROM sponsors s LEFT JOIN intakeSubmissions i ON s.id = i.sponsorId WHERE i.companyLogoUrl IS NOT NULL AND i.companyLogoUrl != '' LIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT s.companyName, i.companyLogoUrl FROM sponsors s LEFT JOIN intakeSubmissions i ON s.id = i.sponsorId WHERE i.companyLogoUrl IS NOT NULL AND i.companyLogoUrl != '' LIMIT 5;",
+  "rows": [
+    {
+      "companyName": "Elevate Assess",
+      "companyLogoUrl": "Resourcing Leaders UK - ThirtyThree - Partnership Announcement .png"
+    },
+    {
+      "companyName": "NexaTalent Solutions Ltd",
+      "companyLogoUrl": "RLX-Logo.png"
+    },
+    {
+      "companyName": "Stepstone Group UK Ltd",
+      "companyLogoUrl": "Stepstone_Group_logo_Positive_Gradient line_RGB 1.png"
+    },
+    {
+      "companyName": "Harver",
+      "companyLogoUrl": "logo.png"
+    },
+    {
+      "companyName": "Sapia.ai",
+      "companyLogoUrl": "Sapia.ai logo.png"
+    }
+  ],
+  "messages": [],
+  "stdout": "companyName\tcompanyLogoUrl\nElevate Assess\tResourcing Leaders UK - ThirtyThree - Partnership Announcement .png\nNexaTalent Solutions Ltd\tRLX-Logo.png\nStepstone Group UK Ltd\tStepstone_Group_logo_Positive_Gradient line_RGB 1.png\nHarver\tlogo.png\nSapia.ai\tSapia.ai logo.png\n",
+  "stderr": "",
+  "execution_time_ms": 366
+}

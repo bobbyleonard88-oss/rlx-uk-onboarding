@@ -1258,6 +1258,8 @@ export const appRouter = router({
           'Second Rep Email': intake?.secondRepEmail || '',
           'Second Rep Job Title': intake?.secondRepJobTitle || '',
           'Second Rep LinkedIn': intake?.secondRepLinkedinUrl || '',
+          // Logo
+          'Logo URL': intake?.companyLogoUrl || '',
           // Submission metadata
           'Intake Submitted': intake?.submittedAt ? new Date(intake.submittedAt).toLocaleDateString('en-GB') : '',
           'Rankings Submitted': rankings?.submittedAt ? new Date(rankings.submittedAt).toLocaleDateString('en-GB') : '',

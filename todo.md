@@ -1213,3 +1213,10 @@
 - [x] Remove Jen Hulme, Christopher Widdison, James Kennedy, Laura Callaghan from attendees list
 - [x] Remove them from all existing rankings submissions (shift subsequent delegates up 1)
 - [x] Ensure they do not appear in any matching or meetings generation
+
+## Logo Upload Fix
+- [x] Add backend tRPC procedure to upload logo file to S3 and return URL
+- [x] Update Intake form to upload logo to S3 before submitting intake form
+- [x] Store full S3 URL in companyLogoUrl field (not just filename)
+- [x] Fix admin preview modal to display logo image using the S3 URL
+- [x] Fix Download All CSV to include working logo URL

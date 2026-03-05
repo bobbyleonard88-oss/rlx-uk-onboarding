@@ -121,11 +121,24 @@ export default function Intake() {
       }
     }
 
-    // TODO: Upload logo to S3 if provided
+    // Upload logo to S3 if provided
     let logoUrl = "";
     if (logoFile) {
-      // For now, just store filename
-      logoUrl = logoFile.name;
+      try {
+        const formData = new FormData();
+        formData.append("logo", logoFile);
+        const res = await fetch("/api/upload-logo", {
+          method: "POST",
+          credentials: "include",
+          body: formData,
+        });
+        if (!res.ok) throw new Error("Logo upload failed");
+        const data = await res.json();
+        logoUrl = data.url;
+      } catch (err) {
+        toast.error("Logo upload failed. Please try again.");
+        return;
+      }
     }
 
     submitIntake.mutate({
