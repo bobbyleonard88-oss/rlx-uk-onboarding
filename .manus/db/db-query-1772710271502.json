@@ -1,0 +1,108 @@
+{
+  "query": "\nSELECT r.id, r.sponsorId, COALESCE(s.companyName, 'ORPHANED') as companyName, r.submittedAt, r.status\nFROM rankingsSubmissions r\nLEFT JOIN sponsors s ON r.sponsorId = s.id\nORDER BY r.submittedAt DESC;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT r.id, r.sponsorId, COALESCE(s.companyName, 'ORPHANED') as companyName, r.submittedAt, r.status\nFROM rankingsSubmissions r\nLEFT JOIN sponsors s ON r.sponsorId = s.id\nORDER BY r.submittedAt DESC;\n",
+  "rows": [
+    {
+      "id": "600001",
+      "sponsorId": "360001",
+      "companyName": "Udder",
+      "submittedAt": "2026-03-04 14:54:21",
+      "status": "pending"
+    },
+    {
+      "id": "570001",
+      "sponsorId": "540001",
+      "companyName": "hackajob",
+      "submittedAt": "2026-03-03 16:31:57",
+      "status": "pending"
+    },
+    {
+      "id": "420001",
+      "sponsorId": "390001",
+      "companyName": "Bright Apply",
+      "submittedAt": "2026-02-27 12:00:50",
+      "status": "pending"
+    },
+    {
+      "id": "390001",
+      "sponsorId": "210001",
+      "companyName": "Harver",
+      "submittedAt": "2026-02-25 18:34:18",
+      "status": "pending"
+    },
+    {
+      "id": "360002",
+      "sponsorId": "150001",
+      "companyName": "Stepstone Group UK Ltd",
+      "submittedAt": "2026-02-25 18:06:50",
+      "status": "pending"
+    },
+    {
+      "id": "330001",
+      "sponsorId": "270002",
+      "companyName": "Appcast",
+      "submittedAt": "2026-02-25 16:01:24",
+      "status": "pending"
+    },
+    {
+      "id": "300001",
+      "sponsorId": "330001",
+      "companyName": "Symphony Talent ",
+      "submittedAt": "2026-02-25 15:06:23",
+      "status": "pending"
+    },
+    {
+      "id": "270003",
+      "sponsorId": "180001",
+      "companyName": "Maki People",
+      "submittedAt": "2026-02-25 14:22:54",
+      "status": "pending"
+    },
+    {
+      "id": "240002",
+      "sponsorId": "300001",
+      "companyName": "Zinc",
+      "submittedAt": "2026-02-24 13:50:08",
+      "status": "pending"
+    },
+    {
+      "id": "210001",
+      "sponsorId": "240001",
+      "companyName": "Sapia.ai",
+      "submittedAt": "2026-02-23 15:29:42",
+      "status": "pending"
+    },
+    {
+      "id": "150001",
+      "sponsorId": "120001",
+      "companyName": "Little Moment",
+      "submittedAt": "2026-02-18 10:25:59",
+      "status": "pending"
+    },
+    {
+      "id": "120001",
+      "sponsorId": "90001",
+      "companyName": "NexaTalent Solutions Ltd",
+      "submittedAt": "2026-02-17 10:47:53",
+      "status": "pending"
+    },
+    {
+      "id": "90001",
+      "sponsorId": "60001",
+      "companyName": "Elevate Assess",
+      "submittedAt": "2026-02-17 09:44:46",
+      "status": "pending"
+    },
+    {
+      "id": "60002",
+      "sponsorId": "30001",
+      "companyName": "AI Limited",
+      "submittedAt": "2026-02-16 13:00:47",
+      "status": "pending"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tsponsorId\tcompanyName\tsubmittedAt\tstatus\n600001\t360001\tUdder\t2026-03-04 14:54:21\tpending\n570001\t540001\thackajob\t2026-03-03 16:31:57\tpending\n420001\t390001\tBright Apply\t2026-02-27 12:00:50\tpending\n390001\t210001\tHarver\t2026-02-25 18:34:18\tpending\n360002\t150001\tStepstone Group UK Ltd\t2026-02-25 18:06:50\tpending\n330001\t270002\tAppcast\t2026-02-25 16:01:24\tpending\n300001\t330001\tSymphony Talent \t2026-02-25 15:06:23\tpending\n270003\t180001\tMaki People\t2026-02-25 14:22:54\tpending\n240002\t300001\tZinc\t2026-02-24 13:50:08\tpending\n210001\t240001\tSapia.ai\t2026-02-23 15:29:42\tpending\n150001\t120001\tLittle Moment\t2026-02-18 10:25:59\tpending\n120001\t90001\tNexaTalent Solutions Ltd\t2026-02-17 10:47:53\tpending\n90001\t60001\tElevate Assess\t2026-02-17 09:44:46\tpending\n60002\t30001\tAI Limited\t2026-02-16 13:00:47\tpending\n",
+  "stderr": "",
+  "execution_time_ms": 351
+}

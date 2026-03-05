@@ -1208,3 +1208,8 @@
 - [x] Log key admin actions: approve/review, archive, generate meetings, cancel delegate, import delegates
 - [x] Build Activity Log page in admin portal showing chronological feed of admin actions
 - [x] Add Download All button to admin portal exporting all intake submissions and top 10 priorities per sponsor
+
+## Delegate Removal
+- [x] Remove Jen Hulme, Christopher Widdison, James Kennedy, Laura Callaghan from attendees list
+- [x] Remove them from all existing rankings submissions (shift subsequent delegates up 1)
+- [x] Ensure they do not appear in any matching or meetings generation

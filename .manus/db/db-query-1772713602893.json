@@ -1,0 +1,9 @@
+{
+  "query": "SELECT sponsorId, \n  CASE WHEN rankingsData LIKE '%91862579761%' THEN 'Callaghan FOUND' ELSE '' END as callaghan,\n  CASE WHEN rankingsData LIKE '%21545051%' THEN 'Hulme FOUND' ELSE '' END as hulme,\n  CASE WHEN rankingsData LIKE '%183232510638%' THEN 'Kennedy FOUND' ELSE '' END as kennedy,\n  CASE WHEN rankingsData LIKE '%191181142545%' THEN 'Widdison FOUND' ELSE '' END as widdison\nFROM rankingsSubmissions\nWHERE rankingsData LIKE '%91862579761%' \n   OR rankingsData LIKE '%21545051%'\n   OR rankingsData LIKE '%183232510638%'\n   OR rankingsData LIKE '%191181142545%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT sponsorId, \n  CASE WHEN rankingsData LIKE '%91862579761%' THEN 'Callaghan FOUND' ELSE '' END as callaghan,\n  CASE WHEN rankingsData LIKE '%21545051%' THEN 'Hulme FOUND' ELSE '' END as hulme,\n  CASE WHEN rankingsData LIKE '%183232510638%' THEN 'Kennedy FOUND' ELSE '' END as kennedy,\n  CASE WHEN rankingsData LIKE '%191181142545%' THEN 'Widdison FOUND' ELSE '' END as widdison\nFROM rankingsSubmissions\nWHERE rankingsData LIKE '%91862579761%' \n   OR rankingsData LIKE '%21545051%'\n   OR rankingsData LIKE '%183232510638%'\n   OR rankingsData LIKE '%191181142545%';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 357
+}

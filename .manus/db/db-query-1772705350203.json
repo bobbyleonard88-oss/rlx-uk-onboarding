@@ -1,0 +1,19 @@
+{
+  "query": "\nSELECT * FROM sponsors WHERE companyName LIKE '%Perch%' OR contactEmail LIKE '%perch%';\nSELECT * FROM rankingsSubmissions WHERE sponsorId = 450001;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT * FROM sponsors WHERE companyName LIKE '%Perch%' OR contactEmail LIKE '%perch%';\nSELECT * FROM rankingsSubmissions WHERE sponsorId = 450001;\n",
+  "rows": [
+    {
+      "id": "450001",
+      "userId": "4140005",
+      "companyName": "PerchPeek",
+      "contactName": "Samuel Trout",
+      "contactEmail": "samuel@perchpeek.com",
+      "createdAt": "2026-02-26 12:12:52",
+      "updatedAt": "2026-02-26 12:12:52"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tuserId\tcompanyName\tcontactName\tcontactEmail\tcreatedAt\tupdatedAt\n450001\t4140005\tPerchPeek\tSamuel Trout\tsamuel@perchpeek.com\t2026-02-26 12:12:52\t2026-02-26 12:12:52\n",
+  "stderr": "",
+  "execution_time_ms": 410
+}

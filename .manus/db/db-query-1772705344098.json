@@ -1,0 +1,20 @@
+{
+  "query": "\nSELECT 'sponsors' as tbl, id, companyName, contactName, contactEmail FROM sponsors WHERE companyName LIKE '%Perch%' OR companyName LIKE '%Peak%';\nSELECT 'rankingsSubmissions' as tbl, id, sponsorId, submittedAt, status, isArchived FROM rankingsSubmissions WHERE sponsorId IN (SELECT id FROM sponsors WHERE companyName LIKE '%Perch%' OR companyName LIKE '%Peak%');\nSELECT 'intakeSubmissions' as tbl, id, sponsorId, companyName, firstName, lastName, email FROM intakeSubmissions WHERE companyName LIKE '%Perch%';\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT 'sponsors' as tbl, id, companyName, contactName, contactEmail FROM sponsors WHERE companyName LIKE '%Perch%' OR companyName LIKE '%Peak%';\nSELECT 'rankingsSubmissions' as tbl, id, sponsorId, submittedAt, status, isArchived FROM rankingsSubmissions WHERE sponsorId IN (SELECT id FROM sponsors WHERE companyName LIKE '%Perch%' OR companyName LIKE '%Peak%');\nSELECT 'intakeSubmissions' as tbl, id, sponsorId, companyName, firstName, lastName, email FROM intakeSubmissions WHERE companyName LIKE '%Perch%';\n",
+  "rows": [
+    {
+      "tbl": "sponsors",
+      "id": "450001",
+      "companyName": "PerchPeek",
+      "contactName": "Samuel Trout",
+      "contactEmail": "samuel@perchpeek.com"
+    }
+  ],
+  "messages": [
+    "tbl\tid\tsponsorId\tcompanyName\tfirstName\tlastName\temail",
+    "intakeSubmissions\t450001\t450001\tPerchPeek\tSamuel\tTrout\tsamuel@perchpeek.com"
+  ],
+  "stdout": "tbl\tid\tcompanyName\tcontactName\tcontactEmail\nsponsors\t450001\tPerchPeek\tSamuel Trout\tsamuel@perchpeek.com\ntbl\tid\tsponsorId\tcompanyName\tfirstName\tlastName\temail\nintakeSubmissions\t450001\t450001\tPerchPeek\tSamuel\tTrout\tsamuel@perchpeek.com\n",
+  "stderr": "",
+  "execution_time_ms": 467
+}

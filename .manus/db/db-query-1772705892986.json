@@ -1,0 +1,37 @@
+{
+  "query": "\nSELECT * FROM sponsors WHERE companyName LIKE '%Perch%' OR contactEmail LIKE '%perch%' OR contactEmail LIKE '%samuel%';\nSELECT * FROM intakeSubmissions WHERE companyName LIKE '%Perch%' OR email LIKE '%perch%' OR firstName LIKE '%Samuel%' OR lastName LIKE '%Trout%';\nSELECT * FROM rankingsSubmissions WHERE sponsorId IN (SELECT id FROM sponsors WHERE companyName LIKE '%Perch%' OR contactEmail LIKE '%perch%');\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT * FROM sponsors WHERE companyName LIKE '%Perch%' OR contactEmail LIKE '%perch%' OR contactEmail LIKE '%samuel%';\nSELECT * FROM intakeSubmissions WHERE companyName LIKE '%Perch%' OR email LIKE '%perch%' OR firstName LIKE '%Samuel%' OR lastName LIKE '%Trout%';\nSELECT * FROM rankingsSubmissions WHERE sponsorId IN (SELECT id FROM sponsors WHERE companyName LIKE '%Perch%' OR contactEmail LIKE '%perch%');\n",
+  "rows": [
+    {
+      "id": "450001",
+      "userId": "4140005",
+      "companyName": "PerchPeek",
+      "contactName": "Samuel Trout",
+      "contactEmail": "samuel@perchpeek.com",
+      "createdAt": "2026-02-26 12:12:52",
+      "updatedAt": "2026-02-26 12:12:52"
+    },
+    {
+      "id": "450001",
+      "userId": "450001",
+      "companyName": "4140005",
+      "contactName": "PerchPeek",
+      "contactEmail": "Global Mobility Solutions",
+      "createdAt": "perchpeek logo.png",
+      "updatedAt": "Relocation is one of the first real onboarding experiences a new hire has. It should feel seamless — and it shouldn't pull recruiters away from hiring."
+    }
+  ],
+  "messages": [
+    "id\tsponsorId\tuserId\tcompanyName\ttechnologyType\tcompanyLogoUrl\tcompanyBoilerplate\tkeyChallenges\ttargetOrgSize\tfirstName\tlastName\temail\tjobTitle\tlinkedinUrl\tsecondRepName\tsecondRepEmail\tsecondRepJobTitle\tsecondRepLinkedinUrl\tmeetingPackage\tsubmittedAt\tupdatedAt",
+    "We deliver an all-in-one global mobility solution that combines AI-powered technology, real-time data visibility, and on-the-ground relocation experts - replacing fragmented vendors, spreadsheets, and manual coordination with a single, seamless experience.",
+    "From visa coordination and home finding to local registration and settling in, everything is managed end-to-end in one platform. Every question goes directly to us — not your recruiters.",
+    "Our AI-driven insights give Talent teams full visibility into relocation timelines, costs, bottlenecks, and candidate engagement - helping you forecast hiring impact, reduce time-to-start, and improve offer acceptance rates.",
+    "Available in 30+ countries and rated 4.9/5 on Trustpilot, we help high-growth companies relocate employees faster, more transparently, and at significantly lower cost than traditional relocation providers — or unmanaged cash lump sums.\tPerchPeek is an AI-powered, all-in-one global relocation platform that helps Talent and HR teams deliver seamless onboarding for international hires - without pulling recruiters away from hiring.",
+    "We combine in-country relocation experts with a data-native platform that centralises every question, manages reimbursements, and provides live visibility into timelines, engagement, and cost. From visa coordination to home finding and settling in, everything is managed end-to-end in one place.",
+    "Unlike traditional relocation providers built for executives only, PerchPeek delivers scalable, cost-effective support across seniorities - turning relocation into measurable, accessible hiring infrastructure.",
+    "Available in 150+ countries and rated 4.9/5 on Trustpilot.\t5k-10k\tSamuel\tTrout\tsamuel@perchpeek.com\tRelocation Program Consultant\thttps://www.linkedin.com/in/samuel-trout/\tNULL\tNULL\tNULL\tNULL\t12\t2026-02-26 12:12:52\t2026-02-26 12:12:52"
+  ],
+  "stdout": "id\tuserId\tcompanyName\tcontactName\tcontactEmail\tcreatedAt\tupdatedAt\n450001\t4140005\tPerchPeek\tSamuel Trout\tsamuel@perchpeek.com\t2026-02-26 12:12:52\t2026-02-26 12:12:52\nid\tsponsorId\tuserId\tcompanyName\ttechnologyType\tcompanyLogoUrl\tcompanyBoilerplate\tkeyChallenges\ttargetOrgSize\tfirstName\tlastName\temail\tjobTitle\tlinkedinUrl\tsecondRepName\tsecondRepEmail\tsecondRepJobTitle\tsecondRepLinkedinUrl\tmeetingPackage\tsubmittedAt\tupdatedAt\n450001\t450001\t4140005\tPerchPeek\tGlobal Mobility Solutions\tperchpeek logo.png\tRelocation is one of the first real onboarding experiences a new hire has. It should feel seamless — and it shouldn't pull recruiters away from hiring.\n\nWe deliver an all-in-one global mobility solution that combines AI-powered technology, real-time data visibility, and on-the-ground relocation experts - replacing fragmented vendors, spreadsheets, and manual coordination with a single, seamless experience.\n\nFrom visa coordination and home finding to local registration and settling in, everything is managed end-to-end in one platform. Every question goes directly to us — not your recruiters.\n\nOur AI-driven insights give Talent teams full visibility into relocation timelines, costs, bottlenecks, and candidate engagement - helping you forecast hiring impact, reduce time-to-start, and improve offer acceptance rates.\n\nAvailable in 30+ countries and rated 4.9/5 on Trustpilot, we help high-growth companies relocate employees faster, more transparently, and at significantly lower cost than traditional relocation providers — or unmanaged cash lump sums.\tPerchPeek is an AI-powered, all-in-one global relocation platform that helps Talent and HR teams deliver seamless onboarding for international hires - without pulling recruiters away from hiring.\n\nWe combine in-country relocation experts with a data-native platform that centralises every question, manages reimbursements, and provides live visibility into timelines, engagement, and cost. From visa coordination to home finding and settling in, everything is managed end-to-end in one place.\n\nUnlike traditional relocation providers built for executives only, PerchPeek delivers scalable, cost-effective support across seniorities - turning relocation into measurable, accessible hiring infrastructure.\n\nAvailable in 150+ countries and rated 4.9/5 on Trustpilot.\t5k-10k\tSamuel\tTrout\tsamuel@perchpeek.com\tRelocation Program Consultant\thttps://www.linkedin.com/in/samuel-trout/\tNULL\tNULL\tNULL\tNULL\t12\t2026-02-26 12:12:52\t2026-02-26 12:12:52\n",
+  "stderr": "",
+  "execution_time_ms": 467
+}
