@@ -64,22 +64,22 @@ export default function SponsorDashboard() {
         </div>
       </div>
 
-      <div className="py-20">
+      <div className="py-6">
         <div className="container max-w-6xl">
+          {/* Page title + status inline */}
           <AnimatedSection>
-            <div className="mb-12 text-center">
-              <h1 className="text-foreground mb-4">Welcome to Your Dashboard</h1>
-              <div className="gold-divider max-w-md mx-auto mb-6"></div>
-              <p className="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-                Track your onboarding progress and manage your submissions for the RLX event.
-              </p>
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <h1 className="text-2xl font-heading font-bold text-foreground leading-tight">Welcome to Your Dashboard</h1>
+                <p className="text-sm text-muted-foreground mt-0.5">Track your onboarding progress for the RLX event.</p>
+              </div>
             </div>
           </AnimatedSection>
 
           {/* Completion Status */}
-          <AnimatedSection delay={100}>
-            <Card className={`glass-card mb-8 ${isComplete ? 'border-green-500/50 bg-green-500/5' : 'border-yellow-500/50 bg-yellow-500/5'}`}>
-              <CardHeader>
+          <AnimatedSection delay={50}>
+            <Card className={`glass-card mb-3 ${isComplete ? 'border-green-500/50 bg-green-500/5' : 'border-yellow-500/50 bg-yellow-500/5'}`}>
+              <CardHeader className="py-3">
                 <CardTitle className="flex items-center gap-3">
                   {isComplete ? (
                     <>
@@ -104,9 +104,9 @@ export default function SponsorDashboard() {
 
           {/* Submission Count Indicator */}
           {submissionStats && submissionStats.totalSponsors > 0 && (
-            <AnimatedSection delay={150}>
-              <Card className="glass-card mb-8 border-primary/20 bg-primary/5">
-                <CardContent className="pt-5 pb-5">
+            <AnimatedSection delay={100}>
+              <Card className="glass-card mb-3 border-primary/20 bg-primary/5">
+                <CardContent className="pt-3 pb-3">
                   <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center">
@@ -155,7 +155,7 @@ export default function SponsorDashboard() {
           )}
 
           {/* Submission Cards */}
-          <div className="grid md:grid-cols-3 gap-6 mb-8">
+          <div className="grid md:grid-cols-3 gap-4 mb-4">
             {/* Intake Form Card */}
             <AnimatedSection delay={150}>
               <Card className="glass-card h-full">
@@ -325,7 +325,7 @@ export default function SponsorDashboard() {
           </div>
 
           {/* Quick Links */}
-          <AnimatedSection delay={250}>
+          <AnimatedSection delay={200}>
             <Card className="glass-card">
               <CardHeader>
                 <CardTitle>Quick Links</CardTitle>
