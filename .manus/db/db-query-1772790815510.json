@@ -1,0 +1,118 @@
+{
+  "query": "SELECT id, companyName, contactName, contactEmail FROM sponsors ORDER BY companyName;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT id, companyName, contactName, contactEmail FROM sponsors ORDER BY companyName;",
+  "rows": [
+    {
+      "id": "30001",
+      "companyName": "AI Limited",
+      "contactName": "Rob Lemon",
+      "contactEmail": "bobby@recruitmentevents.co"
+    },
+    {
+      "id": "270002",
+      "companyName": "Appcast",
+      "contactName": "Roy  Jacques",
+      "contactEmail": "roy.jacques@appcast.io"
+    },
+    {
+      "id": "390001",
+      "companyName": "Bright Apply",
+      "contactName": "Kirsten Barnes",
+      "contactEmail": "kirsten.barnes@brightnetwork.co.uk"
+    },
+    {
+      "id": "60001",
+      "companyName": "Elevate Assess",
+      "contactName": "Damien Clarke",
+      "contactEmail": "nino@recruitmentevents.co"
+    },
+    {
+      "id": "540001",
+      "companyName": "hackajob",
+      "contactName": "Sam Berthoud",
+      "contactEmail": "sam.b@hackajob.co"
+    },
+    {
+      "id": "600001",
+      "companyName": "Happydance Careers Websites",
+      "contactName": "Dave Ralph",
+      "contactEmail": "dave.ralph@happydance.love"
+    },
+    {
+      "id": "210001",
+      "companyName": "Harver",
+      "contactName": "Elliot Thompson",
+      "contactEmail": "elliot.thompson@harver.com"
+    },
+    {
+      "id": "120001",
+      "companyName": "Little Moment",
+      "contactName": "Stefan Davidovski",
+      "contactEmail": "stefan@recruitmentevents.co"
+    },
+    {
+      "id": "180001",
+      "companyName": "Maki People",
+      "contactName": "Marc Dewind",
+      "contactEmail": "marc.dewind@makipeople.com"
+    },
+    {
+      "id": "90001",
+      "companyName": "NexaTalent Solutions Ltd",
+      "contactName": "Natalija Tosheva",
+      "contactEmail": "natalija@recruitmentevents.co"
+    },
+    {
+      "id": "450001",
+      "companyName": "PerchPeek",
+      "contactName": "Samuel Trout",
+      "contactEmail": "samuel@perchpeek.com"
+    },
+    {
+      "id": "240001",
+      "companyName": "Sapia.ai",
+      "contactName": "Barb Hyman",
+      "contactEmail": "barb@sapia.ai"
+    },
+    {
+      "id": "150001",
+      "companyName": "Stepstone Group UK Ltd",
+      "contactName": "Luke  McKend",
+      "contactEmail": "luke.mckend@stepstone.com"
+    },
+    {
+      "id": "330001",
+      "companyName": "Symphony Talent ",
+      "contactName": "Craig Barnett",
+      "contactEmail": "craig.barnett@symphonytalent.com"
+    },
+    {
+      "id": "510003",
+      "companyName": "Test Sponsor mtgtest-1772728191724",
+      "contactName": "Test Contact",
+      "contactEmail": "test-mtgtest-1772728191724@example.com"
+    },
+    {
+      "id": "360001",
+      "companyName": "Udder",
+      "contactName": "Peter Hetherington",
+      "contactEmail": "peter@udder.rocks"
+    },
+    {
+      "id": "270001",
+      "companyName": "Visibility Test Company",
+      "contactName": "Test User",
+      "contactEmail": "visibility-test@example.com"
+    },
+    {
+      "id": "300001",
+      "companyName": "Zinc",
+      "contactName": "Patrick White",
+      "contactEmail": "patrick@zincwork.com"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tcompanyName\tcontactName\tcontactEmail\n30001\tAI Limited\tRob Lemon\tbobby@recruitmentevents.co\n270002\tAppcast\tRoy  Jacques\troy.jacques@appcast.io\n390001\tBright Apply\tKirsten Barnes\tkirsten.barnes@brightnetwork.co.uk\n60001\tElevate Assess\tDamien Clarke\tnino@recruitmentevents.co\n540001\thackajob\tSam Berthoud\tsam.b@hackajob.co\n600001\tHappydance Careers Websites\tDave Ralph\tdave.ralph@happydance.love\n210001\tHarver\tElliot Thompson\telliot.thompson@harver.com\n120001\tLittle Moment\tStefan Davidovski\tstefan@recruitmentevents.co\n180001\tMaki People\tMarc Dewind\tmarc.dewind@makipeople.com\n90001\tNexaTalent Solutions Ltd\tNatalija Tosheva\tnatalija@recruitmentevents.co\n450001\tPerchPeek\tSamuel Trout\tsamuel@perchpeek.com\n240001\tSapia.ai\tBarb Hyman\tbarb@sapia.ai\n150001\tStepstone Group UK Ltd\tLuke  McKend\tluke.mckend@stepstone.com\n330001\tSymphony Talent \tCraig Barnett\tcraig.barnett@symphonytalent.com\n510003\tTest Sponsor mtgtest-1772728191724\tTest Contact\ttest-mtgtest-1772728191724@example.com\n360001\tUdder\tPeter Hetherington\tpeter@udder.rocks\n270001\tVisibility Test Company\tTest User\tvisibility-test@example.com\n300001\tZinc\tPatrick White\tpatrick@zincwork.com\n",
+  "stderr": "",
+  "execution_time_ms": 345
+}
