@@ -1027,9 +1027,22 @@ export const appRouter = router({
     getAnalytics: adminProcedure
       .query(async () => {
 
-        const allMeetings = await db.getAllMeetings();
-        const allSponsors = await db.getAllSponsors();
-        const totalDelegates = attendees.length;
+        // Sponsors to exclude from analytics (test/inactive accounts)
+        const EXCLUDED_SPONSOR_IDS = new Set([30001, 60001, 90001, 120001, 270001, 510003]);
+        // Jen Candee excluded from delegate analytics
+        const EXCLUDED_DELEGATE_IDS = new Set(['150796696175']);
+
+        const allMeetingsRaw = await db.getAllMeetings();
+        const allSponsorsRaw = await db.getAllSponsors();
+
+        // Filter out excluded sponsors and their meetings
+        const allSponsors = allSponsorsRaw.filter(s => !EXCLUDED_SPONSOR_IDS.has(s.id));
+        const validSponsorIds = new Set(allSponsors.map(s => s.id));
+        const allMeetings = allMeetingsRaw.filter(
+          m => !EXCLUDED_DELEGATE_IDS.has(m.attendeeId) && validSponsorIds.has(m.sponsorId)
+        );
+
+        const totalDelegates = attendees.filter(a => !EXCLUDED_DELEGATE_IDS.has(a.id)).length;
         
         // Calculate average match score
         const totalScore = allMeetings.reduce((sum, m) => sum + (m.matchScore || 0), 0);
@@ -1039,7 +1052,8 @@ export const appRouter = router({
         const uniqueDelegates = new Set(allMeetings.map(m => m.attendeeId));
         const delegatesBooked = uniqueDelegates.size;
         
-        // Calculate average utilization (meetings per delegate / max 8)
+        // Calculate average utilization (meetings per delegate / max 6 = 2/hr × 3hrs/day × 2 days)
+        const MAX_MEETINGS_PER_DELEGATE = 6;
         const delegateMeetingCounts = new Map<string, number>();
         for (const meeting of allMeetings) {
           delegateMeetingCounts.set(
@@ -1048,7 +1062,7 @@ export const appRouter = router({
           );
         }
         const totalUtilization = Array.from(delegateMeetingCounts.values()).reduce(
-          (sum, count) => sum + (count / 8) * 100,
+          (sum, count) => sum + (count / MAX_MEETINGS_PER_DELEGATE) * 100,
           0
         );
         const averageUtilization = delegateMeetingCounts.size > 0 
@@ -1075,50 +1089,46 @@ export const appRouter = router({
           else scoreDistribution[5].count++;
         }
         
-        // Time slot distribution - count total meetings per time slot
+        // Time slot distribution — 2 meetings per hour, 3 hours per day, 2 days = 6 slots × 2 = 12 sub-slots
+        // Slots 1-2: Day 1 Hour 1 (e.g. 09:00–10:00)
+        // Slots 3-4: Day 1 Hour 2 (e.g. 10:00–11:00)
+        // Slots 5-6: Day 1 Hour 3 (e.g. 11:00–12:00)
+        // Slots 7-8: Day 2 Hour 1
+        // Slots 9-10: Day 2 Hour 2
+        // Slots 11-12: Day 2 Hour 3
         const timeSlotDistribution = [
-          { slot: 1, label: 'Day 1 - Slot 1', count: 0 },
-          { slot: 2, label: 'Day 1 - Slot 2', count: 0 },
-          { slot: 3, label: 'Day 1 - Slot 3', count: 0 },
-          { slot: 4, label: 'Day 2 - Slot 1', count: 0 },
-          { slot: 5, label: 'Day 2 - Slot 2', count: 0 },
-          { slot: 6, label: 'Day 2 - Slot 3', count: 0 },
+          { slot: 1, label: 'Day 1 — 09:00–09:30', count: 0 },
+          { slot: 2, label: 'Day 1 — 09:30–10:00', count: 0 },
+          { slot: 3, label: 'Day 1 — 10:00–10:30', count: 0 },
+          { slot: 4, label: 'Day 1 — 10:30–11:00', count: 0 },
+          { slot: 5, label: 'Day 1 — 11:00–11:30', count: 0 },
+          { slot: 6, label: 'Day 1 — 11:30–12:00', count: 0 },
+          { slot: 7, label: 'Day 2 — 09:00–09:30', count: 0 },
+          { slot: 8, label: 'Day 2 — 09:30–10:00', count: 0 },
+          { slot: 9, label: 'Day 2 — 10:00–10:30', count: 0 },
+          { slot: 10, label: 'Day 2 — 10:30–11:00', count: 0 },
+          { slot: 11, label: 'Day 2 — 11:00–11:30', count: 0 },
+          { slot: 12, label: 'Day 2 — 11:30–12:00', count: 0 },
         ];
         
         for (const meeting of allMeetings) {
           if (meeting.timeSlot) {
             const slotIndex = meeting.timeSlot - 1;
-            if (slotIndex >= 0 && slotIndex < 6) {
+            if (slotIndex >= 0 && slotIndex < 12) {
               timeSlotDistribution[slotIndex].count++;
             }
           }
         }
         
-        // Top 10 most requested delegates
-        const delegateStats = Array.from(delegateMeetingCounts.entries())
-          .map(([attendeeId, count]) => {
-            const delegate = attendees.find(d => d.id === attendeeId);
-            return {
-              attendeeId,
-              name: delegate ? `${delegate.firstName} ${delegate.lastName}` : 'Unknown',
-              company: delegate?.company || 'Unknown',
-              meetingCount: count,
-            };
-          })
-          .sort((a, b) => b.meetingCount - a.meetingCount)
-          .slice(0, 10);
-        
-        // Most in-demand delegates based on sponsor rankings
+        // Most in-demand delegates based on sponsor rankings (excluding Jen Candee)
         const allRankings = await db.getAllRankingsSubmissions();
         const demandScores = new Map<string, number>();
         
-        // Calculate demand score: higher ranking = higher score
-        // Top ranked delegate gets more points than lower ranked
         for (const ranking of allRankings) {
           if (ranking.rankingsData) {
             const rankedList = JSON.parse(ranking.rankingsData);
             rankedList.forEach((delegateId: string, index: number) => {
-              // Score: (total delegates - rank position) to give higher scores to top-ranked
+              if (EXCLUDED_DELEGATE_IDS.has(delegateId)) return;
               const score = rankedList.length - index;
               demandScores.set(delegateId, (demandScores.get(delegateId) || 0) + score);
             });
@@ -1142,7 +1152,7 @@ export const appRouter = router({
           .sort((a, b) => b.demandScore - a.demandScore)
           .slice(0, 10);
         
-        // Sponsor statistics
+        // Sponsor statistics (excluding test/inactive sponsors)
         const sponsorStats = await Promise.all(
           allSponsors.map(async (sponsor) => {
             const sponsorMeetings = allMeetings.filter(m => m.sponsorId === sponsor.id);
@@ -1170,7 +1180,6 @@ export const appRouter = router({
           averageUtilization,
           scoreDistribution,
           timeSlotDistribution,
-          topDelegates: delegateStats,
           mostInDemandDelegates,
           sponsorStats,
         };
