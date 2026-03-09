@@ -229,7 +229,7 @@ export default function DelegateProfileModal({ open, onOpenChange, delegate, mat
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-[90vw] w-[1200px] max-h-[90vh] overflow-y-auto bg-slate-900 border-slate-700">
+      <DialogContent className="!max-w-[90vw] !w-[1200px] max-h-[90vh] overflow-y-auto bg-slate-900 border-slate-700">
         <DialogHeader>
           <div className="flex items-center justify-between">
             <div>
