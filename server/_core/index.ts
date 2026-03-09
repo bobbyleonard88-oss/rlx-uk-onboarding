@@ -9,6 +9,7 @@ import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
 import { storagePut } from "../storage";
+import { htmlToPdf } from "../pdfGenerator";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -51,6 +52,34 @@ async function startServer() {
     } catch (err: any) {
       console.error("Logo upload error:", err);
       res.status(500).json({ error: err.message || "Upload failed" });
+    }
+  });
+
+  // PDF generation endpoint — accepts HTML body, returns PDF file
+  app.post("/api/generate-pdf", async (req, res) => {
+    try {
+      // Verify session cookie so only authenticated users can generate PDFs
+      // Parse cookies manually since cookie-parser may not be registered
+      const cookieHeader = req.headers.cookie || '';
+      const hasSession = cookieHeader.includes('app_session_id=');
+      if (!hasSession) {
+        res.status(401).json({ error: "Unauthorized" });
+        return;
+      }
+      const { html, filename } = req.body as { html: string; filename?: string };
+      if (!html) {
+        res.status(400).json({ error: "html is required" });
+        return;
+      }
+      const pdfBuffer = await htmlToPdf(html);
+      const safeName = (filename || 'delegate-profile').replace(/[^a-zA-Z0-9_-]/g, '_');
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `attachment; filename="${safeName}.pdf"`);
+      res.setHeader('Content-Length', pdfBuffer.length);
+      res.end(pdfBuffer);
+    } catch (err: any) {
+      console.error('PDF generation error:', err);
+      res.status(500).json({ error: err.message || 'PDF generation failed' });
     }
   });
 

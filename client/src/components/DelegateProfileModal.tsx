@@ -3,9 +3,10 @@
  * Displays full delegate profile with all information
  */
 
+import React, { useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Download, Building2, Users, Briefcase, Target, DollarSign, TrendingUp, ChevronDown, Sparkles } from "lucide-react";
+import { Download, Building2, Users, Briefcase, Target, DollarSign, TrendingUp, ChevronDown, Sparkles, Loader2 } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -39,7 +40,11 @@ function clean(value: string | null | undefined): string {
 export default function DelegateProfileModal({ open, onOpenChange, delegate, matchReason }: DelegateProfileModalProps) {
   if (!delegate) return null;
 
-  const downloadPDF = () => {
+  const [pdfLoading, setPdfLoading] = useState(false);
+
+  const downloadPDF = async () => {
+    setPdfLoading(true);
+    try {
     // Create professional HTML content for PDF - clean Google Doc style
     // Helper to convert newline-separated text into bullet list HTML
     const toBullets = (text: string) => {
@@ -182,14 +187,30 @@ export default function DelegateProfileModal({ open, onOpenChange, delegate, mat
       </html>
     `;
 
-    const printWindow = window.open('', '_blank');
-    if (printWindow) {
-      printWindow.document.write(htmlContent);
-      printWindow.document.close();
-      printWindow.focus();
-      setTimeout(() => {
-        printWindow.print();
-      }, 250);
+      const response = await fetch('/api/generate-pdf', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          html: htmlContent,
+          filename: `${delegate.firstName}_${delegate.lastName}_Profile`,
+        }),
+      });
+      if (!response.ok) throw new Error('PDF generation failed');
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${delegate.firstName}_${delegate.lastName}_Profile.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error('PDF download error:', err);
+      alert('PDF generation failed. Please try again.');
+    } finally {
+      setPdfLoading(false);
     }
   };
 
@@ -242,10 +263,10 @@ export default function DelegateProfileModal({ open, onOpenChange, delegate, mat
             </div>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm" className="gap-2">
-                  <Download className="w-4 h-4" />
-                  Download
-                  <ChevronDown className="w-4 h-4" />
+                <Button variant="outline" size="sm" className="gap-2" disabled={pdfLoading}>
+                  {pdfLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+                  {pdfLoading ? 'Generating...' : 'Download'}
+                  {!pdfLoading && <ChevronDown className="w-4 h-4" />}
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">

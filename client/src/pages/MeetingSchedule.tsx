@@ -136,23 +136,40 @@ export default function MeetingSchedule() {
     </html>
   `;
 
-  const downloadDelegateProfile = (attendeeId: string, _format: 'pdf' | 'individual') => {
+  const downloadDelegateProfile = async (attendeeId: string, _format: 'pdf' | 'individual') => {
     const delegate = attendees.find(a => a.id === attendeeId);
     if (!delegate) {
       toast.error("Delegate not found");
       return;
     }
     const htmlContent = buildDelegatePdfHtml(delegate);
-    const printWindow = window.open('', '_blank');
-    if (printWindow) {
-      printWindow.document.write(htmlContent);
-      printWindow.document.close();
-      printWindow.focus();
-      setTimeout(() => { printWindow.print(); }, 250);
+    try {
+      const response = await fetch('/api/generate-pdf', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          html: htmlContent,
+          filename: `${delegate.firstName}_${delegate.lastName}_Profile`,
+        }),
+      });
+      if (!response.ok) throw new Error('PDF generation failed');
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${delegate.firstName}_${delegate.lastName}_Profile.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error('PDF download error:', err);
+      toast.error('PDF generation failed. Please try again.');
     }
   };
 
-  const downloadAllProfilesPDF = () => {
+  const downloadAllProfilesPDF = async () => {
     if (!meetings || meetings.length === 0) {
       toast.error("No meetings to download");
       return;
@@ -233,12 +250,29 @@ export default function MeetingSchedule() {
       </body>
       </html>
     `;
-    const printWindow = window.open('', '_blank');
-    if (printWindow) {
-      printWindow.document.write(combinedHtml);
-      printWindow.document.close();
-      printWindow.focus();
-      setTimeout(() => { printWindow.print(); }, 250);
+    try {
+      const response = await fetch('/api/generate-pdf', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          html: combinedHtml,
+          filename: 'All_Delegate_Profiles',
+        }),
+      });
+      if (!response.ok) throw new Error('PDF generation failed');
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'All_Delegate_Profiles.pdf';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error('PDF download error:', err);
+      toast.error('PDF generation failed. Please try again.');
     }
   };
 
