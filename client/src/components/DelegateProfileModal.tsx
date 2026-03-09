@@ -20,6 +20,22 @@ interface DelegateProfileModalProps {
   matchReason?: string; // AI-generated match reasoning
 }
 
+/**
+ * Strip parenthetical commentary from free-text fields.
+ * e.g. "Yello (terrible needs to be replaced, good for event management)" → "Yello"
+ * Handles nested parens and multiple occurrences. Trims trailing punctuation/whitespace.
+ */
+function clean(value: string | null | undefined): string {
+  if (!value) return 'N/A';
+  // Remove content inside parentheses (including the parens themselves)
+  let cleaned = value.replace(/\s*\([^)]*\)/g, '');
+  // Collapse multiple spaces and trim
+  cleaned = cleaned.replace(/\s{2,}/g, ' ').trim();
+  // Remove trailing commas/semicolons left behind
+  cleaned = cleaned.replace(/[,;]+$/, '').trim();
+  return cleaned || 'N/A';
+}
+
 export default function DelegateProfileModal({ open, onOpenChange, delegate, matchReason }: DelegateProfileModalProps) {
   if (!delegate) return null;
 
@@ -228,15 +244,15 @@ export default function DelegateProfileModal({ open, onOpenChange, delegate, mat
             <div class="grid">
               <div class="field full-width">
                 <div class="label">Active Confirmed Projects</div>
-                <div class="value">${delegate.activeProjects || 'N/A'}</div>
+                <div class="value">${clean(delegate.activeProjects)}</div>
               </div>
               <div class="field full-width">
                 <div class="label">Primary Meeting Objective</div>
-                <div class="value">${delegate.meetingObjective || 'N/A'}</div>
+                <div class="value">${clean(delegate.meetingObjective)}</div>
               </div>
               <div class="field">
                 <div class="label">Current Project Stage</div>
-                <div class="value">${delegate.projectStage || 'N/A'}</div>
+                <div class="value">${clean(delegate.projectStage)}</div>
               </div>
             </div>
           </div>
@@ -246,23 +262,23 @@ export default function DelegateProfileModal({ open, onOpenChange, delegate, mat
             <div class="grid">
               <div class="field">
                 <div class="label">ATS (Applicant Tracking System)</div>
-                <div class="value">${delegate.ats || 'N/A'}</div>
+                <div class="value">${clean(delegate.ats)}</div>
               </div>
               <div class="field">
                 <div class="label">CRM</div>
-                <div class="value">${delegate.crm || 'N/A'}</div>
+                <div class="value">${clean(delegate.crm)}</div>
               </div>
               <div class="field">
                 <div class="label">Assessment Tools</div>
-                <div class="value">${delegate.assessmentTools || 'N/A'}</div>
+                <div class="value">${clean(delegate.assessmentTools)}</div>
               </div>
               <div class="field">
                 <div class="label">Talent Intelligence</div>
-                <div class="value">${delegate.marketIntelligence || 'N/A'}</div>
+                <div class="value">${clean(delegate.marketIntelligence)}</div>
               </div>
               <div class="field full-width">
                 <div class="label">Other Tools</div>
-                <div class="value">${delegate.otherTools || 'N/A'}</div>
+                <div class="value">${clean(delegate.otherTools)}</div>
               </div>
             </div>
           </div>
@@ -270,14 +286,14 @@ export default function DelegateProfileModal({ open, onOpenChange, delegate, mat
           <div class="section">
             <h2>💡 Solution Areas of Interest</h2>
             <div class="field full-width">
-              <div class="value">${delegate.solutionAreas || 'N/A'}</div>
+              <div class="value">${clean(delegate.solutionAreas)}</div>
             </div>
           </div>
           
           <div class="section">
             <h2>⚠️ Current Pain Points & Challenges</h2>
             <div class="field full-width">
-              <div class="value">${delegate.painPoints || 'N/A'}</div>
+              <div class="value">${clean(delegate.painPoints)}</div>
             </div>
           </div>
           
@@ -314,16 +330,16 @@ export default function DelegateProfileModal({ open, onOpenChange, delegate, mat
       ['Decision Making Level', delegate.decisionLevel || 'N/A'],
       ['Active Project Budget', delegate.activeProjectBudget || 'N/A'],
       ['Contract Sign-off Authority', delegate.budgetAuthority || 'N/A'],
-      ['Active Projects', delegate.activeProjects || 'N/A'],
-      ['Meeting Objective', delegate.meetingObjective || 'N/A'],
-      ['Project Stage', delegate.projectStage || 'N/A'],
-      ['ATS', delegate.ats || 'N/A'],
-      ['CRM', delegate.crm || 'N/A'],
-      ['Assessment Tools', delegate.assessmentTools || 'N/A'],
-      ['Talent Intelligence', delegate.marketIntelligence || 'N/A'],
-      ['Other Tools', delegate.otherTools || 'N/A'],
-      ['Solution Areas', delegate.solutionAreas || 'N/A'],
-      ['Pain Points', delegate.painPoints || 'N/A'],
+      ['Active Projects', clean(delegate.activeProjects)],
+      ['Meeting Objective', clean(delegate.meetingObjective)],
+      ['Project Stage', clean(delegate.projectStage)],
+      ['ATS', clean(delegate.ats)],
+      ['CRM', clean(delegate.crm)],
+      ['Assessment Tools', clean(delegate.assessmentTools)],
+      ['Talent Intelligence', clean(delegate.marketIntelligence)],
+      ['Other Tools', clean(delegate.otherTools)],
+      ['Solution Areas', clean(delegate.solutionAreas)],
+      ['Pain Points', clean(delegate.painPoints)],
     ].map(row => row.map(cell => `"${cell}"`).join(',')).join('\n');
 
     const blob = new Blob([csvContent], { type: 'text/csv' });
@@ -430,15 +446,15 @@ export default function DelegateProfileModal({ open, onOpenChange, delegate, mat
             <div className="space-y-4">
               <div className="bg-slate-800/50 p-3 rounded-lg border border-slate-700">
                 <div className="text-xs text-slate-400 uppercase mb-1">Active Confirmed Projects</div>
-                <div className="text-white">{delegate.activeProjects || 'N/A'}</div>
+                <div className="text-white">{clean(delegate.activeProjects)}</div>
               </div>
               <div className="bg-slate-800/50 p-3 rounded-lg border border-slate-700">
                 <div className="text-xs text-slate-400 uppercase mb-1">Primary Meeting Objective</div>
-                <div className="text-white">{delegate.meetingObjective || 'N/A'}</div>
+                <div className="text-white">{clean(delegate.meetingObjective)}</div>
               </div>
               <div className="bg-slate-800/50 p-3 rounded-lg border border-slate-700">
                 <div className="text-xs text-slate-400 uppercase mb-1">Current Project Stage</div>
-                <div className="text-white">{delegate.projectStage || 'N/A'}</div>
+                <div className="text-white">{clean(delegate.projectStage)}</div>
               </div>
             </div>
           </div>
@@ -452,23 +468,23 @@ export default function DelegateProfileModal({ open, onOpenChange, delegate, mat
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-slate-800/50 p-3 rounded-lg border border-slate-700">
                 <div className="text-xs text-slate-400 uppercase mb-1">ATS</div>
-                <div className="text-white">{delegate.ats || 'N/A'}</div>
+                <div className="text-white">{clean(delegate.ats)}</div>
               </div>
               <div className="bg-slate-800/50 p-3 rounded-lg border border-slate-700">
                 <div className="text-xs text-slate-400 uppercase mb-1">CRM</div>
-                <div className="text-white">{delegate.crm || 'N/A'}</div>
+                <div className="text-white">{clean(delegate.crm)}</div>
               </div>
               <div className="bg-slate-800/50 p-3 rounded-lg border border-slate-700">
                 <div className="text-xs text-slate-400 uppercase mb-1">Assessment Tools</div>
-                <div className="text-white">{delegate.assessmentTools || 'N/A'}</div>
+                <div className="text-white">{clean(delegate.assessmentTools)}</div>
               </div>
               <div className="bg-slate-800/50 p-3 rounded-lg border border-slate-700">
                 <div className="text-xs text-slate-400 uppercase mb-1">Talent Intelligence</div>
-                <div className="text-white">{delegate.marketIntelligence || 'N/A'}</div>
+                <div className="text-white">{clean(delegate.marketIntelligence)}</div>
               </div>
               <div className="bg-slate-800/50 p-3 rounded-lg border border-slate-700 col-span-2">
                 <div className="text-xs text-slate-400 uppercase mb-1">Other Tools</div>
-                <div className="text-white">{delegate.otherTools || 'N/A'}</div>
+                <div className="text-white">{clean(delegate.otherTools)}</div>
               </div>
             </div>
           </div>
@@ -480,7 +496,7 @@ export default function DelegateProfileModal({ open, onOpenChange, delegate, mat
               Solution Areas of Interest
             </h3>
             <div className="bg-slate-800/50 p-3 rounded-lg border border-slate-700">
-              <div className="text-white whitespace-pre-wrap">{delegate.solutionAreas || 'N/A'}</div>
+              <div className="text-white whitespace-pre-wrap">{clean(delegate.solutionAreas)}</div>
             </div>
           </div>
 
@@ -491,7 +507,7 @@ export default function DelegateProfileModal({ open, onOpenChange, delegate, mat
               Current Pain Points & Challenges
             </h3>
             <div className="bg-slate-800/50 p-3 rounded-lg border border-slate-700">
-              <div className="text-white whitespace-pre-wrap">{delegate.painPoints || 'N/A'}</div>
+              <div className="text-white whitespace-pre-wrap">{clean(delegate.painPoints)}</div>
             </div>
           </div>
 

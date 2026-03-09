@@ -128,7 +128,7 @@ export default function SponsorDashboard() {
                         <div className="mt-1 h-1.5 w-28 bg-muted rounded-full overflow-hidden">
                           <div
                             className="h-full bg-primary rounded-full transition-all duration-700"
-                            style={{ width: submissionStats.totalSponsors > 0 ? `${Math.round((submissionStats.intakeCount / submissionStats.totalSponsors) * 100)}%` : '0%' }}
+                            style={{ width: submissionStats.totalSponsors > 0 ? `${Math.min(Math.round((submissionStats.intakeCount / submissionStats.totalSponsors) * 100), 100)}%` : '0%' }}
                           />
                         </div>
                       </div>
@@ -143,7 +143,7 @@ export default function SponsorDashboard() {
                         <div className="mt-1 h-1.5 w-28 bg-muted rounded-full overflow-hidden">
                           <div
                             className="h-full bg-accent rounded-full transition-all duration-700"
-                            style={{ width: submissionStats.totalSponsors > 0 ? `${Math.round((submissionStats.rankingsCount / submissionStats.totalSponsors) * 100)}%` : '0%' }}
+                            style={{ width: submissionStats.totalSponsors > 0 ? `${Math.min(Math.round((submissionStats.rankingsCount / submissionStats.totalSponsors) * 100), 100)}%` : '0%' }}
                           />
                         </div>
                       </div>
