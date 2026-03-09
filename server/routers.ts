@@ -50,15 +50,23 @@ export const appRouter = router({
     
     // Get submission stats for the progress indicator shown to sponsors
     getSubmissionStats: publicProcedure.query(async () => {
+      // Exclude test/inactive sponsor accounts from participation stats
+      const EXCLUDED_SPONSOR_IDS = new Set([30001, 60001, 90001, 120001, 270001, 510003]);
       const allIntake = await db.getAllIntakeSubmissions();
       const allRankings = await db.getAllRankingsSubmissions();
-      // Count unique sponsors who have submitted intake
-      const intakeCount = new Set(allIntake.map((s: any) => s.sponsorId)).size;
-      // Count unique sponsors who have submitted rankings
-      const rankingsCount = new Set(allRankings.map((s: any) => s.sponsorId)).size;
-      // Total registered sponsors
+      // Total active sponsors (excluding test/inactive)
       const allSponsors = await db.getAllSponsors();
-      const totalSponsors = allSponsors.length;
+      const activeSponsors = allSponsors.filter((s: any) => !EXCLUDED_SPONSOR_IDS.has(s.id));
+      const activeSponsorIds = new Set(activeSponsors.map((s: any) => s.id));
+      // Count unique active sponsors who have submitted intake
+      const intakeCount = new Set(
+        allIntake.filter((s: any) => activeSponsorIds.has(s.sponsorId)).map((s: any) => s.sponsorId)
+      ).size;
+      // Count unique active sponsors who have submitted rankings
+      const rankingsCount = new Set(
+        allRankings.filter((s: any) => activeSponsorIds.has(s.sponsorId)).map((s: any) => s.sponsorId)
+      ).size;
+      const totalSponsors = activeSponsors.length;
       return { intakeCount, rankingsCount, totalSponsors };
     }),
 
