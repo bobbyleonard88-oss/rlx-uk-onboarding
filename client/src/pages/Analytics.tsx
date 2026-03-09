@@ -1,14 +1,19 @@
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { trpc } from "@/lib/trpc";
-import { BarChart3, Users, Calendar, TrendingUp } from "lucide-react";
+import { BarChart3, Users, Calendar, TrendingUp, FlaskConical } from "lucide-react";
 import AdminHeader from "@/components/AdminHeader";
 import MeetingFloorPlan from "@/components/MeetingFloorPlan";
 
 export default function Analytics() {
-  const { data: analytics, isLoading } = trpc.admin.getAnalytics.useQuery();
+  const [includeTestAccounts, setIncludeTestAccounts] = useState(false);
 
-  if (isLoading) {
+  const { data: analytics, isLoading } = trpc.admin.getAnalytics.useQuery(
+    { includeTestAccounts }
+  );
+
+  if (isLoading && !analytics) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900/20 to-slate-900 p-6">
         <div className="container mx-auto">
@@ -43,7 +48,23 @@ export default function Analytics() {
       <AdminHeader />
       <div className="p-6">
         <div className="container mx-auto">
-          <h1 className="text-3xl font-bold text-white mb-6">Meeting Analytics</h1>
+
+          {/* Page header + test accounts toggle */}
+          <div className="flex items-center justify-between mb-6">
+            <h1 className="text-3xl font-bold text-white">Meeting Analytics</h1>
+            <button
+              onClick={() => setIncludeTestAccounts(v => !v)}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg border text-sm font-medium transition-all ${
+                includeTestAccounts
+                  ? "bg-amber-500/20 border-amber-500/50 text-amber-300 hover:bg-amber-500/30"
+                  : "bg-slate-800 border-slate-600 text-slate-400 hover:border-slate-500 hover:text-slate-300"
+              }`}
+              title="Toggle test accounts (recruitmentevents.co sponsors)"
+            >
+              <FlaskConical className="w-4 h-4" />
+              {includeTestAccounts ? "Test Accounts: ON" : "Test Accounts: OFF"}
+            </button>
+          </div>
 
           {/* Summary Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
@@ -290,12 +311,13 @@ export default function Analytics() {
             </Card>
           </div>
 
-          {/* Row 4: Meeting Floor Plan — full width, spans both columns */}
+          {/* Row 4: Meeting Floor Plan — full width */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="lg:col-span-2">
-              <MeetingFloorPlan />
+              <MeetingFloorPlan includeTestAccounts={includeTestAccounts} />
             </div>
           </div>
+
         </div>
       </div>
     </div>

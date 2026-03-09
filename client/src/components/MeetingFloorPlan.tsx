@@ -73,8 +73,14 @@ function Slider({ labels, value, onChange }: SliderProps) {
   );
 }
 
-export default function MeetingFloorPlan() {
-  const { data: floorPlan, isLoading } = trpc.admin.getFloorPlan.useQuery();
+interface MeetingFloorPlanProps {
+  includeTestAccounts?: boolean;
+}
+
+export default function MeetingFloorPlan({ includeTestAccounts = false }: MeetingFloorPlanProps) {
+  const { data: floorPlan, isLoading } = trpc.admin.getFloorPlan.useQuery(
+    { includeTestAccounts }
+  );
   const [selectedDay, setSelectedDay] = useState(0); // 0 = Day 1, 1 = Day 2
   const [selectedHour, setSelectedHour] = useState(0); // 0-2 = Hour 1-3
 
