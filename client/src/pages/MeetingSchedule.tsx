@@ -51,153 +51,238 @@ export default function MeetingSchedule() {
     { enabled: !!user }
   );
 
-  const downloadDelegateProfile = (attendeeId: string, format: 'pdf' | 'individual') => {
+  const clean = (text: string | undefined | null) => {
+    if (!text) return 'N/A';
+    return text.replace(/\s*\([^)]*\)/g, '').trim() || 'N/A';
+  };
+
+  const toBullets = (text: string | undefined | null) => {
+    const cleaned = clean(text);
+    if (cleaned === 'N/A') return '<p style="margin:0;color:#374151;">N/A</p>';
+    const lines = cleaned.split(/\n|;|,(?=\s)/).map((l: string) => l.trim()).filter(Boolean);
+    if (lines.length <= 1) return `<p style="margin:0;color:#374151;">${cleaned}</p>`;
+    return `<ul style="margin:0;padding-left:18px;color:#374151;">${lines.map((l: string) => `<li style="margin-bottom:3px;">${l}</li>`).join('')}</ul>`;
+  };
+
+  const buildDelegatePdfHtml = (delegate: typeof attendees[number]) => `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="UTF-8">
+      <style>
+        @page { size: A4; margin: 20mm 18mm; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, Helvetica, sans-serif; color: #111; background: white; font-size: 10.5pt; line-height: 1.6; }
+        .doc-title { font-size: 22pt; font-weight: bold; margin-bottom: 6mm; color: #111; }
+        .name { font-size: 16pt; font-weight: bold; margin-bottom: 4mm; color: #111; }
+        .meta-block { margin-bottom: 6mm; }
+        .meta-block p { margin-bottom: 1.5mm; font-size: 10.5pt; color: #111; }
+        .meta-block strong { font-weight: bold; }
+        hr { border: none; border-top: 1px solid #d1d5db; margin: 5mm 0; }
+        .section { margin-bottom: 6mm; page-break-inside: avoid; }
+        .section h2 { font-size: 13pt; font-weight: bold; margin-bottom: 3mm; color: #111; }
+        .section .body { font-size: 10.5pt; color: #374151; line-height: 1.7; }
+        .tech-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3mm 8mm; margin-bottom: 2mm; }
+        .tech-item strong { display: block; font-size: 9pt; text-transform: uppercase; letter-spacing: 0.3pt; color: #6b7280; margin-bottom: 1mm; }
+        .footer { margin-top: 10mm; padding-top: 4mm; border-top: 1px solid #d1d5db; font-size: 8.5pt; color: #9ca3af; text-align: center; }
+      </style>
+    </head>
+    <body>
+      <div class="doc-title">Delegate Meeting Briefing</div>
+      <div class="name">${delegate.firstName} ${delegate.lastName}</div>
+      <div class="meta-block">
+        <p><strong>${delegate.jobTitle || ''}</strong></p>
+        <p><strong>${delegate.company || ''}</strong></p>
+        ${delegate.industry ? `<p><strong>Industry:</strong> ${delegate.industry}</p>` : ''}
+        ${delegate.companySize ? `<p><strong>Employees:</strong> ${delegate.companySize}</p>` : ''}
+        ${delegate.regionalRemit ? `<p><strong>Regions:</strong> ${delegate.regionalRemit}</p>` : ''}
+        ${delegate.hiresPerYear ? `<p><strong>Annual Hiring Volume:</strong> ${delegate.hiresPerYear}</p>` : ''}
+        ${delegate.decisionLevel ? `<p><strong>Decision Level:</strong> ${delegate.decisionLevel}</p>` : ''}
+        ${delegate.activeProjectBudget ? `<p><strong>Active Project Budget:</strong> ${delegate.activeProjectBudget}</p>` : ''}
+        ${delegate.budgetAuthority ? `<p><strong>Sign-off Authority:</strong> ${delegate.budgetAuthority}</p>` : ''}
+      </div>
+      <hr/>
+      <div class="section">
+        <h2>Active Projects and Buying Intent</h2>
+        <div class="body">
+          ${delegate.projectStage ? `<p style="margin-bottom:2mm;"><strong>Stage:</strong> ${clean(delegate.projectStage)}</p>` : ''}
+          ${toBullets(delegate.activeProjects)}
+          ${delegate.meetingObjective ? `<p style="margin-top:3mm;"><strong>Meeting Objective:</strong> ${clean(delegate.meetingObjective)}</p>` : ''}
+        </div>
+      </div>
+      <hr/>
+      <div class="section">
+        <h2>Pain Points and Challenges</h2>
+        <div class="body">${toBullets(delegate.painPoints)}</div>
+      </div>
+      <hr/>
+      <div class="section">
+        <h2>Solution Areas of Interest</h2>
+        <div class="body">${toBullets(delegate.solutionAreas)}</div>
+      </div>
+      <hr/>
+      <div class="section">
+        <h2>Current Technology Stack</h2>
+        <div class="tech-grid">
+          <div class="tech-item"><strong>ATS</strong>${clean(delegate.ats)}</div>
+          <div class="tech-item"><strong>CRM</strong>${clean(delegate.crm)}</div>
+          <div class="tech-item"><strong>Assessment Tools</strong>${clean(delegate.assessmentTools)}</div>
+          <div class="tech-item"><strong>Talent Intelligence</strong>${clean(delegate.marketIntelligence)}</div>
+          ${delegate.otherTools ? `<div class="tech-item" style="grid-column:1/-1;"><strong>Other Tools</strong>${clean(delegate.otherTools)}</div>` : ''}
+        </div>
+      </div>
+      <div class="footer">Resourcing Leaders Exchange &mdash; Confidential Delegate Profile &mdash; Generated ${new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
+    </body>
+    </html>
+  `;
+
+  const downloadDelegateProfile = (attendeeId: string, _format: 'pdf' | 'individual') => {
     const delegate = attendees.find(a => a.id === attendeeId);
     if (!delegate) {
       toast.error("Delegate not found");
       return;
     }
-
-    const htmlContent = `
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <meta charset="UTF-8">
-        <style>
-          body { font-family: Arial, sans-serif; padding: 30px; color: #1a1a2e; max-width: 800px; margin: 0 auto; }
-          h1 { color: #7B4B94; font-size: 24px; margin-bottom: 20px; }
-          .info-grid { display: grid; grid-template-columns: 150px 1fr; gap: 12px; margin-bottom: 20px; }
-          .label { font-weight: 600; color: #666; }
-          .value { color: #1a1a2e; }
-        </style>
-      </head>
-      <body>
-        <h1>${delegate.firstName} ${delegate.lastName}</h1>
-        <div class="info-grid">
-          <div class="label">Company:</div>
-          <div class="value">${delegate.company || 'N/A'}</div>
-          <div class="label">Job Title:</div>
-          <div class="value">${delegate.jobTitle || 'N/A'}</div>
-          <div class="label">Industry:</div>
-          <div class="value">${delegate!.industry || 'N/A'}</div>
-          <div class="label">Company Size:</div>
-          <div class="value">${delegate.companySize || 'N/A'}</div>
-        </div>
-      </body>
-      </html>
-    `;
-
+    const htmlContent = buildDelegatePdfHtml(delegate);
     const printWindow = window.open('', '_blank');
     if (printWindow) {
       printWindow.document.write(htmlContent);
       printWindow.document.close();
       printWindow.focus();
-      setTimeout(() => {
-        printWindow.print();
-      }, 250);
+      setTimeout(() => { printWindow.print(); }, 250);
     }
   };
 
-  const downloadAllProfiles = () => {
+  const downloadAllProfilesPDF = () => {
     if (!meetings || meetings.length === 0) {
       toast.error("No meetings to download");
       return;
     }
+    const allDelegates = meetings
+      .map(m => attendees.find(a => a.id === m.attendeeId))
+      .filter((d): d is typeof attendees[number] => d !== undefined);
 
-    const allDelegates = meetings.map(m => attendees.find(a => a.id === m.attendeeId)).filter((d): d is typeof attendees[number] => d !== undefined);
-    
-    const htmlContent = `
+    // Build a multi-page PDF: each delegate gets its own page-break section
+    const combinedHtml = `
       <!DOCTYPE html>
       <html>
       <head>
         <meta charset="UTF-8">
         <style>
-          body { font-family: Arial, sans-serif; padding: 40px; color: #1a1a2e; }
-          h1 { color: #7B4B94; border-bottom: 3px solid #d4af37; padding-bottom: 10px; page-break-after: avoid; }
-          h2 { color: #2C3E5A; margin-top: 30px; border-left: 4px solid #7B4B94; padding-left: 15px; }
-          h3 { color: #7B4B94; margin-top: 40px; page-break-before: always; }
-          .section { margin-bottom: 30px; }
-          .field { margin-bottom: 15px; }
-          .label { font-weight: bold; color: #666; font-size: 12px; text-transform: uppercase; }
-          .value { margin-top: 5px; font-size: 14px; }
-          .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+          @page { size: A4; margin: 20mm 18mm; }
+          * { margin: 0; padding: 0; box-sizing: border-box; }
+          body { font-family: Arial, Helvetica, sans-serif; color: #111; background: white; font-size: 10.5pt; line-height: 1.6; }
+          .delegate-page { page-break-before: always; }
+          .delegate-page:first-child { page-break-before: avoid; }
+          .doc-title { font-size: 22pt; font-weight: bold; margin-bottom: 6mm; color: #111; }
+          .name { font-size: 16pt; font-weight: bold; margin-bottom: 4mm; color: #111; }
+          .meta-block { margin-bottom: 6mm; }
+          .meta-block p { margin-bottom: 1.5mm; font-size: 10.5pt; color: #111; }
+          .meta-block strong { font-weight: bold; }
+          hr { border: none; border-top: 1px solid #d1d5db; margin: 5mm 0; }
+          .section { margin-bottom: 6mm; page-break-inside: avoid; }
+          .section h2 { font-size: 13pt; font-weight: bold; margin-bottom: 3mm; color: #111; }
+          .section .body { font-size: 10.5pt; color: #374151; line-height: 1.7; }
+          .tech-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3mm 8mm; margin-bottom: 2mm; }
+          .tech-item strong { display: block; font-size: 9pt; text-transform: uppercase; letter-spacing: 0.3pt; color: #6b7280; margin-bottom: 1mm; }
+          .footer { margin-top: 10mm; padding-top: 4mm; border-top: 1px solid #d1d5db; font-size: 8.5pt; color: #9ca3af; text-align: center; }
         </style>
       </head>
       <body>
-        <h1>${sponsor?.companyName || 'Your'} Meeting Schedule - All Delegate Profiles</h1>
-        
-        ${allDelegates.map((delegate, index) => `
-          <h3>Delegate ${index + 1}: ${delegate.firstName} ${delegate.lastName}</h3>
-          
-          <div class="section">
-            <h2>Professional Information</h2>
-            <div class="grid">
-              <div class="field">
-                <div class="label">Name</div>
-                <div class="value">${delegate.firstName} ${delegate.lastName}</div>
+        ${allDelegates.map((delegate) => `
+          <div class="delegate-page">
+            <div class="doc-title">Delegate Meeting Briefing</div>
+            <div class="name">${delegate.firstName} ${delegate.lastName}</div>
+            <div class="meta-block">
+              <p><strong>${delegate.jobTitle || ''}</strong></p>
+              <p><strong>${delegate.company || ''}</strong></p>
+              ${delegate.industry ? `<p><strong>Industry:</strong> ${delegate.industry}</p>` : ''}
+              ${delegate.companySize ? `<p><strong>Employees:</strong> ${delegate.companySize}</p>` : ''}
+              ${delegate.regionalRemit ? `<p><strong>Regions:</strong> ${delegate.regionalRemit}</p>` : ''}
+              ${delegate.hiresPerYear ? `<p><strong>Annual Hiring Volume:</strong> ${delegate.hiresPerYear}</p>` : ''}
+              ${delegate.decisionLevel ? `<p><strong>Decision Level:</strong> ${delegate.decisionLevel}</p>` : ''}
+              ${delegate.activeProjectBudget ? `<p><strong>Active Project Budget:</strong> ${delegate.activeProjectBudget}</p>` : ''}
+              ${delegate.budgetAuthority ? `<p><strong>Sign-off Authority:</strong> ${delegate.budgetAuthority}</p>` : ''}
+            </div>
+            <hr/>
+            <div class="section">
+              <h2>Active Projects and Buying Intent</h2>
+              <div class="body">
+                ${delegate.projectStage ? `<p style="margin-bottom:2mm;"><strong>Stage:</strong> ${clean(delegate.projectStage)}</p>` : ''}
+                ${toBullets(delegate.activeProjects)}
+                ${delegate.meetingObjective ? `<p style="margin-top:3mm;"><strong>Meeting Objective:</strong> ${clean(delegate.meetingObjective)}</p>` : ''}
               </div>
-              <div class="field">
-                <div class="label">Company</div>
-                <div class="value">${delegate.company || 'N/A'}</div>
+            </div>
+            <hr/>
+            <div class="section"><h2>Pain Points and Challenges</h2><div class="body">${toBullets(delegate.painPoints)}</div></div>
+            <hr/>
+            <div class="section"><h2>Solution Areas of Interest</h2><div class="body">${toBullets(delegate.solutionAreas)}</div></div>
+            <hr/>
+            <div class="section">
+              <h2>Current Technology Stack</h2>
+              <div class="tech-grid">
+                <div class="tech-item"><strong>ATS</strong>${clean(delegate.ats)}</div>
+                <div class="tech-item"><strong>CRM</strong>${clean(delegate.crm)}</div>
+                <div class="tech-item"><strong>Assessment Tools</strong>${clean(delegate.assessmentTools)}</div>
+                <div class="tech-item"><strong>Talent Intelligence</strong>${clean(delegate.marketIntelligence)}</div>
+                ${delegate.otherTools ? `<div class="tech-item" style="grid-column:1/-1;"><strong>Other Tools</strong>${clean(delegate.otherTools)}</div>` : ''}
               </div>
-              <div class="field">
-                <div class="label">Job Title</div>
-                <div class="value">${delegate.jobTitle || 'N/A'}</div>
-              </div>
-              <div class="field">
-                <div class="label">Industry</div>
-                <div class="value">${delegate.industry || 'N/A'}</div>
-              </div>
             </div>
-          </div>
-          
-          <div class="section">
-            <h2>Assessment & Needs</h2>
-            <div class="field">
-              <div class="label">Assessment Tool</div>
-              <div class="value">${delegate.assessmentTools || 'N/A'}</div>
-            </div>
-            <div class="field">
-              <div class="label">ATS</div>
-              <div class="value">${delegate.ats || 'N/A'}</div>
-            </div>
-            <div class="field">
-              <div class="label">CRM</div>
-              <div class="value">${delegate.crm || 'N/A'}</div>
-            </div>
-            <div class="field">
-              <div class="label">Market Intelligence</div>
-              <div class="value">${delegate.marketIntelligence || 'N/A'}</div>
-            </div>
-          </div>
-          
-          <div class="section">
-            <h2>Budget & Organization</h2>
-            <div class="grid">
-            <div class="field">
-              <div class="label">Budget Authority</div>
-              <div class="value">${delegate!.budgetAuthority || 'N/A'}</div>
-            </div>
-            <div class="field">
-              <div class="label">Company Size</div>
-              <div class="value">${delegate!.companySize || 'N/A'}</div>
-            </div>
-            </div>
+            <div class="footer">Resourcing Leaders Exchange &mdash; Confidential &mdash; ${new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
           </div>
         `).join('')}
       </body>
       </html>
     `;
-
     const printWindow = window.open('', '_blank');
     if (printWindow) {
-      printWindow.document.write(htmlContent);
+      printWindow.document.write(combinedHtml);
       printWindow.document.close();
       printWindow.focus();
-      setTimeout(() => {
-        printWindow.print();
-      }, 250);
+      setTimeout(() => { printWindow.print(); }, 250);
     }
+  };
+
+  const downloadAllProfilesCSV = () => {
+    if (!meetings || meetings.length === 0) {
+      toast.error("No meetings to download");
+      return;
+    }
+    const allDelegates = meetings
+      .map(m => attendees.find(a => a.id === m.attendeeId))
+      .filter((d): d is typeof attendees[number] => d !== undefined);
+
+    const headers = ['Name', 'Job Title', 'Company', 'Industry', 'Employees', 'Regions', 'Annual Hiring Volume', 'Decision Level', 'Active Project Budget', 'Sign-off Authority', 'Project Stage', 'Active Projects', 'Meeting Objective', 'Pain Points', 'Solution Areas', 'ATS', 'CRM', 'Assessment Tools', 'Talent Intelligence', 'Other Tools'];
+    const rows = allDelegates.map(d => [
+      `${d.firstName} ${d.lastName}`,
+      d.jobTitle || '',
+      d.company || '',
+      d.industry || '',
+      d.companySize || '',
+      d.regionalRemit || '',
+      d.hiresPerYear || '',
+      d.decisionLevel || '',
+      d.activeProjectBudget || '',
+      d.budgetAuthority || '',
+      clean(d.projectStage),
+      clean(d.activeProjects),
+      clean(d.meetingObjective),
+      clean(d.painPoints),
+      clean(d.solutionAreas),
+      clean(d.ats),
+      clean(d.crm),
+      clean(d.assessmentTools),
+      clean(d.marketIntelligence),
+      clean(d.otherTools),
+    ].map(cell => `"${String(cell).replace(/"/g, '""')}"`));
+
+    const csvContent = [headers.map(h => `"${h}"`).join(','), ...rows.map(r => r.join(','))].join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${sponsor?.companyName || 'RLX'}_Delegate_Profiles.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
   };
 
   if (loading || isLoading) {
@@ -278,13 +363,25 @@ export default function MeetingSchedule() {
                   )}
                 </CardDescription>
               </div>
-              <Button
-                onClick={downloadAllProfiles}
-                className="bg-accent hover:bg-accent/90 gap-2"
-              >
-                <Download className="w-4 h-4" />
-                Download All Profiles
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button className="bg-accent hover:bg-accent/90 gap-2">
+                    <Download className="w-4 h-4" />
+                    Download All Profiles
+                    <ChevronDown className="w-3 h-3" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={downloadAllProfilesPDF}>
+                    <FileText className="w-4 h-4 mr-2" />
+                    Download as PDF
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={downloadAllProfilesCSV}>
+                    <Download className="w-4 h-4 mr-2" />
+                    Download as CSV
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </CardHeader>
         </Card>

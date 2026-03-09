@@ -297,7 +297,7 @@ export default function SponsorDashboard() {
                           You have {meetings.length} confirmed meeting{meetings.length !== 1 ? 's' : ''} scheduled
                         </p>
                         <Button
-                          onClick={() => navigate("/sponsor/meetings")}
+                          onClick={() => navigate("/meeting-schedule")}
                           className="w-full gap-2"
                         >
                           View Meeting Schedule

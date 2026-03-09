@@ -40,267 +40,143 @@ export default function DelegateProfileModal({ open, onOpenChange, delegate, mat
   if (!delegate) return null;
 
   const downloadPDF = () => {
-    // Create professional HTML content for PDF
+    // Create professional HTML content for PDF - clean Google Doc style
+    // Helper to convert newline-separated text into bullet list HTML
+    const toBullets = (text: string) => {
+      const cleaned = clean(text);
+      if (cleaned === 'N/A') return '<p style="margin:0;color:#374151;">N/A</p>';
+      const lines = cleaned.split(/\n|;|,(?=\s)/).map(l => l.trim()).filter(Boolean);
+      if (lines.length <= 1) return `<p style="margin:0;color:#374151;">${cleaned}</p>`;
+      return `<ul style="margin:0;padding-left:18px;color:#374151;">${lines.map(l => `<li style="margin-bottom:3px;">${l}</li>`).join('')}</ul>`;
+    };
     const htmlContent = `
       <!DOCTYPE html>
       <html>
       <head>
         <meta charset="UTF-8">
         <style>
-          @page { 
-            size: A4; 
-            margin: 15mm; 
-          }
+          @page { size: A4; margin: 20mm 18mm; }
           * { margin: 0; padding: 0; box-sizing: border-box; }
-          body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            max-width: 210mm;
-            margin: 0 auto;
-            padding: 20mm; 
-            color: #1a1a2e; 
+          body {
+            font-family: Arial, Helvetica, sans-serif;
+            color: #111;
             background: white;
-            line-height: 1.7;
-            font-size: 11pt;
+            font-size: 10.5pt;
+            line-height: 1.6;
           }
-          .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 25mm 20mm;
-            border-radius: 8px 8px 0 0;
-            margin-bottom: 8mm;
-            page-break-after: avoid;
+          .doc-title {
+            font-size: 22pt;
+            font-weight: bold;
+            margin-bottom: 6mm;
+            color: #111;
           }
-          .header h1 { 
-            font-size: 24pt; 
+          .name {
+            font-size: 16pt;
+            font-weight: bold;
+            margin-bottom: 4mm;
+            color: #111;
+          }
+          .meta-block {
+            margin-bottom: 6mm;
+          }
+          .meta-block p {
+            margin-bottom: 1.5mm;
+            font-size: 10.5pt;
+            color: #111;
+          }
+          .meta-block strong {
+            font-weight: bold;
+          }
+          hr {
+            border: none;
+            border-top: 1px solid #d1d5db;
+            margin: 5mm 0;
+          }
+          .section {
+            margin-bottom: 6mm;
+            page-break-inside: avoid;
+          }
+          .section h2 {
+            font-size: 13pt;
+            font-weight: bold;
             margin-bottom: 3mm;
-            font-weight: 600;
-            line-height: 1.3;
+            color: #111;
           }
-          .header .subtitle { 
-            font-size: 14pt; 
-            opacity: 0.95;
-            font-weight: 400;
-            line-height: 1.5;
-          }
-          .header .company {
-            font-size: 12pt;
-            opacity: 0.9;
-            margin-top: 2mm;
-            line-height: 1.5;
-          }
-          
-          .content {
-            background: white;
-            padding: 15mm 20mm;
-            border-radius: 0 0 8px 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
-          }
-          
-          .section { 
-            margin-bottom: 8mm;
-            page-break-inside: avoid;
-          }
-          .section:last-child { margin-bottom: 0; }
-          .section:not(:first-child) { margin-top: 8mm; }
-          
-          h2 { 
-            color: #667eea; 
-            font-size: 14pt;
-            margin-bottom: 5mm;
-            padding-bottom: 3mm;
-            border-bottom: 2px solid #e0e7ff;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 3mm;
-            line-height: 1.4;
-            page-break-after: avoid;
-          }
-          
-          .grid { 
-            display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            gap: 5mm;
-            margin-bottom: 5mm;
-          }
-          
-          .field { 
-            background: #f8f9fa;
-            padding: 4mm;
-            border-radius: 4px;
-            border-left: 3px solid #667eea;
-            page-break-inside: avoid;
-          }
-          
-          .label { 
-            font-weight: 600; 
-            color: #4a5568; 
-            font-size: 9pt; 
-            text-transform: uppercase; 
-            letter-spacing: 0.3pt;
-            margin-bottom: 2mm;
-            display: block;
-            line-height: 1.3;
-          }
-          
-          .value { 
-            font-size: 11pt;
-            color: #1a202c;
+          .section .body {
+            font-size: 10.5pt;
+            color: #374151;
             line-height: 1.7;
           }
-          
-          .full-width {
-            grid-column: 1 / -1;
+          .tech-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3mm 8mm;
+            margin-bottom: 2mm;
           }
-          
-          .badge {
-            display: inline-block;
-            background: #e0e7ff;
-            color: #667eea;
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 600;
-            margin-right: 8px;
-            margin-bottom: 8px;
+          .tech-item strong {
+            display: block;
+            font-size: 9pt;
+            text-transform: uppercase;
+            letter-spacing: 0.3pt;
+            color: #6b7280;
+            margin-bottom: 1mm;
           }
-          
           .footer {
             margin-top: 10mm;
-            padding-top: 5mm;
-            border-top: 1px solid #e2e8f0;
+            padding-top: 4mm;
+            border-top: 1px solid #d1d5db;
+            font-size: 8.5pt;
+            color: #9ca3af;
             text-align: center;
-            color: #718096;
-            font-size: 9pt;
-            line-height: 1.6;
-            page-break-before: avoid;
-          }
-          
-          @media print {
-            body { 
-              background: white; 
-              padding: 0;
-              margin: 0;
-            }
-            .content { box-shadow: none; }
-            .header { border-radius: 0; }
           }
         </style>
       </head>
       <body>
-        <div class="header">
-          <h1>${delegate.firstName} ${delegate.lastName}</h1>
-          <div class="subtitle">${delegate.jobTitle || 'N/A'}</div>
-          <div class="company">${delegate.company || 'N/A'}</div>
+        <div class="doc-title">Delegate Meeting Briefing</div>
+        <div class="name">${delegate.firstName} ${delegate.lastName}</div>
+        <div class="meta-block">
+          <p><strong>${delegate.jobTitle || ''}</strong></p>
+          <p><strong>${delegate.company || ''}</strong></p>
+          ${delegate.industry ? `<p><strong>Industry:</strong> ${delegate.industry}</p>` : ''}
+          ${delegate.companySize ? `<p><strong>Employees:</strong> ${delegate.companySize}</p>` : ''}
+          ${delegate.regionalRemit ? `<p><strong>Regions:</strong> ${delegate.regionalRemit}</p>` : ''}
+          ${delegate.hiresPerYear ? `<p><strong>Annual Hiring Volume:</strong> ${delegate.hiresPerYear}</p>` : ''}
+          ${delegate.decisionLevel ? `<p><strong>Decision Level:</strong> ${delegate.decisionLevel}</p>` : ''}
+          ${delegate.activeProjectBudget ? `<p><strong>Active Project Budget:</strong> ${delegate.activeProjectBudget}</p>` : ''}
+          ${delegate.budgetAuthority ? `<p><strong>Sign-off Authority:</strong> ${delegate.budgetAuthority}</p>` : ''}
         </div>
-        
-        <div class="content">
-          <div class="section">
-            <h2>📊 Organization Overview</h2>
-            <div class="grid">
-              <div class="field">
-                <div class="label">Company</div>
-                <div class="value">${delegate.company || 'N/A'}</div>
-              </div>
-              <div class="field">
-                <div class="label">Industry</div>
-                <div class="value">${delegate.industry || 'N/A'}</div>
-              </div>
-              <div class="field">
-                <div class="label">Company Size</div>
-                <div class="value">${delegate.companySize || 'N/A'} employees</div>
-              </div>
-              <div class="field">
-                <div class="label">Hires per Year</div>
-                <div class="value">${delegate.hiresPerYear || 'N/A'}</div>
-              </div>
-              <div class="field">
-                <div class="label">Regional Remit</div>
-                <div class="value">${delegate.regionalRemit || 'N/A'}</div>
-              </div>
-              <div class="field">
-                <div class="label">Decision Making Level</div>
-                <div class="value">${delegate.decisionLevel || 'N/A'}</div>
-              </div>
-            </div>
+        <hr/>
+        <div class="section">
+          <h2>Active Projects and Buying Intent</h2>
+          <div class="body">
+            ${delegate.projectStage ? `<p style="margin-bottom:2mm;"><strong>Stage:</strong> ${clean(delegate.projectStage)}</p>` : ''}
+            ${delegate.activeProjects ? toBullets(delegate.activeProjects) : '<p style="color:#374151;">N/A</p>'}
+            ${delegate.meetingObjective ? `<p style="margin-top:3mm;"><strong>Meeting Objective:</strong> ${clean(delegate.meetingObjective)}</p>` : ''}
           </div>
-          
-          <div class="section">
-            <h2>💰 Budget & Authority</h2>
-            <div class="grid">
-              <div class="field">
-                <div class="label">Active Project Budget</div>
-                <div class="value">${delegate.activeProjectBudget || 'N/A'}</div>
-              </div>
-              <div class="field">
-                <div class="label">Contract Sign-off Authority</div>
-                <div class="value">${delegate.budgetAuthority || 'N/A'}</div>
-              </div>
-            </div>
+        </div>
+        <hr/>
+        <div class="section">
+          <h2>Pain Points and Challenges</h2>
+          <div class="body">${toBullets(delegate.painPoints)}</div>
+        </div>
+        <hr/>
+        <div class="section">
+          <h2>Solution Areas of Interest</h2>
+          <div class="body">${toBullets(delegate.solutionAreas)}</div>
+        </div>
+        <hr/>
+        <div class="section">
+          <h2>Current Technology Stack</h2>
+          <div class="tech-grid">
+            <div class="tech-item"><strong>ATS</strong>${clean(delegate.ats)}</div>
+            <div class="tech-item"><strong>CRM</strong>${clean(delegate.crm)}</div>
+            <div class="tech-item"><strong>Assessment Tools</strong>${clean(delegate.assessmentTools)}</div>
+            <div class="tech-item"><strong>Talent Intelligence</strong>${clean(delegate.marketIntelligence)}</div>
+            ${delegate.otherTools ? `<div class="tech-item" style="grid-column:1/-1;"><strong>Other Tools</strong>${clean(delegate.otherTools)}</div>` : ''}
           </div>
-          
-          <div class="section">
-            <h2>🎯 Current Projects & Objectives</h2>
-            <div class="grid">
-              <div class="field full-width">
-                <div class="label">Active Confirmed Projects</div>
-                <div class="value">${clean(delegate.activeProjects)}</div>
-              </div>
-              <div class="field full-width">
-                <div class="label">Primary Meeting Objective</div>
-                <div class="value">${clean(delegate.meetingObjective)}</div>
-              </div>
-              <div class="field">
-                <div class="label">Current Project Stage</div>
-                <div class="value">${clean(delegate.projectStage)}</div>
-              </div>
-            </div>
-          </div>
-          
-          <div class="section">
-            <h2>🔧 Current Technology Stack</h2>
-            <div class="grid">
-              <div class="field">
-                <div class="label">ATS (Applicant Tracking System)</div>
-                <div class="value">${clean(delegate.ats)}</div>
-              </div>
-              <div class="field">
-                <div class="label">CRM</div>
-                <div class="value">${clean(delegate.crm)}</div>
-              </div>
-              <div class="field">
-                <div class="label">Assessment Tools</div>
-                <div class="value">${clean(delegate.assessmentTools)}</div>
-              </div>
-              <div class="field">
-                <div class="label">Talent Intelligence</div>
-                <div class="value">${clean(delegate.marketIntelligence)}</div>
-              </div>
-              <div class="field full-width">
-                <div class="label">Other Tools</div>
-                <div class="value">${clean(delegate.otherTools)}</div>
-              </div>
-            </div>
-          </div>
-          
-          <div class="section">
-            <h2>💡 Solution Areas of Interest</h2>
-            <div class="field full-width">
-              <div class="value">${clean(delegate.solutionAreas)}</div>
-            </div>
-          </div>
-          
-          <div class="section">
-            <h2>⚠️ Current Pain Points & Challenges</h2>
-            <div class="field full-width">
-              <div class="value">${clean(delegate.painPoints)}</div>
-            </div>
-          </div>
-          
-          <div class="footer">
-            <p>Resourcing Leaders Exchange - Confidential Delegate Profile</p>
-            <p>Generated on ${new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
-          </div>
+        </div>
+        <div class="footer">
+          Resourcing Leaders Exchange &mdash; Confidential Delegate Profile &mdash; Generated ${new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
         </div>
       </body>
       </html>
@@ -353,7 +229,7 @@ export default function DelegateProfileModal({ open, onOpenChange, delegate, mat
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto bg-slate-900 border-slate-700">
+      <DialogContent className="max-w-[90vw] w-[1200px] max-h-[90vh] overflow-y-auto bg-slate-900 border-slate-700">
         <DialogHeader>
           <div className="flex items-center justify-between">
             <div>
