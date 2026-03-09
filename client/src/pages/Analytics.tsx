@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { trpc } from "@/lib/trpc";
 import { BarChart3, Users, Calendar, TrendingUp } from "lucide-react";
 import AdminHeader from "@/components/AdminHeader";
+import MeetingFloorPlan from "@/components/MeetingFloorPlan";
 
 export default function Analytics() {
   const { data: analytics, isLoading } = trpc.admin.getAnalytics.useQuery();
@@ -29,226 +30,272 @@ export default function Analytics() {
     );
   }
 
+  // Split time slots into Day 1 (slots 1-6) and Day 2 (slots 7-12)
+  const day1Slots = analytics.timeSlotDistribution.filter(s => s.slot <= 6);
+  const day2Slots = analytics.timeSlotDistribution.filter(s => s.slot >= 7);
+  const maxSlotCount = Math.max(
+    ...analytics.timeSlotDistribution.map(s => s.count),
+    1
+  );
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900/20 to-slate-900">
       <AdminHeader />
       <div className="p-6">
         <div className="container mx-auto">
-        <h1 className="text-3xl font-bold text-white mb-6">Meeting Analytics</h1>
+          <h1 className="text-3xl font-bold text-white mb-6">Meeting Analytics</h1>
 
-        {/* Summary Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <Card className="bg-slate-800/50 border-slate-700">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-slate-400 flex items-center gap-2">
-                <BarChart3 className="w-4 h-4" />
-                Average Match Score
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-white">
-                {analytics.averageMatchScore.toFixed(1)}%
-              </div>
-              <p className="text-xs text-slate-400 mt-1">
-                Across all meetings
-              </p>
-            </CardContent>
-          </Card>
+          {/* Summary Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+            <Card className="bg-slate-800/50 border-slate-700">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium text-slate-400 flex items-center gap-2">
+                  <BarChart3 className="w-4 h-4" />
+                  Average Match Score
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-white">
+                  {analytics.averageMatchScore.toFixed(1)}%
+                </div>
+                <p className="text-xs text-slate-400 mt-1">Across all meetings</p>
+              </CardContent>
+            </Card>
 
-          <Card className="bg-slate-800/50 border-slate-700">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-slate-400 flex items-center gap-2">
-                <Users className="w-4 h-4" />
-                Total Meetings
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-white">
-                {analytics.totalMeetings}
-              </div>
-              <p className="text-xs text-slate-400 mt-1">
-                Scheduled meetings
-              </p>
-            </CardContent>
-          </Card>
+            <Card className="bg-slate-800/50 border-slate-700">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium text-slate-400 flex items-center gap-2">
+                  <Users className="w-4 h-4" />
+                  Total Meetings
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-white">{analytics.totalMeetings}</div>
+                <p className="text-xs text-slate-400 mt-1">Scheduled meetings</p>
+              </CardContent>
+            </Card>
 
-          <Card className="bg-slate-800/50 border-slate-700">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-slate-400 flex items-center gap-2">
-                <Calendar className="w-4 h-4" />
-                Delegates Booked
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-white">
-                {analytics.delegatesBooked}
-              </div>
-              <p className="text-xs text-slate-400 mt-1">
-                Out of {analytics.totalDelegates} total
-              </p>
-            </CardContent>
-          </Card>
+            <Card className="bg-slate-800/50 border-slate-700">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium text-slate-400 flex items-center gap-2">
+                  <Calendar className="w-4 h-4" />
+                  Delegates Booked
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-white">{analytics.delegatesBooked}</div>
+                <p className="text-xs text-slate-400 mt-1">Out of {analytics.totalDelegates} total</p>
+              </CardContent>
+            </Card>
 
-          <Card className="bg-slate-800/50 border-slate-700">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-slate-400 flex items-center gap-2">
-                <TrendingUp className="w-4 h-4" />
-                Avg Utilization
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-white">
-                {analytics.averageUtilization.toFixed(1)}%
-              </div>
-              <p className="text-xs text-slate-400 mt-1">
-                Delegate capacity used
-              </p>
-            </CardContent>
-          </Card>
-        </div>
+            <Card className="bg-slate-800/50 border-slate-700">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium text-slate-400 flex items-center gap-2">
+                  <TrendingUp className="w-4 h-4" />
+                  Avg Utilization
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-white">
+                  {analytics.averageUtilization.toFixed(1)}%
+                </div>
+                <p className="text-xs text-slate-400 mt-1">Delegate capacity used</p>
+              </CardContent>
+            </Card>
+          </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Match Score Distribution */}
-          <Card className="bg-slate-800/50 border-slate-700">
-            <CardHeader>
-              <CardTitle className="text-white">Match Score Distribution</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                {analytics.scoreDistribution.map((bucket) => (
-                  <div key={bucket.range} className="space-y-1">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-slate-300">{bucket.range}</span>
-                      <span className="text-white font-medium">{bucket.count} meetings</span>
-                    </div>
-                    <div className="w-full bg-slate-700 rounded-full h-2">
-                      <div
-                        className="bg-purple-500 h-2 rounded-full transition-all"
-                        style={{
-                          width: `${(bucket.count / analytics.totalMeetings) * 100}%`,
-                        }}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Time Slot Distribution */}
-          <Card className="bg-slate-800/50 border-slate-700">
-            <CardHeader>
-              <CardTitle className="text-white">Time Slot Distribution</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                {analytics.timeSlotDistribution.map((slot) => (
-                  <div key={slot.slot} className="space-y-1">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-slate-300">{slot.label}</span>
-                      <span className="text-white font-medium">{slot.count} meetings</span>
-                    </div>
-                    <div className="w-full bg-slate-700 rounded-full h-2">
-                      <div
-                        className="bg-blue-500 h-2 rounded-full transition-all"
-                        style={{
-                          width: `${(slot.count / analytics.totalMeetings) * 100}%`,
-                        }}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Most In-Demand Delegates */}
-          <Card className="bg-slate-800/50 border-slate-700">
-            <CardHeader>
-              <CardTitle className="text-white flex items-center gap-2">
-                <TrendingUp className="w-5 h-5" />
-                Most In-Demand Delegates
-              </CardTitle>
-              <p className="text-sm text-slate-400 mt-1">
-                Based on sponsor rankings - higher ranked delegates score more points
-              </p>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                {analytics.mostInDemandDelegates.map((delegate, index) => (
-                  <div
-                    key={delegate.attendeeId}
-                    className="flex items-center justify-between p-2 bg-slate-700/50 rounded"
-                  >
-                    <div className="flex items-center gap-3">
-                      <Badge 
-                        variant="secondary" 
-                        className={`w-6 h-6 flex items-center justify-center p-0 ${
-                          index === 0 ? 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30' :
-                          index === 1 ? 'bg-slate-400/20 text-slate-300 border-slate-400/30' :
-                          index === 2 ? 'bg-orange-500/20 text-orange-300 border-orange-500/30' :
-                          ''
-                        }`}
-                      >
-                        {index + 1}
-                      </Badge>
-                      <div>
-                        <div className="text-white font-medium">{delegate.name}</div>
-                        <div className="text-slate-400 text-xs">{delegate.company}</div>
+          {/* Row 1: Time Slot Distribution split into Day 1 | Day 2 */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            {/* Day 1 */}
+            <Card className="bg-slate-800/50 border-slate-700">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-white flex items-center gap-2">
+                  <Calendar className="w-4 h-4 text-blue-400" />
+                  Time Slot Distribution — Day 1
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  {day1Slots.map((slot) => (
+                    <div key={slot.slot} className="space-y-1">
+                      <div className="flex justify-between text-sm">
+                        <span className="text-slate-300">{slot.label.replace("Day 1 — ", "")}</span>
+                        <span className="text-white font-medium">{slot.count} meetings</span>
                       </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Badge className="bg-blue-500/20 text-blue-300 border-blue-500/30">
-                        {delegate.demandScore} pts
-                      </Badge>
-                      <Badge variant="outline" className="text-slate-400 border-slate-600">
-                        {delegate.rankingCount} sponsors
-                      </Badge>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Sponsor Statistics */}
-          <Card className="bg-slate-800/50 border-slate-700">
-            <CardHeader>
-              <CardTitle className="text-white">Sponsor Statistics</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                {analytics.sponsorStats.map((sponsor) => (
-                  <div key={sponsor.sponsorId} className="space-y-1">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-slate-300 truncate flex-1">{sponsor.companyName}</span>
-                      <span className="text-white font-medium ml-2">
-                        {sponsor.meetingsScheduled}/{sponsor.totalSlots}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="flex-1 bg-slate-700 rounded-full h-2">
+                      <div className="w-full bg-slate-700 rounded-full h-2">
                         <div
-                          className={`h-2 rounded-full transition-all ${
-                            sponsor.meetingsScheduled === sponsor.totalSlots
-                              ? 'bg-green-500'
-                              : 'bg-yellow-500'
-                          }`}
-                          style={{
-                            width: `${(sponsor.meetingsScheduled / sponsor.totalSlots) * 100}%`,
-                          }}
+                          className="bg-blue-500 h-2 rounded-full transition-all"
+                          style={{ width: `${(slot.count / maxSlotCount) * 100}%` }}
                         />
                       </div>
-                      <span className="text-xs text-slate-400">
-                        Avg: {sponsor.avgMatchScore.toFixed(0)}%
-                      </span>
                     </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Day 2 */}
+            <Card className="bg-slate-800/50 border-slate-700">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-white flex items-center gap-2">
+                  <Calendar className="w-4 h-4 text-indigo-400" />
+                  Time Slot Distribution — Day 2
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  {day2Slots.map((slot) => (
+                    <div key={slot.slot} className="space-y-1">
+                      <div className="flex justify-between text-sm">
+                        <span className="text-slate-300">{slot.label.replace("Day 2 — ", "")}</span>
+                        <span className="text-white font-medium">{slot.count} meetings</span>
+                      </div>
+                      <div className="w-full bg-slate-700 rounded-full h-2">
+                        <div
+                          className="bg-indigo-500 h-2 rounded-full transition-all"
+                          style={{ width: `${(slot.count / maxSlotCount) * 100}%` }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Row 2: Most In-Demand Delegates | Sponsor Statistics */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            {/* Most In-Demand Delegates */}
+            <Card className="bg-slate-800/50 border-slate-700">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-white flex items-center gap-2">
+                  <TrendingUp className="w-5 h-5" />
+                  Most In-Demand Delegates
+                </CardTitle>
+                <p className="text-sm text-slate-400 mt-1">
+                  Based on sponsor rankings — higher ranked delegates score more points
+                </p>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  {analytics.mostInDemandDelegates.map((delegate, index) => (
+                    <div
+                      key={delegate.attendeeId}
+                      className="flex items-center justify-between p-2 bg-slate-700/50 rounded"
+                    >
+                      <div className="flex items-center gap-3">
+                        <Badge
+                          variant="secondary"
+                          className={`w-6 h-6 flex items-center justify-center p-0 ${
+                            index === 0
+                              ? "bg-yellow-500/20 text-yellow-300 border-yellow-500/30"
+                              : index === 1
+                              ? "bg-slate-400/20 text-slate-300 border-slate-400/30"
+                              : index === 2
+                              ? "bg-orange-500/20 text-orange-300 border-orange-500/30"
+                              : ""
+                          }`}
+                        >
+                          {index + 1}
+                        </Badge>
+                        <div>
+                          <div className="text-white font-medium">{delegate.name}</div>
+                          <div className="text-slate-400 text-xs">{delegate.company}</div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Badge className="bg-blue-500/20 text-blue-300 border-blue-500/30">
+                          {delegate.demandScore} pts
+                        </Badge>
+                        <Badge variant="outline" className="text-slate-400 border-slate-600">
+                          {delegate.rankingCount} sponsors
+                        </Badge>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Sponsor Statistics */}
+            <Card className="bg-slate-800/50 border-slate-700">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-white">Sponsor Statistics</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2.5">
+                  {analytics.sponsorStats.map((sponsor) => (
+                    <div key={sponsor.sponsorId} className="space-y-1">
+                      <div className="flex justify-between text-sm">
+                        <span className="text-slate-300 truncate flex-1">{sponsor.companyName}</span>
+                        <span className="text-white font-medium ml-2">
+                          {sponsor.meetingsScheduled}/{sponsor.totalSlots}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="flex-1 bg-slate-700 rounded-full h-1.5">
+                          <div
+                            className={`h-1.5 rounded-full transition-all ${
+                              sponsor.meetingsScheduled === sponsor.totalSlots
+                                ? "bg-green-500"
+                                : "bg-yellow-500"
+                            }`}
+                            style={{
+                              width: `${(sponsor.meetingsScheduled / sponsor.totalSlots) * 100}%`,
+                            }}
+                          />
+                        </div>
+                        <span className="text-xs text-slate-400 w-14 text-right">
+                          Avg: {sponsor.avgMatchScore.toFixed(0)}%
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Row 3: Match Score Distribution — compact, full width */}
+          <div className="grid grid-cols-1 mb-6">
+            <Card className="bg-slate-800/50 border-slate-700">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-white flex items-center gap-2">
+                  <BarChart3 className="w-4 h-4 text-purple-400" />
+                  Match Score Distribution
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+                  {analytics.scoreDistribution.map((bucket) => {
+                    const pct =
+                      analytics.totalMeetings > 0
+                        ? Math.round((bucket.count / analytics.totalMeetings) * 100)
+                        : 0;
+                    return (
+                      <div key={bucket.range} className="flex flex-col items-center gap-1">
+                        <div className="relative w-full bg-slate-700 rounded-lg overflow-hidden h-20 flex items-end">
+                          <div
+                            className="w-full bg-purple-500 rounded-b-lg transition-all"
+                            style={{ height: `${Math.max(pct, 4)}%` }}
+                          />
+                        </div>
+                        <span className="text-xs text-slate-300 font-medium">{bucket.range}</span>
+                        <span className="text-xs text-slate-400">{bucket.count} ({pct}%)</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Row 4: Meeting Floor Plan — full width, spans both columns */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="lg:col-span-2">
+              <MeetingFloorPlan />
+            </div>
+          </div>
         </div>
       </div>
     </div>

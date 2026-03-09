@@ -1193,6 +1193,83 @@ export const appRouter = router({
         };
       }),
 
+    // Get meeting floor plan data — all meetings grouped by timeSlot for the floor plan view
+    getFloorPlan: adminProcedure.query(async () => {
+      const EXCLUDED_SPONSOR_IDS = new Set([30001, 60001, 90001, 120001, 270001, 510003]);
+      const allMeetingsRaw = await db.getAllMeetings();
+      const allSponsorsRaw = await db.getAllSponsors();
+
+      const allSponsors = allSponsorsRaw.filter(s => !EXCLUDED_SPONSOR_IDS.has(s.id));
+      const validSponsorIds = new Set(allSponsors.map(s => s.id));
+
+      // Assign table numbers to sponsors (sorted by companyName for consistency)
+      const sortedSponsors = [...allSponsors].sort((a, b) => a.companyName.localeCompare(b.companyName));
+      const sponsorTableMap = new Map<number, number>();
+      sortedSponsors.forEach((s, i) => sponsorTableMap.set(s.id, i + 1));
+
+      const allMeetings = allMeetingsRaw.filter(
+        m => validSponsorIds.has(m.sponsorId)
+      );
+
+      // Build floor plan: 12 slots (2 per hour × 3 hours × 2 days)
+      // Slot mapping: 1-6 = Day 1 (slots 1-6), 7-12 = Day 2 (slots 7-12)
+      // Within each day: slots 1-2 = Hour 1, 3-4 = Hour 2, 5-6 = Hour 3
+      // Within each hour: odd slot = Round 1, even slot = Round 2
+      const slotLabels: Record<number, { day: number; hour: number; round: number; time: string }> = {
+        1:  { day: 1, hour: 1, round: 1, time: '09:00–09:30' },
+        2:  { day: 1, hour: 1, round: 2, time: '09:30–10:00' },
+        3:  { day: 1, hour: 2, round: 1, time: '10:00–10:30' },
+        4:  { day: 1, hour: 2, round: 2, time: '10:30–11:00' },
+        5:  { day: 1, hour: 3, round: 1, time: '11:00–11:30' },
+        6:  { day: 1, hour: 3, round: 2, time: '11:30–12:00' },
+        7:  { day: 2, hour: 1, round: 1, time: '09:00–09:30' },
+        8:  { day: 2, hour: 1, round: 2, time: '09:30–10:00' },
+        9:  { day: 2, hour: 2, round: 1, time: '10:00–10:30' },
+        10: { day: 2, hour: 2, round: 2, time: '10:30–11:00' },
+        11: { day: 2, hour: 3, round: 1, time: '11:00–11:30' },
+        12: { day: 2, hour: 3, round: 2, time: '11:30–12:00' },
+      };
+
+      // Group meetings by slot
+      const slotMap = new Map<number, typeof allMeetings>();
+      for (let i = 1; i <= 12; i++) slotMap.set(i, []);
+      for (const m of allMeetings) {
+        if (m.timeSlot && slotMap.has(m.timeSlot)) {
+          slotMap.get(m.timeSlot)!.push(m);
+        }
+      }
+
+      const slots = Array.from(slotMap.entries()).map(([slotNum, meetings]) => ({
+        slot: slotNum,
+        ...slotLabels[slotNum],
+        meetings: meetings.map(m => {
+          const sponsor = allSponsors.find(s => s.id === m.sponsorId);
+          const attendee = attendees.find(a => a.id === m.attendeeId);
+          return {
+            meetingId: m.id,
+            sponsorId: m.sponsorId,
+            sponsorName: sponsor?.companyName ?? 'Unknown Sponsor',
+            tableNumber: sponsorTableMap.get(m.sponsorId) ?? 0,
+            attendeeId: m.attendeeId,
+            attendeeName: attendee ? `${attendee.firstName} ${attendee.lastName}` : m.attendeeId,
+            attendeeCompany: attendee?.company ?? '',
+            matchScore: m.matchScore,
+            status: m.status,
+          };
+        }).sort((a, b) => a.tableNumber - b.tableNumber),
+      }));
+
+      return {
+        slots,
+        sponsors: sortedSponsors.map(s => ({
+          id: s.id,
+          companyName: s.companyName,
+          tableNumber: sponsorTableMap.get(s.id) ?? 0,
+        })),
+        totalMeetings: allMeetings.length,
+      };
+    }),
+
     // Get admin activity log
     getActivityLog: adminProcedure
       .input(z.object({ limit: z.number().min(1).max(500).optional() }).optional())
