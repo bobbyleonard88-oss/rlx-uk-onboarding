@@ -1035,20 +1035,20 @@ export const appRouter = router({
     getAnalytics: adminProcedure
       .query(async () => {
 
-        // Sponsors to exclude from analytics (test/inactive accounts)
-        const EXCLUDED_SPONSOR_IDS = new Set([30001, 60001, 90001, 120001, 270001, 510003]);
+        // Sponsors to exclude from STATISTICS section only (test/inactive accounts)
+        const EXCLUDED_SPONSOR_IDS = new Set([270001, 510003]);
         // Jen Candee excluded from delegate analytics
         const EXCLUDED_DELEGATE_IDS = new Set(['150796696175']);
 
         const allMeetingsRaw = await db.getAllMeetings();
         const allSponsorsRaw = await db.getAllSponsors();
 
-        // Filter out excluded sponsors and their meetings
-        const allSponsors = allSponsorsRaw.filter(s => !EXCLUDED_SPONSOR_IDS.has(s.id));
-        const validSponsorIds = new Set(allSponsors.map(s => s.id));
+        // For meetings/floor plan: include all sponsors, only exclude test/inactive from stats section
         const allMeetings = allMeetingsRaw.filter(
-          m => !EXCLUDED_DELEGATE_IDS.has(m.attendeeId) && validSponsorIds.has(m.sponsorId)
+          m => !EXCLUDED_DELEGATE_IDS.has(m.attendeeId)
         );
+        // For sponsor statistics section: filter out test/inactive sponsors
+        const allSponsors = allSponsorsRaw.filter(s => !EXCLUDED_SPONSOR_IDS.has(s.id));
 
         const totalDelegates = attendees.filter(a => !EXCLUDED_DELEGATE_IDS.has(a.id)).length;
         
@@ -1194,19 +1194,17 @@ export const appRouter = router({
       }),
 
     // Get meeting floor plan data — all meetings grouped by timeSlot for the floor plan view
-    getFloorPlan: adminProcedure.query(async () => {
-      const EXCLUDED_SPONSOR_IDS = new Set([30001, 60001, 90001, 120001, 270001, 510003]);
+     getFloorPlan: adminProcedure.query(async () => {
+      // Only exclude truly inactive/test sponsors (not the real ones being tested)
+      const EXCLUDED_SPONSOR_IDS = new Set([270001, 510003]);
       const allMeetingsRaw = await db.getAllMeetings();
       const allSponsorsRaw = await db.getAllSponsors();
-
       const allSponsors = allSponsorsRaw.filter(s => !EXCLUDED_SPONSOR_IDS.has(s.id));
       const validSponsorIds = new Set(allSponsors.map(s => s.id));
-
       // Assign table numbers to sponsors (sorted by companyName for consistency)
       const sortedSponsors = [...allSponsors].sort((a, b) => a.companyName.localeCompare(b.companyName));
       const sponsorTableMap = new Map<number, number>();
       sortedSponsors.forEach((s, i) => sponsorTableMap.set(s.id, i + 1));
-
       const allMeetings = allMeetingsRaw.filter(
         m => validSponsorIds.has(m.sponsorId)
       );
