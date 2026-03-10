@@ -1225,3 +1225,9 @@
 ## Logo Preview & Download All Fixes
 - [x] Fix broken logo image in admin preview modal (broken img src)
 - [x] Fix Download All button to trigger actual CSV file download (not just show filename)
+
+## Match Reason Quality Improvement
+- [x] Rewrite AI match reason prompt to produce contextualised narrative explanations (not just quoting delegate words)
+- [x] Add regenerateAllMatchReasons function to matchingEngine.ts
+- [x] Add regenerateMatchReasons admin tRPC procedure to routers.ts
+- [x] Add "Refresh Match Reasons" button to AdminMeetings page

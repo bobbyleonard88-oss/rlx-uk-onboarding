@@ -82,6 +82,15 @@ export default function AdminMeetings() {
     },
   });
   
+  const regenerateMatchReasons = trpc.admin.regenerateMatchReasons.useMutation({
+    onSuccess: (data) => {
+      toast.success(`Refreshed match reasons for ${data.updated} meetings!`);
+    },
+    onError: (error) => {
+      toast.error(error.message || "Failed to regenerate match reasons");
+    },
+  });
+
   const generateAllMeetings = trpc.admin.generateAllMeetings.useMutation({
     onSuccess: (data) => {
       toast.success(`Generated meetings for ${data.results.length} sponsors!`);
@@ -376,6 +385,29 @@ export default function AdminMeetings() {
                     <>
                       <Sparkles className="w-4 h-4 mr-2" />
                       Generate Meetings
+                    </>
+                  )}
+                </Button>
+              </div>
+
+              {/* Regenerate Match Reasons Button */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-slate-300">Bulk Actions</label>
+                <Button
+                  onClick={() => regenerateMatchReasons.mutate()}
+                  disabled={regenerateMatchReasons.isPending}
+                  variant="outline"
+                  className="w-full border-purple-500/50 text-purple-300 hover:bg-purple-500/10"
+                >
+                  {regenerateMatchReasons.isPending ? (
+                    <>
+                      <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+                      Refreshing reasons...
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles className="w-4 h-4 mr-2" />
+                      Refresh Match Reasons
                     </>
                   )}
                 </Button>

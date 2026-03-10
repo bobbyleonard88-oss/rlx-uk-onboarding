@@ -476,6 +476,13 @@ export const appRouter = router({
       
       return { success: true, totalMatches: Array.from(allMatches.values()).flat().length };
     }),
+
+    // Re-generate match reasons for all confirmed meetings using the latest AI prompt
+    regenerateMatchReasons: adminProcedure.mutation(async () => {
+      const { regenerateAllMatchReasons } = await import('./matchingEngine');
+      const updated = await regenerateAllMatchReasons();
+      return { success: true, updated };
+    }),
     
     getAllMeetings: adminProcedure.query(async () => {
       return await db.getAllMeetings();

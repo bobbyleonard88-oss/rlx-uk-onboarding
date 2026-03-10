@@ -82,54 +82,57 @@ export async function generateMatchesForSponsor(sponsorId: number): Promise<Matc
   for (let i = 0; i < uncachedDelegates.length; i += batchSize) {
     const batch = uncachedDelegates.slice(i, i + batchSize);
     
-    const prompt = `You are an expert B2B matchmaker. Analyze how well this vendor matches with each delegate.
+    const prompt = `You are a senior matchmaking consultant preparing pre-meeting briefings for a vendor attending a curated B2B event. Your job is to write a concise, insightful briefing that explains — in your own words — why this vendor and delegate are a strong fit. Do NOT simply echo the delegate's words back. Instead, synthesise both sides and explain the connection as a knowledgeable third party would.
 
 VENDOR PROFILE:
 Company: ${vendorProfile.companyName}
-Solutions: ${vendorProfile.solutions}
-Pain Points They Solve: ${vendorProfile.painPoints}
-Target Industries: ${vendorProfile.targetIndustries}
+Solutions offered: ${vendorProfile.solutions}
+Problems they solve: ${vendorProfile.painPoints}
+Target market: ${vendorProfile.targetIndustries}
 
-DELEGATES TO MATCH:
+DELEGATES TO ASSESS:
 ${batch.map((d, idx) => {
-  // Parse profileData to get ONLY the approved matching fields
   const profile = d.profileData ? JSON.parse(d.profileData) : {};
   return `
 ${idx + 1}. ID: ${d.attendeeId}
-   Total Org Employees: ${profile.totalOrgEmployees || 'N/A'}
-   Active Confirmed Projects: ${profile.activeProjects || 'N/A'}
-   Primary Meeting Objective: ${profile.meetingObjective || 'N/A'}
-   Key Solution Areas of Interest: ${profile.solutionAreas || d.interests || 'N/A'}
-   Current Pain Points: ${profile.painPoints || d.challenges || 'N/A'}
+   Organisation size: ${profile.totalOrgEmployees || 'N/A'}
+   Active projects: ${profile.activeProjects || 'N/A'}
+   What they want from this meeting: ${profile.meetingObjective || 'N/A'}
+   Solution areas they are exploring: ${profile.solutionAreas || d.interests || 'N/A'}
+   Current pain points: ${profile.painPoints || d.challenges || 'N/A'}
 `}).join('\n')}
 
-For each delegate, provide:
-1. Match score (0-100) using this calibrated scale:
-   - 90-100: Exceptional match - Vendor solutions directly solve delegate's pain points, active project alignment, strong company size fit
-   - 75-89: Strong match - Good solution-need alignment based on pain points and solution areas of interest
-   - 60-74: Moderate match - Partial alignment on solutions or pain points, potential value exists
-   - 40-59: Weak match - Limited alignment, vendor could help but not ideal fit
-   - 0-39: Poor match - Little to no alignment between vendor solutions and delegate needs
-   
-   IMPORTANT: Most good matches should score 70-90. Be generous with scores when there's clear value - don't artificially deflate scores.
-   
-2. Detailed reasoning (2-3 sentences minimum) explaining the match with this exact structure:
-   - Start with PRIMARY ALIGNMENT: Explain the main connection between vendor solutions and delegate's pain points/solution areas
-   - Add SECONDARY FACTORS: Mention company size fit, active projects, or meeting objective alignment
-   - End with POTENTIAL VALUE: Describe what the delegate would gain from this meeting
+For each delegate provide:
 
-Example reasoning format:
-"Primary alignment: Vendor's recruitment automation platform directly addresses delegate's pain point around manual screening processes. Secondary factors: Delegate's company size (5k-10k employees) fits vendor's target market, and they have active projects evaluating ATS solutions. Potential value: Could reduce time-to-hire by 40% and improve candidate quality through AI-powered matching."
+1. A match score (0–100):
+   90–100: Exceptional — vendor directly solves the delegate's stated pain points, active project alignment
+   75–89: Strong — clear solution-need fit, good market alignment
+   60–74: Moderate — partial alignment, genuine value exists
+   40–59: Weak — limited overlap, marginal fit
+   0–39: Poor — little to no alignment
+   Most strong matches should land 70–90. Do not artificially deflate scores.
 
-IMPORTANT: 
-- Every reasoning MUST be at least 2 full sentences and cite specific details from ONLY the 5 approved fields
-- DO NOT mention delegate name, job title, company name, or industry in your reasoning
-- Focus exclusively on: Total Org Employees, Active Projects, Meeting Objective, Solution Areas, and Pain Points
+2. A match briefing (2–3 sentences, written as a fluent narrative — NOT bullet points, NOT labelled sections).
+   The briefing should:
+   - Open by explaining what specific capability or product of the vendor connects to this delegate's situation
+   - Draw a concrete link between the vendor's offering and the delegate's pain points or active projects — use your own synthesis, not a paraphrase of the delegate's words
+   - Close with what the delegate stands to gain from this conversation, framed as a business outcome
+   
+   Good example: "${vendorProfile.companyName}'s approach to [relevant capability] is well-suited to organisations dealing with [synthesised challenge], which aligns closely with the scale and complexity this delegate is navigating. Their active work on [related project area] suggests they are at the right stage to evaluate a solution like this, and the conversation could surface concrete ways to [business outcome]."
+   
+   Bad example (do NOT do this): "Primary alignment: Delegate's pain points include X. Secondary factors: They are exploring Y. Potential value: They could benefit from Z."
+
+Rules:
+- Write in third person, present tense
+- Do NOT mention the delegate's name, job title, company, or industry
+- Do NOT use section labels (Primary alignment:, Secondary factors:, etc.)
+- Do NOT simply repeat the delegate's own words — interpret and contextualise them
+- Each briefing must be 2–3 complete sentences
 
 Respond in JSON format:
 {
   "matches": [
-    {"attendeeId": "att_001", "score": 85, "reasoning": "Primary alignment: ... Secondary factors: ... Potential value: ..."},
+    {"attendeeId": "att_001", "score": 85, "reasoning": "..."},
     ...
   ]
 }`;
@@ -251,4 +254,160 @@ export async function saveMatches(matches: MatchResult[]): Promise<void> {
       notes: match.reasoning,
     });
   }
+}
+
+/**
+ * Re-generate match reasons for all confirmed meetings using the current prompt.
+ * Processes meetings in batches of 10 per sponsor to avoid rate limits.
+ * Updates matchReason on each meeting row.
+ */
+export async function regenerateAllMatchReasons(): Promise<number> {
+  const allMeetings = await db.getAllMeetings();
+  const confirmedMeetings = allMeetings.filter(m => m.status === 'confirmed');
+
+  if (confirmedMeetings.length === 0) return 0;
+
+  // Group by sponsorId so we can batch per sponsor
+  const bySponsor = new Map<number, typeof confirmedMeetings>();
+  for (const m of confirmedMeetings) {
+    if (!bySponsor.has(m.sponsorId)) bySponsor.set(m.sponsorId, []);
+    bySponsor.get(m.sponsorId)!.push(m);
+  }
+
+  const vendorProfiles = await db.getVendorProfiles();
+  const delegateProfiles = await db.getDelegateProfiles();
+  const allIntake = await db.getAllIntakeSubmissions();
+
+  let totalUpdated = 0;
+
+  for (const [sponsorId, sponsorMeetings] of Array.from(bySponsor.entries())) {
+    // Build vendor profile — prefer vendorProfiles table, fall back to intakeSubmissions
+    let vendorProfile = vendorProfiles.find(v => v.sponsorId === sponsorId);
+    if (!vendorProfile) {
+      const intake = allIntake.find(i => i.sponsorId === sponsorId);
+      if (!intake) {
+        console.warn(`[RegenReasons] No profile for sponsor ${sponsorId}, skipping`);
+        continue;
+      }
+      vendorProfile = {
+        sponsorId,
+        companyName: intake.companyName,
+        solutions: intake.technologyType || '',
+        painPoints: intake.keyChallenges || '',
+        targetIndustries: intake.targetOrgSize || '',
+      } as any;
+    }
+
+    const batchSize = 10;
+    for (let i = 0; i < sponsorMeetings.length; i += batchSize) {
+      const batch = sponsorMeetings.slice(i, i + batchSize);
+
+      // Build delegate data for this batch
+      const batchDelegates = batch.map((m: typeof confirmedMeetings[0]) => {
+        const dp = delegateProfiles.find(d => d.attendeeId === m.attendeeId);
+        const profile = dp?.profileData ? JSON.parse(dp.profileData) : {};
+        return {
+          meetingId: m.id,
+          attendeeId: m.attendeeId,
+          totalOrgEmployees: profile.totalOrgEmployees || 'N/A',
+          activeProjects: profile.activeProjects || 'N/A',
+          meetingObjective: profile.meetingObjective || 'N/A',
+          solutionAreas: profile.solutionAreas || dp?.interests || 'N/A',
+          painPoints: profile.painPoints || dp?.challenges || 'N/A',
+        };
+      });
+
+      const vp = vendorProfile!;
+      const prompt = `You are a senior matchmaking consultant preparing pre-meeting briefings for a vendor attending a curated B2B event. Your job is to write a concise, insightful briefing that explains — in your own words — why this vendor and delegate are a strong fit. Do NOT simply echo the delegate's words back. Instead, synthesise both sides and explain the connection as a knowledgeable third party would.
+
+VENDOR PROFILE:
+Company: ${vp.companyName}
+Solutions offered: ${vp.solutions}
+Problems they solve: ${vp.painPoints}
+Target market: ${vp.targetIndustries}
+
+DELEGATES TO ASSESS:
+${batchDelegates.map((d: { meetingId: number; attendeeId: string; totalOrgEmployees: string; activeProjects: string; meetingObjective: string; solutionAreas: string; painPoints: string }, idx: number) => `
+${idx + 1}. ID: ${d.attendeeId}
+   Organisation size: ${d.totalOrgEmployees}
+   Active projects: ${d.activeProjects}
+   What they want from this meeting: ${d.meetingObjective}
+   Solution areas they are exploring: ${d.solutionAreas}
+   Current pain points: ${d.painPoints}
+`).join('\n')}
+
+For each delegate write a match briefing (2–3 sentences, written as a fluent narrative — NOT bullet points, NOT labelled sections).
+The briefing should:
+- Open by explaining what specific capability or product of the vendor connects to this delegate's situation
+- Draw a concrete link between the vendor's offering and the delegate's pain points or active projects — use your own synthesis, not a paraphrase of the delegate's words
+- Close with what the delegate stands to gain from this conversation, framed as a business outcome
+
+Rules:
+- Write in third person, present tense
+- Do NOT mention the delegate's name, job title, company, or industry
+- Do NOT use section labels (Primary alignment:, Secondary factors:, etc.)
+- Do NOT simply repeat the delegate's own words — interpret and contextualise them
+- Each briefing must be 2–3 complete sentences
+
+Respond in JSON format:
+{
+  "matches": [
+    {"attendeeId": "att_001", "reasoning": "..."},
+    ...
+  ]
+}`;
+
+      try {
+        const response = await invokeLLM({
+          messages: [
+            { role: "system", content: "You are a B2B matchmaking expert. Respond only with valid JSON." },
+            { role: "user", content: prompt }
+          ],
+          response_format: {
+            type: "json_schema",
+            json_schema: {
+              name: "match_results",
+              strict: true,
+              schema: {
+                type: "object",
+                properties: {
+                  matches: {
+                    type: "array",
+                    items: {
+                      type: "object",
+                      properties: {
+                        attendeeId: { type: "string" },
+                        reasoning: { type: "string" }
+                      },
+                      required: ["attendeeId", "reasoning"],
+                      additionalProperties: false
+                    }
+                  }
+                },
+                required: ["matches"],
+                additionalProperties: false
+              }
+            }
+          }
+        });
+
+        const content = response.choices[0]?.message?.content;
+        if (!content || typeof content !== 'string') continue;
+
+        const parsed = JSON.parse(content);
+        for (const match of parsed.matches as Array<{ attendeeId: string; reasoning: string }>) {
+          const meeting = batch.find((m: typeof confirmedMeetings[0]) => m.attendeeId === match.attendeeId);
+          if (!meeting) continue;
+          await db.updateMeeting(meeting.id, { matchReason: match.reasoning });
+          totalUpdated++;
+          console.log(`[RegenReasons] Updated meeting ${meeting.id} for ${match.attendeeId}`);
+        }
+      } catch (error) {
+        console.error(`[RegenReasons] Error processing batch for sponsor ${sponsorId}:`, error);
+      }
+    }
+  }
+
+  console.log(`[RegenReasons] Done — updated ${totalUpdated} match reasons`);
+  return totalUpdated;
 }
