@@ -5,6 +5,7 @@
 
 import { invokeLLM } from "./_core/llm";
 import * as db from "./db";
+import { attendees } from "./attendees";
 
 export type MatchResult = {
   sponsorId: number;
@@ -28,10 +29,8 @@ export async function generateMatchesForSponsor(sponsorId: number): Promise<Matc
     throw new Error(`No vendor profile found for sponsor ${sponsorId}`);
   }
 
-  // Get all delegate profiles
-  const delegateProfiles = await db.getDelegateProfiles();
-  
-  if (delegateProfiles.length === 0) {
+  // Use attendees list directly (delegateProfiles DB table is not populated)
+  if (attendees.length === 0) {
     throw new Error("No delegate profiles available for matching");
   }
 
@@ -40,7 +39,7 @@ export async function generateMatchesForSponsor(sponsorId: number): Promise<Matc
   const cachedAttendeeIds = new Set(cachedMatches.map((m: any) => m.attendeeId));
   
   // Separate delegates into cached and uncached
-  const uncachedDelegates = delegateProfiles.filter(d => !cachedAttendeeIds.has(d.attendeeId));
+  const uncachedDelegates = attendees.filter(d => !cachedAttendeeIds.has(d.id));
   
   console.log(`[Match Cache] Sponsor ${sponsorId}: ${cachedMatches.length} cached, ${uncachedDelegates.length} need AI analysis`);
 
@@ -92,14 +91,12 @@ Target market: ${vendorProfile.targetIndustries}
 
 DELEGATES TO ASSESS:
 ${batch.map((d, idx) => {
-  const profile = d.profileData ? JSON.parse(d.profileData) : {};
   return `
-${idx + 1}. ID: ${d.attendeeId}
-   Organisation size: ${profile.totalOrgEmployees || 'N/A'}
-   Active projects: ${profile.activeProjects || 'N/A'}
-   What they want from this meeting: ${profile.meetingObjective || 'N/A'}
-   Solution areas they are exploring: ${profile.solutionAreas || d.interests || 'N/A'}
-   Current pain points: ${profile.painPoints || d.challenges || 'N/A'}
+${idx + 1}. ID: ${d.id}
+   Active projects: ${d.activeConfirmedProjects || 'N/A'}
+   What they want from this meeting: ${d.primaryMeetingObjective || 'N/A'}
+   Solution areas they are exploring: ${d.keySolutionAreasOfInterest || 'N/A'}
+   Current pain points: ${d.currentPainPoints || 'N/A'}
 `}).join('\n')}
 
 For each delegate provide:
@@ -276,8 +273,8 @@ export async function regenerateAllMatchReasons(): Promise<number> {
   }
 
   const vendorProfiles = await db.getVendorProfiles();
-  const delegateProfiles = await db.getDelegateProfiles();
   const allIntake = await db.getAllIntakeSubmissions();
+  // Use attendees list directly — delegateProfiles DB table is not populated
 
   let totalUpdated = 0;
 
@@ -303,18 +300,16 @@ export async function regenerateAllMatchReasons(): Promise<number> {
     for (let i = 0; i < sponsorMeetings.length; i += batchSize) {
       const batch = sponsorMeetings.slice(i, i + batchSize);
 
-      // Build delegate data for this batch
+      // Build delegate data for this batch using the attendees list
       const batchDelegates = batch.map((m: typeof confirmedMeetings[0]) => {
-        const dp = delegateProfiles.find(d => d.attendeeId === m.attendeeId);
-        const profile = dp?.profileData ? JSON.parse(dp.profileData) : {};
+        const att = attendees.find(a => a.id === m.attendeeId);
         return {
           meetingId: m.id,
           attendeeId: m.attendeeId,
-          totalOrgEmployees: profile.totalOrgEmployees || 'N/A',
-          activeProjects: profile.activeProjects || 'N/A',
-          meetingObjective: profile.meetingObjective || 'N/A',
-          solutionAreas: profile.solutionAreas || dp?.interests || 'N/A',
-          painPoints: profile.painPoints || dp?.challenges || 'N/A',
+          activeProjects: att?.activeConfirmedProjects || 'N/A',
+          meetingObjective: att?.primaryMeetingObjective || 'N/A',
+          solutionAreas: att?.keySolutionAreasOfInterest || 'N/A',
+          painPoints: att?.currentPainPoints || 'N/A',
         };
       });
 
@@ -328,9 +323,8 @@ Problems they solve: ${vp.painPoints}
 Target market: ${vp.targetIndustries}
 
 DELEGATES TO ASSESS:
-${batchDelegates.map((d: { meetingId: number; attendeeId: string; totalOrgEmployees: string; activeProjects: string; meetingObjective: string; solutionAreas: string; painPoints: string }, idx: number) => `
+${batchDelegates.map((d: { meetingId: number; attendeeId: string; activeProjects: string; meetingObjective: string; solutionAreas: string; painPoints: string }, idx: number) => `
 ${idx + 1}. ID: ${d.attendeeId}
-   Organisation size: ${d.totalOrgEmployees}
    Active projects: ${d.activeProjects}
    What they want from this meeting: ${d.meetingObjective}
    Solution areas they are exploring: ${d.solutionAreas}
