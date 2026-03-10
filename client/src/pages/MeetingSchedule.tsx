@@ -51,6 +51,16 @@ export default function MeetingSchedule() {
     { enabled: !!user }
   );
 
+  // Get sponsor intake data for attendee names
+  const { data: intake } = trpc.sponsor.getMyIntake.useQuery(
+    undefined,
+    { enabled: !!user }
+  );
+
+  // Derive attendee display names from intake data
+  const attendee1Name = intake ? `${intake.firstName} ${intake.lastName}` : 'Attendee 1';
+  const attendee2Name = intake?.secondRepName || 'Attendee 2';
+
   const clean = (text: string | undefined | null) => {
     if (!text) return 'N/A';
     return text.replace(/\s*\([^)]*\)/g, '').trim() || 'N/A';
@@ -276,6 +286,53 @@ export default function MeetingSchedule() {
     }
   };
 
+  const downloadScheduleCSV = () => {
+    if (!meetings || meetings.length === 0) {
+      toast.error("No meetings to download");
+      return;
+    }
+    const slotLabels: Record<number, string> = {
+      1: 'Day 1 – Slot 1',
+      2: 'Day 1 – Slot 2',
+      3: 'Day 1 – Slot 3',
+      4: 'Day 2 – Slot 1',
+      5: 'Day 2 – Slot 2',
+      6: 'Day 2 – Slot 3',
+    };
+    const headers = ['Attendee', 'Time Slot', 'Delegate Name', 'Job Title', 'Company', 'Match Score', 'Match Reason'];
+    const rows = meetings
+      .filter(m => m.timeSlot !== null && m.timeSlot !== undefined)
+      .sort((a, b) => {
+        const slotDiff = (a.timeSlot ?? 0) - (b.timeSlot ?? 0);
+        if (slotDiff !== 0) return slotDiff;
+        return (a.attendeeNumber ?? 1) - (b.attendeeNumber ?? 1);
+      })
+      .map(m => {
+        const delegate = attendees.find(a => a.id === m.attendeeId);
+        const attendeeName = (m.attendeeNumber === 2) ? attendee2Name : attendee1Name;
+        return [
+          attendeeName,
+          slotLabels[m.timeSlot!] || `Slot ${m.timeSlot}`,
+          delegate ? `${delegate.firstName} ${delegate.lastName}` : m.attendeeId,
+          delegate?.jobTitle || '',
+          delegate?.company || '',
+          m.matchScore !== null && m.matchScore !== undefined ? String(m.matchScore) : '',
+          m.matchReason || '',
+        ].map(cell => `"${String(cell).replace(/"/g, '""')}"`);
+      });
+    const csvContent = [headers.map(h => `"${h}"`).join(','), ...rows.map(r => r.join(','))].join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${sponsor?.companyName || 'RLX'}_Meeting_Schedule.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    toast.success('Meeting schedule downloaded');
+  };
+
   const downloadAllProfilesCSV = () => {
     if (!meetings || meetings.length === 0) {
       toast.error("No meetings to download");
@@ -397,25 +454,42 @@ export default function MeetingSchedule() {
                   )}
                 </CardDescription>
               </div>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button className="bg-accent hover:bg-accent/90 gap-2">
-                    <Download className="w-4 h-4" />
-                    Download All Profiles
-                    <ChevronDown className="w-3 h-3" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem onClick={downloadAllProfilesPDF}>
-                    <FileText className="w-4 h-4 mr-2" />
-                    Download as PDF
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={downloadAllProfilesCSV}>
-                    <Download className="w-4 h-4 mr-2" />
-                    Download as CSV
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <div className="flex gap-2">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" className="border-slate-500 text-white hover:bg-slate-700 gap-2">
+                      <Calendar className="w-4 h-4" />
+                      Download Schedule
+                      <ChevronDown className="w-3 h-3" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem onClick={downloadScheduleCSV}>
+                      <Download className="w-4 h-4 mr-2" />
+                      Download as CSV
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button className="bg-accent hover:bg-accent/90 gap-2">
+                      <Download className="w-4 h-4" />
+                      Download All Profiles
+                      <ChevronDown className="w-3 h-3" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem onClick={downloadAllProfilesPDF}>
+                      <FileText className="w-4 h-4 mr-2" />
+                      Download as PDF
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={downloadAllProfilesCSV}>
+                      <Download className="w-4 h-4 mr-2" />
+                      Download as CSV
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
             </div>
           </CardHeader>
         </Card>
@@ -427,7 +501,7 @@ export default function MeetingSchedule() {
             <CardHeader>
               <CardTitle className="text-white text-2xl flex items-center gap-2">
                 <User className="w-6 h-6 text-accent" />
-                Attendee 1 Schedule
+                {attendee1Name}'s Schedule
               </CardTitle>
               <CardDescription className="text-slate-300">
                 {attendee1Meetings.length} meetings assigned
@@ -634,7 +708,7 @@ export default function MeetingSchedule() {
               <CardHeader>
                 <CardTitle className="text-white text-2xl flex items-center gap-2">
                   <User className="w-6 h-6 text-accent" />
-                  Attendee 2 Schedule
+                  {attendee2Name}'s Schedule
                 </CardTitle>
                 <CardDescription className="text-slate-300">
                   {attendee2Meetings.length} meetings assigned

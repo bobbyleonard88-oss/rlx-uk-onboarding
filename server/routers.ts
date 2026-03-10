@@ -78,6 +78,12 @@ export const appRouter = router({
       // Only return confirmed meetings that are visible (published to sponsor AND not hidden by admin)
       return allMeetings.filter(m => m.status === 'confirmed' && m.isVisible === 1);
     }),
+    // Get sponsor's own intake (for attendee names on meeting schedule)
+    getMyIntake: protectedProcedure.query(async ({ ctx }) => {
+      const sponsor = await db.getSponsorByUserId(ctx.user.id);
+      if (!sponsor) return null;
+      return await db.getIntakeSubmissionBySponsor(sponsor.id);
+    }),
   }),
 
   // Intake form router
