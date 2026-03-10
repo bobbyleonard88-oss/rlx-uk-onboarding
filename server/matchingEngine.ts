@@ -82,7 +82,7 @@ export async function generateMatchesForSponsor(sponsorId: number): Promise<Matc
   for (let i = 0; i < uncachedDelegates.length; i += batchSize) {
     const batch = uncachedDelegates.slice(i, i + batchSize);
     
-    const prompt = `You are a senior matchmaking consultant preparing pre-meeting briefings for a vendor attending a curated B2B event. Your job is to write a concise, insightful briefing that explains — in your own words — why this vendor and delegate are a strong fit. Do NOT simply echo the delegate's words back. Instead, synthesise both sides and explain the connection as a knowledgeable third party would.
+    const prompt = `You are a senior matchmaking consultant writing pre-meeting briefings for a vendor at a curated B2B event. Your role is to explain — precisely and honestly — why this vendor and delegate are matched, based strictly on what each party has actually stated. You must not invent, assume, or infer anything that is not explicitly present in the data below.
 
 VENDOR PROFILE:
 Company: ${vendorProfile.companyName}
@@ -104,30 +104,31 @@ ${idx + 1}. ID: ${d.attendeeId}
 
 For each delegate provide:
 
-1. A match score (0–100):
-   90–100: Exceptional — vendor directly solves the delegate's stated pain points, active project alignment
-   75–89: Strong — clear solution-need fit, good market alignment
-   60–74: Moderate — partial alignment, genuine value exists
-   40–59: Weak — limited overlap, marginal fit
-   0–39: Poor — little to no alignment
-   Most strong matches should land 70–90. Do not artificially deflate scores.
+1. MATCH SCORE (0–100) — score based solely on how specifically the vendor's stated solutions address the delegate's stated pain points, active projects, and meeting objectives:
+   85–100: The delegate has explicitly named a challenge or project that the vendor directly addresses
+   65–84: Clear thematic overlap between what the vendor solves and what the delegate has stated they need
+   45–64: Some relevant overlap but the delegate's stated needs are only partially addressed
+   25–44: Limited connection — the vendor is tangentially relevant at best
+   0–24: No meaningful overlap between what the vendor does and what the delegate has stated
+   IMPORTANT: If the delegate's profile data is sparse (mostly N/A), the score must reflect that uncertainty — do not inflate. If there is a specific, direct match between a stated pain point and a vendor solution, score it highly.
 
-2. A match briefing (2–3 sentences, written as a fluent narrative — NOT bullet points, NOT labelled sections).
-   The briefing should:
-   - Open by explaining what specific capability or product of the vendor connects to this delegate's situation
-   - Draw a concrete link between the vendor's offering and the delegate's pain points or active projects — use your own synthesis, not a paraphrase of the delegate's words
-   - Close with what the delegate stands to gain from this conversation, framed as a business outcome
+2. MATCH BRIEFING — 2 sentences maximum, written as a direct, factual statement grounded in the delegate's actual words:
+   - Sentence 1: Name the specific thing the delegate has said (their pain point, active project, or meeting objective) and connect it directly to a specific capability the vendor has stated they offer. Use concrete language.
+   - Sentence 2: State what the delegate stands to gain from this conversation as a specific, grounded outcome — not a vague possibility.
    
-   Good example: "${vendorProfile.companyName}'s approach to [relevant capability] is well-suited to organisations dealing with [synthesised challenge], which aligns closely with the scale and complexity this delegate is navigating. Their active work on [related project area] suggests they are at the right stage to evaluate a solution like this, and the conversation could surface concrete ways to [business outcome]."
+   STRICT RULES FOR THE BRIEFING:
+   - NEVER use assumption language: banned words include "could", "might", "may", "potential", "possibly", "likely", "perhaps", "would benefit from", "appears to"
+   - ONLY reference things the delegate has explicitly stated — do not infer from their job title, company size, or industry
+   - If the delegate's profile is sparse, write a shorter, honest briefing that reflects what IS known
+   - Do NOT use section labels or bullet points
+   - Write in third person, present tense
+   - Do NOT mention the delegate's name, job title, company name, or industry
    
-   Bad example (do NOT do this): "Primary alignment: Delegate's pain points include X. Secondary factors: They are exploring Y. Potential value: They could benefit from Z."
-
-Rules:
-- Write in third person, present tense
-- Do NOT mention the delegate's name, job title, company, or industry
-- Do NOT use section labels (Primary alignment:, Secondary factors:, etc.)
-- Do NOT simply repeat the delegate's own words — interpret and contextualise them
-- Each briefing must be 2–3 complete sentences
+   GOOD example (delegate stated: pain point = "high-volume CV screening taking too long", vendor solution = "AI-powered screening automation"):
+   "This delegate is actively dealing with the time cost of high-volume CV screening — a problem ${vendorProfile.companyName} addresses directly through automated screening workflows. The conversation offers a concrete path to reducing screening time and freeing their team to focus on higher-value hiring decisions."
+   
+   BAD example (do NOT produce this):
+   "${vendorProfile.companyName}'s expertise in AI aligns with this delegate's potential need to streamline recruitment. The delegate could gain insights into how AI solutions can enhance efficiency."
 
 Respond in JSON format:
 {
@@ -318,7 +319,7 @@ export async function regenerateAllMatchReasons(): Promise<number> {
       });
 
       const vp = vendorProfile!;
-      const prompt = `You are a senior matchmaking consultant preparing pre-meeting briefings for a vendor attending a curated B2B event. Your job is to write a concise, insightful briefing that explains — in your own words — why this vendor and delegate are a strong fit. Do NOT simply echo the delegate's words back. Instead, synthesise both sides and explain the connection as a knowledgeable third party would.
+      const prompt = `You are a senior matchmaking consultant writing pre-meeting briefings for a vendor at a curated B2B event. Your role is to explain — precisely and honestly — why this vendor and delegate are matched, based strictly on what each party has actually stated. You must not invent, assume, or infer anything that is not explicitly present in the data below.
 
 VENDOR PROFILE:
 Company: ${vp.companyName}
@@ -336,18 +337,23 @@ ${idx + 1}. ID: ${d.attendeeId}
    Current pain points: ${d.painPoints}
 `).join('\n')}
 
-For each delegate write a match briefing (2–3 sentences, written as a fluent narrative — NOT bullet points, NOT labelled sections).
-The briefing should:
-- Open by explaining what specific capability or product of the vendor connects to this delegate's situation
-- Draw a concrete link between the vendor's offering and the delegate's pain points or active projects — use your own synthesis, not a paraphrase of the delegate's words
-- Close with what the delegate stands to gain from this conversation, framed as a business outcome
+For each delegate write a MATCH BRIEFING — 2 sentences maximum, written as a direct, factual statement grounded in the delegate's actual words:
+- Sentence 1: Name the specific thing the delegate has said (their pain point, active project, or meeting objective) and connect it directly to a specific capability the vendor has stated they offer. Use concrete language.
+- Sentence 2: State what the delegate stands to gain from this conversation as a specific, grounded outcome — not a vague possibility.
 
-Rules:
+STRICT RULES:
+- NEVER use assumption language: banned words include "could", "might", "may", "potential", "possibly", "likely", "perhaps", "would benefit from", "appears to"
+- ONLY reference things the delegate has explicitly stated — do not infer from their job title, company size, or industry
+- If the delegate's profile is sparse (mostly N/A), write a shorter honest briefing reflecting what IS known — do not pad with assumptions
+- Do NOT use section labels or bullet points
 - Write in third person, present tense
-- Do NOT mention the delegate's name, job title, company, or industry
-- Do NOT use section labels (Primary alignment:, Secondary factors:, etc.)
-- Do NOT simply repeat the delegate's own words — interpret and contextualise them
-- Each briefing must be 2–3 complete sentences
+- Do NOT mention the delegate's name, job title, company name, or industry
+
+GOOD example (delegate stated: pain point = "high-volume CV screening taking too long", vendor solution = "AI-powered screening automation"):
+"This delegate is actively dealing with the time cost of high-volume CV screening — a problem ${vp.companyName} addresses directly through automated screening workflows. The conversation offers a concrete path to reducing screening time and freeing their team to focus on higher-value hiring decisions."
+
+BAD example (do NOT produce this):
+"${vp.companyName}'s expertise in AI aligns with this delegate's potential need to streamline recruitment. The delegate could gain insights into how AI solutions can enhance efficiency."
 
 Respond in JSON format:
 {

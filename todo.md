@@ -1231,3 +1231,9 @@
 - [x] Add regenerateAllMatchReasons function to matchingEngine.ts
 - [x] Add regenerateMatchReasons admin tRPC procedure to routers.ts
 - [x] Add "Refresh Match Reasons" button to AdminMeetings page
+
+## Match Reason Quality - Round 2 Fix
+- [x] Rewrite main matching prompt to ground reasons in delegate's actual stated data (ban assumption language: "could", "might", "potential", etc.)
+- [x] Rewrite regenerate prompt with same strict grounding rules
+- [x] Fix scoring rubric to reflect genuine specificity of overlap (sparse data = lower score, explicit match = higher score)
+- [x] Add concrete GOOD/BAD examples to both prompts to guide the LLM
