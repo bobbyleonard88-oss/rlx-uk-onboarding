@@ -314,23 +314,6 @@ export default function EventAgenda() {
           </div>
         </AnimatedSection>
 
-        {/* Concurrent track legend */}
-        <AnimatedSection delay={150}>
-          <div className="glass-card p-4 rounded-lg mb-10 border-slate-700/50">
-            <p className="text-xs text-slate-400 font-medium mb-3 uppercase tracking-wider">How to read this agenda</p>
-            <div className="flex flex-wrap gap-4 text-xs text-slate-300">
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-emerald-400/60 border border-emerald-400/80" />
-                <span><strong className="text-white">Track A</strong> — 1:1 Meetings (sponsors &amp; delegates in meetings)</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-blue-400/60 border border-blue-400/80" />
-                <span><strong className="text-white">Track B</strong> — Parallel session (for those not in a meeting that slot)</span>
-              </div>
-            </div>
-          </div>
-        </AnimatedSection>
-
         {/* Day-by-Day */}
         <div className="space-y-12">
           {agenda.map((day, dayIndex) => (
