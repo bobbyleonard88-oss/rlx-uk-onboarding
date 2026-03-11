@@ -1262,3 +1262,19 @@
 - [x] Add target org size as secondary weighting factor (light bonus/penalty, does not override pain point match)
 - [x] Fix Udder context: they source TECHNOLOGY not candidates — match delegates talking about selecting/evaluating/implementing TA tech, not talent sourcing
 - [x] Run Appcast top 3 example to validate quality
+
+## Delegate List Update (Mar 11)
+- [ ] Parse CSV and identify confirmed vs removed/pending delegates
+- [ ] Remove non-confirmed delegates from server/attendees.ts
+- [ ] Clear match cache entries for removed delegates
+- [ ] Verify remaining delegate count is correct
+
+## Delegate Removal & Test Toggle Analytics Fix (Mar 11)
+- [x] Remove Peter Buchanan-Parker (93380106578) from attendees.ts
+- [x] Remove Jennifer Cunningham (93137898669) from attendees.ts
+- [x] Remove Caroline Loubert (910801) from attendees.ts
+- [x] Remove David Nottage (185464523694) from attendees.ts
+- [x] Remove Theresa O'Brien (192905181704) from attendees.ts
+- [x] Clear match cache entries for all 5 removed delegates
+- [x] Fix analytics leaderboard/rankings to exclude test sponsors when toggle is OFF
+- [x] Fix sponsor count on leaderboard to exclude test sponsors when toggle is OFF

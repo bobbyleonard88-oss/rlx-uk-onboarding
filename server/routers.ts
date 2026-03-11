@@ -1194,7 +1194,9 @@ export const appRouter = router({
         }
         
         // Most in-demand delegates based on sponsor rankings (excluding Jen Candee)
-        const allRankings = await db.getAllRankingsSubmissions();
+        // Only count rankings from valid (non-test) sponsors
+        const allRankingsRaw = await db.getAllRankingsSubmissions();
+        const allRankings = allRankingsRaw.filter(r => validSponsorIds.has(r.sponsorId));
         const demandScores = new Map<string, number>();
         
         for (const ranking of allRankings) {
