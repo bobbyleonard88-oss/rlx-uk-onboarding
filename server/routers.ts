@@ -488,6 +488,48 @@ export const appRouter = router({
       return await db.getAllMeetings();
     }),
     
+    // Wipe all meetings and match cache for test sponsor accounts
+    disableTestAccounts: adminProcedure.mutation(async ({ ctx }) => {
+      const TEST_SPONSOR_IDS = [30001, 60001, 90001, 120001];
+      let meetingsDeleted = 0;
+      let cacheDeleted = 0;
+      
+      for (const sponsorId of TEST_SPONSOR_IDS) {
+        // Delete all meetings for this test sponsor
+        const meetings = await db.getAllMeetings();
+        const sponsorMeetings = meetings.filter((m: any) => m.sponsorId === sponsorId);
+        if (sponsorMeetings.length > 0) {
+          await db.deleteMeetingsBySponsor(sponsorId);
+          meetingsDeleted += sponsorMeetings.length;
+        }
+        
+        // Delete match cache for this test sponsor
+        const cache = await db.getMatchCacheBySponsor(sponsorId);
+        if (cache.length > 0) {
+          const { matchCache } = await import('../drizzle/schema');
+          const { eq } = await import('drizzle-orm');
+          const drizzleDb = await db.getDb();
+          if (drizzleDb) {
+            await drizzleDb.delete(matchCache).where(eq(matchCache.sponsorId, sponsorId));
+          }
+          cacheDeleted += cache.length;
+        }
+      }
+      
+      const adminName = ctx.user.name || ctx.user.email || 'Admin';
+      await db.logAdminActivity({
+        adminId: ctx.user.id,
+        adminName,
+        action: 'disabled_test_accounts',
+        entityType: 'system',
+        entityId: 'test_accounts',
+        entityName: 'Test Accounts',
+        details: `Wiped ${meetingsDeleted} meetings and ${cacheDeleted} cached matches for test sponsors`,
+      });
+      
+      return { success: true, meetingsDeleted, cacheDeleted };
+    }),
+    
     // Check if delegate is available for a specific time slot
     checkDelegateAvailability: adminProcedure
       .input(z.object({

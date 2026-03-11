@@ -1,13 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { trpc } from "@/lib/trpc";
-import { BarChart3, Users, Calendar, TrendingUp, FlaskConical } from "lucide-react";
-import AdminHeader from "@/components/AdminHeader";
+import { BarChart3, Users, Calendar, TrendingUp } from "lucide-react";
+import AdminHeader, { getIncludeTestAccounts } from "@/components/AdminHeader";
 import MeetingFloorPlan from "@/components/MeetingFloorPlan";
 
 export default function Analytics() {
-  const [includeTestAccounts, setIncludeTestAccounts] = useState(false);
+  // Use global test accounts state from AdminHeader (persisted in localStorage)
+  const [includeTestAccounts, setIncludeTestAccounts] = useState(getIncludeTestAccounts);
+
+  // Listen for changes from the AdminHeader toggle
+  useEffect(() => {
+    const handler = (e: Event) => setIncludeTestAccounts((e as CustomEvent).detail);
+    window.addEventListener("testAccountsChanged", handler);
+    return () => window.removeEventListener("testAccountsChanged", handler);
+  }, []);
 
   const { data: analytics, isLoading } = trpc.admin.getAnalytics.useQuery(
     { includeTestAccounts }
@@ -49,21 +57,9 @@ export default function Analytics() {
       <div className="p-6">
         <div className="container mx-auto">
 
-          {/* Page header + test accounts toggle */}
+          {/* Page header */}
           <div className="flex items-center justify-between mb-6">
             <h1 className="text-3xl font-bold text-white">Meeting Analytics</h1>
-            <button
-              onClick={() => setIncludeTestAccounts(v => !v)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg border text-sm font-medium transition-all ${
-                includeTestAccounts
-                  ? "bg-amber-500/20 border-amber-500/50 text-amber-300 hover:bg-amber-500/30"
-                  : "bg-slate-800 border-slate-600 text-slate-400 hover:border-slate-500 hover:text-slate-300"
-              }`}
-              title="Toggle test accounts (recruitmentevents.co sponsors)"
-            >
-              <FlaskConical className="w-4 h-4" />
-              {includeTestAccounts ? "Test Accounts: ON" : "Test Accounts: OFF"}
-            </button>
           </div>
 
           {/* Summary Cards */}

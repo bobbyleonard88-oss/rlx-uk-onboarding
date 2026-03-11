@@ -1237,3 +1237,17 @@
 - [x] Rewrite regenerate prompt with same strict grounding rules
 - [x] Fix scoring rubric to reflect genuine specificity of overlap (sparse data = lower score, explicit match = higher score)
 - [x] Add concrete GOOD/BAD examples to both prompts to guide the LLM
+
+## Match Scoring Rules & Test Toggle (Mar 11)
+- [x] Fix scoring: 100% if delegate explicitly named the vendor's technology type
+- [x] Fix scoring: 80-95% if pain point matches vendor solution
+- [x] Fix Udder scoring: specialisation is ATS optimisation and sourcing, not general consulting
+- [x] Add test account toggle to every admin page (in admin nav/layout)
+- [x] Test toggle off: show destructive confirmation dialog, wipe meetings/test data on confirm
+- [x] Test toggle on: re-add test accounts and their meetings
+
+## Time Slot Distribution Bug (Mar 11)
+- [x] Fix meeting time slots: all 56 meetings assigned to Day 1 only, Day 2 shows 0
+- [x] 12-meeting sponsors: 6 slots Day 1, 6 slots Day 2
+- [x] 20-meeting sponsors: 10 slots Day 1, 10 slots Day 2
+- [x] Fix analytics chart to correctly reflect Day 1/Day 2 split

@@ -1,0 +1,125 @@
+{
+  "query": "SELECT sponsorId, timeSlot, COUNT(*) as cnt FROM meetings WHERE status = 'confirmed' GROUP BY sponsorId, timeSlot ORDER BY sponsorId, timeSlot;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT sponsorId, timeSlot, COUNT(*) as cnt FROM meetings WHERE status = 'confirmed' GROUP BY sponsorId, timeSlot ORDER BY sponsorId, timeSlot;",
+  "rows": [
+    {
+      "sponsorId": "30001",
+      "timeSlot": "1",
+      "cnt": "2"
+    },
+    {
+      "sponsorId": "30001",
+      "timeSlot": "2",
+      "cnt": "2"
+    },
+    {
+      "sponsorId": "30001",
+      "timeSlot": "3",
+      "cnt": "2"
+    },
+    {
+      "sponsorId": "30001",
+      "timeSlot": "4",
+      "cnt": "2"
+    },
+    {
+      "sponsorId": "30001",
+      "timeSlot": "5",
+      "cnt": "2"
+    },
+    {
+      "sponsorId": "30001",
+      "timeSlot": "6",
+      "cnt": "2"
+    },
+    {
+      "sponsorId": "60001",
+      "timeSlot": "1",
+      "cnt": "2"
+    },
+    {
+      "sponsorId": "60001",
+      "timeSlot": "2",
+      "cnt": "2"
+    },
+    {
+      "sponsorId": "60001",
+      "timeSlot": "3",
+      "cnt": "2"
+    },
+    {
+      "sponsorId": "60001",
+      "timeSlot": "4",
+      "cnt": "2"
+    },
+    {
+      "sponsorId": "60001",
+      "timeSlot": "5",
+      "cnt": "2"
+    },
+    {
+      "sponsorId": "60001",
+      "timeSlot": "6",
+      "cnt": "2"
+    },
+    {
+      "sponsorId": "90001",
+      "timeSlot": "1",
+      "cnt": "4"
+    },
+    {
+      "sponsorId": "90001",
+      "timeSlot": "2",
+      "cnt": "4"
+    },
+    {
+      "sponsorId": "90001",
+      "timeSlot": "3",
+      "cnt": "4"
+    },
+    {
+      "sponsorId": "90001",
+      "timeSlot": "4",
+      "cnt": "4"
+    },
+    {
+      "sponsorId": "90001",
+      "timeSlot": "5",
+      "cnt": "4"
+    },
+    {
+      "sponsorId": "120001",
+      "timeSlot": "1",
+      "cnt": "2"
+    },
+    {
+      "sponsorId": "120001",
+      "timeSlot": "2",
+      "cnt": "2"
+    },
+    {
+      "sponsorId": "120001",
+      "timeSlot": "3",
+      "cnt": "2"
+    },
+    {
+      "sponsorId": "120001",
+      "timeSlot": "4",
+      "cnt": "2"
+    },
+    {
+      "sponsorId": "120001",
+      "timeSlot": "5",
+      "cnt": "2"
+    },
+    {
+      "sponsorId": "120001",
+      "timeSlot": "6",
+      "cnt": "2"
+    }
+  ],
+  "messages": [],
+  "stdout": "sponsorId\ttimeSlot\tcnt\n30001\t1\t2\n30001\t2\t2\n30001\t3\t2\n30001\t4\t2\n30001\t5\t2\n30001\t6\t2\n60001\t1\t2\n60001\t2\t2\n60001\t3\t2\n60001\t4\t2\n60001\t5\t2\n60001\t6\t2\n90001\t1\t4\n90001\t2\t4\n90001\t3\t4\n90001\t4\t4\n90001\t5\t4\n120001\t1\t2\n120001\t2\t2\n120001\t3\t2\n120001\t4\t2\n120001\t5\t2\n120001\t6\t2\n",
+  "stderr": "",
+  "execution_time_ms": 1436
+}

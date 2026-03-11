@@ -101,13 +101,17 @@ ${idx + 1}. ID: ${d.id}
 
 For each delegate provide:
 
-1. MATCH SCORE (0–100) — score based solely on how specifically the vendor's stated solutions address the delegate's stated pain points, active projects, and meeting objectives:
-   85–100: The delegate has explicitly named a challenge or project that the vendor directly addresses
-   65–84: Clear thematic overlap between what the vendor solves and what the delegate has stated they need
-   45–64: Some relevant overlap but the delegate's stated needs are only partially addressed
-   25–44: Limited connection — the vendor is tangentially relevant at best
-   0–24: No meaningful overlap between what the vendor does and what the delegate has stated
-   IMPORTANT: If the delegate's profile data is sparse (mostly N/A), the score must reflect that uncertainty — do not inflate. If there is a specific, direct match between a stated pain point and a vendor solution, score it highly.
+1. MATCH SCORE (0–100) — use these exact bands:
+   100: The delegate has explicitly named this vendor's technology category or product type in their "Solution areas they are exploring" field (e.g. they listed "programmatic job advertising" and the vendor IS a programmatic job advertising platform). This is a confirmed, stated interest — score 100.
+   80–95: The delegate has stated a specific pain point that the vendor's solutions directly address, even if the delegate did not name the technology category. Score higher (90–95) for very specific, direct matches; lower (80–85) for clear but slightly broader overlap.
+   60–79: There is meaningful thematic overlap — the vendor's solutions are relevant to the delegate's stated needs, but the connection requires some interpretation.
+   35–59: Some overlap but the delegate's stated needs are only partially addressed by this vendor.
+   10–34: Limited connection — the vendor is tangentially relevant at best.
+   0–9: No meaningful overlap between what the vendor does and what the delegate has stated.
+   
+   SPECIAL RULE FOR CONSULTANCIES: If the vendor is a technology consultancy or advisory firm (not a technology vendor), their core strength areas still apply — score 80–95 only for delegates whose stated needs fall within the consultancy's stated specialist areas, not for all delegates.
+   
+   IMPORTANT: If the delegate's profile data is sparse (mostly N/A), the score must reflect that uncertainty — do not inflate above 40 unless there is clear evidence of alignment.
 
 2. MATCH BRIEFING — 2 sentences maximum, written as a direct, factual statement grounded in the delegate's actual words:
    - Sentence 1: Name the specific thing the delegate has said (their pain point, active project, or meeting objective) and connect it directly to a specific capability the vendor has stated they offer. Use concrete language.

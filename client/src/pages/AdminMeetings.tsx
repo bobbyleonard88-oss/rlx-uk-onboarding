@@ -51,20 +51,34 @@ export default function AdminMeetings() {
   
   const generateMeetings = trpc.admin.generateMeetings.useMutation({
     onSuccess: (data) => {
-      // Auto-assign meetings to time slots based on match score
-      // For 20-meeting packages, split between 2 attendees (10 each)
+      // Auto-assign meetings to time slots split evenly across Day 1 (slots 1-6) and Day 2 (slots 7-12)
+      // Backend slot numbering: Day 1 = 1-6, Day 2 = 7-12. Each slot holds 2 meetings.
+      // 12-meeting package: 6 meetings Day 1 (slots 1-6, 1 per slot), 6 meetings Day 2 (slots 7-12, 1 per slot)
+      // 20-meeting package: 10 per attendee → 5 Day 1 (slots 1-5), 5 Day 2 (slots 7-11)
       const matchesWithSlots = data.matches.map((match, index) => {
         const is20MeetingPackage = meetingCount === 20;
         const attendeeNumber = is20MeetingPackage ? (index < 10 ? 1 : 2) : 1;
         
-        // For 20 meetings: first 10 go to attendee 1, next 10 to attendee 2
-        // For 12 meetings: all go to attendee 1
+        // Index within this attendee's meetings
         const attendeeIndex = is20MeetingPackage ? (index < 10 ? index : index - 10) : index;
-        const slotNumber = Math.floor(attendeeIndex / 2) + 1;
+        const totalPerAttendee = is20MeetingPackage ? 10 : 12;
+        const halfCount = Math.ceil(totalPerAttendee / 2); // 5 or 6 per day
+        
+        let timeSlot: number | null;
+        if (attendeeIndex < halfCount) {
+          // Day 1: slots 1-6
+          timeSlot = attendeeIndex + 1;
+        } else {
+          // Day 2: slots 7-12
+          timeSlot = (attendeeIndex - halfCount) + 7;
+        }
+        
+        // Clamp to valid range (1-12)
+        if (timeSlot < 1 || timeSlot > 12) timeSlot = null;
         
         return {
           ...match,
-          timeSlot: slotNumber <= 6 ? slotNumber : null, // Only assign first 12 meetings to slots
+          timeSlot,
           attendeeNumber,
         };
       });
