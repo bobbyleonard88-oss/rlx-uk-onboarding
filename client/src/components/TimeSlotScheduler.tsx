@@ -51,25 +51,19 @@ interface TimeSlotSchedulerProps {
   } | null;
 }
 
-// Slot numbering matches analytics backend:
-// Day 1 (Event Day 2): slots 1-6 — 3 x 60-min meeting hours, 2 meetings per hour
-// Day 2 (Event Day 3): slots 7-12 — 3 x 60-min meeting hours, 2 meetings per hour
+// Slot numbering: 6 slots total — 3 per day, 1 meeting per slot
+// Day 1 (Event Day 2): slots 1-3
+// Day 2 (Event Day 3): slots 4-6
 const DAY1_SLOTS = [
   { day: 1, slot: 1, label: "10:15–11:15" },
-  { day: 1, slot: 2, label: "10:15–11:15" },
-  { day: 1, slot: 3, label: "13:30–14:30" },
-  { day: 1, slot: 4, label: "13:30–14:30" },
-  { day: 1, slot: 5, label: "14:45–15:45" },
-  { day: 1, slot: 6, label: "14:45–15:45" },
+  { day: 1, slot: 2, label: "13:30–14:30" },
+  { day: 1, slot: 3, label: "14:45–15:45" },
 ];
 
 const DAY2_SLOTS = [
-  { day: 2, slot: 7,  label: "09:15–10:15" },
-  { day: 2, slot: 8,  label: "09:15–10:15" },
-  { day: 2, slot: 9,  label: "10:30–11:30" },
-  { day: 2, slot: 10, label: "10:30–11:30" },
-  { day: 2, slot: 11, label: "13:30–14:30" },
-  { day: 2, slot: 12, label: "13:30–14:30" },
+  { day: 2, slot: 4, label: "09:15–10:15" },
+  { day: 2, slot: 5, label: "10:30–11:30" },
+  { day: 2, slot: 6, label: "13:30–14:30" },
 ];
 
 export default function TimeSlotScheduler({
@@ -417,21 +411,13 @@ export default function TimeSlotScheduler({
               <span>{dragInvalidReason}</span>
             </div>
           )}
-          {[1, 2].map((meetingNum) => {
-            const meeting = slotMeetings[meetingNum - 1];
-            return (
-              <div key={meetingNum} className="space-y-1">
-                <div className="text-slate-400 text-xs font-medium">Meeting {meetingNum}</div>
-                {meeting ? (
-                  renderMeetingCard(meeting, false, true)
-                ) : (
-                  <div className="border-2 border-dashed border-slate-700 rounded-lg p-2 text-center text-slate-500 text-xs">
-                    Drop meeting here
-                  </div>
-                )}
-              </div>
-            );
-          })}
+          {slotMeetings[0] ? (
+            renderMeetingCard(slotMeetings[0], false, true)
+          ) : (
+            <div className="border-2 border-dashed border-slate-700 rounded-lg p-2 text-center text-slate-500 text-xs">
+              Drop meeting here
+            </div>
+          )}
         </div>
       </div>
     );

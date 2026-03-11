@@ -40,7 +40,7 @@ export default function AdminMeetings() {
   const { user, loading, logout } = useAuth({ redirectOnUnauthenticated: true });
   
   const [selectedSponsorId, setSelectedSponsorId] = useState<number | null>(null);
-  const [meetingCount, setMeetingCount] = useState<number>(12);
+  const [meetingCount, setMeetingCount] = useState<number>(6);
   const [generatedMatches, setGeneratedMatches] = useState<MatchResult[]>([]);
   const [editedMatches, setEditedMatches] = useState<MatchResult[]>([]);
   const [selectedAttendee, setSelectedAttendee] = useState<1 | 2>(1); // For 20-meeting packages
@@ -52,29 +52,28 @@ export default function AdminMeetings() {
   const generateMeetings = trpc.admin.generateMeetings.useMutation({
     onSuccess: (data) => {
       // Auto-assign meetings to time slots split evenly across Day 1 (slots 1-6) and Day 2 (slots 7-12)
-      // Backend slot numbering: Day 1 = 1-6, Day 2 = 7-12. Each slot holds 2 meetings.
-      // 12-meeting package: 6 meetings Day 1 (slots 1-6, 1 per slot), 6 meetings Day 2 (slots 7-12, 1 per slot)
-      // 20-meeting package: 10 per attendee → 5 Day 1 (slots 1-5), 5 Day 2 (slots 7-11)
+      // Slot numbering: 6 slots total — 3 per day, 1 meeting per slot
+      // Day 1 (Event Day 2): slots 1-3 (10:15, 13:30, 14:45)
+      // Day 2 (Event Day 3): slots 4-6 (09:15, 10:30, 13:30)
+      const DAY1_SLOTS_COUNT = 3;
+      const DAY2_SLOTS_COUNT = 3;
       const matchesWithSlots = data.matches.map((match, index) => {
-        const is20MeetingPackage = meetingCount === 20;
-        const attendeeNumber = is20MeetingPackage ? (index < 10 ? 1 : 2) : 1;
+        const is20MeetingPackage = meetingCount === 12;
+        const attendeeNumber = is20MeetingPackage ? (index < 6 ? 1 : 2) : 1;
         
         // Index within this attendee's meetings
-        const attendeeIndex = is20MeetingPackage ? (index < 10 ? index : index - 10) : index;
-        const totalPerAttendee = is20MeetingPackage ? 10 : 12;
-        const halfCount = Math.ceil(totalPerAttendee / 2); // 5 or 6 per day
+        const attendeeIndex = is20MeetingPackage ? (index < 6 ? index : index - 6) : index;
         
         let timeSlot: number | null;
-        if (attendeeIndex < halfCount) {
-          // Day 1: slots 1-6
+        if (attendeeIndex < DAY1_SLOTS_COUNT) {
+          // Day 1: slots 1-3
           timeSlot = attendeeIndex + 1;
+        } else if (attendeeIndex < DAY1_SLOTS_COUNT + DAY2_SLOTS_COUNT) {
+          // Day 2: slots 4-6
+          timeSlot = (attendeeIndex - DAY1_SLOTS_COUNT) + 4;
         } else {
-          // Day 2: slots 7-12
-          timeSlot = (attendeeIndex - halfCount) + 7;
+          timeSlot = null;
         }
-        
-        // Clamp to valid range (1-12)
-        if (timeSlot < 1 || timeSlot > 12) timeSlot = null;
         
         return {
           ...match,
@@ -376,8 +375,8 @@ export default function AdminMeetings() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="12">12 Meetings</SelectItem>
-                    <SelectItem value="20">20 Meetings</SelectItem>
+                    <SelectItem value="6">6 Meetings</SelectItem>
+                    <SelectItem value="12">12 Meetings (2 attendees)</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

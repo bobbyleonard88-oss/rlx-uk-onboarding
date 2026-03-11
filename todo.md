@@ -1298,3 +1298,6 @@
 
 ## Admin Sponsor Popup Resize (Mar 11)
 - [x] Resize IntakeProfileModal and RankingsPreviewModal to max-w-[520px] to match delegate modal
+
+## Meeting Slot Capacity Fix (Mar 11)
+- [x] Fix: each time slot should hold exactly 1 meeting (not 2) — 6 slots total per sponsor (3 per day)
