@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { Home, Info, Award, Users, FileText, Calendar, Shield, FormInput, ListOrdered, Clock, Target, HelpCircle, CheckCircle } from "lucide-react";
+import { Home, Info, Award, Users, FileText, Calendar, Shield, FormInput, ListOrdered, Clock, Target, HelpCircle, CheckCircle, BookOpen } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
@@ -11,6 +11,7 @@ const baseNavItems = [
   { path: "/rules", label: "Rules of Engagement", icon: Shield },
   { path: "/addons", label: "Add-Ons", icon: FileText },
   { path: "/timeline", label: "Timeline", icon: Clock },
+  { path: "/agenda", label: "Agenda", icon: BookOpen },
   { path: "/meetings", label: "Meetings", icon: Calendar },
   { path: "/matchmaking", label: "Matchmaking", icon: Target },
   { path: "/intake", label: "Intake Form", icon: FormInput },

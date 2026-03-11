@@ -22,15 +22,23 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+// Day 1 = Event Day 2 (slots 1-6), Day 2 = Event Day 3 (slots 7-12)
+// Each meeting hour has 2 slots (one per attendee in 2-attendee packages)
 const TIME_SLOTS = [
-  // Day 1
-  { day: 1, slot: 1, label: "Slot 1" },
-  { day: 1, slot: 2, label: "Slot 2" },
-  { day: 1, slot: 3, label: "Slot 3" },
-  // Day 2
-  { day: 2, slot: 4, label: "Slot 1" },
-  { day: 2, slot: 5, label: "Slot 2" },
-  { day: 2, slot: 6, label: "Slot 3" },
+  // Day 1 (Event Day 2)
+  { day: 1, slot: 1, label: "10:15 – 11:15" },
+  { day: 1, slot: 2, label: "10:15 – 11:15" },
+  { day: 1, slot: 3, label: "13:30 – 14:30" },
+  { day: 1, slot: 4, label: "13:30 – 14:30" },
+  { day: 1, slot: 5, label: "14:45 – 15:45" },
+  { day: 1, slot: 6, label: "14:45 – 15:45" },
+  // Day 2 (Event Day 3)
+  { day: 2, slot: 7, label: "09:15 – 10:15" },
+  { day: 2, slot: 8, label: "09:15 – 10:15" },
+  { day: 2, slot: 9, label: "10:30 – 11:30" },
+  { day: 2, slot: 10, label: "10:30 – 11:30" },
+  { day: 2, slot: 11, label: "13:30 – 14:30" },
+  { day: 2, slot: 12, label: "13:30 – 14:30" },
 ];
 
 export default function MeetingSchedule() {
@@ -292,12 +300,18 @@ export default function MeetingSchedule() {
       return;
     }
     const slotLabels: Record<number, string> = {
-      1: 'Day 1 – Slot 1',
-      2: 'Day 1 – Slot 2',
-      3: 'Day 1 – Slot 3',
-      4: 'Day 2 – Slot 1',
-      5: 'Day 2 – Slot 2',
-      6: 'Day 2 – Slot 3',
+      1: 'Day 1 – 10:15–11:15',
+      2: 'Day 1 – 10:15–11:15',
+      3: 'Day 1 – 13:30–14:30',
+      4: 'Day 1 – 13:30–14:30',
+      5: 'Day 1 – 14:45–15:45',
+      6: 'Day 1 – 14:45–15:45',
+      7: 'Day 2 – 09:15–10:15',
+      8: 'Day 2 – 09:15–10:15',
+      9: 'Day 2 – 10:30–11:30',
+      10: 'Day 2 – 10:30–11:30',
+      11: 'Day 2 – 13:30–14:30',
+      12: 'Day 2 – 13:30–14:30',
     };
     const headers = ['Attendee', 'Time Slot', 'Delegate Name', 'Job Title', 'Company', 'Match Score', 'Match Reason'];
     const rows = meetings

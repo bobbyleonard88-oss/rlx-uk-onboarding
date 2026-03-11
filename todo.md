@@ -1281,3 +1281,11 @@
 
 ## Admin CSV Download Fix (Mar 11)
 - [x] Include full rankings list (all delegates) in sponsor CSV download, not just top 10
+
+## Agenda, Time Slots & UI Fixes (Mar 11)
+- [x] Update meeting time slot labels to match real agenda (Day 2: 10:15-11:15, 13:30-14:30, 14:45-15:45; Day 3: 09:15-10:15, 10:30-11:30, 13:30-14:30)
+- [x] Fix admin meetings page slot labels (TimeSlotScheduler already had correct labels; routers.ts analytics + floor plan updated)
+- [x] Fix slot labels on sponsor and delegate meeting schedule views (MeetingSchedule.tsx TIME_SLOTS + CSV slotLabels updated)
+- [x] Add native Agenda tab to sponsor navigation with full 3-day agenda
+- [x] Resize delegate profile popup to 1/3 screen width, centred (sponsor side) — max-w-[520px]
+- [x] Resize delegate profile popup to 1/3 screen width, centred (admin side) — admin uses MatchReasonModal (already compact)

@@ -1162,26 +1162,22 @@ export const appRouter = router({
           else scoreDistribution[5].count++;
         }
         
-        // Time slot distribution — 2 meetings per hour, 3 hours per day, 2 days = 6 slots × 2 = 12 sub-slots
-        // Slots 1-2: Day 1 Hour 1 (e.g. 09:00–10:00)
-        // Slots 3-4: Day 1 Hour 2 (e.g. 10:00–11:00)
-        // Slots 5-6: Day 1 Hour 3 (e.g. 11:00–12:00)
-        // Slots 7-8: Day 2 Hour 1
-        // Slots 9-10: Day 2 Hour 2
-        // Slots 11-12: Day 2 Hour 3
+        // Time slot distribution — 2 meetings per hour, 3 hours per day, 2 days = 12 slots total
+        // Day 1 (Event Day 2): 10:15-11:15, 13:30-14:30, 14:45-15:45
+        // Day 2 (Event Day 3): 09:15-10:15, 10:30-11:30, 13:30-14:30
         const timeSlotDistribution = [
-          { slot: 1, label: 'Day 1 — 09:00–09:30', count: 0 },
-          { slot: 2, label: 'Day 1 — 09:30–10:00', count: 0 },
-          { slot: 3, label: 'Day 1 — 10:00–10:30', count: 0 },
-          { slot: 4, label: 'Day 1 — 10:30–11:00', count: 0 },
-          { slot: 5, label: 'Day 1 — 11:00–11:30', count: 0 },
-          { slot: 6, label: 'Day 1 — 11:30–12:00', count: 0 },
-          { slot: 7, label: 'Day 2 — 09:00–09:30', count: 0 },
-          { slot: 8, label: 'Day 2 — 09:30–10:00', count: 0 },
-          { slot: 9, label: 'Day 2 — 10:00–10:30', count: 0 },
-          { slot: 10, label: 'Day 2 — 10:30–11:00', count: 0 },
-          { slot: 11, label: 'Day 2 — 11:00–11:30', count: 0 },
-          { slot: 12, label: 'Day 2 — 11:30–12:00', count: 0 },
+          { slot: 1, label: 'Day 1 — 10:15–11:15', count: 0 },
+          { slot: 2, label: 'Day 1 — 10:15–11:15', count: 0 },
+          { slot: 3, label: 'Day 1 — 13:30–14:30', count: 0 },
+          { slot: 4, label: 'Day 1 — 13:30–14:30', count: 0 },
+          { slot: 5, label: 'Day 1 — 14:45–15:45', count: 0 },
+          { slot: 6, label: 'Day 1 — 14:45–15:45', count: 0 },
+          { slot: 7, label: 'Day 2 — 09:15–10:15', count: 0 },
+          { slot: 8, label: 'Day 2 — 09:15–10:15', count: 0 },
+          { slot: 9, label: 'Day 2 — 10:30–11:30', count: 0 },
+          { slot: 10, label: 'Day 2 — 10:30–11:30', count: 0 },
+          { slot: 11, label: 'Day 2 — 13:30–14:30', count: 0 },
+          { slot: 12, label: 'Day 2 — 13:30–14:30', count: 0 },
         ];
         
         for (const meeting of allMeetings) {
@@ -1288,18 +1284,18 @@ export const appRouter = router({
       // Within each day: slots 1-2 = Hour 1, 3-4 = Hour 2, 5-6 = Hour 3
       // Within each hour: odd slot = Round 1, even slot = Round 2
       const slotLabels: Record<number, { day: number; hour: number; round: number; time: string }> = {
-        1:  { day: 1, hour: 1, round: 1, time: '09:00–09:30' },
-        2:  { day: 1, hour: 1, round: 2, time: '09:30–10:00' },
-        3:  { day: 1, hour: 2, round: 1, time: '10:00–10:30' },
-        4:  { day: 1, hour: 2, round: 2, time: '10:30–11:00' },
-        5:  { day: 1, hour: 3, round: 1, time: '11:00–11:30' },
-        6:  { day: 1, hour: 3, round: 2, time: '11:30–12:00' },
-        7:  { day: 2, hour: 1, round: 1, time: '09:00–09:30' },
-        8:  { day: 2, hour: 1, round: 2, time: '09:30–10:00' },
-        9:  { day: 2, hour: 2, round: 1, time: '10:00–10:30' },
-        10: { day: 2, hour: 2, round: 2, time: '10:30–11:00' },
-        11: { day: 2, hour: 3, round: 1, time: '11:00–11:30' },
-        12: { day: 2, hour: 3, round: 2, time: '11:30–12:00' },
+        1:  { day: 1, hour: 1, round: 1, time: '10:15–11:15' },
+        2:  { day: 1, hour: 1, round: 2, time: '10:15–11:15' },
+        3:  { day: 1, hour: 2, round: 1, time: '13:30–14:30' },
+        4:  { day: 1, hour: 2, round: 2, time: '13:30–14:30' },
+        5:  { day: 1, hour: 3, round: 1, time: '14:45–15:45' },
+        6:  { day: 1, hour: 3, round: 2, time: '14:45–15:45' },
+        7:  { day: 2, hour: 1, round: 1, time: '09:15–10:15' },
+        8:  { day: 2, hour: 1, round: 2, time: '09:15–10:15' },
+        9:  { day: 2, hour: 2, round: 1, time: '10:30–11:30' },
+        10: { day: 2, hour: 2, round: 2, time: '10:30–11:30' },
+        11: { day: 2, hour: 3, round: 1, time: '13:30–14:30' },
+        12: { day: 2, hour: 3, round: 2, time: '13:30–14:30' },
       };
 
       // Group meetings by slot

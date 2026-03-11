@@ -52,24 +52,24 @@ interface TimeSlotSchedulerProps {
 }
 
 // Slot numbering matches analytics backend:
-// Day 1: slots 1-6 (09:00-12:00, 30-min rounds)
-// Day 2: slots 7-12 (09:00-12:00, 30-min rounds)
+// Day 1 (Event Day 2): slots 1-6 — 3 x 60-min meeting hours, 2 meetings per hour
+// Day 2 (Event Day 3): slots 7-12 — 3 x 60-min meeting hours, 2 meetings per hour
 const DAY1_SLOTS = [
-  { day: 1, slot: 1, label: "09:00–09:30" },
-  { day: 1, slot: 2, label: "09:30–10:00" },
-  { day: 1, slot: 3, label: "10:00–10:30" },
-  { day: 1, slot: 4, label: "10:30–11:00" },
-  { day: 1, slot: 5, label: "11:00–11:30" },
-  { day: 1, slot: 6, label: "11:30–12:00" },
+  { day: 1, slot: 1, label: "10:15–11:15" },
+  { day: 1, slot: 2, label: "10:15–11:15" },
+  { day: 1, slot: 3, label: "13:30–14:30" },
+  { day: 1, slot: 4, label: "13:30–14:30" },
+  { day: 1, slot: 5, label: "14:45–15:45" },
+  { day: 1, slot: 6, label: "14:45–15:45" },
 ];
 
 const DAY2_SLOTS = [
-  { day: 2, slot: 7,  label: "09:00–09:30" },
-  { day: 2, slot: 8,  label: "09:30–10:00" },
-  { day: 2, slot: 9,  label: "10:00–10:30" },
-  { day: 2, slot: 10, label: "10:30–11:00" },
-  { day: 2, slot: 11, label: "11:00–11:30" },
-  { day: 2, slot: 12, label: "11:30–12:00" },
+  { day: 2, slot: 7,  label: "09:15–10:15" },
+  { day: 2, slot: 8,  label: "09:15–10:15" },
+  { day: 2, slot: 9,  label: "10:30–11:30" },
+  { day: 2, slot: 10, label: "10:30–11:30" },
+  { day: 2, slot: 11, label: "13:30–14:30" },
+  { day: 2, slot: 12, label: "13:30–14:30" },
 ];
 
 export default function TimeSlotScheduler({
