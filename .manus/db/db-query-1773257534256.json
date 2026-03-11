@@ -1,0 +1,16 @@
+{
+  "query": "\nSELECT m.sponsorId, COUNT(*) as meetingCount, MIN(m.timeSlot) as minSlot, MAX(m.timeSlot) as maxSlot\nFROM meetings m\nGROUP BY m.sponsorId\nORDER BY m.sponsorId;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT m.sponsorId, COUNT(*) as meetingCount, MIN(m.timeSlot) as minSlot, MAX(m.timeSlot) as maxSlot\nFROM meetings m\nGROUP BY m.sponsorId\nORDER BY m.sponsorId;\n",
+  "rows": [
+    {
+      "sponsorId": "30001",
+      "meetingCount": "12",
+      "minSlot": "1",
+      "maxSlot": "12"
+    }
+  ],
+  "messages": [],
+  "stdout": "sponsorId\tmeetingCount\tminSlot\tmaxSlot\n30001\t12\t1\t12\n",
+  "stderr": "",
+  "execution_time_ms": 359
+}

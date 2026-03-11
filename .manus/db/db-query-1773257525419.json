@@ -1,0 +1,138 @@
+{
+  "query": "\nSELECT u.id as userId, u.name, u.email, i.companyName, i.meetingPackage, i.sponsorId\nFROM users u\nJOIN intakeSubmissions i ON i.userId = u.id\nWHERE u.role = 'user'\nORDER BY i.sponsorId;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT u.id as userId, u.name, u.email, i.companyName, i.meetingPackage, i.sponsorId\nFROM users u\nJOIN intakeSubmissions i ON i.userId = u.id\nWHERE u.role = 'user'\nORDER BY i.sponsorId;\n",
+  "rows": [
+    {
+      "userId": "450001",
+      "name": "nino",
+      "email": "nino@recruitmentevents.co",
+      "companyName": "Elevate Assess",
+      "meetingPackage": "12",
+      "sponsorId": "60001"
+    },
+    {
+      "userId": "480001",
+      "name": "Natalija Tosheva",
+      "email": "natalija@recruitmentevents.co",
+      "companyName": "NexaTalent Solutions Ltd",
+      "meetingPackage": "20",
+      "sponsorId": "90001"
+    },
+    {
+      "userId": "990003",
+      "name": "stefan",
+      "email": "stefan@recruitmentevents.co",
+      "companyName": "Little Moment",
+      "meetingPackage": "12",
+      "sponsorId": "120001"
+    },
+    {
+      "userId": "990024",
+      "name": "amardeep.dharwar",
+      "email": "amardeep.dharwar@stepstone.com",
+      "companyName": "Stepstone Group UK Ltd",
+      "meetingPackage": "12",
+      "sponsorId": "150001"
+    },
+    {
+      "userId": "1410007",
+      "name": "Clara Minassian",
+      "email": "clara.minassian@makipeople.com",
+      "companyName": "Maki People",
+      "meetingPackage": "12",
+      "sponsorId": "180001"
+    },
+    {
+      "userId": "960014",
+      "name": "kayleigh.nunn",
+      "email": "kayleigh.nunn@harver.com",
+      "companyName": "Harver",
+      "meetingPackage": "20",
+      "sponsorId": "210001"
+    },
+    {
+      "userId": "1530001",
+      "name": "Laura Belfield",
+      "email": "laura@sapia.ai",
+      "companyName": "Sapia.ai",
+      "meetingPackage": "12",
+      "sponsorId": "240001"
+    },
+    {
+      "userId": "1890027",
+      "name": "roy.jacques",
+      "email": "roy.jacques@appcast.io",
+      "companyName": "Appcast",
+      "meetingPackage": "20",
+      "sponsorId": "270002"
+    },
+    {
+      "userId": "2700001",
+      "name": "nikki.thompson",
+      "email": "nikki.thompson@zincwork.com",
+      "companyName": "Zinc",
+      "meetingPackage": "12",
+      "sponsorId": "300001"
+    },
+    {
+      "userId": "2760005",
+      "name": "craig.barnett",
+      "email": "craig.barnett@symphonytalent.com",
+      "companyName": "Symphony Talent ",
+      "meetingPackage": "12",
+      "sponsorId": "330001"
+    },
+    {
+      "userId": "6210003",
+      "name": "alan+rlx",
+      "email": "alan+rlx@udder.rocks",
+      "companyName": "Udder",
+      "meetingPackage": "12",
+      "sponsorId": "360001"
+    },
+    {
+      "userId": "4050001",
+      "name": "kerry.simmons",
+      "email": "kerry.simmons@brightnetwork.co.uk",
+      "companyName": "Bright Apply",
+      "meetingPackage": "12",
+      "sponsorId": "390001"
+    },
+    {
+      "userId": "4140005",
+      "name": "samuel",
+      "email": "samuel@perchpeek.com",
+      "companyName": "PerchPeek",
+      "meetingPackage": "12",
+      "sponsorId": "450001"
+    },
+    {
+      "userId": "5520001",
+      "name": "Pete Bulley",
+      "email": "pete@hackajob.co",
+      "companyName": "hackajob",
+      "meetingPackage": "12",
+      "sponsorId": "540001"
+    },
+    {
+      "userId": "6330011",
+      "name": "dave.ralph",
+      "email": "dave.ralph@happydance.love",
+      "companyName": "Happydance Careers Websites",
+      "meetingPackage": "12",
+      "sponsorId": "600001"
+    },
+    {
+      "userId": "7920001",
+      "name": "richard.williams",
+      "email": "richard.williams@weareamberjack.com",
+      "companyName": "Amberjack",
+      "meetingPackage": "12",
+      "sponsorId": "690001"
+    }
+  ],
+  "messages": [],
+  "stdout": "userId\tname\temail\tcompanyName\tmeetingPackage\tsponsorId\n450001\tnino\tnino@recruitmentevents.co\tElevate Assess\t12\t60001\n480001\tNatalija Tosheva\tnatalija@recruitmentevents.co\tNexaTalent Solutions Ltd\t20\t90001\n990003\tstefan\tstefan@recruitmentevents.co\tLittle Moment\t12\t120001\n990024\tamardeep.dharwar\tamardeep.dharwar@stepstone.com\tStepstone Group UK Ltd\t12\t150001\n1410007\tClara Minassian\tclara.minassian@makipeople.com\tMaki People\t12\t180001\n960014\tkayleigh.nunn\tkayleigh.nunn@harver.com\tHarver\t20\t210001\n1530001\tLaura Belfield\tlaura@sapia.ai\tSapia.ai\t12\t240001\n1890027\troy.jacques\troy.jacques@appcast.io\tAppcast\t20\t270002\n2700001\tnikki.thompson\tnikki.thompson@zincwork.com\tZinc\t12\t300001\n2760005\tcraig.barnett\tcraig.barnett@symphonytalent.com\tSymphony Talent \t12\t330001\n6210003\talan+rlx\talan+rlx@udder.rocks\tUdder\t12\t360001\n4050001\tkerry.simmons\tkerry.simmons@brightnetwork.co.uk\tBright Apply\t12\t390001\n4140005\tsamuel\tsamuel@perchpeek.com\tPerchPeek\t12\t450001\n5520001\tPete Bulley\tpete@hackajob.co\thackajob\t12\t540001\n6330011\tdave.ralph\tdave.ralph@happydance.love\tHappydance Careers Websites\t12\t600001\n7920001\trichard.williams\trichard.williams@weareamberjack.com\tAmberjack\t12\t690001\n",
+  "stderr": "",
+  "execution_time_ms": 364
+}
