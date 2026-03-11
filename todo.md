@@ -1278,3 +1278,6 @@
 - [x] Clear match cache entries for all 5 removed delegates
 - [x] Fix analytics leaderboard/rankings to exclude test sponsors when toggle is OFF
 - [x] Fix sponsor count on leaderboard to exclude test sponsors when toggle is OFF
+
+## Admin CSV Download Fix (Mar 11)
+- [x] Include full rankings list (all delegates) in sponsor CSV download, not just top 10

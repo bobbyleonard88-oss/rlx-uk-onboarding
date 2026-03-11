@@ -1385,8 +1385,8 @@ export const appRouter = router({
         // Skip archived sponsors
         if (rankings?.isArchived === 1) continue;
 
-        // Parse top 10 ranked delegate IDs from rankingsData JSON
-        let top10: string[] = [];
+        // Parse all ranked delegate IDs from rankingsData JSON
+        let allRanked: string[] = [];
         if (rankings?.rankingsData) {
           try {
             const parsed = JSON.parse(rankings.rankingsData as string);
@@ -1394,14 +1394,14 @@ export const appRouter = router({
             const ids: string[] = Array.isArray(parsed)
               ? parsed.map((item: any) => (typeof item === 'string' ? item : item.id ?? item.attendeeId ?? ''))
               : [];
-            top10 = ids.slice(0, 10);
+            allRanked = ids; // No slice — include all ranked delegates
           } catch {
-            top10 = [];
+            allRanked = [];
           }
         }
 
         // Resolve delegate names from attendees list
-        const top10Names = top10.map((id, idx) => {
+        const allRankedNames = allRanked.map((id) => {
           const delegate = attendees.find(a => a.id === id);
           return delegate ? `${delegate.firstName} ${delegate.lastName} (${delegate.company})` : id;
         });
@@ -1433,9 +1433,9 @@ export const appRouter = router({
           'Reviewed By': rankings?.reviewedBy || '',
         };
 
-        // Add top 10 priorities as individual columns
-        for (let i = 0; i < 10; i++) {
-          row[`Priority ${i + 1}`] = top10Names[i] || '';
+        // Add all ranked delegates as individual priority columns
+        for (let i = 0; i < allRankedNames.length; i++) {
+          row[`Priority ${i + 1}`] = allRankedNames[i] || '';
         }
 
         rows.push(row);
