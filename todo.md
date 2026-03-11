@@ -1251,3 +1251,9 @@
 - [x] 12-meeting sponsors: 6 slots Day 1, 6 slots Day 2
 - [x] 20-meeting sponsors: 10 slots Day 1, 10 slots Day 2
 - [x] Fix analytics chart to correctly reflect Day 1/Day 2 split
+
+## Test Account Toggle Fix (Mar 11 - urgent)
+- [x] Restore wiped test account meetings (re-run generation for sponsors 30001, 60001, 90001, 120001)
+- [x] Change toggle OFF to soft-hide (set hidden flag) instead of hard delete
+- [x] Change toggle ON to un-hide (clear hidden flag) so meetings reappear
+- [x] Update all admin queries to filter by hidden flag when test accounts are OFF
