@@ -1289,3 +1289,6 @@
 - [x] Add native Agenda tab to sponsor navigation with full 3-day agenda
 - [x] Resize delegate profile popup to 1/3 screen width, centred (sponsor side) — max-w-[520px]
 - [x] Resize delegate profile popup to 1/3 screen width, centred (admin side) — admin uses MatchReasonModal (already compact)
+
+## Agenda Content Fix (Mar 11)
+- [x] Replace placeholder agenda with exact official programme from the RLX agenda image
