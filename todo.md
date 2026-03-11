@@ -1292,3 +1292,6 @@
 
 ## Agenda Content Fix (Mar 11)
 - [x] Replace placeholder agenda with exact official programme from the RLX agenda image
+
+## Agenda Concurrent Tracks Fix (Mar 11)
+- [x] Show 1:1 meeting blocks as two concurrent tracks: left = 1:1 Meetings, right = parallel session for non-meeting attendees
