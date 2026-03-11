@@ -79,7 +79,7 @@ export default function RankingsPreviewModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-slate-900 border-slate-700">
+      <DialogContent className="w-[90vw] max-w-[520px] max-h-[90vh] overflow-y-auto bg-slate-900 border-slate-700">
         <DialogHeader>
           <DialogTitle className="text-2xl font-heading text-white flex items-center gap-2">
             <ListOrdered className="w-6 h-6 text-primary" />

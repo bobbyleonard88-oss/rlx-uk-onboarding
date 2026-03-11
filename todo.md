@@ -1295,3 +1295,6 @@
 
 ## Agenda Concurrent Tracks Fix (Mar 11)
 - [x] Show 1:1 meeting blocks as two concurrent tracks: left = 1:1 Meetings, right = parallel session for non-meeting attendees
+
+## Admin Sponsor Popup Resize (Mar 11)
+- [x] Resize IntakeProfileModal and RankingsPreviewModal to max-w-[520px] to match delegate modal

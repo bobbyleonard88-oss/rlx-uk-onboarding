@@ -201,7 +201,7 @@ export default function IntakeProfileModal({ open, onOpenChange, intakeData, com
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-slate-900 border-slate-700">
+      <DialogContent className="w-[90vw] max-w-[520px] max-h-[90vh] overflow-y-auto bg-slate-900 border-slate-700">
         <DialogHeader>
           <div className="flex items-start gap-4">
             <div className="w-16 h-16 bg-white rounded-lg p-2 flex items-center justify-center flex-shrink-0 overflow-hidden">
