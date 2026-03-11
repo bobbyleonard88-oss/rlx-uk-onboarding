@@ -1257,3 +1257,8 @@
 - [x] Change toggle OFF to soft-hide (set hidden flag) instead of hard delete
 - [x] Change toggle ON to un-hide (clear hidden flag) so meetings reappear
 - [x] Update all admin queries to filter by hidden flag when test accounts are OFF
+
+## Matching Refinements (Mar 11)
+- [x] Add target org size as secondary weighting factor (light bonus/penalty, does not override pain point match)
+- [x] Fix Udder context: they source TECHNOLOGY not candidates — match delegates talking about selecting/evaluating/implementing TA tech, not talent sourcing
+- [x] Run Appcast top 3 example to validate quality

@@ -21,12 +21,32 @@ export type MatchResult = {
  * Uses permanent cache to avoid re-analyzing sponsor-delegate pairs
  */
 export async function generateMatchesForSponsor(sponsorId: number): Promise<MatchResult[]> {
-  // Get vendor profile
+  // Get intake submission (primary source for all real sponsors)
+  const intakeSubmission = await db.getIntakeSubmissionBySponsor(sponsorId);
+
+  // Get vendor profile (legacy — may be empty for real sponsors)
   const vendorProfiles = await db.getVendorProfiles();
-  const vendorProfile = vendorProfiles.find(v => v.sponsorId === sponsorId);
-  
+  const vendorProfileRaw = vendorProfiles.find(v => v.sponsorId === sponsorId);
+
+  // Build a unified vendor profile from whichever source has data
+  const vendorProfile = vendorProfileRaw
+    ? {
+        companyName: vendorProfileRaw.companyName,
+        solutions: vendorProfileRaw.solutions || intakeSubmission?.companyBoilerplate || '',
+        painPoints: vendorProfileRaw.painPoints || intakeSubmission?.keyChallenges || '',
+        targetIndustries: vendorProfileRaw.targetIndustries || '',
+      }
+    : intakeSubmission
+    ? {
+        companyName: intakeSubmission.companyName,
+        solutions: intakeSubmission.companyBoilerplate || '',
+        painPoints: intakeSubmission.keyChallenges || '',
+        targetIndustries: intakeSubmission.technologyType || '',
+      }
+    : null;
+
   if (!vendorProfile) {
-    throw new Error(`No vendor profile found for sponsor ${sponsorId}`);
+    throw new Error(`No vendor profile or intake submission found for sponsor ${sponsorId}`);
   }
 
   // Use attendees list directly (delegateProfiles DB table is not populated)
@@ -89,10 +109,13 @@ Solutions offered: ${vendorProfile.solutions}
 Problems they solve: ${vendorProfile.painPoints}
 Target market: ${vendorProfile.targetIndustries}
 
+VENDOR TARGET ORG SIZE: ${intakeSubmission?.targetOrgSize || 'Not specified'}
+
 DELEGATES TO ASSESS:
 ${batch.map((d, idx) => {
   return `
 ${idx + 1}. ID: ${d.id}
+   Organisation size: ${d.companySize || 'N/A'}
    Active projects: ${d.activeConfirmedProjects || 'N/A'}
    What they want from this meeting: ${d.primaryMeetingObjective || 'N/A'}
    Solution areas they are exploring: ${d.keySolutionAreasOfInterest || 'N/A'}
@@ -109,7 +132,15 @@ For each delegate provide:
    10–34: Limited connection — the vendor is tangentially relevant at best.
    0–9: No meaningful overlap between what the vendor does and what the delegate has stated.
    
+   ORG SIZE SECONDARY FACTOR: After determining the primary score from pain point / solution alignment, apply a light adjustment based on org size fit:
+   - If the vendor has a stated target org size AND the delegate's organisation size falls clearly within that range: add up to +5 to the score.
+   - If the delegate's org size is clearly outside the vendor's target range (e.g. vendor targets 5k–10k but delegate is at 100k+): subtract up to -5 from the score.
+   - If org size data is missing for either party, make no adjustment.
+   - Org size must NEVER change a score by more than 5 points in either direction — it is a tiebreaker, not a primary factor.
+   
    SPECIAL RULE FOR CONSULTANCIES: If the vendor is a technology consultancy or advisory firm (not a technology vendor), their core strength areas still apply — score 80–95 only for delegates whose stated needs fall within the consultancy's stated specialist areas, not for all delegates.
+   
+   SPECIAL RULE FOR UDDER: Udder is a technology sourcing consultancy — they help organisations find, evaluate and select the right HR/TA technology. They do NOT source candidates or talent. Score high ONLY for delegates who are actively evaluating, selecting or implementing TA technology systems (e.g. new ATS, assessment platform, job advertising tech). Score low for delegates who are talking about sourcing candidates, talent pipelines, or hiring volume — these are not Udder's domain.
    
    IMPORTANT: If the delegate's profile data is sparse (mostly N/A), the score must reflect that uncertainty — do not inflate above 40 unless there is clear evidence of alignment.
 
