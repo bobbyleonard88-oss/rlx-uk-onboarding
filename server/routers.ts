@@ -1162,22 +1162,27 @@ export const appRouter = router({
           else scoreDistribution[5].count++;
         }
         
-        // Time slot distribution — 6 slots total, 1 meeting per slot, 3 per day
-        // Day 1 (Event Day 2): slots 1-3 — 10:15, 13:30, 14:45
-        // Day 2 (Event Day 3): slots 4-6 — 09:15, 10:30, 13:30
+        // Time slot distribution — 12 slots total, 6 per day, 2 × 30-min per 1-hour block
+        // Day 1 (Event Day 2): slots 1-6 | Day 2 (Event Day 3): slots 7-12
         const timeSlotDistribution = [
-          { slot: 1, label: 'Day 1 — 10:15–11:15', count: 0 },
-          { slot: 2, label: 'Day 1 — 13:30–14:30', count: 0 },
-          { slot: 3, label: 'Day 1 — 14:45–15:45', count: 0 },
-          { slot: 4, label: 'Day 2 — 09:15–10:15', count: 0 },
-          { slot: 5, label: 'Day 2 — 10:30–11:30', count: 0 },
-          { slot: 6, label: 'Day 2 — 13:30–14:30', count: 0 },
+          { slot: 1, label: 'Day 1 — 10:15–10:45', count: 0 },
+          { slot: 2, label: 'Day 1 — 10:45–11:15', count: 0 },
+          { slot: 3, label: 'Day 1 — 13:30–14:00', count: 0 },
+          { slot: 4, label: 'Day 1 — 14:00–14:30', count: 0 },
+          { slot: 5, label: 'Day 1 — 14:45–15:15', count: 0 },
+          { slot: 6, label: 'Day 1 — 15:15–15:45', count: 0 },
+          { slot: 7, label: 'Day 2 — 09:15–09:45', count: 0 },
+          { slot: 8, label: 'Day 2 — 09:45–10:15', count: 0 },
+          { slot: 9, label: 'Day 2 — 10:30–11:00', count: 0 },
+          { slot: 10, label: 'Day 2 — 11:00–11:30', count: 0 },
+          { slot: 11, label: 'Day 2 — 13:30–14:00', count: 0 },
+          { slot: 12, label: 'Day 2 — 14:00–14:30', count: 0 },
         ];
         
         for (const meeting of allMeetings) {
           if (meeting.timeSlot) {
             const slotIndex = meeting.timeSlot - 1;
-            if (slotIndex >= 0 && slotIndex < 6) {
+            if (slotIndex >= 0 && slotIndex < 12) {
               timeSlotDistribution[slotIndex].count++;
             }
           }
@@ -1222,7 +1227,7 @@ export const appRouter = router({
           allSponsors.map(async (sponsor) => {
             const sponsorMeetings = allMeetings.filter(m => m.sponsorId === sponsor.id);
             const intakeSubmission = await db.getIntakeSubmissionBySponsor(sponsor.id);
-            const totalSlots = intakeSubmission?.meetingPackage === '12' ? 12 : 6;
+            const totalSlots = intakeSubmission?.meetingPackage === '20' ? 20 : 12;
             const avgScore = sponsorMeetings.length > 0
               ? sponsorMeetings.reduce((sum, m) => sum + (m.matchScore || 0), 0) / sponsorMeetings.length
               : 0;
@@ -1273,21 +1278,26 @@ export const appRouter = router({
         m => validSponsorIds.has(m.sponsorId)
       );
 
-      // Build floor plan: 6 slots total (1 per time block, 3 per day)
-      // Day 1 (Event Day 2): slots 1-3
-      // Day 2 (Event Day 3): slots 4-6
+      // Build floor plan: 12 slots total, 6 per day, 2 × 30-min per 1-hour block
+      // Day 1 (Event Day 2): slots 1-6 | Day 2 (Event Day 3): slots 7-12
       const slotLabels: Record<number, { day: number; hour: number; round: number; time: string }> = {
-        1: { day: 1, hour: 1, round: 1, time: '10:15–11:15' },
-        2: { day: 1, hour: 2, round: 1, time: '13:30–14:30' },
-        3: { day: 1, hour: 3, round: 1, time: '14:45–15:45' },
-        4: { day: 2, hour: 1, round: 1, time: '09:15–10:15' },
-        5: { day: 2, hour: 2, round: 1, time: '10:30–11:30' },
-        6: { day: 2, hour: 3, round: 1, time: '13:30–14:30' },
+        1:  { day: 1, hour: 1, round: 1, time: '10:15–10:45' },
+        2:  { day: 1, hour: 1, round: 2, time: '10:45–11:15' },
+        3:  { day: 1, hour: 2, round: 1, time: '13:30–14:00' },
+        4:  { day: 1, hour: 2, round: 2, time: '14:00–14:30' },
+        5:  { day: 1, hour: 3, round: 1, time: '14:45–15:15' },
+        6:  { day: 1, hour: 3, round: 2, time: '15:15–15:45' },
+        7:  { day: 2, hour: 1, round: 1, time: '09:15–09:45' },
+        8:  { day: 2, hour: 1, round: 2, time: '09:45–10:15' },
+        9:  { day: 2, hour: 2, round: 1, time: '10:30–11:00' },
+        10: { day: 2, hour: 2, round: 2, time: '11:00–11:30' },
+        11: { day: 2, hour: 3, round: 1, time: '13:30–14:00' },
+        12: { day: 2, hour: 3, round: 2, time: '14:00–14:30' },
       };
 
       // Group meetings by slot
       const slotMap = new Map<number, typeof allMeetings>();
-      for (let i = 1; i <= 6; i++) slotMap.set(i, []);
+      for (let i = 1; i <= 12; i++) slotMap.set(i, []);
       for (const m of allMeetings) {
         if (m.timeSlot && slotMap.has(m.timeSlot)) {
           slotMap.get(m.timeSlot)!.push(m);

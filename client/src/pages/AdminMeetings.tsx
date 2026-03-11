@@ -40,7 +40,7 @@ export default function AdminMeetings() {
   const { user, loading, logout } = useAuth({ redirectOnUnauthenticated: true });
   
   const [selectedSponsorId, setSelectedSponsorId] = useState<number | null>(null);
-  const [meetingCount, setMeetingCount] = useState<number>(6);
+  const [meetingCount, setMeetingCount] = useState<number>(12);
   const [generatedMatches, setGeneratedMatches] = useState<MatchResult[]>([]);
   const [editedMatches, setEditedMatches] = useState<MatchResult[]>([]);
   const [selectedAttendee, setSelectedAttendee] = useState<1 | 2>(1); // For 20-meeting packages
@@ -51,28 +51,38 @@ export default function AdminMeetings() {
   
   const generateMeetings = trpc.admin.generateMeetings.useMutation({
     onSuccess: (data) => {
-      // Auto-assign meetings to time slots split evenly across Day 1 (slots 1-6) and Day 2 (slots 7-12)
-      // Slot numbering: 6 slots total — 3 per day, 1 meeting per slot
-      // Day 1 (Event Day 2): slots 1-3 (10:15, 13:30, 14:45)
-      // Day 2 (Event Day 3): slots 4-6 (09:15, 10:30, 13:30)
-      const DAY1_SLOTS_COUNT = 3;
-      const DAY2_SLOTS_COUNT = 3;
+      // Auto-assign meetings to time slots
+      // 12-meeting package (1 attendee): slots 1-6 = Day 1, slots 7-12 = Day 2
+      // 20-meeting package (2 attendees): 10 per attendee, slots 1-5 Day 1 + 6-10 Day 2 per attendee
+      const DAY1_SLOTS_COUNT = 6; // 6 slots per day for 12-meeting package
+      const DAY2_START = 7;       // Day 2 starts at slot 7
       const matchesWithSlots = data.matches.map((match, index) => {
-        const is20MeetingPackage = meetingCount === 12;
-        const attendeeNumber = is20MeetingPackage ? (index < 6 ? 1 : 2) : 1;
+        const is20MeetingPackage = meetingCount === 20;
+        const attendeeNumber = is20MeetingPackage ? (index < 10 ? 1 : 2) : 1;
         
         // Index within this attendee's meetings
-        const attendeeIndex = is20MeetingPackage ? (index < 6 ? index : index - 6) : index;
+        const attendeeIndex = is20MeetingPackage ? (index < 10 ? index : index - 10) : index;
         
         let timeSlot: number | null;
-        if (attendeeIndex < DAY1_SLOTS_COUNT) {
-          // Day 1: slots 1-3
-          timeSlot = attendeeIndex + 1;
-        } else if (attendeeIndex < DAY1_SLOTS_COUNT + DAY2_SLOTS_COUNT) {
-          // Day 2: slots 4-6
-          timeSlot = (attendeeIndex - DAY1_SLOTS_COUNT) + 4;
+        if (is20MeetingPackage) {
+          // 20-meeting package: 5 slots per attendee per day
+          // Attendee slots: Day 1 = slots 1-5, Day 2 = slots 7-11
+          if (attendeeIndex < 5) {
+            timeSlot = attendeeIndex + 1; // Day 1: slots 1-5
+          } else if (attendeeIndex < 10) {
+            timeSlot = (attendeeIndex - 5) + DAY2_START; // Day 2: slots 7-11
+          } else {
+            timeSlot = null;
+          }
         } else {
-          timeSlot = null;
+          // 12-meeting package: 6 slots per day
+          if (attendeeIndex < DAY1_SLOTS_COUNT) {
+            timeSlot = attendeeIndex + 1; // Day 1: slots 1-6
+          } else if (attendeeIndex < DAY1_SLOTS_COUNT * 2) {
+            timeSlot = (attendeeIndex - DAY1_SLOTS_COUNT) + DAY2_START; // Day 2: slots 7-12
+          } else {
+            timeSlot = null;
+          }
         }
         
         return {
@@ -375,8 +385,8 @@ export default function AdminMeetings() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="6">6 Meetings</SelectItem>
-                    <SelectItem value="12">12 Meetings (2 attendees)</SelectItem>
+                    <SelectItem value="12">12 Meetings (1 attendee)</SelectItem>
+                    <SelectItem value="20">20 Meetings (2 attendees)</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

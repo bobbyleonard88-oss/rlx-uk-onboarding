@@ -51,19 +51,24 @@ interface TimeSlotSchedulerProps {
   } | null;
 }
 
-// Slot numbering: 6 slots total — 3 per day, 1 meeting per slot
-// Day 1 (Event Day 2): slots 1-3
-// Day 2 (Event Day 3): slots 4-6
+// Slot numbering: 12 slots total — 6 per day, 2 × 30-min slots per 1-hour block
+// Day 1 (Event Day 2): slots 1-6 | Day 2 (Event Day 3): slots 7-12
 const DAY1_SLOTS = [
-  { day: 1, slot: 1, label: "10:15–11:15" },
-  { day: 1, slot: 2, label: "13:30–14:30" },
-  { day: 1, slot: 3, label: "14:45–15:45" },
+  { day: 1, slot: 1, label: "10:15–10:45" },
+  { day: 1, slot: 2, label: "10:45–11:15" },
+  { day: 1, slot: 3, label: "13:30–14:00" },
+  { day: 1, slot: 4, label: "14:00–14:30" },
+  { day: 1, slot: 5, label: "14:45–15:15" },
+  { day: 1, slot: 6, label: "15:15–15:45" },
 ];
 
 const DAY2_SLOTS = [
-  { day: 2, slot: 4, label: "09:15–10:15" },
-  { day: 2, slot: 5, label: "10:30–11:30" },
-  { day: 2, slot: 6, label: "13:30–14:30" },
+  { day: 2, slot: 7, label: "09:15–09:45" },
+  { day: 2, slot: 8, label: "09:45–10:15" },
+  { day: 2, slot: 9, label: "10:30–11:00" },
+  { day: 2, slot: 10, label: "11:00–11:30" },
+  { day: 2, slot: 11, label: "13:30–14:00" },
+  { day: 2, slot: 12, label: "14:00–14:30" },
 ];
 
 export default function TimeSlotScheduler({
