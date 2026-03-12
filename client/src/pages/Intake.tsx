@@ -41,6 +41,7 @@ const TECHNOLOGY_TYPES = [
   "Interviewing Platform",
   "Onboarding Technology",
   "Recruitment Process Outsourcing (RPO)",
+  "Recruiter Enablement",
   "Reference Checking",
   "Talent Analytics/Talent Mapping",
   "Talent Attraction Solutions",

@@ -1306,3 +1306,6 @@
 - [x] Fix: 12 slots total (2 per 30-min × 3 hours × 2 days) — Day 1 slots 1-6, Day 2 slots 7-12
 - [x] Correct 30-min time labels: Day 1 (10:15, 10:45, 13:30, 14:00, 14:45, 15:15), Day 2 (09:15, 09:45, 10:30, 11:00, 13:30, 14:00)
 - [x] API JSON parse error on agenda page — transient server restart error, not reproducible (agenda page makes no API calls)
+
+## Intake Form Technology Types (Mar 11)
+- [x] Add "Recruiter Enablement" to technology type options in alphabetical order (between RPO and Reference Checking)
