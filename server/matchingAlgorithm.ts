@@ -474,12 +474,40 @@ export async function generateMeetingsForSponsor(
   }
   
   // Filter out delegates who have reached capacity (8 meetings)
-  const availableDelegates = allDelegates.filter(delegate => {
+  const capacityFiltered = allDelegates.filter(delegate => {
     const currentCount = delegateMeetingCounts.get(delegate.attendeeId) || 0;
     return currentCount < 8;
   });
-  console.log(`[Matching] ${availableDelegates.length} delegates available (under 8 meetings capacity)`);
-  
+  console.log(`[Matching] ${capacityFiltered.length} delegates available (under 8 meetings capacity)`);
+
+  // --- Existing customer exclusion ---
+  // Build a set of normalised keywords from the sponsor's name and known product aliases
+  // so we can fuzzy-match against each delegate's tech stack fields.
+  const sponsorKeywords = (sponsor.companyName || "")
+    .toLowerCase()
+    .split(/[\s\-\/&,]+/)
+    .map(w => w.replace(/[^a-z0-9]/g, ""))
+    .filter(w => w.length > 2); // ignore short words like "and", "the"
+
+  function isExistingCustomer(delegate: typeof capacityFiltered[0]): boolean {
+    if (sponsorKeywords.length === 0) return false;
+    const techFields = [
+      delegate.ats,
+      delegate.crm,
+      delegate.assessmentTool,
+      delegate.marketIntelligence,
+      delegate.otherTools,
+    ].join(' ').toLowerCase();
+    return sponsorKeywords.some(kw => techFields.includes(kw));
+  }
+
+  const availableDelegates = capacityFiltered.filter(d => !isExistingCustomer(d));
+  const excludedAsCustomers = capacityFiltered.length - availableDelegates.length;
+  if (excludedAsCustomers > 0) {
+    console.log(`[Matching] Excluded ${excludedAsCustomers} existing customer(s) of ${sponsor.companyName} from match pool`);
+  }
+  // --- End existing customer exclusion ---
+
   // Batch score all delegates using AI (much faster than individual calls)
   const sponsorSolutions = intakeSubmission.companyBoilerplate || "";
   const sponsorPainPointsSolved = intakeSubmission.keyChallenges || "";
