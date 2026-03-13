@@ -1,0 +1,16 @@
+{
+  "query": "\nSELECT id, companyName, contactName, contactEmail FROM sponsors WHERE LOWER(companyName) LIKE '%udder%';\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT id, companyName, contactName, contactEmail FROM sponsors WHERE LOWER(companyName) LIKE '%udder%';\n",
+  "rows": [
+    {
+      "id": "360001",
+      "companyName": "Udder",
+      "contactName": "Peter Hetherington",
+      "contactEmail": "peter@udder.rocks"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tcompanyName\tcontactName\tcontactEmail\n360001\tUdder\tPeter Hetherington\tpeter@udder.rocks\n",
+  "stderr": "",
+  "execution_time_ms": 353
+}

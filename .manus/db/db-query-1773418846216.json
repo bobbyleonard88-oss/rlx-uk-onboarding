@@ -1,0 +1,12 @@
+{
+  "query": "SELECT sponsorId, LEFT(keyChallenges, 200) as keyChallenges_preview, LEFT(companyBoilerplate, 150) as boilerplate_preview FROM intakeSubmissions WHERE sponsorId = 360001;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT sponsorId, LEFT(keyChallenges, 200) as keyChallenges_preview, LEFT(companyBoilerplate, 150) as boilerplate_preview FROM intakeSubmissions WHERE sponsorId = 360001;",
+  "rows": [],
+  "messages": [
+    "360001\tUdder solves three distinct problems for TA leaders:",
+    "1. CONSULTING — Independent technology guidance before vendor selection. Best for organisations that have not yet selected a TA or HR technology p\tUdder is an independent Talent Acquisition technology consultancy helping recruitment leaders make smarter, faster tech decisions and turn them into d"
+  ],
+  "stdout": "sponsorId\tkeyChallenges_preview\tboilerplate_preview\n360001\tUdder solves three distinct problems for TA leaders:\n\n1. CONSULTING — Independent technology guidance before vendor selection. Best for organisations that have not yet selected a TA or HR technology p\tUdder is an independent Talent Acquisition technology consultancy helping recruitment leaders make smarter, faster tech decisions and turn them into d\n",
+  "stderr": "",
+  "execution_time_ms": 368
+}
