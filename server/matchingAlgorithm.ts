@@ -26,9 +26,11 @@ async function batchScoreDelegates(
   sponsorChallenges: string,
   sponsorTechnologyType: string,
   sponsorTargetOrgSize: string,
+  sponsorName: string,
   delegates: Array<{
     id: string;
-    challenges: string;
+    painPoints: string;
+    activeProjects: string;
     interests: string;
     currentProjectStage?: string;
     companySize?: string;
@@ -49,14 +51,16 @@ async function batchScoreDelegates(
     const delegateList = delegates.map((d, idx) => {
       const lines = [
         `DELEGATE ${idx + 1} (ID: ${d.id}):`,
-        d.challenges ? `Pain Points & Active Projects: ${d.challenges}` : null,
+        d.painPoints ? `Current Pain Points: ${d.painPoints}` : null,
+        d.activeProjects ? `Active / Confirmed Projects: ${d.activeProjects}` : null,
         d.interests ? `Meeting Objectives & Solution Areas of Interest: ${d.interests}` : null,
         d.currentProjectStage ? `Project Stage: ${d.currentProjectStage}` : null,
         d.companySize ? `Company Size: ${d.companySize}` : null,
         d.industry ? `Industry: ${d.industry}` : null,
         d.budgetAuthority ? `Budget Authority: ${d.budgetAuthority}` : null,
         d.contractSignOff ? `Contract Sign-Off Level: ${d.contractSignOff}` : null,
-        d.currentTechStack ? `Current Tech Stack: ${d.currentTechStack}` : null,
+        // Tech stack is listed separately for exclusion check — NOT for scoring
+        d.currentTechStack ? `Existing Tools (for conflict check only): ${d.currentTechStack}` : null,
       ].filter(Boolean);
       return lines.join('\n');
     }).join("\n\n");
@@ -64,12 +68,19 @@ async function batchScoreDelegates(
     const prompt = `You are a B2B matchmaking expert for a senior TA leadership event. Score how well this sponsor matches each delegate AND provide specific reasoning.
 
 SPONSOR PROFILE:
+Sponsor Name: ${sponsorName}
 Product / Solutions: ${sponsorSolutions}
 Pain Points They Solve: ${sponsorChallenges}
 Technology Category: ${sponsorTechnologyType || "Not specified"}
 Target Organisation Size: ${sponsorTargetOrgSize || "Not specified"}
 
 ${delegateList}
+
+IMPORTANT — EXISTING CUSTOMER CHECK:
+Each delegate profile may include an "Existing Tools" line listing their current ATS, CRM, Assessment Tool, Market Intelligence, and Other Tools.
+DO NOT use this to score positively. Instead:
+- If the delegate already uses the sponsor's product (or a direct competitor), note this in the reasoning as a potential conflict or existing relationship.
+- This field should NEVER increase a delegate's score — it is for conflict detection only.
 
 For each delegate:
 1. Score the alignment from 0-100 where:
@@ -80,15 +91,18 @@ For each delegate:
    - 0-39: Poor alignment — minimal relevance
 
    Scoring factors (in priority order):
-   a) Pain points / active projects matching sponsor's solutions (highest weight)
-   b) Meeting objectives and solution areas of interest matching sponsor's category
-   c) Current tech stack gaps that sponsor could fill
+   a) Current pain points matching sponsor's solutions (highest weight)
+   b) Active / confirmed projects matching sponsor's category or capability
+   c) Meeting objectives and solution areas of interest
    d) Org size alignment with sponsor's target market
    e) Project stage ("Actively Evaluating Vendors" = higher urgency = higher score)
+   
+   DO NOT score based on existing tools — use those only for the conflict note.
 
 2. Generate 1-2 sentence reasoning that MUST:
-   - Quote or reference a SPECIFIC phrase from the delegate's pain points, objectives, or interests
+   - Quote or reference a SPECIFIC phrase from the delegate's pain points, active projects, or objectives
    - Explain HOW the sponsor's specific product/service addresses that exact need
+   - If the delegate already uses the sponsor's product or a close competitor, add a brief note: "Note: delegate currently uses [tool]"
    - Be self-explanatory without needing to see the full profiles
    - Avoid generic terms like "AI platform", "optimization", or "alignment"
    
@@ -428,7 +442,10 @@ export async function generateMeetingsForSponsor(
     company: a.company || 'Unknown',
     jobTitle: a.jobTitle || '',
     industry: a.industry || null,
-    // Primary matching fields
+    // Primary matching fields — kept separate for clearer AI signal
+    painPoints: a.currentPainPoints || '',
+    activeProjects: a.activeConfirmedProjects || '',
+    // Keep combined challenges for fallback scoring
     challenges: [a.currentPainPoints, a.activeConfirmedProjects].filter(Boolean).join('. '),
     interests: [a.primaryMeetingObjective, a.keySolutionAreasOfInterest].filter(Boolean).join('. '),
     // Additional context fields for richer AI scoring
@@ -436,6 +453,7 @@ export async function generateMeetingsForSponsor(
     companySize: a.companySize || '',
     budgetAuthority: a.budgetAuthority || '',
     contractSignOff: a.contractSignOff || '',
+    // Tech stack fields — used for conflict detection only, not scoring
     ats: a.ats || '',
     crm: a.crm || '',
     assessmentTool: a.assessmentTool || '',
@@ -470,13 +488,15 @@ export async function generateMeetingsForSponsor(
   
   const delegatesForScoring = availableDelegates.map(d => ({
     id: d.attendeeId,
-    challenges: d.challenges || "",
+    painPoints: d.painPoints || "",
+    activeProjects: d.activeProjects || "",
     interests: d.interests || "",
     currentProjectStage: d.currentProjectStage || "",
     companySize: d.companySize || "",
-    industry: d.industry || "",
+    industry: (d.industry as string) || "",
     budgetAuthority: d.budgetAuthority || "",
     contractSignOff: d.contractSignOff || "",
+    // Tech stack for conflict detection only — NOT for scoring
     currentTechStack: [
       d.ats ? `ATS: ${d.ats}` : null,
       d.crm ? `CRM: ${d.crm}` : null,
@@ -492,6 +512,7 @@ export async function generateMeetingsForSponsor(
     sponsorPainPointsSolved,
     sponsorTechnologyType,
     sponsorTargetOrgSize,
+    sponsor.companyName || "",
     delegatesForScoring
   );
   console.log(`[Matching] AI batch scoring complete, got ${aiScores.size} scores`);
