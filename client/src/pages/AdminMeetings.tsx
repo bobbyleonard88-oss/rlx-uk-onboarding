@@ -472,26 +472,6 @@ export default function AdminMeetings() {
                 )}
               </Button>
 
-              {/* Refresh Match Reasons */}
-              <Button
-                onClick={() => regenerateMatchReasons.mutate()}
-                disabled={regenerateMatchReasons.isPending}
-                variant="outline"
-                className="border-purple-500/50 text-purple-300 hover:bg-purple-500/10"
-              >
-                {regenerateMatchReasons.isPending ? (
-                  <>
-                    <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
-                    Refreshing...
-                  </>
-                ) : (
-                  <>
-                    <Sparkles className="w-4 h-4 mr-2" />
-                    Refresh Match Reasons
-                  </>
-                )}
-              </Button>
-
               {/* Export All Matches */}
               <Button
                 onClick={handleExportAllMatches}
