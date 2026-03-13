@@ -1330,3 +1330,6 @@
 - [x] Add Match All Sponsors button to Bulk Actions section in AdminMeetings
 - [x] Add Export All Matches (CSV) button with vendor details, delegate details, top-10 flag, leader opt-in, slot, time, day, match score, match reason
 - [x] Backend getAllMeetingsExport procedure with includeTestAccounts filter
+
+## Match All Auto-Save Draft (Mar 13)
+- [ ] Match All Sponsors should auto-save all generated meetings as draft (suggested) so sponsors appear in the dropdown

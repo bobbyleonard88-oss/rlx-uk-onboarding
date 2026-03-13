@@ -314,7 +314,8 @@ export default function AdminMeetings() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {/* Row 1: Selectors */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Sponsor Selector */}
               <div className="space-y-2">
                 <label className="text-sm font-medium text-slate-300">Select Sponsor</label>
@@ -429,81 +430,79 @@ export default function AdminMeetings() {
                 </Select>
               </div>
               
-              {/* Generate Button */}
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-300 opacity-0">Action</label>
-                <Button
-                  onClick={handleGenerateMeetings}
-                  disabled={!selectedSponsorId || generateMeetings.isPending}
-                  className="w-full bg-primary hover:bg-primary/90"
-                >
-                  {generateMeetings.isPending ? (
-                    <>
-                      <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
-                      Generating...
-                    </>
-                  ) : (
-                    <>
-                      <Sparkles className="w-4 h-4 mr-2" />
-                      Generate Meetings
-                    </>
-                  )}
-                </Button>
-              </div>
-
-              {/* Bulk Actions */}
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-300">Bulk Actions</label>
-                <div className="flex flex-col gap-2">
-                  {/* Match All Sponsors */}
-                  <Button
-                    onClick={handleMatchAllSponsors}
-                    disabled={generateAllMeetings.isPending}
-                    className="w-full bg-emerald-600 hover:bg-emerald-700 text-white"
-                  >
-                    {generateAllMeetings.isPending ? (
-                      <>
-                        <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
-                        Matching all sponsors...
-                      </>
-                    ) : (
-                      <>
-                        <Zap className="w-4 h-4 mr-2" />
-                        Match All Sponsors
-                      </>
-                    )}
-                  </Button>
-                  {/* Export All Matches */}
-                  <Button
-                    onClick={handleExportAllMatches}
-                    variant="outline"
-                    className="w-full border-blue-500/50 text-blue-300 hover:bg-blue-500/10"
-                  >
-                    <Download className="w-4 h-4 mr-2" />
-                    Export All Matches (CSV)
-                  </Button>
-                  {/* Refresh Match Reasons */}
-                  <Button
-                  onClick={() => regenerateMatchReasons.mutate()}
-                  disabled={regenerateMatchReasons.isPending}
-                  variant="outline"
-                  className="w-full border-purple-500/50 text-purple-300 hover:bg-purple-500/10"
-                >
-                  {regenerateMatchReasons.isPending ? (
-                    <>
-                      <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
-                      Refreshing reasons...
-                    </>
-                  ) : (
-                    <>
-                      <Sparkles className="w-4 h-4 mr-2" />
-                      Refresh Match Reasons
-                    </>
-                  )}
-                </Button>
-                </div>
-              </div>
             </div>
+
+            {/* Row 2: Action Buttons */}
+            <div className="flex flex-wrap gap-3">
+              {/* Generate Meetings */}
+              <Button
+                onClick={handleGenerateMeetings}
+                disabled={!selectedSponsorId || generateMeetings.isPending}
+                className="bg-primary hover:bg-primary/90"
+              >
+                {generateMeetings.isPending ? (
+                  <>
+                    <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+                    Generating...
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="w-4 h-4 mr-2" />
+                    Generate Meetings
+                  </>
+                )}
+              </Button>
+
+              {/* Match All Sponsors */}
+              <Button
+                onClick={handleMatchAllSponsors}
+                disabled={generateAllMeetings.isPending}
+                className="bg-emerald-600 hover:bg-emerald-700 text-white"
+              >
+                {generateAllMeetings.isPending ? (
+                  <>
+                    <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+                    Matching all...
+                  </>
+                ) : (
+                  <>
+                    <Zap className="w-4 h-4 mr-2" />
+                    Match All Sponsors
+                  </>
+                )}
+              </Button>
+
+              {/* Refresh Match Reasons */}
+              <Button
+                onClick={() => regenerateMatchReasons.mutate()}
+                disabled={regenerateMatchReasons.isPending}
+                variant="outline"
+                className="border-purple-500/50 text-purple-300 hover:bg-purple-500/10"
+              >
+                {regenerateMatchReasons.isPending ? (
+                  <>
+                    <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+                    Refreshing...
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="w-4 h-4 mr-2" />
+                    Refresh Match Reasons
+                  </>
+                )}
+              </Button>
+
+              {/* Export All Matches */}
+              <Button
+                onClick={handleExportAllMatches}
+                variant="outline"
+                className="border-blue-500/50 text-blue-300 hover:bg-blue-500/10"
+              >
+                <Download className="w-4 h-4 mr-2" />
+                Export All Matches (CSV)
+              </Button>
+            </div>
+
             
 
           </CardContent>
