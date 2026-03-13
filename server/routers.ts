@@ -906,14 +906,25 @@ export const appRouter = router({
     
     // Get delegate overview report - all delegates with their meeting schedules
     getDelegateOverview: adminProcedure
-      .query(async () => {
+      .input(z.object({ includeTestAccounts: z.boolean().optional() }).optional())
+      .query(async ({ input }) => {
         const { attendees } = await import('./attendees');
         const allSponsors = await db.getAllSponsors();
         const allMeetings = await db.getAllMeetings();
         
+        const TEST_SPONSOR_IDS = new Set([30001, 60001, 90001, 120001]);
+        const ALWAYS_EXCLUDED_SPONSOR_IDS = new Set([270001, 510003]);
+        const includeTestAccounts = input?.includeTestAccounts ?? false;
+        
+        const isAllowedSponsor = (sponsorId: number) => {
+          if (ALWAYS_EXCLUDED_SPONSOR_IDS.has(sponsorId)) return false;
+          if (!includeTestAccounts && TEST_SPONSOR_IDS.has(sponsorId)) return false;
+          return true;
+        };
+        
         // Build overview for each delegate
         const overview = await Promise.all(attendees.map(async (delegate) => {
-          const delegateMeetings = allMeetings.filter(m => m.attendeeId === delegate.id);
+          const delegateMeetings = allMeetings.filter(m => m.attendeeId === delegate.id && isAllowedSponsor(m.sponsorId));
           
           // Group meetings by sponsor
           const sponsorMeetings = delegateMeetings.map(meeting => {

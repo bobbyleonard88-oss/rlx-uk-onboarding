@@ -1317,3 +1317,6 @@
 - [x] When Test Mode is OFF: exclude test sponsors from meetings page sponsor dropdown
 - [x] When Test Mode is OFF: auto-clear meetings for test sponsors on toggle-off (disableTestAccounts mutation)
 - [x] Test mode state persisted in localStorage, synced across pages via testAccountsChanged custom event
+
+## Delegate Overview Test Mode Filter (Mar 13)
+- [x] Apply includeTestAccounts filter to Delegate Overview page and its backend procedure

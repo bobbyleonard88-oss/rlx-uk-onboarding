@@ -26,6 +26,7 @@ import { getLoginUrl } from "@/const";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import AdminHeader from "@/components/AdminHeader";
+import { useTestMode } from "@/hooks/useTestMode";
 
 const TIME_SLOT_LABELS: Record<number, string> = {
   1: "Day 1 - Slot 1",
@@ -38,7 +39,8 @@ const TIME_SLOT_LABELS: Record<number, string> = {
 
 export default function DelegateOverview() {
   const { user, loading, logout } = useAuth({ redirectOnUnauthenticated: true });
-  const { data: overview, isLoading, refetch } = trpc.admin.getDelegateOverview.useQuery();
+  const includeTestAccounts = useTestMode();
+  const { data: overview, isLoading, refetch } = trpc.admin.getDelegateOverview.useQuery({ includeTestAccounts });
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState<"all" | "available" | "at-capacity" | "over-capacity">("all");
   const cancelDelegate = trpc.admin.cancelDelegate.useMutation();
