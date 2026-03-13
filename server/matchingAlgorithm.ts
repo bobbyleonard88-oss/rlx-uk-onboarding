@@ -24,7 +24,19 @@ export interface MatchResult {
 async function batchScoreDelegates(
   sponsorSolutions: string,
   sponsorChallenges: string,
-  delegates: Array<{ id: string; challenges: string; interests: string }>
+  sponsorTechnologyType: string,
+  sponsorTargetOrgSize: string,
+  delegates: Array<{
+    id: string;
+    challenges: string;
+    interests: string;
+    currentProjectStage?: string;
+    companySize?: string;
+    industry?: string;
+    budgetAuthority?: string;
+    contractSignOff?: string;
+    currentTechStack?: string;
+  }>
 ): Promise<Map<string, { score: number; reasoning: string }>> {
   const scores = new Map<string, { score: number; reasoning: string }>();
   
@@ -33,44 +45,61 @@ async function batchScoreDelegates(
   try {
     const { invokeLLM } = await import("./_core/llm");
     
-    // Build delegate list for AI
-    const delegateList = delegates.map((d, idx) => 
-      `DELEGATE ${idx + 1} (ID: ${d.id}):\nChallenges: ${d.challenges}\nInterests: ${d.interests}`
-    ).join("\n\n");
+    // Build delegate list for AI — include all available fields
+    const delegateList = delegates.map((d, idx) => {
+      const lines = [
+        `DELEGATE ${idx + 1} (ID: ${d.id}):`,
+        d.challenges ? `Pain Points & Active Projects: ${d.challenges}` : null,
+        d.interests ? `Meeting Objectives & Solution Areas of Interest: ${d.interests}` : null,
+        d.currentProjectStage ? `Project Stage: ${d.currentProjectStage}` : null,
+        d.companySize ? `Company Size: ${d.companySize}` : null,
+        d.industry ? `Industry: ${d.industry}` : null,
+        d.budgetAuthority ? `Budget Authority: ${d.budgetAuthority}` : null,
+        d.contractSignOff ? `Contract Sign-Off Level: ${d.contractSignOff}` : null,
+        d.currentTechStack ? `Current Tech Stack: ${d.currentTechStack}` : null,
+      ].filter(Boolean);
+      return lines.join('\n');
+    }).join("\n\n");
     
-    const prompt = `You are a B2B matchmaking expert. Score how well this sponsor matches each delegate AND provide specific reasoning.
+    const prompt = `You are a B2B matchmaking expert for a senior TA leadership event. Score how well this sponsor matches each delegate AND provide specific reasoning.
 
 SPONSOR PROFILE:
-Solutions: ${sponsorSolutions}
-Challenges they solve: ${sponsorChallenges}
+Product / Solutions: ${sponsorSolutions}
+Pain Points They Solve: ${sponsorChallenges}
+Technology Category: ${sponsorTechnologyType || "Not specified"}
+Target Organisation Size: ${sponsorTargetOrgSize || "Not specified"}
 
 ${delegateList}
 
 For each delegate:
 1. Score the alignment from 0-100 where:
-   - 90-100: Direct match - sponsor's solutions directly address delegate's stated needs
-   - 75-89: Strong alignment - sponsor can solve most of delegate's challenges  
-   - 60-74: Moderate alignment - sponsor addresses some needs
-   - 40-59: Weak alignment - limited overlap
-   - 0-39: Poor alignment - minimal relevance
+   - 90-100: Direct match — sponsor's solutions directly address delegate's stated pain points, active projects, or solution areas of interest
+   - 75-89: Strong alignment — sponsor can solve most of delegate's challenges or objectives
+   - 60-74: Moderate alignment — sponsor addresses some needs or there is clear category overlap
+   - 40-59: Weak alignment — limited overlap, niche relevance only
+   - 0-39: Poor alignment — minimal relevance
+
+   Scoring factors (in priority order):
+   a) Pain points / active projects matching sponsor's solutions (highest weight)
+   b) Meeting objectives and solution areas of interest matching sponsor's category
+   c) Current tech stack gaps that sponsor could fill
+   d) Org size alignment with sponsor's target market
+   e) Project stage ("Actively Evaluating Vendors" = higher urgency = higher score)
 
 2. Generate 1-2 sentence reasoning that MUST:
-   - Quote or reference a SPECIFIC phrase from the delegate's challenges/interests
+   - Quote or reference a SPECIFIC phrase from the delegate's pain points, objectives, or interests
    - Explain HOW the sponsor's specific product/service addresses that exact need
    - Be self-explanatory without needing to see the full profiles
-   - Avoid generic terms like AI platform, optimization, or alignment
+   - Avoid generic terms like "AI platform", "optimization", or "alignment"
    
    REQUIRED FORMAT:
-   Delegate's challenge 'exact quote' -> Sponsor's specific solution addresses this by explaining how
+   Delegate's challenge 'exact quote' → Sponsor's specific solution addresses this by [how]
    
    Example GOOD reasoning:
-   Delegate uses 'over 40 ATSs' and seeks 'ATS integration' -> Sponsor's multi-ATS connector platform unifies disparate systems
+   Delegate seeks 'candidate experience' and has active CRM replacement project → Sponsor's candidate engagement platform directly replaces legacy CRM with modern experience layer
    
    Example BAD reasoning:
    Sponsor's AI platform can help with delegate's ATS optimization needs
-   Strong match: High alignment between solutions and needs
-
-IMPORTANT: Be generous with scoring. If there's ANY reasonable alignment, score at least 60.
 
 Respond with ONLY a JSON object mapping delegate IDs to {score, reasoning}, like:
 {"10001": {"score": 85, "reasoning": "Delegate seeks AI-powered candidate screening → Sponsor's ML recruitment platform directly solves this"}, "10002": {"score": 72, "reasoning": "..."}, ...}
@@ -390,7 +419,7 @@ export async function generateMeetingsForSponsor(
   const { attendees } = await import('./attendees');
   console.log(`[Matching] Loaded ${attendees.length} attendees from attendees list`);
   
-  // Transform attendees to delegate format
+  // Transform attendees to delegate format — include all available fields for richer matching
   const allDelegates = attendees.map(a => ({
     id: 0, // Not used
     attendeeId: a.id,
@@ -399,9 +428,19 @@ export async function generateMeetingsForSponsor(
     company: a.company || 'Unknown',
     jobTitle: a.jobTitle || '',
     industry: a.industry || null,
-    // Use actual challenges/needs fields, NOT tools
+    // Primary matching fields
     challenges: [a.currentPainPoints, a.activeConfirmedProjects].filter(Boolean).join('. '),
     interests: [a.primaryMeetingObjective, a.keySolutionAreasOfInterest].filter(Boolean).join('. '),
+    // Additional context fields for richer AI scoring
+    currentProjectStage: a.currentProjectStage || '',
+    companySize: a.companySize || '',
+    budgetAuthority: a.budgetAuthority || '',
+    contractSignOff: a.contractSignOff || '',
+    ats: a.ats || '',
+    crm: a.crm || '',
+    assessmentTool: a.assessmentTool || '',
+    marketIntelligence: a.marketIntelligence || '',
+    otherTools: a.otherTools || '',
     profileData: null,
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -426,17 +465,33 @@ export async function generateMeetingsForSponsor(
   // Batch score all delegates using AI (much faster than individual calls)
   const sponsorSolutions = intakeSubmission.companyBoilerplate || "";
   const sponsorPainPointsSolved = intakeSubmission.keyChallenges || "";
+  const sponsorTechnologyType = intakeSubmission.technologyType || "";
+  const sponsorTargetOrgSize = intakeSubmission.targetOrgSize || "";
   
   const delegatesForScoring = availableDelegates.map(d => ({
     id: d.attendeeId,
     challenges: d.challenges || "",
-    interests: d.interests || ""
+    interests: d.interests || "",
+    currentProjectStage: d.currentProjectStage || "",
+    companySize: d.companySize || "",
+    industry: d.industry || "",
+    budgetAuthority: d.budgetAuthority || "",
+    contractSignOff: d.contractSignOff || "",
+    currentTechStack: [
+      d.ats ? `ATS: ${d.ats}` : null,
+      d.crm ? `CRM: ${d.crm}` : null,
+      d.assessmentTool ? `Assessment: ${d.assessmentTool}` : null,
+      d.marketIntelligence ? `Market Intel: ${d.marketIntelligence}` : null,
+      d.otherTools ? `Other: ${d.otherTools}` : null,
+    ].filter(Boolean).join(', ') || "",
   }));
   
   console.log(`[Matching] Batch scoring ${delegatesForScoring.length} delegates via AI...`);
   const aiScores = await batchScoreDelegates(
     sponsorSolutions,
     sponsorPainPointsSolved,
+    sponsorTechnologyType,
+    sponsorTargetOrgSize,
     delegatesForScoring
   );
   console.log(`[Matching] AI batch scoring complete, got ${aiScores.size} scores`);
