@@ -705,11 +705,68 @@ export const appRouter = router({
       }),
     
     // Generate meetings for all sponsors
-    generateAllMeetings: adminProcedure.mutation(async () => {
-      const { generateMeetingsForAllSponsors } = await import('./matchingAlgorithm');
-      const results = await generateMeetingsForAllSponsors();
-      return { success: true, results: Array.from(results.entries()).map(([sponsorId, matches]) => ({ sponsorId, matches })) };
-    }),
+    generateAllMeetings: adminProcedure
+      .input(z.object({ includeTestAccounts: z.boolean().optional() }).optional())
+      .mutation(async ({ input }) => {
+        const { generateMeetingsForAllSponsors } = await import('./matchingAlgorithm');
+        const TEST_SPONSOR_IDS = new Set([30001, 60001, 90001, 120001]);
+        const ALWAYS_EXCLUDED_SPONSOR_IDS = new Set([270001, 510003]);
+        const includeTestAccounts = input?.includeTestAccounts ?? false;
+        
+        const allMatchResults = await generateMeetingsForAllSponsors();
+        const savedResults: { sponsorId: number; meetingCount: number }[] = [];
+        
+        for (const [sponsorId, matches] of Array.from(allMatchResults.entries())) {
+          // Skip excluded sponsors
+          if (ALWAYS_EXCLUDED_SPONSOR_IDS.has(sponsorId)) continue;
+          if (!includeTestAccounts && TEST_SPONSOR_IDS.has(sponsorId)) continue;
+          
+          // Determine meeting count from intake form
+          const intakeSubmission = await db.getIntakeSubmissionBySponsor(sponsorId);
+          const meetingCount = intakeSubmission?.meetingPackage === '20' ? 20 : 12;
+          const is20MeetingPackage = meetingCount === 20;
+          const DAY1_SLOTS_COUNT = 6;
+          const DAY2_START = 7;
+          
+          // Auto-assign time slots
+          const matchesWithSlots = (matches as any[]).map((match: any, index: number) => {
+            const attendeeNumber = is20MeetingPackage ? (index < 10 ? 1 : 2) : 1;
+            const attendeeIndex = is20MeetingPackage ? (index < 10 ? index : index - 10) : index;
+            let timeSlot: number | null;
+            if (is20MeetingPackage) {
+              if (attendeeIndex < 5) timeSlot = attendeeIndex + 1;
+              else if (attendeeIndex < 10) timeSlot = (attendeeIndex - 5) + DAY2_START;
+              else timeSlot = null;
+            } else {
+              if (attendeeIndex < DAY1_SLOTS_COUNT) timeSlot = attendeeIndex + 1;
+              else if (attendeeIndex < DAY1_SLOTS_COUNT * 2) timeSlot = (attendeeIndex - DAY1_SLOTS_COUNT) + DAY2_START;
+              else timeSlot = null;
+            }
+            return { ...match, timeSlot, attendeeNumber };
+          });
+          
+          // Save to database (replace existing meetings)
+          await db.deleteMeetingsBySponsor(sponsorId);
+          for (const meeting of matchesWithSlots) {
+            await db.createMeeting({
+              sponsorId,
+              attendeeId: meeting.attendeeId,
+              matchScore: meeting.matchScore,
+              matchReason: meeting.matchReason,
+              isTopRanked: meeting.isTopRanked ? 1 : 0,
+              isPriority: meeting.isPriority ? 1 : 0,
+              timeSlot: meeting.timeSlot ?? null,
+              attendeeNumber: meeting.attendeeNumber ?? 1,
+              status: 'suggested',
+              notes: null,
+            });
+          }
+          
+          savedResults.push({ sponsorId, meetingCount: matchesWithSlots.length });
+        }
+        
+        return { success: true, results: savedResults, totalSponsors: savedResults.length };
+      }),
     
     // Save generated meetings to database
     saveMeetings: adminProcedure
@@ -1464,6 +1521,121 @@ export const appRouter = router({
 
       return rows;
     }),
+
+    // Export all meetings as CSV data with full details
+    getAllMeetingsExport: adminProcedure
+      .input(z.object({ includeTestAccounts: z.boolean().optional().default(false) }).optional())
+      .query(async ({ input }) => {
+        const includeTestAccounts = input?.includeTestAccounts ?? false;
+        const TEST_SPONSOR_IDS = new Set([30001, 60001, 90001, 120001]);
+        const ALWAYS_EXCLUDED_SPONSOR_IDS = new Set([270001, 510003]);
+
+        const slotLabels: Record<number, { day: string; time: string }> = {
+          1:  { day: 'Day 2 (Wed 13 May)', time: '10:15–10:45' },
+          2:  { day: 'Day 2 (Wed 13 May)', time: '10:45–11:15' },
+          3:  { day: 'Day 2 (Wed 13 May)', time: '13:30–14:00' },
+          4:  { day: 'Day 2 (Wed 13 May)', time: '14:00–14:30' },
+          5:  { day: 'Day 2 (Wed 13 May)', time: '14:45–15:15' },
+          6:  { day: 'Day 2 (Wed 13 May)', time: '15:15–15:45' },
+          7:  { day: 'Day 3 (Thu 14 May)', time: '09:15–09:45' },
+          8:  { day: 'Day 3 (Thu 14 May)', time: '09:45–10:15' },
+          9:  { day: 'Day 3 (Thu 14 May)', time: '10:30–11:00' },
+          10: { day: 'Day 3 (Thu 14 May)', time: '11:00–11:30' },
+          11: { day: 'Day 3 (Thu 14 May)', time: '13:30–14:00' },
+          12: { day: 'Day 3 (Thu 14 May)', time: '14:00–14:30' },
+        };
+
+        const allMeetingsRaw = await db.getAllMeetings();
+        const allSponsors = await db.getAllSponsors();
+        const allIntakeSubmissions = await db.getAllIntakeSubmissions();
+        const allRankingsSubmissions = await db.getAllRankingsSubmissions();
+
+        // Build sponsor lookup maps
+        const sponsorMap = new Map(allSponsors.map(s => [s.id, s]));
+        const intakeMap = new Map(allIntakeSubmissions.map(i => [i.sponsorId, i]));
+
+        // Build rankings lookup: sponsorId -> top-10 ranked attendee IDs
+        const rankingsTop10Map = new Map<number, Set<string>>();
+        const latestRankingsBySponsor = new Map<number, typeof allRankingsSubmissions[0]>();
+        for (const sub of allRankingsSubmissions) {
+          const existing = latestRankingsBySponsor.get(sub.sponsorId);
+          if (!existing || new Date(sub.submittedAt) > new Date(existing.submittedAt)) {
+            latestRankingsBySponsor.set(sub.sponsorId, sub);
+          }
+        }
+        for (const [sponsorId, sub] of Array.from(latestRankingsBySponsor.entries())) {
+          try {
+            const parsed = JSON.parse(sub.rankingsData as string);
+            const ids: string[] = Array.isArray(parsed)
+              ? parsed.slice(0, 10).map((item: any) => (typeof item === 'string' ? item : item.id ?? item.attendeeId ?? ''))
+              : [];
+            rankingsTop10Map.set(sponsorId, new Set(ids));
+          } catch { rankingsTop10Map.set(sponsorId, new Set()); }
+        }
+
+        // Build priority tags lookup: sponsorId -> Set of attendeeIds
+        // Fetch all priority tags from DB (leader opt-ins tagged by admin)
+        const { priorityTags: priorityTagsTable } = await import('../drizzle/schema');
+        const drizzleDb = await db.getDb();
+        const allPriorityTagsList = drizzleDb ? await drizzleDb.select().from(priorityTagsTable) : [];
+        const priorityTagsMap = new Map<number, Set<string>>();
+        for (const tag of allPriorityTagsList) {
+          if (!priorityTagsMap.has(tag.sponsorId)) priorityTagsMap.set(tag.sponsorId, new Set());
+          priorityTagsMap.get(tag.sponsorId)!.add(tag.attendeeId);
+        }
+
+        // Filter meetings
+        const filteredMeetings = allMeetingsRaw.filter(m => {
+          if (ALWAYS_EXCLUDED_SPONSOR_IDS.has(m.sponsorId)) return false;
+          if (!includeTestAccounts && TEST_SPONSOR_IDS.has(m.sponsorId)) return false;
+          return true;
+        });
+
+        // Build CSV rows
+        const rows = filteredMeetings.map(meeting => {
+          const sponsor = sponsorMap.get(meeting.sponsorId);
+          const intake = intakeMap.get(meeting.sponsorId);
+          const delegate = attendees.find(a => a.id === meeting.attendeeId);
+          const slotInfo = meeting.timeSlot ? slotLabels[meeting.timeSlot] : null;
+          const isTop10 = rankingsTop10Map.get(meeting.sponsorId)?.has(meeting.attendeeId) ?? false;
+          const hasLeaderOptIn = priorityTagsMap.get(meeting.sponsorId)?.has(meeting.attendeeId) ?? false;
+
+          return {
+            // Vendor details
+            'Vendor Name': sponsor?.companyName ?? intake?.companyName ?? `Sponsor #${meeting.sponsorId}`,
+            'Vendor Contact': intake ? `${intake.firstName} ${intake.lastName}` : sponsor?.contactName ?? '',
+            'Vendor Email': intake?.email ?? sponsor?.contactEmail ?? '',
+            'Attendee Number': meeting.attendeeNumber === 2 ? 'Attendee 2' : 'Attendee 1',
+            // Delegate details
+            'Delegate Name': delegate ? `${delegate.firstName} ${delegate.lastName}` : meeting.attendeeId,
+            'Delegate Company': delegate?.company ?? '',
+            'Delegate Job Title': delegate?.jobTitle ?? '',
+            // Priority flags
+            'In Vendor Top 10': isTop10 ? 'Yes' : 'No',
+            'Leader Opt-In': hasLeaderOptIn ? 'Yes' : 'No',
+            // Meeting slot info
+            'Meeting Slot': meeting.timeSlot ? `Slot ${meeting.timeSlot}` : 'Unassigned',
+            'Meeting Time': slotInfo?.time ?? '',
+            'Meeting Day': slotInfo?.day ?? '',
+            // Match quality
+            'Match Score': meeting.matchScore ? `${meeting.matchScore}%` : '',
+            'Match Reason': meeting.matchReason ?? '',
+            // Status
+            'Status': meeting.status,
+          };
+        });
+
+        // Sort by vendor name then slot
+        rows.sort((a, b) => {
+          const vendorCmp = a['Vendor Name'].localeCompare(b['Vendor Name']);
+          if (vendorCmp !== 0) return vendorCmp;
+          const slotA = parseInt(a['Meeting Slot'].replace('Slot ', '')) || 99;
+          const slotB = parseInt(b['Meeting Slot'].replace('Slot ', '')) || 99;
+          return slotA - slotB;
+        });
+
+        return rows;
+      }),
   }),
 });
 

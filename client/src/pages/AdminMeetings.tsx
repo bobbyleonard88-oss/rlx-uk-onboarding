@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Sparkles, RefreshCw, LogOut, User, Trash2, Save, Send } from "lucide-react";
+import { Sparkles, RefreshCw, LogOut, User, Trash2, Save, Send, Download, Zap } from "lucide-react";
 import TimeSlotScheduler from "@/components/TimeSlotScheduler";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -118,12 +118,48 @@ export default function AdminMeetings() {
 
   const generateAllMeetings = trpc.admin.generateAllMeetings.useMutation({
     onSuccess: (data) => {
-      toast.success(`Generated meetings for ${data.results.length} sponsors!`);
+      toast.success(`Generated and saved meetings for ${data.totalSponsors} sponsors!`);
+      utils.admin.getAllSubmissions.invalidate();
     },
     onError: (error) => {
       toast.error(error.message || "Failed to generate all meetings");
     },
   });
+
+  const { data: allMeetingsExport, refetch: refetchExport } = trpc.admin.getAllMeetingsExport.useQuery(
+    { includeTestAccounts },
+    { enabled: false }
+  );
+
+  const handleExportAllMatches = async () => {
+    const result = await refetchExport();
+    const rows = result.data;
+    if (!rows || rows.length === 0) {
+      toast.info('No meetings to export yet.');
+      return;
+    }
+    // Build CSV
+    const headers = Object.keys(rows[0]);
+    const csvLines = [
+      headers.map(h => `"${h}"`).join(','),
+      ...rows.map(row =>
+        headers.map(h => `"${String((row as any)[h] ?? '').replace(/"/g, '""')}"`).join(',')
+      ),
+    ];
+    const blob = new Blob([csvLines.join('\n')], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `rlx-all-matches-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success(`Exported ${rows.length} meeting rows to CSV!`);
+  };
+
+  const handleMatchAllSponsors = () => {
+    if (!confirm(`This will generate and save meetings for ALL sponsors (respecting test mode). This may take several minutes. Continue?`)) return;
+    generateAllMeetings.mutate({ includeTestAccounts });
+  };
   
   const saveMeetings = trpc.admin.saveMeetings.useMutation({
     onSuccess: () => {
@@ -415,10 +451,39 @@ export default function AdminMeetings() {
                 </Button>
               </div>
 
-              {/* Regenerate Match Reasons Button */}
+              {/* Bulk Actions */}
               <div className="space-y-2">
                 <label className="text-sm font-medium text-slate-300">Bulk Actions</label>
-                <Button
+                <div className="flex flex-col gap-2">
+                  {/* Match All Sponsors */}
+                  <Button
+                    onClick={handleMatchAllSponsors}
+                    disabled={generateAllMeetings.isPending}
+                    className="w-full bg-emerald-600 hover:bg-emerald-700 text-white"
+                  >
+                    {generateAllMeetings.isPending ? (
+                      <>
+                        <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+                        Matching all sponsors...
+                      </>
+                    ) : (
+                      <>
+                        <Zap className="w-4 h-4 mr-2" />
+                        Match All Sponsors
+                      </>
+                    )}
+                  </Button>
+                  {/* Export All Matches */}
+                  <Button
+                    onClick={handleExportAllMatches}
+                    variant="outline"
+                    className="w-full border-blue-500/50 text-blue-300 hover:bg-blue-500/10"
+                  >
+                    <Download className="w-4 h-4 mr-2" />
+                    Export All Matches (CSV)
+                  </Button>
+                  {/* Refresh Match Reasons */}
+                  <Button
                   onClick={() => regenerateMatchReasons.mutate()}
                   disabled={regenerateMatchReasons.isPending}
                   variant="outline"
@@ -436,6 +501,7 @@ export default function AdminMeetings() {
                     </>
                   )}
                 </Button>
+                </div>
               </div>
             </div>
             

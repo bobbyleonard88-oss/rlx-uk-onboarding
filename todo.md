@@ -1320,3 +1320,13 @@
 
 ## Delegate Overview Test Mode Filter (Mar 13)
 - [x] Apply includeTestAccounts filter to Delegate Overview page and its backend procedure
+
+## Match All Sponsors + Full Export (Mar 13)
+- [ ] Add "Match All Sponsors" button to admin meetings page (generates + auto-assigns slots for all sponsors at once)
+- [ ] Add getAllMeetingsExport backend procedure returning all meetings with full details
+- [ ] Add "Export All Matches" CSV button with: vendor name, delegate name/company/title, top-10 flag, opt-in flag, meeting slot, meeting time, meeting day, match score, match reason
+
+## Match All Sponsors + Full CSV Export (Mar 13)
+- [x] Add Match All Sponsors button to Bulk Actions section in AdminMeetings
+- [x] Add Export All Matches (CSV) button with vendor details, delegate details, top-10 flag, leader opt-in, slot, time, day, match score, match reason
+- [x] Backend getAllMeetingsExport procedure with includeTestAccounts filter
