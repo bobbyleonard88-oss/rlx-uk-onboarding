@@ -1,14 +1,16 @@
 /**
  * Shared Admin Header Component
  * Provides consistent navigation across all admin pages
- * Includes global test accounts toggle (show/hide only — never deletes data)
+ * Includes global test accounts toggle (hides test accounts and clears their meetings when OFF)
  */
 
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/_core/hooks/useAuth";
+import { trpc } from "@/lib/trpc";
 import { Link, useLocation } from "wouter";
 import { LogOut, User, FlaskConical } from "lucide-react";
 import { useState, useEffect } from "react";
+import { toast } from "sonner";
 
 // Global test accounts state persisted in localStorage
 const TEST_ACCOUNTS_KEY = "rlx_include_test_accounts";
@@ -46,11 +48,24 @@ export default function AdminHeader() {
     return () => window.removeEventListener("testAccountsChanged", handler);
   }, []);
 
+  const disableTestAccounts = trpc.admin.disableTestAccounts.useMutation({
+    onSuccess: (data) => {
+      toast.success(`Test mode OFF — cleared ${data.meetingsDeleted} test meetings`);
+    },
+    onError: () => {
+      toast.error("Failed to clear test meetings");
+    },
+  });
+
   const handleToggle = () => {
     const newValue = !includeTestAccounts;
     setIncludeTestAccountsStorage(newValue);
     setIncludeTestAccounts(newValue);
     dispatchTestAccountsChange(newValue);
+    // When turning test mode OFF, clear all test sponsor meetings
+    if (!newValue) {
+      disableTestAccounts.mutate();
+    }
   };
 
   const navItems = [

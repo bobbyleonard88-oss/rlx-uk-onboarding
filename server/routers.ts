@@ -227,7 +227,14 @@ export const appRouter = router({
   // Admin router (CS team dashboard)
   admin: router({
     // Get all submissions (rankings + intake, including partial submissions)
-    getAllSubmissions: adminProcedure.query(async () => {
+    getAllSubmissions: adminProcedure
+      .input(z.object({ includeTestAccounts: z.boolean().optional().default(false) }).optional())
+      .query(async ({ input }) => {
+      // Test sponsor IDs (recruitmentevents.co accounts)
+      const TEST_SPONSOR_IDS = new Set([30001, 60001, 90001, 120001]);
+      const ALWAYS_EXCLUDED_SPONSOR_IDS = new Set([270001, 510003]);
+      const includeTestAccounts = input?.includeTestAccounts ?? false;
+
       const rankingsSubmissions = await db.getAllRankingsSubmissions();
       const allIntakeSubmissions = await db.getAllIntakeSubmissions();
       
@@ -235,6 +242,13 @@ export const appRouter = router({
       const processedSponsors = new Set<number>();
       const submissions: any[] = [];
       
+      // Filter out test/excluded sponsors based on toggle
+      const isAllowed = (sponsorId: number) => {
+        if (ALWAYS_EXCLUDED_SPONSOR_IDS.has(sponsorId)) return false;
+        if (!includeTestAccounts && TEST_SPONSOR_IDS.has(sponsorId)) return false;
+        return true;
+      };
+
       // Deduplicate rankings submissions - keep only the most recent per sponsor
       const latestRankingsBySponsor = new Map<number, typeof rankingsSubmissions[0]>();
       for (const sub of rankingsSubmissions) {
@@ -245,7 +259,7 @@ export const appRouter = router({
       }
       
       // Process deduplicated rankings submissions
-      for (const sub of Array.from(latestRankingsBySponsor.values())) {
+      for (const sub of Array.from(latestRankingsBySponsor.values()).filter(s => isAllowed(s.sponsorId))) {
         const sponsor = await db.getSponsorById(sub.sponsorId);
         const intakeSubmission = await db.getIntakeSubmissionBySponsor(sub.sponsorId);
         const priorityTags = await db.getPriorityTagsBySponsor(sub.sponsorId);
@@ -264,7 +278,7 @@ export const appRouter = router({
       
       // Add intake-only submissions (no rankings yet)
       for (const intake of allIntakeSubmissions) {
-        if (!processedSponsors.has(intake.sponsorId)) {
+        if (!processedSponsors.has(intake.sponsorId) && isAllowed(intake.sponsorId)) {
           const sponsor = await db.getSponsorById(intake.sponsorId);
           const priorityTags = await db.getPriorityTagsBySponsor(intake.sponsorId);
           submissions.push({

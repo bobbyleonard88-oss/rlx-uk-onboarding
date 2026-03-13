@@ -37,9 +37,11 @@ import {
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import AdminHeader from "@/components/AdminHeader";
+import { useTestMode } from "@/hooks/useTestMode";
 
 export default function AdminDashboard() {
   const { user, loading } = useAuth({ redirectOnUnauthenticated: true });
+  const includeTestAccounts = useTestMode();
   const [showArchived, setShowArchived] = useState(false);
   const [intakeModalOpen, setIntakeModalOpen] = useState(false);
   const [rankingsModalOpen, setRankingsModalOpen] = useState(false);
@@ -47,7 +49,7 @@ export default function AdminDashboard() {
   const [selectedRankings, setSelectedRankings] = useState<{ data: string; companyName: string } | null>(null);
   const [openCombobox, setOpenCombobox] = useState<Record<number, boolean>>({});
   
-  const { data: submissions, isLoading, refetch } = trpc.admin.getAllSubmissions.useQuery();
+  const { data: submissions, isLoading, refetch } = trpc.admin.getAllSubmissions.useQuery({ includeTestAccounts });
   const { data: delegates } = trpc.admin.getAllDelegates.useQuery();
   const { refetch: fetchExport, isFetching: isExporting } = trpc.admin.exportAllSubmissions.useQuery(
     undefined,

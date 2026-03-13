@@ -1,21 +1,13 @@
-import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { trpc } from "@/lib/trpc";
 import { BarChart3, Users, Calendar, TrendingUp } from "lucide-react";
-import AdminHeader, { getIncludeTestAccounts } from "@/components/AdminHeader";
+import AdminHeader from "@/components/AdminHeader";
 import MeetingFloorPlan from "@/components/MeetingFloorPlan";
+import { useTestMode } from "@/hooks/useTestMode";
 
 export default function Analytics() {
-  // Use global test accounts state from AdminHeader (persisted in localStorage)
-  const [includeTestAccounts, setIncludeTestAccounts] = useState(getIncludeTestAccounts);
-
-  // Listen for changes from the AdminHeader toggle
-  useEffect(() => {
-    const handler = (e: Event) => setIncludeTestAccounts((e as CustomEvent).detail);
-    window.addEventListener("testAccountsChanged", handler);
-    return () => window.removeEventListener("testAccountsChanged", handler);
-  }, []);
+  const includeTestAccounts = useTestMode();
 
   const { data: analytics, isLoading } = trpc.admin.getAnalytics.useQuery(
     { includeTestAccounts }

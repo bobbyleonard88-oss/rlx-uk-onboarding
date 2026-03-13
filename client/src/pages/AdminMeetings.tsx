@@ -17,6 +17,7 @@ import { attendees } from "@/lib/attendees";
 import { Link } from "wouter";
 import { getLoginUrl } from "@/const";
 import AdminHeader from "@/components/AdminHeader";
+import { useTestMode } from "@/hooks/useTestMode";
 
 interface MatchResult {
   attendeeId: string;
@@ -46,7 +47,8 @@ export default function AdminMeetings() {
   const [selectedAttendee, setSelectedAttendee] = useState<1 | 2>(1); // For 20-meeting packages
   const [replacingMeetingId, setReplacingMeetingId] = useState<number | null>(null);
   
-  const { data: submissions } = trpc.admin.getAllSubmissions.useQuery();
+  const includeTestAccounts = useTestMode();
+  const { data: submissions } = trpc.admin.getAllSubmissions.useQuery({ includeTestAccounts });
   const utils = trpc.useUtils();
   
   const generateMeetings = trpc.admin.generateMeetings.useMutation({

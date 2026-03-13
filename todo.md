@@ -1309,3 +1309,11 @@
 
 ## Intake Form Technology Types (Mar 11)
 - [x] Add "Recruiter Enablement" to technology type options in alphabetical order (between RPO and Reference Checking)
+
+## Test Mode Toggle - Full System Filter (Mar 13)
+- [x] When Test Mode is OFF: hide all @recruitmentevents.co sponsors from admin dashboard
+- [x] When Test Mode is OFF: exclude test sponsors from matchmaking page (via getAllSubmissions filter)
+- [x] When Test Mode is OFF: exclude test sponsors from analytics/reporting (already had includeTestAccounts param)
+- [x] When Test Mode is OFF: exclude test sponsors from meetings page sponsor dropdown
+- [x] When Test Mode is OFF: auto-clear meetings for test sponsors on toggle-off (disableTestAccounts mutation)
+- [x] Test mode state persisted in localStorage, synced across pages via testAccountsChanged custom event
