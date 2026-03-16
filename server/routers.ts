@@ -1749,12 +1749,20 @@ export const appRouter = router({
             s.toLowerCase().includes(sponsorName) || sponsorName.includes(s.toLowerCase())
           );
 
+          // Determine which rep this meeting belongs to
+          const isRep2 = meeting.attendeeNumber === 2;
+          const rep1Name = intake ? `${intake.firstName ?? ''} ${intake.lastName ?? ''}`.trim() : (sponsor?.contactName ?? '');
+          const rep1Email = intake?.email ?? sponsor?.contactEmail ?? '';
+          const rep2Name = intake?.secondRepName?.trim() || rep1Name;
+          const rep2Email = intake?.secondRepEmail?.trim() || rep1Email;
+          const repName = isRep2 ? rep2Name : rep1Name;
+          const repEmail = isRep2 ? rep2Email : rep1Email;
+
           return {
             // Vendor details
             'Vendor Name': sponsor?.companyName ?? intake?.companyName ?? `Sponsor #${meeting.sponsorId}`,
-            'Vendor Contact': intake ? `${intake.firstName} ${intake.lastName}` : sponsor?.contactName ?? '',
-            'Vendor Email': intake?.email ?? sponsor?.contactEmail ?? '',
-            'Attendee Number': meeting.attendeeNumber === 2 ? 'Attendee 2' : 'Attendee 1',
+            'Vendor Rep Name': repName,
+            'Vendor Rep Email': repEmail,
             // Delegate details
             'Delegate Name': delegate ? `${delegate.firstName} ${delegate.lastName}` : meeting.attendeeId,
             'Delegate Company': delegate?.company ?? '',

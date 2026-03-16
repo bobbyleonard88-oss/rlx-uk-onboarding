@@ -1,0 +1,145 @@
+{
+  "query": "SELECT s.id, s.companyName, u.email FROM sponsors s LEFT JOIN users u ON s.userId = u.id ORDER BY s.id LIMIT 50;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT s.id, s.companyName, u.email FROM sponsors s LEFT JOIN users u ON s.userId = u.id ORDER BY s.id LIMIT 50;",
+  "rows": [
+    {
+      "id": "30001",
+      "companyName": "AI Limited",
+      "email": "bobby@recruitmentevents.co"
+    },
+    {
+      "id": "60001",
+      "companyName": "Elevate Assess",
+      "email": "nino@recruitmentevents.co"
+    },
+    {
+      "id": "90001",
+      "companyName": "NexaTalent Solutions Ltd",
+      "email": "natalija@recruitmentevents.co"
+    },
+    {
+      "id": "120001",
+      "companyName": "Little Moment",
+      "email": "stefan@recruitmentevents.co"
+    },
+    {
+      "id": "150001",
+      "companyName": "Stepstone Group UK Ltd",
+      "email": "amardeep.dharwar@stepstone.com"
+    },
+    {
+      "id": "180001",
+      "companyName": "Maki People",
+      "email": "clara.minassian@makipeople.com"
+    },
+    {
+      "id": "210001",
+      "companyName": "Harver",
+      "email": "kayleigh.nunn@harver.com"
+    },
+    {
+      "id": "240001",
+      "companyName": "Sapia.ai",
+      "email": "laura@sapia.ai"
+    },
+    {
+      "id": "270001",
+      "companyName": "Visibility Test Company",
+      "email": "NULL"
+    },
+    {
+      "id": "270002",
+      "companyName": "Appcast",
+      "email": "roy.jacques@appcast.io"
+    },
+    {
+      "id": "300001",
+      "companyName": "Zinc",
+      "email": "nikki.thompson@zincwork.com"
+    },
+    {
+      "id": "330001",
+      "companyName": "Symphony Talent ",
+      "email": "craig.barnett@symphonytalent.com"
+    },
+    {
+      "id": "360001",
+      "companyName": "Udder",
+      "email": "alan+rlx@udder.rocks"
+    },
+    {
+      "id": "390001",
+      "companyName": "Bright Apply",
+      "email": "kerry.simmons@brightnetwork.co.uk"
+    },
+    {
+      "id": "450001",
+      "companyName": "PerchPeek",
+      "email": "samuel@perchpeek.com"
+    },
+    {
+      "id": "510003",
+      "companyName": "Test Sponsor mtgtest-1772728191724",
+      "email": "NULL"
+    },
+    {
+      "id": "540001",
+      "companyName": "hackajob",
+      "email": "pete@hackajob.co"
+    },
+    {
+      "id": "600001",
+      "companyName": "Happydance Careers Websites",
+      "email": "dave.ralph@happydance.love"
+    },
+    {
+      "id": "690001",
+      "companyName": "Amberjack",
+      "email": "richard.williams@weareamberjack.com"
+    },
+    {
+      "id": "720001",
+      "companyName": "inploi",
+      "email": "felix@inploi.com"
+    },
+    {
+      "id": "750001",
+      "companyName": "SHL",
+      "email": "alison.hartwell@shl.com"
+    },
+    {
+      "id": "780001",
+      "companyName": "The Martec",
+      "email": "nick.thompson@themartec.com"
+    },
+    {
+      "id": "810001",
+      "companyName": "Veremark ",
+      "email": "anna.smith@veremark.com"
+    },
+    {
+      "id": "810002",
+      "companyName": "Radancy",
+      "email": "clementine.zezioli@radancy.com"
+    },
+    {
+      "id": "840001",
+      "companyName": "JobSync",
+      "email": "cminto@jobsync.com"
+    },
+    {
+      "id": "870001",
+      "companyName": "Wilson",
+      "email": "gail.bleakley@wilsonhr.com"
+    },
+    {
+      "id": "900001",
+      "companyName": "Poetry",
+      "email": "adamwatsongordon@gmail.com"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tcompanyName\temail\n30001\tAI Limited\tbobby@recruitmentevents.co\n60001\tElevate Assess\tnino@recruitmentevents.co\n90001\tNexaTalent Solutions Ltd\tnatalija@recruitmentevents.co\n120001\tLittle Moment\tstefan@recruitmentevents.co\n150001\tStepstone Group UK Ltd\tamardeep.dharwar@stepstone.com\n180001\tMaki People\tclara.minassian@makipeople.com\n210001\tHarver\tkayleigh.nunn@harver.com\n240001\tSapia.ai\tlaura@sapia.ai\n270001\tVisibility Test Company\tNULL\n270002\tAppcast\troy.jacques@appcast.io\n300001\tZinc\tnikki.thompson@zincwork.com\n330001\tSymphony Talent \tcraig.barnett@symphonytalent.com\n360001\tUdder\talan+rlx@udder.rocks\n390001\tBright Apply\tkerry.simmons@brightnetwork.co.uk\n450001\tPerchPeek\tsamuel@perchpeek.com\n510003\tTest Sponsor mtgtest-1772728191724\tNULL\n540001\thackajob\tpete@hackajob.co\n600001\tHappydance Careers Websites\tdave.ralph@happydance.love\n690001\tAmberjack\trichard.williams@weareamberjack.com\n720001\tinploi\tfelix@inploi.com\n750001\tSHL\talison.hartwell@shl.com\n780001\tThe Martec\tnick.thompson@themartec.com\n810001\tVeremark \tanna.smith@veremark.com\n810002\tRadancy\tclementine.zezioli@radancy.com\n840001\tJobSync\tcminto@jobsync.com\n870001\tWilson\tgail.bleakley@wilsonhr.com\n900001\tPoetry\tadamwatsongordon@gmail.com\n",
+  "stderr": "",
+  "execution_time_ms": 372
+}

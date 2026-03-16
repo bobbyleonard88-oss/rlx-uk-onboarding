@@ -1,0 +1,94 @@
+{
+  "query": "SELECT s.companyName, COUNT(m.id) as meeting_count FROM meetings m JOIN sponsors s ON m.sponsorId = s.id WHERE s.id NOT IN (30001, 60001, 90001, 120001) GROUP BY s.id, s.companyName ORDER BY s.companyName;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT s.companyName, COUNT(m.id) as meeting_count FROM meetings m JOIN sponsors s ON m.sponsorId = s.id WHERE s.id NOT IN (30001, 60001, 90001, 120001) GROUP BY s.id, s.companyName ORDER BY s.companyName;",
+  "rows": [
+    {
+      "companyName": "Amberjack",
+      "meeting_count": "12"
+    },
+    {
+      "companyName": "Appcast",
+      "meeting_count": "18"
+    },
+    {
+      "companyName": "Bright Apply",
+      "meeting_count": "12"
+    },
+    {
+      "companyName": "hackajob",
+      "meeting_count": "12"
+    },
+    {
+      "companyName": "Happydance Careers Websites",
+      "meeting_count": "12"
+    },
+    {
+      "companyName": "Harver",
+      "meeting_count": "20"
+    },
+    {
+      "companyName": "inploi",
+      "meeting_count": "11"
+    },
+    {
+      "companyName": "JobSync",
+      "meeting_count": "8"
+    },
+    {
+      "companyName": "Maki People",
+      "meeting_count": "12"
+    },
+    {
+      "companyName": "PerchPeek",
+      "meeting_count": "12"
+    },
+    {
+      "companyName": "Poetry",
+      "meeting_count": "5"
+    },
+    {
+      "companyName": "Radancy",
+      "meeting_count": "9"
+    },
+    {
+      "companyName": "Sapia.ai",
+      "meeting_count": "12"
+    },
+    {
+      "companyName": "SHL",
+      "meeting_count": "19"
+    },
+    {
+      "companyName": "Stepstone Group UK Ltd",
+      "meeting_count": "12"
+    },
+    {
+      "companyName": "Symphony Talent ",
+      "meeting_count": "12"
+    },
+    {
+      "companyName": "The Martec",
+      "meeting_count": "8"
+    },
+    {
+      "companyName": "Udder",
+      "meeting_count": "12"
+    },
+    {
+      "companyName": "Veremark ",
+      "meeting_count": "9"
+    },
+    {
+      "companyName": "Wilson",
+      "meeting_count": "13"
+    },
+    {
+      "companyName": "Zinc",
+      "meeting_count": "12"
+    }
+  ],
+  "messages": [],
+  "stdout": "companyName\tmeeting_count\nAmberjack\t12\nAppcast\t18\nBright Apply\t12\nhackajob\t12\nHappydance Careers Websites\t12\nHarver\t20\ninploi\t11\nJobSync\t8\nMaki People\t12\nPerchPeek\t12\nPoetry\t5\nRadancy\t9\nSapia.ai\t12\nSHL\t19\nStepstone Group UK Ltd\t12\nSymphony Talent \t12\nThe Martec\t8\nUdder\t12\nVeremark \t9\nWilson\t13\nZinc\t12\n",
+  "stderr": "",
+  "execution_time_ms": 368
+}

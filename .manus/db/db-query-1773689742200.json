@@ -1,0 +1,172 @@
+{
+  "query": "SELECT s.id, s.companyName, u.email, u.name FROM sponsors s LEFT JOIN users u ON s.userId = u.id ORDER BY s.id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT s.id, s.companyName, u.email, u.name FROM sponsors s LEFT JOIN users u ON s.userId = u.id ORDER BY s.id;",
+  "rows": [
+    {
+      "id": "30001",
+      "companyName": "AI Limited",
+      "email": "bobby@recruitmentevents.co",
+      "name": "Bobby Leonard"
+    },
+    {
+      "id": "60001",
+      "companyName": "Elevate Assess",
+      "email": "nino@recruitmentevents.co",
+      "name": "nino"
+    },
+    {
+      "id": "90001",
+      "companyName": "NexaTalent Solutions Ltd",
+      "email": "natalija@recruitmentevents.co",
+      "name": "Natalija Tosheva"
+    },
+    {
+      "id": "120001",
+      "companyName": "Little Moment",
+      "email": "stefan@recruitmentevents.co",
+      "name": "stefan"
+    },
+    {
+      "id": "150001",
+      "companyName": "Stepstone Group UK Ltd",
+      "email": "amardeep.dharwar@stepstone.com",
+      "name": "amardeep.dharwar"
+    },
+    {
+      "id": "180001",
+      "companyName": "Maki People",
+      "email": "clara.minassian@makipeople.com",
+      "name": "Clara Minassian"
+    },
+    {
+      "id": "210001",
+      "companyName": "Harver",
+      "email": "kayleigh.nunn@harver.com",
+      "name": "kayleigh.nunn"
+    },
+    {
+      "id": "240001",
+      "companyName": "Sapia.ai",
+      "email": "laura@sapia.ai",
+      "name": "Laura Belfield"
+    },
+    {
+      "id": "270001",
+      "companyName": "Visibility Test Company",
+      "email": "NULL",
+      "name": "NULL"
+    },
+    {
+      "id": "270002",
+      "companyName": "Appcast",
+      "email": "roy.jacques@appcast.io",
+      "name": "roy.jacques"
+    },
+    {
+      "id": "300001",
+      "companyName": "Zinc",
+      "email": "nikki.thompson@zincwork.com",
+      "name": "nikki.thompson"
+    },
+    {
+      "id": "330001",
+      "companyName": "Symphony Talent ",
+      "email": "craig.barnett@symphonytalent.com",
+      "name": "craig.barnett"
+    },
+    {
+      "id": "360001",
+      "companyName": "Udder",
+      "email": "alan+rlx@udder.rocks",
+      "name": "alan+rlx"
+    },
+    {
+      "id": "390001",
+      "companyName": "Bright Apply",
+      "email": "kerry.simmons@brightnetwork.co.uk",
+      "name": "kerry.simmons"
+    },
+    {
+      "id": "450001",
+      "companyName": "PerchPeek",
+      "email": "samuel@perchpeek.com",
+      "name": "samuel"
+    },
+    {
+      "id": "510003",
+      "companyName": "Test Sponsor mtgtest-1772728191724",
+      "email": "NULL",
+      "name": "NULL"
+    },
+    {
+      "id": "540001",
+      "companyName": "hackajob",
+      "email": "pete@hackajob.co",
+      "name": "Pete Bulley"
+    },
+    {
+      "id": "600001",
+      "companyName": "Happydance Careers Websites",
+      "email": "dave.ralph@happydance.love",
+      "name": "dave.ralph"
+    },
+    {
+      "id": "690001",
+      "companyName": "Amberjack",
+      "email": "richard.williams@weareamberjack.com",
+      "name": "richard.williams"
+    },
+    {
+      "id": "720001",
+      "companyName": "inploi",
+      "email": "felix@inploi.com",
+      "name": "Felix Dealtry"
+    },
+    {
+      "id": "750001",
+      "companyName": "SHL",
+      "email": "alison.hartwell@shl.com",
+      "name": "alison.hartwell"
+    },
+    {
+      "id": "780001",
+      "companyName": "The Martec",
+      "email": "nick.thompson@themartec.com",
+      "name": "nick.thompson"
+    },
+    {
+      "id": "810001",
+      "companyName": "Veremark ",
+      "email": "anna.smith@veremark.com",
+      "name": "Anna Smith"
+    },
+    {
+      "id": "810002",
+      "companyName": "Radancy",
+      "email": "clementine.zezioli@radancy.com",
+      "name": "clementine.zezioli"
+    },
+    {
+      "id": "840001",
+      "companyName": "JobSync",
+      "email": "cminto@jobsync.com",
+      "name": "Colin Minto"
+    },
+    {
+      "id": "870001",
+      "companyName": "Wilson",
+      "email": "gail.bleakley@wilsonhr.com",
+      "name": "gail.bleakley"
+    },
+    {
+      "id": "900001",
+      "companyName": "Poetry",
+      "email": "adamwatsongordon@gmail.com",
+      "name": "Adam Gordon"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tcompanyName\temail\tname\n30001\tAI Limited\tbobby@recruitmentevents.co\tBobby Leonard\n60001\tElevate Assess\tnino@recruitmentevents.co\tnino\n90001\tNexaTalent Solutions Ltd\tnatalija@recruitmentevents.co\tNatalija Tosheva\n120001\tLittle Moment\tstefan@recruitmentevents.co\tstefan\n150001\tStepstone Group UK Ltd\tamardeep.dharwar@stepstone.com\tamardeep.dharwar\n180001\tMaki People\tclara.minassian@makipeople.com\tClara Minassian\n210001\tHarver\tkayleigh.nunn@harver.com\tkayleigh.nunn\n240001\tSapia.ai\tlaura@sapia.ai\tLaura Belfield\n270001\tVisibility Test Company\tNULL\tNULL\n270002\tAppcast\troy.jacques@appcast.io\troy.jacques\n300001\tZinc\tnikki.thompson@zincwork.com\tnikki.thompson\n330001\tSymphony Talent \tcraig.barnett@symphonytalent.com\tcraig.barnett\n360001\tUdder\talan+rlx@udder.rocks\talan+rlx\n390001\tBright Apply\tkerry.simmons@brightnetwork.co.uk\tkerry.simmons\n450001\tPerchPeek\tsamuel@perchpeek.com\tsamuel\n510003\tTest Sponsor mtgtest-1772728191724\tNULL\tNULL\n540001\thackajob\tpete@hackajob.co\tPete Bulley\n600001\tHappydance Careers Websites\tdave.ralph@happydance.love\tdave.ralph\n690001\tAmberjack\trichard.williams@weareamberjack.com\trichard.williams\n720001\tinploi\tfelix@inploi.com\tFelix Dealtry\n750001\tSHL\talison.hartwell@shl.com\talison.hartwell\n780001\tThe Martec\tnick.thompson@themartec.com\tnick.thompson\n810001\tVeremark \tanna.smith@veremark.com\tAnna Smith\n810002\tRadancy\tclementine.zezioli@radancy.com\tclementine.zezioli\n840001\tJobSync\tcminto@jobsync.com\tColin Minto\n870001\tWilson\tgail.bleakley@wilsonhr.com\tgail.bleakley\n900001\tPoetry\tadamwatsongordon@gmail.com\tAdam Gordon\n",
+  "stderr": "",
+  "execution_time_ms": 363
+}

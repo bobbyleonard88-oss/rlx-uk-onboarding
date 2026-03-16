@@ -1,0 +1,9 @@
+{
+  "query": "DELETE FROM meetings WHERE sponsorId IN (\n  750001, 210001, 270002, 150001, 180001, 240001, 300001, 330001, 360001,\n  450001, 540001, 690001, 720001, 780001, 810001, 810002, 840001, 900001,\n  870001, 390001, 600001\n);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute DELETE FROM meetings WHERE sponsorId IN (\n  750001, 210001, 270002, 150001, 180001, 240001, 300001, 330001, 360001,\n  450001, 540001, 690001, 720001, 780001, 810001, 810002, 840001, 900001,\n  870001, 390001, 600001\n);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 371
+}

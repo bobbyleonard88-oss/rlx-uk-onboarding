@@ -1356,3 +1356,4 @@
 - [x] Fix Match All progress overlay not showing after test account exclusion fix
 - [x] Add total meetings counter to Match All progress overlay completion state
 - [x] Add 90s timeout to AI batch scoring call so Match All never hangs indefinitely on a stalled LLM call
+- [x] Update export CSV to show actual sponsor rep names and emails instead of Attendee 1/Attendee 2

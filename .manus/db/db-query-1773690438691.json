@@ -1,0 +1,170 @@
+{
+  "query": "SELECT attendeeId, COUNT(*) as meeting_count FROM meetings WHERE sponsorId NOT IN (30001, 60001, 90001, 120001) GROUP BY attendeeId ORDER BY meeting_count DESC LIMIT 50;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT attendeeId, COUNT(*) as meeting_count FROM meetings WHERE sponsorId NOT IN (30001, 60001, 90001, 120001) GROUP BY attendeeId ORDER BY meeting_count DESC LIMIT 50;",
+  "rows": [
+    {
+      "attendeeId": "122796319563",
+      "meeting_count": "8"
+    },
+    {
+      "attendeeId": "93176107633",
+      "meeting_count": "8"
+    },
+    {
+      "attendeeId": "9477501",
+      "meeting_count": "8"
+    },
+    {
+      "attendeeId": "12731251",
+      "meeting_count": "8"
+    },
+    {
+      "attendeeId": "200923910443",
+      "meeting_count": "8"
+    },
+    {
+      "attendeeId": "4956154",
+      "meeting_count": "8"
+    },
+    {
+      "attendeeId": "9322701",
+      "meeting_count": "8"
+    },
+    {
+      "attendeeId": "91862577670",
+      "meeting_count": "8"
+    },
+    {
+      "attendeeId": "201697440144",
+      "meeting_count": "8"
+    },
+    {
+      "attendeeId": "110260566550",
+      "meeting_count": "8"
+    },
+    {
+      "attendeeId": "1076201",
+      "meeting_count": "8"
+    },
+    {
+      "attendeeId": "194295425320",
+      "meeting_count": "8"
+    },
+    {
+      "attendeeId": "174442448959",
+      "meeting_count": "8"
+    },
+    {
+      "attendeeId": "113145184682",
+      "meeting_count": "8"
+    },
+    {
+      "attendeeId": "8196151",
+      "meeting_count": "8"
+    },
+    {
+      "attendeeId": "128491656706",
+      "meeting_count": "8"
+    },
+    {
+      "attendeeId": "208415155065",
+      "meeting_count": "8"
+    },
+    {
+      "attendeeId": "91889321035",
+      "meeting_count": "7"
+    },
+    {
+      "attendeeId": "191181016455",
+      "meeting_count": "7"
+    },
+    {
+      "attendeeId": "203946652193",
+      "meeting_count": "7"
+    },
+    {
+      "attendeeId": "92353346050",
+      "meeting_count": "7"
+    },
+    {
+      "attendeeId": "76678269091",
+      "meeting_count": "7"
+    },
+    {
+      "attendeeId": "7258470500",
+      "meeting_count": "7"
+    },
+    {
+      "attendeeId": "111228357473",
+      "meeting_count": "7"
+    },
+    {
+      "attendeeId": "195183358360",
+      "meeting_count": "6"
+    },
+    {
+      "attendeeId": "13454401",
+      "meeting_count": "6"
+    },
+    {
+      "attendeeId": "5140258",
+      "meeting_count": "6"
+    },
+    {
+      "attendeeId": "190898269597",
+      "meeting_count": "6"
+    },
+    {
+      "attendeeId": "93174643474",
+      "meeting_count": "5"
+    },
+    {
+      "attendeeId": "11132851",
+      "meeting_count": "5"
+    },
+    {
+      "attendeeId": "17812226737",
+      "meeting_count": "5"
+    },
+    {
+      "attendeeId": "92953690026",
+      "meeting_count": "5"
+    },
+    {
+      "attendeeId": "8713772",
+      "meeting_count": "5"
+    },
+    {
+      "attendeeId": "8952301",
+      "meeting_count": "5"
+    },
+    {
+      "attendeeId": "9319401",
+      "meeting_count": "4"
+    },
+    {
+      "attendeeId": "5927642",
+      "meeting_count": "2"
+    },
+    {
+      "attendeeId": "150796696175",
+      "meeting_count": "2"
+    },
+    {
+      "attendeeId": "190937723960",
+      "meeting_count": "2"
+    },
+    {
+      "attendeeId": "116903349643",
+      "meeting_count": "2"
+    },
+    {
+      "attendeeId": "197310154283",
+      "meeting_count": "1"
+    }
+  ],
+  "messages": [],
+  "stdout": "attendeeId\tmeeting_count\n122796319563\t8\n93176107633\t8\n9477501\t8\n12731251\t8\n200923910443\t8\n4956154\t8\n9322701\t8\n91862577670\t8\n201697440144\t8\n110260566550\t8\n1076201\t8\n194295425320\t8\n174442448959\t8\n113145184682\t8\n8196151\t8\n128491656706\t8\n208415155065\t8\n91889321035\t7\n191181016455\t7\n203946652193\t7\n92353346050\t7\n76678269091\t7\n7258470500\t7\n111228357473\t7\n195183358360\t6\n13454401\t6\n5140258\t6\n190898269597\t6\n93174643474\t5\n11132851\t5\n17812226737\t5\n92953690026\t5\n8713772\t5\n8952301\t5\n9319401\t4\n5927642\t2\n150796696175\t2\n190937723960\t2\n116903349643\t2\n197310154283\t1\n",
+  "stderr": "",
+  "execution_time_ms": 368
+}

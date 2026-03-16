@@ -761,13 +761,19 @@ export async function generateMeetingsForSponsor(
     return 0;
   });
   
-  // Filter out matches below 30% threshold (except priority delegates)
-  const qualityMatches = scoredMatches.filter(m => m.isPriority || m.matchScore >= 30);
+  // Filter out matches below minimum threshold (except priority delegates)
+  // SHL (750001) has very few eligible delegates after exclusions, so use 0% threshold to fill quota
+  const minScoreThreshold = sponsorId === 750001 ? 0 : 30;
+  const qualityMatches = scoredMatches.filter(m => m.isPriority || m.matchScore >= minScoreThreshold);
   
-  // Return top N matches from quality matches
-  const topMatches = qualityMatches.slice(0, meetingCount);
-  console.log(`[Matching] Returning ${topMatches.length} matches (requested ${meetingCount})`);
-  console.log(`[Matching] Top 3 scores: ${topMatches.slice(0, 3).map(m => `${m.delegateInfo.firstName} ${m.delegateInfo.lastName}: ${m.matchScore}%`).join(', ')}`);
+  // Return ALL quality matches as a buffer — the caller (run-match-final.ts) will pick
+  // the best N that still have capacity, ensuring later sponsors can fill their quota
+  // even when top-ranked delegates are already at the 8-meeting cap.
+  const topMatches = qualityMatches; // return all, not just top N
+  console.log(`[Matching] Returning ${topMatches.length} matches (buffer for ${meetingCount} needed)`);
+  if (topMatches.length > 0) {
+    console.log(`[Matching] Top 3 scores: ${topMatches.slice(0, 3).map(m => `${m.delegateInfo.firstName} ${m.delegateInfo.lastName}: ${m.matchScore}%`).join(', ')}`);
+  }
   
   // Log quality distribution
   const above65 = topMatches.filter(m => m.matchScore >= 65).length;
@@ -782,7 +788,8 @@ export async function generateMeetingsForSponsor(
  */
 export async function generateMeetingsForAllSponsors(
   onProgress?: (event: import('./matchProgress').MatchProgressEvent) => void,
-  excludedSponsorIds?: Set<number>
+  excludedSponsorIds?: Set<number>,
+  orderedSponsorIds?: number[]
 ): Promise<Map<number, MatchResult[]>> {
   const allSponsors = await db.getAllSponsors();
   const results = new Map<number, MatchResult[]>();
@@ -791,31 +798,49 @@ export async function generateMeetingsForAllSponsors(
   const allIntake = await db.getAllIntakeSubmissions();
   const intakeBySponsors = new Map(allIntake.map(s => [s.sponsorId, s]));
 
-  // Sort sponsors by intake submission date ascending (earliest submitter gets priority)
-  const sortedSponsors = [...allSponsors].sort((a, b) => {
-    const aDate = intakeBySponsors.get(a.id)?.submittedAt;
-    const bDate = intakeBySponsors.get(b.id)?.submittedAt;
-    if (!aDate && !bDate) return 0;
-    if (!aDate) return 1;  // no intake → push to end
-    if (!bDate) return -1;
-    return new Date(aDate).getTime() - new Date(bDate).getTime();
-  });
+  let eligibleSponsors;
+  if (orderedSponsorIds && orderedSponsorIds.length > 0) {
+    // Use the caller-specified order (e.g. most-constrained sponsors first)
+    const sponsorMap = new Map(allSponsors.map(s => [s.id, s]));
+    eligibleSponsors = orderedSponsorIds
+      .filter(id => sponsorMap.has(id) && intakeBySponsors.has(id) && !(excludedSponsorIds?.has(id)))
+      .map(id => sponsorMap.get(id)!);
+    console.log('[Matching] Processing sponsors in caller-specified order (most-constrained first)');
+  } else {
+    // Sort sponsors by intake submission date ascending (earliest submitter gets priority)
+    const sortedSponsors = [...allSponsors].sort((a, b) => {
+      const aDate = intakeBySponsors.get(a.id)?.submittedAt;
+      const bDate = intakeBySponsors.get(b.id)?.submittedAt;
+      if (!aDate && !bDate) return 0;
+      if (!aDate) return 1;  // no intake → push to end
+      if (!bDate) return -1;
+      return new Date(aDate).getTime() - new Date(bDate).getTime();
+    });
+    // Filter to only sponsors with intake forms AND not in the exclusion set
+    eligibleSponsors = sortedSponsors.filter(s =>
+      intakeBySponsors.has(s.id) && !(excludedSponsorIds?.has(s.id))
+    );
+    console.log('[Matching] Processing sponsors in intake submission order (earliest first)');
+  }
 
-  // Filter to only sponsors with intake forms AND not in the exclusion set
-  const eligibleSponsors = sortedSponsors.filter(s =>
-    intakeBySponsors.has(s.id) && !(excludedSponsorIds?.has(s.id))
-  );
   const totalSponsors = eligibleSponsors.length;
   let completedSponsors = 0;
-
-  console.log('[Matching] Processing sponsors in intake submission order (earliest first)');
 
   // Emit start event
   onProgress?.({ type: 'start', totalSponsors, phase: 'scoring' });
 
+  // Package overrides: correct values where intake form has wrong data
+  const PACKAGE_OVERRIDES_ALG: Record<number, number> = {
+    750001: 24, // SHL: 24 meetings
+    870001: 12, // Wilson: 12 meetings (not 20)
+    390001: 10, // Bright Apply: 10 meetings
+    // 600001 (Happydance) uses leftover logic in the caller, request 12 candidates here
+  };
+
   for (const sponsor of eligibleSponsors) {
     const intakeSubmission = intakeBySponsors.get(sponsor.id)!;
-    const meetingCount = intakeSubmission.meetingPackage === "20" ? 20 : 12;
+    const basePkg = intakeSubmission.meetingPackage === "20" ? 20 : 12;
+    const meetingCount = PACKAGE_OVERRIDES_ALG[sponsor.id] ?? basePkg;
     const sponsorName = sponsor.companyName || `Sponsor ${sponsor.id}`;
     
     // Emit scoring start for this sponsor

@@ -1,0 +1,115 @@
+{
+  "query": "\nSELECT s.companyName, m.status, COUNT(*) as count\nFROM meetings m\nJOIN sponsors s ON m.sponsorId = s.id\nWHERE m.sponsorId NOT IN (30001, 60001, 90001, 120001)\nGROUP BY m.sponsorId, m.status\nORDER BY s.companyName;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT s.companyName, m.status, COUNT(*) as count\nFROM meetings m\nJOIN sponsors s ON m.sponsorId = s.id\nWHERE m.sponsorId NOT IN (30001, 60001, 90001, 120001)\nGROUP BY m.sponsorId, m.status\nORDER BY s.companyName;\n",
+  "rows": [
+    {
+      "companyName": "Amberjack",
+      "status": "suggested",
+      "count": "12"
+    },
+    {
+      "companyName": "Appcast",
+      "status": "suggested",
+      "count": "20"
+    },
+    {
+      "companyName": "Bright Apply",
+      "status": "suggested",
+      "count": "10"
+    },
+    {
+      "companyName": "hackajob",
+      "status": "suggested",
+      "count": "12"
+    },
+    {
+      "companyName": "Happydance Careers Websites",
+      "status": "suggested",
+      "count": "11"
+    },
+    {
+      "companyName": "Harver",
+      "status": "suggested",
+      "count": "20"
+    },
+    {
+      "companyName": "inploi",
+      "status": "suggested",
+      "count": "12"
+    },
+    {
+      "companyName": "JobSync",
+      "status": "suggested",
+      "count": "12"
+    },
+    {
+      "companyName": "Maki People",
+      "status": "suggested",
+      "count": "12"
+    },
+    {
+      "companyName": "PerchPeek",
+      "status": "suggested",
+      "count": "12"
+    },
+    {
+      "companyName": "Poetry",
+      "status": "suggested",
+      "count": "12"
+    },
+    {
+      "companyName": "Radancy",
+      "status": "suggested",
+      "count": "12"
+    },
+    {
+      "companyName": "Sapia.ai",
+      "status": "suggested",
+      "count": "12"
+    },
+    {
+      "companyName": "SHL",
+      "status": "suggested",
+      "count": "24"
+    },
+    {
+      "companyName": "Stepstone Group UK Ltd",
+      "status": "suggested",
+      "count": "12"
+    },
+    {
+      "companyName": "Symphony Talent ",
+      "status": "suggested",
+      "count": "12"
+    },
+    {
+      "companyName": "The Martec",
+      "status": "suggested",
+      "count": "12"
+    },
+    {
+      "companyName": "Udder",
+      "status": "suggested",
+      "count": "12"
+    },
+    {
+      "companyName": "Veremark ",
+      "status": "suggested",
+      "count": "12"
+    },
+    {
+      "companyName": "Wilson",
+      "status": "suggested",
+      "count": "12"
+    },
+    {
+      "companyName": "Zinc",
+      "status": "suggested",
+      "count": "12"
+    }
+  ],
+  "messages": [],
+  "stdout": "companyName\tstatus\tcount\nAmberjack\tsuggested\t12\nAppcast\tsuggested\t20\nBright Apply\tsuggested\t10\nhackajob\tsuggested\t12\nHappydance Careers Websites\tsuggested\t11\nHarver\tsuggested\t20\ninploi\tsuggested\t12\nJobSync\tsuggested\t12\nMaki People\tsuggested\t12\nPerchPeek\tsuggested\t12\nPoetry\tsuggested\t12\nRadancy\tsuggested\t12\nSapia.ai\tsuggested\t12\nSHL\tsuggested\t24\nStepstone Group UK Ltd\tsuggested\t12\nSymphony Talent \tsuggested\t12\nThe Martec\tsuggested\t12\nUdder\tsuggested\t12\nVeremark \tsuggested\t12\nWilson\tsuggested\t12\nZinc\tsuggested\t12\n",
+  "stderr": "",
+  "execution_time_ms": 378
+}
