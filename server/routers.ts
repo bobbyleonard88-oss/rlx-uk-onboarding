@@ -258,20 +258,32 @@ export const appRouter = router({
         }
       }
       
+      // Helper: compute opt-in delegates for a sponsor from the attendees list
+      const getOptInDelegates = (sponsorName: string): string[] => {
+        const nameLower = (sponsorName || '').toLowerCase();
+        return attendees
+          .filter(a => (a.optInSponsors ?? []).some((s: string) =>
+            s.toLowerCase().includes(nameLower) || nameLower.includes(s.toLowerCase())
+          ))
+          .map(a => a.id);
+      };
+
       // Process deduplicated rankings submissions
       for (const sub of Array.from(latestRankingsBySponsor.values()).filter(s => isAllowed(s.sponsorId))) {
         const sponsor = await db.getSponsorById(sub.sponsorId);
         const intakeSubmission = await db.getIntakeSubmissionBySponsor(sub.sponsorId);
         const priorityTags = await db.getPriorityTagsBySponsor(sub.sponsorId);
+        const sponsorName = sponsor?.companyName || '';
         submissions.push({
           ...sub,
-          companyName: sponsor?.companyName || "Unknown",
+          companyName: sponsorName || "Unknown",
           contactName: sponsor?.contactName || "Unknown",
           contactEmail: sponsor?.contactEmail || "Unknown",
           intakeData: intakeSubmission || null,
           hasIntake: !!intakeSubmission,
           hasRankings: true,
           priorityDelegates: priorityTags.map(t => t.attendeeId),
+          optInDelegates: getOptInDelegates(sponsorName),
         });
         if (sub.sponsorId) processedSponsors.add(sub.sponsorId);
       }
@@ -281,6 +293,7 @@ export const appRouter = router({
         if (!processedSponsors.has(intake.sponsorId) && isAllowed(intake.sponsorId)) {
           const sponsor = await db.getSponsorById(intake.sponsorId);
           const priorityTags = await db.getPriorityTagsBySponsor(intake.sponsorId);
+          const sponsorName = intake.companyName || sponsor?.companyName || '';
           submissions.push({
             id: intake.id,
             sponsorId: intake.sponsorId,
@@ -288,7 +301,7 @@ export const appRouter = router({
             isArchived: 0,
             status: 'pending', // intake-only submissions always start as pending
             isReviewed: 0,
-            companyName: intake.companyName || sponsor?.companyName || "Unknown",
+            companyName: sponsorName || "Unknown",
             contactName: intake.firstName + " " + intake.lastName,
             contactEmail: intake.email,
             intakeData: intake,
@@ -296,6 +309,7 @@ export const appRouter = router({
             hasRankings: false,
             rankingsData: null,
             priorityDelegates: priorityTags.map(t => t.attendeeId),
+            optInDelegates: getOptInDelegates(sponsorName),
           });
         }
       }

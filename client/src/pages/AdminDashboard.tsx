@@ -436,6 +436,36 @@ export default function AdminDashboard() {
                       </div>
                     )}
                     
+                    {/* CSV Opt-In Delegates (read-only, from delegate form) */}
+                    {submission.optInDelegates && submission.optInDelegates.length > 0 && (
+                      <div className="mb-3">
+                        <p className="text-xs text-slate-500 mb-1.5">Opted in via delegate form:</p>
+                        <div className="flex flex-wrap gap-2">
+                          {(submission.optInDelegates as string[]).map((delegateId: string) => {
+                            const delegate = attendees.find(a => a.id === delegateId);
+                            if (!delegate) return null;
+                            const isAlreadyTagged = submission.priorityDelegates?.includes(delegateId);
+                            return (
+                              <div
+                                key={delegateId}
+                                className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-emerald-900/40 border border-emerald-700/50 rounded-full text-xs"
+                              >
+                                <span className="text-emerald-300 font-medium">{delegate.firstName} {delegate.lastName}</span>
+                                <span className="text-emerald-500 text-xs">{delegate.company}</span>
+                                {!isAlreadyTagged && (
+                                  <button
+                                    title="Add to priority list"
+                                    onClick={() => addPriorityTag.mutate({ sponsorId: submission.sponsorId, attendeeId: delegateId })}
+                                    className="text-emerald-400 hover:text-white transition-colors ml-0.5"
+                                  >+</button>
+                                )}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+
                     {/* Add Delegate Dropdown - Searchable */}
                     <Popover 
                       open={openCombobox[submission.sponsorId] || false} 

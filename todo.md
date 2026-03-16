@@ -1342,3 +1342,4 @@
 - [x] Update AI match prompt to mention opt-in status in reason
 - [x] Rename Priority Delegates to Opt In Meetings in UI
 - [x] Add Clear All Meetings button to admin panel
+- [x] Show CSV opt-in delegates on admin dashboard Opt In Meetings section per sponsor
