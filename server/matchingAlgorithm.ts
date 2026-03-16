@@ -120,21 +120,31 @@ Respond with ONLY a JSON object mapping delegate IDs to {score, reasoning}, like
 
 No other text, just the JSON.`;
     
-    // Race the LLM call against a 90-second timeout so a stalled API call
-    // never blocks the entire Match All operation.
-    const LLM_TIMEOUT_MS = 90_000;
-    const timeoutPromise = new Promise<never>((_, reject) =>
-      setTimeout(() => reject(new Error(`[Matching] AI scoring timed out after ${LLM_TIMEOUT_MS / 1000}s for ${sponsorName}`)), LLM_TIMEOUT_MS)
-    );
-    const response = await Promise.race([
-      invokeLLM({
+    // Use AbortController to hard-cancel the fetch when the timeout fires.
+    // Promise.race alone does not cancel the underlying HTTP connection, so
+    // the stalled request would keep consuming resources and block Node's event loop.
+    const LLM_TIMEOUT_MS = 75_000;
+    const abortController = new AbortController();
+    const timeoutId = setTimeout(() => {
+      console.warn(`[Matching] AI scoring timed out after ${LLM_TIMEOUT_MS / 1000}s for ${sponsorName} — aborting fetch`);
+      abortController.abort();
+    }, LLM_TIMEOUT_MS);
+    let response;
+    try {
+      response = await invokeLLM({
         messages: [
           { role: "system", content: "You are a B2B matchmaking scoring expert. Respond with only JSON." },
           { role: "user", content: prompt }
-        ]
-      }),
-      timeoutPromise
-    ]);
+        ],
+        signal: abortController.signal,
+      });
+    } catch (llmErr: unknown) {
+      clearTimeout(timeoutId);
+      const msg = llmErr instanceof Error ? llmErr.message : String(llmErr);
+      console.error(`[Matching] AI scoring failed for ${sponsorName}: ${msg}`);
+      return scores; // fall back to keyword scoring
+    }
+    clearTimeout(timeoutId);
     
     const content = response.choices[0]?.message?.content;
     const jsonText = typeof content === 'string' ? content.trim() : "{}";
