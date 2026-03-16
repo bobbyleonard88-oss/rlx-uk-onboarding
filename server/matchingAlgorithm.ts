@@ -754,7 +754,9 @@ export async function generateMeetingsForSponsor(
 /**
  * Generate meetings for all sponsors
  */
-export async function generateMeetingsForAllSponsors(): Promise<Map<number, MatchResult[]>> {
+export async function generateMeetingsForAllSponsors(
+  onProgress?: (event: import('./matchProgress').MatchProgressEvent) => void
+): Promise<Map<number, MatchResult[]>> {
   const allSponsors = await db.getAllSponsors();
   const results = new Map<number, MatchResult[]>();
 
@@ -772,19 +774,33 @@ export async function generateMeetingsForAllSponsors(): Promise<Map<number, Matc
     return new Date(aDate).getTime() - new Date(bDate).getTime();
   });
 
+  // Filter to only sponsors with intake forms (the ones we'll actually process)
+  const eligibleSponsors = sortedSponsors.filter(s => intakeBySponsors.has(s.id));
+  const totalSponsors = eligibleSponsors.length;
+  let completedSponsors = 0;
+
   console.log('[Matching] Processing sponsors in intake submission order (earliest first)');
 
-  for (const sponsor of sortedSponsors) {
-    const intakeSubmission = intakeBySponsors.get(sponsor.id);
-    if (!intakeSubmission) continue; // Skip sponsors without intake form
-    
+  // Emit start event
+  onProgress?.({ type: 'start', totalSponsors, phase: 'scoring' });
+
+  for (const sponsor of eligibleSponsors) {
+    const intakeSubmission = intakeBySponsors.get(sponsor.id)!;
     const meetingCount = intakeSubmission.meetingPackage === "20" ? 20 : 12;
+    const sponsorName = sponsor.companyName || `Sponsor ${sponsor.id}`;
+    
+    // Emit scoring start for this sponsor
+    onProgress?.({ type: 'scoring_start', sponsorId: sponsor.id, sponsorName, totalSponsors, completedSponsors, phase: 'scoring' });
     
     try {
       const matches = await generateMeetingsForSponsor(sponsor.id, meetingCount);
       results.set(sponsor.id, matches);
+      completedSponsors++;
+      onProgress?.({ type: 'scoring_complete', sponsorId: sponsor.id, sponsorName, meetingCount: matches.length, totalSponsors, completedSponsors, phase: 'scoring' });
     } catch (error) {
       console.error(`Failed to generate meetings for sponsor ${sponsor.id}:`, error);
+      completedSponsors++;
+      onProgress?.({ type: 'sponsor_error', sponsorId: sponsor.id, sponsorName, error: String(error), totalSponsors, completedSponsors });
     }
   }
   

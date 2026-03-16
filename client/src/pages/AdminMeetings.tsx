@@ -11,7 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Sparkles, RefreshCw, LogOut, User, Trash2, Save, Send, Download, Zap } from "lucide-react";
 import TimeSlotScheduler from "@/components/TimeSlotScheduler";
-import { useState } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { toast } from "sonner";
 import { attendees } from "@/lib/attendees";
 import { Link } from "wouter";
@@ -46,6 +46,115 @@ export default function AdminMeetings() {
   const [editedMatches, setEditedMatches] = useState<MatchResult[]>([]);
   const [selectedAttendee, setSelectedAttendee] = useState<1 | 2>(1); // For 20-meeting packages
   const [replacingMeetingId, setReplacingMeetingId] = useState<number | null>(null);
+
+  // ─── Match All Progress State ────────────────────────────────────────────────
+  interface SponsorProgress {
+    sponsorId: number;
+    sponsorName: string;
+    status: 'pending' | 'scoring' | 'saving' | 'done' | 'error';
+    meetingCount?: number;
+    error?: string;
+  }
+  const [matchProgress, setMatchProgress] = useState<{
+    isVisible: boolean;
+    phase: 'scoring' | 'saving' | 'done';
+    totalSponsors: number;
+    completedSponsors: number;
+    sponsors: SponsorProgress[];
+  } | null>(null);
+  const sseRef = useRef<EventSource | null>(null);
+
+  const startProgressTracking = useCallback(() => {
+    // Close any existing SSE connection
+    if (sseRef.current) { sseRef.current.close(); sseRef.current = null; }
+
+    const es = new EventSource('/api/match-progress');
+    sseRef.current = es;
+
+    es.onmessage = (e) => {
+      try {
+        const event = JSON.parse(e.data);
+        if (event.type === 'connected') return;
+
+        setMatchProgress(prev => {
+          if (!prev && event.type !== 'start') return prev;
+
+          if (event.type === 'start') {
+            return {
+              isVisible: true,
+              phase: 'scoring',
+              totalSponsors: event.totalSponsors ?? 0,
+              completedSponsors: 0,
+              sponsors: [],
+            };
+          }
+
+          if (!prev) return prev;
+
+          if (event.type === 'scoring_start') {
+            return {
+              ...prev,
+              sponsors: [...prev.sponsors, {
+                sponsorId: event.sponsorId,
+                sponsorName: event.sponsorName,
+                status: 'scoring',
+              }],
+            };
+          }
+
+          if (event.type === 'scoring_complete') {
+            return {
+              ...prev,
+              completedSponsors: event.completedSponsors ?? prev.completedSponsors,
+              sponsors: prev.sponsors.map(s =>
+                s.sponsorId === event.sponsorId
+                  ? { ...s, status: 'saving' as const, meetingCount: event.meetingCount }
+                  : s
+              ),
+            };
+          }
+
+          if (event.type === 'sponsor_complete') {
+            return {
+              ...prev,
+              phase: 'saving',
+              completedSponsors: event.completedSponsors ?? prev.completedSponsors,
+              sponsors: prev.sponsors.map(s =>
+                s.sponsorId === event.sponsorId
+                  ? { ...s, status: 'done' as const, meetingCount: event.meetingCount }
+                  : s
+              ),
+            };
+          }
+
+          if (event.type === 'sponsor_error') {
+            return {
+              ...prev,
+              completedSponsors: event.completedSponsors ?? prev.completedSponsors,
+              sponsors: prev.sponsors.map(s =>
+                s.sponsorId === event.sponsorId
+                  ? { ...s, status: 'error' as const, error: event.error }
+                  : s
+              ),
+            };
+          }
+
+          if (event.type === 'done') {
+            es.close();
+            sseRef.current = null;
+            return { ...prev, phase: 'done', completedSponsors: prev.totalSponsors };
+          }
+
+          return prev;
+        });
+      } catch (_) {}
+    };
+
+    es.onerror = () => { es.close(); sseRef.current = null; };
+  }, []);
+
+  // Clean up SSE on unmount
+  useEffect(() => () => { sseRef.current?.close(); }, []);
   
   const includeTestAccounts = useTestMode();
   const { data: submissions } = trpc.admin.getAllSubmissions.useQuery({ includeTestAccounts });
@@ -173,6 +282,8 @@ export default function AdminMeetings() {
 
   const handleMatchAllSponsors = () => {
     if (!confirm(`This will generate and save meetings for ALL sponsors (respecting test mode). This may take several minutes. Continue?`)) return;
+    // Start SSE progress tracking BEFORE firing the mutation
+    startProgressTracking();
     generateAllMeetings.mutate({ includeTestAccounts });
   };
   
@@ -315,6 +426,96 @@ export default function AdminMeetings() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       <AdminHeader />
+
+      {/* ─── Match All Progress Overlay ─────────────────────────────────────── */}
+      {matchProgress?.isVisible && (
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-slate-900 border border-purple-500/30 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[85vh] flex flex-col overflow-hidden">
+            {/* Header */}
+            <div className="p-6 border-b border-slate-700/50">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center">
+                    {matchProgress.phase === 'done'
+                      ? <span className="text-emerald-400 text-lg">✓</span>
+                      : <RefreshCw className="w-4 h-4 text-emerald-400 animate-spin" />}
+                  </div>
+                  <div>
+                    <h2 className="text-white font-bold text-lg">
+                      {matchProgress.phase === 'done' ? 'Matching Complete!' : 'Matching All Sponsors...'}
+                    </h2>
+                    <p className="text-slate-400 text-sm">
+                      {matchProgress.phase === 'scoring' && 'Phase 1 of 2 — AI scoring delegates'}
+                      {matchProgress.phase === 'saving' && 'Phase 2 of 2 — Saving meetings to database'}
+                      {matchProgress.phase === 'done' && `${matchProgress.totalSponsors} sponsors matched successfully`}
+                    </p>
+                  </div>
+                </div>
+                {matchProgress.phase === 'done' && (
+                  <button
+                    onClick={() => setMatchProgress(null)}
+                    className="text-slate-400 hover:text-white transition-colors text-xl leading-none"
+                  >
+                    ×
+                  </button>
+                )}
+              </div>
+              {/* Progress bar */}
+              <div className="space-y-1">
+                <div className="flex justify-between text-xs text-slate-400">
+                  <span>{matchProgress.completedSponsors} of {matchProgress.totalSponsors} sponsors</span>
+                  <span>{matchProgress.totalSponsors > 0 ? Math.round((matchProgress.completedSponsors / matchProgress.totalSponsors) * 100) : 0}%</span>
+                </div>
+                <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-gradient-to-r from-purple-500 to-emerald-500 rounded-full transition-all duration-500"
+                    style={{ width: `${matchProgress.totalSponsors > 0 ? (matchProgress.completedSponsors / matchProgress.totalSponsors) * 100 : 0}%` }}
+                  />
+                </div>
+              </div>
+            </div>
+            {/* Sponsor timeline */}
+            <div className="flex-1 overflow-y-auto p-4 space-y-2">
+              {matchProgress.sponsors.map((s) => (
+                <div
+                  key={s.sponsorId}
+                  className={`flex items-center gap-3 p-3 rounded-lg border transition-all duration-300 ${
+                    s.status === 'done' ? 'bg-emerald-900/20 border-emerald-600/30'
+                    : s.status === 'error' ? 'bg-red-900/20 border-red-600/30'
+                    : s.status === 'saving' ? 'bg-blue-900/20 border-blue-600/30'
+                    : 'bg-purple-900/20 border-purple-600/30 animate-pulse'
+                  }`}
+                >
+                  <div className="w-6 h-6 flex-shrink-0 flex items-center justify-center">
+                    {s.status === 'done' && <span className="text-emerald-400 text-sm">✓</span>}
+                    {s.status === 'error' && <span className="text-red-400 text-sm">✗</span>}
+                    {s.status === 'saving' && <RefreshCw className="w-3 h-3 text-blue-400 animate-spin" />}
+                    {s.status === 'scoring' && <Sparkles className="w-3 h-3 text-purple-400" />}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-white text-sm font-medium truncate">{s.sponsorName}</p>
+                    <p className="text-xs text-slate-400">
+                      {s.status === 'scoring' && 'Scoring delegates...'}
+                      {s.status === 'saving' && 'Saving meetings...'}
+                      {s.status === 'done' && `${s.meetingCount ?? 0} meetings saved`}
+                      {s.status === 'error' && (s.error ?? 'Failed')}
+                    </p>
+                  </div>
+                  {s.status === 'done' && s.meetingCount !== undefined && (
+                    <span className="text-xs font-bold text-emerald-400 flex-shrink-0">{s.meetingCount}</span>
+                  )}
+                </div>
+              ))}
+              {matchProgress.phase !== 'done' && matchProgress.sponsors.length === 0 && (
+                <div className="text-center text-slate-400 py-8">
+                  <RefreshCw className="w-6 h-6 animate-spin mx-auto mb-2" />
+                  <p className="text-sm">Preparing sponsors...</p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
       
       <div className="container mx-auto p-6 space-y-6 max-w-full overflow-x-hidden">
         {/* Sponsor Selection */}

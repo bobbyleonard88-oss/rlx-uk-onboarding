@@ -10,6 +10,7 @@ import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
 import { storagePut } from "../storage";
 import { htmlToPdf } from "../pdfGenerator";
+import { matchProgress as matchProgressEmitter } from "../matchProgress";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -81,6 +82,44 @@ async function startServer() {
       console.error('PDF generation error:', err);
       res.status(500).json({ error: err.message || 'PDF generation failed' });
     }
+  });
+
+  // SSE endpoint for Match All Sponsors live progress
+  // matchProgress is imported at the top of the file
+  app.get('/api/match-progress', (req, res) => {
+    // Verify session cookie — only authenticated users can subscribe
+    const cookieHeader = req.headers.cookie || '';
+    if (!cookieHeader.includes('app_session_id=')) {
+      res.status(401).json({ error: 'Unauthorized' });
+      return;
+    }
+
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Connection', 'keep-alive');
+    res.setHeader('X-Accel-Buffering', 'no'); // Disable nginx buffering
+    res.flushHeaders();
+
+    // Send initial heartbeat
+    res.write('data: {"type":"connected"}\n\n');
+
+    const onProgress = (event: unknown) => {
+      try {
+        res.write(`data: ${JSON.stringify(event)}\n\n`);
+      } catch (_) {}
+    };
+
+    matchProgressEmitter.on('progress', onProgress);
+
+    // Keep alive ping every 15s
+    const pingInterval = setInterval(() => {
+      try { res.write(': ping\n\n'); } catch (_) { clearInterval(pingInterval); }
+    }, 15000);
+
+    req.on('close', () => {
+      clearInterval(pingInterval);
+      matchProgressEmitter.off('progress', onProgress);
+    });
   });
 
   // OAuth callback under /api/oauth/callback

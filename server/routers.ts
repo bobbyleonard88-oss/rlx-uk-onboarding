@@ -731,11 +731,18 @@ export const appRouter = router({
       .input(z.object({ includeTestAccounts: z.boolean().optional() }).optional())
       .mutation(async ({ input }) => {
         const { generateMeetingsForAllSponsors } = await import('./matchingAlgorithm');
+        const { matchProgress } = await import('./matchProgress');
         const TEST_SPONSOR_IDS = new Set([30001, 60001, 90001, 120001]);
         const ALWAYS_EXCLUDED_SPONSOR_IDS = new Set([270001, 510003]);
         const includeTestAccounts = input?.includeTestAccounts ?? false;
+
+        // Start a progress session so SSE clients can track this run
+        const sessionId = `match-${Date.now()}`;
+        matchProgress.startSession(sessionId);
         
-        const allMatchResults = await generateMeetingsForAllSponsors();
+        const allMatchResults = await generateMeetingsForAllSponsors((event) => {
+          matchProgress.emitProgress(event);
+        });
         const savedResults: { sponsorId: number; meetingCount: number }[] = [];
 
         // ─── Global slot availability trackers ───────────────────────────────────
@@ -853,7 +860,20 @@ export const appRouter = router({
           }
           
           savedResults.push({ sponsorId, meetingCount: matchesWithSlots.length });
+          // Emit saving complete for this sponsor
+          matchProgress.emitProgress({
+            type: 'sponsor_complete',
+            sponsorId,
+            meetingCount: matchesWithSlots.length,
+            completedSponsors: savedResults.length,
+            totalSponsors: allMatchResults.size,
+            phase: 'saving',
+          });
         }
+        
+        // Signal completion and end the session
+        matchProgress.emitProgress({ type: 'done', totalSponsors: savedResults.length });
+        matchProgress.endSession();
         
         return { success: true, results: savedResults, totalSponsors: savedResults.length };
       }),

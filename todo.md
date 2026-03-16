@@ -1352,3 +1352,4 @@
 - [x] Fix time slot assignment logic for 12/24-meeting sponsors
 - [x] Fix 8-meeting delegate cap to persist across all sponsors during Match All
 - [x] Fix per-slot attendee name: show correct person (attendee 1 vs 2) per meeting for multi-attendee sponsors
+- [x] Add live progress UI to Match All Sponsors — progress bar + sponsor timeline
