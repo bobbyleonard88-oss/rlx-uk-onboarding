@@ -1343,3 +1343,5 @@
 - [x] Rename Priority Delegates to Opt In Meetings in UI
 - [x] Add Clear All Meetings button to admin panel
 - [x] Show CSV opt-in delegates on admin dashboard Opt In Meetings section per sponsor
+- [x] Add Opt In column to CSV export of all meetings
+- [x] Show Opt In badge on sponsor-facing meetings page

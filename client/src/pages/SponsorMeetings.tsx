@@ -146,9 +146,16 @@ export default function SponsorMeetings() {
                                       <CardContent className="p-4">
                                         <div className="flex items-start justify-between">
                                           <div>
-                                            <h4 className="font-heading font-bold text-foreground mb-1">
-                                              {meeting.attendeeFirstName} {meeting.attendeeLastName}
-                                            </h4>
+                                            <div className="flex items-center gap-2 mb-1">
+                                              <h4 className="font-heading font-bold text-foreground">
+                                                {meeting.attendeeFirstName} {meeting.attendeeLastName}
+                                              </h4>
+                                              {(meeting as any).hasDelegateOptIn && (
+                                                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-900/50 border border-emerald-600/50 text-emerald-300">
+                                                  ✓ Opted In
+                                                </span>
+                                              )}
+                                            </div>
                                             <p className="text-sm text-muted-foreground mb-1">
                                               {meeting.attendeeJobTitle}
                                             </p>

@@ -76,7 +76,15 @@ export const appRouter = router({
       if (!sponsor) return [];
       const allMeetings = await db.getMeetingsBySponsor(sponsor.id);
       // Only return confirmed meetings that are visible (published to sponsor AND not hidden by admin)
-      return allMeetings.filter(m => m.status === 'confirmed' && m.isVisible === 1);
+      const confirmed = allMeetings.filter(m => m.status === 'confirmed' && m.isVisible === 1);
+      const sponsorNameLower = (sponsor.companyName ?? '').toLowerCase();
+      return confirmed.map(m => {
+        const delegate = attendees.find(a => a.id === m.attendeeId);
+        const hasDelegateOptIn = (delegate?.optInSponsors ?? []).some((s: string) =>
+          s.toLowerCase().includes(sponsorNameLower) || sponsorNameLower.includes(s.toLowerCase())
+        );
+        return { ...m, hasDelegateOptIn };
+      });
     }),
     // Get sponsor's own intake (for attendee names on meeting schedule)
     getMyIntake: protectedProcedure.query(async ({ ctx }) => {
@@ -1627,6 +1635,11 @@ export const appRouter = router({
           const slotInfo = meeting.timeSlot ? slotLabels[meeting.timeSlot] : null;
           const isTop10 = rankingsTop10Map.get(meeting.sponsorId)?.has(meeting.attendeeId) ?? false;
           const hasLeaderOptIn = priorityTagsMap.get(meeting.sponsorId)?.has(meeting.attendeeId) ?? false;
+          // Check if delegate opted in via their delegate form
+          const sponsorName = (sponsor?.companyName ?? intake?.companyName ?? '').toLowerCase();
+          const hasDelegateOptIn = (delegate?.optInSponsors ?? []).some((s: string) =>
+            s.toLowerCase().includes(sponsorName) || sponsorName.includes(s.toLowerCase())
+          );
 
           return {
             // Vendor details
@@ -1641,6 +1654,7 @@ export const appRouter = router({
             // Priority flags
             'In Vendor Top 10': isTop10 ? 'Yes' : 'No',
             'Leader Opt-In': hasLeaderOptIn ? 'Yes' : 'No',
+            'Delegate Form Opt-In': hasDelegateOptIn ? 'Yes' : 'No',
             // Meeting slot info
             'Meeting Slot': meeting.timeSlot ? `Slot ${meeting.timeSlot}` : 'Unassigned',
             'Meeting Time': slotInfo?.time ?? '',
