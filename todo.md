@@ -1348,3 +1348,5 @@
 - [x] Cross-sponsor affinity boost: Appcast opt-ins score higher for JobSync
 - [x] Cross-sponsor affinity boost: Zinc opt-ins score higher for Veremark
 - [x] Fix JSON error when running Match All Sponsors
+- [x] Audit and fix double-bookings: sponsor same slot, delegate same slot
+- [x] Fix time slot assignment logic for 12/24-meeting sponsors

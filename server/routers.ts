@@ -737,43 +737,75 @@ export const appRouter = router({
         
         const allMatchResults = await generateMeetingsForAllSponsors();
         const savedResults: { sponsorId: number; meetingCount: number }[] = [];
-        
+
+        // ─── Global slot availability trackers ───────────────────────────────────
+        // Tracks which time slots each delegate is already booked into across ALL sponsors
+        // delegateUsedSlots: delegateId → Set<timeSlot>
+        const delegateUsedSlots = new Map<string, Set<number>>();
+        // Tracks which time slots each sponsor's attendee is already booked
+        // sponsorUsedSlots: sponsorId → attendeeNumber → Set<timeSlot>
+        const sponsorUsedSlots = new Map<number, Map<number, Set<number>>>();
+
+        // Valid slots: 1-6 (Day 1), 7-12 (Day 2)
+        const ALL_SLOTS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
+        // Sponsor-specific meeting count overrides (takes precedence over intake form package)
+        const SPONSOR_MEETING_COUNT_OVERRIDES: Record<number, number> = {
+          450001: 10,  // PerchPeek — 10 meetings
+          750001: 24,  // SHL — 24 meetings
+          870001: 12,  // Wilson — 12 meetings
+        };
+
         for (const [sponsorId, matches] of Array.from(allMatchResults.entries())) {
           // Skip excluded sponsors
           if (ALWAYS_EXCLUDED_SPONSOR_IDS.has(sponsorId)) continue;
           if (!includeTestAccounts && TEST_SPONSOR_IDS.has(sponsorId)) continue;
           
-          // Determine meeting count from intake form
+          // Determine meeting count
           const intakeSubmission = await db.getIntakeSubmissionBySponsor(sponsorId);
-          // Sponsor-specific meeting count overrides (takes precedence over intake form package)
-          const SPONSOR_MEETING_COUNT_OVERRIDES: Record<number, number> = {
-            450001: 10,  // PerchPeek — 10 meetings
-            750001: 24,  // SHL — 24 meetings
-            870001: 12,  // Wilson — 12 meetings
-          };
           const meetingCount = SPONSOR_MEETING_COUNT_OVERRIDES[sponsorId] ??
             (intakeSubmission?.meetingPackage === '20' ? 20 : 12);
-          const is20MeetingPackage = meetingCount === 20;
-          const DAY1_SLOTS_COUNT = 6;
-          const DAY2_START = 7;
-          
-          // Auto-assign time slots
-          const matchesWithSlots = (matches as any[]).map((match: any, index: number) => {
-            const attendeeNumber = is20MeetingPackage ? (index < 10 ? 1 : 2) : 1;
-            const attendeeIndex = is20MeetingPackage ? (index < 10 ? index : index - 10) : index;
-            let timeSlot: number | null;
-            if (is20MeetingPackage) {
-              if (attendeeIndex < 5) timeSlot = attendeeIndex + 1;
-              else if (attendeeIndex < 10) timeSlot = (attendeeIndex - 5) + DAY2_START;
-              else timeSlot = null;
+
+          // For sponsors with > 12 meetings they need 2 attendees
+          // Attendee 1 gets the first half, Attendee 2 gets the second half
+          const halfCount = Math.ceil(meetingCount / 2);
+          const hasTwoAttendees = meetingCount > 12;
+
+          // Initialise sponsor slot tracker
+          if (!sponsorUsedSlots.has(sponsorId)) {
+            sponsorUsedSlots.set(sponsorId, new Map<number, Set<number>>([[1, new Set<number>()], [2, new Set<number>()]]));
+          }
+          const sponsorSlots = sponsorUsedSlots.get(sponsorId)!;
+
+          const matchesWithSlots: any[] = [];
+
+          for (let i = 0; i < (matches as any[]).length; i++) {
+            const match = (matches as any[])[i];
+            // Determine which attendee this meeting belongs to
+            const attendeeNumber = hasTwoAttendees ? (i < halfCount ? 1 : 2) : 1;
+
+            // Get used slots for this delegate and this sponsor's attendee
+            const delegateSlots = delegateUsedSlots.get(match.attendeeId) ?? new Set<number>();
+            const sponsorAttendeeSlots = sponsorSlots.get(attendeeNumber) ?? new Set<number>();
+
+            // Find the first slot that is free for BOTH the delegate and the sponsor's attendee
+            const availableSlot = ALL_SLOTS.find(
+              slot => !delegateSlots.has(slot) && !sponsorAttendeeSlots.has(slot)
+            ) ?? null;
+
+            if (availableSlot !== null) {
+              // Mark this slot as used
+              delegateSlots.add(availableSlot);
+              sponsorAttendeeSlots.add(availableSlot);
+              delegateUsedSlots.set(match.attendeeId, delegateSlots);
+              sponsorSlots.set(attendeeNumber, sponsorAttendeeSlots);
             } else {
-              if (attendeeIndex < DAY1_SLOTS_COUNT) timeSlot = attendeeIndex + 1;
-              else if (attendeeIndex < DAY1_SLOTS_COUNT * 2) timeSlot = (attendeeIndex - DAY1_SLOTS_COUNT) + DAY2_START;
-              else timeSlot = null;
+              console.warn(`[Scheduling] No available slot for delegate ${match.attendeeId} with sponsor ${sponsorId} — meeting will have null slot`);
             }
-            return { ...match, timeSlot, attendeeNumber };
-          });
-          
+
+            matchesWithSlots.push({ ...match, timeSlot: availableSlot, attendeeNumber });
+          }
+
           // Save to database (replace existing meetings)
           await db.deleteMeetingsBySponsor(sponsorId);
           for (const meeting of matchesWithSlots) {

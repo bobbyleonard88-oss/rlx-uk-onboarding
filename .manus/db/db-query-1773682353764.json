@@ -1,0 +1,376 @@
+{
+  "query": "\nSELECT \n  attendeeId,\n  timeSlot,\n  COUNT(*) as meeting_count,\n  GROUP_CONCAT(sponsorId ORDER BY id SEPARATOR ', ') as sponsor_ids\nFROM meetings\nWHERE timeSlot IS NOT NULL\n  AND status IN ('suggested', 'confirmed')\nGROUP BY attendeeId, timeSlot\nHAVING COUNT(*) > 1\nORDER BY attendeeId, timeSlot;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT \n  attendeeId,\n  timeSlot,\n  COUNT(*) as meeting_count,\n  GROUP_CONCAT(sponsorId ORDER BY id SEPARATOR ', ') as sponsor_ids\nFROM meetings\nWHERE timeSlot IS NOT NULL\n  AND status IN ('suggested', 'confirmed')\nGROUP BY attendeeId, timeSlot\nHAVING COUNT(*) > 1\nORDER BY attendeeId, timeSlot;\n",
+  "rows": [
+    {
+      "attendeeId": "111228357473",
+      "timeSlot": "4",
+      "meeting_count": "3",
+      "sponsor_ids": "390001, 360001, 780001"
+    },
+    {
+      "attendeeId": "111228357473",
+      "timeSlot": "6",
+      "meeting_count": "3",
+      "sponsor_ids": "690001, 720001, 840001"
+    },
+    {
+      "attendeeId": "111228357473",
+      "timeSlot": "7",
+      "meeting_count": "3",
+      "sponsor_ids": "270002, 600001, 870001"
+    },
+    {
+      "attendeeId": "111228357473",
+      "timeSlot": "12",
+      "meeting_count": "2",
+      "sponsor_ids": "240001, 810001"
+    },
+    {
+      "attendeeId": "11132851",
+      "timeSlot": "2",
+      "meeting_count": "3",
+      "sponsor_ids": "330001, 390001, 840001"
+    },
+    {
+      "attendeeId": "11132851",
+      "timeSlot": "4",
+      "meeting_count": "3",
+      "sponsor_ids": "270002, 750001, 870001"
+    },
+    {
+      "attendeeId": "11132851",
+      "timeSlot": "5",
+      "meeting_count": "3",
+      "sponsor_ids": "300001, 450001, 810001"
+    },
+    {
+      "attendeeId": "11132851",
+      "timeSlot": "7",
+      "meeting_count": "2",
+      "sponsor_ids": "540001, 780001"
+    },
+    {
+      "attendeeId": "11132851",
+      "timeSlot": "8",
+      "meeting_count": "2",
+      "sponsor_ids": "720001, 810002"
+    },
+    {
+      "attendeeId": "11132851",
+      "timeSlot": "9",
+      "meeting_count": "2",
+      "sponsor_ids": "360001, 900001"
+    },
+    {
+      "attendeeId": "116903349643",
+      "timeSlot": "5",
+      "meeting_count": "2",
+      "sponsor_ids": "270002, 750001"
+    },
+    {
+      "attendeeId": "116903349643",
+      "timeSlot": "7",
+      "meeting_count": "2",
+      "sponsor_ids": "450001, 810001"
+    },
+    {
+      "attendeeId": "13454401",
+      "timeSlot": "2",
+      "meeting_count": "2",
+      "sponsor_ids": "870001, 900001"
+    },
+    {
+      "attendeeId": "13454401",
+      "timeSlot": "5",
+      "meeting_count": "2",
+      "sponsor_ids": "360001, 690001"
+    },
+    {
+      "attendeeId": "13454401",
+      "timeSlot": "6",
+      "meeting_count": "2",
+      "sponsor_ids": "300001, 810001"
+    },
+    {
+      "attendeeId": "150796696175",
+      "timeSlot": "12",
+      "meeting_count": "2",
+      "sponsor_ids": "300001, 750001"
+    },
+    {
+      "attendeeId": "190898269597",
+      "timeSlot": "3",
+      "meeting_count": "2",
+      "sponsor_ids": "450001, 540001"
+    },
+    {
+      "attendeeId": "190898269597",
+      "timeSlot": "6",
+      "meeting_count": "2",
+      "sponsor_ids": "360001, 780001"
+    },
+    {
+      "attendeeId": "190898269597",
+      "timeSlot": "10",
+      "meeting_count": "3",
+      "sponsor_ids": "390001, 600001, 900001"
+    },
+    {
+      "attendeeId": "190898269597",
+      "timeSlot": "11",
+      "meeting_count": "4",
+      "sponsor_ids": "270002, 210001, 690001, 810001"
+    },
+    {
+      "attendeeId": "190937723960",
+      "timeSlot": "3",
+      "meeting_count": "2",
+      "sponsor_ids": "720001, 900001"
+    },
+    {
+      "attendeeId": "190937723960",
+      "timeSlot": "10",
+      "meeting_count": "2",
+      "sponsor_ids": "330001, 870001"
+    },
+    {
+      "attendeeId": "201697440144",
+      "timeSlot": "2",
+      "meeting_count": "3",
+      "sponsor_ids": "270002, 720001, 750001"
+    },
+    {
+      "attendeeId": "201697440144",
+      "timeSlot": "4",
+      "meeting_count": "3",
+      "sponsor_ids": "210001, 690001, 810002"
+    },
+    {
+      "attendeeId": "201697440144",
+      "timeSlot": "8",
+      "meeting_count": "3",
+      "sponsor_ids": "600001, 840001, 900001"
+    },
+    {
+      "attendeeId": "201697440144",
+      "timeSlot": "10",
+      "meeting_count": "2",
+      "sponsor_ids": "300001, 360001"
+    },
+    {
+      "attendeeId": "203946652193",
+      "timeSlot": "4",
+      "meeting_count": "2",
+      "sponsor_ids": "540001, 720001"
+    },
+    {
+      "attendeeId": "203946652193",
+      "timeSlot": "10",
+      "meeting_count": "5",
+      "sponsor_ids": "240001, 270002, 450001, 780001, 810002"
+    },
+    {
+      "attendeeId": "208415155065",
+      "timeSlot": "3",
+      "meeting_count": "3",
+      "sponsor_ids": "270002, 690001, 780001"
+    },
+    {
+      "attendeeId": "208415155065",
+      "timeSlot": "4",
+      "meeting_count": "3",
+      "sponsor_ids": "300001, 330001, 450001"
+    },
+    {
+      "attendeeId": "208415155065",
+      "timeSlot": "5",
+      "meeting_count": "2",
+      "sponsor_ids": "840001, 900001"
+    },
+    {
+      "attendeeId": "208415155065",
+      "timeSlot": "6",
+      "meeting_count": "3",
+      "sponsor_ids": "390001, 600001, 810002"
+    },
+    {
+      "attendeeId": "208415155065",
+      "timeSlot": "9",
+      "meeting_count": "2",
+      "sponsor_ids": "210001, 750001"
+    },
+    {
+      "attendeeId": "208415155065",
+      "timeSlot": "10",
+      "meeting_count": "2",
+      "sponsor_ids": "720001, 810001"
+    },
+    {
+      "attendeeId": "5140258",
+      "timeSlot": "1",
+      "meeting_count": "2",
+      "sponsor_ids": "600001, 840001"
+    },
+    {
+      "attendeeId": "5140258",
+      "timeSlot": "2",
+      "meeting_count": "2",
+      "sponsor_ids": "210001, 360001"
+    },
+    {
+      "attendeeId": "5140258",
+      "timeSlot": "8",
+      "meeting_count": "2",
+      "sponsor_ids": "390001, 750001"
+    },
+    {
+      "attendeeId": "5140258",
+      "timeSlot": "9",
+      "meeting_count": "2",
+      "sponsor_ids": "690001, 720001"
+    },
+    {
+      "attendeeId": "8713772",
+      "timeSlot": "2",
+      "meeting_count": "2",
+      "sponsor_ids": "300001, 210001"
+    },
+    {
+      "attendeeId": "8713772",
+      "timeSlot": "3",
+      "meeting_count": "2",
+      "sponsor_ids": "810001, 870001"
+    },
+    {
+      "attendeeId": "8713772",
+      "timeSlot": "9",
+      "meeting_count": "2",
+      "sponsor_ids": "270002, 840001"
+    },
+    {
+      "attendeeId": "8713772",
+      "timeSlot": "11",
+      "meeting_count": "3",
+      "sponsor_ids": "600001, 720001, 780001"
+    },
+    {
+      "attendeeId": "8713772",
+      "timeSlot": "12",
+      "meeting_count": "2",
+      "sponsor_ids": "390001, 690001"
+    },
+    {
+      "attendeeId": "8952301",
+      "timeSlot": "1",
+      "meeting_count": "3",
+      "sponsor_ids": "300001, 360001, 810001"
+    },
+    {
+      "attendeeId": "8952301",
+      "timeSlot": "9",
+      "meeting_count": "2",
+      "sponsor_ids": "540001, 600001"
+    },
+    {
+      "attendeeId": "91889321035",
+      "timeSlot": "1",
+      "meeting_count": "4",
+      "sponsor_ids": "540001, 720001, 780001, 900001"
+    },
+    {
+      "attendeeId": "91889321035",
+      "timeSlot": "5",
+      "meeting_count": "2",
+      "sponsor_ids": "330001, 600001"
+    },
+    {
+      "attendeeId": "92353346050",
+      "timeSlot": "1",
+      "meeting_count": "3",
+      "sponsor_ids": "270002, 690001, 750001"
+    },
+    {
+      "attendeeId": "92353346050",
+      "timeSlot": "3",
+      "meeting_count": "2",
+      "sponsor_ids": "210001, 840001"
+    },
+    {
+      "attendeeId": "92353346050",
+      "timeSlot": "5",
+      "meeting_count": "2",
+      "sponsor_ids": "720001, 780001"
+    },
+    {
+      "attendeeId": "92353346050",
+      "timeSlot": "12",
+      "meeting_count": "3",
+      "sponsor_ids": "450001, 810002, 870001"
+    },
+    {
+      "attendeeId": "92953690026",
+      "timeSlot": "2",
+      "meeting_count": "3",
+      "sponsor_ids": "270002, 450001, 600001"
+    },
+    {
+      "attendeeId": "92953690026",
+      "timeSlot": "3",
+      "meeting_count": "2",
+      "sponsor_ids": "330001, 360001"
+    },
+    {
+      "attendeeId": "92953690026",
+      "timeSlot": "6",
+      "meeting_count": "2",
+      "sponsor_ids": "540001, 900001"
+    },
+    {
+      "attendeeId": "92953690026",
+      "timeSlot": "8",
+      "meeting_count": "3",
+      "sponsor_ids": "150001, 210001, 780001"
+    },
+    {
+      "attendeeId": "92953690026",
+      "timeSlot": "10",
+      "meeting_count": "2",
+      "sponsor_ids": "690001, 840001"
+    },
+    {
+      "attendeeId": "93176107633",
+      "timeSlot": "2",
+      "meeting_count": "2",
+      "sponsor_ids": "810001, 810002"
+    },
+    {
+      "attendeeId": "93176107633",
+      "timeSlot": "3",
+      "meeting_count": "2",
+      "sponsor_ids": "300001, 390001"
+    },
+    {
+      "attendeeId": "93176107633",
+      "timeSlot": "7",
+      "meeting_count": "2",
+      "sponsor_ids": "360001, 720001"
+    },
+    {
+      "attendeeId": "93176107633",
+      "timeSlot": "11",
+      "meeting_count": "2",
+      "sponsor_ids": "750001, 870001"
+    },
+    {
+      "attendeeId": "9319401",
+      "timeSlot": "12",
+      "meeting_count": "2",
+      "sponsor_ids": "540001, 900001"
+    }
+  ],
+  "messages": [],
+  "stdout": "attendeeId\ttimeSlot\tmeeting_count\tsponsor_ids\n111228357473\t4\t3\t390001, 360001, 780001\n111228357473\t6\t3\t690001, 720001, 840001\n111228357473\t7\t3\t270002, 600001, 870001\n111228357473\t12\t2\t240001, 810001\n11132851\t2\t3\t330001, 390001, 840001\n11132851\t4\t3\t270002, 750001, 870001\n11132851\t5\t3\t300001, 450001, 810001\n11132851\t7\t2\t540001, 780001\n11132851\t8\t2\t720001, 810002\n11132851\t9\t2\t360001, 900001\n116903349643\t5\t2\t270002, 750001\n116903349643\t7\t2\t450001, 810001\n13454401\t2\t2\t870001, 900001\n13454401\t5\t2\t360001, 690001\n13454401\t6\t2\t300001, 810001\n150796696175\t12\t2\t300001, 750001\n190898269597\t3\t2\t450001, 540001\n190898269597\t6\t2\t360001, 780001\n190898269597\t10\t3\t390001, 600001, 900001\n190898269597\t11\t4\t270002, 210001, 690001, 810001\n190937723960\t3\t2\t720001, 900001\n190937723960\t10\t2\t330001, 870001\n201697440144\t2\t3\t270002, 720001, 750001\n201697440144\t4\t3\t210001, 690001, 810002\n201697440144\t8\t3\t600001, 840001, 900001\n201697440144\t10\t2\t300001, 360001\n203946652193\t4\t2\t540001, 720001\n203946652193\t10\t5\t240001, 270002, 450001, 780001, 810002\n208415155065\t3\t3\t270002, 690001, 780001\n208415155065\t4\t3\t300001, 330001, 450001\n208415155065\t5\t2\t840001, 900001\n208415155065\t6\t3\t390001, 600001, 810002\n208415155065\t9\t2\t210001, 750001\n208415155065\t10\t2\t720001, 810001\n5140258\t1\t2\t600001, 840001\n5140258\t2\t2\t210001, 360001\n5140258\t8\t2\t390001, 750001\n5140258\t9\t2\t690001, 720001\n8713772\t2\t2\t300001, 210001\n8713772\t3\t2\t810001, 870001\n8713772\t9\t2\t270002, 840001\n8713772\t11\t3\t600001, 720001, 780001\n8713772\t12\t2\t390001, 690001\n8952301\t1\t3\t300001, 360001, 810001\n8952301\t9\t2\t540001, 600001\n91889321035\t1\t4\t540001, 720001, 780001, 900001\n91889321035\t5\t2\t330001, 600001\n92353346050\t1\t3\t270002, 690001, 750001\n92353346050\t3\t2\t210001, 840001\n92353346050\t5\t2\t720001, 780001\n92353346050\t12\t3\t450001, 810002, 870001\n92953690026\t2\t3\t270002, 450001, 600001\n92953690026\t3\t2\t330001, 360001\n92953690026\t6\t2\t540001, 900001\n92953690026\t8\t3\t150001, 210001, 780001\n92953690026\t10\t2\t690001, 840001\n93176107633\t2\t2\t810001, 810002\n93176107633\t3\t2\t300001, 390001\n93176107633\t7\t2\t360001, 720001\n93176107633\t11\t2\t750001, 870001\n9319401\t12\t2\t540001, 900001\n",
+  "stderr": "",
+  "execution_time_ms": 386
+}
