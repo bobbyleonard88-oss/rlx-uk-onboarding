@@ -759,136 +759,195 @@ export const appRouter = router({
           // handles clients that connect slightly after the job begins.
           await new Promise(resolve => setTimeout(resolve, 1500));
           try {
+            // Process most-constrained sponsors first so they get first pick of delegate slots
+            const ORDERED_SPONSOR_IDS = [
+              750001, // SHL: 24 meetings (most constrained)
+              210001, // Harver: 20 meetings
+              270002, // Appcast: 20 meetings
+              150001, // Stepstone: 12
+              180001, // Maki People: 12
+              240001, // Sapia.ai: 12
+              300001, // Zinc: 12
+              330001, // Symphony Talent: 12
+              360001, // Udder: 12
+              540001, // hackajob: 12
+              600001, // Happydance: 12
+              690001, // Amberjack: 12
+              720001, // inploi: 12
+              780001, // The Martec: 12
+              810001, // Veremark: 12
+              810002, // Radancy: 12
+              840001, // JobSync: 12
+              870001, // Wilson: 12
+              900001, // Poetry: 12
+              450001, // PerchPeek: 10
+              390001, // Bright Apply: 10 (least constrained)
+            ];
+
             const allMatchResults = await generateMeetingsForAllSponsors((event) => {
               matchProgress.emitProgress(event);
-            }, excludedForRun);
+            }, excludedForRun, ORDERED_SPONSOR_IDS);
             const savedResults: { sponsorId: number; meetingCount: number }[] = [];
 
-        // ─── Global slot availability trackers ───────────────────────────────────
-        // Tracks which time slots each delegate is already booked into across ALL sponsors
-        // delegateUsedSlots: delegateId → Set<timeSlot>
-        const delegateUsedSlots = new Map<string, Set<number>>();
-        // Tracks which time slots each sponsor's attendee is already booked
-        // sponsorUsedSlots: sponsorId → attendeeNumber → Set<timeSlot>
-        const sponsorUsedSlots = new Map<number, Map<number, Set<number>>>();
-        // Tracks how many meetings each delegate has been assigned across ALL sponsors
-        // Used to enforce the 8-meeting cap globally (not just per-sponsor)
-        const delegateMeetingCount = new Map<string, number>();
-        const DELEGATE_MAX_MEETINGS = 8;
+            // ─── Global slot availability trackers ───────────────────────────────────
+            // delegateUsedSlots: delegateId → Set<timeSlot>  (1 meeting per slot per delegate)
+            // sponsorUsedSlots:  sponsorId → repNumber → Set<timeSlot>  (1 meeting per slot per rep)
+            // delegateMeetingCount: delegateId → total meetings assigned (global 8-cap)
+            const delegateUsedSlots = new Map<string, Set<number>>();
+            const sponsorUsedSlots = new Map<number, Map<number, Set<number>>>();
+            const delegateMeetingCount = new Map<string, number>();
+            const DELEGATE_MAX_MEETINGS = 8;
+            const ALL_SLOTS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
-        // Valid slots: 1-6 (Day 1), 7-12 (Day 2)
-        const ALL_SLOTS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+            // Sponsor-specific meeting count overrides
+            const SPONSOR_MEETING_COUNT_OVERRIDES: Record<number, number> = {
+              450001: 10,  // PerchPeek
+              750001: 24,  // SHL
+              870001: 12,  // Wilson
+              390001: 10,  // Bright Apply
+            };
 
-        // Sponsor-specific meeting count overrides (takes precedence over intake form package)
-        const SPONSOR_MEETING_COUNT_OVERRIDES: Record<number, number> = {
-          450001: 10,  // PerchPeek — 10 meetings
-          750001: 24,  // SHL — 24 meetings
-          870001: 12,  // Wilson — 12 meetings
-        };
-
-        for (const [sponsorId, matches] of Array.from(allMatchResults.entries())) {
-          // Skip excluded sponsors
-          if (ALWAYS_EXCLUDED_SPONSOR_IDS.has(sponsorId)) continue;
-          if (!includeTestAccounts && TEST_SPONSOR_IDS.has(sponsorId)) continue;
-          
-          // Determine meeting count
-          const intakeSubmission = await db.getIntakeSubmissionBySponsor(sponsorId);
-          const meetingCount = SPONSOR_MEETING_COUNT_OVERRIDES[sponsorId] ??
-            (intakeSubmission?.meetingPackage === '20' ? 20 : 12);
-
-          // For sponsors with > 12 meetings they need 2 attendees
-          // Attendee 1 gets the first half, Attendee 2 gets the second half
-          const halfCount = Math.ceil(meetingCount / 2);
-          const hasTwoAttendees = meetingCount > 12;
-
-          // Initialise sponsor slot tracker
-          if (!sponsorUsedSlots.has(sponsorId)) {
-            sponsorUsedSlots.set(sponsorId, new Map<number, Set<number>>([[1, new Set<number>()], [2, new Set<number>()]]));
-          }
-          const sponsorSlots = sponsorUsedSlots.get(sponsorId)!;
-
-          // Resolve sponsor rep names for per-attendee assignment
-          const repName1 = intakeSubmission
-            ? `${intakeSubmission.firstName} ${intakeSubmission.lastName}`.trim()
-            : 'Attendee 1';
-          const repName2 = intakeSubmission?.secondRepName
-            ? intakeSubmission.secondRepName.trim()
-            : repName1; // Fall back to primary rep if no second rep
-
-          const matchesWithSlots: any[] = [];
-
-          for (let i = 0; i < (matches as any[]).length; i++) {
-            const match = (matches as any[])[i];
-
-            // ─── Global 8-meeting cap check ───
-            const currentDelegateCount = delegateMeetingCount.get(match.attendeeId) ?? 0;
-            if (currentDelegateCount >= DELEGATE_MAX_MEETINGS) {
-              console.log(`[Scheduling] Delegate ${match.attendeeId} has reached ${DELEGATE_MAX_MEETINGS}-meeting cap — skipping for sponsor ${sponsorId}`);
-              continue; // Skip this delegate for this sponsor
+            // Iterate in the same priority order as the AI scoring step
+            const orderedEntries = ORDERED_SPONSOR_IDS
+              .filter(id => allMatchResults.has(id))
+              .map(id => [id, allMatchResults.get(id)!] as [number, any[]]);
+            // Include any sponsors not in the ordered list (fallback)
+            for (const [id, matches] of Array.from(allMatchResults.entries())) {
+              if (!ORDERED_SPONSOR_IDS.includes(id)) orderedEntries.push([id, matches]);
             }
 
-            // Determine which attendee this meeting belongs to
-            const attendeeNumber = hasTwoAttendees ? (i < halfCount ? 1 : 2) : 1;
-            // Resolve the sponsor rep name for this slot
-            const sponsorRepName = attendeeNumber === 2 ? repName2 : repName1;
+            for (const [sponsorId, matches] of orderedEntries) {
+              // Skip excluded sponsors
+              if (ALWAYS_EXCLUDED_SPONSOR_IDS.has(sponsorId)) continue;
+              if (!includeTestAccounts && TEST_SPONSOR_IDS.has(sponsorId)) continue;
 
-            // Get used slots for this delegate and this sponsor's attendee
-            const delegateSlots = delegateUsedSlots.get(match.attendeeId) ?? new Set<number>();
-            const sponsorAttendeeSlots = sponsorSlots.get(attendeeNumber) ?? new Set<number>();
+              const intakeSubmission = await db.getIntakeSubmissionBySponsor(sponsorId);
+              const targetMeetingCount = SPONSOR_MEETING_COUNT_OVERRIDES[sponsorId] ??
+                (intakeSubmission?.meetingPackage === '20' ? 20 : 12);
 
-            // Find the first slot that is free for BOTH the delegate and the sponsor's attendee
-            const availableSlot = ALL_SLOTS.find(
-              slot => !delegateSlots.has(slot) && !sponsorAttendeeSlots.has(slot)
-            ) ?? null;
+              // Number of reps: 1 rep can do max 12 meetings (1 per slot).
+              // Sponsors needing > 12 meetings require 2 reps.
+              const hasTwoReps = targetMeetingCount > 12;
+              const rep1Quota = hasTwoReps ? Math.ceil(targetMeetingCount / 2) : targetMeetingCount;
+              const rep2Quota = hasTwoReps ? Math.floor(targetMeetingCount / 2) : 0;
 
-            if (availableSlot !== null) {
-              // Mark this slot as used and increment delegate meeting count
-              delegateSlots.add(availableSlot);
-              sponsorAttendeeSlots.add(availableSlot);
-              delegateUsedSlots.set(match.attendeeId, delegateSlots);
-              sponsorSlots.set(attendeeNumber, sponsorAttendeeSlots);
-              delegateMeetingCount.set(match.attendeeId, currentDelegateCount + 1);
-            } else {
-              console.warn(`[Scheduling] No available slot for delegate ${match.attendeeId} with sponsor ${sponsorId} — meeting will have null slot`);
-            }
+              // Initialise per-rep slot trackers for this sponsor
+              if (!sponsorUsedSlots.has(sponsorId)) {
+                sponsorUsedSlots.set(sponsorId, new Map<number, Set<number>>([[1, new Set<number>()], [2, new Set<number>()]]));
+              }
+              const sponsorSlots = sponsorUsedSlots.get(sponsorId)!;
 
-            matchesWithSlots.push({ ...match, timeSlot: availableSlot, attendeeNumber, sponsorRepName });
-          }
+              const repName1 = intakeSubmission
+                ? `${intakeSubmission.firstName} ${intakeSubmission.lastName}`.trim()
+                : 'Attendee 1';
+              const repName2 = intakeSubmission?.secondRepName?.trim() || repName1;
 
-          // Save to database (replace existing meetings)
-          await db.deleteMeetingsBySponsor(sponsorId);
-          for (const meeting of matchesWithSlots) {
-            // Sanitise matchReason to remove control characters that could break JSON serialisation
-            const safeReason = (meeting.matchReason || '')
-              .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '') // Remove non-printable control chars
-              .replace(/\r\n|\r/g, ' ')  // Normalise line endings
-              .trim();
-            await db.createMeeting({
-              sponsorId,
-              attendeeId: meeting.attendeeId,
-              matchScore: meeting.matchScore,
-              matchReason: safeReason,
-              isTopRanked: meeting.isTopRanked ? 1 : 0,
-              isPriority: meeting.isPriority ? 1 : 0,
-              timeSlot: meeting.timeSlot ?? null,
-              attendeeNumber: meeting.attendeeNumber ?? 1,
-              sponsorRepName: meeting.sponsorRepName ?? null,
-              status: 'suggested',
-              notes: null,
-            });
-          }
-          
-          savedResults.push({ sponsorId, meetingCount: matchesWithSlots.length });
-          // Emit saving complete for this sponsor
-          matchProgress.emitProgress({
-            type: 'sponsor_complete',
-            sponsorId,
-            meetingCount: matchesWithSlots.length,
-            completedSponsors: savedResults.length,
-            totalSponsors: allMatchResults.size,
-            phase: 'saving',
-          });
-          } // end for (allMatchResults)
+              const matchesWithSlots: any[] = [];
+              let rep1Count = 0;
+              let rep2Count = 0;
+
+              // Track delegates already assigned to this sponsor (no duplicate vendor-delegate pairs)
+              const assignedDelegates = new Set<string>();
+
+              for (const match of (matches as any[])) {
+                // Stop when quota is fully met
+                if (rep1Count >= rep1Quota && rep2Count >= rep2Quota) break;
+
+                // Skip if this delegate is already assigned to this sponsor
+                if (assignedDelegates.has(match.attendeeId)) {
+                  console.log(`[Scheduling] Duplicate delegate ${match.attendeeId} for sponsor ${sponsorId} — skipping`);
+                  continue;
+                }
+
+                // Skip if delegate has hit the global 8-meeting cap
+                const currentDelegateCount = delegateMeetingCount.get(match.attendeeId) ?? 0;
+                if (currentDelegateCount >= DELEGATE_MAX_MEETINGS) {
+                  console.log(`[Scheduling] Delegate ${match.attendeeId} at 8-meeting cap — skipping for sponsor ${sponsorId}`);
+                  continue;
+                }
+
+                // Determine which rep to assign this meeting to.
+                // Fill Rep 1 first (up to their quota), then Rep 2.
+                // If a rep's slots are all full, try the other rep.
+                let assignedRep: number | null = null;
+                let availableSlot: number | null = null;
+
+                const delegateSlots = delegateUsedSlots.get(match.attendeeId) ?? new Set<number>();
+
+                // Try Rep 1 first if they still have quota
+                if (rep1Count < rep1Quota) {
+                  const rep1Slots = sponsorSlots.get(1)!;
+                  const slot = ALL_SLOTS.find(s => !delegateSlots.has(s) && !rep1Slots.has(s)) ?? null;
+                  if (slot !== null) {
+                    assignedRep = 1;
+                    availableSlot = slot;
+                  }
+                }
+
+                // If Rep 1 couldn't take it, try Rep 2
+                if (assignedRep === null && rep2Count < rep2Quota) {
+                  const rep2Slots = sponsorSlots.get(2)!;
+                  const slot = ALL_SLOTS.find(s => !delegateSlots.has(s) && !rep2Slots.has(s)) ?? null;
+                  if (slot !== null) {
+                    assignedRep = 2;
+                    availableSlot = slot;
+                  }
+                }
+
+                if (assignedRep === null || availableSlot === null) {
+                  console.warn(`[Scheduling] No available slot for delegate ${match.attendeeId} with sponsor ${sponsorId} — skipping`);
+                  continue; // Skip this delegate — don't save a meeting with null slot
+                }
+
+                // Commit the slot assignment
+                delegateSlots.add(availableSlot);
+                sponsorSlots.get(assignedRep)!.add(availableSlot);
+                delegateUsedSlots.set(match.attendeeId, delegateSlots);
+                delegateMeetingCount.set(match.attendeeId, currentDelegateCount + 1);
+                assignedDelegates.add(match.attendeeId);
+
+                if (assignedRep === 1) rep1Count++;
+                else rep2Count++;
+
+                const sponsorRepName = assignedRep === 2 ? repName2 : repName1;
+                matchesWithSlots.push({ ...match, timeSlot: availableSlot, attendeeNumber: assignedRep, sponsorRepName });
+              }
+
+              console.log(`[Scheduling] Sponsor ${sponsorId}: ${matchesWithSlots.length}/${targetMeetingCount} meetings scheduled (Rep1: ${rep1Count}/${rep1Quota}, Rep2: ${rep2Count}/${rep2Quota})`);
+
+              // Save to database (replace existing meetings for this sponsor)
+              await db.deleteMeetingsBySponsor(sponsorId);
+              for (const meeting of matchesWithSlots) {
+                // Sanitise matchReason to remove control characters
+                const safeReason = (meeting.matchReason || '')
+                  .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '')
+                  .replace(/\r\n|\r/g, ' ')
+                  .trim();
+                await db.createMeeting({
+                  sponsorId,
+                  attendeeId: meeting.attendeeId,
+                  matchScore: meeting.matchScore,
+                  matchReason: safeReason,
+                  isTopRanked: meeting.isTopRanked ? 1 : 0,
+                  isPriority: meeting.isPriority ? 1 : 0,
+                  timeSlot: meeting.timeSlot ?? null,
+                  attendeeNumber: meeting.attendeeNumber ?? 1,
+                  sponsorRepName: meeting.sponsorRepName ?? null,
+                  status: 'suggested',
+                  notes: null,
+                });
+              }
+
+              savedResults.push({ sponsorId, meetingCount: matchesWithSlots.length });
+              matchProgress.emitProgress({
+                type: 'sponsor_complete',
+                sponsorId,
+                meetingCount: matchesWithSlots.length,
+                completedSponsors: savedResults.length,
+                totalSponsors: allMatchResults.size,
+                phase: 'saving',
+              });
+            } // end for (allMatchResults)
 
             // Signal completion and end the session
             matchProgress.emitProgress({ type: 'done', totalSponsors: savedResults.length });

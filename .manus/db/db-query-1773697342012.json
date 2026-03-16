@@ -1,0 +1,170 @@
+{
+  "query": "\nSELECT \n  m.sponsorId,\n  s.companyName,\n  m.attendeeNumber,\n  m.timeSlot,\n  COUNT(*) as meetingCount,\n  GROUP_CONCAT(m.attendeeId ORDER BY m.id SEPARATOR ', ') as delegates\nFROM meetings m\nLEFT JOIN sponsors s ON s.id = m.sponsorId\nWHERE m.status = 'suggested'\nGROUP BY m.sponsorId, m.attendeeNumber, m.timeSlot\nHAVING COUNT(*) > 1\nORDER BY meetingCount DESC\nLIMIT 20;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT \n  m.sponsorId,\n  s.companyName,\n  m.attendeeNumber,\n  m.timeSlot,\n  COUNT(*) as meetingCount,\n  GROUP_CONCAT(m.attendeeId ORDER BY m.id SEPARATOR ', ') as delegates\nFROM meetings m\nLEFT JOIN sponsors s ON s.id = m.sponsorId\nWHERE m.status = 'suggested'\nGROUP BY m.sponsorId, m.attendeeNumber, m.timeSlot\nHAVING COUNT(*) > 1\nORDER BY meetingCount DESC\nLIMIT 20;\n",
+  "rows": [
+    {
+      "sponsorId": "750001",
+      "companyName": "SHL",
+      "attendeeNumber": "2",
+      "timeSlot": "1",
+      "meetingCount": "12",
+      "delegates": "9322701, 174442448959, 116903349643, 452351, 8196151, 9319401, 195183358360, 11132851, 203946652193, 4956154, 208415155065, 8952301"
+    },
+    {
+      "sponsorId": "750001",
+      "companyName": "SHL",
+      "attendeeNumber": "1",
+      "timeSlot": "1",
+      "meetingCount": "12",
+      "delegates": "17812226737, 5140258, 92353346050, 191181016455, 201697440144, 9477501, 194295425320, 122796319563, 12731251, 200923910443, 113145184682, 110260566550"
+    },
+    {
+      "sponsorId": "210001",
+      "companyName": "Harver",
+      "attendeeNumber": "2",
+      "timeSlot": "1",
+      "meetingCount": "10",
+      "delegates": "91862577670, 9322701, 201697440144, 122796319563, 203946652193, 194295425320, 12731251, 174442448959, 91889321035, 8196151"
+    },
+    {
+      "sponsorId": "210001",
+      "companyName": "Harver",
+      "attendeeNumber": "1",
+      "timeSlot": "1",
+      "meetingCount": "10",
+      "delegates": "9477501, 1076201, 5140258, 191181016455, 200923910443, 7258470500, 92353346050, 111228357473, 113145184682, 17812226737"
+    },
+    {
+      "sponsorId": "180001",
+      "companyName": "Maki People",
+      "attendeeNumber": "1",
+      "timeSlot": "2",
+      "meetingCount": "7",
+      "delegates": "110260566550, 17812226737, 76678269091, 191181016455, 9322701, 91862577670, 91889321035"
+    },
+    {
+      "sponsorId": "270002",
+      "companyName": "Appcast",
+      "attendeeNumber": "2",
+      "timeSlot": "1",
+      "meetingCount": "7",
+      "delegates": "208415155065, 93174643474, 92953690026, 76678269091, 110260566550, 93176107633, 9319401"
+    },
+    {
+      "sponsorId": "330001",
+      "companyName": "Symphony Talent ",
+      "attendeeNumber": "1",
+      "timeSlot": "2",
+      "meetingCount": "7",
+      "delegates": "128491656706, 194295425320, 11132851, 4956154, 92953690026, 1076201, 208415155065"
+    },
+    {
+      "sponsorId": "840001",
+      "companyName": "JobSync",
+      "attendeeNumber": "1",
+      "timeSlot": "4",
+      "meetingCount": "7",
+      "delegates": "93174643474, 8196151, 194295425320, 92353346050, 11132851, 5140258, 111228357473"
+    },
+    {
+      "sponsorId": "540001",
+      "companyName": "hackajob",
+      "attendeeNumber": "1",
+      "timeSlot": "3",
+      "meetingCount": "7",
+      "delegates": "7258470500, 110260566550, 191181016455, 91862577670, 4956154, 1076201, 128491656706"
+    },
+    {
+      "sponsorId": "270002",
+      "companyName": "Appcast",
+      "attendeeNumber": "1",
+      "timeSlot": "2",
+      "meetingCount": "7",
+      "delegates": "174442448959, 9477501, 200923910443, 92353346050, 9322701, 8196151, 113145184682"
+    },
+    {
+      "sponsorId": "810002",
+      "companyName": "Radancy",
+      "attendeeNumber": "1",
+      "timeSlot": "3",
+      "meetingCount": "6",
+      "delegates": "93174643474, 201697440144, 8196151, 195183358360, 93176107633, 12731251"
+    },
+    {
+      "sponsorId": "870001",
+      "companyName": "Wilson",
+      "attendeeNumber": "1",
+      "timeSlot": "4",
+      "meetingCount": "6",
+      "delegates": "8196151, 195183358360, 93176107633, 9322701, 111228357473, 12731251"
+    },
+    {
+      "sponsorId": "150001",
+      "companyName": "Stepstone Group UK Ltd",
+      "attendeeNumber": "1",
+      "timeSlot": "2",
+      "meetingCount": "6",
+      "delegates": "113145184682, 174442448959, 91862577670, 122796319563, 9477501, 194295425320"
+    },
+    {
+      "sponsorId": "240001",
+      "companyName": "Sapia.ai",
+      "attendeeNumber": "1",
+      "timeSlot": "2",
+      "meetingCount": "6",
+      "delegates": "1076201, 5140258, 7258470500, 4956154, 76678269091, 110260566550"
+    },
+    {
+      "sponsorId": "900001",
+      "companyName": "Poetry",
+      "attendeeNumber": "1",
+      "timeSlot": "4",
+      "meetingCount": "6",
+      "delegates": "9322701, 12731251, 91889321035, 93174643474, 201697440144, 194295425320"
+    },
+    {
+      "sponsorId": "780001",
+      "companyName": "The Martec",
+      "attendeeNumber": "1",
+      "timeSlot": "3",
+      "meetingCount": "6",
+      "delegates": "12731251, 93174643474, 111228357473, 91889321035, 92353346050, 11132851"
+    },
+    {
+      "sponsorId": "720001",
+      "companyName": "inploi",
+      "attendeeNumber": "1",
+      "timeSlot": "4",
+      "meetingCount": "6",
+      "delegates": "191181016455, 4956154, 1076201, 17812226737, 7258470500, 91862577670"
+    },
+    {
+      "sponsorId": "150001",
+      "companyName": "Stepstone Group UK Ltd",
+      "attendeeNumber": "1",
+      "timeSlot": "1",
+      "meetingCount": "6",
+      "delegates": "76678269091, 128491656706, 4956154, 91889321035, 92953690026, 93174643474"
+    },
+    {
+      "sponsorId": "360001",
+      "companyName": "Udder",
+      "attendeeNumber": "1",
+      "timeSlot": "2",
+      "meetingCount": "5",
+      "delegates": "195183358360, 111228357473, 5140258, 93176107633, 92953690026"
+    },
+    {
+      "sponsorId": "300001",
+      "companyName": "Zinc",
+      "attendeeNumber": "1",
+      "timeSlot": "2",
+      "meetingCount": "5",
+      "delegates": "17812226737, 195183358360, 8196151, 7258470500, 200923910443"
+    }
+  ],
+  "messages": [],
+  "stdout": "sponsorId\tcompanyName\tattendeeNumber\ttimeSlot\tmeetingCount\tdelegates\n750001\tSHL\t2\t1\t12\t9322701, 174442448959, 116903349643, 452351, 8196151, 9319401, 195183358360, 11132851, 203946652193, 4956154, 208415155065, 8952301\n750001\tSHL\t1\t1\t12\t17812226737, 5140258, 92353346050, 191181016455, 201697440144, 9477501, 194295425320, 122796319563, 12731251, 200923910443, 113145184682, 110260566550\n210001\tHarver\t2\t1\t10\t91862577670, 9322701, 201697440144, 122796319563, 203946652193, 194295425320, 12731251, 174442448959, 91889321035, 8196151\n210001\tHarver\t1\t1\t10\t9477501, 1076201, 5140258, 191181016455, 200923910443, 7258470500, 92353346050, 111228357473, 113145184682, 17812226737\n180001\tMaki People\t1\t2\t7\t110260566550, 17812226737, 76678269091, 191181016455, 9322701, 91862577670, 91889321035\n270002\tAppcast\t2\t1\t7\t208415155065, 93174643474, 92953690026, 76678269091, 110260566550, 93176107633, 9319401\n330001\tSymphony Talent \t1\t2\t7\t128491656706, 194295425320, 11132851, 4956154, 92953690026, 1076201, 208415155065\n840001\tJobSync\t1\t4\t7\t93174643474, 8196151, 194295425320, 92353346050, 11132851, 5140258, 111228357473\n540001\thackajob\t1\t3\t7\t7258470500, 110260566550, 191181016455, 91862577670, 4956154, 1076201, 128491656706\n270002\tAppcast\t1\t2\t7\t174442448959, 9477501, 200923910443, 92353346050, 9322701, 8196151, 113145184682\n810002\tRadancy\t1\t3\t6\t93174643474, 201697440144, 8196151, 195183358360, 93176107633, 12731251\n870001\tWilson\t1\t4\t6\t8196151, 195183358360, 93176107633, 9322701, 111228357473, 12731251\n150001\tStepstone Group UK Ltd\t1\t2\t6\t113145184682, 174442448959, 91862577670, 122796319563, 9477501, 194295425320\n240001\tSapia.ai\t1\t2\t6\t1076201, 5140258, 7258470500, 4956154, 76678269091, 110260566550\n900001\tPoetry\t1\t4\t6\t9322701, 12731251, 91889321035, 93174643474, 201697440144, 194295425320\n780001\tThe Martec\t1\t3\t6\t12731251, 93174643474, 111228357473, 91889321035, 92353346050, 11132851\n720001\tinploi\t1\t4\t6\t191181016455, 4956154, 1076201, 17812226737, 7258470500, 91862577670\n150001\tStepstone Group UK Ltd\t1\t1\t6\t76678269091, 128491656706, 4956154, 91889321035, 92953690026, 93174643474\n360001\tUdder\t1\t2\t5\t195183358360, 111228357473, 5140258, 93176107633, 92953690026\n300001\tZinc\t1\t2\t5\t17812226737, 195183358360, 8196151, 7258470500, 200923910443\n",
+  "stderr": "",
+  "execution_time_ms": 389
+}

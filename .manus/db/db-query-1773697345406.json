@@ -1,0 +1,150 @@
+{
+  "query": "\nSELECT \n  m.sponsorId,\n  s.companyName,\n  m.attendeeNumber,\n  m.timeSlot,\n  COUNT(*) as meetingCount\nFROM meetings m\nLEFT JOIN sponsors s ON s.id = m.sponsorId\nWHERE m.status = 'suggested'\nGROUP BY m.sponsorId, m.attendeeNumber, m.timeSlot\nHAVING COUNT(*) > 1\nORDER BY meetingCount DESC\nLIMIT 20;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT \n  m.sponsorId,\n  s.companyName,\n  m.attendeeNumber,\n  m.timeSlot,\n  COUNT(*) as meetingCount\nFROM meetings m\nLEFT JOIN sponsors s ON s.id = m.sponsorId\nWHERE m.status = 'suggested'\nGROUP BY m.sponsorId, m.attendeeNumber, m.timeSlot\nHAVING COUNT(*) > 1\nORDER BY meetingCount DESC\nLIMIT 20;\n",
+  "rows": [
+    {
+      "sponsorId": "750001",
+      "companyName": "SHL",
+      "attendeeNumber": "1",
+      "timeSlot": "1",
+      "meetingCount": "12"
+    },
+    {
+      "sponsorId": "750001",
+      "companyName": "SHL",
+      "attendeeNumber": "2",
+      "timeSlot": "1",
+      "meetingCount": "12"
+    },
+    {
+      "sponsorId": "210001",
+      "companyName": "Harver",
+      "attendeeNumber": "2",
+      "timeSlot": "1",
+      "meetingCount": "10"
+    },
+    {
+      "sponsorId": "210001",
+      "companyName": "Harver",
+      "attendeeNumber": "1",
+      "timeSlot": "1",
+      "meetingCount": "10"
+    },
+    {
+      "sponsorId": "540001",
+      "companyName": "hackajob",
+      "attendeeNumber": "1",
+      "timeSlot": "3",
+      "meetingCount": "7"
+    },
+    {
+      "sponsorId": "330001",
+      "companyName": "Symphony Talent ",
+      "attendeeNumber": "1",
+      "timeSlot": "2",
+      "meetingCount": "7"
+    },
+    {
+      "sponsorId": "270002",
+      "companyName": "Appcast",
+      "attendeeNumber": "2",
+      "timeSlot": "1",
+      "meetingCount": "7"
+    },
+    {
+      "sponsorId": "270002",
+      "companyName": "Appcast",
+      "attendeeNumber": "1",
+      "timeSlot": "2",
+      "meetingCount": "7"
+    },
+    {
+      "sponsorId": "840001",
+      "companyName": "JobSync",
+      "attendeeNumber": "1",
+      "timeSlot": "4",
+      "meetingCount": "7"
+    },
+    {
+      "sponsorId": "180001",
+      "companyName": "Maki People",
+      "attendeeNumber": "1",
+      "timeSlot": "2",
+      "meetingCount": "7"
+    },
+    {
+      "sponsorId": "240001",
+      "companyName": "Sapia.ai",
+      "attendeeNumber": "1",
+      "timeSlot": "2",
+      "meetingCount": "6"
+    },
+    {
+      "sponsorId": "720001",
+      "companyName": "inploi",
+      "attendeeNumber": "1",
+      "timeSlot": "4",
+      "meetingCount": "6"
+    },
+    {
+      "sponsorId": "870001",
+      "companyName": "Wilson",
+      "attendeeNumber": "1",
+      "timeSlot": "4",
+      "meetingCount": "6"
+    },
+    {
+      "sponsorId": "810002",
+      "companyName": "Radancy",
+      "attendeeNumber": "1",
+      "timeSlot": "3",
+      "meetingCount": "6"
+    },
+    {
+      "sponsorId": "150001",
+      "companyName": "Stepstone Group UK Ltd",
+      "attendeeNumber": "1",
+      "timeSlot": "1",
+      "meetingCount": "6"
+    },
+    {
+      "sponsorId": "780001",
+      "companyName": "The Martec",
+      "attendeeNumber": "1",
+      "timeSlot": "3",
+      "meetingCount": "6"
+    },
+    {
+      "sponsorId": "150001",
+      "companyName": "Stepstone Group UK Ltd",
+      "attendeeNumber": "1",
+      "timeSlot": "2",
+      "meetingCount": "6"
+    },
+    {
+      "sponsorId": "900001",
+      "companyName": "Poetry",
+      "attendeeNumber": "1",
+      "timeSlot": "4",
+      "meetingCount": "6"
+    },
+    {
+      "sponsorId": "690001",
+      "companyName": "Amberjack",
+      "attendeeNumber": "1",
+      "timeSlot": "4",
+      "meetingCount": "5"
+    },
+    {
+      "sponsorId": "810002",
+      "companyName": "Radancy",
+      "attendeeNumber": "1",
+      "timeSlot": "4",
+      "meetingCount": "5"
+    }
+  ],
+  "messages": [],
+  "stdout": "sponsorId\tcompanyName\tattendeeNumber\ttimeSlot\tmeetingCount\n750001\tSHL\t1\t1\t12\n750001\tSHL\t2\t1\t12\n210001\tHarver\t2\t1\t10\n210001\tHarver\t1\t1\t10\n540001\thackajob\t1\t3\t7\n330001\tSymphony Talent \t1\t2\t7\n270002\tAppcast\t2\t1\t7\n270002\tAppcast\t1\t2\t7\n840001\tJobSync\t1\t4\t7\n180001\tMaki People\t1\t2\t7\n240001\tSapia.ai\t1\t2\t6\n720001\tinploi\t1\t4\t6\n870001\tWilson\t1\t4\t6\n810002\tRadancy\t1\t3\t6\n150001\tStepstone Group UK Ltd\t1\t1\t6\n780001\tThe Martec\t1\t3\t6\n150001\tStepstone Group UK Ltd\t1\t2\t6\n900001\tPoetry\t1\t4\t6\n690001\tAmberjack\t1\t4\t5\n810002\tRadancy\t1\t4\t5\n",
+  "stderr": "",
+  "execution_time_ms": 363
+}

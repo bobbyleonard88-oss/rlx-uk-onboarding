@@ -1,0 +1,190 @@
+{
+  "query": "\nSELECT \n  sponsorId,\n  attendeeNumber,\n  timeSlot,\n  COUNT(*) as meetingCount\nFROM meetings\nWHERE status = 'suggested'\nGROUP BY sponsorId, attendeeNumber, timeSlot\nHAVING COUNT(*) > 1\nORDER BY meetingCount DESC\nLIMIT 30;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT \n  sponsorId,\n  attendeeNumber,\n  timeSlot,\n  COUNT(*) as meetingCount\nFROM meetings\nWHERE status = 'suggested'\nGROUP BY sponsorId, attendeeNumber, timeSlot\nHAVING COUNT(*) > 1\nORDER BY meetingCount DESC\nLIMIT 30;\n",
+  "rows": [
+    {
+      "sponsorId": "750001",
+      "attendeeNumber": "2",
+      "timeSlot": "1",
+      "meetingCount": "12"
+    },
+    {
+      "sponsorId": "750001",
+      "attendeeNumber": "1",
+      "timeSlot": "1",
+      "meetingCount": "12"
+    },
+    {
+      "sponsorId": "210001",
+      "attendeeNumber": "1",
+      "timeSlot": "1",
+      "meetingCount": "10"
+    },
+    {
+      "sponsorId": "210001",
+      "attendeeNumber": "2",
+      "timeSlot": "1",
+      "meetingCount": "10"
+    },
+    {
+      "sponsorId": "270002",
+      "attendeeNumber": "2",
+      "timeSlot": "1",
+      "meetingCount": "7"
+    },
+    {
+      "sponsorId": "270002",
+      "attendeeNumber": "1",
+      "timeSlot": "2",
+      "meetingCount": "7"
+    },
+    {
+      "sponsorId": "540001",
+      "attendeeNumber": "1",
+      "timeSlot": "3",
+      "meetingCount": "7"
+    },
+    {
+      "sponsorId": "180001",
+      "attendeeNumber": "1",
+      "timeSlot": "2",
+      "meetingCount": "7"
+    },
+    {
+      "sponsorId": "330001",
+      "attendeeNumber": "1",
+      "timeSlot": "2",
+      "meetingCount": "7"
+    },
+    {
+      "sponsorId": "840001",
+      "attendeeNumber": "1",
+      "timeSlot": "4",
+      "meetingCount": "7"
+    },
+    {
+      "sponsorId": "720001",
+      "attendeeNumber": "1",
+      "timeSlot": "4",
+      "meetingCount": "6"
+    },
+    {
+      "sponsorId": "150001",
+      "attendeeNumber": "1",
+      "timeSlot": "1",
+      "meetingCount": "6"
+    },
+    {
+      "sponsorId": "240001",
+      "attendeeNumber": "1",
+      "timeSlot": "2",
+      "meetingCount": "6"
+    },
+    {
+      "sponsorId": "900001",
+      "attendeeNumber": "1",
+      "timeSlot": "4",
+      "meetingCount": "6"
+    },
+    {
+      "sponsorId": "150001",
+      "attendeeNumber": "1",
+      "timeSlot": "2",
+      "meetingCount": "6"
+    },
+    {
+      "sponsorId": "780001",
+      "attendeeNumber": "1",
+      "timeSlot": "3",
+      "meetingCount": "6"
+    },
+    {
+      "sponsorId": "810002",
+      "attendeeNumber": "1",
+      "timeSlot": "3",
+      "meetingCount": "6"
+    },
+    {
+      "sponsorId": "870001",
+      "attendeeNumber": "1",
+      "timeSlot": "4",
+      "meetingCount": "6"
+    },
+    {
+      "sponsorId": "390001",
+      "attendeeNumber": "1",
+      "timeSlot": "4",
+      "meetingCount": "5"
+    },
+    {
+      "sponsorId": "360001",
+      "attendeeNumber": "1",
+      "timeSlot": "3",
+      "meetingCount": "5"
+    },
+    {
+      "sponsorId": "300001",
+      "attendeeNumber": "1",
+      "timeSlot": "2",
+      "meetingCount": "5"
+    },
+    {
+      "sponsorId": "690001",
+      "attendeeNumber": "1",
+      "timeSlot": "4",
+      "meetingCount": "5"
+    },
+    {
+      "sponsorId": "810002",
+      "attendeeNumber": "1",
+      "timeSlot": "4",
+      "meetingCount": "5"
+    },
+    {
+      "sponsorId": "360001",
+      "attendeeNumber": "1",
+      "timeSlot": "2",
+      "meetingCount": "5"
+    },
+    {
+      "sponsorId": "780001",
+      "attendeeNumber": "1",
+      "timeSlot": "4",
+      "meetingCount": "4"
+    },
+    {
+      "sponsorId": "390001",
+      "attendeeNumber": "1",
+      "timeSlot": "2",
+      "meetingCount": "4"
+    },
+    {
+      "sponsorId": "240001",
+      "attendeeNumber": "1",
+      "timeSlot": "3",
+      "meetingCount": "4"
+    },
+    {
+      "sponsorId": "690001",
+      "attendeeNumber": "1",
+      "timeSlot": "2",
+      "meetingCount": "4"
+    },
+    {
+      "sponsorId": "810001",
+      "attendeeNumber": "1",
+      "timeSlot": "3",
+      "meetingCount": "4"
+    },
+    {
+      "sponsorId": "810001",
+      "attendeeNumber": "1",
+      "timeSlot": "2",
+      "meetingCount": "4"
+    }
+  ],
+  "messages": [],
+  "stdout": "sponsorId\tattendeeNumber\ttimeSlot\tmeetingCount\n750001\t2\t1\t12\n750001\t1\t1\t12\n210001\t1\t1\t10\n210001\t2\t1\t10\n270002\t2\t1\t7\n270002\t1\t2\t7\n540001\t1\t3\t7\n180001\t1\t2\t7\n330001\t1\t2\t7\n840001\t1\t4\t7\n720001\t1\t4\t6\n150001\t1\t1\t6\n240001\t1\t2\t6\n900001\t1\t4\t6\n150001\t1\t2\t6\n780001\t1\t3\t6\n810002\t1\t3\t6\n870001\t1\t4\t6\n390001\t1\t4\t5\n360001\t1\t3\t5\n300001\t1\t2\t5\n690001\t1\t4\t5\n810002\t1\t4\t5\n360001\t1\t2\t5\n780001\t1\t4\t4\n390001\t1\t2\t4\n240001\t1\t3\t4\n690001\t1\t2\t4\n810001\t1\t3\t4\n810001\t1\t2\t4\n",
+  "stderr": "",
+  "execution_time_ms": 369
+}
