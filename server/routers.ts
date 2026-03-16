@@ -754,6 +754,10 @@ export const appRouter = router({
         // 5-15 minutes, so we MUST NOT await it inside the request handler.
         // Progress is streamed to the client via the SSE /api/match-progress endpoint.
         setImmediate(async () => {
+          // Wait 1.5s for the SSE client to establish its connection before emitting
+          // the first 'start' event. The late-join replay in the SSE endpoint also
+          // handles clients that connect slightly after the job begins.
+          await new Promise(resolve => setTimeout(resolve, 1500));
           try {
             const allMatchResults = await generateMeetingsForAllSponsors((event) => {
               matchProgress.emitProgress(event);

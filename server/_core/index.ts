@@ -103,6 +103,15 @@ async function startServer() {
     // Send initial heartbeat
     res.write('data: {"type":"connected"}\n\n');
 
+    // Late-join replay: if a match job is already running when this SSE client
+    // connects, immediately replay the buffered 'start' event so the client
+    // knows the total sponsor count and can render the overlay correctly.
+    if (matchProgressEmitter.isRunning && matchProgressEmitter.lastStartEvent) {
+      try {
+        res.write(`data: ${JSON.stringify(matchProgressEmitter.lastStartEvent)}\n\n`);
+      } catch (_) {}
+    }
+
     const onProgress = (event: unknown) => {
       try {
         res.write(`data: ${JSON.stringify(event)}\n\n`);
