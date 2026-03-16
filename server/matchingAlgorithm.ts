@@ -610,7 +610,13 @@ export async function generateMeetingsForSponsor(
     return sponsorKeywords.some(kw => techFields.includes(kw));
   }
 
-  const availableDelegates = capacityFiltered.filter(d => !isExistingCustomer(d));
+  // Sponsors where existing-customer exclusion is deliberately relaxed
+  // (e.g. they want to meet existing customers, or quota can't be met otherwise)
+  const SKIP_CUSTOMER_EXCLUSION = new Set([450001]); // PerchPeek
+
+  const availableDelegates = SKIP_CUSTOMER_EXCLUSION.has(sponsorId)
+    ? capacityFiltered
+    : capacityFiltered.filter(d => !isExistingCustomer(d));
   const excludedAsCustomers = capacityFiltered.length - availableDelegates.length;
   if (excludedAsCustomers > 0) {
     console.log(`[Matching] Excluded ${excludedAsCustomers} existing customer(s) of ${sponsor.companyName} from match pool`);
@@ -762,8 +768,8 @@ export async function generateMeetingsForSponsor(
   });
   
   // Filter out matches below minimum threshold (except priority delegates)
-  // SHL (750001) has very few eligible delegates after exclusions, so use 0% threshold to fill quota
-  const minScoreThreshold = sponsorId === 750001 ? 0 : 30;
+  // SHL (750001) and PerchPeek (450001) use 0% threshold to fill quota when delegate pool is thin
+  const minScoreThreshold = (sponsorId === 750001 || sponsorId === 450001) ? 0 : 30;
   const qualityMatches = scoredMatches.filter(m => m.isPriority || m.matchScore >= minScoreThreshold);
   
   // Return ALL quality matches as a buffer — the caller (run-match-final.ts) will pick

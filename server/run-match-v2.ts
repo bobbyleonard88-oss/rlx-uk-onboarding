@@ -15,10 +15,10 @@ const TEST_SPONSOR_IDS = new Set([30001, 60001, 90001, 120001]);
 const ALWAYS_EXCLUDED_SPONSOR_IDS = new Set([270001, 510003]);
 
 const SPONSOR_MEETING_COUNT_OVERRIDES: Record<number, number> = {
-  450001: 10,  // PerchPeek
-  750001: 24,  // SHL
-  870001: 12,  // Wilson
-  390001: 10,  // Bright Apply
+    450001: 12,  // PerchPeek — relaxed exclusion list, target 12
+    750001: 24,  // SHL
+    870001: 12,  // Wilson
+    390001: 10,  // Bright Apply
 };
 
 const ALL_SLOTS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];

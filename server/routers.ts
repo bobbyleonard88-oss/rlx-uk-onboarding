@@ -801,7 +801,7 @@ export const appRouter = router({
 
             // Sponsor-specific meeting count overrides
             const SPONSOR_MEETING_COUNT_OVERRIDES: Record<number, number> = {
-              450001: 10,  // PerchPeek
+              450001: 12,  // PerchPeek — relaxed exclusion list, target 12
               750001: 24,  // SHL
               870001: 12,  // Wilson
               390001: 10,  // Bright Apply
