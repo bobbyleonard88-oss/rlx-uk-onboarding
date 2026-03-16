@@ -1,0 +1,14 @@
+{
+  "query": "SELECT s.id, s.companyName FROM sponsors s WHERE s.companyName LIKE '%Elevate%' OR s.companyName LIKE '%Assess%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT s.id, s.companyName FROM sponsors s WHERE s.companyName LIKE '%Elevate%' OR s.companyName LIKE '%Assess%';",
+  "rows": [
+    {
+      "id": "60001",
+      "companyName": "Elevate Assess"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tcompanyName\n60001\tElevate Assess\n",
+  "stderr": "",
+  "execution_time_ms": 362
+}

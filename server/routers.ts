@@ -740,9 +740,16 @@ export const appRouter = router({
         const sessionId = `match-${Date.now()}`;
         matchProgress.startSession(sessionId);
         
+        // Build the full exclusion set to pass into the algorithm
+        // so test/excluded sponsors are skipped before any progress events are emitted
+        const excludedForRun = new Set<number>([
+          ...Array.from(ALWAYS_EXCLUDED_SPONSOR_IDS),
+          ...(includeTestAccounts ? [] : Array.from(TEST_SPONSOR_IDS)),
+        ]);
+
         const allMatchResults = await generateMeetingsForAllSponsors((event) => {
           matchProgress.emitProgress(event);
-        });
+        }, excludedForRun);
         const savedResults: { sponsorId: number; meetingCount: number }[] = [];
 
         // ─── Global slot availability trackers ───────────────────────────────────

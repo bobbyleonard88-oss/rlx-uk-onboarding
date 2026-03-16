@@ -755,7 +755,8 @@ export async function generateMeetingsForSponsor(
  * Generate meetings for all sponsors
  */
 export async function generateMeetingsForAllSponsors(
-  onProgress?: (event: import('./matchProgress').MatchProgressEvent) => void
+  onProgress?: (event: import('./matchProgress').MatchProgressEvent) => void,
+  excludedSponsorIds?: Set<number>
 ): Promise<Map<number, MatchResult[]>> {
   const allSponsors = await db.getAllSponsors();
   const results = new Map<number, MatchResult[]>();
@@ -774,8 +775,10 @@ export async function generateMeetingsForAllSponsors(
     return new Date(aDate).getTime() - new Date(bDate).getTime();
   });
 
-  // Filter to only sponsors with intake forms (the ones we'll actually process)
-  const eligibleSponsors = sortedSponsors.filter(s => intakeBySponsors.has(s.id));
+  // Filter to only sponsors with intake forms AND not in the exclusion set
+  const eligibleSponsors = sortedSponsors.filter(s =>
+    intakeBySponsors.has(s.id) && !(excludedSponsorIds?.has(s.id))
+  );
   const totalSponsors = eligibleSponsors.length;
   let completedSponsors = 0;
 
