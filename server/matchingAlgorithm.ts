@@ -468,6 +468,28 @@ export async function generateMeetingsForSponsor(
     console.log(`[Matching] ${optInAttendeeIds.size} delegate(s) opted in to meet ${sponsor.companyName}`);
   }
 
+  // ─── Cross-sponsor affinity boosts ───
+  // JobSync (840001): delegates who opted in to Appcast get a +15 affinity boost
+  // Veremark (810001): delegates who opted in to Zinc get a +15 affinity boost
+  const CROSS_SPONSOR_AFFINITY: Record<number, string> = {
+    840001: 'appcast',   // JobSync ← Appcast opt-ins
+    810001: 'zinc',      // Veremark ← Zinc opt-ins
+  };
+  const affinitySourceSponsor = CROSS_SPONSOR_AFFINITY[sponsorId];
+  const affinityAttendeeIds = affinitySourceSponsor
+    ? new Set<string>(
+        attendees
+          .filter(a => (a.optInSponsors ?? []).some(s =>
+            s.toLowerCase().includes(affinitySourceSponsor) ||
+            affinitySourceSponsor.includes(s.toLowerCase())
+          ))
+          .map(a => a.id)
+      )
+    : new Set<string>();
+  if (affinityAttendeeIds.size > 0) {
+    console.log(`[Matching] ${affinityAttendeeIds.size} delegate(s) have cross-sponsor affinity for ${sponsor.companyName} (via ${affinitySourceSponsor})`);
+  }
+
   // Transform attendees to delegate format — include all available fields for richer matching
   const allDelegates = attendees.map(a => ({
     id: 0, // Not used
@@ -496,6 +518,7 @@ export async function generateMeetingsForSponsor(
     otherTools: a.otherTools || '',
     profileData: null,
     optedIn: optInAttendeeIds.has(a.id),
+    hasAffinityBoost: affinityAttendeeIds.has(a.id),
     createdAt: new Date(),
     updatedAt: new Date(),
   }));
@@ -592,6 +615,7 @@ export async function generateMeetingsForSponsor(
   for (const delegate of availableDelegates) {
     const isPriority = priorityAttendeeIds.has(delegate.attendeeId);
     const isOptIn = (delegate as any).optedIn === true;
+    const hasAffinityBoost = (delegate as any).hasAffinityBoost === true;
     const rankPosition = rankedAttendeeIds.indexOf(delegate.attendeeId);
     const isTopRanked = rankPosition >= 0 && rankPosition < 12;
     const isTop20 = rankPosition >= 0 && rankPosition < 20;
@@ -632,6 +656,11 @@ export async function generateMeetingsForSponsor(
       if (isOptIn) {
         matchScore = Math.min(100, matchScore + 15);
       }
+
+      // Cross-sponsor affinity bonus: +15 points for delegates who opted in to a related sponsor
+      if (hasAffinityBoost && !isOptIn) {
+        matchScore = Math.min(100, matchScore + 15);
+      }
       
       // Ensure scores are in reasonable range (minimum 30% for actual meetings)
       // Lower scores will be filtered out when selecting best matches
@@ -649,6 +678,10 @@ export async function generateMeetingsForSponsor(
       // Enhance with additional context if available
       if (isOptIn) {
         matchReason = `Delegate opted in to meet ${sponsor.companyName}. ` + matchReason;
+      }
+      if (hasAffinityBoost && !isOptIn) {
+        const affinityLabel = affinitySourceSponsor ? affinitySourceSponsor.charAt(0).toUpperCase() + affinitySourceSponsor.slice(1) : 'a related sponsor';
+        matchReason = `Delegate opted in to meet ${affinityLabel} (similar solution space). ` + matchReason;
       }
       if (isTop20) {
         matchReason += " (Ranked in sponsor's top 20 preferred delegates)";

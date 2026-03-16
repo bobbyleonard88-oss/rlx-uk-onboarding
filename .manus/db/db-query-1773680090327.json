@@ -1,0 +1,26 @@
+{
+  "query": "SELECT id, companyName FROM sponsors WHERE companyName LIKE '%Veremark%' OR companyName LIKE '%JobSync%' OR companyName LIKE '%Appcast%' OR companyName LIKE '%Zinc%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT id, companyName FROM sponsors WHERE companyName LIKE '%Veremark%' OR companyName LIKE '%JobSync%' OR companyName LIKE '%Appcast%' OR companyName LIKE '%Zinc%';",
+  "rows": [
+    {
+      "id": "270002",
+      "companyName": "Appcast"
+    },
+    {
+      "id": "300001",
+      "companyName": "Zinc"
+    },
+    {
+      "id": "810001",
+      "companyName": "Veremark "
+    },
+    {
+      "id": "840001",
+      "companyName": "JobSync"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tcompanyName\n270002\tAppcast\n300001\tZinc\n810001\tVeremark \n840001\tJobSync\n",
+  "stderr": "",
+  "execution_time_ms": 363
+}

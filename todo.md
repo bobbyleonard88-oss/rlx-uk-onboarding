@@ -1345,3 +1345,5 @@
 - [x] Show CSV opt-in delegates on admin dashboard Opt In Meetings section per sponsor
 - [x] Add Opt In column to CSV export of all meetings
 - [x] Show Opt In badge on sponsor-facing meetings page
+- [x] Cross-sponsor affinity boost: Appcast opt-ins score higher for JobSync
+- [x] Cross-sponsor affinity boost: Zinc opt-ins score higher for Veremark
