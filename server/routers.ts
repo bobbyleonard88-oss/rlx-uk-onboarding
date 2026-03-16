@@ -747,10 +747,18 @@ export const appRouter = router({
           ...(includeTestAccounts ? [] : Array.from(TEST_SPONSOR_IDS)),
         ]);
 
-        const allMatchResults = await generateMeetingsForAllSponsors((event) => {
-          matchProgress.emitProgress(event);
-        }, excludedForRun);
-        const savedResults: { sponsorId: number; meetingCount: number }[] = [];
+        // ─── FIRE AND FORGET ─────────────────────────────────────────────────────
+        // Run the entire matching + saving pipeline in the background so the HTTP
+        // response returns immediately (within ~1s). Cloudflare and other proxies
+        // have a ~100s timeout on HTTP requests; the full Match All run takes
+        // 5-15 minutes, so we MUST NOT await it inside the request handler.
+        // Progress is streamed to the client via the SSE /api/match-progress endpoint.
+        setImmediate(async () => {
+          try {
+            const allMatchResults = await generateMeetingsForAllSponsors((event) => {
+              matchProgress.emitProgress(event);
+            }, excludedForRun);
+            const savedResults: { sponsorId: number; meetingCount: number }[] = [];
 
         // ─── Global slot availability trackers ───────────────────────────────────
         // Tracks which time slots each delegate is already booked into across ALL sponsors
@@ -876,13 +884,21 @@ export const appRouter = router({
             totalSponsors: allMatchResults.size,
             phase: 'saving',
           });
-        }
-        
-        // Signal completion and end the session
-        matchProgress.emitProgress({ type: 'done', totalSponsors: savedResults.length });
-        matchProgress.endSession();
-        
-        return { success: true, results: savedResults, totalSponsors: savedResults.length };
+          } // end for (allMatchResults)
+
+            // Signal completion and end the session
+            matchProgress.emitProgress({ type: 'done', totalSponsors: savedResults.length });
+            matchProgress.endSession();
+          } catch (err) {
+            console.error('[MatchAll] Background job failed:', err);
+            matchProgress.emitProgress({ type: 'done', totalSponsors: 0 });
+            matchProgress.endSession();
+          }
+        }); // end setImmediate
+
+        // Return immediately so the HTTP response closes before Cloudflare times out.
+        // The client tracks progress via the SSE /api/match-progress stream.
+        return { success: true, started: true };
       }),
 
     // Clear all meetings across all sponsors

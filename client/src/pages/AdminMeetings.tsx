@@ -64,7 +64,7 @@ export default function AdminMeetings() {
     totalMeetingsCreated?: number;
   } | null>(null);
   const sseRef = useRef<EventSource | null>(null);
-
+  const utils = trpc.useUtils();
   const startProgressTracking = useCallback(() => {
     // Close any existing SSE connection
     if (sseRef.current) { sseRef.current.close(); sseRef.current = null; }
@@ -143,6 +143,8 @@ export default function AdminMeetings() {
           if (event.type === 'done') {
             es.close();
             sseRef.current = null;
+            // Refresh the admin dashboard now that all meetings are saved
+            utils.admin.getAllSubmissions.invalidate();
             // Sum up all meeting counts from completed sponsors
             const totalMeetingsCreated = prev.sponsors.reduce((sum, s) => sum + (s.meetingCount ?? 0), 0);
             return { ...prev, phase: 'done', completedSponsors: prev.totalSponsors, totalMeetingsCreated };
@@ -154,14 +156,13 @@ export default function AdminMeetings() {
     };
 
     es.onerror = () => { es.close(); sseRef.current = null; };
-  }, []);
+  }, [utils]);
 
   // Clean up SSE on unmount
   useEffect(() => () => { sseRef.current?.close(); }, []);
   
   const includeTestAccounts = useTestMode();
   const { data: submissions } = trpc.admin.getAllSubmissions.useQuery({ includeTestAccounts });
-  const utils = trpc.useUtils();
   
   const generateMeetings = trpc.admin.generateMeetings.useMutation({
     onSuccess: (data) => {
@@ -244,9 +245,9 @@ export default function AdminMeetings() {
   };
 
   const generateAllMeetings = trpc.admin.generateAllMeetings.useMutation({
-    onSuccess: (data) => {
-      toast.success(`Generated and saved meetings for ${data.totalSponsors} sponsors!`);
-      utils.admin.getAllSubmissions.invalidate();
+    onSuccess: () => {
+      // The mutation returns immediately (fire-and-forget); progress is tracked via SSE.
+      // Invalidate after completion is handled by the SSE 'done' event.
     },
     onError: (error) => {
       toast.error(error.message || "Failed to generate all meetings");
