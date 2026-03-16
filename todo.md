@@ -1347,3 +1347,4 @@
 - [x] Show Opt In badge on sponsor-facing meetings page
 - [x] Cross-sponsor affinity boost: Appcast opt-ins score higher for JobSync
 - [x] Cross-sponsor affinity boost: Zinc opt-ins score higher for Veremark
+- [x] Fix JSON error when running Match All Sponsors

@@ -133,11 +133,30 @@ No other text, just the JSON.`;
     // Extract JSON from response (might have markdown code blocks)
     const jsonMatch = jsonText.match(/\{[\s\S]+\}/);
     if (!jsonMatch) {
-      console.error("[Matching] AI response not valid JSON:", jsonText);
+      console.error("[Matching] AI response not valid JSON:", jsonText.substring(0, 200));
       return scores;
     }
     
-    const scoresObj = JSON.parse(jsonMatch[0]);
+    let scoresObj: Record<string, unknown>;
+    try {
+      scoresObj = JSON.parse(jsonMatch[0]);
+    } catch (parseErr) {
+      // Try sanitising common LLM JSON issues: unescaped newlines inside strings,
+      // trailing commas, and control characters
+      try {
+        const sanitised = jsonMatch[0]
+          .replace(/[\x00-\x1F\x7F]/g, (c) => {
+            // Keep valid JSON whitespace, escape the rest
+            if (c === '\n' || c === '\r' || c === '\t') return ' ';
+            return '';
+          })
+          .replace(/,\s*([}\]])/g, '$1'); // Remove trailing commas
+        scoresObj = JSON.parse(sanitised);
+      } catch (sanitiseErr) {
+        console.error("[Matching] AI JSON parse failed after sanitisation:", String(parseErr).substring(0, 100));
+        return scores;
+      }
+    }
     
     // Convert to Map with 0-1 scale score + reasoning
     for (const [delegateId, data] of Object.entries(scoresObj)) {

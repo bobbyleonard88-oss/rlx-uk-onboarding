@@ -777,11 +777,16 @@ export const appRouter = router({
           // Save to database (replace existing meetings)
           await db.deleteMeetingsBySponsor(sponsorId);
           for (const meeting of matchesWithSlots) {
+            // Sanitise matchReason to remove control characters that could break JSON serialisation
+            const safeReason = (meeting.matchReason || '')
+              .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '') // Remove non-printable control chars
+              .replace(/\r\n|\r/g, ' ')  // Normalise line endings
+              .trim();
             await db.createMeeting({
               sponsorId,
               attendeeId: meeting.attendeeId,
               matchScore: meeting.matchScore,
-              matchReason: meeting.matchReason,
+              matchReason: safeReason,
               isTopRanked: meeting.isTopRanked ? 1 : 0,
               isPriority: meeting.isPriority ? 1 : 0,
               timeSlot: meeting.timeSlot ?? null,
