@@ -1333,3 +1333,12 @@
 
 ## Match All Auto-Save Draft (Mar 13)
 - [ ] Match All Sponsors should auto-save all generated meetings as draft (suggested) so sponsors appear in the dropdown
+
+## Batch Update - March 16 2026
+
+- [x] Fix meeting package counts: PerchPeek=10, Wilson=12, SHL=24
+- [x] Add sponsor-specific hard exclusions (Appcast, hackajob, JobSync, SHL, Stepstone, Martec, Zinc)
+- [x] Add opt-in awareness to matching algorithm (optInSponsors field)
+- [x] Update AI match prompt to mention opt-in status in reason
+- [x] Rename Priority Delegates to Opt In Meetings in UI
+- [x] Add Clear All Meetings button to admin panel

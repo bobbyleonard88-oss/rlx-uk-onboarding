@@ -116,6 +116,21 @@ export default function AdminMeetings() {
     },
   });
 
+  const clearAllMeetings = trpc.admin.clearAllMeetings.useMutation({
+    onSuccess: () => {
+      toast.success('All meetings cleared across all sponsors.');
+      utils.admin.getAllSubmissions.invalidate();
+    },
+    onError: (error) => {
+      toast.error(error.message || 'Failed to clear all meetings');
+    },
+  });
+
+  const handleClearAllMeetings = () => {
+    if (!confirm('This will permanently delete ALL meetings across ALL sponsors. This cannot be undone. Continue?')) return;
+    clearAllMeetings.mutate();
+  };
+
   const generateAllMeetings = trpc.admin.generateAllMeetings.useMutation({
     onSuccess: (data) => {
       toast.success(`Generated and saved meetings for ${data.totalSponsors} sponsors!`);
@@ -310,7 +325,7 @@ export default function AdminMeetings() {
               Generate Meetings
             </CardTitle>
             <CardDescription className="text-slate-300">
-              Select a sponsor and generate intelligent meeting matches based on priority delegates, challenge alignment, and rankings
+              Select a sponsor and generate intelligent meeting matches based on opt-in meetings, challenge alignment, and rankings
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -472,6 +487,26 @@ export default function AdminMeetings() {
                 )}
               </Button>
 
+              {/* Clear All Meetings */}
+              <Button
+                onClick={handleClearAllMeetings}
+                disabled={clearAllMeetings.isPending}
+                variant="outline"
+                className="border-red-500/50 text-red-300 hover:bg-red-500/10"
+              >
+                {clearAllMeetings.isPending ? (
+                  <>
+                    <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+                    Clearing...
+                  </>
+                ) : (
+                  <>
+                    <Trash2 className="w-4 h-4 mr-2" />
+                    Clear All Meetings
+                  </>
+                )}
+              </Button>
+
               {/* Export All Matches */}
               <Button
                 onClick={handleExportAllMatches}
@@ -521,9 +556,9 @@ export default function AdminMeetings() {
                   </span>
                 </div>
                 <div>
-                  <span className="text-slate-400">Priority Delegates:</span>
+                  <span className="text-slate-400">Opt In Meetings:</span>
                   <span className="ml-2 text-white font-medium">
-                    {selectedSubmission.priorityDelegates?.length || 0} tagged
+                    {selectedSubmission.priorityDelegates?.length || 0} opted in
                   </span>
                 </div>
                 <div>

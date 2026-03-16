@@ -723,7 +723,14 @@ export const appRouter = router({
           
           // Determine meeting count from intake form
           const intakeSubmission = await db.getIntakeSubmissionBySponsor(sponsorId);
-          const meetingCount = intakeSubmission?.meetingPackage === '20' ? 20 : 12;
+          // Sponsor-specific meeting count overrides (takes precedence over intake form package)
+          const SPONSOR_MEETING_COUNT_OVERRIDES: Record<number, number> = {
+            450001: 10,  // PerchPeek — 10 meetings
+            750001: 24,  // SHL — 24 meetings
+            870001: 12,  // Wilson — 12 meetings
+          };
+          const meetingCount = SPONSOR_MEETING_COUNT_OVERRIDES[sponsorId] ??
+            (intakeSubmission?.meetingPackage === '20' ? 20 : 12);
           const is20MeetingPackage = meetingCount === 20;
           const DAY1_SLOTS_COUNT = 6;
           const DAY2_START = 7;
@@ -766,6 +773,13 @@ export const appRouter = router({
         }
         
         return { success: true, results: savedResults, totalSponsors: savedResults.length };
+      }),
+
+    // Clear all meetings across all sponsors
+    clearAllMeetings: adminProcedure
+      .mutation(async () => {
+        await db.deleteAllMeetings();
+        return { success: true };
       }),
     
     // Save generated meetings to database

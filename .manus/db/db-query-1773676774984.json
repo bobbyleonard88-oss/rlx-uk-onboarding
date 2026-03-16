@@ -1,0 +1,38 @@
+{
+  "query": "SELECT id, companyName FROM sponsors WHERE companyName LIKE '%Appcast%' OR companyName LIKE '%hackajob%' OR companyName LIKE '%JobSync%' OR companyName LIKE '%Stepstone%' OR companyName LIKE '%Martec%' OR companyName LIKE '%Zinc%' OR companyName LIKE '%SHL%' ORDER BY companyName;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT id, companyName FROM sponsors WHERE companyName LIKE '%Appcast%' OR companyName LIKE '%hackajob%' OR companyName LIKE '%JobSync%' OR companyName LIKE '%Stepstone%' OR companyName LIKE '%Martec%' OR companyName LIKE '%Zinc%' OR companyName LIKE '%SHL%' ORDER BY companyName;",
+  "rows": [
+    {
+      "id": "270002",
+      "companyName": "Appcast"
+    },
+    {
+      "id": "540001",
+      "companyName": "hackajob"
+    },
+    {
+      "id": "840001",
+      "companyName": "JobSync"
+    },
+    {
+      "id": "750001",
+      "companyName": "SHL"
+    },
+    {
+      "id": "150001",
+      "companyName": "Stepstone Group UK Ltd"
+    },
+    {
+      "id": "780001",
+      "companyName": "The Martec"
+    },
+    {
+      "id": "300001",
+      "companyName": "Zinc"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tcompanyName\n270002\tAppcast\n540001\thackajob\n840001\tJobSync\n750001\tSHL\n150001\tStepstone Group UK Ltd\n780001\tThe Martec\n300001\tZinc\n",
+  "stderr": "",
+  "execution_time_ms": 354
+}

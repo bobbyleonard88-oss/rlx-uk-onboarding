@@ -1,0 +1,31 @@
+{
+  "query": "SELECT CONCAT(id, ' = ', companyName) as info FROM sponsors WHERE companyName LIKE '%Appcast%' OR companyName LIKE '%hackajob%' OR companyName LIKE '%JobSync%' OR companyName LIKE '%Stepstone%' OR companyName LIKE '%Martec%' OR companyName LIKE '%Zinc%' OR companyName LIKE '%SHL%' ORDER BY id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT CONCAT(id, ' = ', companyName) as info FROM sponsors WHERE companyName LIKE '%Appcast%' OR companyName LIKE '%hackajob%' OR companyName LIKE '%JobSync%' OR companyName LIKE '%Stepstone%' OR companyName LIKE '%Martec%' OR companyName LIKE '%Zinc%' OR companyName LIKE '%SHL%' ORDER BY id;",
+  "rows": [
+    {
+      "info": "150001 = Stepstone Group UK Ltd"
+    },
+    {
+      "info": "270002 = Appcast"
+    },
+    {
+      "info": "300001 = Zinc"
+    },
+    {
+      "info": "540001 = hackajob"
+    },
+    {
+      "info": "750001 = SHL"
+    },
+    {
+      "info": "780001 = The Martec"
+    },
+    {
+      "info": "840001 = JobSync"
+    }
+  ],
+  "messages": [],
+  "stdout": "info\n150001 = Stepstone Group UK Ltd\n270002 = Appcast\n300001 = Zinc\n540001 = hackajob\n750001 = SHL\n780001 = The Martec\n840001 = JobSync\n",
+  "stderr": "",
+  "execution_time_ms": 367
+}

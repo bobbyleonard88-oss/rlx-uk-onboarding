@@ -400,10 +400,10 @@ export default function AdminDashboard() {
                   <div className="pt-4 border-t border-slate-700">
                     <div className="flex items-center justify-between mb-2">
                       <label className="block text-sm font-medium text-slate-300">
-                        Priority Delegates
+                        Opt In Meetings
                       </label>
                       <span className="text-sm text-slate-400">
-                        {submission.priorityDelegates?.length || 0} tagged
+                        {submission.priorityDelegates?.length || 0} opted in
                       </span>
                     </div>
                     
@@ -447,7 +447,7 @@ export default function AdminDashboard() {
                           role="combobox"
                           className="w-full justify-between text-slate-300 hover:text-white"
                         >
-                          Add delegate to priority list...
+                          Add delegate to opt-in list...
                           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                         </Button>
                       </PopoverTrigger>

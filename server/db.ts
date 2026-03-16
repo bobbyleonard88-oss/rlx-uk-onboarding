@@ -469,6 +469,13 @@ export async function deleteMeetingsBySponsor(sponsorId: number) {
   await db.delete(meetings).where(eq(meetings.sponsorId, sponsorId));
 }
 
+export async function deleteAllMeetings() {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.delete(meetings);
+}
+
 export async function updateRankingsSubmissionStatus(id: number, status: "pending" | "reviewed") {
   const db = await getDb();
   if (!db) throw new Error("Database not available");

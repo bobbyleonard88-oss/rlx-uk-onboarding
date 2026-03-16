@@ -432,7 +432,42 @@ export async function generateMeetingsForSponsor(
   // Get all delegates from attendees list
   const { attendees } = await import('./attendees');
   console.log(`[Matching] Loaded ${attendees.length} attendees from attendees list`);
-  
+
+  // ─── Sponsor-specific hard exclusions (named existing clients) ───
+  // These delegates are NEVER matched to these sponsors regardless of score or opt-in.
+  const SPONSOR_HARD_EXCLUSIONS: Record<number, string[]> = {
+    // Appcast (270002)
+    270002: ['4956154','7258470500','200543495570','190937723960','13454401','91889321035','5140258'],
+    // hackajob (540001)
+    540001: ['190937723960','13454401'],
+    // JobSync (840001) — first half of exclusion list only
+    840001: ['17812226737','7258470500','91889321035','190937723960','13454401','12731251'],
+    // SHL (750001) — by company: KPMG, BT, Aon, GSK, Balfour Beatty, SwissRe, Coca-Cola, BusyBees
+    750001: ['76678269091','7258470500','91889321035','13454401','93174643474','200543495570','91862577670','190937723960'],
+    // Stepstone Group (150001)
+    150001: ['17812226737','200543495570','5927642','7258470500'],
+    // The Martec (780001) — named people not currently in attendee list, empty for now
+    780001: [],
+    // Zinc (300001) — BusyBees Nurseries
+    300001: ['190937723960'],
+  };
+  const sponsorHardExcludeIds = new Set<string>(SPONSOR_HARD_EXCLUSIONS[sponsorId] ?? []);
+
+  // ─── Opt-in awareness ───
+  // Delegates who explicitly opted in to meet this sponsor get a scoring boost and a note.
+  const sponsorNameNorm = (sponsor.companyName || '').toLowerCase();
+  const optInAttendeeIds = new Set<string>(
+    attendees
+      .filter(a => (a.optInSponsors ?? []).some(s =>
+        s.toLowerCase().includes(sponsorNameNorm) ||
+        sponsorNameNorm.includes(s.toLowerCase())
+      ))
+      .map(a => a.id)
+  );
+  if (optInAttendeeIds.size > 0) {
+    console.log(`[Matching] ${optInAttendeeIds.size} delegate(s) opted in to meet ${sponsor.companyName}`);
+  }
+
   // Transform attendees to delegate format — include all available fields for richer matching
   const allDelegates = attendees.map(a => ({
     id: 0, // Not used
@@ -460,6 +495,7 @@ export async function generateMeetingsForSponsor(
     marketIntelligence: a.marketIntelligence || '',
     otherTools: a.otherTools || '',
     profileData: null,
+    optedIn: optInAttendeeIds.has(a.id),
     createdAt: new Date(),
     updatedAt: new Date(),
   }));
@@ -473,12 +509,17 @@ export async function generateMeetingsForSponsor(
     delegateMeetingCounts.set(meeting.attendeeId, count + 1);
   }
   
-  // Filter out delegates who have reached capacity (8 meetings)
+  // Filter out delegates who have reached capacity (8 meetings) and hard-excluded delegates
   const capacityFiltered = allDelegates.filter(delegate => {
     const currentCount = delegateMeetingCounts.get(delegate.attendeeId) || 0;
-    return currentCount < 8;
+    if (currentCount >= 8) return false;
+    if (sponsorHardExcludeIds.has(delegate.attendeeId)) {
+      console.log(`[Matching] Hard-excluded ${delegate.firstName} ${delegate.lastName} (${delegate.company}) from ${sponsor.companyName} — named existing client`);
+      return false;
+    }
+    return true;
   });
-  console.log(`[Matching] ${capacityFiltered.length} delegates available (under 8 meetings capacity)`);
+  console.log(`[Matching] ${capacityFiltered.length} delegates available (capacity + hard exclusions applied)`);
 
   // --- Existing customer exclusion ---
   // Build a set of normalised keywords from the sponsor's name and known product aliases
@@ -550,6 +591,7 @@ export async function generateMeetingsForSponsor(
   
   for (const delegate of availableDelegates) {
     const isPriority = priorityAttendeeIds.has(delegate.attendeeId);
+    const isOptIn = (delegate as any).optedIn === true;
     const rankPosition = rankedAttendeeIds.indexOf(delegate.attendeeId);
     const isTopRanked = rankPosition >= 0 && rankPosition < 12;
     const isTop20 = rankPosition >= 0 && rankPosition < 20;
@@ -585,6 +627,11 @@ export async function generateMeetingsForSponsor(
       if (isTop20) {
         matchScore = Math.min(100, matchScore + 10);
       }
+
+      // Opt-in bonus: +15 points if delegate explicitly opted in to meet this sponsor
+      if (isOptIn) {
+        matchScore = Math.min(100, matchScore + 15);
+      }
       
       // Ensure scores are in reasonable range (minimum 30% for actual meetings)
       // Lower scores will be filtered out when selecting best matches
@@ -600,6 +647,9 @@ export async function generateMeetingsForSponsor(
       matchReason = aiMatchReasoning || "Match based on needs-solution alignment";
       
       // Enhance with additional context if available
+      if (isOptIn) {
+        matchReason = `Delegate opted in to meet ${sponsor.companyName}. ` + matchReason;
+      }
       if (isTop20) {
         matchReason += " (Ranked in sponsor's top 20 preferred delegates)";
       }
