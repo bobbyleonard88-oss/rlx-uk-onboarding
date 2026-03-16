@@ -61,6 +61,7 @@ export default function AdminMeetings() {
     totalSponsors: number;
     completedSponsors: number;
     sponsors: SponsorProgress[];
+    totalMeetingsCreated?: number;
   } | null>(null);
   const sseRef = useRef<EventSource | null>(null);
 
@@ -142,7 +143,9 @@ export default function AdminMeetings() {
           if (event.type === 'done') {
             es.close();
             sseRef.current = null;
-            return { ...prev, phase: 'done', completedSponsors: prev.totalSponsors };
+            // Sum up all meeting counts from completed sponsors
+            const totalMeetingsCreated = prev.sponsors.reduce((sum, s) => sum + (s.meetingCount ?? 0), 0);
+            return { ...prev, phase: 'done', completedSponsors: prev.totalSponsors, totalMeetingsCreated };
           }
 
           return prev;
@@ -521,6 +524,18 @@ export default function AdminMeetings() {
                 </div>
               )}
             </div>
+            {/* Total meetings counter — shown when done */}
+            {matchProgress.phase === 'done' && matchProgress.totalMeetingsCreated !== undefined && (
+              <div className="border-t border-slate-700 p-4 bg-emerald-900/20">
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-300 text-sm font-medium">Total meetings created</span>
+                  <span className="text-2xl font-bold text-emerald-400">{matchProgress.totalMeetingsCreated}</span>
+                </div>
+                <p className="text-xs text-slate-400 mt-1">
+                  Across {matchProgress.totalSponsors} sponsors · {matchProgress.sponsors.filter(s => s.status === 'done').length} matched successfully
+                </p>
+              </div>
+            )}
           </div>
         </div>
       )}
