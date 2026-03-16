@@ -282,6 +282,14 @@ export default function AdminMeetings() {
 
   const handleMatchAllSponsors = () => {
     if (!confirm(`This will generate and save meetings for ALL sponsors (respecting test mode). This may take several minutes. Continue?`)) return;
+    // Show the overlay immediately so the user gets instant visual feedback
+    setMatchProgress({
+      isVisible: true,
+      phase: 'scoring',
+      totalSponsors: 0,
+      completedSponsors: 0,
+      sponsors: [],
+    });
     // Start SSE progress tracking BEFORE firing the mutation
     startProgressTracking();
     generateAllMeetings.mutate({ includeTestAccounts });
