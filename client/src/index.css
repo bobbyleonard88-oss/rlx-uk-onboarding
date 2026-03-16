@@ -212,3 +212,76 @@
     animation: pop 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
+
+/* ─── Print / PDF Styles ──────────────────────────────────────────────────── */
+@media print {
+  /* Hide navigation sidebar, header buttons, and any non-content chrome */
+  nav,
+  header,
+  .print\:hidden,
+  [data-sidebar],
+  aside {
+    display: none !important;
+  }
+
+  /* Reset the left margin added by the sidebar layout */
+  main,
+  .ml-20,
+  .lg\:ml-64 {
+    margin-left: 0 !important;
+  }
+
+  /* Use full page width */
+  body {
+    background: white !important;
+    color: #111 !important;
+  }
+
+  /* Ensure the agenda container fills the page */
+  .min-h-screen {
+    min-height: unset !important;
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+  }
+
+  /* Improve contrast for dark-theme cards on white paper */
+  .glass-card,
+  [class*="bg-slate"],
+  [class*="bg-primary"],
+  [class*="bg-accent"] {
+    background: #f8f8f8 !important;
+    border-color: #ccc !important;
+    box-shadow: none !important;
+  }
+
+  /* Keep text readable */
+  h1, h2, h3, h4, p, span, li {
+    color: #111 !important;
+  }
+
+  .text-accent,
+  .text-muted-foreground,
+  [class*="text-slate"],
+  [class*="text-emerald"],
+  [class*="text-blue"],
+  [class*="text-purple"],
+  [class*="text-amber"],
+  [class*="text-yellow"],
+  [class*="text-rose"] {
+    color: #444 !important;
+  }
+
+  /* Avoid page breaks inside agenda items */
+  .space-y-2 > *,
+  .space-y-12 > * {
+    break-inside: avoid;
+  }
+
+  /* Remove animations */
+  * {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

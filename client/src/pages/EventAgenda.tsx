@@ -4,7 +4,8 @@
  */
 
 import AnimatedSection from "@/components/AnimatedSection";
-import { Calendar, Clock, MapPin, Utensils, Users, Mic, Coffee, Star, Sun } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Calendar, Clock, Download, MapPin, Utensils, Users, Mic, Coffee, Star, Sun } from "lucide-react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -270,6 +271,10 @@ function ConcurrentRow({ item, index }: { item: ConcurrentItem; index: number })
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function EventAgenda() {
+  const handleDownloadPDF = () => {
+    window.print();
+  };
+
   return (
     <div className="min-h-screen py-20">
       <div className="container max-w-5xl">
@@ -282,6 +287,15 @@ export default function EventAgenda() {
               Official programme for the RLUK Exchange 2026 at The Grove Hotel Spa &amp; Golf, Hertfordshire.
               Final topics and speakers are subject to change ahead of the event day.
             </p>
+            <div className="mt-6 print:hidden">
+              <Button
+                onClick={handleDownloadPDF}
+                className="bg-accent hover:bg-accent/90 text-white font-semibold px-6 py-2.5 gap-2"
+              >
+                <Download className="w-4 h-4" />
+                Download PDF
+              </Button>
+            </div>
           </div>
         </AnimatedSection>
 
