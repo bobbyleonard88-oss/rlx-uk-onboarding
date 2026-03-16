@@ -162,6 +162,11 @@ export default function SponsorMeetings() {
                                             <p className="text-sm text-muted-foreground">
                                               {meeting.attendeeCompany}
                                             </p>
+                                            {(meeting as any).sponsorRepName && (
+                                              <p className="text-xs text-muted-foreground mt-1">
+                                                <span className="font-medium">Your rep:</span> {(meeting as any).sponsorRepName}
+                                              </p>
+                                            )}
                                             {meeting.matchReason && (
                                               <div className="mt-3 p-3 bg-accent/10 rounded-lg border border-accent/20">
                                                 <p className="text-sm text-foreground/90 leading-relaxed">

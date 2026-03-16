@@ -745,6 +745,10 @@ export const appRouter = router({
         // Tracks which time slots each sponsor's attendee is already booked
         // sponsorUsedSlots: sponsorId → attendeeNumber → Set<timeSlot>
         const sponsorUsedSlots = new Map<number, Map<number, Set<number>>>();
+        // Tracks how many meetings each delegate has been assigned across ALL sponsors
+        // Used to enforce the 8-meeting cap globally (not just per-sponsor)
+        const delegateMeetingCount = new Map<string, number>();
+        const DELEGATE_MAX_MEETINGS = 8;
 
         // Valid slots: 1-6 (Day 1), 7-12 (Day 2)
         const ALL_SLOTS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
@@ -777,12 +781,30 @@ export const appRouter = router({
           }
           const sponsorSlots = sponsorUsedSlots.get(sponsorId)!;
 
+          // Resolve sponsor rep names for per-attendee assignment
+          const repName1 = intakeSubmission
+            ? `${intakeSubmission.firstName} ${intakeSubmission.lastName}`.trim()
+            : 'Attendee 1';
+          const repName2 = intakeSubmission?.secondRepName
+            ? intakeSubmission.secondRepName.trim()
+            : repName1; // Fall back to primary rep if no second rep
+
           const matchesWithSlots: any[] = [];
 
           for (let i = 0; i < (matches as any[]).length; i++) {
             const match = (matches as any[])[i];
+
+            // ─── Global 8-meeting cap check ───
+            const currentDelegateCount = delegateMeetingCount.get(match.attendeeId) ?? 0;
+            if (currentDelegateCount >= DELEGATE_MAX_MEETINGS) {
+              console.log(`[Scheduling] Delegate ${match.attendeeId} has reached ${DELEGATE_MAX_MEETINGS}-meeting cap — skipping for sponsor ${sponsorId}`);
+              continue; // Skip this delegate for this sponsor
+            }
+
             // Determine which attendee this meeting belongs to
             const attendeeNumber = hasTwoAttendees ? (i < halfCount ? 1 : 2) : 1;
+            // Resolve the sponsor rep name for this slot
+            const sponsorRepName = attendeeNumber === 2 ? repName2 : repName1;
 
             // Get used slots for this delegate and this sponsor's attendee
             const delegateSlots = delegateUsedSlots.get(match.attendeeId) ?? new Set<number>();
@@ -794,16 +816,17 @@ export const appRouter = router({
             ) ?? null;
 
             if (availableSlot !== null) {
-              // Mark this slot as used
+              // Mark this slot as used and increment delegate meeting count
               delegateSlots.add(availableSlot);
               sponsorAttendeeSlots.add(availableSlot);
               delegateUsedSlots.set(match.attendeeId, delegateSlots);
               sponsorSlots.set(attendeeNumber, sponsorAttendeeSlots);
+              delegateMeetingCount.set(match.attendeeId, currentDelegateCount + 1);
             } else {
               console.warn(`[Scheduling] No available slot for delegate ${match.attendeeId} with sponsor ${sponsorId} — meeting will have null slot`);
             }
 
-            matchesWithSlots.push({ ...match, timeSlot: availableSlot, attendeeNumber });
+            matchesWithSlots.push({ ...match, timeSlot: availableSlot, attendeeNumber, sponsorRepName });
           }
 
           // Save to database (replace existing meetings)
@@ -823,6 +846,7 @@ export const appRouter = router({
               isPriority: meeting.isPriority ? 1 : 0,
               timeSlot: meeting.timeSlot ?? null,
               attendeeNumber: meeting.attendeeNumber ?? 1,
+              sponsorRepName: meeting.sponsorRepName ?? null,
               status: 'suggested',
               notes: null,
             });

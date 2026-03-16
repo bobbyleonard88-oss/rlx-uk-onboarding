@@ -1350,3 +1350,5 @@
 - [x] Fix JSON error when running Match All Sponsors
 - [x] Audit and fix double-bookings: sponsor same slot, delegate same slot
 - [x] Fix time slot assignment logic for 12/24-meeting sponsors
+- [x] Fix 8-meeting delegate cap to persist across all sponsors during Match All
+- [x] Fix per-slot attendee name: show correct person (attendee 1 vs 2) per meeting for multi-attendee sponsors

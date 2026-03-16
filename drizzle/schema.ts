@@ -146,6 +146,7 @@ export const meetings = mysqlTable("meetings", {
   attendeeNumber: int("attendeeNumber").default(1), // 1 or 2 (for 20-meeting packages split between 2 attendees)
   status: mysqlEnum("status", ["suggested", "confirmed", "declined"]).default("suggested").notNull(),
   isVisible: int("isVisible").default(1).notNull(), // 1 = visible to sponsor, 0 = hidden (admin toggle)
+  sponsorRepName: varchar("sponsorRepName", { length: 255 }), // Which sponsor rep is in this meeting slot
   notes: text("notes"),
   adminNotes: text("adminNotes"), // Admin-only notes not visible to sponsors
   createdAt: timestamp("createdAt").defaultNow().notNull(),

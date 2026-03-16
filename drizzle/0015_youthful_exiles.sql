@@ -1,0 +1,1 @@
+ALTER TABLE `meetings` ADD `sponsorRepName` varchar(255);
