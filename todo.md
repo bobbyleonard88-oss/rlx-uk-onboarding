@@ -1355,3 +1355,4 @@
 - [x] Add live progress UI to Match All Sponsors — progress bar + sponsor timeline
 - [x] Fix Match All progress overlay not showing after test account exclusion fix
 - [x] Add total meetings counter to Match All progress overlay completion state
+- [x] Add 90s timeout to AI batch scoring call so Match All never hangs indefinitely on a stalled LLM call

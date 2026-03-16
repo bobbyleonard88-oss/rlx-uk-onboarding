@@ -120,12 +120,21 @@ Respond with ONLY a JSON object mapping delegate IDs to {score, reasoning}, like
 
 No other text, just the JSON.`;
     
-    const response = await invokeLLM({
-      messages: [
-        { role: "system", content: "You are a B2B matchmaking scoring expert. Respond with only JSON." },
-        { role: "user", content: prompt }
-      ]
-    });
+    // Race the LLM call against a 90-second timeout so a stalled API call
+    // never blocks the entire Match All operation.
+    const LLM_TIMEOUT_MS = 90_000;
+    const timeoutPromise = new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error(`[Matching] AI scoring timed out after ${LLM_TIMEOUT_MS / 1000}s for ${sponsorName}`)), LLM_TIMEOUT_MS)
+    );
+    const response = await Promise.race([
+      invokeLLM({
+        messages: [
+          { role: "system", content: "You are a B2B matchmaking scoring expert. Respond with only JSON." },
+          { role: "user", content: prompt }
+        ]
+      }),
+      timeoutPromise
+    ]);
     
     const content = response.choices[0]?.message?.content;
     const jsonText = typeof content === 'string' ? content.trim() : "{}";
@@ -298,12 +307,19 @@ Example bad reasoning:
 
 Generate the match reason now (1-2 sentences max):`;
 
-    const response = await invokeLLM({
-      messages: [
-        { role: "system", content: "You are a B2B matchmaking expert. Generate specific, contextual match reasoning." },
-        { role: "user", content: prompt }
-      ]
-    });
+    const REASON_TIMEOUT_MS = 30_000;
+    const reasonTimeoutPromise = new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error(`[Matching] AI reasoning timed out after ${REASON_TIMEOUT_MS / 1000}s`)), REASON_TIMEOUT_MS)
+    );
+    const response = await Promise.race([
+      invokeLLM({
+        messages: [
+          { role: "system", content: "You are a B2B matchmaking expert. Generate specific, contextual match reasoning." },
+          { role: "user", content: prompt }
+        ]
+      }),
+      reasonTimeoutPromise
+    ]);
     
     const content = response.choices[0]?.message?.content;
     const aiReason = typeof content === 'string' ? content.trim() : "";
