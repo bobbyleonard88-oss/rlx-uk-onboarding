@@ -655,9 +655,25 @@ export async function generateMeetingsForSponsor(
 export async function generateMeetingsForAllSponsors(): Promise<Map<number, MatchResult[]>> {
   const allSponsors = await db.getAllSponsors();
   const results = new Map<number, MatchResult[]>();
-  
-  for (const sponsor of allSponsors) {
-    const intakeSubmission = await db.getIntakeSubmissionBySponsor(sponsor.id);
+
+  // Load all intake submissions upfront so we can sort by submission date
+  const allIntake = await db.getAllIntakeSubmissions();
+  const intakeBySponsors = new Map(allIntake.map(s => [s.sponsorId, s]));
+
+  // Sort sponsors by intake submission date ascending (earliest submitter gets priority)
+  const sortedSponsors = [...allSponsors].sort((a, b) => {
+    const aDate = intakeBySponsors.get(a.id)?.submittedAt;
+    const bDate = intakeBySponsors.get(b.id)?.submittedAt;
+    if (!aDate && !bDate) return 0;
+    if (!aDate) return 1;  // no intake → push to end
+    if (!bDate) return -1;
+    return new Date(aDate).getTime() - new Date(bDate).getTime();
+  });
+
+  console.log('[Matching] Processing sponsors in intake submission order (earliest first)');
+
+  for (const sponsor of sortedSponsors) {
+    const intakeSubmission = intakeBySponsors.get(sponsor.id);
     if (!intakeSubmission) continue; // Skip sponsors without intake form
     
     const meetingCount = intakeSubmission.meetingPackage === "20" ? 20 : 12;
