@@ -1417,3 +1417,8 @@
 - [x] Re-check sponsor rep assignments for Harver, Appcast, SHL after rearrangement — zero conflicts
 - [x] Verify new overlap rates — improved from 38.5% to 62.0% weighted average
 - [x] Save checkpoint and publish
+
+## Floor Plan & Schedule Timestamp (March 2026)
+- [x] Verify admin floor plan view reflects new slot assignments correctly
+- [x] Add "Last updated" timestamp to sponsor meeting schedule page
+- [x] Fix Analytics page day headings (Day 2/Day 3 → Day 1/Day 2) and all time slot labels in server routers

@@ -121,7 +121,7 @@ export default function Analytics() {
               <CardHeader className="pb-3">
                 <CardTitle className="text-white flex items-center gap-2">
                   <Calendar className="w-4 h-4 text-blue-400" />
-                  Time Slot Distribution — Day 2 (Wed 13 May)
+                  Time Slot Distribution — Day 1 (Wed 13 May)
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -149,7 +149,7 @@ export default function Analytics() {
               <CardHeader className="pb-3">
                 <CardTitle className="text-white flex items-center gap-2">
                   <Calendar className="w-4 h-4 text-indigo-400" />
-                  Time Slot Distribution — Day 3 (Thu 14 May)
+                  Time Slot Distribution — Day 2 (Thu 14 May)
                 </CardTitle>
               </CardHeader>
               <CardContent>

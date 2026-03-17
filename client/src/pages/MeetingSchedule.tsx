@@ -487,6 +487,18 @@ export default function MeetingSchedule() {
                       20-Meeting Package: 2 Attendees
                     </span>
                   )}
+                  {meetings && meetings.length > 0 && (() => {
+                    const latestUpdate = meetings.reduce((latest, m) => {
+                      const t = m.updatedAt ? new Date(m.updatedAt).getTime() : 0;
+                      return t > latest ? t : latest;
+                    }, 0);
+                    return latestUpdate > 0 ? (
+                      <span className="block mt-2 text-slate-400 text-sm flex items-center gap-1">
+                        <span className="inline-block w-2 h-2 rounded-full bg-green-400 mr-1"></span>
+                        Schedule last updated: {new Date(latestUpdate).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                      </span>
+                    ) : null;
+                  })()}
                 </CardDescription>
               </div>
               <div className="flex gap-2">
