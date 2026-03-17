@@ -131,6 +131,8 @@ export default function TimeSlotScheduler({
     { enabled: !!sponsorId && selectedSlot !== null }
   );
   const eligibleIds = eligibleData ? new Set(eligibleData.eligibleIds) : null;
+  // Rich eligible delegate list from server (includes match scores, sorted by score)
+  const eligibleDelegateList = eligibleData?.eligibleDelegates ?? null;
 
   const handleDragStart = (meeting: Meeting) => {
     setDraggedMeeting(meeting);
@@ -500,7 +502,7 @@ export default function TimeSlotScheduler({
                 <Users className={`w-4 h-4 ${selectedSlot ? 'text-accent' : 'text-accent'}`} />
                 {selectedSlot ? (
                   <span className="text-accent font-semibold text-base">
-                    {isLoadingEligible ? 'Loading...' : `Available for Slot ${selectedSlot} (${eligibleIds?.size ?? 0})`}
+                    {isLoadingEligible ? 'Loading...' : `Available for Slot ${selectedSlot} (${eligibleDelegateList?.length ?? eligibleIds?.size ?? 0})`}
                   </span>
                 ) : (
                   <span className="text-white font-semibold text-base">All Delegates ({attendees.length})</span>
@@ -529,7 +531,79 @@ export default function TimeSlotScheduler({
             >
               {selectedSlot && isLoadingEligible ? (
                 <div className="text-center text-slate-400 text-sm py-4">Loading eligible delegates...</div>
+              ) : selectedSlot && eligibleDelegateList ? (
+                // ── Slot-filtered view: use server-side list with match scores ──
+                <div className="space-y-2">
+                  {eligibleDelegateList.length === 0 ? (
+                    <div className="text-center text-slate-400 text-sm py-4">No eligible delegates for this slot</div>
+                  ) : (
+                    (() => {
+                      // Build a score map from the full calculateDelegateScores query
+                      // so delegates without existing meetings still show their AI score
+                      const fullScoreMap = delegateScores
+                        ? new Map(delegateScores.map(s => [s.attendeeId, s.matchScore]))
+                        : new Map<string, number>();
+
+                      // Merge: prefer the stored meeting score; fall back to AI score
+                      const enriched = eligibleDelegateList.map(d => ({
+                        ...d,
+                        matchScore: d.matchScore ?? fullScoreMap.get(d.id) ?? null,
+                      }));
+
+                      // Re-sort: scored first (descending), then unscored alphabetically
+                      enriched.sort((a, b) => {
+                        if (a.matchScore !== null && b.matchScore !== null) return b.matchScore - a.matchScore;
+                        if (a.matchScore !== null) return -1;
+                        if (b.matchScore !== null) return 1;
+                        return `${a.firstName} ${a.lastName}`.localeCompare(`${b.firstName} ${b.lastName}`);
+                      });
+
+                      const getScoreColor = (score: number) => {
+                        if (score >= 80) return "text-green-400";
+                        if (score >= 60) return "text-yellow-400";
+                        if (score >= 40) return "text-orange-400";
+                        return "text-slate-400";
+                      };
+
+                      return enriched.map((delegate) => (
+                        <div
+                          key={delegate.id}
+                          draggable
+                          onDragStart={() => handleDelegateDragStart(delegate.id)}
+                          className="bg-slate-800/50 rounded p-2 border border-slate-600 cursor-move hover:bg-slate-700/50 hover:border-accent/50"
+                        >
+                          <div className="flex items-start justify-between gap-2">
+                            <div className="flex-1 min-w-0">
+                              <div className="font-medium text-white text-sm truncate">
+                                {delegate.firstName} {delegate.lastName}
+                              </div>
+                              <div className="text-slate-300 text-xs truncate">{delegate.company}</div>
+                            </div>
+                            <div className="flex items-center gap-1.5 flex-shrink-0">
+                              {delegate.matchScore !== null ? (
+                                <Badge
+                                  variant="outline"
+                                  className={`text-xs ${getScoreColor(delegate.matchScore)} border-current`}
+                                >
+                                  {delegate.matchScore}%
+                                </Badge>
+                              ) : (
+                                <Badge variant="outline" className="text-xs text-slate-400 border-slate-500">
+                                  No score
+                                </Badge>
+                              )}
+                              <Badge variant="outline" className="text-xs text-slate-300">
+                                {delegate.meetingCount}/8
+                              </Badge>
+                            </div>
+                          </div>
+                        </div>
+                      ));
+                    })()
+                  )}
+                </div>
               ) : (
+              // ── No slot selected: show all delegates with booked/maxed indicators ──
               <div className="space-y-2">
                 {(() => {
                   // Sort all delegates by match score
@@ -543,12 +617,6 @@ export default function TimeSlotScheduler({
                       return scoreB - scoreA; // Highest first
                     });
                   }
-                  
-                  // When a slot is selected, only show eligible delegates
-                  // When no slot selected, show all with booked/maxed indicators
-                  if (selectedSlot && eligibleIds) {
-                    sortedDelegates = sortedDelegates.filter(d => eligibleIds.has(d.id));
-                  }
 
                   // Get list of delegate IDs already booked with this sponsor
                   const bookedDelegateIds = new Set(
@@ -557,16 +625,14 @@ export default function TimeSlotScheduler({
                   
                   if (sortedDelegates.length === 0) {
                     return (
-                      <div className="text-center text-slate-400 text-sm py-4">
-                        {selectedSlot ? 'No eligible delegates for this slot' : 'No delegates available'}
-                      </div>
+                      <div className="text-center text-slate-400 text-sm py-4">No delegates available</div>
                     );
                   }
 
                   return sortedDelegates.map((delegate) => {
                     const meetingCount = delegateMeetingCounts[delegate.id] || 0;
-                    const isMaxed = !selectedSlot && meetingCount >= 8;
-                    const isBooked = !selectedSlot && bookedDelegateIds.has(delegate.id);
+                    const isMaxed = meetingCount >= 8;
+                    const isBooked = bookedDelegateIds.has(delegate.id);
                     const delegateScore = delegateScores?.find(s => s.attendeeId === delegate.id);
                     const matchScore = delegateScore?.matchScore || 0;
                     
@@ -611,14 +677,12 @@ export default function TimeSlotScheduler({
                                 {matchScore}%
                               </Badge>
                             )}
-                            {!selectedSlot && (
-                              <Badge 
-                                variant={isMaxed ? "destructive" : "outline"} 
-                                className="text-xs"
-                              >
-                                {meetingCount}/8
-                              </Badge>
-                            )}
+                            <Badge 
+                              variant={isMaxed ? "destructive" : "outline"} 
+                              className="text-xs"
+                            >
+                              {meetingCount}/8
+                            </Badge>
                           </div>
                         </div>
                       </div>

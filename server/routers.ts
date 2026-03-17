@@ -581,9 +581,11 @@ export const appRouter = router({
         };
       }),
     
-    // Returns the set of eligible delegate IDs for a given sponsor + slot.
-    // Filters out: hard-excluded clients, delegates already booked in that slot (any sponsor),
-    // delegates already booked with this sponsor, and delegates at the 8-meeting cap.
+    // Returns the set of eligible delegate IDs for a given sponsor + slot,
+    // plus match scores from existing meetings for display in the admin UI.
+    // Filters out: globally excluded delegates, hard-excluded clients, delegates already
+    // booked in that slot (any sponsor), delegates already booked with this sponsor,
+    // and delegates at the 8-meeting cap.
     getEligibleDelegatesForSlot: adminProcedure
       .input(z.object({
         sponsorId: z.number(),
@@ -591,6 +593,11 @@ export const appRouter = router({
       }))
       .query(async ({ input }) => {
         const { sponsorId, timeSlot } = input;
+
+        // ─── Global exclusions (mirror of matchingAlgorithm.ts) ───
+        const GLOBAL_EXCLUDED_DELEGATE_IDS = new Set([
+          '150796696175', // Jennifer Candee — between roles, excluded globally
+        ]);
 
         // Hard exclusions per sponsor (mirror of matchingAlgorithm.ts)
         const SPONSOR_HARD_EXCLUSIONS: Record<number, string[]> = {
@@ -616,24 +623,71 @@ export const appRouter = router({
         const sponsorMeetings = allMeetings.filter(m => m.sponsorId === sponsorId);
         const alreadyMatchedToSponsor = new Set<string>(sponsorMeetings.map(m => m.attendeeId));
 
+        // Build a map of attendeeId -> matchScore from this sponsor's existing meetings
+        // (stored in the notes field as JSON: { score, reason })
+        const matchScoreMap = new Map<string, number>();
+        for (const m of sponsorMeetings) {
+          if (m.notes) {
+            try {
+              const parsed = JSON.parse(m.notes);
+              if (typeof parsed.score === 'number') {
+                matchScoreMap.set(m.attendeeId, parsed.score);
+              }
+            } catch {
+              // notes not JSON — ignore
+            }
+          }
+        }
+
         // Count total meetings per delegate across all sponsors
         const delegateMeetingCounts = new Map<string, number>();
         for (const m of allMeetings) {
           delegateMeetingCounts.set(m.attendeeId, (delegateMeetingCounts.get(m.attendeeId) ?? 0) + 1);
         }
 
-        // Build set of eligible delegate IDs
-        const eligible = new Set<string>();
-        for (const attendee of (await import('../client/src/lib/attendees')).attendees) {
+        // Build list of eligible delegates with their details and scores
+        const { attendees } = await import('../client/src/lib/attendees');
+        const eligibleDelegates: Array<{
+          id: string;
+          firstName: string;
+          lastName: string;
+          company: string;
+          jobTitle: string;
+          meetingCount: number;
+          matchScore: number | null;
+        }> = [];
+
+        for (const attendee of attendees) {
           const id = attendee.id;
-          if (hardExcluded.has(id)) continue;           // excluded client
-          if (bookedInSlot.has(id)) continue;           // already in this slot
-          if (alreadyMatchedToSponsor.has(id)) continue; // already meeting this sponsor
+          if (GLOBAL_EXCLUDED_DELEGATE_IDS.has(id)) continue; // globally excluded
+          if (hardExcluded.has(id)) continue;                  // sponsor-specific exclusion
+          if (bookedInSlot.has(id)) continue;                  // already in this slot
+          if (alreadyMatchedToSponsor.has(id)) continue;       // already meeting this sponsor
           if ((delegateMeetingCounts.get(id) ?? 0) >= 8) continue; // at cap
-          eligible.add(id);
+          eligibleDelegates.push({
+            id,
+            firstName: attendee.firstName,
+            lastName: attendee.lastName,
+            company: attendee.company || '',
+            jobTitle: attendee.jobTitle || '',
+            meetingCount: delegateMeetingCounts.get(id) ?? 0,
+            matchScore: matchScoreMap.get(id) ?? null,
+          });
         }
 
-        return { eligibleIds: Array.from(eligible) };
+        // Sort by match score descending (nulls last), then alphabetically
+        eligibleDelegates.sort((a, b) => {
+          if (a.matchScore !== null && b.matchScore !== null) return b.matchScore - a.matchScore;
+          if (a.matchScore !== null) return -1;
+          if (b.matchScore !== null) return 1;
+          return `${a.firstName} ${a.lastName}`.localeCompare(`${b.firstName} ${b.lastName}`);
+        });
+
+        // Keep backward-compatible eligibleIds field alongside the richer list
+        return {
+          eligibleIds: eligibleDelegates.map(d => d.id),
+          eligibleDelegates,
+        };
       }),
 
     updateMeetingStatus: adminProcedure

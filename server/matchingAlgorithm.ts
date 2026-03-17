@@ -578,10 +578,19 @@ export async function generateMeetingsForSponsor(
     delegateMeetingCounts.set(meeting.attendeeId, count + 1);
   }
   
+  // ─── Global exclusions (never matched to any sponsor) ───
+  const GLOBAL_EXCLUDED_DELEGATE_IDS = new Set([
+    '150796696175', // Jennifer Candee — between roles, excluded globally
+  ]);
+
   // Filter out delegates who have reached capacity (8 meetings) and hard-excluded delegates
   const capacityFiltered = allDelegates.filter(delegate => {
     const currentCount = delegateMeetingCounts.get(delegate.attendeeId) || 0;
     if (currentCount >= 8) return false;
+    if (GLOBAL_EXCLUDED_DELEGATE_IDS.has(delegate.attendeeId)) {
+      console.log(`[Matching] Globally excluded ${delegate.firstName} ${delegate.lastName} — on global exclusion list`);
+      return false;
+    }
     if (sponsorHardExcludeIds.has(delegate.attendeeId)) {
       console.log(`[Matching] Hard-excluded ${delegate.firstName} ${delegate.lastName} (${delegate.company}) from ${sponsor.companyName} — named existing client`);
       return false;
