@@ -488,7 +488,7 @@ export async function generateMeetingsForSponsor(
     // JobSync (840001) — existing clients + Anna Katyal (BMS Group)
     840001: ['17812226737','7258470500','91889321035','190937723960','13454401','12731251','195183358360'],
     // SHL (750001) — existing clients + Carly George (AXA) + Sonal Jain (Nissan) + Nikhilesh Mathur (LSEG)
-    750001: ['76678269091','7258470500','91889321035','13454401','93174643474','200543495570','91862577670','190937723960','113145184682','110260566550','191181016455'],
+    750001: ['76678269091','7258470500','91889321035','13454401','93174643474','200543495570','91862577670','190937723960','113145184682','110260566550','191181016455','452351','5927642'],
     // Stepstone Group (150001) — existing clients + Yuliia Zembal (UKRSIBBANK BNP Paribas)
     150001: ['17812226737','200543495570','5927642','7258470500','128491656706'],
     // The Martec (780001) — named people not currently in attendee list, empty for now

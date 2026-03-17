@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Clock, GripVertical, X, Users, ChevronDown, ChevronUp, RefreshCw, Eye, FileText } from "lucide-react";
+import { Clock, GripVertical, X, Users, ChevronDown, ChevronUp, RefreshCw, Eye, FileText, Filter } from "lucide-react";
 import { useState } from "react";
 import { attendees } from "@/lib/attendees";
 import MatchReasonModal from "@/components/MatchReasonModal";
@@ -99,6 +99,7 @@ export default function TimeSlotScheduler({
   const [dragOverSlot, setDragOverSlot] = useState<number | null>(null);
   const [isDragValid, setIsDragValid] = useState<boolean>(true);
   const [dragInvalidReason, setDragInvalidReason] = useState<string>("");
+  const [selectedSlot, setSelectedSlot] = useState<number | null>(null);
   const utils = trpc.useUtils();
   
   const updateNotesMutation = trpc.admin.updateMeetingNotes.useMutation({
@@ -123,6 +124,13 @@ export default function TimeSlotScheduler({
     { sponsorId: sponsorId! },
     { enabled: !!sponsorId }
   );
+
+  // Fetch eligible delegates for the selected slot (filters out excluded clients, slot clashes, cap)
+  const { data: eligibleData, isFetching: isLoadingEligible } = trpc.admin.getEligibleDelegatesForSlot.useQuery(
+    { sponsorId: sponsorId!, timeSlot: selectedSlot! },
+    { enabled: !!sponsorId && selectedSlot !== null }
+  );
+  const eligibleIds = eligibleData ? new Set(eligibleData.eligibleIds) : null;
 
   const handleDragStart = (meeting: Meeting) => {
     setDraggedMeeting(meeting);
@@ -390,12 +398,15 @@ export default function TimeSlotScheduler({
 
   const renderSlot = (slotInfo: { day: number; slot: number; label: string }) => {
     const slotMeetings = assignedMeetings.filter(m => m.timeSlot === slotInfo.slot);
+    const isEmpty = !slotMeetings[0];
+    const isSelected = selectedSlot === slotInfo.slot;
     
     return (
       <div key={slotInfo.slot} className="space-y-1.5">
-        <h4 className="text-white font-semibold text-xs flex items-center gap-1.5">
-          <Clock className="w-3 h-3 text-accent" />
+        <h4 className={`font-semibold text-xs flex items-center gap-1.5 ${isSelected ? 'text-accent' : 'text-white'}`}>
+          <Clock className={`w-3 h-3 ${isSelected ? 'text-accent' : 'text-accent'}`} />
           {slotInfo.label}
+          {isSelected && <span className="text-accent text-xs font-normal">(filtering delegates)</span>}
         </h4>
         <div
           data-slot={slotInfo.slot}
@@ -404,7 +415,9 @@ export default function TimeSlotScheduler({
               ? isDragValid
                 ? 'border-green-500 bg-green-500/10'
                 : 'border-red-500 bg-red-500/10'
-              : 'border-slate-600 bg-slate-900/30'
+              : isSelected
+                ? 'border-accent bg-accent/5'
+                : 'border-slate-600 bg-slate-900/30'
           }`}
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
@@ -419,8 +432,31 @@ export default function TimeSlotScheduler({
           {slotMeetings[0] ? (
             renderMeetingCard(slotMeetings[0], false, true)
           ) : (
-            <div className="border-2 border-dashed border-slate-700 rounded-lg p-2 text-center text-slate-500 text-xs">
-              Drop meeting here
+            <div
+              className={`border-2 border-dashed rounded-lg p-2 text-center text-xs cursor-pointer transition-all ${
+                isSelected
+                  ? 'border-accent/60 text-accent bg-accent/5 hover:bg-accent/10'
+                  : 'border-slate-700 text-slate-500 hover:border-slate-500 hover:text-slate-400'
+              }`}
+              onClick={() => {
+                if (isEmpty && sponsorId) {
+                  if (isSelected) {
+                    setSelectedSlot(null);
+                  } else {
+                    setSelectedSlot(slotInfo.slot);
+                    setIsDelegateListExpanded(true);
+                  }
+                }
+              }}
+            >
+              {isSelected ? (
+                <span className="flex items-center justify-center gap-1">
+                  <Filter className="w-3 h-3" />
+                  Filtering by this slot — click to clear
+                </span>
+              ) : (
+                <span>Click to filter available delegates</span>
+              )}
             </div>
           )}
         </div>
@@ -453,7 +489,7 @@ export default function TimeSlotScheduler({
       <div className="space-y-3">
         {/* All Delegates Panel - Aligned with first meeting slot */}
         <div className="h-[22px]"></div> {/* Spacer to align with Day 1/Day 2 headers */}
-        <Card className="glass-card border-slate-700">
+        <Card className={`glass-card ${selectedSlot ? 'border-accent/60' : 'border-slate-700'}`}>
           <CardHeader className="pb-3">
             <Button
               variant="ghost"
@@ -461,10 +497,28 @@ export default function TimeSlotScheduler({
               className="w-full justify-between p-0 h-auto hover:bg-transparent"
             >
               <div className="flex items-center gap-2">
-                <Users className="w-4 h-4 text-accent" />
-                <span className="text-white font-semibold text-base">All Delegates ({attendees.length})</span>
+                <Users className={`w-4 h-4 ${selectedSlot ? 'text-accent' : 'text-accent'}`} />
+                {selectedSlot ? (
+                  <span className="text-accent font-semibold text-base">
+                    {isLoadingEligible ? 'Loading...' : `Available for Slot ${selectedSlot} (${eligibleIds?.size ?? 0})`}
+                  </span>
+                ) : (
+                  <span className="text-white font-semibold text-base">All Delegates ({attendees.length})</span>
+                )}
               </div>
-              {isDelegateListExpanded ? <ChevronUp className="w-4 h-4 text-slate-400" /> : <ChevronDown className="w-4 h-4 text-slate-400" />}
+              <div className="flex items-center gap-2">
+                {selectedSlot && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={(e) => { e.stopPropagation(); setSelectedSlot(null); }}
+                    className="h-6 px-2 text-xs text-slate-400 hover:text-white"
+                  >
+                    <X className="w-3 h-3 mr-1" /> Clear filter
+                  </Button>
+                )}
+                {isDelegateListExpanded ? <ChevronUp className="w-4 h-4 text-slate-400" /> : <ChevronDown className="w-4 h-4 text-slate-400" />}
+              </div>
             </Button>
           </CardHeader>
           {isDelegateListExpanded && (
@@ -473,9 +527,12 @@ export default function TimeSlotScheduler({
               onDragOver={handleDragOver}
               onDrop={handleDropToRemove}
             >
+              {selectedSlot && isLoadingEligible ? (
+                <div className="text-center text-slate-400 text-sm py-4">Loading eligible delegates...</div>
+              ) : (
               <div className="space-y-2">
                 {(() => {
-                  // Sort all delegates by match score (don't filter out booked ones)
+                  // Sort all delegates by match score
                   let sortedDelegates = [...attendees];
                   
                   if (delegateScores && delegateScores.length > 0) {
@@ -487,15 +544,29 @@ export default function TimeSlotScheduler({
                     });
                   }
                   
+                  // When a slot is selected, only show eligible delegates
+                  // When no slot selected, show all with booked/maxed indicators
+                  if (selectedSlot && eligibleIds) {
+                    sortedDelegates = sortedDelegates.filter(d => eligibleIds.has(d.id));
+                  }
+
                   // Get list of delegate IDs already booked with this sponsor
                   const bookedDelegateIds = new Set(
                     meetings.filter(m => m.timeSlot).map(m => m.attendeeId)
                   );
                   
+                  if (sortedDelegates.length === 0) {
+                    return (
+                      <div className="text-center text-slate-400 text-sm py-4">
+                        {selectedSlot ? 'No eligible delegates for this slot' : 'No delegates available'}
+                      </div>
+                    );
+                  }
+
                   return sortedDelegates.map((delegate) => {
                     const meetingCount = delegateMeetingCounts[delegate.id] || 0;
-                    const isMaxed = meetingCount >= 8;
-                    const isBooked = bookedDelegateIds.has(delegate.id);
+                    const isMaxed = !selectedSlot && meetingCount >= 8;
+                    const isBooked = !selectedSlot && bookedDelegateIds.has(delegate.id);
                     const delegateScore = delegateScores?.find(s => s.attendeeId === delegate.id);
                     const matchScore = delegateScore?.matchScore || 0;
                     
@@ -540,12 +611,14 @@ export default function TimeSlotScheduler({
                                 {matchScore}%
                               </Badge>
                             )}
-                            <Badge 
-                              variant={isMaxed ? "destructive" : "outline"} 
-                              className="text-xs"
-                            >
-                              {meetingCount}/8
-                            </Badge>
+                            {!selectedSlot && (
+                              <Badge 
+                                variant={isMaxed ? "destructive" : "outline"} 
+                                className="text-xs"
+                              >
+                                {meetingCount}/8
+                              </Badge>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -553,6 +626,7 @@ export default function TimeSlotScheduler({
                   });
                 })()}
               </div>
+              )}
             </CardContent>
           )}
         </Card>

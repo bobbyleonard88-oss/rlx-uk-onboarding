@@ -581,6 +581,61 @@ export const appRouter = router({
         };
       }),
     
+    // Returns the set of eligible delegate IDs for a given sponsor + slot.
+    // Filters out: hard-excluded clients, delegates already booked in that slot (any sponsor),
+    // delegates already booked with this sponsor, and delegates at the 8-meeting cap.
+    getEligibleDelegatesForSlot: adminProcedure
+      .input(z.object({
+        sponsorId: z.number(),
+        timeSlot: z.number(),
+      }))
+      .query(async ({ input }) => {
+        const { sponsorId, timeSlot } = input;
+
+        // Hard exclusions per sponsor (mirror of matchingAlgorithm.ts)
+        const SPONSOR_HARD_EXCLUSIONS: Record<number, string[]> = {
+          270002: ['4956154','7258470500','200543495570','190937723960','13454401','91889321035','5140258','76678269091','203946652193'],
+          540001: ['190937723960','13454401','9477501','1076201','9322701'],
+          840001: ['17812226737','7258470500','91889321035','190937723960','13454401','12731251','195183358360'],
+          750001: ['76678269091','7258470500','91889321035','13454401','93174643474','200543495570','91862577670','190937723960','113145184682','110260566550','191181016455','452351','5927642'],
+          150001: ['17812226737','200543495570','5927642','7258470500','128491656706'],
+          780001: [],
+          300001: ['190937723960'],
+        };
+        const hardExcluded = new Set<string>(SPONSOR_HARD_EXCLUSIONS[sponsorId] ?? []);
+
+        // Get all meetings in this time slot (any sponsor) — delegates already booked
+        const allMeetings = await db.getAllMeetings();
+        const bookedInSlot = new Set<string>(
+          allMeetings
+            .filter(m => m.timeSlot === timeSlot)
+            .map(m => m.attendeeId)
+        );
+
+        // Get delegates already matched to this sponsor (regardless of slot)
+        const sponsorMeetings = allMeetings.filter(m => m.sponsorId === sponsorId);
+        const alreadyMatchedToSponsor = new Set<string>(sponsorMeetings.map(m => m.attendeeId));
+
+        // Count total meetings per delegate across all sponsors
+        const delegateMeetingCounts = new Map<string, number>();
+        for (const m of allMeetings) {
+          delegateMeetingCounts.set(m.attendeeId, (delegateMeetingCounts.get(m.attendeeId) ?? 0) + 1);
+        }
+
+        // Build set of eligible delegate IDs
+        const eligible = new Set<string>();
+        for (const attendee of (await import('../client/src/lib/attendees')).attendees) {
+          const id = attendee.id;
+          if (hardExcluded.has(id)) continue;           // excluded client
+          if (bookedInSlot.has(id)) continue;           // already in this slot
+          if (alreadyMatchedToSponsor.has(id)) continue; // already meeting this sponsor
+          if ((delegateMeetingCounts.get(id) ?? 0) >= 8) continue; // at cap
+          eligible.add(id);
+        }
+
+        return { eligibleIds: Array.from(eligible) };
+      }),
+
     updateMeetingStatus: adminProcedure
       .input(z.object({
         id: z.number(),
