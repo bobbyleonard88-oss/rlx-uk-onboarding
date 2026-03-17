@@ -1404,3 +1404,6 @@
 - [x] Include: day, time, table number, attendee name, delegate name, company, job title, match score, match reason, opt-in flag, and all profile fields
 - [x] Replace separate download buttons with single "Download Briefing Pack" button
 - [x] Remove individual per-row download buttons (replaced by briefing pack)
+
+## DelegateOverview Time Slot Fix (March 2026)
+- [x] Fix TIME_SLOT_LABELS in DelegateOverview — Day 2 slots 1-6 show wrong times (10:15/10:45 etc instead of 11:00/11:30 etc)
