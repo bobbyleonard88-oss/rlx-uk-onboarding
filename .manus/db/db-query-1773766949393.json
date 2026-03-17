@@ -1,0 +1,130 @@
+{
+  "query": "SELECT id, sponsorId, attendeeId, matchReason FROM meetings WHERE matchReason LIKE '%opted in to meet%' LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT id, sponsorId, attendeeId, matchReason FROM meetings WHERE matchReason LIKE '%opted in to meet%' LIMIT 20;",
+  "rows": [
+    {
+      "id": "663368",
+      "sponsorId": "270002",
+      "attendeeId": "174442448959",
+      "matchReason": "Delegate opted in to meet Appcast. Delegate's pain points include 'Agency usage' and 'AI and automation', and they are interested in 'programmatic, AI developments for sourcing', which Appcast directly addresses with its 'proprietary programmatic technology' to reduce agency reliance and automate job advertising. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "id": "663370",
+      "sponsorId": "270002",
+      "attendeeId": "200923910443",
+      "matchReason": "Delegate opted in to meet Appcast. Delegate mentions 'lack of data and processes in place' and 'Data Analytics for TA' as solution areas, which Appcast can partially address by providing 'Data transparency so you understand your candidate sources, full funnel costs'. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "id": "663371",
+      "sponsorId": "270002",
+      "attendeeId": "195183358360",
+      "matchReason": "Delegate opted in to meet Appcast. Delegate's pain points include 'reliance on agencies is still there' and 'Quality of candidates in certain areas is decreasing', which Appcast directly addresses by 'maximising hiring outcomes from their job advertising budget' and ensuring 'Reach - ensuring your job advertising is seen by active and passive candidates'."
+    },
+    {
+      "id": "663373",
+      "sponsorId": "270002",
+      "attendeeId": "9322701",
+      "matchReason": "Delegate opted in to meet Appcast. Delegate is focused on 'AI Enhancement' and 'Reduce costs' during a 'Global Transformation', which Appcast directly addresses by using 'proprietary programmatic technology' for cost-effective, data-driven job advertising and 'Centralisation of multi-national hiring programs'."
+    },
+    {
+      "id": "663375",
+      "sponsorId": "270002",
+      "attendeeId": "92353346050",
+      "matchReason": "Delegate opted in to meet Appcast. Delegate is focused on 'Global TA Strategy Roadmap' and 'TA Capability', which Appcast can support by providing data-driven insights from job advertising and enabling 'Centralisation of multi-national hiring programs'. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "id": "663376",
+      "sponsorId": "270002",
+      "attendeeId": "113145184682",
+      "matchReason": "Delegate opted in to meet Appcast. Delegate is focused on 'Assessment Methodology' and 'Talent Intelligence', which are outside Appcast's primary scope of programmatic job advertising optimization, though data insights could be tangentially relevant. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "id": "663379",
+      "sponsorId": "270002",
+      "attendeeId": "93174643474",
+      "matchReason": "Delegate opted in to meet Appcast. Delegate is interested in 'Talent Insight, EVP' to support a 'TA transformation', which Appcast can contribute to by providing data transparency on candidate sources and optimizing job advertising for brand visibility."
+    },
+    {
+      "id": "663384",
+      "sponsorId": "270002",
+      "attendeeId": "110260566550",
+      "matchReason": "Delegate opted in to meet Appcast. Delegate's pain points are 'AI Tech, Screening and scheduling', which are not directly addressed by Appcast's programmatic job advertising solution. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "id": "663388",
+      "sponsorId": "150001",
+      "attendeeId": "76678269091",
+      "matchReason": "Delegate opted in to meet Stepstone Group UK Ltd. Delegate's pain point is 'AI usage in TA across our member firm network' and seeks 'Global capability of vendors'. Stepstone Group offers 'AI driven job marketplaces' and 'Global reach - Hire seamlessly across 50+ countries through one unified platform'. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "id": "663389",
+      "sponsorId": "150001",
+      "attendeeId": "113145184682",
+      "matchReason": "Delegate opted in to meet Stepstone Group UK Ltd. Delegate is interested in 'skills based assessment methodology' and 'talent intelligence'. Stepstone Group's 'AI powered intelligent matching technology' and extensive CV database provide a foundation for skills-based matching and talent insights. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "id": "663392",
+      "sponsorId": "150001",
+      "attendeeId": "174442448959",
+      "matchReason": "Delegate opted in to meet Stepstone Group UK Ltd. Delegate's pain points include 'AI and automation' and 'system standardisation'. Stepstone Group's 'AI driven job marketplaces' and 'programmatic marketing' offer automated solutions for talent attraction, contributing to a more standardized approach. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "id": "663394",
+      "sponsorId": "150001",
+      "attendeeId": "92953690026",
+      "matchReason": "Delegate opted in to meet Stepstone Group UK Ltd. Delegate is focused on 'Technology Implementation of Phenom' and 'Building a Talent Intelligence Function'. Stepstone Group's 'AI driven job marketplaces' and 'extensive online reach' provide valuable data for talent intelligence, complementing tech implementation. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "id": "663395",
+      "sponsorId": "150001",
+      "attendeeId": "4956154",
+      "matchReason": "Delegate opted in to meet Stepstone Group UK Ltd. Delegate seeks 'New AI enabled tech' and 'Screening efficiency'. Stepstone Group's 'AI powered intelligent matching technology' and 'programmatic marketing' directly enhance screening efficiency and are AI-enabled solutions."
+    },
+    {
+      "id": "663400",
+      "sponsorId": "180001",
+      "attendeeId": "113145184682",
+      "matchReason": "Delegate opted in to meet Maki People. Delegate's pain point 'Assessment Methodology' and interest in 'skills based assessment methodology' is a direct match for Maki's 'autonomous AI agents conduct skill based screening and conversational assessments' and its focus on 'structured, scientifically grounded evaluation'. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "id": "663401",
+      "sponsorId": "180001",
+      "attendeeId": "17812226737",
+      "matchReason": "Delegate opted in to meet Maki People. Delegate's pain point 'reviewing how assessments can improve quality of hire and therefore reduce attrition' and interest in 'latest capabilities (inc AI) of technology in the assessment' is directly addressed by Maki's 'in-depth assessments' and focus on 'highly predictive hiring decisions that drive on-the-job success' and 'lower attrition'. Note: delegate currently uses AON for assessments, which is a competitor. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "id": "663402",
+      "sponsorId": "180001",
+      "attendeeId": "110260566550",
+      "matchReason": "Delegate opted in to meet Maki People. Delegate's pain point 'AI Tech, Screening and scheduling' is directly addressed by Maki's 'autonomous AI agents' providing 'skill screening, conversational interviews, in-depth assessments, and intelligent scheduling'. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "id": "663403",
+      "sponsorId": "180001",
+      "attendeeId": "76678269091",
+      "matchReason": "Delegate opted in to meet Maki People. Delegate's pain point 'AI usage in TA across our member firm network' and interest in 'AI use cases for TA' aligns with Maki's core offering of 'advanced AI to streamline every step of the talent acquisition journey' and its comprehensive AI solutions. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "id": "663404",
+      "sponsorId": "180001",
+      "attendeeId": "9477501",
+      "matchReason": "Delegate opted in to meet Maki People. Delegate's pain point 'Reduce time-to-hire without compromising quality of hire' and interest in 'AI Screening (Top funnel), On-demand interview (High Volume Assessment), Ai Noteraker' is a direct match for Maki's 'autonomous AI agents' for 'skill screening, conversational interviews, in-depth assessments' which 'accelerate time to hire' and 'improve candidate experience'. Note: delegate currently uses HireVue for assessments, which is a competitor."
+    },
+    {
+      "id": "663405",
+      "sponsorId": "180001",
+      "attendeeId": "9322701",
+      "matchReason": "Delegate opted in to meet Maki People. Delegate's pain point 'AI Adoption' and interest in 'AI usage identification' aligns with Maki's core offering of 'advanced AI to streamline every step of the talent acquisition journey' and its 'science-audited AI and explainable scoring' to build confidence in AI adoption. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "id": "663406",
+      "sponsorId": "180001",
+      "attendeeId": "191181016455",
+      "matchReason": "Delegate opted in to meet Maki People. Delegate's pain point 'Reviewing assessment tools to funnel good quality candidates through the application process' is a direct match for Maki's 'in-depth assessments' and 'skill based screening' designed to make 'highly predictive hiring decisions'. Note: delegate currently uses Codility and Cappfinity for assessments, which are competitors."
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tsponsorId\tattendeeId\tmatchReason\n663368\t270002\t174442448959\tDelegate opted in to meet Appcast. Delegate's pain points include 'Agency usage' and 'AI and automation', and they are interested in 'programmatic, AI developments for sourcing', which Appcast directly addresses with its 'proprietary programmatic technology' to reduce agency reliance and automate job advertising. (Ranked in sponsor's top 20 preferred delegates)\n663370\t270002\t200923910443\tDelegate opted in to meet Appcast. Delegate mentions 'lack of data and processes in place' and 'Data Analytics for TA' as solution areas, which Appcast can partially address by providing 'Data transparency so you understand your candidate sources, full funnel costs'. (Ranked in sponsor's top 20 preferred delegates)\n663371\t270002\t195183358360\tDelegate opted in to meet Appcast. Delegate's pain points include 'reliance on agencies is still there' and 'Quality of candidates in certain areas is decreasing', which Appcast directly addresses by 'maximising hiring outcomes from their job advertising budget' and ensuring 'Reach - ensuring your job advertising is seen by active and passive candidates'.\n663373\t270002\t9322701\tDelegate opted in to meet Appcast. Delegate is focused on 'AI Enhancement' and 'Reduce costs' during a 'Global Transformation', which Appcast directly addresses by using 'proprietary programmatic technology' for cost-effective, data-driven job advertising and 'Centralisation of multi-national hiring programs'.\n663375\t270002\t92353346050\tDelegate opted in to meet Appcast. Delegate is focused on 'Global TA Strategy Roadmap' and 'TA Capability', which Appcast can support by providing data-driven insights from job advertising and enabling 'Centralisation of multi-national hiring programs'. (Ranked in sponsor's top 20 preferred delegates)\n663376\t270002\t113145184682\tDelegate opted in to meet Appcast. Delegate is focused on 'Assessment Methodology' and 'Talent Intelligence', which are outside Appcast's primary scope of programmatic job advertising optimization, though data insights could be tangentially relevant. (Ranked in sponsor's top 20 preferred delegates)\n663379\t270002\t93174643474\tDelegate opted in to meet Appcast. Delegate is interested in 'Talent Insight, EVP' to support a 'TA transformation', which Appcast can contribute to by providing data transparency on candidate sources and optimizing job advertising for brand visibility.\n663384\t270002\t110260566550\tDelegate opted in to meet Appcast. Delegate's pain points are 'AI Tech, Screening and scheduling', which are not directly addressed by Appcast's programmatic job advertising solution. (Ranked in sponsor's top 20 preferred delegates)\n663388\t150001\t76678269091\tDelegate opted in to meet Stepstone Group UK Ltd. Delegate's pain point is 'AI usage in TA across our member firm network' and seeks 'Global capability of vendors'. Stepstone Group offers 'AI driven job marketplaces' and 'Global reach - Hire seamlessly across 50+ countries through one unified platform'. (Ranked in sponsor's top 20 preferred delegates)\n663389\t150001\t113145184682\tDelegate opted in to meet Stepstone Group UK Ltd. Delegate is interested in 'skills based assessment methodology' and 'talent intelligence'. Stepstone Group's 'AI powered intelligent matching technology' and extensive CV database provide a foundation for skills-based matching and talent insights. (Ranked in sponsor's top 20 preferred delegates)\n663392\t150001\t174442448959\tDelegate opted in to meet Stepstone Group UK Ltd. Delegate's pain points include 'AI and automation' and 'system standardisation'. Stepstone Group's 'AI driven job marketplaces' and 'programmatic marketing' offer automated solutions for talent attraction, contributing to a more standardized approach. (Ranked in sponsor's top 20 preferred delegates)\n663394\t150001\t92953690026\tDelegate opted in to meet Stepstone Group UK Ltd. Delegate is focused on 'Technology Implementation of Phenom' and 'Building a Talent Intelligence Function'. Stepstone Group's 'AI driven job marketplaces' and 'extensive online reach' provide valuable data for talent intelligence, complementing tech implementation. (Ranked in sponsor's top 20 preferred delegates)\n663395\t150001\t4956154\tDelegate opted in to meet Stepstone Group UK Ltd. Delegate seeks 'New AI enabled tech' and 'Screening efficiency'. Stepstone Group's 'AI powered intelligent matching technology' and 'programmatic marketing' directly enhance screening efficiency and are AI-enabled solutions.\n663400\t180001\t113145184682\tDelegate opted in to meet Maki People. Delegate's pain point 'Assessment Methodology' and interest in 'skills based assessment methodology' is a direct match for Maki's 'autonomous AI agents conduct skill based screening and conversational assessments' and its focus on 'structured, scientifically grounded evaluation'. (Ranked in sponsor's top 20 preferred delegates)\n663401\t180001\t17812226737\tDelegate opted in to meet Maki People. Delegate's pain point 'reviewing how assessments can improve quality of hire and therefore reduce attrition' and interest in 'latest capabilities (inc AI) of technology in the assessment' is directly addressed by Maki's 'in-depth assessments' and focus on 'highly predictive hiring decisions that drive on-the-job success' and 'lower attrition'. Note: delegate currently uses AON for assessments, which is a competitor. (Ranked in sponsor's top 20 preferred delegates)\n663402\t180001\t110260566550\tDelegate opted in to meet Maki People. Delegate's pain point 'AI Tech, Screening and scheduling' is directly addressed by Maki's 'autonomous AI agents' providing 'skill screening, conversational interviews, in-depth assessments, and intelligent scheduling'. (Ranked in sponsor's top 20 preferred delegates)\n663403\t180001\t76678269091\tDelegate opted in to meet Maki People. Delegate's pain point 'AI usage in TA across our member firm network' and interest in 'AI use cases for TA' aligns with Maki's core offering of 'advanced AI to streamline every step of the talent acquisition journey' and its comprehensive AI solutions. (Ranked in sponsor's top 20 preferred delegates)\n663404\t180001\t9477501\tDelegate opted in to meet Maki People. Delegate's pain point 'Reduce time-to-hire without compromising quality of hire' and interest in 'AI Screening (Top funnel), On-demand interview (High Volume Assessment), Ai Noteraker' is a direct match for Maki's 'autonomous AI agents' for 'skill screening, conversational interviews, in-depth assessments' which 'accelerate time to hire' and 'improve candidate experience'. Note: delegate currently uses HireVue for assessments, which is a competitor.\n663405\t180001\t9322701\tDelegate opted in to meet Maki People. Delegate's pain point 'AI Adoption' and interest in 'AI usage identification' aligns with Maki's core offering of 'advanced AI to streamline every step of the talent acquisition journey' and its 'science-audited AI and explainable scoring' to build confidence in AI adoption. (Ranked in sponsor's top 20 preferred delegates)\n663406\t180001\t191181016455\tDelegate opted in to meet Maki People. Delegate's pain point 'Reviewing assessment tools to funnel good quality candidates through the application process' is a direct match for Maki's 'in-depth assessments' and 'skill based screening' designed to make 'highly predictive hiring decisions'. Note: delegate currently uses Codility and Cappfinity for assessments, which are competitors.\n",
+  "stderr": "",
+  "execution_time_ms": 523
+}

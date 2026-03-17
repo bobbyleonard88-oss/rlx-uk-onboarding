@@ -1,0 +1,19 @@
+{
+  "query": "SELECT COUNT(*) as remaining FROM meetings WHERE matchReason LIKE '%opted in to meet%';\nSELECT LEFT(matchReason, 200) as sample FROM meetings WHERE id = '663412';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT COUNT(*) as remaining FROM meetings WHERE matchReason LIKE '%opted in to meet%';\nSELECT LEFT(matchReason, 200) as sample FROM meetings WHERE id = '663412';",
+  "rows": [
+    {
+      "remaining": "0"
+    },
+    {
+      "remaining": "sample"
+    },
+    {
+      "remaining": "Delegate's pain points include 'Reduce time-to-hire without compromising quality of hire' and 'high-volume assessments for Early Careers and Sales roles', with 'AI Screening (Top funnel)' as a solutio"
+    }
+  ],
+  "messages": [],
+  "stdout": "remaining\n0\nsample\nDelegate's pain points include 'Reduce time-to-hire without compromising quality of hire' and 'high-volume assessments for Early Careers and Sales roles', with 'AI Screening (Top funnel)' as a solutio\n",
+  "stderr": "",
+  "execution_time_ms": 427
+}

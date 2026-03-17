@@ -748,12 +748,17 @@ export async function generateMeetingsForSponsor(
       matchReason = aiMatchReasoning || "Match based on needs-solution alignment";
       
       // Enhance with additional context if available
-      if (isOptIn) {
-        matchReason = `Delegate opted in to meet ${sponsor.companyName}. ` + matchReason;
-      }
+      // Note: opt-in boosts scoring but are NOT mentioned in the reason text — reasons should only reflect solution-fit
       if (hasAffinityBoost && !isOptIn) {
-        const affinityLabel = affinitySourceSponsor ? affinitySourceSponsor.charAt(0).toUpperCase() + affinitySourceSponsor.slice(1) : 'a related sponsor';
-        matchReason = `Delegate opted in to meet ${affinityLabel} (similar solution space). ` + matchReason;
+        // Cross-sponsor affinity: describe the solution interest in plain terms rather than naming another sponsor
+        const AFFINITY_INTEREST_LABELS: Record<string, string> = {
+          'appcast': 'Delegate has shown interest in programmatic job advertising and recruitment marketing solutions.',
+          'zinc': 'Delegate has shown interest in background screening and candidate verification solutions.',
+        };
+        const affinityNote = affinitySourceSponsor
+          ? (AFFINITY_INTEREST_LABELS[affinitySourceSponsor.toLowerCase()] || 'Delegate has shown interest in solutions in this space.')
+          : 'Delegate has shown interest in solutions in this space.';
+        matchReason = affinityNote + ' ' + matchReason;
       }
       if (isTop20) {
         matchReason += " (Ranked in sponsor's top 20 preferred delegates)";

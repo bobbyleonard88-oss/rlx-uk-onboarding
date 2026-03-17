@@ -1,0 +1,70 @@
+{
+  "query": "SELECT id, sponsorId, LEFT(matchReason, 150) as matchReasonPreview FROM meetings WHERE matchReason LIKE '%opted in to meet%' LIMIT 15;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT id, sponsorId, LEFT(matchReason, 150) as matchReasonPreview FROM meetings WHERE matchReason LIKE '%opted in to meet%' LIMIT 15;",
+  "rows": [
+    {
+      "id": "663412",
+      "sponsorId": "240001",
+      "matchReasonPreview": "Delegate opted in to meet Sapia.ai. Delegate's pain points include 'Reduce time-to-hire without compromising quality of hire' and 'high-volume assessm"
+    },
+    {
+      "id": "663413",
+      "sponsorId": "240001",
+      "matchReasonPreview": "Delegate opted in to meet Sapia.ai. Delegate's 'Active / Confirmed Projects' include 'Assessment Tech' and 'AI', and they are interested in 'AI, Asses"
+    },
+    {
+      "id": "663414",
+      "sponsorId": "240001",
+      "matchReasonPreview": "Delegate opted in to meet Sapia.ai. Delegate is 'Reviewing assessment tools to funnel good quality candidates through the application process'. Sapia."
+    },
+    {
+      "id": "663415",
+      "sponsorId": "240001",
+      "matchReasonPreview": "Delegate opted in to meet Sapia.ai. Delegate is 'open to moving from SHL in the next 12 months' for assessments and lists 'Assessments' as a solution "
+    },
+    {
+      "id": "663416",
+      "sponsorId": "240001",
+      "matchReasonPreview": "Delegate opted in to meet Sapia.ai. Delegate's pain points include 'AI Governance board' and 'AI Adoption', and they are interested in 'AI usage ident"
+    },
+    {
+      "id": "663417",
+      "sponsorId": "240001",
+      "matchReasonPreview": "Delegate opted in to meet Sapia.ai. Delegate's pain points include 'Reducing team budgets whilst not reducing quality' and 'skills based hiring', with"
+    },
+    {
+      "id": "663418",
+      "sponsorId": "240001",
+      "matchReasonPreview": "Delegate opted in to meet Sapia.ai. Delegate is interested in 'Skills Assessment' and 'Careersite enhancement'. Sapia.ai's platform provides competenc"
+    },
+    {
+      "id": "663419",
+      "sponsorId": "240001",
+      "matchReasonPreview": "Delegate opted in to meet Sapia.ai. Delegate's pain point is 'Candidate management and experience' and they are involved in 'AI CRM EDI&B' projects. S"
+    },
+    {
+      "id": "663420",
+      "sponsorId": "240001",
+      "matchReasonPreview": "Delegate opted in to meet Sapia.ai. Delegate's primary pain point is 'Assessment Methodology' and they are seeking 'skills based assessment methodolog"
+    },
+    {
+      "id": "663421",
+      "sponsorId": "240001",
+      "matchReasonPreview": "Delegate opted in to meet Sapia.ai. Delegate's pain points include 'AI Tech' and they are interested in 'AI' solutions. Sapia.ai offers an AI hiring p"
+    },
+    {
+      "id": "663422",
+      "sponsorId": "240001",
+      "matchReasonPreview": "Delegate opted in to meet Sapia.ai. Delegate's pain point is 'AI usage in TA across our member firm network' and they are actively evaluating 'AI use "
+    },
+    {
+      "id": "663423",
+      "sponsorId": "240001",
+      "matchReasonPreview": "Delegate opted in to meet Sapia.ai. Delegate's pain points include 'Screening efficiency' and they are working on 'New AI enabled tech' and 'candidate"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tsponsorId\tmatchReasonPreview\n663412\t240001\tDelegate opted in to meet Sapia.ai. Delegate's pain points include 'Reduce time-to-hire without compromising quality of hire' and 'high-volume assessm\n663413\t240001\tDelegate opted in to meet Sapia.ai. Delegate's 'Active / Confirmed Projects' include 'Assessment Tech' and 'AI', and they are interested in 'AI, Asses\n663414\t240001\tDelegate opted in to meet Sapia.ai. Delegate is 'Reviewing assessment tools to funnel good quality candidates through the application process'. Sapia.\n663415\t240001\tDelegate opted in to meet Sapia.ai. Delegate is 'open to moving from SHL in the next 12 months' for assessments and lists 'Assessments' as a solution \n663416\t240001\tDelegate opted in to meet Sapia.ai. Delegate's pain points include 'AI Governance board' and 'AI Adoption', and they are interested in 'AI usage ident\n663417\t240001\tDelegate opted in to meet Sapia.ai. Delegate's pain points include 'Reducing team budgets whilst not reducing quality' and 'skills based hiring', with\n663418\t240001\tDelegate opted in to meet Sapia.ai. Delegate is interested in 'Skills Assessment' and 'Careersite enhancement'. Sapia.ai's platform provides competenc\n663419\t240001\tDelegate opted in to meet Sapia.ai. Delegate's pain point is 'Candidate management and experience' and they are involved in 'AI CRM EDI&B' projects. S\n663420\t240001\tDelegate opted in to meet Sapia.ai. Delegate's primary pain point is 'Assessment Methodology' and they are seeking 'skills based assessment methodolog\n663421\t240001\tDelegate opted in to meet Sapia.ai. Delegate's pain points include 'AI Tech' and they are interested in 'AI' solutions. Sapia.ai offers an AI hiring p\n663422\t240001\tDelegate opted in to meet Sapia.ai. Delegate's pain point is 'AI usage in TA across our member firm network' and they are actively evaluating 'AI use \n663423\t240001\tDelegate opted in to meet Sapia.ai. Delegate's pain points include 'Screening efficiency' and they are working on 'New AI enabled tech' and 'candidate\n",
+  "stderr": "",
+  "execution_time_ms": 386
+}

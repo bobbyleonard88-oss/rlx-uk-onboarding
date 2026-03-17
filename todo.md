@@ -1407,3 +1407,6 @@
 
 ## DelegateOverview Time Slot Fix (March 2026)
 - [x] Fix TIME_SLOT_LABELS in DelegateOverview — Day 2 slots 1-6 show wrong times (10:15/10:45 etc instead of 11:00/11:30 etc)
+
+## Match Reason Opt-in Language Fix (March 2026)
+- [x] Remove any mention of opt-in to another sponsor from match reason text — reasons should only explain fit for that specific sponsor
