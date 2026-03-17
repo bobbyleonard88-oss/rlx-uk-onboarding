@@ -302,100 +302,113 @@ export default function MeetingSchedule() {
     }
   };
 
-  const downloadScheduleCSV = () => {
+  const downloadBriefingPack = () => {
     if (!meetings || meetings.length === 0) {
       toast.error("No meetings to download");
       return;
     }
-    const slotLabels: Record<number, string> = {
-      1: 'Day 2 (Wed 13 May) – 11:00–11:30',
-      2: 'Day 2 (Wed 13 May) – 11:30–12:00',
-      3: 'Day 2 (Wed 13 May) – 13:15–13:45',
-      4: 'Day 2 (Wed 13 May) – 13:45–14:15',
-      5: 'Day 2 (Wed 13 May) – 14:30–15:00',
-      6: 'Day 2 (Wed 13 May) – 15:00–15:30',
-      7: 'Day 3 (Thu 14 May) – 10:30–11:00',
-      8: 'Day 3 (Thu 14 May) – 11:00–11:30',
-      9: 'Day 3 (Thu 14 May) – 13:15–13:45',
-      10: 'Day 3 (Thu 14 May) – 13:45–14:15',
-      11: 'Day 3 (Thu 14 May) – 14:30–15:00',
-      12: 'Day 3 (Thu 14 May) – 15:00–15:30',
+    const slotLabels: Record<number, { day: string; time: string }> = {
+      1:  { day: 'Wed 13 May (Day 2)', time: '11:00 – 11:30' },
+      2:  { day: 'Wed 13 May (Day 2)', time: '11:30 – 12:00' },
+      3:  { day: 'Wed 13 May (Day 2)', time: '13:15 – 13:45' },
+      4:  { day: 'Wed 13 May (Day 2)', time: '13:45 – 14:15' },
+      5:  { day: 'Wed 13 May (Day 2)', time: '14:30 – 15:00' },
+      6:  { day: 'Wed 13 May (Day 2)', time: '15:00 – 15:30' },
+      7:  { day: 'Thu 14 May (Day 3)', time: '10:30 – 11:00' },
+      8:  { day: 'Thu 14 May (Day 3)', time: '11:00 – 11:30' },
+      9:  { day: 'Thu 14 May (Day 3)', time: '13:15 – 13:45' },
+      10: { day: 'Thu 14 May (Day 3)', time: '13:45 – 14:15' },
+      11: { day: 'Thu 14 May (Day 3)', time: '14:30 – 15:00' },
+      12: { day: 'Thu 14 May (Day 3)', time: '15:00 – 15:30' },
     };
-    const headers = ['Attendee', 'Time Slot', 'Delegate Name', 'Job Title', 'Company', 'Match Score', 'Match Reason'];
+
+    const headers = [
+      // Schedule fields
+      'Your Attendee',
+      'Day',
+      'Time',
+      'Table No.',
+      // Match fields
+      'Match Score (%)',
+      'Delegate Opted In',
+      'Match Reason',
+      // Delegate identity
+      'Delegate Name',
+      'Job Title',
+      'Company',
+      'Industry',
+      'Employees',
+      'Regions',
+      // Buying intent
+      'Active Project Budget',
+      'Sign-off Authority',
+      'Project Stage',
+      'Active / Confirmed Projects',
+      'Primary Meeting Objective',
+      // Needs
+      'Current Pain Points',
+      'Solution Areas of Interest',
+      // Tech stack
+      'ATS',
+      'CRM',
+      'Assessment Tools',
+      'Talent Intelligence',
+      'Other Tools',
+    ];
+
     const rows = meetings
       .filter(m => m.timeSlot !== null && m.timeSlot !== undefined)
       .sort((a, b) => {
-        const slotDiff = (a.timeSlot ?? 0) - (b.timeSlot ?? 0);
-        if (slotDiff !== 0) return slotDiff;
-        return (a.attendeeNumber ?? 1) - (b.attendeeNumber ?? 1);
+        const attendeeDiff = (a.attendeeNumber ?? 1) - (b.attendeeNumber ?? 1);
+        if (attendeeDiff !== 0) return attendeeDiff;
+        return (a.timeSlot ?? 0) - (b.timeSlot ?? 0);
       })
       .map(m => {
-        const delegate = attendees.find(a => a.id === m.attendeeId);
+        const staticDelegate = attendees.find(a => a.id === m.attendeeId);
+        const d = staticDelegate ? { ...staticDelegate, ...(m.delegateProfile || {}) } as any : null;
+        const slot = slotLabels[m.timeSlot!] || { day: '', time: `Slot ${m.timeSlot}` };
         const attendeeName = (m.attendeeNumber === 2) ? attendee2Name : attendee1Name;
         return [
           attendeeName,
-          slotLabels[m.timeSlot!] || `Slot ${m.timeSlot}`,
-          delegate ? `${delegate.firstName} ${delegate.lastName}` : m.attendeeId,
-          delegate?.jobTitle || '',
-          delegate?.company || '',
+          slot.day,
+          slot.time,
+          (m as any).tableNumber ? String((m as any).tableNumber) : '',
           m.matchScore !== null && m.matchScore !== undefined ? String(m.matchScore) : '',
+          m.hasDelegateOptIn ? 'Yes' : 'No',
           m.matchReason || '',
-        ].map(cell => `"${String(cell).replace(/"/g, '""')}"`);
+          d ? `${d.firstName} ${d.lastName}` : m.attendeeId,
+          d?.jobTitle || '',
+          d?.company || '',
+          d?.industry || '',
+          d?.companySize || '',
+          d?.regionalRemit || '',
+          d?.activeBudgetRange || '',
+          d?.budgetAuthority || '',
+          clean(d?.currentProjectStage),
+          clean(d?.activeConfirmedProjects),
+          clean(d?.primaryMeetingObjective),
+          clean(d?.currentPainPoints),
+          clean(d?.keySolutionAreasOfInterest),
+          clean(d?.ats),
+          clean(d?.crm),
+          clean(d?.assessmentTool),
+          clean(d?.marketIntelligence),
+          clean(d?.otherTools),
+        ].map(cell => `"${String(cell ?? '').replace(/"/g, '""')}"`);
       });
+
     const csvContent = [headers.map(h => `"${h}"`).join(','), ...rows.map(r => r.join(','))].join('\n');
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${sponsor?.companyName || 'RLX'}_Meeting_Schedule.csv`;
+    a.download = `${sponsor?.companyName || 'RLX'}_Meeting_Briefing_Pack.csv`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    toast.success('Meeting schedule downloaded');
-    trackActivity.mutate({ eventType: 'download', downloadType: 'schedule_csv', downloadLabel: 'Meeting Schedule CSV' });
-  };
-
-  const downloadAllProfilesCSV = () => {
-    if (!meetings || meetings.length === 0) {
-      toast.error("No meetings to download");
-      return;
-    }
-    const allDelegates = meetings
-      .map(m => attendees.find(a => a.id === m.attendeeId))
-      .filter((d): d is typeof attendees[number] => d !== undefined);
-
-    const headers = ['Name', 'Job Title', 'Company', 'Industry', 'Employees', 'Regions', 'Active Project Budget', 'Sign-off Authority', 'Project Stage', 'Active Projects', 'Meeting Objective', 'Pain Points', 'Solution Areas', 'ATS', 'CRM', 'Assessment Tools', 'Talent Intelligence', 'Other Tools'];
-    const rows = allDelegates.map(d => [
-      `${d.firstName} ${d.lastName}`,
-      d.jobTitle || '',
-      d.company || '',
-      d.industry || '',
-      d.companySize || '',
-      (d as any).regionalRemit || '',
-      (d as any).activeBudgetRange || '',
-      d.budgetAuthority || '',
-      clean((d as any).currentProjectStage),
-      clean((d as any).activeConfirmedProjects),
-      clean((d as any).primaryMeetingObjective),
-      clean((d as any).currentPainPoints),
-      clean((d as any).keySolutionAreasOfInterest),
-      clean(d.ats),
-      clean(d.crm),
-      clean((d as any).assessmentTool),
-      clean(d.marketIntelligence),
-      clean(d.otherTools),
-    ].map(cell => `"${String(cell).replace(/"/g, '""')}"`));
-
-    const csvContent = [headers.map(h => `"${h}"`).join(','), ...rows.map(r => r.join(','))].join('\n');
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${sponsor?.companyName || 'RLX'}_Delegate_Profiles.csv`;
-    a.click();
-    URL.revokeObjectURL(url);
-    trackActivity.mutate({ eventType: 'download', downloadType: 'all_profiles_csv', downloadLabel: 'All Delegate Profiles CSV' });
+    toast.success('Meeting briefing pack downloaded');
+    trackActivity.mutate({ eventType: 'download', downloadType: 'briefing_pack_csv', downloadLabel: 'Meeting Briefing Pack CSV' });
   };
 
   if (loading || isLoading) {
@@ -477,36 +490,13 @@ export default function MeetingSchedule() {
                 </CardDescription>
               </div>
               <div className="flex gap-2">
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="outline" className="border-slate-500 text-white hover:bg-slate-700 gap-2">
-                      <Calendar className="w-4 h-4" />
-                      Download Schedule
-                      <ChevronDown className="w-3 h-3" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem onClick={downloadScheduleCSV}>
-                      <Download className="w-4 h-4 mr-2" />
-                      Download as CSV
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button className="bg-accent hover:bg-accent/90 gap-2">
-                      <Download className="w-4 h-4" />
-                      Download All Profiles
-                      <ChevronDown className="w-3 h-3" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem onClick={downloadAllProfilesCSV}>
-                      <Download className="w-4 h-4 mr-2" />
-                      Download as CSV
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                <Button
+                  className="bg-accent hover:bg-accent/90 gap-2"
+                  onClick={downloadBriefingPack}
+                >
+                  <Download className="w-4 h-4" />
+                  Download Briefing Pack
+                </Button>
               </div>
             </div>
           </CardHeader>

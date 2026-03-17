@@ -1398,3 +1398,9 @@
 
 ## Admin Portal Navigation (March 2026)
 - [x] Remove side navigation from admin portal and replace with top-nav or tab-based navigation
+
+## Merged Briefing Pack CSV (March 2026)
+- [x] Merge downloadScheduleCSV and downloadAllProfilesCSV into single downloadBriefingPack function
+- [x] Include: day, time, table number, attendee name, delegate name, company, job title, match score, match reason, opt-in flag, and all profile fields
+- [x] Replace separate download buttons with single "Download Briefing Pack" button
+- [x] Remove individual per-row download buttons (replaced by briefing pack)
