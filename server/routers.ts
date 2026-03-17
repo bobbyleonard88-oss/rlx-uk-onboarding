@@ -1599,6 +1599,12 @@ export const appRouter = router({
           }
         }
         
+        // Build meeting count per delegate for display
+        const delegateMeetingCountMap = new Map<string, number>();
+        for (const meeting of allMeetings) {
+          delegateMeetingCountMap.set(meeting.attendeeId, (delegateMeetingCountMap.get(meeting.attendeeId) || 0) + 1);
+        }
+
         const mostInDemandDelegates = Array.from(demandScores.entries())
           .map(([attendeeId, demandScore]) => {
             const delegate = attendees.find(d => d.id === attendeeId);
@@ -1611,6 +1617,7 @@ export const appRouter = router({
                 const rankedList = r.rankingsData ? JSON.parse(r.rankingsData) : [];
                 return rankedList.includes(attendeeId);
               }).length,
+              meetingCount: delegateMeetingCountMap.get(attendeeId) || 0,
             };
           })
           .filter(d => d.name !== 'Unknown')
@@ -1626,7 +1633,8 @@ export const appRouter = router({
               450001: 12,  // PerchPeek
               750001: 24,  // SHL
               870001: 12,  // Wilson (package says 20, actual is 12)
-              390001: 10,  // Bright Apply (package says 12, actual is 10)
+              390001: 12,  // Bright Apply: 12 meetings (quota was 10 but algorithm gave 12)
+              210001: 21,  // Harver: 21 meetings (20-meeting package + 1 extra from 2-rep slots)
             };
             const totalSlots = ANALYTICS_QUOTA_OVERRIDES[sponsor.id] ??
               (intakeSubmission?.meetingPackage === '20' ? 20 : 12);

@@ -36,7 +36,7 @@ export default function Analytics() {
     );
   }
 
-  // Split time slots into Day 1 (slots 1-6) and Day 2 (slots 7-12)
+  // Split time slots into Day 2 (slots 1-6) and Day 3 (slots 7-12)
   const day1Slots = analytics.timeSlotDistribution.filter(s => s.slot <= 6);
   const day2Slots = analytics.timeSlotDistribution.filter(s => s.slot >= 7);
   const maxSlotCount = Math.max(
@@ -116,12 +116,12 @@ export default function Analytics() {
 
           {/* Row 1: Time Slot Distribution split into Day 1 | Day 2 */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-            {/* Day 1 */}
+            {/* Day 2 (Wed 13 May) */}
             <Card className="bg-slate-800/50 border-slate-700">
               <CardHeader className="pb-3">
                 <CardTitle className="text-white flex items-center gap-2">
                   <Calendar className="w-4 h-4 text-blue-400" />
-                  Time Slot Distribution — Day 1
+                  Time Slot Distribution — Day 2 (Wed 13 May)
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -129,7 +129,7 @@ export default function Analytics() {
                   {day1Slots.map((slot) => (
                     <div key={slot.slot} className="space-y-1">
                       <div className="flex justify-between text-sm">
-                        <span className="text-slate-300">{slot.label.replace("Day 1 — ", "")}</span>
+                        <span className="text-slate-300">{slot.label.replace(/Day \d+ — /, "")}</span>
                         <span className="text-white font-medium">{slot.count} meetings</span>
                       </div>
                       <div className="w-full bg-slate-700 rounded-full h-2">
@@ -144,12 +144,12 @@ export default function Analytics() {
               </CardContent>
             </Card>
 
-            {/* Day 2 */}
+            {/* Day 3 (Thu 14 May) */}
             <Card className="bg-slate-800/50 border-slate-700">
               <CardHeader className="pb-3">
                 <CardTitle className="text-white flex items-center gap-2">
                   <Calendar className="w-4 h-4 text-indigo-400" />
-                  Time Slot Distribution — Day 2
+                  Time Slot Distribution — Day 3 (Thu 14 May)
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -157,7 +157,7 @@ export default function Analytics() {
                   {day2Slots.map((slot) => (
                     <div key={slot.slot} className="space-y-1">
                       <div className="flex justify-between text-sm">
-                        <span className="text-slate-300">{slot.label.replace("Day 2 — ", "")}</span>
+                        <span className="text-slate-300">{slot.label.replace(/Day \d+ — /, "")}</span>
                         <span className="text-white font-medium">{slot.count} meetings</span>
                       </div>
                       <div className="w-full bg-slate-700 rounded-full h-2">
@@ -251,7 +251,7 @@ export default function Analytics() {
                           {delegate.demandScore} pts
                         </Badge>
                         <Badge variant="outline" className="text-slate-400 border-slate-600 text-xs">
-                          {delegate.rankingCount} sponsors
+                          {(delegate as any).meetingCount ?? delegate.rankingCount} meetings
                         </Badge>
                       </div>
                     </div>
@@ -279,12 +279,14 @@ export default function Analytics() {
                         <div className="flex-1 bg-slate-700 rounded-full h-1.5">
                           <div
                             className={`h-1.5 rounded-full transition-all ${
-                              sponsor.meetingsScheduled === sponsor.totalSlots
+                              sponsor.meetingsScheduled >= sponsor.totalSlots
                                 ? "bg-green-500"
-                                : "bg-yellow-500"
+                                : sponsor.meetingsScheduled >= Math.ceil(sponsor.totalSlots * 0.8)
+                                ? "bg-yellow-500"
+                                : "bg-red-500"
                             }`}
                             style={{
-                              width: `${(sponsor.meetingsScheduled / sponsor.totalSlots) * 100}%`,
+                              width: `${Math.min((sponsor.meetingsScheduled / sponsor.totalSlots) * 100, 100)}%`,
                             }}
                           />
                         </div>
