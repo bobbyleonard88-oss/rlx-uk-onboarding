@@ -1,7 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { trpc } from "@/lib/trpc";
-import { BarChart3, Users, Calendar, TrendingUp } from "lucide-react";
+import { BarChart3, Users, Calendar, TrendingUp, Download } from "lucide-react";
 import AdminHeader from "@/components/AdminHeader";
 import MeetingFloorPlan from "@/components/MeetingFloorPlan";
 import { useTestMode } from "@/hooks/useTestMode";
@@ -173,20 +174,53 @@ export default function Analytics() {
           </div>
 
           {/* Row 2: Most In-Demand Delegates | Sponsor Statistics */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 items-start">
             {/* Most In-Demand Delegates */}
-            <Card className="bg-slate-800/50 border-slate-700">
+            <Card className="bg-slate-800/50 border-slate-700 flex flex-col">
               <CardHeader className="pb-3">
-                <CardTitle className="text-white flex items-center gap-2">
-                  <TrendingUp className="w-5 h-5" />
-                  Most In-Demand Delegates
-                </CardTitle>
-                <p className="text-sm text-slate-400 mt-1">
-                  Based on sponsor rankings — higher ranked delegates score more points
-                </p>
+                <div className="flex items-start justify-between gap-2">
+                  <div>
+                    <CardTitle className="text-white flex items-center gap-2">
+                      <TrendingUp className="w-5 h-5" />
+                      Most In-Demand Delegates
+                    </CardTitle>
+                    <p className="text-sm text-slate-400 mt-1">
+                      Based on sponsor rankings — higher ranked = more points
+                    </p>
+                  </div>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="border-slate-600 text-slate-300 hover:text-white shrink-0 gap-1.5"
+                    onClick={() => {
+                      const rows = analytics.mostInDemandDelegates.map((d, i) =>
+                        [`${i + 1}`, d.name, d.company, `${d.demandScore}`, `${d.rankingCount}`]
+                      );
+                      const csv = [
+                        ["Rank", "Name", "Company", "Demand Score", "Sponsors Ranked By"].join(","),
+                        ...rows.map(r => r.map(c => `"${c}"`).join(","))
+                      ].join("\n");
+                      const blob = new Blob([csv], { type: "text/csv" });
+                      const url = URL.createObjectURL(blob);
+                      const a = document.createElement("a");
+                      a.href = url;
+                      a.download = `delegate-rankings-${new Date().toISOString().split("T")[0]}.csv`;
+                      document.body.appendChild(a);
+                      a.click();
+                      document.body.removeChild(a);
+                      URL.revokeObjectURL(url);
+                    }}
+                  >
+                    <Download className="w-3.5 h-3.5" />
+                    Download All
+                  </Button>
+                </div>
               </CardHeader>
-              <CardContent>
-                <div className="space-y-2">
+              <CardContent className="flex-1 overflow-hidden">
+                <div
+                  className="space-y-2 overflow-y-auto pr-1"
+                  style={{ maxHeight: `${Math.max(analytics.sponsorStats.length * 44, 440)}px` }}
+                >
                   {analytics.mostInDemandDelegates.map((delegate, index) => (
                     <div
                       key={delegate.attendeeId}
@@ -195,7 +229,7 @@ export default function Analytics() {
                       <div className="flex items-center gap-3">
                         <Badge
                           variant="secondary"
-                          className={`w-6 h-6 flex items-center justify-center p-0 ${
+                          className={`w-6 h-6 flex items-center justify-center p-0 shrink-0 ${
                             index === 0
                               ? "bg-yellow-500/20 text-yellow-300 border-yellow-500/30"
                               : index === 1
@@ -208,15 +242,15 @@ export default function Analytics() {
                           {index + 1}
                         </Badge>
                         <div>
-                          <div className="text-white font-medium">{delegate.name}</div>
+                          <div className="text-white font-medium text-sm">{delegate.name}</div>
                           <div className="text-slate-400 text-xs">{delegate.company}</div>
                         </div>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <Badge className="bg-blue-500/20 text-blue-300 border-blue-500/30">
+                      <div className="flex items-center gap-2 shrink-0">
+                        <Badge className="bg-blue-500/20 text-blue-300 border-blue-500/30 text-xs">
                           {delegate.demandScore} pts
                         </Badge>
-                        <Badge variant="outline" className="text-slate-400 border-slate-600">
+                        <Badge variant="outline" className="text-slate-400 border-slate-600 text-xs">
                           {delegate.rankingCount} sponsors
                         </Badge>
                       </div>

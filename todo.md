@@ -1358,3 +1358,4 @@
 - [x] Add 90s timeout to AI batch scoring call so Match All never hangs indefinitely on a stalled LLM call
 - [x] Update export CSV to show actual sponsor rep names and emails instead of Attendee 1/Attendee 2
 - [x] Add delegate capacity overview section to Delegate Overview admin page (meetings used / 8 cap, remaining slots, total capacity summary)
+- [x] Fix Most In-Demand Delegates on Analytics page: cap height to match adjacent sponsor list, add Download All Rankings CSV button

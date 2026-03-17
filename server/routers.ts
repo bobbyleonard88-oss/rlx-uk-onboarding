@@ -1504,8 +1504,8 @@ export const appRouter = router({
               }).length,
             };
           })
-          .sort((a, b) => b.demandScore - a.demandScore)
-          .slice(0, 10);
+          .filter(d => d.name !== 'Unknown')
+          .sort((a, b) => b.demandScore - a.demandScore);
         
         // Sponsor statistics (excluding test/inactive sponsors)
         const sponsorStats = await Promise.all(
