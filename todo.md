@@ -1395,3 +1395,6 @@
 - [x] Reduce spacing from space-y-4 + CardHeader/CardContent per slot to divide-y rows
 - [x] Apply compact layout to both attendee 1 and attendee 2 schedule sections
 - [x] Confirm admin impersonation banner and "Return to Admin" button working correctly
+
+## Admin Portal Navigation (March 2026)
+- [x] Remove side navigation from admin portal and replace with top-nav or tab-based navigation

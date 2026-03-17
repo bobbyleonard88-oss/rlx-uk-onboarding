@@ -49,12 +49,31 @@ function ImpersonationBanner() {
 
 function Router() {
   const [location] = useLocation();
-  
+  const isAdminRoute = location.startsWith('/admin');
+
   // Scroll to top on route change
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [location]);
-  
+
+  // Admin routes: full-width, no sponsor sidebar
+  if (isAdminRoute) {
+    return (
+      <div className="min-h-screen bg-slate-950">
+        <Switch>
+          <Route path="/admin" component={AdminDashboard} />
+          <Route path="/admin/meetings" component={AdminMeetings} />
+          <Route path="/admin/users" component={AdminUsers} />
+          <Route path="/admin/analytics" component={Analytics} />
+          <Route path="/admin/delegate-overview" component={DelegateOverview} />
+          <Route path="/admin/activity-log" component={ActivityLog} />
+          <Route component={NotFound} />
+        </Switch>
+      </div>
+    );
+  }
+
+  // Sponsor portal routes: with sidebar navigation
   return (
     <div className="flex">
       <ImpersonationBanner />
@@ -75,13 +94,6 @@ function Router() {
           <Route path="/intake" component={Intake} />
           <Route path="/prioritize" component={Prioritize} />
           <Route path="/faq" component={FAQ} />
-          <Route path="/admin" component={AdminDashboard} />
-            <Route path="/admin/meetings" component={AdminMeetings} />
-          <Route path="/admin/users" component={AdminUsers} />
-          <Route path="/admin/analytics" component={Analytics} />
-          <Route path="/admin/meetings" component={AdminMeetings} />
-          <Route path="/admin/delegate-overview" component={DelegateOverview} />
-          <Route path="/admin/activity-log" component={ActivityLog} />
           <Route path="/sponsor-profile" component={SponsorProfile} />
           <Route path="/meeting-schedule" component={MeetingSchedule} />
           <Route path="/agenda" component={EventAgenda} />
