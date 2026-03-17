@@ -66,10 +66,21 @@ export default function Navigation() {
     }
   }, [location, hasNewMeetings]);
   
-  // Add Meeting Schedule to nav items if user has meetings
-  const navItems = hasMeetings 
-    ? [...baseNavItems.slice(0, 10), { path: "/meeting-schedule", label: "Meeting Schedule", icon: Calendar }, ...baseNavItems.slice(10)]
-    : baseNavItems;
+  // Build nav items: once meetings are published, hide Intake/Rankings and show Meeting Schedule prominently
+  const navItems = (() => {
+    if (hasMeetings) {
+      // Meetings are published — hide intake & rankings, add Meeting Schedule after Agenda
+      const filtered = baseNavItems.filter(i => i.path !== '/intake' && i.path !== '/prioritize');
+      const agendaIdx = filtered.findIndex(i => i.path === '/agenda');
+      const insertAt = agendaIdx >= 0 ? agendaIdx + 1 : filtered.length;
+      return [
+        ...filtered.slice(0, insertAt),
+        { path: '/meeting-schedule', label: 'Meeting Schedule', icon: Calendar },
+        ...filtered.slice(insertAt),
+      ];
+    }
+    return baseNavItems;
+  })();
 
   useEffect(() => {
     // Load visited pages from localStorage
@@ -147,7 +158,11 @@ export default function Navigation() {
                     <div
                       className={`
                         flex items-center gap-3 px-3 py-3 rounded-lg transition-all duration-200 cursor-pointer relative
-                        ${isActive 
+                        ${item.path === '/meeting-schedule' && hasMeetings
+                          ? isActive
+                            ? 'bg-green-500/30 text-white border border-green-400/60 scale-105'
+                            : 'bg-green-500/20 text-green-300 hover:bg-green-500/30 hover:text-white border border-green-500/40'
+                          : isActive 
                           ? 'bg-primary/20 text-white border border-white/30 scale-105' 
                           : isVisited
                           ? 'bg-white/10 text-white hover:text-white hover:bg-white/20 border border-white/20'
@@ -158,12 +173,15 @@ export default function Navigation() {
                         ${isActive ? 'animate-pop' : ''}
                       `}
                     >
-                      <Icon className="w-6 h-6 flex-shrink-0" />
+                      <Icon className={`w-6 h-6 flex-shrink-0 ${item.path === '/meeting-schedule' && hasMeetings ? 'text-green-400' : ''}`} />
                       <span className="hidden lg:block font-heading text-sm font-medium flex-1">
                         {item.label}
                       </span>
                       {isCompleted && (
                         <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
+                      )}
+                      {item.path === '/meeting-schedule' && hasMeetings && (
+                        <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
                       )}
                       {item.path === '/meeting-schedule' && hasNewMeetings && (
                         <span className="absolute top-1 right-1 w-3 h-3 bg-green-500 rounded-full animate-ping" />

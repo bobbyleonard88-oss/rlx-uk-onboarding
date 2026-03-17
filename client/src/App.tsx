@@ -29,6 +29,24 @@ import Analytics from "./pages/Analytics";
 import ActivityLog from "./pages/ActivityLog";
 import EventAgenda from "./pages/EventAgenda";
 import NewMeetingNotification from "./components/NewMeetingNotification";
+
+// Banner shown when admin is viewing the portal as a sponsor
+function ImpersonationBanner() {
+  const isImpersonating = document.cookie.includes('is_impersonating=1');
+  if (!isImpersonating) return null;
+  return (
+    <div className="fixed top-0 left-0 right-0 z-[9999] bg-amber-500 text-black text-sm font-semibold flex items-center justify-between px-4 py-2 shadow-lg">
+      <span>👁 Admin View — You are viewing the portal as a sponsor</span>
+      <a
+        href="/api/impersonate/exit"
+        className="ml-4 bg-black text-white text-xs font-bold px-3 py-1 rounded hover:bg-gray-800 transition-colors"
+      >
+        ← Return to Admin
+      </a>
+    </div>
+  );
+}
+
 function Router() {
   const [location] = useLocation();
   
@@ -39,6 +57,7 @@ function Router() {
   
   return (
     <div className="flex">
+      <ImpersonationBanner />
       <Navigation />
       <NewMeetingNotification />
       <main className="flex-1 ml-20 lg:ml-64">

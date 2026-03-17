@@ -159,6 +159,12 @@ async function startServer() {
         res.status(404).json({ error: 'Target user not found' });
         return;
       }
+      // Save the current admin session token so we can restore it on exit
+      const { COOKIE_NAME } = await import('@shared/const');
+      const cookieHeader2 = req.headers.cookie || '';
+      const adminTokenMatch = cookieHeader2.match(new RegExp(`${COOKIE_NAME}=([^;]+)`));
+      const adminToken = adminTokenMatch ? adminTokenMatch[1] : null;
+
       // Create a session token for the target user
       const { sdk } = await import('./sdk');
       const sessionToken = await sdk.createSessionToken(targetOpenId, {
@@ -166,13 +172,46 @@ async function startServer() {
         expiresInMs: 60 * 60 * 1000, // 1 hour impersonation session
       });
       const { getSessionCookieOptions } = await import('./cookies');
-      const { COOKIE_NAME } = await import('@shared/const');
       const cookieOptions = getSessionCookieOptions(req);
       res.cookie(COOKIE_NAME, sessionToken, { ...cookieOptions, maxAge: 60 * 60 * 1000 });
+      // Store the original admin token in a separate cookie so we can restore it
+      if (adminToken) {
+        res.cookie('admin_restore_token', adminToken, { ...cookieOptions, maxAge: 60 * 60 * 1000 });
+      }
+      // Store impersonation flag so the UI can show the Return to Admin banner
+      res.cookie('is_impersonating', '1', { ...cookieOptions, maxAge: 60 * 60 * 1000 });
       res.redirect(302, '/dashboard');
     } catch (error) {
       console.error('[Impersonate] Error:', error);
       res.status(401).json({ error: 'Invalid or expired impersonation token' });
+    }
+  });
+
+  // Admin impersonation exit — restores the original admin session
+  app.get('/api/impersonate/exit', async (req, res) => {
+    try {
+      const { getSessionCookieOptions } = await import('./cookies');
+      const { COOKIE_NAME } = await import('@shared/const');
+      const cookieHeader3 = req.headers.cookie || '';
+      const cookieOptions = getSessionCookieOptions(req);
+
+      // Restore the original admin token if it exists
+      const adminTokenMatch = cookieHeader3.match(/admin_restore_token=([^;]+)/);
+      const adminToken = adminTokenMatch ? decodeURIComponent(adminTokenMatch[1]) : null;
+
+      if (adminToken) {
+        res.cookie(COOKIE_NAME, adminToken, { ...cookieOptions, maxAge: 24 * 60 * 60 * 1000 });
+      } else {
+        // No restore token — just clear the session so they get redirected to login
+        res.clearCookie(COOKIE_NAME, cookieOptions);
+      }
+      // Clear impersonation cookies
+      res.clearCookie('admin_restore_token', cookieOptions);
+      res.clearCookie('is_impersonating', cookieOptions);
+      res.redirect(302, '/admin');
+    } catch (error) {
+      console.error('[Impersonate Exit] Error:', error);
+      res.redirect(302, '/');
     }
   });
 
