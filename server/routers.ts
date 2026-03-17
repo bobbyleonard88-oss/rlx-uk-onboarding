@@ -1303,6 +1303,7 @@ export const appRouter = router({
               sponsorName: sponsor?.companyName || 'Unknown',
               timeSlot: meeting.timeSlot,
               attendeeNumber: meeting.attendeeNumber,
+              sponsorRepName: meeting.sponsorRepName ?? null,
               matchScore: meeting.matchScore,
             };
           });

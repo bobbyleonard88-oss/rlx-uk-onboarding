@@ -29,12 +29,20 @@ import AdminHeader from "@/components/AdminHeader";
 import { useTestMode } from "@/hooks/useTestMode";
 
 const TIME_SLOT_LABELS: Record<number, string> = {
-  1: "Day 1 - Slot 1",
-  2: "Day 1 - Slot 2",
-  3: "Day 1 - Slot 3",
-  4: "Day 2 - Slot 1",
-  5: "Day 2 - Slot 2",
-  6: "Day 2 - Slot 3",
+  // Day 1 slots
+  1: "Day 1 · 10:15–10:45",
+  2: "Day 1 · 10:45–11:15",
+  3: "Day 1 · 13:30–14:00",
+  4: "Day 1 · 14:00–14:30",
+  5: "Day 1 · 14:45–15:15",
+  6: "Day 1 · 15:15–15:45",
+  // Day 2 slots
+  7: "Day 2 · 09:15–09:45",
+  8: "Day 2 · 09:45–10:15",
+  9: "Day 2 · 10:30–11:00",
+  10: "Day 2 · 11:00–11:30",
+  11: "Day 2 · 13:30–14:00",
+  12: "Day 2 · 14:00–14:30",
 };
 
 export default function DelegateOverview() {
@@ -84,7 +92,7 @@ export default function DelegateOverview() {
             delegate.totalMeetings.toString(),
             meeting.sponsorName,
             meeting.timeSlot ? TIME_SLOT_LABELS[meeting.timeSlot] || `Slot ${meeting.timeSlot}` : "Unassigned",
-            meeting.attendeeNumber ? `Attendee ${meeting.attendeeNumber}` : "",
+            meeting.sponsorRepName || (meeting.attendeeNumber ? `Attendee ${meeting.attendeeNumber}` : ""),
             meeting.matchScore ? `${meeting.matchScore}%` : ""
           ]);
         });
@@ -461,9 +469,9 @@ export default function DelegateOverview() {
                             </div>
                           </div>
                           <div className="flex items-center gap-2">
-                            {meeting.attendeeNumber && (
+                            {(meeting.sponsorRepName || meeting.attendeeNumber) && (
                               <Badge className="bg-blue-500/20 text-blue-300 border-blue-500/30">
-                                Attendee {meeting.attendeeNumber}
+                                {meeting.sponsorRepName || `Attendee ${meeting.attendeeNumber}`}
                               </Badge>
                             )}
                             {meeting.matchScore && (
