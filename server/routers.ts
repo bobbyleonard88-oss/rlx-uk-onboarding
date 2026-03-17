@@ -1410,8 +1410,8 @@ export const appRouter = router({
         const uniqueDelegates = new Set(allMeetings.map(m => m.attendeeId));
         const delegatesBooked = uniqueDelegates.size;
         
-        // Calculate average utilization (meetings per delegate / max 6 = 2/hr × 3hrs/day × 2 days)
-        const MAX_MEETINGS_PER_DELEGATE = 6;
+        // Calculate average utilization (meetings per delegate / max 8)
+        const MAX_MEETINGS_PER_DELEGATE = 8;
         const delegateMeetingCounts = new Map<string, number>();
         for (const meeting of allMeetings) {
           delegateMeetingCounts.set(

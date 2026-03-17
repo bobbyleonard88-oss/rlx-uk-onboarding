@@ -183,6 +183,102 @@ export default function DelegateOverview() {
           </CardHeader>
         </Card>
 
+        {/* Capacity Overview */}
+        {overview && overview.length > 0 && (() => {
+          const totalDelegates = overview.length;
+          const atCapacity = overview.filter(d => d.totalMeetings >= 8).length;
+          const available = overview.filter(d => d.totalMeetings < 8).length;
+          const totalMeetings = overview.reduce((s, d) => s + d.totalMeetings, 0);
+          const totalCapacity = totalDelegates * 8;
+          const utilPct = Math.round((totalMeetings / totalCapacity) * 100);
+          const avgMeetings = (totalMeetings / totalDelegates).toFixed(1);
+          return (
+            <Card className="glass-card border-slate-700">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-white text-lg flex items-center gap-2">
+                  <Calendar className="w-5 h-5 text-accent" />
+                  Delegate Capacity Overview
+                </CardTitle>
+                <CardDescription className="text-slate-400">
+                  {totalMeetings} meetings assigned across {totalDelegates} delegates — {utilPct}% of total capacity used
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {/* Summary stats row */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+                  <div className="bg-slate-800/60 rounded-lg p-3 text-center">
+                    <div className="text-2xl font-bold text-white">{totalMeetings}</div>
+                    <div className="text-xs text-slate-400 mt-1">Total Meetings</div>
+                  </div>
+                  <div className="bg-slate-800/60 rounded-lg p-3 text-center">
+                    <div className="text-2xl font-bold text-white">{totalCapacity - totalMeetings}</div>
+                    <div className="text-xs text-slate-400 mt-1">Remaining Slots</div>
+                  </div>
+                  <div className="bg-slate-800/60 rounded-lg p-3 text-center">
+                    <div className="text-2xl font-bold text-yellow-300">{atCapacity}</div>
+                    <div className="text-xs text-slate-400 mt-1">At Capacity (8/8)</div>
+                  </div>
+                  <div className="bg-slate-800/60 rounded-lg p-3 text-center">
+                    <div className="text-2xl font-bold text-green-300">{available}</div>
+                    <div className="text-xs text-slate-400 mt-1">Have Capacity Left</div>
+                  </div>
+                </div>
+
+                {/* Overall utilization bar */}
+                <div className="mb-5">
+                  <div className="flex justify-between text-xs text-slate-400 mb-1">
+                    <span>Overall Capacity Used</span>
+                    <span>{totalMeetings} / {totalCapacity} slots ({utilPct}%)</span>
+                  </div>
+                  <div className="w-full bg-slate-700 rounded-full h-3">
+                    <div
+                      className="h-3 rounded-full transition-all"
+                      style={{
+                        width: `${Math.min(utilPct, 100)}%`,
+                        background: utilPct >= 90 ? '#f59e0b' : utilPct >= 70 ? '#8b5cf6' : '#10b981'
+                      }}
+                    />
+                  </div>
+                </div>
+
+                {/* Per-delegate capacity bars — compact grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-2">
+                  {[...overview]
+                    .sort((a, b) => b.totalMeetings - a.totalMeetings)
+                    .map(delegate => {
+                      const pct = Math.min((delegate.totalMeetings / 8) * 100, 100);
+                      const barColor = delegate.totalMeetings >= 8
+                        ? 'bg-yellow-400'
+                        : delegate.totalMeetings >= 6
+                        ? 'bg-purple-400'
+                        : delegate.totalMeetings >= 3
+                        ? 'bg-blue-400'
+                        : 'bg-green-400';
+                      return (
+                        <div key={delegate.delegateId} className="flex items-center gap-2">
+                          <div className="w-28 shrink-0 text-right">
+                            <span className="text-xs text-slate-300 truncate block">
+                              {delegate.delegateName.split(' ')[0]} {delegate.delegateName.split(' ').slice(-1)[0]}
+                            </span>
+                          </div>
+                          <div className="flex-1 bg-slate-700 rounded-full h-2">
+                            <div
+                              className={`h-2 rounded-full transition-all ${barColor}`}
+                              style={{ width: `${pct}%` }}
+                            />
+                          </div>
+                          <span className="text-xs text-slate-400 w-8 shrink-0">
+                            {delegate.totalMeetings}/8
+                          </span>
+                        </div>
+                      );
+                    })}
+                </div>
+              </CardContent>
+            </Card>
+          );
+        })()}
+
         {/* Search and Filters */}
         <Card className="glass-card border-slate-700">
           <CardContent className="pt-6">

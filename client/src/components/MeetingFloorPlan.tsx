@@ -111,7 +111,7 @@ export default function MeetingFloorPlan({ includeTestAccounts = false }: Meetin
 
   const renderRound = (slot: typeof round1Slot, roundLabel: string) => {
     if (!slot) return null;
-    const activeTables = slot.meetings.length;
+    const activeTables = new Set(slot.meetings.map(m => m.sponsorId)).size;
     return (
       <div className="flex-1 min-w-0">
         {/* Round header */}
