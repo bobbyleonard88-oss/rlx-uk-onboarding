@@ -179,7 +179,8 @@ async function startServer() {
         res.cookie('admin_restore_token', adminToken, { ...cookieOptions, maxAge: 60 * 60 * 1000 });
       }
       // Store impersonation flag so the UI can show the Return to Admin banner
-      res.cookie('is_impersonating', '1', { ...cookieOptions, maxAge: 60 * 60 * 1000 });
+      // Must NOT be httpOnly so the frontend JS can read it to show the banner
+      res.cookie('is_impersonating', '1', { ...cookieOptions, httpOnly: false, maxAge: 60 * 60 * 1000 });
       res.redirect(302, '/dashboard');
     } catch (error) {
       console.error('[Impersonate] Error:', error);
@@ -207,7 +208,7 @@ async function startServer() {
       }
       // Clear impersonation cookies
       res.clearCookie('admin_restore_token', cookieOptions);
-      res.clearCookie('is_impersonating', cookieOptions);
+      res.clearCookie('is_impersonating', { ...cookieOptions, httpOnly: false });
       res.redirect(302, '/admin');
     } catch (error) {
       console.error('[Impersonate Exit] Error:', error);

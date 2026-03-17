@@ -1379,3 +1379,4 @@
 - [x] Update Day 3 time slot labels (slots 7-12) across all files: 10:30-11:30, 13:15-14:15, 14:30-15:30
 - [x] Update agenda page Day 3 concurrent meeting blocks to match correct times
 - [x] Generate and save AI match scores and reasons for Jon Warwick (Sky) and Alan MacKinnon (Smith + Nephew) against SHL
+- [x] Add direct exit URL to impersonation banner so admins can click back to admin portal
