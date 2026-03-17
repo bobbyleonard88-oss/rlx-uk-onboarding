@@ -1,0 +1,8 @@
+{
+  "query": "\nSELECT \n  m.id,\n  m.sponsorId,\n  sp.companyName as sponsorName,\n  sp.attendee1Id,\n  sp.attendee2Id,\n  m.attendeeId,\n  m.timeSlot,\n  m.matchScore,\n  m.delegateId\nFROM meetings m\nJOIN sponsors sp ON m.sponsorId = sp.id\nORDER BY m.sponsorId, m.timeSlot\nLIMIT 300;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT \n  m.id,\n  m.sponsorId,\n  sp.companyName as sponsorName,\n  sp.attendee1Id,\n  sp.attendee2Id,\n  m.attendeeId,\n  m.timeSlot,\n  m.matchScore,\n  m.delegateId\nFROM meetings m\nJOIN sponsors sp ON m.sponsorId = sp.id\nORDER BY m.sponsorId, m.timeSlot\nLIMIT 300;\n",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 2: Unknown column 'sp.attendee1id' in 'field list'"
+  ]
+}

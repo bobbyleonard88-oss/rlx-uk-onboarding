@@ -1,0 +1,8 @@
+{
+  "query": "\nSELECT \n  m.id,\n  m.sponsorId,\n  s.name as sponsorName,\n  s.attendee1Id,\n  s.attendee2Id,\n  m.attendeeId,\n  m.attendeeUserId,\n  m.timeSlot,\n  m.matchScore,\n  m.delegateId\nFROM meetings m\nJOIN sponsors s ON m.sponsorId = s.id\nWHERE s.isVisible = 1\nORDER BY m.sponsorId, m.timeSlot;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT \n  m.id,\n  m.sponsorId,\n  s.name as sponsorName,\n  s.attendee1Id,\n  s.attendee2Id,\n  m.attendeeId,\n  m.attendeeUserId,\n  m.timeSlot,\n  m.matchScore,\n  m.delegateId\nFROM meetings m\nJOIN sponsors s ON m.sponsorId = s.id\nWHERE s.isVisible = 1\nORDER BY m.sponsorId, m.timeSlot;\n",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 2: Unknown column 's.isvisible' in 'where clause'"
+  ]
+}

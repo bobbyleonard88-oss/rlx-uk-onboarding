@@ -1410,3 +1410,10 @@
 
 ## Match Reason Opt-in Language Fix (March 2026)
 - [x] Remove any mention of opt-in to another sponsor from match reason text — reasons should only explain fit for that specific sponsor
+
+## Schedule Rearrangement (March 2026)
+- [ ] Save checkpoint before applying slot changes
+- [ ] Apply 49 optimised slot changes to database
+- [ ] Re-check sponsor rep assignments for Harver, Appcast, SHL after rearrangement
+- [ ] Verify new overlap rates match expected results
+- [ ] Save checkpoint and publish
