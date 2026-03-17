@@ -1,6 +1,6 @@
 import { desc, eq, and, sql, ne } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users, sponsors, InsertSponsor, rankingsSubmissions, InsertRankingsSubmission, vendorProfiles, InsertVendorProfile, delegateProfiles, InsertDelegateProfile, priorityTags, InsertPriorityTag, meetings, InsertMeeting, intakeSubmissions, InsertIntakeSubmission, matchCache, InsertMatchCache, adminActivityLog, InsertAdminActivityLog } from "../drizzle/schema";
+import { InsertUser, users, sponsors, InsertSponsor, rankingsSubmissions, InsertRankingsSubmission, vendorProfiles, InsertVendorProfile, delegateProfiles, InsertDelegateProfile, priorityTags, InsertPriorityTag, meetings, InsertMeeting, intakeSubmissions, InsertIntakeSubmission, matchCache, InsertMatchCache, adminActivityLog, InsertAdminActivityLog, sponsorActivityLog, InsertSponsorActivityLog } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -752,4 +752,73 @@ export async function getRankingsSubmissionById(id: number) {
     .where(eq(rankingsSubmissions.id, id))
     .limit(1);
   return results[0] || null;
+}
+
+// ─── Sponsor Activity Log ────────────────────────────────────────────────────
+
+export async function logSponsorActivity(entry: InsertSponsorActivityLog): Promise<void> {
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(sponsorActivityLog).values(entry);
+}
+
+export async function getSponsorActivityLog(sponsorId: number, limit = 50) {
+  const db = await getDb();
+  if (!db) return [];
+  return await db
+    .select()
+    .from(sponsorActivityLog)
+    .where(eq(sponsorActivityLog.sponsorId, sponsorId))
+    .orderBy(desc(sponsorActivityLog.createdAt))
+    .limit(limit);
+}
+
+export async function getAllSponsorActivityLog(limit = 500) {
+  const db = await getDb();
+  if (!db) return [];
+  return await db
+    .select({
+      id: sponsorActivityLog.id,
+      sponsorId: sponsorActivityLog.sponsorId,
+      userId: sponsorActivityLog.userId,
+      eventType: sponsorActivityLog.eventType,
+      downloadType: sponsorActivityLog.downloadType,
+      downloadLabel: sponsorActivityLog.downloadLabel,
+      createdAt: sponsorActivityLog.createdAt,
+      companyName: sponsors.companyName,
+      contactName: sponsors.contactName,
+    })
+    .from(sponsorActivityLog)
+    .leftJoin(sponsors, eq(sponsorActivityLog.sponsorId, sponsors.id))
+    .orderBy(desc(sponsorActivityLog.createdAt))
+    .limit(limit);
+}
+
+export async function getLastLoginBySponsor(): Promise<{ sponsorId: number; companyName: string; lastLogin: Date | null }[]> {
+  const db = await getDb();
+  if (!db) return [];
+  // Get all sponsors with their last login event
+  const allSponsors = await db.select().from(sponsors);
+  const logins = await db
+    .select({
+      sponsorId: sponsorActivityLog.sponsorId,
+      lastLogin: sql<Date>`MAX(${sponsorActivityLog.createdAt})`,
+    })
+    .from(sponsorActivityLog)
+    .where(eq(sponsorActivityLog.eventType, 'login'))
+    .groupBy(sponsorActivityLog.sponsorId);
+
+  const loginMap = new Map(logins.map(l => [l.sponsorId, l.lastLogin]));
+  return allSponsors.map(s => ({
+    sponsorId: s.id,
+    companyName: s.companyName,
+    lastLogin: loginMap.get(s.id) ?? null,
+  }));
+}
+
+export async function getUserById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.select().from(users).where(eq(users.id, id)).limit(1);
+  return result[0] ?? null;
 }

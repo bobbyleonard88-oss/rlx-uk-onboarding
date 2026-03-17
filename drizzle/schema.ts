@@ -230,3 +230,19 @@ export const adminActivityLog = mysqlTable("adminActivityLog", {
 
 export type AdminActivityLog = typeof adminActivityLog.$inferSelect;
 export type InsertAdminActivityLog = typeof adminActivityLog.$inferInsert;
+
+/**
+ * Sponsor Activity Log - tracks sponsor logins and CSV downloads
+ */
+export const sponsorActivityLog = mysqlTable("sponsorActivityLog", {
+  id: int("id").autoincrement().primaryKey(),
+  sponsorId: int("sponsorId").notNull(), // Link to sponsors table
+  userId: int("userId").notNull(), // Link to users table
+  eventType: mysqlEnum("eventType", ["login", "download"]).notNull(),
+  downloadType: varchar("downloadType", { length: 128 }), // e.g. "schedule_csv", "all_profiles_csv", "delegate_profile_csv"
+  downloadLabel: varchar("downloadLabel", { length: 255 }), // Human-readable description
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type SponsorActivityLog = typeof sponsorActivityLog.$inferSelect;
+export type InsertSponsorActivityLog = typeof sponsorActivityLog.$inferInsert;

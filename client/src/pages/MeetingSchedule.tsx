@@ -52,6 +52,9 @@ export default function MeetingSchedule() {
     undefined,
     { enabled: !!user }
   );
+
+  // Track activity
+  const trackActivity = trpc.sponsor.trackActivity.useMutation();
   
   // Get sponsor data for current user
   const { data: sponsor } = trpc.sponsor.getProfile.useQuery(
@@ -154,37 +157,46 @@ export default function MeetingSchedule() {
     </html>
   `;
 
-  const downloadDelegateProfile = async (attendeeId: string, _format: 'pdf' | 'individual') => {
+  const downloadDelegateProfileCSV = (attendeeId: string) => {
     const delegate = attendees.find(a => a.id === attendeeId);
     if (!delegate) {
       toast.error("Delegate not found");
       return;
     }
-    const htmlContent = buildDelegatePdfHtml(delegate);
-    try {
-      const response = await fetch('/api/generate-pdf', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({
-          html: htmlContent,
-          filename: `${delegate.firstName}_${delegate.lastName}_Profile`,
-        }),
-      });
-      if (!response.ok) throw new Error('PDF generation failed');
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${delegate.firstName}_${delegate.lastName}_Profile.pdf`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      window.URL.revokeObjectURL(url);
-    } catch (err) {
-      console.error('PDF download error:', err);
-      toast.error('PDF generation failed. Please try again.');
-    }
+    const headers = ['Name', 'Job Title', 'Company', 'Industry', 'Employees', 'Regions', 'Budget Authority', 'Active Project Budget', 'Sign-off Authority', 'Project Stage', 'Active Projects', 'Meeting Objective', 'Pain Points', 'Solution Areas', 'ATS', 'CRM', 'Assessment Tools', 'Talent Intelligence', 'Other Tools'];
+    const row = [
+      `${delegate.firstName} ${delegate.lastName}`,
+      delegate.jobTitle || '',
+      delegate.company || '',
+      delegate.industry || '',
+      delegate.companySize || '',
+      delegate.regionalRemit || '',
+      delegate.budgetAuthority || '',
+      (delegate as any).activeBudgetRange || '',
+      (delegate as any).contractSignOff || '',
+      (delegate as any).currentProjectStage || '',
+      (delegate as any).activeConfirmedProjects || '',
+      (delegate as any).primaryMeetingObjective || '',
+      (delegate as any).currentPainPoints || '',
+      (delegate as any).keySolutionAreasOfInterest || '',
+      (delegate as any).ats || '',
+      (delegate as any).crm || '',
+      (delegate as any).assessmentTool || '',
+      (delegate as any).marketIntelligence || '',
+      (delegate as any).otherTools || '',
+    ].map(cell => `"${String(cell).replace(/"/g, '""')}"`);
+    const csvContent = [headers.map(h => `"${h}"`).join(','), row.join(',')].join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${delegate.firstName}_${delegate.lastName}_Profile.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    toast.success(`${delegate.firstName} ${delegate.lastName}'s profile downloaded`);
+    trackActivity.mutate({ eventType: 'download', downloadType: 'delegate_profile_csv', downloadLabel: `${delegate.firstName} ${delegate.lastName} Profile CSV` });
   };
 
   const downloadAllProfilesPDF = async () => {
@@ -345,6 +357,7 @@ export default function MeetingSchedule() {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
     toast.success('Meeting schedule downloaded');
+    trackActivity.mutate({ eventType: 'download', downloadType: 'schedule_csv', downloadLabel: 'Meeting Schedule CSV' });
   };
 
   const downloadAllProfilesCSV = () => {
@@ -388,6 +401,7 @@ export default function MeetingSchedule() {
     a.download = `${sponsor?.companyName || 'RLX'}_Delegate_Profiles.csv`;
     a.click();
     URL.revokeObjectURL(url);
+    trackActivity.mutate({ eventType: 'download', downloadType: 'all_profiles_csv', downloadLabel: 'All Delegate Profiles CSV' });
   };
 
   if (loading || isLoading) {
@@ -493,10 +507,6 @@ export default function MeetingSchedule() {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
-                    <DropdownMenuItem onClick={downloadAllProfilesPDF}>
-                      <FileText className="w-4 h-4 mr-2" />
-                      Download as PDF
-                    </DropdownMenuItem>
                     <DropdownMenuItem onClick={downloadAllProfilesCSV}>
                       <Download className="w-4 h-4 mr-2" />
                       Download as CSV
@@ -597,8 +607,9 @@ export default function MeetingSchedule() {
                                       </Button>
                                     </DropdownMenuTrigger>
                                     <DropdownMenuContent align="end">
-                                      <DropdownMenuItem onClick={() => downloadDelegateProfile(delegate.id, 'pdf')}>
-                                        Download as PDF
+                                      <DropdownMenuItem onClick={() => downloadDelegateProfileCSV(delegate.id)}>
+                                        <Download className="w-4 h-4 mr-2" />
+                                        Download CSV
                                       </DropdownMenuItem>
                                     </DropdownMenuContent>
                                   </DropdownMenu>
@@ -691,9 +702,9 @@ export default function MeetingSchedule() {
                                       </Button>
                                     </DropdownMenuTrigger>
                                     <DropdownMenuContent>
-                                      <DropdownMenuItem onClick={() => downloadDelegateProfile(delegate.id, 'pdf')}>
-                                        <FileText className="w-4 h-4 mr-2" />
-                                        Download PDF
+                                      <DropdownMenuItem onClick={() => downloadDelegateProfileCSV(delegate.id)}>
+                                        <Download className="w-4 h-4 mr-2" />
+                                        Download CSV
                                       </DropdownMenuItem>
                                     </DropdownMenuContent>
                                   </DropdownMenu>
@@ -803,8 +814,9 @@ export default function MeetingSchedule() {
                                           </Button>
                                         </DropdownMenuTrigger>
                                         <DropdownMenuContent align="end">
-                                          <DropdownMenuItem onClick={() => downloadDelegateProfile(delegate.id, 'pdf')}>
-                                            Download as PDF
+                                          <DropdownMenuItem onClick={() => downloadDelegateProfileCSV(delegate.id)}>
+                                            <Download className="w-4 h-4 mr-2" />
+                                            Download CSV
                                           </DropdownMenuItem>
                                         </DropdownMenuContent>
                                       </DropdownMenu>
@@ -896,8 +908,9 @@ export default function MeetingSchedule() {
                                           </Button>
                                         </DropdownMenuTrigger>
                                         <DropdownMenuContent align="end">
-                                          <DropdownMenuItem onClick={() => downloadDelegateProfile(delegate.id, 'pdf')}>
-                                            Download as PDF
+                                          <DropdownMenuItem onClick={() => downloadDelegateProfileCSV(delegate.id)}>
+                                            <Download className="w-4 h-4 mr-2" />
+                                            Download CSV
                                           </DropdownMenuItem>
                                         </DropdownMenuContent>
                                       </DropdownMenu>

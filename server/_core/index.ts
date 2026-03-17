@@ -133,6 +133,49 @@ async function startServer() {
 
   // OAuth callback under /api/oauth/callback
   registerOAuthRoutes(app);
+
+  // Admin impersonation endpoint — generates a short-lived session for a target user
+  // Only callable by admins (verified server-side via the impersonation token)
+  app.get('/api/impersonate', async (req, res) => {
+    try {
+      const token = typeof req.query.token === 'string' ? req.query.token : null;
+      if (!token) {
+        res.status(400).json({ error: 'Missing token' });
+        return;
+      }
+      // Verify the impersonation token (short-lived JWT signed with JWT_SECRET)
+      const { jwtVerify } = await import('jose');
+      const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'fallback-secret');
+      const { payload } = await jwtVerify(token, secret, { algorithms: ['HS256'] });
+      const targetOpenId = payload.targetOpenId as string;
+      const isImpersonation = payload.impersonation as boolean;
+      if (!targetOpenId || !isImpersonation) {
+        res.status(400).json({ error: 'Invalid impersonation token' });
+        return;
+      }
+      // Get target user
+      const targetUser = await (await import('../db')).getUserByOpenId(targetOpenId);
+      if (!targetUser) {
+        res.status(404).json({ error: 'Target user not found' });
+        return;
+      }
+      // Create a session token for the target user
+      const { sdk } = await import('./sdk');
+      const sessionToken = await sdk.createSessionToken(targetOpenId, {
+        name: targetUser.name || '',
+        expiresInMs: 60 * 60 * 1000, // 1 hour impersonation session
+      });
+      const { getSessionCookieOptions } = await import('./cookies');
+      const { COOKIE_NAME } = await import('@shared/const');
+      const cookieOptions = getSessionCookieOptions(req);
+      res.cookie(COOKIE_NAME, sessionToken, { ...cookieOptions, maxAge: 60 * 60 * 1000 });
+      res.redirect(302, '/dashboard');
+    } catch (error) {
+      console.error('[Impersonate] Error:', error);
+      res.status(401).json({ error: 'Invalid or expired impersonation token' });
+    }
+  });
+
   // tRPC API
   app.use(
     "/api/trpc",

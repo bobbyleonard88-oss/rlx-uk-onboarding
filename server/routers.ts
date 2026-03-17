@@ -92,6 +92,26 @@ export const appRouter = router({
       if (!sponsor) return null;
       return await db.getIntakeSubmissionBySponsor(sponsor.id);
     }),
+
+    // Track sponsor activity (login or download)
+    trackActivity: protectedProcedure
+      .input(z.object({
+        eventType: z.enum(['login', 'download']),
+        downloadType: z.string().optional(),
+        downloadLabel: z.string().optional(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        const sponsor = await db.getSponsorByUserId(ctx.user.id);
+        if (!sponsor) return { success: false };
+        await db.logSponsorActivity({
+          sponsorId: sponsor.id,
+          userId: ctx.user.id,
+          eventType: input.eventType,
+          downloadType: input.downloadType ?? null,
+          downloadLabel: input.downloadLabel ?? null,
+        });
+        return { success: true };
+      }),
   }),
 
   // Intake form router
@@ -406,6 +426,26 @@ export const appRouter = router({
     getAllUsers: adminProcedure.query(async () => {
       return await db.getAllUsers();
     }),
+
+    // Create a short-lived impersonation token for a target user (admin only)
+    createImpersonationToken: adminProcedure
+      .input(z.object({ targetUserId: z.number() }))
+      .mutation(async ({ ctx, input }) => {
+        const targetUser = await db.getUserById(input.targetUserId);
+        if (!targetUser) throw new Error('User not found');
+        // Sign a short-lived JWT (5 minutes) with the server JWT_SECRET
+        const { SignJWT } = await import('jose');
+        const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'fallback-secret');
+        const token = await new SignJWT({
+          targetOpenId: targetUser.openId,
+          impersonation: true,
+          adminId: ctx.user.id,
+        })
+          .setProtectedHeader({ alg: 'HS256', typ: 'JWT' })
+          .setExpirationTime('5m')
+          .sign(secret);
+        return { token };
+      }),
     
     // Promote user to admin
     promoteToAdmin: adminProcedure
@@ -1751,6 +1791,18 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return await db.getAdminActivityLog(input?.limit ?? 100);
       }),
+
+    // Get sponsor activity log (downloads + logins)
+    getSponsorActivityLog: adminProcedure
+      .input(z.object({ limit: z.number().min(1).max(1000).optional() }).optional())
+      .query(async ({ input }) => {
+        return await db.getAllSponsorActivityLog(input?.limit ?? 500);
+      }),
+
+    // Get last login per sponsor
+    getSponsorLastLogins: adminProcedure.query(async () => {
+      return await db.getLastLoginBySponsor();
+    }),
 
     // Export all submissions: intake data + top 10 ranked priorities per sponsor
     exportAllSubmissions: adminProcedure.query(async () => {

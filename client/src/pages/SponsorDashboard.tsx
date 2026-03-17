@@ -10,6 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { CheckCircle, AlertCircle, FileText, List, LogOut, User, ArrowRight, Calendar, Users } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import AnimatedSection from "@/components/AnimatedSection";
+import { useEffect, useRef } from "react";
 
 export default function SponsorDashboard() {
   const { user, loading } = useAuth({ redirectOnUnauthenticated: true });
@@ -19,6 +20,16 @@ export default function SponsorDashboard() {
   const { data: rankingsSubmission, isLoading: rankingsLoading } = trpc.rankings.myRankingsSubmission.useQuery();
   const { data: meetings = [], isLoading: meetingsLoading } = trpc.sponsor.getMyMeetings.useQuery();
   const { data: submissionStats } = trpc.sponsor.getSubmissionStats.useQuery();
+  const trackActivity = trpc.sponsor.trackActivity.useMutation();
+  const hasTrackedLogin = useRef(false);
+
+  // Track login once per session when user is authenticated
+  useEffect(() => {
+    if (user && !hasTrackedLogin.current) {
+      hasTrackedLogin.current = true;
+      trackActivity.mutate({ eventType: 'login' });
+    }
+  }, [user]);
 
   const hasIntake = !!intakeSubmission;
   const hasRankings = !!rankingsSubmission;
