@@ -84,7 +84,34 @@ export const appRouter = router({
         const hasDelegateOptIn = (delegate?.optInSponsors ?? []).some((s: string) =>
           s.toLowerCase().includes(sponsorNameLower) || sponsorNameLower.includes(s.toLowerCase())
         );
-        return { ...m, hasDelegateOptIn };
+        return {
+          ...m,
+          hasDelegateOptIn,
+          // Full delegate profile fields for meeting schedule display
+          delegateProfile: delegate ? {
+            firstName: delegate.firstName,
+            lastName: delegate.lastName,
+            jobTitle: delegate.jobTitle,
+            company: delegate.company,
+            companySize: delegate.companySize,
+            industry: delegate.industry,
+            teamSize: delegate.teamSize,
+            budgetAuthority: delegate.budgetAuthority,
+            assessmentTool: delegate.assessmentTool,
+            ats: delegate.ats,
+            crm: delegate.crm,
+            marketIntelligence: delegate.marketIntelligence,
+            otherTools: delegate.otherTools,
+            activeConfirmedProjects: delegate.activeConfirmedProjects ?? null,
+            activeBudgetRange: delegate.activeBudgetRange ?? null,
+            primaryMeetingObjective: delegate.primaryMeetingObjective ?? null,
+            contractSignOff: delegate.contractSignOff ?? null,
+            keySolutionAreasOfInterest: delegate.keySolutionAreasOfInterest ?? null,
+            currentPainPoints: delegate.currentPainPoints ?? null,
+            currentProjectStage: delegate.currentProjectStage ?? null,
+            regionalRemit: delegate.regionalRemit ?? null,
+          } : null,
+        };
       });
     }),
     // Get sponsor's own intake (for attendee names on meeting schedule)

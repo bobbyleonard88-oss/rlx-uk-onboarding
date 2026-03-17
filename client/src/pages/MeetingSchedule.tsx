@@ -117,29 +117,27 @@ export default function MeetingSchedule() {
         ${delegate.industry ? `<p><strong>Industry:</strong> ${delegate.industry}</p>` : ''}
         ${delegate.companySize ? `<p><strong>Employees:</strong> ${delegate.companySize}</p>` : ''}
         ${delegate.regionalRemit ? `<p><strong>Regions:</strong> ${delegate.regionalRemit}</p>` : ''}
-        ${delegate.hiresPerYear ? `<p><strong>Annual Hiring Volume:</strong> ${delegate.hiresPerYear}</p>` : ''}
-        ${delegate.decisionLevel ? `<p><strong>Decision Level:</strong> ${delegate.decisionLevel}</p>` : ''}
-        ${delegate.activeProjectBudget ? `<p><strong>Active Project Budget:</strong> ${delegate.activeProjectBudget}</p>` : ''}
+        ${(delegate as any).activeBudgetRange ? `<p><strong>Active Project Budget:</strong> ${(delegate as any).activeBudgetRange}</p>` : ''}
         ${delegate.budgetAuthority ? `<p><strong>Sign-off Authority:</strong> ${delegate.budgetAuthority}</p>` : ''}
       </div>
       <hr/>
       <div class="section">
         <h2>Active Projects and Buying Intent</h2>
         <div class="body">
-          ${delegate.projectStage ? `<p style="margin-bottom:2mm;"><strong>Stage:</strong> ${clean(delegate.projectStage)}</p>` : ''}
-          ${toBullets(delegate.activeProjects)}
-          ${delegate.meetingObjective ? `<p style="margin-top:3mm;"><strong>Meeting Objective:</strong> ${clean(delegate.meetingObjective)}</p>` : ''}
+          ${(delegate as any).currentProjectStage ? `<p style="margin-bottom:2mm;"><strong>Stage:</strong> ${clean((delegate as any).currentProjectStage)}</p>` : ''}
+          ${toBullets((delegate as any).activeConfirmedProjects)}
+          ${(delegate as any).primaryMeetingObjective ? `<p style="margin-top:3mm;"><strong>Meeting Objective:</strong> ${clean((delegate as any).primaryMeetingObjective)}</p>` : ''}
         </div>
       </div>
       <hr/>
       <div class="section">
         <h2>Pain Points and Challenges</h2>
-        <div class="body">${toBullets(delegate.painPoints)}</div>
+        <div class="body">${toBullets((delegate as any).currentPainPoints)}</div>
       </div>
       <hr/>
       <div class="section">
         <h2>Solution Areas of Interest</h2>
-        <div class="body">${toBullets(delegate.solutionAreas)}</div>
+        <div class="body">${toBullets((delegate as any).keySolutionAreasOfInterest)}</div>
       </div>
       <hr/>
       <div class="section">
@@ -147,7 +145,7 @@ export default function MeetingSchedule() {
         <div class="tech-grid">
           <div class="tech-item"><strong>ATS</strong>${clean(delegate.ats)}</div>
           <div class="tech-item"><strong>CRM</strong>${clean(delegate.crm)}</div>
-          <div class="tech-item"><strong>Assessment Tools</strong>${clean(delegate.assessmentTools)}</div>
+          <div class="tech-item"><strong>Assessment Tools</strong>${clean((delegate as any).assessmentTool)}</div>
           <div class="tech-item"><strong>Talent Intelligence</strong>${clean(delegate.marketIntelligence)}</div>
           ${delegate.otherTools ? `<div class="tech-item" style="grid-column:1/-1;"><strong>Other Tools</strong>${clean(delegate.otherTools)}</div>` : ''}
         </div>
@@ -245,31 +243,29 @@ export default function MeetingSchedule() {
               ${delegate.industry ? `<p><strong>Industry:</strong> ${delegate.industry}</p>` : ''}
               ${delegate.companySize ? `<p><strong>Employees:</strong> ${delegate.companySize}</p>` : ''}
               ${delegate.regionalRemit ? `<p><strong>Regions:</strong> ${delegate.regionalRemit}</p>` : ''}
-              ${delegate.hiresPerYear ? `<p><strong>Annual Hiring Volume:</strong> ${delegate.hiresPerYear}</p>` : ''}
-              ${delegate.decisionLevel ? `<p><strong>Decision Level:</strong> ${delegate.decisionLevel}</p>` : ''}
-              ${delegate.activeProjectBudget ? `<p><strong>Active Project Budget:</strong> ${delegate.activeProjectBudget}</p>` : ''}
+              ${(delegate as any).activeBudgetRange ? `<p><strong>Active Project Budget:</strong> ${(delegate as any).activeBudgetRange}</p>` : ''}
               ${delegate.budgetAuthority ? `<p><strong>Sign-off Authority:</strong> ${delegate.budgetAuthority}</p>` : ''}
             </div>
             <hr/>
             <div class="section">
               <h2>Active Projects and Buying Intent</h2>
               <div class="body">
-                ${delegate.projectStage ? `<p style="margin-bottom:2mm;"><strong>Stage:</strong> ${clean(delegate.projectStage)}</p>` : ''}
-                ${toBullets(delegate.activeProjects)}
-                ${delegate.meetingObjective ? `<p style="margin-top:3mm;"><strong>Meeting Objective:</strong> ${clean(delegate.meetingObjective)}</p>` : ''}
+                ${(delegate as any).currentProjectStage ? `<p style="margin-bottom:2mm;"><strong>Stage:</strong> ${clean((delegate as any).currentProjectStage)}</p>` : ''}
+                ${toBullets((delegate as any).activeConfirmedProjects)}
+                ${(delegate as any).primaryMeetingObjective ? `<p style="margin-top:3mm;"><strong>Meeting Objective:</strong> ${clean((delegate as any).primaryMeetingObjective)}</p>` : ''}
               </div>
             </div>
             <hr/>
-            <div class="section"><h2>Pain Points and Challenges</h2><div class="body">${toBullets(delegate.painPoints)}</div></div>
+            <div class="section"><h2>Pain Points and Challenges</h2><div class="body">${toBullets((delegate as any).currentPainPoints)}</div></div>
             <hr/>
-            <div class="section"><h2>Solution Areas of Interest</h2><div class="body">${toBullets(delegate.solutionAreas)}</div></div>
+            <div class="section"><h2>Solution Areas of Interest</h2><div class="body">${toBullets((delegate as any).keySolutionAreasOfInterest)}</div></div>
             <hr/>
             <div class="section">
               <h2>Current Technology Stack</h2>
               <div class="tech-grid">
                 <div class="tech-item"><strong>ATS</strong>${clean(delegate.ats)}</div>
                 <div class="tech-item"><strong>CRM</strong>${clean(delegate.crm)}</div>
-                <div class="tech-item"><strong>Assessment Tools</strong>${clean(delegate.assessmentTools)}</div>
+                <div class="tech-item"><strong>Assessment Tools</strong>${clean((delegate as any).assessmentTool)}</div>
                 <div class="tech-item"><strong>Talent Intelligence</strong>${clean(delegate.marketIntelligence)}</div>
                 ${delegate.otherTools ? `<div class="tech-item" style="grid-column:1/-1;"><strong>Other Tools</strong>${clean(delegate.otherTools)}</div>` : ''}
               </div>
@@ -369,26 +365,24 @@ export default function MeetingSchedule() {
       .map(m => attendees.find(a => a.id === m.attendeeId))
       .filter((d): d is typeof attendees[number] => d !== undefined);
 
-    const headers = ['Name', 'Job Title', 'Company', 'Industry', 'Employees', 'Regions', 'Annual Hiring Volume', 'Decision Level', 'Active Project Budget', 'Sign-off Authority', 'Project Stage', 'Active Projects', 'Meeting Objective', 'Pain Points', 'Solution Areas', 'ATS', 'CRM', 'Assessment Tools', 'Talent Intelligence', 'Other Tools'];
+    const headers = ['Name', 'Job Title', 'Company', 'Industry', 'Employees', 'Regions', 'Active Project Budget', 'Sign-off Authority', 'Project Stage', 'Active Projects', 'Meeting Objective', 'Pain Points', 'Solution Areas', 'ATS', 'CRM', 'Assessment Tools', 'Talent Intelligence', 'Other Tools'];
     const rows = allDelegates.map(d => [
       `${d.firstName} ${d.lastName}`,
       d.jobTitle || '',
       d.company || '',
       d.industry || '',
       d.companySize || '',
-      d.regionalRemit || '',
-      d.hiresPerYear || '',
-      d.decisionLevel || '',
-      d.activeProjectBudget || '',
+      (d as any).regionalRemit || '',
+      (d as any).activeBudgetRange || '',
       d.budgetAuthority || '',
-      clean(d.projectStage),
-      clean(d.activeProjects),
-      clean(d.meetingObjective),
-      clean(d.painPoints),
-      clean(d.solutionAreas),
+      clean((d as any).currentProjectStage),
+      clean((d as any).activeConfirmedProjects),
+      clean((d as any).primaryMeetingObjective),
+      clean((d as any).currentPainPoints),
+      clean((d as any).keySolutionAreasOfInterest),
       clean(d.ats),
       clean(d.crm),
-      clean(d.assessmentTools),
+      clean((d as any).assessmentTool),
       clean(d.marketIntelligence),
       clean(d.otherTools),
     ].map(cell => `"${String(cell).replace(/"/g, '""')}"`));
