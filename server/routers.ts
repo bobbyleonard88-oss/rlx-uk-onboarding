@@ -1565,12 +1565,12 @@ export const appRouter = router({
           { slot: 4, label: 'Day 1 — 14:00–14:30', count: 0 },
           { slot: 5, label: 'Day 1 — 14:45–15:15', count: 0 },
           { slot: 6, label: 'Day 1 — 15:15–15:45', count: 0 },
-          { slot: 7, label: 'Day 2 — 09:15–09:45', count: 0 },
-          { slot: 8, label: 'Day 2 — 09:45–10:15', count: 0 },
-          { slot: 9, label: 'Day 2 — 10:30–11:00', count: 0 },
-          { slot: 10, label: 'Day 2 — 11:00–11:30', count: 0 },
-          { slot: 11, label: 'Day 2 — 13:30–14:00', count: 0 },
-          { slot: 12, label: 'Day 2 — 14:00–14:30', count: 0 },
+          { slot: 7, label: 'Day 3 — 10:30–11:00', count: 0 },
+          { slot: 8, label: 'Day 3 — 11:00–11:30', count: 0 },
+          { slot: 9, label: 'Day 3 — 13:15–13:45', count: 0 },
+          { slot: 10, label: 'Day 3 — 13:45–14:15', count: 0 },
+          { slot: 11, label: 'Day 3 — 14:30–15:00', count: 0 },
+          { slot: 12, label: 'Day 3 — 15:00–15:30', count: 0 },
         ];
         
         for (const meeting of allMeetings) {
@@ -1689,12 +1689,12 @@ export const appRouter = router({
         4:  { day: 1, hour: 2, round: 2, time: '14:00–14:30' },
         5:  { day: 1, hour: 3, round: 1, time: '14:45–15:15' },
         6:  { day: 1, hour: 3, round: 2, time: '15:15–15:45' },
-        7:  { day: 2, hour: 1, round: 1, time: '09:15–09:45' },
-        8:  { day: 2, hour: 1, round: 2, time: '09:45–10:15' },
-        9:  { day: 2, hour: 2, round: 1, time: '10:30–11:00' },
-        10: { day: 2, hour: 2, round: 2, time: '11:00–11:30' },
-        11: { day: 2, hour: 3, round: 1, time: '13:30–14:00' },
-        12: { day: 2, hour: 3, round: 2, time: '14:00–14:30' },
+        7:  { day: 2, hour: 1, round: 1, time: '10:30–11:00' },
+        8:  { day: 2, hour: 1, round: 2, time: '11:00–11:30' },
+        9:  { day: 2, hour: 2, round: 1, time: '13:15–13:45' },
+        10: { day: 2, hour: 2, round: 2, time: '13:45–14:15' },
+        11: { day: 2, hour: 3, round: 1, time: '14:30–15:00' },
+        12: { day: 2, hour: 3, round: 2, time: '15:00–15:30' },
       };
 
       // Group meetings by slot
@@ -1857,12 +1857,12 @@ export const appRouter = router({
           4:  { day: 'Day 2 (Wed 13 May)', time: '14:00–14:30' },
           5:  { day: 'Day 2 (Wed 13 May)', time: '14:45–15:15' },
           6:  { day: 'Day 2 (Wed 13 May)', time: '15:15–15:45' },
-          7:  { day: 'Day 3 (Thu 14 May)', time: '09:15–09:45' },
-          8:  { day: 'Day 3 (Thu 14 May)', time: '09:45–10:15' },
-          9:  { day: 'Day 3 (Thu 14 May)', time: '10:30–11:00' },
-          10: { day: 'Day 3 (Thu 14 May)', time: '11:00–11:30' },
-          11: { day: 'Day 3 (Thu 14 May)', time: '13:30–14:00' },
-          12: { day: 'Day 3 (Thu 14 May)', time: '14:00–14:30' },
+          7:  { day: 'Day 3 (Thu 14 May)', time: '10:30–11:00' },
+          8:  { day: 'Day 3 (Thu 14 May)', time: '11:00–11:30' },
+          9:  { day: 'Day 3 (Thu 14 May)', time: '13:15–13:45' },
+          10: { day: 'Day 3 (Thu 14 May)', time: '13:45–14:15' },
+          11: { day: 'Day 3 (Thu 14 May)', time: '14:30–15:00' },
+          12: { day: 'Day 3 (Thu 14 May)', time: '15:00–15:30' },
         };
 
         const allMeetingsRaw = await db.getAllMeetings();

@@ -1,0 +1,9 @@
+{
+  "query": "\nSELECT \n  attendeeId,\n  timeSlot,\n  COUNT(*) as meeting_count,\n  GROUP_CONCAT(sponsorId ORDER BY sponsorId SEPARATOR ', ') as sponsor_ids,\n  GROUP_CONCAT(id ORDER BY sponsorId SEPARATOR ', ') as meeting_ids\nFROM meetings\nGROUP BY attendeeId, timeSlot\nHAVING COUNT(*) > 1\nORDER BY attendeeId, timeSlot;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT \n  attendeeId,\n  timeSlot,\n  COUNT(*) as meeting_count,\n  GROUP_CONCAT(sponsorId ORDER BY sponsorId SEPARATOR ', ') as sponsor_ids,\n  GROUP_CONCAT(id ORDER BY sponsorId SEPARATOR ', ') as meeting_ids\nFROM meetings\nGROUP BY attendeeId, timeSlot\nHAVING COUNT(*) > 1\nORDER BY attendeeId, timeSlot;\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 363
+}

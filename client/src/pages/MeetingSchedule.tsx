@@ -300,18 +300,18 @@ export default function MeetingSchedule() {
       return;
     }
     const slotLabels: Record<number, string> = {
-      1: 'Day 1 – 10:15–10:45',
-      2: 'Day 1 – 10:45–11:15',
-      3: 'Day 1 – 13:30–14:00',
-      4: 'Day 1 – 14:00–14:30',
-      5: 'Day 1 – 14:45–15:15',
-      6: 'Day 1 – 15:15–15:45',
-      7: 'Day 2 – 09:15–09:45',
-      8: 'Day 2 – 09:45–10:15',
-      9: 'Day 2 – 10:30–11:00',
-      10: 'Day 2 – 11:00–11:30',
-      11: 'Day 2 – 13:30–14:00',
-      12: 'Day 2 – 14:00–14:30',
+      1: 'Day 2 (Wed 13 May) – 10:15–10:45',
+      2: 'Day 2 (Wed 13 May) – 10:45–11:15',
+      3: 'Day 2 (Wed 13 May) – 13:30–14:00',
+      4: 'Day 2 (Wed 13 May) – 14:00–14:30',
+      5: 'Day 2 (Wed 13 May) – 14:45–15:15',
+      6: 'Day 2 (Wed 13 May) – 15:15–15:45',
+      7: 'Day 3 (Thu 14 May) – 10:30–11:00',
+      8: 'Day 3 (Thu 14 May) – 11:00–11:30',
+      9: 'Day 3 (Thu 14 May) – 13:15–13:45',
+      10: 'Day 3 (Thu 14 May) – 13:45–14:15',
+      11: 'Day 3 (Thu 14 May) – 14:30–15:00',
+      12: 'Day 3 (Thu 14 May) – 15:00–15:30',
     };
     const headers = ['Attendee', 'Time Slot', 'Delegate Name', 'Job Title', 'Company', 'Match Score', 'Match Reason'];
     const rows = meetings

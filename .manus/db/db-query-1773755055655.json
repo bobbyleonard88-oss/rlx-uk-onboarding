@@ -1,0 +1,82 @@
+{
+  "query": "\n-- SHL meetings per slot (sponsorId = 750001)\nSELECT timeSlot, COUNT(*) as meeting_count, GROUP_CONCAT(attendeeId ORDER BY attendeeId SEPARATOR ', ') as attendees, GROUP_CONCAT(sponsorRepName ORDER BY attendeeId SEPARATOR ', ') as reps\nFROM meetings\nWHERE sponsorId = 750001\nGROUP BY timeSlot\nORDER BY timeSlot;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \n-- SHL meetings per slot (sponsorId = 750001)\nSELECT timeSlot, COUNT(*) as meeting_count, GROUP_CONCAT(attendeeId ORDER BY attendeeId SEPARATOR ', ') as attendees, GROUP_CONCAT(sponsorRepName ORDER BY attendeeId SEPARATOR ', ') as reps\nFROM meetings\nWHERE sponsorId = 750001\nGROUP BY timeSlot\nORDER BY timeSlot;\n",
+  "rows": [
+    {
+      "timeSlot": "1",
+      "meeting_count": "1",
+      "attendees": "17812226737",
+      "reps": "NULL"
+    },
+    {
+      "timeSlot": "2",
+      "meeting_count": "2",
+      "attendees": "174442448959, 5140258",
+      "reps": "NULL"
+    },
+    {
+      "timeSlot": "3",
+      "meeting_count": "2",
+      "attendees": "8196151, 92353346050",
+      "reps": "NULL"
+    },
+    {
+      "timeSlot": "4",
+      "meeting_count": "2",
+      "attendees": "1076201, 203946652193",
+      "reps": "NULL"
+    },
+    {
+      "timeSlot": "5",
+      "meeting_count": "2",
+      "attendees": "201697440144, 9319401",
+      "reps": "NULL"
+    },
+    {
+      "timeSlot": "6",
+      "meeting_count": "2",
+      "attendees": "194295425320, 195183358360",
+      "reps": "NULL"
+    },
+    {
+      "timeSlot": "7",
+      "meeting_count": "2",
+      "attendees": "9322701, 9477501",
+      "reps": "NULL"
+    },
+    {
+      "timeSlot": "8",
+      "meeting_count": "2",
+      "attendees": "11132851, 122796319563",
+      "reps": "NULL"
+    },
+    {
+      "timeSlot": "9",
+      "meeting_count": "1",
+      "attendees": "12731251",
+      "reps": "NULL"
+    },
+    {
+      "timeSlot": "10",
+      "meeting_count": "2",
+      "attendees": "200923910443, 208415155065",
+      "reps": "NULL"
+    },
+    {
+      "timeSlot": "11",
+      "meeting_count": "2",
+      "attendees": "116903349643, 93176107633",
+      "reps": "NULL"
+    },
+    {
+      "timeSlot": "12",
+      "meeting_count": "2",
+      "attendees": "8713772, 8952301",
+      "reps": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "timeSlot\tmeeting_count\tattendees\treps\n1\t1\t17812226737\tNULL\n2\t2\t174442448959, 5140258\tNULL\n3\t2\t8196151, 92353346050\tNULL\n4\t2\t1076201, 203946652193\tNULL\n5\t2\t201697440144, 9319401\tNULL\n6\t2\t194295425320, 195183358360\tNULL\n7\t2\t9322701, 9477501\tNULL\n8\t2\t11132851, 122796319563\tNULL\n9\t1\t12731251\tNULL\n10\t2\t200923910443, 208415155065\tNULL\n11\t2\t116903349643, 93176107633\tNULL\n12\t2\t8713772, 8952301\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 359
+}
