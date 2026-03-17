@@ -481,16 +481,16 @@ export async function generateMeetingsForSponsor(
   // ─── Sponsor-specific hard exclusions (named existing clients) ───
   // These delegates are NEVER matched to these sponsors regardless of score or opt-in.
   const SPONSOR_HARD_EXCLUSIONS: Record<number, string[]> = {
-    // Appcast (270002)
-    270002: ['4956154','7258470500','200543495570','190937723960','13454401','91889321035','5140258'],
-    // hackajob (540001)
-    540001: ['190937723960','13454401'],
-    // JobSync (840001) — first half of exclusion list only
-    840001: ['17812226737','7258470500','91889321035','190937723960','13454401','12731251'],
-    // SHL (750001) — by company: KPMG, BT, Aon, GSK, Balfour Beatty, SwissRe, Coca-Cola, BusyBees
-    750001: ['76678269091','7258470500','91889321035','13454401','93174643474','200543495570','91862577670','190937723960'],
-    // Stepstone Group (150001)
-    150001: ['17812226737','200543495570','5927642','7258470500'],
+    // Appcast (270002) — existing clients + Adam Binks (KPMG) + Joanna Saunders-Hare (MUFG)
+    270002: ['4956154','7258470500','200543495570','190937723960','13454401','91889321035','5140258','76678269091','203946652193'],
+    // hackajob (540001) — existing clients + Edwin Pene (Red Bull) + Jon Warwick (Sky) + Tush Wijeratne (WPP)
+    540001: ['190937723960','13454401','9477501','1076201','9322701'],
+    // JobSync (840001) — existing clients + Anna Katyal (BMS Group)
+    840001: ['17812226737','7258470500','91889321035','190937723960','13454401','12731251','195183358360'],
+    // SHL (750001) — existing clients + Carly George (AXA) + Sonal Jain (Nissan) + Nikhilesh Mathur (LSEG)
+    750001: ['76678269091','7258470500','91889321035','13454401','93174643474','200543495570','91862577670','190937723960','113145184682','110260566550','191181016455'],
+    // Stepstone Group (150001) — existing clients + Yuliia Zembal (UKRSIBBANK BNP Paribas)
+    150001: ['17812226737','200543495570','5927642','7258470500','128491656706'],
     // The Martec (780001) — named people not currently in attendee list, empty for now
     780001: [],
     // Zinc (300001) — BusyBees Nurseries
@@ -564,6 +564,7 @@ export async function generateMeetingsForSponsor(
     profileData: null,
     optedIn: optInAttendeeIds.has(a.id),
     hasAffinityBoost: affinityAttendeeIds.has(a.id),
+    regionalRemit: a.regionalRemit || '',
     createdAt: new Date(),
     updatedAt: new Date(),
   }));
@@ -711,6 +712,17 @@ export async function generateMeetingsForSponsor(
       // Cross-sponsor affinity bonus: +15 points for delegates who opted in to a related sponsor
       if (hasAffinityBoost && !isOptIn) {
         matchScore = Math.min(100, matchScore + 15);
+      }
+
+      // PerchPeek global business bonus: +20 points for delegates with multi-regional remit
+      // PerchPeek's relocation/mobility product is only relevant to globally-operating businesses
+      if (sponsorId === 450001) {
+        const remit = ((delegate as any).regionalRemit || '').toLowerCase();
+        const isGlobal = remit.includes('other') || // 'Other' = Global in our data
+          (remit.split(',').filter((r: string) => r.trim().length > 0).length >= 3); // 3+ regions = global
+        if (isGlobal) {
+          matchScore = Math.min(100, matchScore + 20);
+        }
       }
       
       // Ensure scores are in reasonable range (minimum 30% for actual meetings)
