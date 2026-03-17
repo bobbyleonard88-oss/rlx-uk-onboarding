@@ -1422,3 +1422,12 @@
 - [x] Verify admin floor plan view reflects new slot assignments correctly
 - [x] Add "Last updated" timestamp to sponsor meeting schedule page
 - [x] Fix Analytics page day headings (Day 2/Day 3 → Day 1/Day 2) and all time slot labels in server routers
+
+## Email Domain-Based Sponsor Matching (March 2026)
+- [x] Fix Kirsten Barnes userId link to Bright Apply sponsor
+- [x] Audit all sponsors for similar userId/contactEmail mismatches (Wilson/Gmail flagged as known exception)
+- [x] Update getSponsorByUserId to fall back to email domain match (derives domain from contactEmail at runtime — no schema change needed)
+- [x] Exclude generic consumer domains (gmail, hotmail, outlook etc.) from domain matching
+- [x] Auto-update userId on first domain match so future lookups are instant
+- [x] All 9 getSponsorByUserId call sites updated to pass userEmail
+- [x] 5 domain matching unit tests written and passing

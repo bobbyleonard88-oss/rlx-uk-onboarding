@@ -30,7 +30,7 @@ export const appRouter = router({
   sponsor: router({
     // Get or create sponsor profile
     getProfile: protectedProcedure.query(async ({ ctx }) => {
-      return await db.getSponsorByUserId(ctx.user.id);
+      return await db.getSponsorByUserId(ctx.user.id, ctx.user.email ?? undefined);
     }),
     
     // Update sponsor profile
@@ -72,7 +72,7 @@ export const appRouter = router({
 
     // Get sponsor's own meetings
     getMyMeetings: protectedProcedure.query(async ({ ctx }) => {
-      const sponsor = await db.getSponsorByUserId(ctx.user.id);
+      const sponsor = await db.getSponsorByUserId(ctx.user.id, ctx.user.email ?? undefined);
       if (!sponsor) return [];
       const allMeetings = await db.getMeetingsBySponsor(sponsor.id);
       // Only return meetings that are visible (published to sponsor AND not hidden by admin)
@@ -116,7 +116,7 @@ export const appRouter = router({
     }),
     // Get sponsor's own intake (for attendee names on meeting schedule)
     getMyIntake: protectedProcedure.query(async ({ ctx }) => {
-      const sponsor = await db.getSponsorByUserId(ctx.user.id);
+      const sponsor = await db.getSponsorByUserId(ctx.user.id, ctx.user.email ?? undefined);
       if (!sponsor) return null;
       return await db.getIntakeSubmissionBySponsor(sponsor.id);
     }),
@@ -129,7 +129,7 @@ export const appRouter = router({
         downloadLabel: z.string().optional(),
       }))
       .mutation(async ({ ctx, input }) => {
-        const sponsor = await db.getSponsorByUserId(ctx.user.id);
+        const sponsor = await db.getSponsorByUserId(ctx.user.id, ctx.user.email ?? undefined);
         if (!sponsor) return { success: false };
         await db.logSponsorActivity({
           sponsorId: sponsor.id,
@@ -146,7 +146,7 @@ export const appRouter = router({
   intake: router({    
     // Get user's intake submission
     getSubmission: protectedProcedure.query(async ({ ctx }) => {
-      const sponsor = await db.getSponsorByUserId(ctx.user.id);
+      const sponsor = await db.getSponsorByUserId(ctx.user.id, ctx.user.email ?? undefined);
       if (!sponsor) return null;
       return await db.getIntakeSubmissionBySponsor(sponsor.id);
     }),
@@ -218,7 +218,7 @@ export const appRouter = router({
   rankings: router({
     // Get user's previous rankings submission
     myRankingsSubmission: protectedProcedure.query(async ({ ctx }) => {
-      const sponsor = await db.getSponsorByUserId(ctx.user.id);
+      const sponsor = await db.getSponsorByUserId(ctx.user.id, ctx.user.email ?? undefined);
       if (!sponsor) return null;
       const submissions = await db.getRankingsSubmissionsBySponsor(sponsor.id);
       return submissions.length > 0 ? submissions[0] : null;
@@ -230,7 +230,7 @@ export const appRouter = router({
       }))
       .mutation(async ({ ctx, input }) => {
         // Get or create sponsor (using minimal info from user profile)
-        let sponsor = await db.getSponsorByUserId(ctx.user.id);
+        let sponsor = await db.getSponsorByUserId(ctx.user.id, ctx.user.email ?? undefined);
         if (!sponsor) {
           // Create a basic sponsor record if it doesn't exist
           const sponsorId = await db.upsertSponsor({
@@ -265,14 +265,14 @@ export const appRouter = router({
 
     // Get user's own submissions
     mySubmissions: protectedProcedure.query(async ({ ctx }) => {
-      const sponsor = await db.getSponsorByUserId(ctx.user.id);
+      const sponsor = await db.getSponsorByUserId(ctx.user.id, ctx.user.email ?? undefined);
       if (!sponsor) return [];
       return await db.getRankingsSubmissionsBySponsor(sponsor.id);
     }),
     
     // Get user's latest rankings (for pre-populating form)
     getLatestRankings: protectedProcedure.query(async ({ ctx }) => {
-      const sponsor = await db.getSponsorByUserId(ctx.user.id);
+      const sponsor = await db.getSponsorByUserId(ctx.user.id, ctx.user.email ?? undefined);
       if (!sponsor) return null;
       const submissions = await db.getRankingsSubmissionsBySponsor(sponsor.id);
       // Return the most recent submission

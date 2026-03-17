@@ -1,0 +1,94 @@
+{
+  "query": "\nSELECT \n  s.id,\n  s.companyName,\n  u.email as linkedUserEmail,\n  s.contactEmail,\n  CASE WHEN SUBSTRING_INDEX(u.email, '@', -1) != SUBSTRING_INDEX(s.contactEmail, '@', -1) THEN 'MISMATCH' ELSE 'OK' END as domainCheck\nFROM sponsors s\nLEFT JOIN users u ON s.userId = u.id\nWHERE s.companyName NOT IN ('AI Limited','Amberjack','Appcast','Bright Apply','Elevate Assess','hackajob','Happydance Careers Websites','Harver','inploi','JobSync','Little Moment','Maki People','NexaTalent Solutions Ltd','PerchPeek','Poetry')\nORDER BY s.companyName;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT \n  s.id,\n  s.companyName,\n  u.email as linkedUserEmail,\n  s.contactEmail,\n  CASE WHEN SUBSTRING_INDEX(u.email, '@', -1) != SUBSTRING_INDEX(s.contactEmail, '@', -1) THEN 'MISMATCH' ELSE 'OK' END as domainCheck\nFROM sponsors s\nLEFT JOIN users u ON s.userId = u.id\nWHERE s.companyName NOT IN ('AI Limited','Amberjack','Appcast','Bright Apply','Elevate Assess','hackajob','Happydance Careers Websites','Harver','inploi','JobSync','Little Moment','Maki People','NexaTalent Solutions Ltd','PerchPeek','Poetry')\nORDER BY s.companyName;\n",
+  "rows": [
+    {
+      "id": "810002",
+      "companyName": "Radancy",
+      "linkedUserEmail": "ross.davies@radancy.com",
+      "contactEmail": "ross.davies@radancy.com",
+      "domainCheck": "OK"
+    },
+    {
+      "id": "240001",
+      "companyName": "Sapia.ai",
+      "linkedUserEmail": "laura@sapia.ai",
+      "contactEmail": "frances@sapia.ai",
+      "domainCheck": "OK"
+    },
+    {
+      "id": "750001",
+      "companyName": "SHL",
+      "linkedUserEmail": "natalie.hall@shl.com",
+      "contactEmail": "amber.harris@shl.com",
+      "domainCheck": "OK"
+    },
+    {
+      "id": "150001",
+      "companyName": "Stepstone Group UK Ltd",
+      "linkedUserEmail": "amardeep.dharwar@stepstone.com",
+      "contactEmail": "luke.mckend@stepstone.com",
+      "domainCheck": "OK"
+    },
+    {
+      "id": "330001",
+      "companyName": "Symphony Talent ",
+      "linkedUserEmail": "craig.barnett@symphonytalent.com",
+      "contactEmail": "craig.barnett@symphonytalent.com",
+      "domainCheck": "OK"
+    },
+    {
+      "id": "510003",
+      "companyName": "Test Sponsor mtgtest-1773757668359",
+      "linkedUserEmail": "NULL",
+      "contactEmail": "test-mtgtest-1773757668359@example.com",
+      "domainCheck": "OK"
+    },
+    {
+      "id": "780001",
+      "companyName": "The Martec",
+      "linkedUserEmail": "nick.thompson@themartec.com",
+      "contactEmail": "nick.thompson@themartec.com",
+      "domainCheck": "OK"
+    },
+    {
+      "id": "360001",
+      "companyName": "Udder",
+      "linkedUserEmail": "alan+rlx@udder.rocks",
+      "contactEmail": "peter@udder.rocks",
+      "domainCheck": "OK"
+    },
+    {
+      "id": "810001",
+      "companyName": "Veremark ",
+      "linkedUserEmail": "dan@veremark.com",
+      "contactEmail": "dan@veremark.com",
+      "domainCheck": "OK"
+    },
+    {
+      "id": "270001",
+      "companyName": "Visibility Test Company",
+      "linkedUserEmail": "NULL",
+      "contactEmail": "visibility-test@example.com",
+      "domainCheck": "OK"
+    },
+    {
+      "id": "870001",
+      "companyName": "Wilson",
+      "linkedUserEmail": "melissa.ruggiero@gmail.com",
+      "contactEmail": "craig.sweeney@wilsonhr.com",
+      "domainCheck": "MISMATCH"
+    },
+    {
+      "id": "300001",
+      "companyName": "Zinc",
+      "linkedUserEmail": "nikki.thompson@zincwork.com",
+      "contactEmail": "patrick@zincwork.com",
+      "domainCheck": "OK"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tcompanyName\tlinkedUserEmail\tcontactEmail\tdomainCheck\n810002\tRadancy\tross.davies@radancy.com\tross.davies@radancy.com\tOK\n240001\tSapia.ai\tlaura@sapia.ai\tfrances@sapia.ai\tOK\n750001\tSHL\tnatalie.hall@shl.com\tamber.harris@shl.com\tOK\n150001\tStepstone Group UK Ltd\tamardeep.dharwar@stepstone.com\tluke.mckend@stepstone.com\tOK\n330001\tSymphony Talent \tcraig.barnett@symphonytalent.com\tcraig.barnett@symphonytalent.com\tOK\n510003\tTest Sponsor mtgtest-1773757668359\tNULL\ttest-mtgtest-1773757668359@example.com\tOK\n780001\tThe Martec\tnick.thompson@themartec.com\tnick.thompson@themartec.com\tOK\n360001\tUdder\talan+rlx@udder.rocks\tpeter@udder.rocks\tOK\n810001\tVeremark \tdan@veremark.com\tdan@veremark.com\tOK\n270001\tVisibility Test Company\tNULL\tvisibility-test@example.com\tOK\n870001\tWilson\tmelissa.ruggiero@gmail.com\tcraig.sweeney@wilsonhr.com\tMISMATCH\n300001\tZinc\tnikki.thompson@zincwork.com\tpatrick@zincwork.com\tOK\n",
+  "stderr": "",
+  "execution_time_ms": 362
+}

@@ -1,0 +1,9 @@
+{
+  "query": "\n-- Find Kristen's user account\nSELECT id, name, email, role, createdAt FROM users WHERE name LIKE '%Kristen%' OR email LIKE '%kristen%' OR email LIKE '%brighton%';\n\n-- Find Brighton Network sponsor\nSELECT id, companyName, userId, contactEmail FROM sponsors WHERE companyName LIKE '%Brighton%' OR contactEmail LIKE '%brighton%';\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \n-- Find Kristen's user account\nSELECT id, name, email, role, createdAt FROM users WHERE name LIKE '%Kristen%' OR email LIKE '%kristen%' OR email LIKE '%brighton%';\n\n-- Find Brighton Network sponsor\nSELECT id, companyName, userId, contactEmail FROM sponsors WHERE companyName LIKE '%Brighton%' OR contactEmail LIKE '%brighton%';\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 428
+}

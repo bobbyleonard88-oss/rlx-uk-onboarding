@@ -1,0 +1,58 @@
+{
+  "query": "\nSELECT \n  timeSlot,\n  COUNT(*) as meeting_count\nFROM meetings\nGROUP BY timeSlot\nORDER BY timeSlot;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT \n  timeSlot,\n  COUNT(*) as meeting_count\nFROM meetings\nGROUP BY timeSlot\nORDER BY timeSlot;\n",
+  "rows": [
+    {
+      "timeSlot": "1",
+      "meeting_count": "23"
+    },
+    {
+      "timeSlot": "2",
+      "meeting_count": "24"
+    },
+    {
+      "timeSlot": "3",
+      "meeting_count": "24"
+    },
+    {
+      "timeSlot": "4",
+      "meeting_count": "23"
+    },
+    {
+      "timeSlot": "5",
+      "meeting_count": "24"
+    },
+    {
+      "timeSlot": "6",
+      "meeting_count": "24"
+    },
+    {
+      "timeSlot": "7",
+      "meeting_count": "24"
+    },
+    {
+      "timeSlot": "8",
+      "meeting_count": "24"
+    },
+    {
+      "timeSlot": "9",
+      "meeting_count": "23"
+    },
+    {
+      "timeSlot": "10",
+      "meeting_count": "23"
+    },
+    {
+      "timeSlot": "11",
+      "meeting_count": "21"
+    },
+    {
+      "timeSlot": "12",
+      "meeting_count": "20"
+    }
+  ],
+  "messages": [],
+  "stdout": "timeSlot\tmeeting_count\n1\t23\n2\t24\n3\t24\n4\t23\n5\t24\n6\t24\n7\t24\n8\t24\n9\t23\n10\t23\n11\t21\n12\t20\n",
+  "stderr": "",
+  "execution_time_ms": 436
+}

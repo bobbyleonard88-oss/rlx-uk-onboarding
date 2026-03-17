@@ -89,13 +89,51 @@ export async function getUserByOpenId(openId: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
+// Domains that should never be used for domain-based sponsor matching
+const GENERIC_EMAIL_DOMAINS = new Set([
+  'gmail.com', 'googlemail.com', 'outlook.com', 'hotmail.com', 'hotmail.co.uk',
+  'yahoo.com', 'yahoo.co.uk', 'icloud.com', 'me.com', 'mac.com',
+  'live.com', 'live.co.uk', 'msn.com', 'protonmail.com', 'proton.me'
+]);
+
 // Sponsor helpers
-export async function getSponsorByUserId(userId: number) {
+// Looks up sponsor by userId first, then falls back to email domain matching.
+// This allows multiple people from the same company to access the same sponsor portal
+// without needing a manual userId re-link every time.
+export async function getSponsorByUserId(userId: number, userEmail?: string) {
   const db = await getDb();
   if (!db) return null;
   
+  // Primary: exact userId match
   const result = await db.select().from(sponsors).where(eq(sponsors.userId, userId)).limit(1);
-  return result.length > 0 ? result[0] : null;
+  if (result.length > 0) return result[0];
+
+  // Fallback: email domain match (skip generic consumer domains)
+  if (userEmail) {
+    const atIndex = userEmail.lastIndexOf('@');
+    if (atIndex !== -1) {
+      const domain = userEmail.slice(atIndex + 1).toLowerCase();
+      if (!GENERIC_EMAIL_DOMAINS.has(domain)) {
+        // Find a sponsor whose contactEmail shares the same domain
+        const allSponsors = await db.select().from(sponsors);
+        const domainMatch = allSponsors.find(s => {
+          if (!s.contactEmail) return false;
+          const sAt = s.contactEmail.lastIndexOf('@');
+          if (sAt === -1) return false;
+          const sDomain = s.contactEmail.slice(sAt + 1).toLowerCase();
+          return sDomain === domain;
+        });
+        if (domainMatch) {
+          console.log(`[Sponsor] Domain match for ${userEmail} → ${domainMatch.companyName} (id: ${domainMatch.id})`);
+          // Auto-update the sponsor's userId to this user so future lookups are instant
+          await db.update(sponsors).set({ userId }).where(eq(sponsors.id, domainMatch.id));
+          return { ...domainMatch, userId };
+        }
+      }
+    }
+  }
+
+  return null;
 }
 
 export async function getSponsorById(sponsorId: number) {

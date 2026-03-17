@@ -1,0 +1,21 @@
+{
+  "query": "\n-- Find Bright Apply sponsor\nSELECT id, companyName, userId, contactEmail FROM sponsors WHERE companyName LIKE '%Bright%';\n\n-- Find Kristen's user account\nSELECT id, name, email, role, createdAt FROM users WHERE name LIKE '%Kristen%' OR name LIKE '%kristen%' OR email LIKE '%kristen%' OR email LIKE '%bright%';\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \n-- Find Bright Apply sponsor\nSELECT id, companyName, userId, contactEmail FROM sponsors WHERE companyName LIKE '%Bright%';\n\n-- Find Kristen's user account\nSELECT id, name, email, role, createdAt FROM users WHERE name LIKE '%Kristen%' OR name LIKE '%kristen%' OR email LIKE '%kristen%' OR email LIKE '%bright%';\n",
+  "rows": [
+    {
+      "id": "390001",
+      "companyName": "Bright Apply",
+      "userId": "4050001",
+      "contactEmail": "kirsten.barnes@brightnetwork.co.uk"
+    }
+  ],
+  "messages": [
+    "id\tname\temail\trole\tcreatedAt",
+    "4050001\tkerry.simmons\tkerry.simmons@brightnetwork.co.uk\tuser\t2026-02-26 09:00:47",
+    "6540021\tadam.moore\tadam.moore@brightnetwork.co.uk\tuser\t2026-03-04 16:39:57",
+    "10650036\tkirsten.barnes\tkirsten.barnes@brightnetwork.co.uk\tuser\t2026-03-17 19:10:11"
+  ],
+  "stdout": "id\tcompanyName\tuserId\tcontactEmail\n390001\tBright Apply\t4050001\tkirsten.barnes@brightnetwork.co.uk\nid\tname\temail\trole\tcreatedAt\n4050001\tkerry.simmons\tkerry.simmons@brightnetwork.co.uk\tuser\t2026-02-26 09:00:47\n6540021\tadam.moore\tadam.moore@brightnetwork.co.uk\tuser\t2026-03-04 16:39:57\n10650036\tkirsten.barnes\tkirsten.barnes@brightnetwork.co.uk\tuser\t2026-03-17 19:10:11\n",
+  "stderr": "",
+  "execution_time_ms": 431
+}
