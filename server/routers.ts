@@ -1512,7 +1512,15 @@ export const appRouter = router({
           allSponsors.map(async (sponsor) => {
             const sponsorMeetings = allMeetings.filter(m => m.sponsorId === sponsor.id);
             const intakeSubmission = await db.getIntakeSubmissionBySponsor(sponsor.id);
-            const totalSlots = intakeSubmission?.meetingPackage === '20' ? 20 : 12;
+            // Use same quota overrides as the matching engine
+            const ANALYTICS_QUOTA_OVERRIDES: Record<number, number> = {
+              450001: 12,  // PerchPeek
+              750001: 24,  // SHL
+              870001: 12,  // Wilson (package says 20, actual is 12)
+              390001: 10,  // Bright Apply (package says 12, actual is 10)
+            };
+            const totalSlots = ANALYTICS_QUOTA_OVERRIDES[sponsor.id] ??
+              (intakeSubmission?.meetingPackage === '20' ? 20 : 12);
             const avgScore = sponsorMeetings.length > 0
               ? sponsorMeetings.reduce((sum, m) => sum + (m.matchScore || 0), 0) / sponsorMeetings.length
               : 0;
