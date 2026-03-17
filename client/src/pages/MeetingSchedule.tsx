@@ -512,412 +512,193 @@ export default function MeetingSchedule() {
           </CardHeader>
         </Card>
 
-        {/* Meeting Schedule by Day - Two Column Layout */}
-        {/* Attendee 1 Schedule */}
+        {/* Meeting Schedule — compact table layout */}
         {hasAttendee2 && (
-          <Card className="glass-card border-slate-700 mb-6">
-            <CardHeader>
-              <CardTitle className="text-white text-2xl flex items-center gap-2">
-                <User className="w-6 h-6 text-accent" />
-                {attendee1Name}'s Schedule
-              </CardTitle>
-              <CardDescription className="text-slate-300">
-                {attendee1Meetings.length} meetings assigned
-              </CardDescription>
-            </CardHeader>
-          </Card>
+          <div className="flex items-center gap-2 mb-2">
+            <User className="w-5 h-5 text-accent" />
+            <h2 className="text-lg font-heading font-semibold text-white">{attendee1Name}'s Schedule</h2>
+            <span className="text-slate-400 text-sm">({attendee1Meetings.length} meetings)</span>
+          </div>
         )}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          {/* Day 1 Column */}
-          <div>
-            <h2 className="text-2xl font-heading font-semibold text-white mb-4 flex items-center gap-2">
-              <Clock className="w-6 h-6 text-accent" />
-              Day 1
-            </h2>
-            <div className="space-y-4">
-              {TIME_SLOTS.filter(ts => ts.day === 1).map(({ slot, label}) => {
-                const slotMeetings = attendee1BySlot[slot] || [];
-                
-                return (
-                  <Card key={slot} className="glass-card border-slate-700">
-                    <CardHeader>
-                      <CardTitle className="text-white text-xl">{label}</CardTitle>
-                      <CardDescription className="text-slate-400">
-                        {slotMeetings.length} meeting{slotMeetings.length !== 1 ? 's' : ''}
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      {(() => {
-                        const meeting = slotMeetings[0];
-                        const staticDelegate = meeting ? attendees.find(a => a.id === meeting.attendeeId) : null;
-                        const delegate = staticDelegate ? { ...staticDelegate, ...(meeting?.delegateProfile || {}) } : null;
-                        return (
-                          <div className="border-2 border-dashed border-slate-600 rounded-lg p-4 min-h-[120px] flex flex-col">
-                            {delegate ? (
-                              <div className="space-y-3">
-                                <div>
-                                  <div className="flex items-center gap-2 mb-2">
-                                    <User className="w-4 h-4 text-accent" />
-                                    <TooltipProvider>
-                                      <Tooltip>
-                                        <TooltipTrigger asChild>
-                                          <span className="font-semibold text-white text-lg cursor-help border-b border-dotted border-slate-500">
-                                            {delegate.firstName} {delegate.lastName}
-                                          </span>
-                                        </TooltipTrigger>
-                                        <TooltipContent className="max-w-xs">
-                                          <p className="text-sm">{meeting.matchReason}</p>
-                                        </TooltipContent>
-                                      </Tooltip>
-                                    </TooltipProvider>
-                                  </div>
-                                  <div className="flex items-center gap-2 text-slate-300 text-sm mb-1">
-                                    <Building2 className="w-3 h-3" />
-                                    {delegate.company}
-                                  </div>
-                                  <div className="text-slate-400 text-sm">{delegate.jobTitle}</div>
-                                </div>
-                                <div className="flex gap-2">
-                                  <Button 
-                                    variant="outline" 
-                                    size="sm" 
-                                    className="flex-1 gap-2"
-                                    onClick={() => {
-                                      setSelectedDelegate(delegate);
-                                      setSelectedMatchReason(meeting.matchReason || undefined);
-                                      setProfileModalOpen(true);
-                                    }}
-                                  >
-                                    <Eye className="w-4 h-4" />
-                                    View Profile
-                                  </Button>
-                                  <DropdownMenu>
-                                    <DropdownMenuTrigger asChild>
-                                      <Button variant="outline" size="sm" className="flex-1 gap-2">
-                                        <Download className="w-4 h-4" />
-                                        <ChevronDown className="w-4 h-4" />
-                                      </Button>
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent align="end">
-                                      <DropdownMenuItem onClick={() => downloadDelegateProfileCSV(delegate.id)}>
-                                        <Download className="w-4 h-4 mr-2" />
-                                        Download CSV
-                                      </DropdownMenuItem>
-                                    </DropdownMenuContent>
-                                  </DropdownMenu>
-                                </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
+          {[1, 2].map(day => (
+            <Card key={day} className="glass-card border-slate-700">
+              <CardHeader className="pb-2 pt-4 px-4">
+                <CardTitle className="text-white text-base flex items-center gap-2">
+                  <Clock className="w-4 h-4 text-accent" />
+                  {day === 1 ? 'Wed 13 May' : 'Thu 14 May'}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="px-2 pb-3 pt-0">
+                <div className="divide-y divide-slate-700/60">
+                  {TIME_SLOTS.filter(ts => ts.day === day).map(({ slot, label }) => {
+                    const meeting = (attendee1BySlot[slot] || [])[0];
+                    const staticDelegate = meeting ? attendees.find(a => a.id === meeting.attendeeId) : null;
+                    const delegate = staticDelegate ? { ...staticDelegate, ...(meeting?.delegateProfile || {}) } : null;
+                    return (
+                      <div key={slot} className="flex items-center gap-3 px-2 py-2.5 hover:bg-slate-800/40 rounded transition-colors">
+                        {/* Time */}
+                        <div className="w-24 shrink-0">
+                          <span className="text-xs font-mono text-accent font-semibold">{label}</span>
+                        </div>
+                        {/* Delegate info */}
+                        <div className="flex-1 min-w-0">
+                          {delegate ? (
+                            <div>
+                              <div className="flex items-center gap-1.5 flex-wrap">
+                                <TooltipProvider>
+                                  <Tooltip>
+                                    <TooltipTrigger asChild>
+                                      <span className="text-sm font-semibold text-white cursor-help leading-tight">
+                                        {delegate.firstName} {delegate.lastName}
+                                      </span>
+                                    </TooltipTrigger>
+                                    <TooltipContent className="max-w-xs">
+                                      <p className="text-sm">{meeting?.matchReason}</p>
+                                    </TooltipContent>
+                                  </Tooltip>
+                                </TooltipProvider>
+                                {meeting?.hasDelegateOptIn && (
+                                  <Badge className="text-[10px] px-1.5 py-0 h-4 bg-green-500/20 text-green-300 border-green-500/40 border">Opt-in</Badge>
+                                )}
+                                {meeting?.matchScore != null && (
+                                  <span className="text-[10px] text-slate-400">{meeting.matchScore}%</span>
+                                )}
                               </div>
-                            ) : (
-                              <div className="flex-1 flex items-center justify-center text-slate-500 text-sm">
-                                No meeting scheduled
+                              <div className="text-xs text-slate-400 truncate leading-tight mt-0.5">
+                                {delegate.company} · {delegate.jobTitle}
                               </div>
-                            )}
+                            </div>
+                          ) : (
+                            <span className="text-xs text-slate-600 italic">No meeting scheduled</span>
+                          )}
+                        </div>
+                        {/* Actions */}
+                        {delegate && (
+                          <div className="flex gap-1 shrink-0">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-7 px-2 text-xs text-slate-300 hover:text-white hover:bg-slate-700"
+                              onClick={() => {
+                                setSelectedDelegate(delegate);
+                                setSelectedMatchReason(meeting?.matchReason || undefined);
+                                setProfileModalOpen(true);
+                              }}
+                            >
+                              <Eye className="w-3.5 h-3.5 mr-1" />
+                              Profile
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-7 px-2 text-xs text-slate-300 hover:text-white hover:bg-slate-700"
+                              onClick={() => downloadDelegateProfileCSV(delegate.id)}
+                            >
+                              <Download className="w-3.5 h-3.5" />
+                            </Button>
                           </div>
-                        );
-                      })()}
-                    </CardContent>
-                  </Card>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Day 2 Column */}
-          <div>
-            <h2 className="text-2xl font-heading font-semibold text-white mb-4 flex items-center gap-2">
-              <Clock className="w-6 h-6 text-accent" />
-              Day 2
-            </h2>
-            <div className="space-y-4">
-              {TIME_SLOTS.filter(ts => ts.day === 2).map(({ slot, label }) => {
-                const slotMeetings = attendee1BySlot[slot] || [];
-                
-                return (
-                  <Card key={slot} className="glass-card border-slate-700">
-                    <CardHeader>
-                      <CardTitle className="text-white text-xl">{label}</CardTitle>
-                      <CardDescription className="text-slate-400">
-                        {slotMeetings.length} meeting{slotMeetings.length !== 1 ? 's' : ''}
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      {(() => {
-                        const meeting = slotMeetings[0];
-                        const staticDelegate = meeting ? attendees.find(a => a.id === meeting.attendeeId) : null;
-                        const delegate = staticDelegate ? { ...staticDelegate, ...(meeting?.delegateProfile || {}) } : null;
-                        return (
-                          <div className="border-2 border-dashed border-slate-600 rounded-lg p-4 min-h-[120px] flex flex-col">
-                            {delegate ? (
-                              <div className="space-y-3">
-                                <div>
-                                  <div className="flex items-center gap-2 mb-2">
-                                    <User className="w-4 h-4 text-accent" />
-                                    <TooltipProvider>
-                                      <Tooltip>
-                                        <TooltipTrigger asChild>
-                                          <span className="font-semibold text-white text-lg cursor-help border-b border-dotted border-slate-500">
-                                            {delegate.firstName} {delegate.lastName}
-                                          </span>
-                                        </TooltipTrigger>
-                                        <TooltipContent className="max-w-xs">
-                                          <p className="text-sm">{meeting.matchReason}</p>
-                                        </TooltipContent>
-                                      </Tooltip>
-                                    </TooltipProvider>
-                                  </div>
-                                  <div className="flex items-center gap-2 text-slate-300 text-sm mb-1">
-                                    <Building2 className="w-3 h-3" />
-                                    <span>{delegate.company}</span>
-                                  </div>
-                                  <div className="text-slate-400 text-sm">{delegate.jobTitle}</div>
-                                </div>
-                                <div className="flex gap-2">
-                                  <Button
-                                    variant="outline"
-                                    size="sm"
-                                    onClick={() => {
-                                      setSelectedDelegate(delegate);
-                                      setSelectedMatchReason(meeting.matchReason || undefined);
-                                      setProfileModalOpen(true);
-                                    }}
-                                    className="flex-1 gap-2"
-                                  >
-                                    <Eye className="w-3 h-3" />
-                                    View Profile
-                                  </Button>
-                                  <DropdownMenu>
-                                    <DropdownMenuTrigger asChild>
-                                      <Button variant="outline" size="sm" className="gap-2">
-                                        <Download className="w-3 h-3" />
-                                        <ChevronDown className="w-3 h-3" />
-                                      </Button>
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent>
-                                      <DropdownMenuItem onClick={() => downloadDelegateProfileCSV(delegate.id)}>
-                                        <Download className="w-4 h-4 mr-2" />
-                                        Download CSV
-                                      </DropdownMenuItem>
-                                    </DropdownMenuContent>
-                                  </DropdownMenu>
-                                </div>
-                              </div>
-                            ) : (
-                              <div className="flex-1 flex items-center justify-center text-slate-500 text-sm">
-                                No meeting scheduled
-                              </div>
-                            )}
-                          </div>
-                        );
-                      })()}
-                    </CardContent>
-                  </Card>
-                );
-              })}
-            </div>
-          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </CardContent>
+            </Card>
+          ))}
         </div>
 
         {/* Attendee 2 Schedule (if 20-meeting package) */}
         {hasAttendee2 && (
           <>
-            <Card className="glass-card border-slate-700 mb-6">
-              <CardHeader>
-                <CardTitle className="text-white text-2xl flex items-center gap-2">
-                  <User className="w-6 h-6 text-accent" />
-                  {attendee2Name}'s Schedule
-                </CardTitle>
-                <CardDescription className="text-slate-300">
-                  {attendee2Meetings.length} meetings assigned
-                </CardDescription>
-              </CardHeader>
-            </Card>
-            
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Day 1 Column */}
-              <div>
-                <h2 className="text-2xl font-heading font-semibold text-white mb-4 flex items-center gap-2">
-                  <Clock className="w-6 h-6 text-accent" />
-                  Day 1
-                </h2>
-                <div className="space-y-4">
-                  {TIME_SLOTS.filter(ts => ts.day === 1).map(({ slot, label}) => {
-                    const slotMeetings = attendee2BySlot[slot] || [];
-                    
-                    return (
-                      <Card key={slot} className="glass-card border-slate-700">
-                        <CardHeader>
-                          <CardTitle className="text-white text-xl">{label}</CardTitle>
-                          <CardDescription className="text-slate-400">
-                            {slotMeetings.length} meeting{slotMeetings.length !== 1 ? 's' : ''}
-                          </CardDescription>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                          {(() => {
-                            const meeting = slotMeetings[0];
-                            const staticDelegate = meeting ? attendees.find(a => a.id === meeting.attendeeId) : null;
-                            const delegate = staticDelegate ? { ...staticDelegate, ...(meeting?.delegateProfile || {}) } : null;
-                            return (
-                              <div className="border-2 border-dashed border-slate-600 rounded-lg p-4 min-h-[120px] flex flex-col">
-                                {delegate ? (
-                                  <div className="space-y-3">
-                                    <div>
-                                      <div className="flex items-center gap-2 mb-2">
-                                        <User className="w-4 h-4 text-accent" />
-                                        <TooltipProvider>
-                                          <Tooltip>
-                                            <TooltipTrigger asChild>
-                                              <span className="font-semibold text-white text-lg cursor-help border-b border-dotted border-slate-500">
-                                                {delegate.firstName} {delegate.lastName}
-                                              </span>
-                                            </TooltipTrigger>
-                                            <TooltipContent className="max-w-xs">
-                                              <p className="text-sm">{meeting.matchReason}</p>
-                                            </TooltipContent>
-                                          </Tooltip>
-                                        </TooltipProvider>
-                                      </div>
-                                      <div className="flex items-center gap-2 text-slate-300 text-sm mb-1">
-                                        <Building2 className="w-3 h-3" />
-                                        {delegate.company}
-                                      </div>
-                                      <div className="text-slate-400 text-sm">{delegate.jobTitle}</div>
-                                    </div>
-                                    <div className="flex gap-2">
-                                      <Button 
-                                        variant="outline" 
-                                        size="sm" 
-                                        className="flex-1 gap-2"
-                                        onClick={() => {
-                                          setSelectedDelegate(delegate);
-                                          setProfileModalOpen(true);
-                                        }}
-                                      >
-                                        <Eye className="w-4 h-4" />
-                                        View Profile
-                                      </Button>
-                                      <DropdownMenu>
-                                        <DropdownMenuTrigger asChild>
-                                          <Button variant="outline" size="sm" className="flex-1 gap-2">
-                                            <Download className="w-4 h-4" />
-                                            <ChevronDown className="w-4 h-4" />
-                                          </Button>
-                                        </DropdownMenuTrigger>
-                                        <DropdownMenuContent align="end">
-                                          <DropdownMenuItem onClick={() => downloadDelegateProfileCSV(delegate.id)}>
-                                            <Download className="w-4 h-4 mr-2" />
-                                            Download CSV
-                                          </DropdownMenuItem>
-                                        </DropdownMenuContent>
-                                      </DropdownMenu>
-                                    </div>
+            <div className="flex items-center gap-2 mt-2 mb-2">
+              <User className="w-5 h-5 text-accent" />
+              <h2 className="text-lg font-heading font-semibold text-white">{attendee2Name}'s Schedule</h2>
+              <span className="text-slate-400 text-sm">({attendee2Meetings.length} meetings)</span>
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              {[1, 2].map(day2 => (
+                <Card key={day2} className="glass-card border-slate-700">
+                  <CardHeader className="pb-2 pt-4 px-4">
+                    <CardTitle className="text-white text-base flex items-center gap-2">
+                      <Clock className="w-4 h-4 text-accent" />
+                      {day2 === 1 ? 'Wed 13 May' : 'Thu 14 May'}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="px-2 pb-3 pt-0">
+                    <div className="divide-y divide-slate-700/60">
+                      {TIME_SLOTS.filter(ts => ts.day === day2).map(({ slot, label }) => {
+                        const meeting = (attendee2BySlot[slot] || [])[0];
+                        const staticDelegate = meeting ? attendees.find(a => a.id === meeting.attendeeId) : null;
+                        const delegate = staticDelegate ? { ...staticDelegate, ...(meeting?.delegateProfile || {}) } : null;
+                        return (
+                          <div key={slot} className="flex items-center gap-3 px-2 py-2.5 hover:bg-slate-800/40 rounded transition-colors">
+                            <div className="w-24 shrink-0">
+                              <span className="text-xs font-mono text-accent font-semibold">{label}</span>
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              {delegate ? (
+                                <div>
+                                  <div className="flex items-center gap-1.5 flex-wrap">
+                                    <TooltipProvider>
+                                      <Tooltip>
+                                        <TooltipTrigger asChild>
+                                          <span className="text-sm font-semibold text-white cursor-help leading-tight">
+                                            {delegate.firstName} {delegate.lastName}
+                                          </span>
+                                        </TooltipTrigger>
+                                        <TooltipContent className="max-w-xs">
+                                          <p className="text-sm">{meeting?.matchReason}</p>
+                                        </TooltipContent>
+                                      </Tooltip>
+                                    </TooltipProvider>
+                                    {meeting?.hasDelegateOptIn && (
+                                      <Badge className="text-[10px] px-1.5 py-0 h-4 bg-green-500/20 text-green-300 border-green-500/40 border">Opt-in</Badge>
+                                    )}
+                                    {meeting?.matchScore != null && (
+                                      <span className="text-[10px] text-slate-400">{meeting.matchScore}%</span>
+                                    )}
                                   </div>
-                                ) : (
-                                  <div className="flex-1 flex items-center justify-center text-slate-500 text-sm">
-                                    No meeting scheduled
+                                  <div className="text-xs text-slate-400 truncate leading-tight mt-0.5">
+                                    {delegate.company} · {delegate.jobTitle}
                                   </div>
-                                )}
+                                </div>
+                              ) : (
+                                <span className="text-xs text-slate-600 italic">No meeting scheduled</span>
+                              )}
+                            </div>
+                            {delegate && (
+                              <div className="flex gap-1 shrink-0">
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  className="h-7 px-2 text-xs text-slate-300 hover:text-white hover:bg-slate-700"
+                                  onClick={() => {
+                                    setSelectedDelegate(delegate);
+                                    setSelectedMatchReason(meeting?.matchReason || undefined);
+                                    setProfileModalOpen(true);
+                                  }}
+                                >
+                                  <Eye className="w-3.5 h-3.5 mr-1" />
+                                  Profile
+                                </Button>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  className="h-7 px-2 text-xs text-slate-300 hover:text-white hover:bg-slate-700"
+                                  onClick={() => downloadDelegateProfileCSV(delegate.id)}
+                                >
+                                  <Download className="w-3.5 h-3.5" />
+                                </Button>
                               </div>
-                            );
-                          })()}
-                        </CardContent>
-                      </Card>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Day 2 Column */}
-              <div>
-                <h2 className="text-2xl font-heading font-semibold text-white mb-4 flex items-center gap-2">
-                  <Clock className="w-6 h-6 text-accent" />
-                  Day 2
-                </h2>
-                <div className="space-y-4">
-                  {TIME_SLOTS.filter(ts => ts.day === 2).map(({ slot, label }) => {
-                    const slotMeetings = attendee2BySlot[slot] || [];
-                    
-                    return (
-                      <Card key={slot} className="glass-card border-slate-700">
-                        <CardHeader>
-                          <CardTitle className="text-white text-xl">{label}</CardTitle>
-                          <CardDescription className="text-slate-400">
-                            {slotMeetings.length} meeting{slotMeetings.length !== 1 ? 's' : ''}
-                          </CardDescription>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                          {(() => {
-                            const meeting = slotMeetings[0];
-                            const staticDelegate = meeting ? attendees.find(a => a.id === meeting.attendeeId) : null;
-                            const delegate = staticDelegate ? { ...staticDelegate, ...(meeting?.delegateProfile || {}) } : null;
-                            return (
-                              <div className="border-2 border-dashed border-slate-600 rounded-lg p-4 min-h-[120px] flex flex-col">
-                                {delegate ? (
-                                  <div className="space-y-3">
-                                    <div>
-                                      <div className="flex items-center gap-2 mb-2">
-                                        <User className="w-4 h-4 text-accent" />
-                                        <TooltipProvider>
-                                          <Tooltip>
-                                            <TooltipTrigger asChild>
-                                              <span className="font-semibold text-white text-lg cursor-help border-b border-dotted border-slate-500">
-                                                {delegate.firstName} {delegate.lastName}
-                                              </span>
-                                            </TooltipTrigger>
-                                            <TooltipContent className="max-w-xs">
-                                              <p className="text-sm">{meeting.matchReason}</p>
-                                            </TooltipContent>
-                                          </Tooltip>
-                                        </TooltipProvider>
-                                      </div>
-                                      <div className="flex items-center gap-2 text-slate-300 text-sm mb-1">
-                                        <Building2 className="w-3 h-3" />
-                                        <span>{delegate.company}</span>
-                                      </div>
-                                      <div className="text-slate-400 text-sm">{delegate.jobTitle}</div>
-                                    </div>
-                                    <div className="flex gap-2">
-                                      <Button
-                                        variant="outline"
-                                        size="sm"
-                                        className="flex-1 gap-2"
-                                        onClick={() => {
-                                          setSelectedDelegate(delegate);
-                                          setProfileModalOpen(true);
-                                        }}
-                                      >
-                                        <Eye className="w-4 h-4" />
-                                        View Profile
-                                      </Button>
-                                      <DropdownMenu>
-                                        <DropdownMenuTrigger asChild>
-                                          <Button variant="outline" size="sm" className="flex-1 gap-2">
-                                            <Download className="w-4 h-4" />
-                                            <ChevronDown className="w-4 h-4" />
-                                          </Button>
-                                        </DropdownMenuTrigger>
-                                        <DropdownMenuContent align="end">
-                                          <DropdownMenuItem onClick={() => downloadDelegateProfileCSV(delegate.id)}>
-                                            <Download className="w-4 h-4 mr-2" />
-                                            Download CSV
-                                          </DropdownMenuItem>
-                                        </DropdownMenuContent>
-                                      </DropdownMenu>
-                                    </div>
-                                  </div>
-                                ) : (
-                                  <div className="flex-1 flex items-center justify-center text-slate-500 text-sm">
-                                    No meeting scheduled
-                                  </div>
-                                )}
-                              </div>
-                            );
-                          })()}
-                        </CardContent>
-                      </Card>
-                    );
-                  })}
-                </div>
-              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
           </>
         )}

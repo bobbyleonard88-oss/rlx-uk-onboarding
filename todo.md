@@ -1388,3 +1388,10 @@
 - [x] Update all 4 setSelectedDelegate calls in MeetingSchedule.tsx to merge server-returned delegateProfile data with static attendees data
 - [x] Fix Day 2 CSV slot labels (11:00-12:00, 13:15-14:15, 14:30-15:30)
 - [x] Verify all 21 sponsors have correct user-account links and published meetings
+
+## Schedule Page Compact Layout (March 2026)
+- [x] Replace per-slot Card components with compact table-style row layout (one card per day)
+- [x] Show time, delegate name/company/title, opt-in badge, match score, and action buttons inline per row
+- [x] Reduce spacing from space-y-4 + CardHeader/CardContent per slot to divide-y rows
+- [x] Apply compact layout to both attendee 1 and attendee 2 schedule sections
+- [x] Confirm admin impersonation banner and "Return to Admin" button working correctly
