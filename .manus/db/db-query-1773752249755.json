@@ -1,0 +1,66 @@
+{
+  "query": "SELECT m.sponsorId, s.companyName, m.timeSlot, m.attendeeNumber, m.matchScore, m.matchReason\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE m.attendeeId = '452351'\nORDER BY m.timeSlot;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT m.sponsorId, s.companyName, m.timeSlot, m.attendeeNumber, m.matchScore, m.matchReason\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE m.attendeeId = '452351'\nORDER BY m.timeSlot;",
+  "rows": [
+    {
+      "sponsorId": "540001",
+      "companyName": "hackajob",
+      "timeSlot": "1",
+      "attendeeNumber": "1",
+      "matchScore": "93",
+      "matchReason": "Delegate opted in to meet hackajob. Delegate aims to 'Improve Quality of Hire' and achieve 'Precision at scale in selection and assessment'. Archer directly supports this by finding and attracting net-new, high-fit candidates and pre-qualifying them, leading to higher quality hires and more precise selection. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "sponsorId": "210001",
+      "companyName": "Harver",
+      "timeSlot": "2",
+      "attendeeNumber": "1",
+      "matchScore": "91",
+      "matchReason": "Delegate opted in to meet Harver. Delegate's pain points include 'Improve Quality of Hire; Precision at scale in selection and assessment; standardisation of process and roles across a huge global TA team'. Harver is the industry-leading hiring solution that helps make confident, skills-based talent decisions, delivering automated, science-based assessments for precision and standardization globally. Note: delegate currently uses bespoke, in-house assessment tools."
+    },
+    {
+      "sponsorId": "600001",
+      "companyName": "Happydance Careers Websites",
+      "timeSlot": "3",
+      "attendeeNumber": "1",
+      "matchScore": "90",
+      "matchReason": "Delegate opted in to meet Happydance Careers Websites. The delegate's pain point 'Improve Quality of Hire' and interest in 'Insight into what tech vendors are offering to inform our own roadmap' aligns with Happydance's promise to 'improve conversion rates, and gain deeper insight into hiring performance' through its careers website platform, which directly impacts quality of hire by attracting the right candidates."
+    },
+    {
+      "sponsorId": "330001",
+      "companyName": "Symphony Talent ",
+      "timeSlot": "4",
+      "attendeeNumber": "1",
+      "matchScore": "90",
+      "matchReason": "Delegate opted in to meet Symphony Talent . Delegate's pain points 'Improve Quality of Hire; Precision at scale in selection and assessment; standardisation of process and roles across a huge global TA team; agile and data led capacity sharing' align with Symphony Talent's 'assessments' and 'data analytics via our proprietary SFX platform' which enables 'optimise performance across the entire hiring journey'. Their need for 'standardisation' and 'precision at scale' aligns with Symphony Talent's integrated ecosystem for 'complex, multi-market organisations'. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "sponsorId": "810002",
+      "companyName": "Radancy",
+      "timeSlot": "7",
+      "attendeeNumber": "1",
+      "matchScore": "90",
+      "matchReason": "Delegate opted in to meet Radancy. Delegate seeks to 'Improve Quality of Hire; Precision at scale in selection and assessment; standardisation of process and roles' → Radancy's 'skills-based matching and automated screening' improve candidate quality, and its unified platform brings consistency to processes. Note: delegate's company size is above Radancy's target."
+    },
+    {
+      "sponsorId": "720001",
+      "companyName": "inploi",
+      "timeSlot": "8",
+      "attendeeNumber": "1",
+      "matchScore": "90",
+      "matchReason": "Delegate opted in to meet inploi. Delegate's pain points 'Precision at scale in selection and assessment' and 'standardisation of process and roles' align with inploi's AI & Automation Layer for assisting and scoring candidates, and its Experience & Engagement Layer for deploying on-brand hiring pages and screening flows."
+    },
+    {
+      "sponsorId": "390001",
+      "companyName": "Bright Apply",
+      "timeSlot": "11",
+      "attendeeNumber": "1",
+      "matchScore": "90",
+      "matchReason": "Delegate opted in to meet Bright Apply. Delegate's pain points 'Improve Quality of Hire; Precision at scale in selection and assessment; standardisation of process and roles' are directly addressed by Bright Apply's chat-based screening tool, which provides a faster, more consistent, and fair way to screen at scale. Note: delegate currently uses All bespoke, in house assessment."
+    }
+  ],
+  "messages": [],
+  "stdout": "sponsorId\tcompanyName\ttimeSlot\tattendeeNumber\tmatchScore\tmatchReason\n540001\thackajob\t1\t1\t93\tDelegate opted in to meet hackajob. Delegate aims to 'Improve Quality of Hire' and achieve 'Precision at scale in selection and assessment'. Archer directly supports this by finding and attracting net-new, high-fit candidates and pre-qualifying them, leading to higher quality hires and more precise selection. (Ranked in sponsor's top 20 preferred delegates)\n210001\tHarver\t2\t1\t91\tDelegate opted in to meet Harver. Delegate's pain points include 'Improve Quality of Hire; Precision at scale in selection and assessment; standardisation of process and roles across a huge global TA team'. Harver is the industry-leading hiring solution that helps make confident, skills-based talent decisions, delivering automated, science-based assessments for precision and standardization globally. Note: delegate currently uses bespoke, in-house assessment tools.\n600001\tHappydance Careers Websites\t3\t1\t90\tDelegate opted in to meet Happydance Careers Websites. The delegate's pain point 'Improve Quality of Hire' and interest in 'Insight into what tech vendors are offering to inform our own roadmap' aligns with Happydance's promise to 'improve conversion rates, and gain deeper insight into hiring performance' through its careers website platform, which directly impacts quality of hire by attracting the right candidates.\n330001\tSymphony Talent \t4\t1\t90\tDelegate opted in to meet Symphony Talent . Delegate's pain points 'Improve Quality of Hire; Precision at scale in selection and assessment; standardisation of process and roles across a huge global TA team; agile and data led capacity sharing' align with Symphony Talent's 'assessments' and 'data analytics via our proprietary SFX platform' which enables 'optimise performance across the entire hiring journey'. Their need for 'standardisation' and 'precision at scale' aligns with Symphony Talent's integrated ecosystem for 'complex, multi-market organisations'. (Ranked in sponsor's top 20 preferred delegates)\n810002\tRadancy\t7\t1\t90\tDelegate opted in to meet Radancy. Delegate seeks to 'Improve Quality of Hire; Precision at scale in selection and assessment; standardisation of process and roles' → Radancy's 'skills-based matching and automated screening' improve candidate quality, and its unified platform brings consistency to processes. Note: delegate's company size is above Radancy's target.\n720001\tinploi\t8\t1\t90\tDelegate opted in to meet inploi. Delegate's pain points 'Precision at scale in selection and assessment' and 'standardisation of process and roles' align with inploi's AI & Automation Layer for assisting and scoring candidates, and its Experience & Engagement Layer for deploying on-brand hiring pages and screening flows.\n390001\tBright Apply\t11\t1\t90\tDelegate opted in to meet Bright Apply. Delegate's pain points 'Improve Quality of Hire; Precision at scale in selection and assessment; standardisation of process and roles' are directly addressed by Bright Apply's chat-based screening tool, which provides a faster, more consistent, and fair way to screen at scale. Note: delegate currently uses All bespoke, in house assessment.\n",
+  "stderr": "",
+  "execution_time_ms": 348
+}

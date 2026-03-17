@@ -1,0 +1,40 @@
+{
+  "query": "SELECT s.id, s.companyName, COUNT(m.id) as currentMeetings \nFROM sponsors s \nLEFT JOIN meetings m ON m.sponsorId = s.id \nWHERE s.companyName IN ('hackajob', 'Happydance', 'Harver', 'Inploi', 'Radancy', 'Bright Apply', 'Symphony Talent')\nGROUP BY s.id, s.companyName\nORDER BY s.companyName;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT s.id, s.companyName, COUNT(m.id) as currentMeetings \nFROM sponsors s \nLEFT JOIN meetings m ON m.sponsorId = s.id \nWHERE s.companyName IN ('hackajob', 'Happydance', 'Harver', 'Inploi', 'Radancy', 'Bright Apply', 'Symphony Talent')\nGROUP BY s.id, s.companyName\nORDER BY s.companyName;",
+  "rows": [
+    {
+      "id": "390001",
+      "companyName": "Bright Apply",
+      "currentMeetings": "10"
+    },
+    {
+      "id": "540001",
+      "companyName": "hackajob",
+      "currentMeetings": "12"
+    },
+    {
+      "id": "210001",
+      "companyName": "Harver",
+      "currentMeetings": "20"
+    },
+    {
+      "id": "720001",
+      "companyName": "inploi",
+      "currentMeetings": "12"
+    },
+    {
+      "id": "810002",
+      "companyName": "Radancy",
+      "currentMeetings": "12"
+    },
+    {
+      "id": "330001",
+      "companyName": "Symphony Talent ",
+      "currentMeetings": "12"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tcompanyName\tcurrentMeetings\n390001\tBright Apply\t10\n540001\thackajob\t12\n210001\tHarver\t20\n720001\tinploi\t12\n810002\tRadancy\t12\n330001\tSymphony Talent \t12\n",
+  "stderr": "",
+  "execution_time_ms": 383
+}

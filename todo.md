@@ -1375,3 +1375,4 @@
 - [x] Ensure Cath Possamai opt-in list is correct (hackajob confirmed, Appcast removed as not opted in)
 - [x] Remove Appcast from Cath Possamai's opt-in list (she did not request it)
 - [x] Update matching algorithm to score opt-in delegates at 90%+ automatically
+- [x] Re-run AI matching for hackajob, Happydance, Harver, Inploi, Radancy, Bright Apply, Symphony Talent with new 90%+ opt-in scoring

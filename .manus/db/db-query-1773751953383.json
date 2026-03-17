@@ -1,0 +1,38 @@
+{
+  "query": "SELECT id, companyName FROM sponsors WHERE companyName LIKE '%hack%' OR companyName LIKE '%Happy%' OR companyName LIKE '%Harver%' OR companyName LIKE '%Inploi%' OR companyName LIKE '%Radancy%' OR companyName LIKE '%Bright%' OR companyName LIKE '%Symphony%' ORDER BY companyName;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT id, companyName FROM sponsors WHERE companyName LIKE '%hack%' OR companyName LIKE '%Happy%' OR companyName LIKE '%Harver%' OR companyName LIKE '%Inploi%' OR companyName LIKE '%Radancy%' OR companyName LIKE '%Bright%' OR companyName LIKE '%Symphony%' ORDER BY companyName;",
+  "rows": [
+    {
+      "id": "390001",
+      "companyName": "Bright Apply"
+    },
+    {
+      "id": "540001",
+      "companyName": "hackajob"
+    },
+    {
+      "id": "600001",
+      "companyName": "Happydance Careers Websites"
+    },
+    {
+      "id": "210001",
+      "companyName": "Harver"
+    },
+    {
+      "id": "720001",
+      "companyName": "inploi"
+    },
+    {
+      "id": "810002",
+      "companyName": "Radancy"
+    },
+    {
+      "id": "330001",
+      "companyName": "Symphony Talent "
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tcompanyName\n390001\tBright Apply\n540001\thackajob\n600001\tHappydance Careers Websites\n210001\tHarver\n720001\tinploi\n810002\tRadancy\n330001\tSymphony Talent \n",
+  "stderr": "",
+  "execution_time_ms": 370
+}
