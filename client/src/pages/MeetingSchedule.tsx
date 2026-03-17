@@ -25,13 +25,13 @@ import {
 // 12 slots total — 6 per day, 2 × 30-min slots per 1-hour meeting block
 // Day 1 (Event Day 2): slots 1-6 | Day 2 (Event Day 3): slots 7-12
 const TIME_SLOTS = [
-  // Day 1 (Event Day 2)
-  { day: 1, slot: 1, label: "10:15 – 10:45" },
-  { day: 1, slot: 2, label: "10:45 – 11:15" },
-  { day: 1, slot: 3, label: "13:30 – 14:00" },
-  { day: 1, slot: 4, label: "14:00 – 14:30" },
-  { day: 1, slot: 5, label: "14:45 – 15:15" },
-  { day: 1, slot: 6, label: "15:15 – 15:45" },
+  // Day 1 (Event Day 2 - Wed 13 May)
+  { day: 1, slot: 1, label: "11:00 – 11:30" },
+  { day: 1, slot: 2, label: "11:30 – 12:00" },
+  { day: 1, slot: 3, label: "13:15 – 13:45" },
+  { day: 1, slot: 4, label: "13:45 – 14:15" },
+  { day: 1, slot: 5, label: "14:30 – 15:00" },
+  { day: 1, slot: 6, label: "15:00 – 15:30" },
   // Day 2 (Event Day 3)
   { day: 2, slot: 7, label: "10:30 – 11:00" },
   { day: 2, slot: 8, label: "11:00 – 11:30" },
@@ -547,13 +547,11 @@ export default function MeetingSchedule() {
                       </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4">
-                      {[1, 2].map(meetingNum => {
-                        const meeting = slotMeetings[meetingNum - 1];
+                      {(() => {
+                        const meeting = slotMeetings[0];
                         const delegate = meeting ? attendees.find(a => a.id === meeting.attendeeId) : null;
-                        
                         return (
-                          <div key={meetingNum} className="border-2 border-dashed border-slate-600 rounded-lg p-4 min-h-[200px] flex flex-col">
-                            <div className="text-sm text-slate-400 mb-2 font-medium">Meeting {meetingNum}</div>
+                          <div className="border-2 border-dashed border-slate-600 rounded-lg p-4 min-h-[120px] flex flex-col">
                             {delegate ? (
                               <div className="space-y-3">
                                 <div>
@@ -578,7 +576,6 @@ export default function MeetingSchedule() {
                                   </div>
                                   <div className="text-slate-400 text-sm">{delegate.jobTitle}</div>
                                 </div>
-                                
                                 <div className="flex gap-2">
                                   <Button 
                                     variant="outline" 
@@ -616,7 +613,7 @@ export default function MeetingSchedule() {
                             )}
                           </div>
                         );
-                      })}
+                      })()}
                     </CardContent>
                   </Card>
                 );
@@ -643,13 +640,11 @@ export default function MeetingSchedule() {
                       </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4">
-                      {[1, 2].map(meetingNum => {
-                        const meeting = slotMeetings[meetingNum - 1];
+                      {(() => {
+                        const meeting = slotMeetings[0];
                         const delegate = meeting ? attendees.find(a => a.id === meeting.attendeeId) : null;
-                        
                         return (
-                          <div key={meetingNum} className="border-2 border-dashed border-slate-600 rounded-lg p-4 min-h-[200px] flex flex-col">
-                            <div className="text-sm text-slate-400 mb-2 font-medium">Meeting {meetingNum}</div>
+                          <div className="border-2 border-dashed border-slate-600 rounded-lg p-4 min-h-[120px] flex flex-col">
                             {delegate ? (
                               <div className="space-y-3">
                                 <div>
@@ -711,7 +706,7 @@ export default function MeetingSchedule() {
                             )}
                           </div>
                         );
-                      })}
+                      })()}
                     </CardContent>
                   </Card>
                 );
@@ -755,13 +750,11 @@ export default function MeetingSchedule() {
                           </CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-4">
-                          {[1, 2].map(meetingNum => {
-                            const meeting = slotMeetings[meetingNum - 1];
+                          {(() => {
+                            const meeting = slotMeetings[0];
                             const delegate = meeting ? attendees.find(a => a.id === meeting.attendeeId) : null;
-                            
                             return (
-                              <div key={meetingNum} className="border-2 border-dashed border-slate-600 rounded-lg p-4">
-                                <div className="text-sm text-slate-400 mb-2 font-medium">Meeting {meetingNum}</div>
+                              <div className="border-2 border-dashed border-slate-600 rounded-lg p-4 min-h-[120px] flex flex-col">
                                 {delegate ? (
                                   <div className="space-y-3">
                                     <div>
@@ -786,7 +779,6 @@ export default function MeetingSchedule() {
                                       </div>
                                       <div className="text-slate-400 text-sm">{delegate.jobTitle}</div>
                                     </div>
-                                    
                                     <div className="flex gap-2">
                                       <Button 
                                         variant="outline" 
@@ -817,13 +809,13 @@ export default function MeetingSchedule() {
                                     </div>
                                   </div>
                                 ) : (
-                                  <div className="text-center text-slate-500 text-sm py-4">
+                                  <div className="flex-1 flex items-center justify-center text-slate-500 text-sm">
                                     No meeting scheduled
                                   </div>
                                 )}
                               </div>
                             );
-                          })}
+                          })()}
                         </CardContent>
                       </Card>
                     );
@@ -850,13 +842,11 @@ export default function MeetingSchedule() {
                           </CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-4">
-                          {[1, 2].map(meetingNum => {
-                            const meeting = slotMeetings[meetingNum - 1];
+                          {(() => {
+                            const meeting = slotMeetings[0];
                             const delegate = meeting ? attendees.find(a => a.id === meeting.attendeeId) : null;
-                            
                             return (
-                              <div key={meetingNum} className="border-2 border-dashed border-slate-600 rounded-lg p-4">
-                                <div className="text-sm text-slate-400 mb-2 font-medium">Meeting {meetingNum}</div>
+                              <div className="border-2 border-dashed border-slate-600 rounded-lg p-4 min-h-[120px] flex flex-col">
                                 {delegate ? (
                                   <div className="space-y-3">
                                     <div>
@@ -911,13 +901,13 @@ export default function MeetingSchedule() {
                                     </div>
                                   </div>
                                 ) : (
-                                  <div className="text-center text-slate-500 text-sm py-4">
+                                  <div className="flex-1 flex items-center justify-center text-slate-500 text-sm">
                                     No meeting scheduled
                                   </div>
                                 )}
                               </div>
                             );
-                          })}
+                          })()}
                         </CardContent>
                       </Card>
                     );

@@ -1380,3 +1380,4 @@
 - [x] Update agenda page Day 3 concurrent meeting blocks to match correct times
 - [x] Generate and save AI match scores and reasons for Jon Warwick (Sky) and Alan MacKinnon (Smith + Nephew) against SHL
 - [x] Add direct exit URL to impersonation banner so admins can click back to admin portal
+- [ ] Fix sponsor meeting schedule: wrong slot times and two meetings shown per slot instead of one
