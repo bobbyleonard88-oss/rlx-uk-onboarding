@@ -1,0 +1,55 @@
+{
+  "query": "\nSELECT m.id, m.sponsorId, m.attendeeId, m.timeSlot, m.attendeeNumber, m.matchScore,\n       s.companyName\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE m.attendeeId = '18336501'\nORDER BY m.timeSlot;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT m.id, m.sponsorId, m.attendeeId, m.timeSlot, m.attendeeNumber, m.matchScore,\n       s.companyName\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE m.attendeeId = '18336501'\nORDER BY m.timeSlot;\n",
+  "rows": [
+    {
+      "id": "663479",
+      "sponsorId": "600001",
+      "attendeeId": "18336501",
+      "timeSlot": "8",
+      "attendeeNumber": "1",
+      "matchScore": "68",
+      "companyName": "Happydance Careers Websites"
+    },
+    {
+      "id": "663386",
+      "sponsorId": "270002",
+      "attendeeId": "18336501",
+      "timeSlot": "9",
+      "attendeeNumber": "2",
+      "matchScore": "56",
+      "companyName": "Appcast"
+    },
+    {
+      "id": "663565",
+      "sponsorId": "870001",
+      "attendeeId": "18336501",
+      "timeSlot": "10",
+      "attendeeNumber": "1",
+      "matchScore": "56",
+      "companyName": "Wilson"
+    },
+    {
+      "id": "663346",
+      "sponsorId": "750001",
+      "attendeeId": "18336501",
+      "timeSlot": "11",
+      "attendeeNumber": "2",
+      "matchScore": "60",
+      "companyName": "SHL"
+    },
+    {
+      "id": "663447",
+      "sponsorId": "330001",
+      "attendeeId": "18336501",
+      "timeSlot": "12",
+      "attendeeNumber": "1",
+      "matchScore": "72",
+      "companyName": "Symphony Talent "
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tsponsorId\tattendeeId\ttimeSlot\tattendeeNumber\tmatchScore\tcompanyName\n663479\t600001\t18336501\t8\t1\t68\tHappydance Careers Websites\n663386\t270002\t18336501\t9\t2\t56\tAppcast\n663565\t870001\t18336501\t10\t1\t56\tWilson\n663346\t750001\t18336501\t11\t2\t60\tSHL\n663447\t330001\t18336501\t12\t1\t72\tSymphony Talent \n",
+  "stderr": "",
+  "execution_time_ms": 1023
+}

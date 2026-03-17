@@ -1,0 +1,30 @@
+{
+  "query": "SELECT sponsorId, COUNT(*) as meetingCount FROM meetings GROUP BY sponsorId ORDER BY meetingCount DESC LIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT sponsorId, COUNT(*) as meetingCount FROM meetings GROUP BY sponsorId ORDER BY meetingCount DESC LIMIT 5;",
+  "rows": [
+    {
+      "sponsorId": "750001",
+      "meetingCount": "24"
+    },
+    {
+      "sponsorId": "210001",
+      "meetingCount": "20"
+    },
+    {
+      "sponsorId": "270002",
+      "meetingCount": "20"
+    },
+    {
+      "sponsorId": "300001",
+      "meetingCount": "12"
+    },
+    {
+      "sponsorId": "900001",
+      "meetingCount": "12"
+    }
+  ],
+  "messages": [],
+  "stdout": "sponsorId\tmeetingCount\n750001\t24\n210001\t20\n270002\t20\n300001\t12\n900001\t12\n",
+  "stderr": "",
+  "execution_time_ms": 360
+}
