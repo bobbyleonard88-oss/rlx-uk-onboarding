@@ -1,0 +1,25 @@
+{
+  "query": "DESCRIBE meetings; SELECT * FROM meetings WHERE sponsor_id = 750001 LIMIT 3",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute DESCRIBE meetings; SELECT * FROM meetings WHERE sponsor_id = 750001 LIMIT 3",
+  "returncode": 1,
+  "logs": [
+    "Field\tType\tNull\tKey\tDefault\tExtra",
+    "id\tint\tNO\tPRI\tNULL\tauto_increment",
+    "sponsorId\tint\tNO\t\tNULL\t",
+    "attendeeId\tvarchar(64)\tNO\t\tNULL\t",
+    "matchScore\tint\tYES\t\tNULL\t",
+    "isTopRanked\tint\tYES\t\t0\t",
+    "isPriority\tint\tYES\t\t0\t",
+    "status\tenum('suggested','confirmed','declined')\tNO\t\tsuggested\t",
+    "notes\ttext\tYES\t\tNULL\t",
+    "createdAt\ttimestamp\tNO\t\tCURRENT_TIMESTAMP\t",
+    "updatedAt\ttimestamp\tNO\t\tCURRENT_TIMESTAMP\tDEFAULT_GENERATED on update CURRENT_TIMESTAMP",
+    "timeSlot\tint\tYES\t\tNULL\t",
+    "attendeeNumber\tint\tYES\t\t1\t",
+    "matchReason\ttext\tYES\t\tNULL\t",
+    "adminNotes\ttext\tYES\t\tNULL\t",
+    "isVisible\tint\tNO\t\t1\t",
+    "sponsorRepName\tvarchar(255)\tYES\t\tNULL",
+    "ERROR 1054 (42S22) at line 1: Unknown column 'sponsor_id' in 'where clause'"
+  ]
+}
