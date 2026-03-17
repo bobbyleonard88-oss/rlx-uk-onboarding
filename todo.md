@@ -1412,8 +1412,8 @@
 - [x] Remove any mention of opt-in to another sponsor from match reason text — reasons should only explain fit for that specific sponsor
 
 ## Schedule Rearrangement (March 2026)
-- [ ] Save checkpoint before applying slot changes
-- [ ] Apply 49 optimised slot changes to database
-- [ ] Re-check sponsor rep assignments for Harver, Appcast, SHL after rearrangement
-- [ ] Verify new overlap rates match expected results
-- [ ] Save checkpoint and publish
+- [x] Save checkpoint before applying slot changes
+- [x] Apply 49 optimised slot changes to database
+- [x] Re-check sponsor rep assignments for Harver, Appcast, SHL after rearrangement — zero conflicts
+- [x] Verify new overlap rates — improved from 38.5% to 62.0% weighted average
+- [x] Save checkpoint and publish
