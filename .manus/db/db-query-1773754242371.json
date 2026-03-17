@@ -1,0 +1,18 @@
+{
+  "query": "SELECT id, attendeeId, sponsorId, matchScore, matchReason, timeSlot FROM meetings WHERE sponsorId = 750001 AND attendeeId IN ('113145184682', '8713772') ORDER BY attendeeId;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT id, attendeeId, sponsorId, matchScore, matchReason, timeSlot FROM meetings WHERE sponsorId = 750001 AND attendeeId IN ('113145184682', '8713772') ORDER BY attendeeId;",
+  "rows": [
+    {
+      "id": "690148",
+      "attendeeId": "8713772",
+      "sponsorId": "750001",
+      "matchScore": "0",
+      "matchReason": "Manually added",
+      "timeSlot": "12"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tattendeeId\tsponsorId\tmatchScore\tmatchReason\ttimeSlot\n690148\t8713772\t750001\t0\tManually added\t12\n",
+  "stderr": "",
+  "execution_time_ms": 405
+}
