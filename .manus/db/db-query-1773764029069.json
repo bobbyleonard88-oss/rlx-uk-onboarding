@@ -1,0 +1,59 @@
+{
+  "query": "SELECT s.id, s.companyName, s.userId, u.name, u.email FROM sponsors s LEFT JOIN users u ON s.userId = u.id WHERE s.companyName > 'Symphony Talent' ORDER BY s.companyName;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT s.id, s.companyName, s.userId, u.name, u.email FROM sponsors s LEFT JOIN users u ON s.userId = u.id WHERE s.companyName > 'Symphony Talent' ORDER BY s.companyName;",
+  "rows": [
+    {
+      "id": "510003",
+      "companyName": "Test Sponsor mtgtest-1773757668359",
+      "userId": "99990",
+      "name": "NULL",
+      "email": "NULL"
+    },
+    {
+      "id": "780001",
+      "companyName": "The Martec",
+      "userId": "9600011",
+      "name": "nick.thompson",
+      "email": "nick.thompson@themartec.com"
+    },
+    {
+      "id": "360001",
+      "companyName": "Udder",
+      "userId": "6210003",
+      "name": "alan+rlx",
+      "email": "alan+rlx@udder.rocks"
+    },
+    {
+      "id": "810001",
+      "companyName": "Veremark ",
+      "userId": "10621153",
+      "name": "Daniel Callaghan",
+      "email": "dan@veremark.com"
+    },
+    {
+      "id": "270001",
+      "companyName": "Visibility Test Company",
+      "userId": "999999",
+      "name": "NULL",
+      "email": "NULL"
+    },
+    {
+      "id": "870001",
+      "companyName": "Wilson",
+      "userId": "9840243",
+      "name": "gail.bleakley",
+      "email": "gail.bleakley@wilsonhr.com"
+    },
+    {
+      "id": "300001",
+      "companyName": "Zinc",
+      "userId": "2700001",
+      "name": "nikki.thompson",
+      "email": "nikki.thompson@zincwork.com"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tcompanyName\tuserId\tname\temail\n510003\tTest Sponsor mtgtest-1773757668359\t99990\tNULL\tNULL\n780001\tThe Martec\t9600011\tnick.thompson\tnick.thompson@themartec.com\n360001\tUdder\t6210003\talan+rlx\talan+rlx@udder.rocks\n810001\tVeremark \t10621153\tDaniel Callaghan\tdan@veremark.com\n270001\tVisibility Test Company\t999999\tNULL\tNULL\n870001\tWilson\t9840243\tgail.bleakley\tgail.bleakley@wilsonhr.com\n300001\tZinc\t2700001\tnikki.thompson\tnikki.thompson@zincwork.com\n",
+  "stderr": "",
+  "execution_time_ms": 361
+}

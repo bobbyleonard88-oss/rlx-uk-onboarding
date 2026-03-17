@@ -1,0 +1,18 @@
+{
+  "query": "SELECT s.id, s.companyName, s.userId, u.name, u.email, \n  (SELECT COUNT(*) FROM meetings m WHERE m.sponsorId = s.id AND m.isVisible = 1 AND (m.status = 'suggested' OR m.status = 'confirmed')) as meetingCount\nFROM sponsors s \nLEFT JOIN users u ON s.userId = u.id \nWHERE s.companyName = 'Zinc';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT s.id, s.companyName, s.userId, u.name, u.email, \n  (SELECT COUNT(*) FROM meetings m WHERE m.sponsorId = s.id AND m.isVisible = 1 AND (m.status = 'suggested' OR m.status = 'confirmed')) as meetingCount\nFROM sponsors s \nLEFT JOIN users u ON s.userId = u.id \nWHERE s.companyName = 'Zinc';",
+  "rows": [
+    {
+      "id": "300001",
+      "companyName": "Zinc",
+      "userId": "2700001",
+      "name": "nikki.thompson",
+      "email": "nikki.thompson@zincwork.com",
+      "meetingCount": "12"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tcompanyName\tuserId\tname\temail\tmeetingCount\n300001\tZinc\t2700001\tnikki.thompson\tnikki.thompson@zincwork.com\t12\n",
+  "stderr": "",
+  "execution_time_ms": 415
+}

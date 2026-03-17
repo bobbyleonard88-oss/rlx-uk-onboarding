@@ -308,12 +308,12 @@ export default function MeetingSchedule() {
       return;
     }
     const slotLabels: Record<number, string> = {
-      1: 'Day 2 (Wed 13 May) – 10:15–10:45',
-      2: 'Day 2 (Wed 13 May) – 10:45–11:15',
-      3: 'Day 2 (Wed 13 May) – 13:30–14:00',
-      4: 'Day 2 (Wed 13 May) – 14:00–14:30',
-      5: 'Day 2 (Wed 13 May) – 14:45–15:15',
-      6: 'Day 2 (Wed 13 May) – 15:15–15:45',
+      1: 'Day 2 (Wed 13 May) – 11:00–11:30',
+      2: 'Day 2 (Wed 13 May) – 11:30–12:00',
+      3: 'Day 2 (Wed 13 May) – 13:15–13:45',
+      4: 'Day 2 (Wed 13 May) – 13:45–14:15',
+      5: 'Day 2 (Wed 13 May) – 14:30–15:00',
+      6: 'Day 2 (Wed 13 May) – 15:00–15:30',
       7: 'Day 3 (Thu 14 May) – 10:30–11:00',
       8: 'Day 3 (Thu 14 May) – 11:00–11:30',
       9: 'Day 3 (Thu 14 May) – 13:15–13:45',
@@ -549,7 +549,8 @@ export default function MeetingSchedule() {
                     <CardContent className="space-y-4">
                       {(() => {
                         const meeting = slotMeetings[0];
-                        const delegate = meeting ? attendees.find(a => a.id === meeting.attendeeId) : null;
+                        const staticDelegate = meeting ? attendees.find(a => a.id === meeting.attendeeId) : null;
+                        const delegate = staticDelegate ? { ...staticDelegate, ...(meeting?.delegateProfile || {}) } : null;
                         return (
                           <div className="border-2 border-dashed border-slate-600 rounded-lg p-4 min-h-[120px] flex flex-col">
                             {delegate ? (
@@ -642,7 +643,8 @@ export default function MeetingSchedule() {
                     <CardContent className="space-y-4">
                       {(() => {
                         const meeting = slotMeetings[0];
-                        const delegate = meeting ? attendees.find(a => a.id === meeting.attendeeId) : null;
+                        const staticDelegate = meeting ? attendees.find(a => a.id === meeting.attendeeId) : null;
+                        const delegate = staticDelegate ? { ...staticDelegate, ...(meeting?.delegateProfile || {}) } : null;
                         return (
                           <div className="border-2 border-dashed border-slate-600 rounded-lg p-4 min-h-[120px] flex flex-col">
                             {delegate ? (
@@ -752,7 +754,8 @@ export default function MeetingSchedule() {
                         <CardContent className="space-y-4">
                           {(() => {
                             const meeting = slotMeetings[0];
-                            const delegate = meeting ? attendees.find(a => a.id === meeting.attendeeId) : null;
+                            const staticDelegate = meeting ? attendees.find(a => a.id === meeting.attendeeId) : null;
+                            const delegate = staticDelegate ? { ...staticDelegate, ...(meeting?.delegateProfile || {}) } : null;
                             return (
                               <div className="border-2 border-dashed border-slate-600 rounded-lg p-4 min-h-[120px] flex flex-col">
                                 {delegate ? (
@@ -844,7 +847,8 @@ export default function MeetingSchedule() {
                         <CardContent className="space-y-4">
                           {(() => {
                             const meeting = slotMeetings[0];
-                            const delegate = meeting ? attendees.find(a => a.id === meeting.attendeeId) : null;
+                            const staticDelegate = meeting ? attendees.find(a => a.id === meeting.attendeeId) : null;
+                            const delegate = staticDelegate ? { ...staticDelegate, ...(meeting?.delegateProfile || {}) } : null;
                             return (
                               <div className="border-2 border-dashed border-slate-600 rounded-lg p-4 min-h-[120px] flex flex-col">
                                 {delegate ? (

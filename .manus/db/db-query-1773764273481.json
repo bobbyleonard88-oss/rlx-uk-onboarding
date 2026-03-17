@@ -1,0 +1,178 @@
+{
+  "query": "SELECT s.id, s.companyName, s.userId, u.name, u.email, \n  (SELECT COUNT(*) FROM meetings m WHERE m.sponsorId = s.id AND m.isVisible = 1 AND (m.status = 'suggested' OR m.status = 'confirmed')) as meetingCount\nFROM sponsors s \nLEFT JOIN users u ON s.userId = u.id \nWHERE s.companyName NOT LIKE 'Test%' AND s.companyName NOT LIKE 'Visibility%' AND s.companyName NOT LIKE 'AI Limited' AND s.companyName NOT LIKE 'Elevate%' AND s.companyName NOT LIKE 'Little Moment' AND s.companyName NOT LIKE 'NexaTalent%'\nORDER BY s.companyName;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT s.id, s.companyName, s.userId, u.name, u.email, \n  (SELECT COUNT(*) FROM meetings m WHERE m.sponsorId = s.id AND m.isVisible = 1 AND (m.status = 'suggested' OR m.status = 'confirmed')) as meetingCount\nFROM sponsors s \nLEFT JOIN users u ON s.userId = u.id \nWHERE s.companyName NOT LIKE 'Test%' AND s.companyName NOT LIKE 'Visibility%' AND s.companyName NOT LIKE 'AI Limited' AND s.companyName NOT LIKE 'Elevate%' AND s.companyName NOT LIKE 'Little Moment' AND s.companyName NOT LIKE 'NexaTalent%'\nORDER BY s.companyName;",
+  "rows": [
+    {
+      "id": "690001",
+      "companyName": "Amberjack",
+      "userId": "8490008",
+      "name": "darren.lancaster",
+      "email": "darren.lancaster@weareamberjack.com",
+      "meetingCount": "12"
+    },
+    {
+      "id": "270002",
+      "companyName": "Appcast",
+      "userId": "1890027",
+      "name": "roy.jacques",
+      "email": "roy.jacques@appcast.io",
+      "meetingCount": "20"
+    },
+    {
+      "id": "390001",
+      "companyName": "Bright Apply",
+      "userId": "4050001",
+      "name": "kerry.simmons",
+      "email": "kerry.simmons@brightnetwork.co.uk",
+      "meetingCount": "12"
+    },
+    {
+      "id": "540001",
+      "companyName": "hackajob",
+      "userId": "10621147",
+      "name": "Sam Berthoud",
+      "email": "sam.b@hackajob.co",
+      "meetingCount": "12"
+    },
+    {
+      "id": "600001",
+      "companyName": "Happydance Careers Websites",
+      "userId": "6330011",
+      "name": "dave.ralph",
+      "email": "dave.ralph@happydance.love",
+      "meetingCount": "12"
+    },
+    {
+      "id": "210001",
+      "companyName": "Harver",
+      "userId": "960014",
+      "name": "kayleigh.nunn",
+      "email": "kayleigh.nunn@harver.com",
+      "meetingCount": "21"
+    },
+    {
+      "id": "720001",
+      "companyName": "inploi",
+      "userId": "8910004",
+      "name": "Felix Dealtry",
+      "email": "felix@inploi.com",
+      "meetingCount": "12"
+    },
+    {
+      "id": "840001",
+      "companyName": "JobSync",
+      "userId": "9900015",
+      "name": "Colin Minto",
+      "email": "cminto@jobsync.com",
+      "meetingCount": "12"
+    },
+    {
+      "id": "180001",
+      "companyName": "Maki People",
+      "userId": "1410007",
+      "name": "Clara Minassian",
+      "email": "clara.minassian@makipeople.com",
+      "meetingCount": "12"
+    },
+    {
+      "id": "450001",
+      "companyName": "PerchPeek",
+      "userId": "4140005",
+      "name": "samuel",
+      "email": "samuel@perchpeek.com",
+      "meetingCount": "12"
+    },
+    {
+      "id": "900001",
+      "companyName": "Poetry",
+      "userId": "10621134",
+      "name": "Stephen` McGrath",
+      "email": "stephen.mcgrath@poetryhr.com",
+      "meetingCount": "12"
+    },
+    {
+      "id": "810002",
+      "companyName": "Radancy",
+      "userId": "9840104",
+      "name": "ross.davies",
+      "email": "ross.davies@radancy.com",
+      "meetingCount": "12"
+    },
+    {
+      "id": "240001",
+      "companyName": "Sapia.ai",
+      "userId": "1530001",
+      "name": "Laura Belfield",
+      "email": "laura@sapia.ai",
+      "meetingCount": "12"
+    },
+    {
+      "id": "750001",
+      "companyName": "SHL",
+      "userId": "9480011",
+      "name": "natalie.hall",
+      "email": "natalie.hall@shl.com",
+      "meetingCount": "20"
+    },
+    {
+      "id": "150001",
+      "companyName": "Stepstone Group UK Ltd",
+      "userId": "990024",
+      "name": "amardeep.dharwar",
+      "email": "amardeep.dharwar@stepstone.com",
+      "meetingCount": "12"
+    },
+    {
+      "id": "330001",
+      "companyName": "Symphony Talent ",
+      "userId": "2760005",
+      "name": "craig.barnett",
+      "email": "craig.barnett@symphonytalent.com",
+      "meetingCount": "12"
+    },
+    {
+      "id": "780001",
+      "companyName": "The Martec",
+      "userId": "9600011",
+      "name": "nick.thompson",
+      "email": "nick.thompson@themartec.com",
+      "meetingCount": "12"
+    },
+    {
+      "id": "360001",
+      "companyName": "Udder",
+      "userId": "6210003",
+      "name": "alan+rlx",
+      "email": "alan+rlx@udder.rocks",
+      "meetingCount": "12"
+    },
+    {
+      "id": "810001",
+      "companyName": "Veremark ",
+      "userId": "10621153",
+      "name": "Daniel Callaghan",
+      "email": "dan@veremark.com",
+      "meetingCount": "12"
+    },
+    {
+      "id": "870001",
+      "companyName": "Wilson",
+      "userId": "9840243",
+      "name": "gail.bleakley",
+      "email": "gail.bleakley@wilsonhr.com",
+      "meetingCount": "12"
+    },
+    {
+      "id": "300001",
+      "companyName": "Zinc",
+      "userId": "2700001",
+      "name": "nikki.thompson",
+      "email": "nikki.thompson@zincwork.com",
+      "meetingCount": "12"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tcompanyName\tuserId\tname\temail\tmeetingCount\n690001\tAmberjack\t8490008\tdarren.lancaster\tdarren.lancaster@weareamberjack.com\t12\n270002\tAppcast\t1890027\troy.jacques\troy.jacques@appcast.io\t20\n390001\tBright Apply\t4050001\tkerry.simmons\tkerry.simmons@brightnetwork.co.uk\t12\n540001\thackajob\t10621147\tSam Berthoud\tsam.b@hackajob.co\t12\n600001\tHappydance Careers Websites\t6330011\tdave.ralph\tdave.ralph@happydance.love\t12\n210001\tHarver\t960014\tkayleigh.nunn\tkayleigh.nunn@harver.com\t21\n720001\tinploi\t8910004\tFelix Dealtry\tfelix@inploi.com\t12\n840001\tJobSync\t9900015\tColin Minto\tcminto@jobsync.com\t12\n180001\tMaki People\t1410007\tClara Minassian\tclara.minassian@makipeople.com\t12\n450001\tPerchPeek\t4140005\tsamuel\tsamuel@perchpeek.com\t12\n900001\tPoetry\t10621134\tStephen` McGrath\tstephen.mcgrath@poetryhr.com\t12\n810002\tRadancy\t9840104\tross.davies\tross.davies@radancy.com\t12\n240001\tSapia.ai\t1530001\tLaura Belfield\tlaura@sapia.ai\t12\n750001\tSHL\t9480011\tnatalie.hall\tnatalie.hall@shl.com\t20\n150001\tStepstone Group UK Ltd\t990024\tamardeep.dharwar\tamardeep.dharwar@stepstone.com\t12\n330001\tSymphony Talent \t2760005\tcraig.barnett\tcraig.barnett@symphonytalent.com\t12\n780001\tThe Martec\t9600011\tnick.thompson\tnick.thompson@themartec.com\t12\n360001\tUdder\t6210003\talan+rlx\talan+rlx@udder.rocks\t12\n810001\tVeremark \t10621153\tDaniel Callaghan\tdan@veremark.com\t12\n870001\tWilson\t9840243\tgail.bleakley\tgail.bleakley@wilsonhr.com\t12\n300001\tZinc\t2700001\tnikki.thompson\tnikki.thompson@zincwork.com\t12\n",
+  "stderr": "",
+  "execution_time_ms": 446
+}

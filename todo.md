@@ -1381,3 +1381,10 @@
 - [x] Generate and save AI match scores and reasons for Jon Warwick (Sky) and Alan MacKinnon (Smith + Nephew) against SHL
 - [x] Add direct exit URL to impersonation banner so admins can click back to admin portal
 - [ ] Fix sponsor meeting schedule: wrong slot times and two meetings shown per slot instead of one
+
+## Delegate Profile Fix (March 2026)
+- [x] Fix DelegateProfileModal to use correct field names (activeConfirmedProjects, primaryMeetingObjective, currentProjectStage, keySolutionAreasOfInterest, currentPainPoints, assessmentTool, activeBudgetRange) instead of legacy aliases
+- [x] Add fallback to legacy field names for backward compatibility
+- [x] Update all 4 setSelectedDelegate calls in MeetingSchedule.tsx to merge server-returned delegateProfile data with static attendees data
+- [x] Fix Day 2 CSV slot labels (11:00-12:00, 13:15-14:15, 14:30-15:30)
+- [x] Verify all 21 sponsors have correct user-account links and published meetings

@@ -37,10 +37,35 @@ function clean(value: string | null | undefined): string {
   return cleaned || 'N/A';
 }
 
+/**
+ * Resolve a field value by checking multiple possible field names (new name first, then legacy aliases).
+ * This ensures backward compatibility while preferring the canonical field name.
+ */
+function resolve(delegate: any, ...keys: string[]): string | null | undefined {
+  for (const key of keys) {
+    if (delegate[key] !== undefined && delegate[key] !== null && delegate[key] !== '') {
+      return delegate[key];
+    }
+  }
+  return undefined;
+}
+
 export default function DelegateProfileModal({ open, onOpenChange, delegate, matchReason }: DelegateProfileModalProps) {
   if (!delegate) return null;
 
   const [pdfLoading, setPdfLoading] = useState(false);
+
+  // Resolve fields using canonical names first, then legacy aliases
+  const activeProjects = resolve(delegate, 'activeConfirmedProjects', 'activeProjects');
+  const meetingObjective = resolve(delegate, 'primaryMeetingObjective', 'meetingObjective');
+  const projectStage = resolve(delegate, 'currentProjectStage', 'projectStage');
+  const solutionAreas = resolve(delegate, 'keySolutionAreasOfInterest', 'solutionAreas');
+  const painPoints = resolve(delegate, 'currentPainPoints', 'painPoints');
+  const assessmentTools = resolve(delegate, 'assessmentTool', 'assessmentTools');
+  const activeProjectBudget = resolve(delegate, 'activeBudgetRange', 'activeProjectBudget');
+  const regionalRemit = resolve(delegate, 'regionalRemit');
+  const hiresPerYear = resolve(delegate, 'hiresPerYear');
+  const decisionLevel = resolve(delegate, 'decisionLevel');
 
   const downloadPDF = async () => {
     setPdfLoading(true);
@@ -144,30 +169,30 @@ export default function DelegateProfileModal({ open, onOpenChange, delegate, mat
           <p><strong>${delegate.company || ''}</strong></p>
           ${delegate.industry ? `<p><strong>Industry:</strong> ${delegate.industry}</p>` : ''}
           ${delegate.companySize ? `<p><strong>Employees:</strong> ${delegate.companySize}</p>` : ''}
-          ${delegate.regionalRemit ? `<p><strong>Regions:</strong> ${delegate.regionalRemit}</p>` : ''}
-          ${delegate.hiresPerYear ? `<p><strong>Annual Hiring Volume:</strong> ${delegate.hiresPerYear}</p>` : ''}
-          ${delegate.decisionLevel ? `<p><strong>Decision Level:</strong> ${delegate.decisionLevel}</p>` : ''}
-          ${delegate.activeProjectBudget ? `<p><strong>Active Project Budget:</strong> ${delegate.activeProjectBudget}</p>` : ''}
+          ${regionalRemit ? `<p><strong>Regions:</strong> ${regionalRemit}</p>` : ''}
+          ${hiresPerYear ? `<p><strong>Annual Hiring Volume:</strong> ${hiresPerYear}</p>` : ''}
+          ${decisionLevel ? `<p><strong>Decision Level:</strong> ${decisionLevel}</p>` : ''}
+          ${activeProjectBudget ? `<p><strong>Active Project Budget:</strong> ${activeProjectBudget}</p>` : ''}
           ${delegate.budgetAuthority ? `<p><strong>Sign-off Authority:</strong> ${delegate.budgetAuthority}</p>` : ''}
         </div>
         <hr/>
         <div class="section">
           <h2>Active Projects and Buying Intent</h2>
           <div class="body">
-            ${delegate.projectStage ? `<p style="margin-bottom:2mm;"><strong>Stage:</strong> ${clean(delegate.projectStage)}</p>` : ''}
-            ${delegate.activeProjects ? toBullets(delegate.activeProjects) : '<p style="color:#374151;">N/A</p>'}
-            ${delegate.meetingObjective ? `<p style="margin-top:3mm;"><strong>Meeting Objective:</strong> ${clean(delegate.meetingObjective)}</p>` : ''}
+            ${projectStage ? `<p style="margin-bottom:2mm;"><strong>Stage:</strong> ${clean(projectStage)}</p>` : ''}
+            ${activeProjects ? toBullets(activeProjects) : '<p style="color:#374151;">N/A</p>'}
+            ${meetingObjective ? `<p style="margin-top:3mm;"><strong>Meeting Objective:</strong> ${clean(meetingObjective)}</p>` : ''}
           </div>
         </div>
         <hr/>
         <div class="section">
           <h2>Pain Points and Challenges</h2>
-          <div class="body">${toBullets(delegate.painPoints)}</div>
+          <div class="body">${toBullets(painPoints || '')}</div>
         </div>
         <hr/>
         <div class="section">
           <h2>Solution Areas of Interest</h2>
-          <div class="body">${toBullets(delegate.solutionAreas)}</div>
+          <div class="body">${toBullets(solutionAreas || '')}</div>
         </div>
         <hr/>
         <div class="section">
@@ -175,7 +200,7 @@ export default function DelegateProfileModal({ open, onOpenChange, delegate, mat
           <div class="tech-grid">
             <div class="tech-item"><strong>ATS</strong>${clean(delegate.ats)}</div>
             <div class="tech-item"><strong>CRM</strong>${clean(delegate.crm)}</div>
-            <div class="tech-item"><strong>Assessment Tools</strong>${clean(delegate.assessmentTools)}</div>
+            <div class="tech-item"><strong>Assessment Tools</strong>${clean(assessmentTools)}</div>
             <div class="tech-item"><strong>Talent Intelligence</strong>${clean(delegate.marketIntelligence)}</div>
             ${delegate.otherTools ? `<div class="tech-item" style="grid-column:1/-1;"><strong>Other Tools</strong>${clean(delegate.otherTools)}</div>` : ''}
           </div>
@@ -222,22 +247,20 @@ export default function DelegateProfileModal({ open, onOpenChange, delegate, mat
       ['Company', delegate.company || 'N/A'],
       ['Industry', delegate.industry || 'N/A'],
       ['Company Size', delegate.companySize || 'N/A'],
-      ['Hires per Year', delegate.hiresPerYear || 'N/A'],
-      ['Regional Remit', delegate.regionalRemit || 'N/A'],
-      ['Decision Making Level', delegate.decisionLevel || 'N/A'],
-      ['Active Project Budget', delegate.activeProjectBudget || 'N/A'],
+      ['Regional Remit', regionalRemit || 'N/A'],
+      ['Active Project Budget', activeProjectBudget || 'N/A'],
       ['Contract Sign-off Authority', delegate.budgetAuthority || 'N/A'],
-      ['Active Projects', clean(delegate.activeProjects)],
-      ['Meeting Objective', clean(delegate.meetingObjective)],
-      ['Project Stage', clean(delegate.projectStage)],
+      ['Active Projects', clean(activeProjects)],
+      ['Meeting Objective', clean(meetingObjective)],
+      ['Project Stage', clean(projectStage)],
       ['ATS', clean(delegate.ats)],
       ['CRM', clean(delegate.crm)],
-      ['Assessment Tools', clean(delegate.assessmentTools)],
+      ['Assessment Tools', clean(assessmentTools)],
       ['Talent Intelligence', clean(delegate.marketIntelligence)],
       ['Other Tools', clean(delegate.otherTools)],
-      ['Solution Areas', clean(delegate.solutionAreas)],
-      ['Pain Points', clean(delegate.painPoints)],
-    ].map(row => row.map(cell => `"${cell}"`).join(',')).join('\n');
+      ['Solution Areas', clean(solutionAreas)],
+      ['Pain Points', clean(painPoints)],
+    ].map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(',')).join('\n');
 
     const blob = new Blob([csvContent], { type: 'text/csv' });
     const url = window.URL.createObjectURL(blob);
@@ -266,13 +289,10 @@ export default function DelegateProfileModal({ open, onOpenChange, delegate, mat
                 <Button variant="outline" size="sm" className="gap-2" disabled={pdfLoading}>
                   {pdfLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
                   {pdfLoading ? 'Generating...' : 'Download'}
-                  {!pdfLoading && <ChevronDown className="w-4 h-4" />}
+                  <ChevronDown className="w-3 h-3" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={downloadPDF}>
-                  Download as PDF
-                </DropdownMenuItem>
                 <DropdownMenuItem onClick={downloadCSV}>
                   Download as CSV
                 </DropdownMenuItem>
@@ -302,17 +322,21 @@ export default function DelegateProfileModal({ open, onOpenChange, delegate, mat
                 <div className="text-white">{delegate.companySize || 'N/A'}</div>
               </div>
               <div className="bg-slate-800/50 p-3 rounded-lg border border-slate-700">
-                <div className="text-xs text-slate-400 uppercase mb-1">Hires per Year</div>
-                <div className="text-white">{delegate.hiresPerYear || 'N/A'}</div>
-              </div>
-              <div className="bg-slate-800/50 p-3 rounded-lg border border-slate-700">
                 <div className="text-xs text-slate-400 uppercase mb-1">Regional Remit</div>
-                <div className="text-white">{delegate.regionalRemit || 'N/A'}</div>
+                <div className="text-white">{regionalRemit || 'N/A'}</div>
               </div>
-              <div className="bg-slate-800/50 p-3 rounded-lg border border-slate-700">
-                <div className="text-xs text-slate-400 uppercase mb-1">Decision Making Level</div>
-                <div className="text-white">{delegate.decisionLevel || 'N/A'}</div>
-              </div>
+              {hiresPerYear && (
+                <div className="bg-slate-800/50 p-3 rounded-lg border border-slate-700">
+                  <div className="text-xs text-slate-400 uppercase mb-1">Hires per Year</div>
+                  <div className="text-white">{hiresPerYear}</div>
+                </div>
+              )}
+              {decisionLevel && (
+                <div className="bg-slate-800/50 p-3 rounded-lg border border-slate-700">
+                  <div className="text-xs text-slate-400 uppercase mb-1">Decision Making Level</div>
+                  <div className="text-white">{decisionLevel}</div>
+                </div>
+              )}
             </div>
           </div>
 
@@ -325,7 +349,7 @@ export default function DelegateProfileModal({ open, onOpenChange, delegate, mat
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-slate-800/50 p-3 rounded-lg border border-slate-700">
                 <div className="text-xs text-slate-400 uppercase mb-1">Active Project Budget</div>
-                <div className="text-white">{delegate.activeProjectBudget || 'N/A'}</div>
+                <div className="text-white">{activeProjectBudget || 'N/A'}</div>
               </div>
               <div className="bg-slate-800/50 p-3 rounded-lg border border-slate-700">
                 <div className="text-xs text-slate-400 uppercase mb-1">Contract Sign-off Authority</div>
@@ -343,15 +367,15 @@ export default function DelegateProfileModal({ open, onOpenChange, delegate, mat
             <div className="space-y-4">
               <div className="bg-slate-800/50 p-3 rounded-lg border border-slate-700">
                 <div className="text-xs text-slate-400 uppercase mb-1">Active Confirmed Projects</div>
-                <div className="text-white">{clean(delegate.activeProjects)}</div>
+                <div className="text-white">{clean(activeProjects)}</div>
               </div>
               <div className="bg-slate-800/50 p-3 rounded-lg border border-slate-700">
                 <div className="text-xs text-slate-400 uppercase mb-1">Primary Meeting Objective</div>
-                <div className="text-white">{clean(delegate.meetingObjective)}</div>
+                <div className="text-white">{clean(meetingObjective)}</div>
               </div>
               <div className="bg-slate-800/50 p-3 rounded-lg border border-slate-700">
                 <div className="text-xs text-slate-400 uppercase mb-1">Current Project Stage</div>
-                <div className="text-white">{clean(delegate.projectStage)}</div>
+                <div className="text-white">{clean(projectStage)}</div>
               </div>
             </div>
           </div>
@@ -373,7 +397,7 @@ export default function DelegateProfileModal({ open, onOpenChange, delegate, mat
               </div>
               <div className="bg-slate-800/50 p-3 rounded-lg border border-slate-700">
                 <div className="text-xs text-slate-400 uppercase mb-1">Assessment Tools</div>
-                <div className="text-white">{clean(delegate.assessmentTools)}</div>
+                <div className="text-white">{clean(assessmentTools)}</div>
               </div>
               <div className="bg-slate-800/50 p-3 rounded-lg border border-slate-700">
                 <div className="text-xs text-slate-400 uppercase mb-1">Talent Intelligence</div>
@@ -393,7 +417,7 @@ export default function DelegateProfileModal({ open, onOpenChange, delegate, mat
               Solution Areas of Interest
             </h3>
             <div className="bg-slate-800/50 p-3 rounded-lg border border-slate-700">
-              <div className="text-white whitespace-pre-wrap">{clean(delegate.solutionAreas)}</div>
+              <div className="text-white whitespace-pre-wrap">{clean(solutionAreas)}</div>
             </div>
           </div>
 
@@ -404,7 +428,7 @@ export default function DelegateProfileModal({ open, onOpenChange, delegate, mat
               Current Pain Points & Challenges
             </h3>
             <div className="bg-slate-800/50 p-3 rounded-lg border border-slate-700">
-              <div className="text-white whitespace-pre-wrap">{clean(delegate.painPoints)}</div>
+              <div className="text-white whitespace-pre-wrap">{clean(painPoints)}</div>
             </div>
           </div>
 
