@@ -1,0 +1,18 @@
+{
+  "query": "\nSELECT m.sponsorId, s.companyName, m.timeSlot, m.attendeeNumber, m.sponsorRepName\nFROM meetings m\nJOIN sponsors s ON m.sponsorId = s.id\nWHERE m.attendeeId = '452351'\nORDER BY m.sponsorId;\n\nSELECT id, companyName FROM sponsors WHERE companyName LIKE '%hackajob%' OR companyName LIKE '%Appcast%' OR companyName LIKE '%appcast%';\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT m.sponsorId, s.companyName, m.timeSlot, m.attendeeNumber, m.sponsorRepName\nFROM meetings m\nJOIN sponsors s ON m.sponsorId = s.id\nWHERE m.attendeeId = '452351'\nORDER BY m.sponsorId;\n\nSELECT id, companyName FROM sponsors WHERE companyName LIKE '%hackajob%' OR companyName LIKE '%Appcast%' OR companyName LIKE '%appcast%';\n",
+  "rows": [
+    {
+      "id": "270002",
+      "companyName": "Appcast"
+    },
+    {
+      "id": "540001",
+      "companyName": "hackajob"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tcompanyName\n270002\tAppcast\n540001\thackajob\n",
+  "stderr": "",
+  "execution_time_ms": 396
+}

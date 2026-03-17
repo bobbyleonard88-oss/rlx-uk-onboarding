@@ -1,0 +1,9 @@
+{
+  "query": "SELECT id, sponsorId, attendeeId, timeSlot, sponsorRepName, matchScore FROM meetings WHERE attendeeId = '197310154283' LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT id, sponsorId, attendeeId, timeSlot, sponsorRepName, matchScore FROM meetings WHERE attendeeId = '197310154283' LIMIT 20;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 371
+}

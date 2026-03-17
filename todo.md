@@ -1365,3 +1365,13 @@
 - [x] Add Jennifer Candee (150796696175) to global exclusion list so she never appears in matching or eligible delegate panel
 - [x] Show match scores next to delegate names in the eligible delegate panel when clicking an empty slot in the matchmaking scheduler
 - [x] Audit and fix Delegate Overview admin page to ensure all data (meeting counts, sponsor assignments, capacity, scores) is fully accurate and up-to-date
+- [ ] Investigate and fix why Phidelma Makumbe (EY) has 0 meetings assigned despite being eligible
+
+## Delegate List Cleanup (March 2026)
+- [x] Remove Phidelma Makumbe (197310154283) from client and server attendees
+- [x] Remove Alastair Ball (5927642) from client and server attendees
+- [x] Remove Jennifer Candee (150796696175) from client and server attendees
+- [x] Clean Cath Possamai pain points text (remove "not buying anything" comment)
+- [x] Ensure Cath Possamai opt-in list is correct (hackajob confirmed, Appcast removed as not opted in)
+- [x] Remove Appcast from Cath Possamai's opt-in list (she did not request it)
+- [x] Update matching algorithm to score opt-in delegates at 90%+ automatically

@@ -1,0 +1,8 @@
+{
+  "query": "SELECT id, sponsor_id, delegate_id, time_slot, sponsor_rep_name, notes FROM meetings WHERE delegate_id = '197310154283' LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT id, sponsor_id, delegate_id, time_slot, sponsor_rep_name, notes FROM meetings WHERE delegate_id = '197310154283' LIMIT 20;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'delegate_id' in 'where clause'"
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "query": "SELECT m.sponsorId, s.companyName, m.timeSlot, m.sponsorRepName FROM meetings m JOIN sponsors s ON m.sponsorId = s.id WHERE m.attendeeId = '452351' ORDER BY m.timeSlot;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT m.sponsorId, s.companyName, m.timeSlot, m.sponsorRepName FROM meetings m JOIN sponsors s ON m.sponsorId = s.id WHERE m.attendeeId = '452351' ORDER BY m.timeSlot;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 363
+}

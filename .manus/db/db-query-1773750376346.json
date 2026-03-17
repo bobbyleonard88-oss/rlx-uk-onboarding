@@ -1,0 +1,94 @@
+{
+  "query": "SELECT sponsorId, COUNT(*) as meetingCount FROM meetings GROUP BY sponsorId ORDER BY meetingCount ASC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT sponsorId, COUNT(*) as meetingCount FROM meetings GROUP BY sponsorId ORDER BY meetingCount ASC;",
+  "rows": [
+    {
+      "sponsorId": "390001",
+      "meetingCount": "10"
+    },
+    {
+      "sponsorId": "780001",
+      "meetingCount": "12"
+    },
+    {
+      "sponsorId": "900001",
+      "meetingCount": "12"
+    },
+    {
+      "sponsorId": "690001",
+      "meetingCount": "12"
+    },
+    {
+      "sponsorId": "330001",
+      "meetingCount": "12"
+    },
+    {
+      "sponsorId": "870001",
+      "meetingCount": "12"
+    },
+    {
+      "sponsorId": "540001",
+      "meetingCount": "12"
+    },
+    {
+      "sponsorId": "180001",
+      "meetingCount": "12"
+    },
+    {
+      "sponsorId": "300001",
+      "meetingCount": "12"
+    },
+    {
+      "sponsorId": "450001",
+      "meetingCount": "12"
+    },
+    {
+      "sponsorId": "720001",
+      "meetingCount": "12"
+    },
+    {
+      "sponsorId": "360001",
+      "meetingCount": "12"
+    },
+    {
+      "sponsorId": "840001",
+      "meetingCount": "12"
+    },
+    {
+      "sponsorId": "150001",
+      "meetingCount": "12"
+    },
+    {
+      "sponsorId": "810002",
+      "meetingCount": "12"
+    },
+    {
+      "sponsorId": "810001",
+      "meetingCount": "12"
+    },
+    {
+      "sponsorId": "600001",
+      "meetingCount": "12"
+    },
+    {
+      "sponsorId": "240001",
+      "meetingCount": "12"
+    },
+    {
+      "sponsorId": "270002",
+      "meetingCount": "20"
+    },
+    {
+      "sponsorId": "210001",
+      "meetingCount": "20"
+    },
+    {
+      "sponsorId": "750001",
+      "meetingCount": "20"
+    }
+  ],
+  "messages": [],
+  "stdout": "sponsorId\tmeetingCount\n390001\t10\n780001\t12\n900001\t12\n690001\t12\n330001\t12\n870001\t12\n540001\t12\n180001\t12\n300001\t12\n450001\t12\n720001\t12\n360001\t12\n840001\t12\n150001\t12\n810002\t12\n810001\t12\n600001\t12\n240001\t12\n270002\t20\n210001\t20\n750001\t20\n",
+  "stderr": "",
+  "execution_time_ms": 368
+}

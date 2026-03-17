@@ -579,9 +579,8 @@ export async function generateMeetingsForSponsor(
   }
   
   // ─── Global exclusions (never matched to any sponsor) ───
-  const GLOBAL_EXCLUDED_DELEGATE_IDS = new Set([
-    '150796696175', // Jennifer Candee — between roles, excluded globally
-  ]);
+  // No global exclusions currently — delegates are managed via the attendees list
+  const GLOBAL_EXCLUDED_DELEGATE_IDS = new Set<string>([]);
 
   // Filter out delegates who have reached capacity (8 meetings) and hard-excluded delegates
   const capacityFiltered = allDelegates.filter(delegate => {
@@ -713,9 +712,10 @@ export async function generateMeetingsForSponsor(
         matchScore = Math.min(100, matchScore + 10);
       }
 
-      // Opt-in bonus: +15 points if delegate explicitly opted in to meet this sponsor
+      // Opt-in guarantee: delegates who explicitly opted in to meet this sponsor score 90%+
+      // This ensures their expressed interest is always prioritised over AI scoring alone.
       if (isOptIn) {
-        matchScore = Math.min(100, matchScore + 15);
+        matchScore = Math.max(90, Math.min(100, matchScore + 15));
       }
 
       // Cross-sponsor affinity bonus: +15 points for delegates who opted in to a related sponsor

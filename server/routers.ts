@@ -595,9 +595,8 @@ export const appRouter = router({
         const { sponsorId, timeSlot } = input;
 
         // ─── Global exclusions (mirror of matchingAlgorithm.ts) ───
-        const GLOBAL_EXCLUDED_DELEGATE_IDS = new Set([
-          '150796696175', // Jennifer Candee — between roles, excluded globally
-        ]);
+        // No global exclusions — delegates managed via attendees list
+        const GLOBAL_EXCLUDED_DELEGATE_IDS = new Set<string>([]);
 
         // Hard exclusions per sponsor (mirror of matchingAlgorithm.ts)
         const SPONSOR_HARD_EXCLUSIONS: Record<number, string[]> = {
@@ -1491,8 +1490,8 @@ export const appRouter = router({
         const TEST_SPONSOR_IDS = new Set([30001, 60001, 90001, 120001]);
         // Always-excluded truly inactive/dummy accounts
         const ALWAYS_EXCLUDED_SPONSOR_IDS = new Set([270001, 510003]);
-        // Jen Candee excluded from delegate analytics
-        const EXCLUDED_DELEGATE_IDS = new Set(['150796696175']);
+        // No excluded delegates for analytics
+        const EXCLUDED_DELEGATE_IDS = new Set<string>([]);
 
         const allMeetingsRaw = await db.getAllMeetings();
         const allSponsorsRaw = await db.getAllSponsors();
