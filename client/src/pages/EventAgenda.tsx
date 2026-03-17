@@ -126,16 +126,9 @@ const agenda: DayAgenda[] = [
       { kind: "single", time: "09:00–09:15", title: "Host Welcome & Introductions",           type: "keynote" },
       {
         kind: "concurrent",
-        time: "09:15–10:15",
-        left:  { title: "1:1 Meetings",                                                       type: "meeting" },
-        right: { title: "Shared Challenges Workshop Hour", format: "Peer-to-peer workshop",   type: "session" },
-      },
-      { kind: "single", title: "Morning Break", type: "break" },
-      {
-        kind: "concurrent",
         time: "10:30–11:30",
         left:  { title: "1:1 Meetings",                                                       type: "meeting" },
-        right: { title: "From Reactive TA to Workforce Strategist: Skills, Mobility & Org Redesign", format: "Peer-to-peer roundtable", type: "session" },
+        right: { title: "Shared Challenges Workshop Hour", format: "Peer-to-peer workshop",   type: "session" },
       },
       {
         kind: "single",
@@ -148,17 +141,16 @@ const agenda: DayAgenda[] = [
       { kind: "single", title: "Lunch Break", type: "meal" },
       {
         kind: "concurrent",
-        time: "13:30–14:30",
+        time: "13:15–14:15",
         left:  { title: "1:1 Meetings",                                                       type: "meeting" },
-        right: { title: "Employer Value Under Pressure: Brand, Early Careers & Candidate Experience", format: "Peer-to-peer roundtable", type: "session" },
+        right: { title: "From Reactive TA to Workforce Strategist: Skills, Mobility & Org Redesign", format: "Peer-to-peer roundtable", type: "session" },
       },
       { kind: "single", title: "Afternoon Break", type: "break" },
       {
-        kind: "single",
-        time: "14:45–15:30",
-        title: "The Recruiter Adoption Playbook",
-        format: "Leader-led Workshop",
-        type: "session",
+        kind: "concurrent",
+        time: "14:30–15:30",
+        left:  { title: "1:1 Meetings",                                                       type: "meeting" },
+        right: { title: "Employer Value Under Pressure: Brand, Early Careers & Candidate Experience", format: "Peer-to-peer roundtable", type: "session" },
       },
       {
         kind: "single",

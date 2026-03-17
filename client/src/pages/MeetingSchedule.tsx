@@ -33,12 +33,12 @@ const TIME_SLOTS = [
   { day: 1, slot: 5, label: "14:45 – 15:15" },
   { day: 1, slot: 6, label: "15:15 – 15:45" },
   // Day 2 (Event Day 3)
-  { day: 2, slot: 7, label: "09:15 – 09:45" },
-  { day: 2, slot: 8, label: "09:45 – 10:15" },
-  { day: 2, slot: 9, label: "10:30 – 11:00" },
-  { day: 2, slot: 10, label: "11:00 – 11:30" },
-  { day: 2, slot: 11, label: "13:30 – 14:00" },
-  { day: 2, slot: 12, label: "14:00 – 14:30" },
+  { day: 2, slot: 7, label: "10:30 – 11:00" },
+  { day: 2, slot: 8, label: "11:00 – 11:30" },
+  { day: 2, slot: 9, label: "13:15 – 13:45" },
+  { day: 2, slot: 10, label: "13:45 – 14:15" },
+  { day: 2, slot: 11, label: "14:30 – 15:00" },
+  { day: 2, slot: 12, label: "15:00 – 15:30" },
 ];
 
 export default function MeetingSchedule() {
