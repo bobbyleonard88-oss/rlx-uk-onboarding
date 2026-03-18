@@ -1437,3 +1437,6 @@
 - [x] Replace "Top 20" stamp on all-delegate list (right panel) with actual ranking number
 - [x] When a meeting is removed (X button), delegate correctly returns to available list with match score (flow already correct)
 - [x] Fix Day 1 slot labels in TimeSlotScheduler (was 10:15/10:45 etc, now correct 11:00/11:30 etc)
+
+## "New" Badge for Unranked Delegates (March 2026)
+- [x] Add "New" badge (same style as rank number badge) to delegates not present in sponsor's ranking list in TimeSlotScheduler — both on scheduled meeting cards and in the all-delegate list

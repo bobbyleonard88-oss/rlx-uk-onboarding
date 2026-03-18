@@ -1,0 +1,142 @@
+{
+  "query": "\nSELECT m.attendeeId, m.matchScore, m.isTopRanked, m.timeSlot\nFROM meetings m\nWHERE m.sponsorId = 750001\nORDER BY m.matchScore DESC;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT m.attendeeId, m.matchScore, m.isTopRanked, m.timeSlot\nFROM meetings m\nWHERE m.sponsorId = 750001\nORDER BY m.matchScore DESC;\n",
+  "rows": [
+    {
+      "attendeeId": "116903349643",
+      "matchScore": "99",
+      "isTopRanked": "1",
+      "timeSlot": "11"
+    },
+    {
+      "attendeeId": "195183358360",
+      "matchScore": "98",
+      "isTopRanked": "0",
+      "timeSlot": "6"
+    },
+    {
+      "attendeeId": "174442448959",
+      "matchScore": "98",
+      "isTopRanked": "1",
+      "timeSlot": "2"
+    },
+    {
+      "attendeeId": "5140258",
+      "matchScore": "97",
+      "isTopRanked": "1",
+      "timeSlot": "3"
+    },
+    {
+      "attendeeId": "17812226737",
+      "matchScore": "97",
+      "isTopRanked": "1",
+      "timeSlot": "1"
+    },
+    {
+      "attendeeId": "92353346050",
+      "matchScore": "93",
+      "isTopRanked": "1",
+      "timeSlot": "2"
+    },
+    {
+      "attendeeId": "201697440144",
+      "matchScore": "86",
+      "isTopRanked": "1",
+      "timeSlot": "5"
+    },
+    {
+      "attendeeId": "9477501",
+      "matchScore": "84",
+      "isTopRanked": "0",
+      "timeSlot": "7"
+    },
+    {
+      "attendeeId": "194295425320",
+      "matchScore": "84",
+      "isTopRanked": "1",
+      "timeSlot": "6"
+    },
+    {
+      "attendeeId": "122796319563",
+      "matchScore": "82",
+      "isTopRanked": "1",
+      "timeSlot": "8"
+    },
+    {
+      "attendeeId": "12731251",
+      "matchScore": "82",
+      "isTopRanked": "0",
+      "timeSlot": "9"
+    },
+    {
+      "attendeeId": "200923910443",
+      "matchScore": "80",
+      "isTopRanked": "1",
+      "timeSlot": "10"
+    },
+    {
+      "attendeeId": "8196151",
+      "matchScore": "70",
+      "isTopRanked": "0",
+      "timeSlot": "3"
+    },
+    {
+      "attendeeId": "203946652193",
+      "matchScore": "68",
+      "isTopRanked": "0",
+      "timeSlot": "4"
+    },
+    {
+      "attendeeId": "9319401",
+      "matchScore": "68",
+      "isTopRanked": "0",
+      "timeSlot": "5"
+    },
+    {
+      "attendeeId": "9322701",
+      "matchScore": "66",
+      "isTopRanked": "1",
+      "timeSlot": "12"
+    },
+    {
+      "attendeeId": "11132851",
+      "matchScore": "66",
+      "isTopRanked": "0",
+      "timeSlot": "8"
+    },
+    {
+      "attendeeId": "208415155065",
+      "matchScore": "60",
+      "isTopRanked": "0",
+      "timeSlot": "10"
+    },
+    {
+      "attendeeId": "18336501",
+      "matchScore": "60",
+      "isTopRanked": "0",
+      "timeSlot": "12"
+    },
+    {
+      "attendeeId": "8952301",
+      "matchScore": "58",
+      "isTopRanked": "0",
+      "timeSlot": "7"
+    },
+    {
+      "attendeeId": "93176107633",
+      "matchScore": "36",
+      "isTopRanked": "0",
+      "timeSlot": "11"
+    },
+    {
+      "attendeeId": "92953690026",
+      "matchScore": "0",
+      "isTopRanked": "0",
+      "timeSlot": "4"
+    }
+  ],
+  "messages": [],
+  "stdout": "attendeeId\tmatchScore\tisTopRanked\ttimeSlot\n116903349643\t99\t1\t11\n195183358360\t98\t0\t6\n174442448959\t98\t1\t2\n5140258\t97\t1\t3\n17812226737\t97\t1\t1\n92353346050\t93\t1\t2\n201697440144\t86\t1\t5\n9477501\t84\t0\t7\n194295425320\t84\t1\t6\n122796319563\t82\t1\t8\n12731251\t82\t0\t9\n200923910443\t80\t1\t10\n8196151\t70\t0\t3\n203946652193\t68\t0\t4\n9319401\t68\t0\t5\n9322701\t66\t1\t12\n11132851\t66\t0\t8\n208415155065\t60\t0\t10\n18336501\t60\t0\t12\n8952301\t58\t0\t7\n93176107633\t36\t0\t11\n92953690026\t0\t0\t4\n",
+  "stderr": "",
+  "execution_time_ms": 359
+}

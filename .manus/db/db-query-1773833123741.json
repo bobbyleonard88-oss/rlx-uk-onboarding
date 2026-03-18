@@ -1,0 +1,26 @@
+{
+  "query": "\nSELECT i.companyBoilerplate, i.keyChallenges, i.targetOrgSize, i.technologyType\nFROM intakeSubmissions i\nWHERE i.sponsorId = 750001\nORDER BY i.submittedAt DESC\nLIMIT 1;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT i.companyBoilerplate, i.keyChallenges, i.targetOrgSize, i.technologyType\nFROM intakeSubmissions i\nWHERE i.sponsorId = 750001\nORDER BY i.submittedAt DESC\nLIMIT 1;\n",
+  "rows": [],
+  "messages": [
+    "SHL, the global leader in Talent Insight, transforms businesses by leveraging the power of people, science, and technology. Our unrivaled, scientifically backed workforce data and highly validated talent solutions provide organizations with the insights needed to optimally leverage their people’s potential and maximize business outcomes. We equip recruiters and leaders with people insights at an organization, team, and individual level, accelerating growth, decision-making, and talent mobility and inspiring an inclusive culture that supports game-changing agility.  Supporting 80% of the FTSE 100 and 50% of the FTSE 500, as well as thousands of other organisations, SHL offers stand alone solutions or solutions that fit into the wider HR eco system. We build long-term partnerships with organisations to support or steer their talent roadmaps, underpinned by best-in-class governance and significant investment in innovation.   For more information, visit shl.com.",
+    "\t• Streamline hiring and improve decision-making with objective, data-led insight",
+    "• Assess future skills and potential, including AI readiness and AI leadership",
+    "• Select the best graduates quickly when application volumes are high",
+    "• Hire at scale and speed without compromising quality",
+    "• Reduce bias and inconsistency in the selection process",
+    "• Identify critical human skills through measurement, not inference, to support development and talent mobility",
+    "• Enable a stronger build, buy, borrow, and move talent strategy",
+    "• Use automation and AI-enabled screening without creating reputational risk",
+    "• Support upskilling and reskilling by identifying real skills gaps",
+    "• Accelerate sales transformation through predictive talent insight",
+    "• Understand leadership capability in a fast-changing world",
+    "• Identify high-potential talent and focus investment where it will have greatest impact",
+    "• Create reusable skills data that Talent Teams can apply across the employee lifecycle",
+    "• Provide skills taxonomy models grounded in billions of global data points",
+    "\t10k+\tAssessment & Selection"
+  ],
+  "stdout": "companyBoilerplate\tkeyChallenges\ttargetOrgSize\ttechnologyType\nSHL, the global leader in Talent Insight, transforms businesses by leveraging the power of people, science, and technology. Our unrivaled, scientifically backed workforce data and highly validated talent solutions provide organizations with the insights needed to optimally leverage their people’s potential and maximize business outcomes. We equip recruiters and leaders with people insights at an organization, team, and individual level, accelerating growth, decision-making, and talent mobility and inspiring an inclusive culture that supports game-changing agility.  Supporting 80% of the FTSE 100 and 50% of the FTSE 500, as well as thousands of other organisations, SHL offers stand alone solutions or solutions that fit into the wider HR eco system. We build long-term partnerships with organisations to support or steer their talent roadmaps, underpinned by best-in-class governance and significant investment in innovation.   For more information, visit shl.com.\n\n\n\t• Streamline hiring and improve decision-making with objective, data-led insight\n• Assess future skills and potential, including AI readiness and AI leadership\n• Select the best graduates quickly when application volumes are high\n• Hire at scale and speed without compromising quality\n• Reduce bias and inconsistency in the selection process\n• Identify critical human skills through measurement, not inference, to support development and talent mobility\n• Enable a stronger build, buy, borrow, and move talent strategy\n• Use automation and AI-enabled screening without creating reputational risk\n• Support upskilling and reskilling by identifying real skills gaps\n• Accelerate sales transformation through predictive talent insight\n• Understand leadership capability in a fast-changing world\n• Identify high-potential talent and focus investment where it will have greatest impact\n• Create reusable skills data that Talent Teams can apply across the employee lifecycle\n• Provide skills taxonomy models grounded in billions of global data points\n\t10k+\tAssessment & Selection\n",
+  "stderr": "",
+  "execution_time_ms": 359
+}

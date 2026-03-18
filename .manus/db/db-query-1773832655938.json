@@ -1,0 +1,150 @@
+{
+  "query": "\nSELECT m.attendeeId, m.matchScore, m.matchReason, m.timeSlot, m.isTopRanked\nFROM meetings m\nWHERE m.sponsorId = 750001\nORDER BY m.matchScore DESC\nLIMIT 20;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT m.attendeeId, m.matchScore, m.matchReason, m.timeSlot, m.isTopRanked\nFROM meetings m\nWHERE m.sponsorId = 750001\nORDER BY m.matchScore DESC\nLIMIT 20;\n",
+  "rows": [
+    {
+      "attendeeId": "116903349643",
+      "matchScore": "99",
+      "matchReason": "Delegate's pain point 'Building a scalable Executive Hiring Function' and use of 'Hogan' for assessment indicates an interest in robust assessment, which aligns with SHL's 'scientifically backed workforce data' and 'highly validated talent solutions' for 'leadership capability'. Note: delegate currently uses Hogan, a competitor. (Ranked in sponsor's top 20 preferred delegates)",
+      "timeSlot": "11",
+      "isTopRanked": "1"
+    },
+    {
+      "attendeeId": "195183358360",
+      "matchScore": "98",
+      "matchReason": "Delegate's pain point 'Quality of candidates in certain areas is decreasing, yet applications are on the rise which proves to be a distraction from hiring the top talent' aligns with SHL's ability to 'Reduce bias and inconsistency in the selection process' and 'Identify high-potential talent and focus investment where it will have greatest impact'.",
+      "timeSlot": "6",
+      "isTopRanked": "0"
+    },
+    {
+      "attendeeId": "174442448959",
+      "matchScore": "98",
+      "matchReason": "Delegate's interest in 'AI and automation' and 'globally joined up systems and data' has some overlap with SHL's 'AI-enabled screening' and 'reusable skills data that Talent Teams can apply across the employee lifecycle'. Note: delegate currently uses Arctic Shores, a competitor. (Ranked in sponsor's top 20 preferred delegates)",
+      "timeSlot": "2",
+      "isTopRanked": "1"
+    },
+    {
+      "attendeeId": "5140258",
+      "matchScore": "97",
+      "matchReason": "Delegate's active project 'Skills Assessment' and objective to 'pilot and scale across a challenging devolved tech stack' directly aligns with SHL's 'highly validated talent solutions' and 'reusable skills data that Talent Teams can apply across the employee lifecycle'. Note: delegate currently uses Vervoe, a competitor. (Ranked in sponsor's top 20 preferred delegates)",
+      "timeSlot": "3",
+      "isTopRanked": "1"
+    },
+    {
+      "attendeeId": "17812226737",
+      "matchScore": "97",
+      "matchReason": "Delegate's pain point 'reviewing how assessments can improve quality of hire and therefore reduce attrition' and active project 'Assessment' directly matches SHL's 'highly validated talent solutions' that 'provide organizations with the insights needed to optimally leverage their people’s potential and maximize business outcomes'. Note: delegate currently uses AON, a competitor. (Ranked in sponsor's top 20 preferred delegates)",
+      "timeSlot": "1",
+      "isTopRanked": "1"
+    },
+    {
+      "attendeeId": "92353346050",
+      "matchScore": "93",
+      "matchReason": "Delegate's active project 'Early Talent - Global redesign' and meeting objective 'Understanding. Early Talent, Assessment' directly aligns with SHL's solution to 'Select the best graduates quickly when application volumes are high' and 'highly validated talent solutions'. Note: delegate currently uses PEPhire, a competitor. (Ranked in sponsor's top 20 preferred delegates)",
+      "timeSlot": "2",
+      "isTopRanked": "1"
+    },
+    {
+      "attendeeId": "201697440144",
+      "matchScore": "86",
+      "matchReason": "Delegate's pain point 'Detecting signal from high volume of applicants' and 'Looking at assessment technology that enables us to select the right candidates' directly aligns with SHL's ability to 'Streamline hiring and improve decision-making with objective, data-led insight' and 'Select the best graduates quickly when application volumes are high'. Note: delegate currently uses HireVue, a competitor. (Ranked in sponsor's top 20 preferred delegates)",
+      "timeSlot": "5",
+      "isTopRanked": "1"
+    },
+    {
+      "attendeeId": "9477501",
+      "matchScore": "84",
+      "matchReason": "Delegate's pain point 'high-volume assessments for Early Careers and Sales roles' and active project 'AI Interview / Note taking with interview coaching feedback' directly matches SHL's solutions to 'Select the best graduates quickly when application volumes are high' and 'Accelerate sales transformation through predictive talent insight'. Note: delegate currently uses HireVue and Red Bull Wingfinder, competitors. (Ranked in sponsor's top 20 preferred delegates)",
+      "timeSlot": "7",
+      "isTopRanked": "0"
+    },
+    {
+      "attendeeId": "194295425320",
+      "matchScore": "84",
+      "matchReason": "Delegate's pain point 'traditional recruitment models remain too resume driven, reactive, and process heavy' and objective to 'redesigning the recruitment process namely for volume hiring, moving away from CV driven, application heavy processes using SJT and conversational AI' directly matches SHL's solutions to 'Streamline hiring and improve decision-making with objective, data-led insight' and 'Use automation and AI-enabled screening without creating reputational risk'. Note: delegate is building a global bank of assessments. (Ranked in sponsor's top 20 preferred delegates)",
+      "timeSlot": "6",
+      "isTopRanked": "1"
+    },
+    {
+      "attendeeId": "12731251",
+      "matchScore": "82",
+      "matchReason": "Delegate's pain point 'Assessment & Selection, AI add on to ATS' and objective to 'build a best in class recruiting function with global cohesion and technology/ AI enabled' directly aligns with SHL's 'Assessment & Selection' technology category and 'automation and AI-enabled screening'. Note: delegate currently uses Cappfinity, a competitor. (Ranked in sponsor's top 20 preferred delegates)",
+      "timeSlot": "9",
+      "isTopRanked": "0"
+    },
+    {
+      "attendeeId": "122796319563",
+      "matchScore": "82",
+      "matchReason": "Delegate's pain point 'no automated for screening high volumes of applicants' and active project 'Assessments upgrade' directly addresses SHL's solution to 'Hire at scale and speed without compromising quality' and 'Select the best graduates quickly when application volumes are high'. Note: delegate currently uses AON, a competitor. (Ranked in sponsor's top 20 preferred delegates)",
+      "timeSlot": "8",
+      "isTopRanked": "1"
+    },
+    {
+      "attendeeId": "200923910443",
+      "matchScore": "80",
+      "matchReason": "Delegate's active project 'candidate assessment tools' and interest in 'Early Careers' and 'AI' aligns with SHL's solutions to 'Select the best graduates quickly when application volumes are high' and 'Assess future skills and potential, including AI readiness and AI leadership'. Note: delegate currently uses various assessment vendors. (Ranked in sponsor's top 20 preferred delegates)",
+      "timeSlot": "10",
+      "isTopRanked": "1"
+    },
+    {
+      "attendeeId": "8196151",
+      "matchScore": "70",
+      "matchReason": "Delegate's pain point 'How do manage that volume, deliver the result whilst ensuring candidate experience isn't impacted' for '300 Apprentices' and '100 MOT roles' aligns with SHL's ability to 'Hire at scale and speed without compromising quality' and 'Select the best graduates quickly when application volumes are high'.",
+      "timeSlot": "3",
+      "isTopRanked": "0"
+    },
+    {
+      "attendeeId": "9319401",
+      "matchScore": "68",
+      "matchReason": "Delegate's pain points 'Early Careers, AI' and meeting objective 'Meeting suppliers with new options. AI and Early Careers' directly aligns with SHL's solutions to 'Select the best graduates quickly when application volumes are high' and 'Assess future skills and potential, including AI readiness'. Note: delegate currently uses Thomas, a competitor.",
+      "timeSlot": "5",
+      "isTopRanked": "0"
+    },
+    {
+      "attendeeId": "203946652193",
+      "matchScore": "68",
+      "matchReason": "Delegate's pain points 'Quantifying skills gaps in talent pools, and plugging skills gaps' and 'Identifying creative scalable tech to make hiring decisions' align with SHL's capabilities to 'Support upskilling and reskilling by identifying real skills gaps' and 'Identify critical human skills through measurement, not inference'. Note: delegate currently uses Assess Candidates.",
+      "timeSlot": "4",
+      "isTopRanked": "0"
+    },
+    {
+      "attendeeId": "11132851",
+      "matchScore": "66",
+      "matchReason": "Delegate's pain point 'Sustained talent pools for repeatable and high volume roles are not yet embedded' and objective to 'automate key stages of the end to end recruitment journey' aligns with SHL's 'reusable skills data' and 'automation and AI-enabled screening'. (Ranked in sponsor's top 20 preferred delegates)",
+      "timeSlot": "8",
+      "isTopRanked": "0"
+    },
+    {
+      "attendeeId": "9322701",
+      "matchScore": "66",
+      "matchReason": "Delegate's pain points 'AI Governance board, AI Adoption' and objective 'AI usage identification' aligns with SHL's 'Use automation and AI-enabled screening without creating reputational risk' and 'Assess future skills and potential, including AI readiness'. (Ranked in sponsor's top 20 preferred delegates)",
+      "timeSlot": "12",
+      "isTopRanked": "1"
+    },
+    {
+      "attendeeId": "18336501",
+      "matchScore": "60",
+      "matchReason": "Delegate's objective to 'Build awareness of advancements in TA technology and identify opportunities to use AI more productively' aligns with SHL's focus on 'AI readiness and AI leadership' and using 'automation and AI-enabled screening'. The delegate also mentions 'sourcing capability building', which SHL's insights can support.",
+      "timeSlot": "12",
+      "isTopRanked": "0"
+    },
+    {
+      "attendeeId": "208415155065",
+      "matchScore": "60",
+      "matchReason": "Delegate's objective 'Automisation and technology is a huge focus this year to incorporate' and active project 'AI integration' aligns with SHL's 'automation and AI-enabled screening' solutions.",
+      "timeSlot": "10",
+      "isTopRanked": "0"
+    },
+    {
+      "attendeeId": "8952301",
+      "matchScore": "58",
+      "matchReason": "Delegate's objective 'Gain a deeper knowledge of what I would need coming up' and active project 'Copilot processes' suggests an interest in efficiency and AI, which SHL's 'AI-enabled screening' can address. (Ranked in sponsor's top 20 preferred delegates)",
+      "timeSlot": "7",
+      "isTopRanked": "0"
+    }
+  ],
+  "messages": [],
+  "stdout": "attendeeId\tmatchScore\tmatchReason\ttimeSlot\tisTopRanked\n116903349643\t99\tDelegate's pain point 'Building a scalable Executive Hiring Function' and use of 'Hogan' for assessment indicates an interest in robust assessment, which aligns with SHL's 'scientifically backed workforce data' and 'highly validated talent solutions' for 'leadership capability'. Note: delegate currently uses Hogan, a competitor. (Ranked in sponsor's top 20 preferred delegates)\t11\t1\n195183358360\t98\tDelegate's pain point 'Quality of candidates in certain areas is decreasing, yet applications are on the rise which proves to be a distraction from hiring the top talent' aligns with SHL's ability to 'Reduce bias and inconsistency in the selection process' and 'Identify high-potential talent and focus investment where it will have greatest impact'.\t6\t0\n174442448959\t98\tDelegate's interest in 'AI and automation' and 'globally joined up systems and data' has some overlap with SHL's 'AI-enabled screening' and 'reusable skills data that Talent Teams can apply across the employee lifecycle'. Note: delegate currently uses Arctic Shores, a competitor. (Ranked in sponsor's top 20 preferred delegates)\t2\t1\n5140258\t97\tDelegate's active project 'Skills Assessment' and objective to 'pilot and scale across a challenging devolved tech stack' directly aligns with SHL's 'highly validated talent solutions' and 'reusable skills data that Talent Teams can apply across the employee lifecycle'. Note: delegate currently uses Vervoe, a competitor. (Ranked in sponsor's top 20 preferred delegates)\t3\t1\n17812226737\t97\tDelegate's pain point 'reviewing how assessments can improve quality of hire and therefore reduce attrition' and active project 'Assessment' directly matches SHL's 'highly validated talent solutions' that 'provide organizations with the insights needed to optimally leverage their people’s potential and maximize business outcomes'. Note: delegate currently uses AON, a competitor. (Ranked in sponsor's top 20 preferred delegates)\t1\t1\n92353346050\t93\tDelegate's active project 'Early Talent - Global redesign' and meeting objective 'Understanding. Early Talent, Assessment' directly aligns with SHL's solution to 'Select the best graduates quickly when application volumes are high' and 'highly validated talent solutions'. Note: delegate currently uses PEPhire, a competitor. (Ranked in sponsor's top 20 preferred delegates)\t2\t1\n201697440144\t86\tDelegate's pain point 'Detecting signal from high volume of applicants' and 'Looking at assessment technology that enables us to select the right candidates' directly aligns with SHL's ability to 'Streamline hiring and improve decision-making with objective, data-led insight' and 'Select the best graduates quickly when application volumes are high'. Note: delegate currently uses HireVue, a competitor. (Ranked in sponsor's top 20 preferred delegates)\t5\t1\n9477501\t84\tDelegate's pain point 'high-volume assessments for Early Careers and Sales roles' and active project 'AI Interview / Note taking with interview coaching feedback' directly matches SHL's solutions to 'Select the best graduates quickly when application volumes are high' and 'Accelerate sales transformation through predictive talent insight'. Note: delegate currently uses HireVue and Red Bull Wingfinder, competitors. (Ranked in sponsor's top 20 preferred delegates)\t7\t0\n194295425320\t84\tDelegate's pain point 'traditional recruitment models remain too resume driven, reactive, and process heavy' and objective to 'redesigning the recruitment process namely for volume hiring, moving away from CV driven, application heavy processes using SJT and conversational AI' directly matches SHL's solutions to 'Streamline hiring and improve decision-making with objective, data-led insight' and 'Use automation and AI-enabled screening without creating reputational risk'. Note: delegate is building a global bank of assessments. (Ranked in sponsor's top 20 preferred delegates)\t6\t1\n12731251\t82\tDelegate's pain point 'Assessment & Selection, AI add on to ATS' and objective to 'build a best in class recruiting function with global cohesion and technology/ AI enabled' directly aligns with SHL's 'Assessment & Selection' technology category and 'automation and AI-enabled screening'. Note: delegate currently uses Cappfinity, a competitor. (Ranked in sponsor's top 20 preferred delegates)\t9\t0\n122796319563\t82\tDelegate's pain point 'no automated for screening high volumes of applicants' and active project 'Assessments upgrade' directly addresses SHL's solution to 'Hire at scale and speed without compromising quality' and 'Select the best graduates quickly when application volumes are high'. Note: delegate currently uses AON, a competitor. (Ranked in sponsor's top 20 preferred delegates)\t8\t1\n200923910443\t80\tDelegate's active project 'candidate assessment tools' and interest in 'Early Careers' and 'AI' aligns with SHL's solutions to 'Select the best graduates quickly when application volumes are high' and 'Assess future skills and potential, including AI readiness and AI leadership'. Note: delegate currently uses various assessment vendors. (Ranked in sponsor's top 20 preferred delegates)\t10\t1\n8196151\t70\tDelegate's pain point 'How do manage that volume, deliver the result whilst ensuring candidate experience isn't impacted' for '300 Apprentices' and '100 MOT roles' aligns with SHL's ability to 'Hire at scale and speed without compromising quality' and 'Select the best graduates quickly when application volumes are high'.\t3\t0\n9319401\t68\tDelegate's pain points 'Early Careers, AI' and meeting objective 'Meeting suppliers with new options. AI and Early Careers' directly aligns with SHL's solutions to 'Select the best graduates quickly when application volumes are high' and 'Assess future skills and potential, including AI readiness'. Note: delegate currently uses Thomas, a competitor.\t5\t0\n203946652193\t68\tDelegate's pain points 'Quantifying skills gaps in talent pools, and plugging skills gaps' and 'Identifying creative scalable tech to make hiring decisions' align with SHL's capabilities to 'Support upskilling and reskilling by identifying real skills gaps' and 'Identify critical human skills through measurement, not inference'. Note: delegate currently uses Assess Candidates.\t4\t0\n11132851\t66\tDelegate's pain point 'Sustained talent pools for repeatable and high volume roles are not yet embedded' and objective to 'automate key stages of the end to end recruitment journey' aligns with SHL's 'reusable skills data' and 'automation and AI-enabled screening'. (Ranked in sponsor's top 20 preferred delegates)\t8\t0\n9322701\t66\tDelegate's pain points 'AI Governance board, AI Adoption' and objective 'AI usage identification' aligns with SHL's 'Use automation and AI-enabled screening without creating reputational risk' and 'Assess future skills and potential, including AI readiness'. (Ranked in sponsor's top 20 preferred delegates)\t12\t1\n18336501\t60\tDelegate's objective to 'Build awareness of advancements in TA technology and identify opportunities to use AI more productively' aligns with SHL's focus on 'AI readiness and AI leadership' and using 'automation and AI-enabled screening'. The delegate also mentions 'sourcing capability building', which SHL's insights can support.\t12\t0\n208415155065\t60\tDelegate's objective 'Automisation and technology is a huge focus this year to incorporate' and active project 'AI integration' aligns with SHL's 'automation and AI-enabled screening' solutions.\t10\t0\n8952301\t58\tDelegate's objective 'Gain a deeper knowledge of what I would need coming up' and active project 'Copilot processes' suggests an interest in efficiency and AI, which SHL's 'AI-enabled screening' can address. (Ranked in sponsor's top 20 preferred delegates)\t7\t0\n",
+  "stderr": "",
+  "execution_time_ms": 364
+}

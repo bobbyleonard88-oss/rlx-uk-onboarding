@@ -1,0 +1,82 @@
+{
+  "query": "\nSELECT m.attendeeId, m.matchScore, m.isTopRanked, m.timeSlot FROM meetings m WHERE m.sponsorId = 810001 ORDER BY m.matchScore DESC;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT m.attendeeId, m.matchScore, m.isTopRanked, m.timeSlot FROM meetings m WHERE m.sponsorId = 810001 ORDER BY m.matchScore DESC;\n",
+  "rows": [
+    {
+      "attendeeId": "17812226737",
+      "matchScore": "87",
+      "isTopRanked": "0",
+      "timeSlot": "7"
+    },
+    {
+      "attendeeId": "8952301",
+      "matchScore": "79",
+      "isTopRanked": "0",
+      "timeSlot": "2"
+    },
+    {
+      "attendeeId": "93176107633",
+      "matchScore": "76",
+      "isTopRanked": "0",
+      "timeSlot": "1"
+    },
+    {
+      "attendeeId": "8713772",
+      "matchScore": "72",
+      "isTopRanked": "0",
+      "timeSlot": "4"
+    },
+    {
+      "attendeeId": "8196151",
+      "matchScore": "68",
+      "isTopRanked": "0",
+      "timeSlot": "9"
+    },
+    {
+      "attendeeId": "128491656706",
+      "matchScore": "67",
+      "isTopRanked": "0",
+      "timeSlot": "3"
+    },
+    {
+      "attendeeId": "9477501",
+      "matchScore": "54",
+      "isTopRanked": "0",
+      "timeSlot": "6"
+    },
+    {
+      "attendeeId": "91862577670",
+      "matchScore": "51",
+      "isTopRanked": "0",
+      "timeSlot": "8"
+    },
+    {
+      "attendeeId": "11132851",
+      "matchScore": "50",
+      "isTopRanked": "1",
+      "timeSlot": "10"
+    },
+    {
+      "attendeeId": "1076201",
+      "matchScore": "49",
+      "isTopRanked": "0",
+      "timeSlot": "5"
+    },
+    {
+      "attendeeId": "113145184682",
+      "matchScore": "48",
+      "isTopRanked": "0",
+      "timeSlot": "12"
+    },
+    {
+      "attendeeId": "110260566550",
+      "matchScore": "47",
+      "isTopRanked": "0",
+      "timeSlot": "11"
+    }
+  ],
+  "messages": [],
+  "stdout": "attendeeId\tmatchScore\tisTopRanked\ttimeSlot\n17812226737\t87\t0\t7\n8952301\t79\t0\t2\n93176107633\t76\t0\t1\n8713772\t72\t0\t4\n8196151\t68\t0\t9\n128491656706\t67\t0\t3\n9477501\t54\t0\t6\n91862577670\t51\t0\t8\n11132851\t50\t1\t10\n1076201\t49\t0\t5\n113145184682\t48\t0\t12\n110260566550\t47\t0\t11\n",
+  "stderr": "",
+  "execution_time_ms": 351
+}

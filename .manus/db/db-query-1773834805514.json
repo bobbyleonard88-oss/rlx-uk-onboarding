@@ -1,0 +1,15 @@
+{
+  "query": "\nSELECT id, companyName, contactEmail FROM sponsors WHERE companyName LIKE '%Veremark%' LIMIT 3;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT id, companyName, contactEmail FROM sponsors WHERE companyName LIKE '%Veremark%' LIMIT 3;\n",
+  "rows": [
+    {
+      "id": "810001",
+      "companyName": "Veremark ",
+      "contactEmail": "dan@veremark.com"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tcompanyName\tcontactEmail\n810001\tVeremark \tdan@veremark.com\n",
+  "stderr": "",
+  "execution_time_ms": 349
+}

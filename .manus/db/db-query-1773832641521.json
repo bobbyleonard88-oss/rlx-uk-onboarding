@@ -1,0 +1,16 @@
+{
+  "query": "\nSELECT s.id, s.companyName, s.contactEmail, s.userId\nFROM sponsors s\nWHERE s.companyName LIKE '%SHL%'\nLIMIT 5;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT s.id, s.companyName, s.contactEmail, s.userId\nFROM sponsors s\nWHERE s.companyName LIKE '%SHL%'\nLIMIT 5;\n",
+  "rows": [
+    {
+      "id": "750001",
+      "companyName": "SHL",
+      "contactEmail": "amber.harris@shl.com",
+      "userId": "8970014"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tcompanyName\tcontactEmail\tuserId\n750001\tSHL\tamber.harris@shl.com\t8970014\n",
+  "stderr": "",
+  "execution_time_ms": 360
+}

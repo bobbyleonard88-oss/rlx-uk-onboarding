@@ -1,0 +1,8 @@
+{
+  "query": "\nSELECT u.id, u.firstName, u.lastName, u.company\nFROM users u\nWHERE u.id IN ('185464523694','91862577670','183232510638','16427701','91862579761',\n               '92353346050','9322701','200923910443','194295425320','122796319563',\n               '201697440144','9477501','92953690026','8952301','11132851','12731251',\n               '116903349643','174442448959','5140258','17812226737')\nLIMIT 25;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT u.id, u.firstName, u.lastName, u.company\nFROM users u\nWHERE u.id IN ('185464523694','91862577670','183232510638','16427701','91862579761',\n               '92353346050','9322701','200923910443','194295425320','122796319563',\n               '201697440144','9477501','92953690026','8952301','11132851','12731251',\n               '116903349643','174442448959','5140258','17812226737')\nLIMIT 25;\n",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 2: Unknown column 'u.firstname' in 'field list'"
+  ]
+}

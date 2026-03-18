@@ -1,0 +1,58 @@
+{
+  "query": "\nSELECT attendeeId, COUNT(*) as cnt FROM meetings \nWHERE attendeeId IN ('191181016455','91889321035','92953690026','12731251','174442448959','190898269597','201697440144','116903349643','13454401','452351','195183358360','4956154','191181142545','192905181704','194698768792','21545051')\nGROUP BY attendeeId ORDER BY cnt DESC;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT attendeeId, COUNT(*) as cnt FROM meetings \nWHERE attendeeId IN ('191181016455','91889321035','92953690026','12731251','174442448959','190898269597','201697440144','116903349643','13454401','452351','195183358360','4956154','191181142545','192905181704','194698768792','21545051')\nGROUP BY attendeeId ORDER BY cnt DESC;\n",
+  "rows": [
+    {
+      "attendeeId": "174442448959",
+      "cnt": "8"
+    },
+    {
+      "attendeeId": "92953690026",
+      "cnt": "8"
+    },
+    {
+      "attendeeId": "4956154",
+      "cnt": "8"
+    },
+    {
+      "attendeeId": "191181016455",
+      "cnt": "8"
+    },
+    {
+      "attendeeId": "12731251",
+      "cnt": "8"
+    },
+    {
+      "attendeeId": "195183358360",
+      "cnt": "7"
+    },
+    {
+      "attendeeId": "13454401",
+      "cnt": "7"
+    },
+    {
+      "attendeeId": "91889321035",
+      "cnt": "7"
+    },
+    {
+      "attendeeId": "452351",
+      "cnt": "6"
+    },
+    {
+      "attendeeId": "190898269597",
+      "cnt": "6"
+    },
+    {
+      "attendeeId": "201697440144",
+      "cnt": "6"
+    },
+    {
+      "attendeeId": "116903349643",
+      "cnt": "4"
+    }
+  ],
+  "messages": [],
+  "stdout": "attendeeId\tcnt\n174442448959\t8\n92953690026\t8\n4956154\t8\n191181016455\t8\n12731251\t8\n195183358360\t7\n13454401\t7\n91889321035\t7\n452351\t6\n190898269597\t6\n201697440144\t6\n116903349643\t4\n",
+  "stderr": "",
+  "execution_time_ms": 349
+}

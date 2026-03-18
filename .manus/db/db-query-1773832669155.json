@@ -1,0 +1,28 @@
+{
+  "query": "\nSELECT m.attendeeId, m.matchScore, m.isTopRanked, m.timeSlot\nFROM meetings m\nWHERE m.sponsorId = 750001\nORDER BY m.matchScore ASC\nLIMIT 3;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT m.attendeeId, m.matchScore, m.isTopRanked, m.timeSlot\nFROM meetings m\nWHERE m.sponsorId = 750001\nORDER BY m.matchScore ASC\nLIMIT 3;\n",
+  "rows": [
+    {
+      "attendeeId": "92953690026",
+      "matchScore": "0",
+      "isTopRanked": "0",
+      "timeSlot": "4"
+    },
+    {
+      "attendeeId": "93176107633",
+      "matchScore": "36",
+      "isTopRanked": "0",
+      "timeSlot": "11"
+    },
+    {
+      "attendeeId": "8952301",
+      "matchScore": "58",
+      "isTopRanked": "0",
+      "timeSlot": "7"
+    }
+  ],
+  "messages": [],
+  "stdout": "attendeeId\tmatchScore\tisTopRanked\ttimeSlot\n92953690026\t0\t0\t4\n93176107633\t36\t0\t11\n8952301\t58\t0\t7\n",
+  "stderr": "",
+  "execution_time_ms": 362
+}

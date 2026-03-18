@@ -313,6 +313,10 @@ export default function TimeSlotScheduler({
                     <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30 text-xs font-bold">
                       #{meeting.rankPosition}
                     </Badge>
+                  ) : sponsorRankings != null ? (
+                    <Badge className="bg-teal-500/20 text-teal-300 border-teal-500/30 text-xs font-bold">
+                      New
+                    </Badge>
                   ) : meeting.isTop20 && (
                     <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30 text-xs">
                       Ranked
@@ -677,9 +681,13 @@ export default function TimeSlotScheduler({
                             <div className="text-slate-300 text-xs truncate">{delegate.company}</div>
                           </div>
                           <div className="flex items-center gap-1.5 flex-shrink-0">
-                            {rankPos != null && (
+                            {rankPos != null ? (
                               <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30 text-xs font-bold">
                                 #{rankPos}
+                              </Badge>
+                            ) : sponsorRankings != null && (
+                              <Badge className="bg-teal-500/20 text-teal-300 border-teal-500/30 text-xs font-bold">
+                                New
                               </Badge>
                             )}
                             {isBooked && (
