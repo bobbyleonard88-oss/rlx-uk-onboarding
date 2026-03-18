@@ -1447,3 +1447,14 @@
 - [x] Add pre-event contact agreement warning banner with checkbox to sponsor MeetingSchedule page — sponsors must agree not to contact delegates before the event or risk removal
 - [x] Reword Veremark match reasons for Carly George (AXA) and Martin McDermott (IQ-EQ) to be more positive and opportunity-focused
 - [x] Gate meeting schedule behind pre-event contact agreement checkbox — meetings hidden until sponsor ticks the box
+
+## Security Fix — Move Delegate Data Server-Side (March 2026)
+- [x] Add admin.getDelegates tRPC procedure (full data, adminProcedure)
+- [x] Add sponsor.getDelegates tRPC procedure (limited fields only, protectedProcedure)
+- [x] Update AdminDashboard.tsx to use admin API instead of client-side attendees import
+- [x] Update AdminMeetings.tsx to use admin API instead of client-side attendees import
+- [x] Update TimeSlotScheduler.tsx to accept delegates as prop from API instead of importing attendees
+- [x] Update MeetingSchedule.tsx to use sponsor API (limited fields) instead of client-side attendees import
+- [x] Update Prioritize.tsx to use sponsor API (limited fields) instead of client-side attendees import
+- [x] Remove client/src/lib/attendees.ts from the client bundle (renamed to .bak)
+- [x] Verify no remaining imports of client-side attendees.ts (0 found)

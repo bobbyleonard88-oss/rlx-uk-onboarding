@@ -15,7 +15,7 @@ import PageHeader from "@/components/PageHeader";
 import DelegateProfileModal from "@/components/DelegateProfileModal";
 import { useState } from "react";
 import { toast } from "sonner";
-import { attendees } from "@/lib/attendees";
+// attendees data now fetched server-side via sponsor.getDelegates
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -79,6 +79,14 @@ export default function MeetingSchedule() {
     { enabled: !!user }
   );
 
+  // Fetch delegate list server-side (replaces client-side attendees import)
+  const { data: delegateList = [] } = trpc.sponsor.getDelegates.useQuery(
+    undefined,
+    { enabled: !!user }
+  );
+  // Helper to look up a delegate by ID
+  const findDelegate = (id: string) => delegateList.find((a: any) => a.id === id);
+
   // Derive attendee display names from intake data
   const attendee1Name = intake ? `${intake.firstName} ${intake.lastName}` : 'Attendee 1';
   const attendee2Name = intake?.secondRepName || 'Attendee 2';
@@ -96,7 +104,7 @@ export default function MeetingSchedule() {
     return `<ul style="margin:0;padding-left:18px;color:#374151;">${lines.map((l: string) => `<li style="margin-bottom:3px;">${l}</li>`).join('')}</ul>`;
   };
 
-  const buildDelegatePdfHtml = (delegate: typeof attendees[number]) => `
+  const buildDelegatePdfHtml = (delegate: any) => `
     <!DOCTYPE html>
     <html>
     <head>
@@ -167,7 +175,7 @@ export default function MeetingSchedule() {
   `;
 
   const downloadDelegateProfileCSV = (attendeeId: string) => {
-    const delegate = attendees.find(a => a.id === attendeeId);
+    const delegate = findDelegate(attendeeId);
     if (!delegate) {
       toast.error("Delegate not found");
       return;
@@ -180,7 +188,7 @@ export default function MeetingSchedule() {
       delegate.industry || '',
       delegate.companySize || '',
       delegate.regionalRemit || '',
-      delegate.budgetAuthority || '',
+      (delegate as any).budgetAuthority || '',
       (delegate as any).activeBudgetRange || '',
       (delegate as any).contractSignOff || '',
       (delegate as any).currentProjectStage || '',
@@ -214,8 +222,8 @@ export default function MeetingSchedule() {
       return;
     }
     const allDelegates = meetings
-      .map(m => attendees.find(a => a.id === m.attendeeId))
-      .filter((d): d is typeof attendees[number] => d !== undefined);
+      .map(m => findDelegate(m.attendeeId))
+      .filter((d): d is any => d !== undefined);
 
     // Build a multi-page PDF: each delegate gets its own page-break section
     const combinedHtml = `
@@ -375,7 +383,7 @@ export default function MeetingSchedule() {
         return (a.timeSlot ?? 0) - (b.timeSlot ?? 0);
       })
       .map(m => {
-        const staticDelegate = attendees.find(a => a.id === m.attendeeId);
+        const staticDelegate = findDelegate(m.attendeeId);
         const d = staticDelegate ? { ...staticDelegate, ...(m.delegateProfile || {}) } as any : null;
         const slot = slotLabels[m.timeSlot!] || { day: '', time: `Slot ${m.timeSlot}` };
         const attendeeName = (m.attendeeNumber === 2) ? attendee2Name : attendee1Name;
@@ -587,7 +595,7 @@ export default function MeetingSchedule() {
                 <div className="divide-y divide-slate-700/60">
                   {TIME_SLOTS.filter(ts => ts.day === day).map(({ slot, label }) => {
                     const meeting = (attendee1BySlot[slot] || [])[0];
-                    const staticDelegate = meeting ? attendees.find(a => a.id === meeting.attendeeId) : null;
+                        const staticDelegate = meeting ? findDelegate(meeting.attendeeId) : null;
                     const delegate = staticDelegate ? { ...staticDelegate, ...(meeting?.delegateProfile || {}) } : null;
                     return (
                       <div key={slot} className="flex items-center gap-3 px-2 py-2.5 hover:bg-slate-800/40 rounded transition-colors">
@@ -683,7 +691,7 @@ export default function MeetingSchedule() {
                     <div className="divide-y divide-slate-700/60">
                       {TIME_SLOTS.filter(ts => ts.day === day2).map(({ slot, label }) => {
                         const meeting = (attendee2BySlot[slot] || [])[0];
-                        const staticDelegate = meeting ? attendees.find(a => a.id === meeting.attendeeId) : null;
+                        const staticDelegate = meeting ? findDelegate(meeting.attendeeId) : null;
                         const delegate = staticDelegate ? { ...staticDelegate, ...(meeting?.delegateProfile || {}) } : null;
                         return (
                           <div key={slot} className="flex items-center gap-3 px-2 py-2.5 hover:bg-slate-800/40 rounded transition-colors">

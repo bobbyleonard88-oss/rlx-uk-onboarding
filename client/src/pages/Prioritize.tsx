@@ -61,11 +61,23 @@ import {
 } from "@/components/ui/select";
 import { GripVertical } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
-import { attendees, Attendee } from "@/lib/attendees";
+// attendees data now fetched server-side via sponsor.getDelegates
 import { toast } from "sonner";
 
+interface AttendeeItem {
+  id: string;
+  firstName: string;
+  lastName: string;
+  jobTitle: string;
+  company: string;
+  companySize: string;
+  industry: string;
+  teamSize: string;
+  regionalRemit: string | null;
+}
+
 interface SortableRowProps {
-  attendee: Attendee;
+  attendee: AttendeeItem;
   rank: number;
 }
 
@@ -119,9 +131,10 @@ export default function Prioritize() {
   const { data: existingIntake } = trpc.intake.getSubmission.useQuery();
   const { data: existingRankings } = trpc.rankings.getLatestRankings.useQuery();
   const submitRankings = trpc.rankings.submit.useMutation();
+  const { data: attendeeList = [] } = trpc.sponsor.getDelegates.useQuery();
   
-  const [rankedAttendees, setRankedAttendees] = useState<Attendee[]>([]);
-  const [customOrder, setCustomOrder] = useState<Attendee[]>([]);
+  const [rankedAttendees, setRankedAttendees] = useState<AttendeeItem[]>([]);
+  const [customOrder, setCustomOrder] = useState<AttendeeItem[]>([]);
   const [sortBy, setSortBy] = useState<string>("custom");
   const [showSubmitDialog, setShowSubmitDialog] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -135,9 +148,9 @@ export default function Prioritize() {
     if (existingRankings?.rankingsData) {
       try {
         const savedIds = JSON.parse(existingRankings.rankingsData);
-        const ordered = savedIds
-          .map((id: string) => attendees.find((a) => a.id === id))
-          .filter(Boolean);
+        const ordered = (savedIds as string[])
+          .map((id: string) => attendeeList.find((a: AttendeeItem) => a.id === id))
+          .filter(Boolean) as AttendeeItem[];
         setRankedAttendees(ordered);
         setCustomOrder(ordered);
         // Also save to localStorage for offline access
@@ -153,9 +166,9 @@ export default function Prioritize() {
     if (saved) {
       try {
         const savedIds = JSON.parse(saved);
-        const ordered = savedIds
-          .map((id: string) => attendees.find((a) => a.id === id))
-          .filter(Boolean);
+        const ordered = (savedIds as string[])
+          .map((id: string) => attendeeList.find((a: AttendeeItem) => a.id === id))
+          .filter(Boolean) as AttendeeItem[];
         setRankedAttendees(ordered);
         setCustomOrder(ordered);
         return;
@@ -165,7 +178,7 @@ export default function Prioritize() {
     }
     
     // Default: Sort alphabetically by last name
-    const sorted = [...attendees].sort((a, b) => 
+    const sorted = [...attendeeList].sort((a: AttendeeItem, b: AttendeeItem) => 
       a.lastName.localeCompare(b.lastName)
     );
     setRankedAttendees(sorted);
@@ -210,7 +223,7 @@ export default function Prioritize() {
   function handleSort(value: string) {
     setSortBy(value);
     
-    let sorted: Attendee[];
+    let sorted: AttendeeItem[];
     switch (value) {
       case "custom":
         // Restore custom order
@@ -294,7 +307,7 @@ export default function Prioritize() {
             <h1 className="text-foreground mb-6">Prioritise Your Meetings</h1>
             <div className="gold-divider max-w-md mx-auto mb-8"></div>
             <p className="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-              Drag and drop to rank all {attendees.length} attendees in order of meeting priority. Your rankings will help us 
+              Drag and drop to rank all {attendeeList.length} attendees in order of meeting priority. Your rankings will help us 
               schedule the most valuable meetings for your team.
             </p>
           </div>

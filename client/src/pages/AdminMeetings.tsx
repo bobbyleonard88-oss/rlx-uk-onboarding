@@ -13,7 +13,7 @@ import { Sparkles, RefreshCw, LogOut, User, Trash2, Save, Send, Download, Zap } 
 import TimeSlotScheduler from "@/components/TimeSlotScheduler";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { toast } from "sonner";
-import { attendees } from "@/lib/attendees";
+// attendees data now fetched server-side via admin.getDelegates
 import { Link } from "wouter";
 import { getLoginUrl } from "@/const";
 import AdminHeader from "@/components/AdminHeader";
@@ -164,6 +164,7 @@ export default function AdminMeetings() {
   
   const includeTestAccounts = useTestMode();
   const { data: submissions } = trpc.admin.getAllSubmissions.useQuery({ includeTestAccounts });
+  const { data: allDelegates = [] } = trpc.admin.getDelegates.useQuery();
   
   const generateMeetings = trpc.admin.generateMeetings.useMutation({
     onSuccess: (data) => {
@@ -592,7 +593,7 @@ export default function AdminMeetings() {
                       if (existingMeetings && existingMeetings.length > 0) {
                         // Convert existing meetings to MatchResult format
                         const matchResults: MatchResult[] = existingMeetings.map((meeting: any) => {
-                          const delegate = attendees.find(a => a.id === meeting.attendeeId);
+                          const delegate = allDelegates.find((a: any) => a.id === meeting.attendeeId);
                           return {
                             attendeeId: meeting.attendeeId,
                             matchScore: meeting.matchScore || 0,
@@ -919,7 +920,7 @@ export default function AdminMeetings() {
                 }}
                 onAddDelegate={async (attendeeId, slot) => {
                   // Find delegate info
-                  const delegate = attendees.find(a => a.id === attendeeId);
+                  const delegate = allDelegates.find((a: any) => a.id === attendeeId);
                   if (!delegate) return;
                   
                   // If replacing, remove the old meeting first
@@ -1002,6 +1003,7 @@ export default function AdminMeetings() {
                     return `${intake.secondRepName} (${intake.companyName})`;
                   })(),
                 } : null}
+                allDelegates={allDelegates}
               />
             </CardContent>
           </Card>

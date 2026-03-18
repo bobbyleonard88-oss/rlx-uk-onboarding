@@ -9,7 +9,7 @@ import { sendEmail } from "./emailNotification";
 import { notifyIntakeSubmission, notifyRankingsSubmission } from "./_core/emailNotification";
 import { ENV } from "./_core/env";
 import { generateAllMatches, saveMatches } from "./matchingEngine";
-import { attendees } from "../client/src/lib/attendees";
+import { attendees } from "./attendees";
 
 
 export const appRouter = router({
@@ -119,6 +119,21 @@ export const appRouter = router({
       const sponsor = await db.getSponsorByUserId(ctx.user.id, ctx.user.email ?? undefined);
       if (!sponsor) return null;
       return await db.getIntakeSubmissionBySponsor(sponsor.id);
+    }),
+
+    // Get delegate list for sponsor-facing pages (limited fields — no budgets, pain points, or opt-in lists)
+    getDelegates: protectedProcedure.query(async () => {
+      return attendees.map(a => ({
+        id: a.id,
+        firstName: a.firstName,
+        lastName: a.lastName,
+        jobTitle: a.jobTitle,
+        company: a.company,
+        companySize: a.companySize,
+        industry: a.industry,
+        teamSize: a.teamSize,
+        regionalRemit: a.regionalRemit ?? null,
+      }));
     }),
 
     // Track sponsor activity (login or download)
@@ -379,6 +394,11 @@ export const appRouter = router({
     // Get all delegates
     getAllDelegates: adminProcedure.query(async () => {
       return await db.getDelegateProfiles();
+    }),
+
+    // Get full delegate list from attendees.ts (admin only — includes all PII fields)
+    getDelegates: adminProcedure.query(async () => {
+      return attendees;
     }),
     
     // Update submission status
@@ -713,7 +733,8 @@ export const appRouter = router({
         }
 
         // Build list of eligible delegates with their details and scores
-        const { attendees } = await import('../client/src/lib/attendees');
+        // Use server-side attendees (not client bundle) to keep PII off the client
+        const { attendees } = await import('./attendees');
         const eligibleDelegates: Array<{
           id: string;
           firstName: string;

@@ -1,4 +1,4 @@
-import { attendees } from "../client/src/lib/attendees";
+import { attendees } from "./attendees";
 
 const testIds = ['93176107633', '208415155065', '9319401'];
 

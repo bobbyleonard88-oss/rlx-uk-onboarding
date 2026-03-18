@@ -11,7 +11,7 @@ import { Download, RefreshCw, Users, Calendar, CheckCircle, FileText, List, Arch
 import { Link } from "wouter";
 import { toast } from "sonner";
 import { getLoginUrl } from "@/const";
-import { attendees } from "@/lib/attendees";
+// attendees data now fetched server-side via admin.getDelegates
 import { useState } from "react";
 import IntakeProfileModal from "@/components/IntakeProfileModal";
 import RankingsPreviewModal from "@/components/RankingsPreviewModal";
@@ -51,6 +51,7 @@ export default function AdminDashboard() {
   
   const { data: submissions, isLoading, refetch } = trpc.admin.getAllSubmissions.useQuery({ includeTestAccounts });
   const { data: delegates } = trpc.admin.getAllDelegates.useQuery();
+  const { data: attendees = [] } = trpc.admin.getDelegates.useQuery();
   const { refetch: fetchExport, isFetching: isExporting } = trpc.admin.exportAllSubmissions.useQuery(
     undefined,
     { enabled: false }

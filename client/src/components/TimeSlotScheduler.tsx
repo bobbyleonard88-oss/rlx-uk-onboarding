@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Clock, GripVertical, X, Users, ChevronDown, ChevronUp, RefreshCw, Eye, FileText, Filter } from "lucide-react";
 import { useState } from "react";
-import { attendees } from "@/lib/attendees";
+// attendees data now passed as prop from parent (fetched server-side)
 import MatchReasonModal from "@/components/MatchReasonModal";
 import { MeetingNotesModal } from "@/components/MeetingNotesModal";
 
@@ -32,6 +32,18 @@ interface Meeting {
   adminNotes?: string | null;
 }
 
+interface DelegateItem {
+  id: string;
+  firstName: string;
+  lastName: string;
+  jobTitle: string;
+  company: string;
+  companySize?: string;
+  industry?: string;
+  teamSize?: string;
+  regionalRemit?: string | null;
+}
+
 interface TimeSlotSchedulerProps {
   meetings: Meeting[];
   onUpdateSlot: (meetingId: number, newSlot: number | null) => void;
@@ -50,6 +62,7 @@ interface TimeSlotSchedulerProps {
     attendee1Name?: string;
     attendee2Name?: string;
   } | null;
+  allDelegates?: DelegateItem[]; // Full delegate list passed from parent (server-fetched)
 }
 
 // Slot numbering: 12 slots total — 6 per day, 2 × 30-min slots per 1-hour block
@@ -81,6 +94,7 @@ export default function TimeSlotScheduler({
   sponsorId,
   sponsorData,
   attendeeNames,
+  allDelegates = [],
 }: TimeSlotSchedulerProps) {
   const [draggedMeeting, setDraggedMeeting] = useState<Meeting | null>(null);
   const [draggedDelegate, setDraggedDelegate] = useState<string | null>(null);
@@ -531,7 +545,7 @@ export default function TimeSlotScheduler({
                     {isLoadingEligible ? 'Loading...' : `Available for Slot ${selectedSlot} (${eligibleDelegateList?.length ?? eligibleIds?.size ?? 0})`}
                   </span>
                 ) : (
-                  <span className="text-white font-semibold text-base">All Delegates ({attendees.length})</span>
+                  <span className="text-white font-semibold text-base">All Delegates ({allDelegates.length})</span>
                 )}
               </div>
               <div className="flex items-center gap-2">
@@ -633,7 +647,7 @@ export default function TimeSlotScheduler({
               <div className="space-y-2">
                 {(() => {
                   // Sort all delegates by match score
-                  let sortedDelegates = [...attendees];
+                  let sortedDelegates = [...allDelegates];
                   
                   if (delegateScores && delegateScores.length > 0) {
                     const scoreMap = new Map(delegateScores.map(s => [s.attendeeId, s.matchScore]));
