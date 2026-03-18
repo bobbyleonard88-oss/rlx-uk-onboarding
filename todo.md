@@ -1440,3 +1440,4 @@
 
 ## "New" Badge for Unranked Delegates (March 2026)
 - [x] Add "New" badge (same style as rank number badge) to delegates not present in sponsor's ranking list in TimeSlotScheduler — both on scheduled meeting cards and in the all-delegate list
+- [x] Add tooltip to "New" badge explaining delegate was confirmed after rankings were submitted

@@ -314,9 +314,16 @@ export default function TimeSlotScheduler({
                       #{meeting.rankPosition}
                     </Badge>
                   ) : sponsorRankings != null ? (
-                    <Badge className="bg-teal-500/20 text-teal-300 border-teal-500/30 text-xs font-bold">
-                      New
-                    </Badge>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Badge className="bg-teal-500/20 text-teal-300 border-teal-500/30 text-xs font-bold cursor-help">
+                          New
+                        </Badge>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>This delegate was confirmed after the sponsor submitted their rankings</p>
+                      </TooltipContent>
+                    </Tooltip>
                   ) : meeting.isTop20 && (
                     <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30 text-xs">
                       Ranked
@@ -686,9 +693,16 @@ export default function TimeSlotScheduler({
                                 #{rankPos}
                               </Badge>
                             ) : sponsorRankings != null && (
-                              <Badge className="bg-teal-500/20 text-teal-300 border-teal-500/30 text-xs font-bold">
-                                New
-                              </Badge>
+                              <Tooltip>
+                                <TooltipTrigger asChild>
+                                  <Badge className="bg-teal-500/20 text-teal-300 border-teal-500/30 text-xs font-bold cursor-help">
+                                    New
+                                  </Badge>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                  <p>This delegate was confirmed after the sponsor submitted their rankings</p>
+                                </TooltipContent>
+                              </Tooltip>
                             )}
                             {isBooked && (
                               <Badge 
