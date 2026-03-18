@@ -1471,3 +1471,8 @@
 - [ ] Add Most In-Demand Delegates leaderboard
 - [ ] Break down time slot analytics into 12 individual slots
 - [ ] Investigate Phidelma Makumbe (EY) having 0 meetings
+
+## Latham & Watkins Cancellation (March 2026)
+- [ ] Remove James Boyle (Latham & Watkins) from all confirmed meetings
+- [ ] Identify impacted sponsors and best replacement delegates per slot
+- [ ] Remove James Boyle from server/attendees.ts
