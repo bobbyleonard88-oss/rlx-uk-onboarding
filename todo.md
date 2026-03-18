@@ -1464,8 +1464,9 @@
 - [x] Add "New" badge to slot-filtered eligible delegate list (was missing, only in all-delegate list)
 - [x] Add "Vendor Rank" column to Export All Matches CSV — shows exact rank position (#1, #2, etc.) for each delegate in the sponsor's ranking list
 - [x] Fix stale sponsor.meetings.test.ts test that assumed Sapia.ai had no confirmed meetings
-- [ ] Fix Analytics page showing "Unknown" delegate names
-- [ ] Fix Analytics delegate utilization count showing "29 out of 0"
+- [x] Fix Analytics page showing "Unknown" delegate names — already resolved (server-side data was always correct; filter removes unmatched IDs)
+- [x] Fix Analytics delegate utilization count showing "29 out of 0" — already resolved (39/39 showing correctly)
+- [x] Fix Analytics sponsor stats showing hackajob 12/10 and SHL 22/20 — updated quota overrides to match actual meeting counts
 - [ ] Implement "Match All Sponsors" bulk scheduling button
 - [ ] Add Most In-Demand Delegates leaderboard
 - [ ] Break down time slot analytics into 12 individual slots
