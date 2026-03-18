@@ -9,7 +9,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Calendar, Download, FileText, Clock, Building2, User, ChevronDown, Eye } from "lucide-react";
+import { Calendar, Download, FileText, Clock, Building2, User, ChevronDown, Eye, AlertTriangle, CheckCircle2 } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
 import PageHeader from "@/components/PageHeader";
 import DelegateProfileModal from "@/components/DelegateProfileModal";
 import { useState } from "react";
@@ -46,6 +47,16 @@ export default function MeetingSchedule() {
   const [selectedDelegate, setSelectedDelegate] = useState<any>(null);
   const [selectedMatchReason, setSelectedMatchReason] = useState<string | undefined>(undefined);
   const [profileModalOpen, setProfileModalOpen] = useState(false);
+
+  // Pre-event contact agreement — persisted in localStorage so it survives page refresh
+  const AGREEMENT_KEY = 'rlx_pre_event_agreement_accepted';
+  const [agreementAccepted, setAgreementAccepted] = useState<boolean>(
+    () => localStorage.getItem(AGREEMENT_KEY) === 'true'
+  );
+  const handleAgreementChange = (checked: boolean) => {
+    setAgreementAccepted(checked);
+    localStorage.setItem(AGREEMENT_KEY, checked ? 'true' : 'false');
+  };
   
   // Get meetings for this sponsor
   const { data: meetings, isLoading } = trpc.sponsor.getMyMeetings.useQuery(
@@ -471,6 +482,43 @@ export default function MeetingSchedule() {
       <PageHeader title="Your Meeting Schedule" description="View and download your confirmed meetings" />
       <div className="p-8">
       <div className="max-w-7xl mx-auto space-y-6">
+        {/* Pre-event Contact Agreement Banner */}
+        {!agreementAccepted ? (
+          <div className="rounded-xl border border-amber-500/50 bg-amber-500/10 p-5 flex gap-4 items-start">
+            <AlertTriangle className="w-6 h-6 text-amber-400 shrink-0 mt-0.5" />
+            <div className="flex-1">
+              <p className="text-amber-200 font-semibold text-base mb-1">Important: Pre-Event Contact Policy</p>
+              <p className="text-amber-100/80 text-sm leading-relaxed mb-4">
+                The delegate profiles and contact details shared here are strictly confidential and provided solely to help you prepare for your meetings at the event. <strong className="text-amber-200">You must not contact, reach out to, or approach any of your scheduled delegates before the event.</strong> Any sponsor found to have made unsolicited pre-event contact with delegates may be removed from the event without refund.
+              </p>
+              <label className="flex items-center gap-3 cursor-pointer group">
+                <Checkbox
+                  id="pre-event-agreement"
+                  checked={agreementAccepted}
+                  onCheckedChange={handleAgreementChange}
+                  className="border-amber-400 data-[state=checked]:bg-amber-500 data-[state=checked]:border-amber-500"
+                />
+                <span className="text-amber-100 text-sm font-medium group-hover:text-white transition-colors">
+                  I understand and agree not to contact any delegates before the event
+                </span>
+              </label>
+            </div>
+          </div>
+        ) : (
+          <div className="rounded-xl border border-green-500/30 bg-green-500/10 p-4 flex gap-3 items-center">
+            <CheckCircle2 className="w-5 h-5 text-green-400 shrink-0" />
+            <p className="text-green-200 text-sm">
+              <strong>Pre-event contact policy acknowledged.</strong> Please remember not to contact any delegates before the event.
+            </p>
+            <button
+              onClick={() => handleAgreementChange(false)}
+              className="ml-auto text-xs text-green-400/60 hover:text-green-300 transition-colors underline underline-offset-2"
+            >
+              Review policy
+            </button>
+          </div>
+        )}
+
         {/* Header */}
         <Card className="glass-card border-slate-700">
           <CardHeader>

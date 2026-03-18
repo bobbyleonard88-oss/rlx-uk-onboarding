@@ -1,0 +1,82 @@
+{
+  "query": "SELECT attendeeId, matchScore, timeSlot, LEFT(matchReason, 120) as reason FROM meetings WHERE sponsorId = 810001 ORDER BY matchScore ASC LIMIT 30;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT attendeeId, matchScore, timeSlot, LEFT(matchReason, 120) as reason FROM meetings WHERE sponsorId = 810001 ORDER BY matchScore ASC LIMIT 30;",
+  "rows": [
+    {
+      "attendeeId": "113145184682",
+      "matchScore": "48",
+      "timeSlot": "12",
+      "reason": "Delegate's primary interest is 'Assessment Methodology' and 'Talent Intelligence,' which are distinct from Veremark's ba"
+    },
+    {
+      "attendeeId": "11132851",
+      "matchScore": "50",
+      "timeSlot": "10",
+      "reason": "Delegate's pain points focus on 'reactive Talent Acquisition model', 'lack consistent, structured talent pipelines', and"
+    },
+    {
+      "attendeeId": "9477501",
+      "matchScore": "54",
+      "timeSlot": "6",
+      "reason": "Delegate seeks to 'Reduce time-to-hire without compromising quality of hire' and 'high-volume assessments,' which Verema"
+    },
+    {
+      "attendeeId": "8196151",
+      "matchScore": "68",
+      "timeSlot": "9",
+      "reason": "Delegate explicitly mentions 'Background checks for keys roles for Finance etc.' as a pain point/project. Veremark's 'gl"
+    },
+    {
+      "attendeeId": "91862577670",
+      "matchScore": "70",
+      "timeSlot": "8",
+      "reason": "Delegate explicitly opted in to meet Zinc — a deliberate signal of interest in background screening solutions. As Head o"
+    },
+    {
+      "attendeeId": "1076201",
+      "matchScore": "70",
+      "timeSlot": "5",
+      "reason": "Delegate explicitly opted in to meet Zinc — a direct signal of active interest in background screening vendors. As Group"
+    },
+    {
+      "attendeeId": "8713772",
+      "matchScore": "72",
+      "timeSlot": "4",
+      "reason": "Delegate lists 'Background Checks' as an Active / Confirmed Project and is 'Actively Evaluating Vendors'. Veremark direc"
+    },
+    {
+      "attendeeId": "93176107633",
+      "matchScore": "76",
+      "timeSlot": "1",
+      "reason": "Delegate explicitly lists 'Background Screening' as an Active / Confirmed Project and a Solution Area of Interest, stati"
+    },
+    {
+      "attendeeId": "110260566550",
+      "matchScore": "77",
+      "timeSlot": "11",
+      "reason": "Delegate explicitly opted in to meet Zinc (a direct Veremark competitor) and lists \"Screening\" as a current pain point —"
+    },
+    {
+      "attendeeId": "8952301",
+      "matchScore": "79",
+      "timeSlot": "2",
+      "reason": "Delegate states 'Would be interested in background checking vendors' as a solution area of interest. Veremark's 'global "
+    },
+    {
+      "attendeeId": "128491656706",
+      "matchScore": "83",
+      "timeSlot": "3",
+      "reason": "Delegate is actively exploring pre-onboarding and onboarding improvements, with a specific goal of reducing time-to-hire"
+    },
+    {
+      "attendeeId": "17812226737",
+      "matchScore": "87",
+      "timeSlot": "7",
+      "reason": "Delegate is 'keen to look at technology in both vetting & on-boarding' and 'to introduce more advanced tech to improve e"
+    }
+  ],
+  "messages": [],
+  "stdout": "attendeeId\tmatchScore\ttimeSlot\treason\n113145184682\t48\t12\tDelegate's primary interest is 'Assessment Methodology' and 'Talent Intelligence,' which are distinct from Veremark's ba\n11132851\t50\t10\tDelegate's pain points focus on 'reactive Talent Acquisition model', 'lack consistent, structured talent pipelines', and\n9477501\t54\t6\tDelegate seeks to 'Reduce time-to-hire without compromising quality of hire' and 'high-volume assessments,' which Verema\n8196151\t68\t9\tDelegate explicitly mentions 'Background checks for keys roles for Finance etc.' as a pain point/project. Veremark's 'gl\n91862577670\t70\t8\tDelegate explicitly opted in to meet Zinc — a deliberate signal of interest in background screening solutions. As Head o\n1076201\t70\t5\tDelegate explicitly opted in to meet Zinc — a direct signal of active interest in background screening vendors. As Group\n8713772\t72\t4\tDelegate lists 'Background Checks' as an Active / Confirmed Project and is 'Actively Evaluating Vendors'. Veremark direc\n93176107633\t76\t1\tDelegate explicitly lists 'Background Screening' as an Active / Confirmed Project and a Solution Area of Interest, stati\n110260566550\t77\t11\tDelegate explicitly opted in to meet Zinc (a direct Veremark competitor) and lists \"Screening\" as a current pain point —\n8952301\t79\t2\tDelegate states 'Would be interested in background checking vendors' as a solution area of interest. Veremark's 'global \n128491656706\t83\t3\tDelegate is actively exploring pre-onboarding and onboarding improvements, with a specific goal of reducing time-to-hire\n17812226737\t87\t7\tDelegate is 'keen to look at technology in both vetting & on-boarding' and 'to introduce more advanced tech to improve e\n",
+  "stderr": "",
+  "execution_time_ms": 353
+}

@@ -1443,3 +1443,5 @@
 - [x] Add tooltip to "New" badge explaining delegate was confirmed after rankings were submitted
 - [x] Fix meeting schedule dates on sponsor side — change from incorrect May dates to March 25/26
 - [x] Fix all event dates to Wed 25 Mar / Thu 26 Mar (day labels were showing Tue/Wed incorrectly) and audit all other dates across the app
+- [x] Update Veremark match scores: Sonal Jain 47→77%, Jon Warwick 49→70%, Lisa Brignall 51→70%, Yuliia Zembal 67→83%
+- [x] Add pre-event contact agreement warning banner with checkbox to sponsor MeetingSchedule page — sponsors must agree not to contact delegates before the event or risk removal

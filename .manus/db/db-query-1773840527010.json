@@ -1,0 +1,70 @@
+{
+  "query": "SELECT attendeeId, matchScore, matchReason FROM meetings WHERE sponsorId = 810001 AND timeSlot IS NOT NULL ORDER BY matchScore ASC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT attendeeId, matchScore, matchReason FROM meetings WHERE sponsorId = 810001 AND timeSlot IS NOT NULL ORDER BY matchScore ASC;",
+  "rows": [
+    {
+      "attendeeId": "110260566550",
+      "matchScore": "47",
+      "matchReason": "Delegate's pain points 'AI Tech, Screening and scheduling' are too broad for Veremark. Veremark provides background screening, which is a form of screening, but not the primary focus of the delegate's AI interest."
+    },
+    {
+      "attendeeId": "113145184682",
+      "matchScore": "48",
+      "matchReason": "Delegate's primary interest is 'Assessment Methodology' and 'Talent Intelligence,' which are distinct from Veremark's background screening and credential verification services. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "attendeeId": "1076201",
+      "matchScore": "49",
+      "matchReason": "Delegate's active projects and interests are focused on 'Assessment Tech, RPO renewal, AI' and 'Talent Marketplace,' which are not directly addressed by Veremark's background screening."
+    },
+    {
+      "attendeeId": "11132851",
+      "matchScore": "50",
+      "matchReason": "Delegate's pain points focus on 'reactive Talent Acquisition model', 'lack consistent, structured talent pipelines', and 'processes and tools are creating friction'. While Veremark streamlines verification, it's not the primary solution for these broader TA operational challenges. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "attendeeId": "91862577670",
+      "matchScore": "51",
+      "matchReason": "Delegate's pain points 'Evolving the TA function to be more proactive and strategic, Humanising AI in processes; inclusive hiring' are high-level strategic goals. While Veremark can support process optimization, it's a niche part of these broader objectives."
+    },
+    {
+      "attendeeId": "9477501",
+      "matchScore": "54",
+      "matchReason": "Delegate seeks to 'Reduce time-to-hire without compromising quality of hire' and 'high-volume assessments,' which Veremark can contribute to by speeding up the final verification stage, but it's not their primary focus for early funnel challenges. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "attendeeId": "128491656706",
+      "matchScore": "67",
+      "matchReason": "Delegate is 'looking for the instruments to improve experience on pre-onboarding and onboarding stages' and to 'improve time-to-hire of our mass positions'. Veremark's streamlined background checks can reduce 'delays in onboarding caused by slow or incomplete background screening' and improve candidate experience."
+    },
+    {
+      "attendeeId": "8196151",
+      "matchScore": "68",
+      "matchReason": "Delegate explicitly mentions 'Background checks for keys roles for Finance etc.' as a pain point/project. Veremark's 'global background screening and credential verification platform' directly addresses this need to 'reduce hiring risks and make more informed recruitment decisions'."
+    },
+    {
+      "attendeeId": "8713772",
+      "matchScore": "72",
+      "matchReason": "Delegate lists 'Background Checks' as an Active / Confirmed Project and is 'Actively Evaluating Vendors'. Veremark directly provides solutions for 'global background screening and credential verification', addressing this core project need."
+    },
+    {
+      "attendeeId": "93176107633",
+      "matchScore": "76",
+      "matchReason": "Delegate explicitly lists 'Background Screening' as an Active / Confirmed Project and a Solution Area of Interest, stating 'We have a tech stack that is dated and isn't integrated. We need to modernise our ways of working'. Veremark directly provides a modern, integrated 'global background screening and credential verification platform' to address these needs."
+    },
+    {
+      "attendeeId": "8952301",
+      "matchScore": "79",
+      "matchReason": "Delegate states 'Would be interested in background checking vendors' as a solution area of interest. Veremark's 'global background screening and credential verification platform' directly matches this explicit need."
+    },
+    {
+      "attendeeId": "17812226737",
+      "matchScore": "87",
+      "matchReason": "Delegate is 'keen to look at technology in both vetting & on-boarding' and 'to introduce more advanced tech to improve efficiency and reduce processing time' for their 40+ person vetting team. Veremark directly addresses 'slow and manual background checks that delay hiring decisions' and 'delays in onboarding caused by slow or incomplete background screening' through its digital platform."
+    }
+  ],
+  "messages": [],
+  "stdout": "attendeeId\tmatchScore\tmatchReason\n110260566550\t47\tDelegate's pain points 'AI Tech, Screening and scheduling' are too broad for Veremark. Veremark provides background screening, which is a form of screening, but not the primary focus of the delegate's AI interest.\n113145184682\t48\tDelegate's primary interest is 'Assessment Methodology' and 'Talent Intelligence,' which are distinct from Veremark's background screening and credential verification services. (Ranked in sponsor's top 20 preferred delegates)\n1076201\t49\tDelegate's active projects and interests are focused on 'Assessment Tech, RPO renewal, AI' and 'Talent Marketplace,' which are not directly addressed by Veremark's background screening.\n11132851\t50\tDelegate's pain points focus on 'reactive Talent Acquisition model', 'lack consistent, structured talent pipelines', and 'processes and tools are creating friction'. While Veremark streamlines verification, it's not the primary solution for these broader TA operational challenges. (Ranked in sponsor's top 20 preferred delegates)\n91862577670\t51\tDelegate's pain points 'Evolving the TA function to be more proactive and strategic, Humanising AI in processes; inclusive hiring' are high-level strategic goals. While Veremark can support process optimization, it's a niche part of these broader objectives.\n9477501\t54\tDelegate seeks to 'Reduce time-to-hire without compromising quality of hire' and 'high-volume assessments,' which Veremark can contribute to by speeding up the final verification stage, but it's not their primary focus for early funnel challenges. (Ranked in sponsor's top 20 preferred delegates)\n128491656706\t67\tDelegate is 'looking for the instruments to improve experience on pre-onboarding and onboarding stages' and to 'improve time-to-hire of our mass positions'. Veremark's streamlined background checks can reduce 'delays in onboarding caused by slow or incomplete background screening' and improve candidate experience.\n8196151\t68\tDelegate explicitly mentions 'Background checks for keys roles for Finance etc.' as a pain point/project. Veremark's 'global background screening and credential verification platform' directly addresses this need to 'reduce hiring risks and make more informed recruitment decisions'.\n8713772\t72\tDelegate lists 'Background Checks' as an Active / Confirmed Project and is 'Actively Evaluating Vendors'. Veremark directly provides solutions for 'global background screening and credential verification', addressing this core project need.\n93176107633\t76\tDelegate explicitly lists 'Background Screening' as an Active / Confirmed Project and a Solution Area of Interest, stating 'We have a tech stack that is dated and isn't integrated. We need to modernise our ways of working'. Veremark directly provides a modern, integrated 'global background screening and credential verification platform' to address these needs.\n8952301\t79\tDelegate states 'Would be interested in background checking vendors' as a solution area of interest. Veremark's 'global background screening and credential verification platform' directly matches this explicit need.\n17812226737\t87\tDelegate is 'keen to look at technology in both vetting & on-boarding' and 'to introduce more advanced tech to improve efficiency and reduce processing time' for their 40+ person vetting team. Veremark directly addresses 'slow and manual background checks that delay hiring decisions' and 'delays in onboarding caused by slow or incomplete background screening' through its digital platform.\n",
+  "stderr": "",
+  "execution_time_ms": 355
+}

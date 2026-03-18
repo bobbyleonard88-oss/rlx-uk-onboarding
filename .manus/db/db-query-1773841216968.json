@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE meetings SET matchScore = 70, matchReason = 'Delegate explicitly opted in to meet Zinc — a direct signal of active interest in background screening vendors. As Group Director of TA at Sky with a broad tech stack under review (Assessment Tech, RPO renewal, AI), background verification is a natural adjacent need. The Zinc opt-in indicates deliberate vendor evaluation in this space.' WHERE sponsorId = 810001 AND attendeeId = '1076201';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute UPDATE meetings SET matchScore = 70, matchReason = 'Delegate explicitly opted in to meet Zinc — a direct signal of active interest in background screening vendors. As Group Director of TA at Sky with a broad tech stack under review (Assessment Tech, RPO renewal, AI), background verification is a natural adjacent need. The Zinc opt-in indicates deliberate vendor evaluation in this space.' WHERE sponsorId = 810001 AND attendeeId = '1076201';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 375
+}

@@ -1,0 +1,9 @@
+{
+  "query": "SELECT attendeeId, matchScore, LEFT(matchReason, 400) as reason FROM matchCache WHERE sponsorId = 810001 AND attendeeId IN ('76678269091', '7258470500', '13454401') ORDER BY matchScore ASC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT attendeeId, matchScore, LEFT(matchReason, 400) as reason FROM matchCache WHERE sponsorId = 810001 AND attendeeId IN ('76678269091', '7258470500', '13454401') ORDER BY matchScore ASC;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 376
+}

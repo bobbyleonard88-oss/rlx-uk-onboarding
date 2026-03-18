@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE meetings SET matchScore = 83, matchReason = 'Delegate is actively exploring pre-onboarding and onboarding improvements, with a specific goal of reducing time-to-hire for mass positions. Veremark streamlined background checks directly address delays at the verification stage that slow onboarding. Delegate also has active interest in meeting background screening vendors.' WHERE sponsorId = 810001 AND attendeeId = '128491656706';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute UPDATE meetings SET matchScore = 83, matchReason = 'Delegate is actively exploring pre-onboarding and onboarding improvements, with a specific goal of reducing time-to-hire for mass positions. Veremark streamlined background checks directly address delays at the verification stage that slow onboarding. Delegate also has active interest in meeting background screening vendors.' WHERE sponsorId = 810001 AND attendeeId = '128491656706';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 368
+}
