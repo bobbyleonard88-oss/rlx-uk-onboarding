@@ -1,0 +1,172 @@
+{
+  "query": "\nSELECT id, companyName, contactEmail, userId FROM sponsors ORDER BY companyName LIMIT 30;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT id, companyName, contactEmail, userId FROM sponsors ORDER BY companyName LIMIT 30;\n",
+  "rows": [
+    {
+      "id": "30001",
+      "companyName": "AI Limited",
+      "contactEmail": "bobby@recruitmentevents.co",
+      "userId": "450018"
+    },
+    {
+      "id": "690001",
+      "companyName": "Amberjack",
+      "contactEmail": "darren.lancaster@weareamberjack.com",
+      "userId": "8490008"
+    },
+    {
+      "id": "270002",
+      "companyName": "Appcast",
+      "contactEmail": "roy.jacques@appcast.io",
+      "userId": "1890027"
+    },
+    {
+      "id": "390001",
+      "companyName": "Bright Apply",
+      "contactEmail": "kirsten.barnes@brightnetwork.co.uk",
+      "userId": "6540021"
+    },
+    {
+      "id": "60001",
+      "companyName": "Elevate Assess",
+      "contactEmail": "nino@recruitmentevents.co",
+      "userId": "450001"
+    },
+    {
+      "id": "540001",
+      "companyName": "hackajob",
+      "contactEmail": "sam.b@hackajob.co",
+      "userId": "10621147"
+    },
+    {
+      "id": "600001",
+      "companyName": "Happydance Careers Websites",
+      "contactEmail": "dave.ralph@happydance.love",
+      "userId": "6330011"
+    },
+    {
+      "id": "210001",
+      "companyName": "Harver",
+      "contactEmail": "elliot.thompson@harver.com",
+      "userId": "960014"
+    },
+    {
+      "id": "720001",
+      "companyName": "inploi",
+      "contactEmail": "felix@inploi.com",
+      "userId": "8910004"
+    },
+    {
+      "id": "840001",
+      "companyName": "JobSync",
+      "contactEmail": "cminto@jobsync.com",
+      "userId": "9900015"
+    },
+    {
+      "id": "120001",
+      "companyName": "Little Moment",
+      "contactEmail": "stefan@recruitmentevents.co",
+      "userId": "990003"
+    },
+    {
+      "id": "180001",
+      "companyName": "Maki People",
+      "contactEmail": "marc.dewind@makipeople.com",
+      "userId": "1410007"
+    },
+    {
+      "id": "90001",
+      "companyName": "NexaTalent Solutions Ltd",
+      "contactEmail": "natalija@recruitmentevents.co",
+      "userId": "480001"
+    },
+    {
+      "id": "450001",
+      "companyName": "PerchPeek",
+      "contactEmail": "samuel@perchpeek.com",
+      "userId": "4140005"
+    },
+    {
+      "id": "900001",
+      "companyName": "Poetry",
+      "contactEmail": "stephen.mcgrath@poetryhr.com",
+      "userId": "10621134"
+    },
+    {
+      "id": "810002",
+      "companyName": "Radancy",
+      "contactEmail": "ross.davies@radancy.com",
+      "userId": "9840024"
+    },
+    {
+      "id": "240001",
+      "companyName": "Sapia.ai",
+      "contactEmail": "frances@sapia.ai",
+      "userId": "1530001"
+    },
+    {
+      "id": "750001",
+      "companyName": "SHL",
+      "contactEmail": "amber.harris@shl.com",
+      "userId": "8970014"
+    },
+    {
+      "id": "150001",
+      "companyName": "Stepstone Group UK Ltd",
+      "contactEmail": "luke.mckend@stepstone.com",
+      "userId": "990024"
+    },
+    {
+      "id": "330001",
+      "companyName": "Symphony Talent ",
+      "contactEmail": "craig.barnett@symphonytalent.com",
+      "userId": "2760005"
+    },
+    {
+      "id": "510003",
+      "companyName": "Test Sponsor mtgtest-1773776950506",
+      "contactEmail": "test-mtgtest-1773776950506@example.com",
+      "userId": "99990"
+    },
+    {
+      "id": "780001",
+      "companyName": "The Martec",
+      "contactEmail": "nick.thompson@themartec.com",
+      "userId": "9600011"
+    },
+    {
+      "id": "360001",
+      "companyName": "Udder",
+      "contactEmail": "peter@udder.rocks",
+      "userId": "6210003"
+    },
+    {
+      "id": "810001",
+      "companyName": "Veremark ",
+      "contactEmail": "dan@veremark.com",
+      "userId": "9840056"
+    },
+    {
+      "id": "270001",
+      "companyName": "Visibility Test Company",
+      "contactEmail": "visibility-test@example.com",
+      "userId": "999999"
+    },
+    {
+      "id": "870001",
+      "companyName": "Wilson",
+      "contactEmail": "craig.sweeney@wilsonhr.com",
+      "userId": "10500191"
+    },
+    {
+      "id": "300001",
+      "companyName": "Zinc",
+      "contactEmail": "patrick@zincwork.com",
+      "userId": "2700001"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tcompanyName\tcontactEmail\tuserId\n30001\tAI Limited\tbobby@recruitmentevents.co\t450018\n690001\tAmberjack\tdarren.lancaster@weareamberjack.com\t8490008\n270002\tAppcast\troy.jacques@appcast.io\t1890027\n390001\tBright Apply\tkirsten.barnes@brightnetwork.co.uk\t6540021\n60001\tElevate Assess\tnino@recruitmentevents.co\t450001\n540001\thackajob\tsam.b@hackajob.co\t10621147\n600001\tHappydance Careers Websites\tdave.ralph@happydance.love\t6330011\n210001\tHarver\telliot.thompson@harver.com\t960014\n720001\tinploi\tfelix@inploi.com\t8910004\n840001\tJobSync\tcminto@jobsync.com\t9900015\n120001\tLittle Moment\tstefan@recruitmentevents.co\t990003\n180001\tMaki People\tmarc.dewind@makipeople.com\t1410007\n90001\tNexaTalent Solutions Ltd\tnatalija@recruitmentevents.co\t480001\n450001\tPerchPeek\tsamuel@perchpeek.com\t4140005\n900001\tPoetry\tstephen.mcgrath@poetryhr.com\t10621134\n810002\tRadancy\tross.davies@radancy.com\t9840024\n240001\tSapia.ai\tfrances@sapia.ai\t1530001\n750001\tSHL\tamber.harris@shl.com\t8970014\n150001\tStepstone Group UK Ltd\tluke.mckend@stepstone.com\t990024\n330001\tSymphony Talent \tcraig.barnett@symphonytalent.com\t2760005\n510003\tTest Sponsor mtgtest-1773776950506\ttest-mtgtest-1773776950506@example.com\t99990\n780001\tThe Martec\tnick.thompson@themartec.com\t9600011\n360001\tUdder\tpeter@udder.rocks\t6210003\n810001\tVeremark \tdan@veremark.com\t9840056\n270001\tVisibility Test Company\tvisibility-test@example.com\t999999\n870001\tWilson\tcraig.sweeney@wilsonhr.com\t10500191\n300001\tZinc\tpatrick@zincwork.com\t2700001\n",
+  "stderr": "",
+  "execution_time_ms": 348
+}

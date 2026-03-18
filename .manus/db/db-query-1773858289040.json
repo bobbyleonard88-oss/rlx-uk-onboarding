@@ -1,0 +1,150 @@
+{
+  "query": "\nSELECT u.id, u.name, u.email, u.role, u.createdAt\nFROM users u\nLEFT JOIN sponsors s ON s.userId = u.id\nWHERE s.id IS NULL AND u.role != 'admin'\nORDER BY u.createdAt DESC\nLIMIT 20;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT u.id, u.name, u.email, u.role, u.createdAt\nFROM users u\nLEFT JOIN sponsors s ON s.userId = u.id\nWHERE s.id IS NULL AND u.role != 'admin'\nORDER BY u.createdAt DESC\nLIMIT 20;\n",
+  "rows": [
+    {
+      "id": "10650036",
+      "name": "kirsten.barnes",
+      "email": "kirsten.barnes@brightnetwork.co.uk",
+      "role": "user",
+      "createdAt": "2026-03-17 19:10:11"
+    },
+    {
+      "id": "10623184",
+      "name": "Marc DeWind",
+      "email": "marc.dewind@makipeople.com",
+      "role": "user",
+      "createdAt": "2026-03-17 17:10:00"
+    },
+    {
+      "id": "10621153",
+      "name": "Daniel Callaghan",
+      "email": "dan@veremark.com",
+      "role": "user",
+      "createdAt": "2026-03-17 14:52:08"
+    },
+    {
+      "id": "10260022",
+      "name": "Adam Gordon",
+      "email": "adamwatsongordon@gmail.com",
+      "role": "user",
+      "createdAt": "2026-03-16 10:46:47"
+    },
+    {
+      "id": "9840243",
+      "name": "gail.bleakley",
+      "email": "gail.bleakley@wilsonhr.com",
+      "role": "user",
+      "createdAt": "2026-03-13 13:43:59"
+    },
+    {
+      "id": "9840104",
+      "name": "ross.davies",
+      "email": "ross.davies@radancy.com",
+      "role": "user",
+      "createdAt": "2026-03-13 12:18:55"
+    },
+    {
+      "id": "9480011",
+      "name": "natalie.hall",
+      "email": "natalie.hall@shl.com",
+      "role": "user",
+      "createdAt": "2026-03-12 13:41:16"
+    },
+    {
+      "id": "8490032",
+      "name": "jared.massey",
+      "email": "jared.massey@weareamberjack.com",
+      "role": "user",
+      "createdAt": "2026-03-10 14:55:30"
+    },
+    {
+      "id": "7920001",
+      "name": "richard.williams",
+      "email": "richard.williams@weareamberjack.com",
+      "role": "user",
+      "createdAt": "2026-03-09 09:48:44"
+    },
+    {
+      "id": "6360001",
+      "name": "alan+rtx",
+      "email": "alan+rtx@udder.rocks",
+      "role": "user",
+      "createdAt": "2026-03-04 11:59:56"
+    },
+    {
+      "id": "5940001",
+      "name": "Alan Walker",
+      "email": "alan@udder.rocks",
+      "role": "user",
+      "createdAt": "2026-03-03 15:46:02"
+    },
+    {
+      "id": "5520001",
+      "name": "Pete Bulley",
+      "email": "pete@hackajob.co",
+      "role": "user",
+      "createdAt": "2026-03-02 17:00:23"
+    },
+    {
+      "id": "4590003",
+      "name": "Deborah Pearson",
+      "email": "deborah.pearson@udder.rocks",
+      "role": "user",
+      "createdAt": "2026-02-27 09:24:46"
+    },
+    {
+      "id": "4530001",
+      "name": "Gary Thomas",
+      "email": "gary.thomas@udder.rocks",
+      "role": "user",
+      "createdAt": "2026-02-27 08:56:21"
+    },
+    {
+      "id": "4140061",
+      "name": "stephanie",
+      "email": "stephanie@rodelleva.com",
+      "role": "user",
+      "createdAt": "2026-02-26 12:30:38"
+    },
+    {
+      "id": "4110008",
+      "name": "Harry Lee",
+      "email": "harrylee@perchpeek.com",
+      "role": "user",
+      "createdAt": "2026-02-26 11:17:16"
+    },
+    {
+      "id": "4050001",
+      "name": "kerry.simmons",
+      "email": "kerry.simmons@brightnetwork.co.uk",
+      "role": "user",
+      "createdAt": "2026-02-26 09:00:47"
+    },
+    {
+      "id": "2220148",
+      "name": "Bobby Leonard",
+      "email": "bobbyleonard88@googlemail.com",
+      "role": "user",
+      "createdAt": "2026-02-20 17:17:49"
+    },
+    {
+      "id": "2160001",
+      "name": "jessica.borislow",
+      "email": "jessica.borislow@appcast.io",
+      "role": "user",
+      "createdAt": "2026-02-20 15:19:42"
+    },
+    {
+      "id": "1410029",
+      "name": "Jeremy Russon",
+      "email": "jeremy@udder.rocks",
+      "role": "user",
+      "createdAt": "2026-02-19 09:10:47"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\temail\trole\tcreatedAt\n10650036\tkirsten.barnes\tkirsten.barnes@brightnetwork.co.uk\tuser\t2026-03-17 19:10:11\n10623184\tMarc DeWind\tmarc.dewind@makipeople.com\tuser\t2026-03-17 17:10:00\n10621153\tDaniel Callaghan\tdan@veremark.com\tuser\t2026-03-17 14:52:08\n10260022\tAdam Gordon\tadamwatsongordon@gmail.com\tuser\t2026-03-16 10:46:47\n9840243\tgail.bleakley\tgail.bleakley@wilsonhr.com\tuser\t2026-03-13 13:43:59\n9840104\tross.davies\tross.davies@radancy.com\tuser\t2026-03-13 12:18:55\n9480011\tnatalie.hall\tnatalie.hall@shl.com\tuser\t2026-03-12 13:41:16\n8490032\tjared.massey\tjared.massey@weareamberjack.com\tuser\t2026-03-10 14:55:30\n7920001\trichard.williams\trichard.williams@weareamberjack.com\tuser\t2026-03-09 09:48:44\n6360001\talan+rtx\talan+rtx@udder.rocks\tuser\t2026-03-04 11:59:56\n5940001\tAlan Walker\talan@udder.rocks\tuser\t2026-03-03 15:46:02\n5520001\tPete Bulley\tpete@hackajob.co\tuser\t2026-03-02 17:00:23\n4590003\tDeborah Pearson\tdeborah.pearson@udder.rocks\tuser\t2026-02-27 09:24:46\n4530001\tGary Thomas\tgary.thomas@udder.rocks\tuser\t2026-02-27 08:56:21\n4140061\tstephanie\tstephanie@rodelleva.com\tuser\t2026-02-26 12:30:38\n4110008\tHarry Lee\tharrylee@perchpeek.com\tuser\t2026-02-26 11:17:16\n4050001\tkerry.simmons\tkerry.simmons@brightnetwork.co.uk\tuser\t2026-02-26 09:00:47\n2220148\tBobby Leonard\tbobbyleonard88@googlemail.com\tuser\t2026-02-20 17:17:49\n2160001\tjessica.borislow\tjessica.borislow@appcast.io\tuser\t2026-02-20 15:19:42\n1410029\tJeremy Russon\tjeremy@udder.rocks\tuser\t2026-02-19 09:10:47\n",
+  "stderr": "",
+  "execution_time_ms": 347
+}

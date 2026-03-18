@@ -1,0 +1,8 @@
+{
+  "query": "\nSELECT m.id, m.timeSlot, m.attendeeId, m.matchScore, m.isPublished\nFROM meetings m\nWHERE m.sponsorId = 900001\nORDER BY m.timeSlot\nLIMIT 25;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT m.id, m.timeSlot, m.attendeeId, m.matchScore, m.isPublished\nFROM meetings m\nWHERE m.sponsorId = 900001\nORDER BY m.timeSlot\nLIMIT 25;\n",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 2: Unknown column 'm.ispublished' in 'field list'"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "query": "\nSELECT id, name, email, openId FROM users WHERE email LIKE '%poetryhr%' OR email LIKE '%poetry%' LIMIT 10;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT id, name, email, openId FROM users WHERE email LIKE '%poetryhr%' OR email LIKE '%poetry%' LIMIT 10;\n",
+  "rows": [
+    {
+      "id": "10621134",
+      "name": "Stephen` McGrath",
+      "email": "stephen.mcgrath@poetryhr.com",
+      "openId": "fPiRCX74ke7dfJRskPuQYi"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\temail\topenId\n10621134\tStephen` McGrath\tstephen.mcgrath@poetryhr.com\tfPiRCX74ke7dfJRskPuQYi\n",
+  "stderr": "",
+  "execution_time_ms": 381
+}

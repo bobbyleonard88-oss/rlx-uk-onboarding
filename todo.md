@@ -1458,3 +1458,15 @@
 - [x] Update Prioritize.tsx to use sponsor API (limited fields) instead of client-side attendees import
 - [x] Remove client/src/lib/attendees.ts from the client bundle (renamed to .bak)
 - [x] Verify no remaining imports of client-side attendees.ts (0 found)
+
+## Rank Badges & CSV Export (March 2026)
+- [x] Fix rank badges (#1, #2, etc.) not showing in slot-filtered eligible delegate list in TimeSlotScheduler — added rankMap lookup to the slot-filtered branch
+- [x] Add "New" badge to slot-filtered eligible delegate list (was missing, only in all-delegate list)
+- [x] Add "Vendor Rank" column to Export All Matches CSV — shows exact rank position (#1, #2, etc.) for each delegate in the sponsor's ranking list
+- [x] Fix stale sponsor.meetings.test.ts test that assumed Sapia.ai had no confirmed meetings
+- [ ] Fix Analytics page showing "Unknown" delegate names
+- [ ] Fix Analytics delegate utilization count showing "29 out of 0"
+- [ ] Implement "Match All Sponsors" bulk scheduling button
+- [ ] Add Most In-Demand Delegates leaderboard
+- [ ] Break down time slot analytics into 12 individual slots
+- [ ] Investigate Phidelma Makumbe (EY) having 0 meetings

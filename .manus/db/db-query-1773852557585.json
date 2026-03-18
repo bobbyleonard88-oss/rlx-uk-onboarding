@@ -1,0 +1,24 @@
+{
+  "query": "\nSELECT id, name, email, openId, role FROM users WHERE name LIKE '%Adam%' OR email LIKE '%pottery%' OR email LIKE '%adam%' LIMIT 10;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT id, name, email, openId, role FROM users WHERE name LIKE '%Adam%' OR email LIKE '%pottery%' OR email LIKE '%adam%' LIMIT 10;\n",
+  "rows": [
+    {
+      "id": "6540021",
+      "name": "adam.moore",
+      "email": "adam.moore@brightnetwork.co.uk",
+      "openId": "C2dvhwdQ2hdkG8MyCux7Jb",
+      "role": "user"
+    },
+    {
+      "id": "10260022",
+      "name": "Adam Gordon",
+      "email": "adamwatsongordon@gmail.com",
+      "openId": "XtFk6Z2qTVbhVRvJ7bKyKq",
+      "role": "user"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\temail\topenId\trole\n6540021\tadam.moore\tadam.moore@brightnetwork.co.uk\tC2dvhwdQ2hdkG8MyCux7Jb\tuser\n10260022\tAdam Gordon\tadamwatsongordon@gmail.com\tXtFk6Z2qTVbhVRvJ7bKyKq\tuser\n",
+  "stderr": "",
+  "execution_time_ms": 387
+}

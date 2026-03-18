@@ -2002,8 +2002,10 @@ export const appRouter = router({
         const sponsorMap = new Map(allSponsors.map(s => [s.id, s]));
         const intakeMap = new Map(allIntakeSubmissions.map(i => [i.sponsorId, i]));
 
-        // Build rankings lookup: sponsorId -> top-10 ranked attendee IDs
+        // Build rankings lookup: sponsorId -> top-10 ranked attendee IDs (for In Top 10 flag)
+        // and sponsorId -> Map<attendeeId, rankPosition> (for exact rank column)
         const rankingsTop10Map = new Map<number, Set<string>>();
+        const rankPositionMap = new Map<number, Map<string, number>>();
         const latestRankingsBySponsor = new Map<number, typeof allRankingsSubmissions[0]>();
         for (const sub of allRankingsSubmissions) {
           const existing = latestRankingsBySponsor.get(sub.sponsorId);
@@ -2015,10 +2017,16 @@ export const appRouter = router({
           try {
             const parsed = JSON.parse(sub.rankingsData as string);
             const ids: string[] = Array.isArray(parsed)
-              ? parsed.slice(0, 10).map((item: any) => (typeof item === 'string' ? item : item.id ?? item.attendeeId ?? ''))
+              ? parsed.map((item: any) => (typeof item === 'string' ? item : item.id ?? item.attendeeId ?? ''))
               : [];
-            rankingsTop10Map.set(sponsorId, new Set(ids));
-          } catch { rankingsTop10Map.set(sponsorId, new Set()); }
+            rankingsTop10Map.set(sponsorId, new Set(ids.slice(0, 10)));
+            const posMap = new Map<string, number>();
+            ids.forEach((id, idx) => { if (id) posMap.set(id, idx + 1); });
+            rankPositionMap.set(sponsorId, posMap);
+          } catch {
+            rankingsTop10Map.set(sponsorId, new Set());
+            rankPositionMap.set(sponsorId, new Map());
+          }
         }
 
         // Build priority tags lookup: sponsorId -> Set of attendeeIds
@@ -2046,6 +2054,7 @@ export const appRouter = router({
           const delegate = attendees.find(a => a.id === meeting.attendeeId);
           const slotInfo = meeting.timeSlot ? slotLabels[meeting.timeSlot] : null;
           const isTop10 = rankingsTop10Map.get(meeting.sponsorId)?.has(meeting.attendeeId) ?? false;
+          const vendorRank = rankPositionMap.get(meeting.sponsorId)?.get(meeting.attendeeId) ?? null;
           const hasLeaderOptIn = priorityTagsMap.get(meeting.sponsorId)?.has(meeting.attendeeId) ?? false;
           // Check if delegate opted in via their delegate form
           const sponsorName = (sponsor?.companyName ?? intake?.companyName ?? '').toLowerCase();
@@ -2072,6 +2081,7 @@ export const appRouter = router({
             'Delegate Company': delegate?.company ?? '',
             'Delegate Job Title': delegate?.jobTitle ?? '',
             // Priority flags
+            'Vendor Rank': vendorRank != null ? `#${vendorRank}` : '',
             'In Vendor Top 10': isTop10 ? 'Yes' : 'No',
             'Leader Opt-In': hasLeaderOptIn ? 'Yes' : 'No',
             'Delegate Form Opt-In': hasDelegateOptIn ? 'Yes' : 'No',

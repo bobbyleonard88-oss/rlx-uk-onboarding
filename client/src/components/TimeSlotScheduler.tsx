@@ -605,7 +605,9 @@ export default function TimeSlotScheduler({
                         return "text-slate-400";
                       };
 
-                      return enriched.map((delegate) => (
+                      return enriched.map((delegate) => {
+                        const slotRankPos = rankMap.get(delegate.id);
+                        return (
                         <div
                           key={delegate.id}
                           draggable
@@ -620,6 +622,22 @@ export default function TimeSlotScheduler({
                               <div className="text-slate-300 text-xs truncate">{delegate.company}</div>
                             </div>
                             <div className="flex items-center gap-1.5 flex-shrink-0">
+                              {slotRankPos != null ? (
+                                <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30 text-xs font-bold">
+                                  #{slotRankPos}
+                                </Badge>
+                              ) : sponsorRankings != null && (
+                                <Tooltip>
+                                  <TooltipTrigger asChild>
+                                    <Badge className="bg-teal-500/20 text-teal-300 border-teal-500/30 text-xs font-bold cursor-help">
+                                      New
+                                    </Badge>
+                                  </TooltipTrigger>
+                                  <TooltipContent>
+                                    <p>This delegate was confirmed after the sponsor submitted their rankings</p>
+                                  </TooltipContent>
+                                </Tooltip>
+                              )}
                               {delegate.matchScore !== null ? (
                                 <Badge
                                   variant="outline"
@@ -638,7 +656,8 @@ export default function TimeSlotScheduler({
                             </div>
                           </div>
                         </div>
-                      ));
+                        );
+                      });
                     })()
                   )}
                 </div>

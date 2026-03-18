@@ -1,0 +1,35 @@
+{
+  "query": "\nSELECT id, companyName, userId FROM sponsors WHERE companyName IN ('Veremark', 'Bright Apply', 'Maki People', 'Radancy', 'SHL');\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT id, companyName, userId FROM sponsors WHERE companyName IN ('Veremark', 'Bright Apply', 'Maki People', 'Radancy', 'SHL');\n",
+  "rows": [
+    {
+      "id": "180001",
+      "companyName": "Maki People",
+      "userId": "1410007"
+    },
+    {
+      "id": "390001",
+      "companyName": "Bright Apply",
+      "userId": "6540021"
+    },
+    {
+      "id": "750001",
+      "companyName": "SHL",
+      "userId": "8970014"
+    },
+    {
+      "id": "810001",
+      "companyName": "Veremark ",
+      "userId": "9840056"
+    },
+    {
+      "id": "810002",
+      "companyName": "Radancy",
+      "userId": "9840024"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tcompanyName\tuserId\n180001\tMaki People\t1410007\n390001\tBright Apply\t6540021\n750001\tSHL\t8970014\n810001\tVeremark \t9840056\n810002\tRadancy\t9840024\n",
+  "stderr": "",
+  "execution_time_ms": 356
+}
