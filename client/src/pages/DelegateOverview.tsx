@@ -29,20 +29,20 @@ import AdminHeader from "@/components/AdminHeader";
 import { useTestMode } from "@/hooks/useTestMode";
 
 const TIME_SLOT_LABELS: Record<number, string> = {
-  // Day 2 (Wednesday 13 May)
-  1: "Day 2 (Wed 13 May) · 11:00–11:30",
-  2: "Day 2 (Wed 13 May) · 11:30–12:00",
-  3: "Day 2 (Wed 13 May) · 13:15–13:45",
-  4: "Day 2 (Wed 13 May) · 13:45–14:15",
-  5: "Day 2 (Wed 13 May) · 14:30–15:00",
-  6: "Day 2 (Wed 13 May) · 15:00–15:30",
-  // Day 3 (Thursday 14 May)
-  7: "Day 3 (Thu 14 May) · 10:30–11:00",
-  8: "Day 3 (Thu 14 May) · 11:00–11:30",
-  9: "Day 3 (Thu 14 May) · 13:15–13:45",
-  10: "Day 3 (Thu 14 May) · 13:45–14:15",
-  11: "Day 3 (Thu 14 May) · 14:30–15:00",
-  12: "Day 3 (Thu 14 May) · 15:00–15:30",
+  // Day 2 (Tuesday 25 Mar)
+  1: "Day 2 (Tue 25 Mar) · 11:00–11:30",
+  2: "Day 2 (Tue 25 Mar) · 11:30–12:00",
+  3: "Day 2 (Tue 25 Mar) · 13:15–13:45",
+  4: "Day 2 (Tue 25 Mar) · 13:45–14:15",
+  5: "Day 2 (Tue 25 Mar) · 14:30–15:00",
+  6: "Day 2 (Tue 25 Mar) · 15:00–15:30",
+  // Day 3 (Wednesday 26 Mar)
+  7: "Day 3 (Wed 26 Mar) · 10:30–11:00",
+  8: "Day 3 (Wed 26 Mar) · 11:00–11:30",
+  9: "Day 3 (Wed 26 Mar) · 13:15–13:45",
+  10: "Day 3 (Wed 26 Mar) · 13:45–14:15",
+  11: "Day 3 (Wed 26 Mar) · 14:30–15:00",
+  12: "Day 3 (Wed 26 Mar) · 15:00–15:30",
 };
 
 export default function DelegateOverview() {

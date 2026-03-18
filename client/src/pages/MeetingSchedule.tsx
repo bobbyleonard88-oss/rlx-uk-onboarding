@@ -25,7 +25,7 @@ import {
 // 12 slots total — 6 per day, 2 × 30-min slots per 1-hour meeting block
 // Day 1 (Event Day 2): slots 1-6 | Day 2 (Event Day 3): slots 7-12
 const TIME_SLOTS = [
-  // Day 1 (Event Day 2 - Wed 13 May)
+  // Day 1 (Event Day 2 - Tue 25 Mar)
   { day: 1, slot: 1, label: "11:00 – 11:30" },
   { day: 1, slot: 2, label: "11:30 – 12:00" },
   { day: 1, slot: 3, label: "13:15 – 13:45" },
@@ -308,18 +308,18 @@ export default function MeetingSchedule() {
       return;
     }
     const slotLabels: Record<number, { day: string; time: string }> = {
-      1:  { day: 'Wed 13 May (Day 2)', time: '11:00 – 11:30' },
-      2:  { day: 'Wed 13 May (Day 2)', time: '11:30 – 12:00' },
-      3:  { day: 'Wed 13 May (Day 2)', time: '13:15 – 13:45' },
-      4:  { day: 'Wed 13 May (Day 2)', time: '13:45 – 14:15' },
-      5:  { day: 'Wed 13 May (Day 2)', time: '14:30 – 15:00' },
-      6:  { day: 'Wed 13 May (Day 2)', time: '15:00 – 15:30' },
-      7:  { day: 'Thu 14 May (Day 3)', time: '10:30 – 11:00' },
-      8:  { day: 'Thu 14 May (Day 3)', time: '11:00 – 11:30' },
-      9:  { day: 'Thu 14 May (Day 3)', time: '13:15 – 13:45' },
-      10: { day: 'Thu 14 May (Day 3)', time: '13:45 – 14:15' },
-      11: { day: 'Thu 14 May (Day 3)', time: '14:30 – 15:00' },
-      12: { day: 'Thu 14 May (Day 3)', time: '15:00 – 15:30' },
+      1:  { day: 'Tue 25 Mar (Day 2)', time: '11:00 – 11:30' },
+      2:  { day: 'Tue 25 Mar (Day 2)', time: '11:30 – 12:00' },
+      3:  { day: 'Tue 25 Mar (Day 2)', time: '13:15 – 13:45' },
+      4:  { day: 'Tue 25 Mar (Day 2)', time: '13:45 – 14:15' },
+      5:  { day: 'Tue 25 Mar (Day 2)', time: '14:30 – 15:00' },
+      6:  { day: 'Tue 25 Mar (Day 2)', time: '15:00 – 15:30' },
+      7:  { day: 'Wed 26 Mar (Day 3)', time: '10:30 – 11:00' },
+      8:  { day: 'Wed 26 Mar (Day 3)', time: '11:00 – 11:30' },
+      9:  { day: 'Wed 26 Mar (Day 3)', time: '13:15 – 13:45' },
+      10: { day: 'Wed 26 Mar (Day 3)', time: '13:45 – 14:15' },
+      11: { day: 'Wed 26 Mar (Day 3)', time: '14:30 – 15:00' },
+      12: { day: 'Wed 26 Mar (Day 3)', time: '15:00 – 15:30' },
     };
 
     const headers = [
@@ -528,7 +528,7 @@ export default function MeetingSchedule() {
               <CardHeader className="pb-2 pt-4 px-4">
                 <CardTitle className="text-white text-base flex items-center gap-2">
                   <Clock className="w-4 h-4 text-accent" />
-                  {day === 1 ? 'Wed 13 May' : 'Thu 14 May'}
+                  {day === 1 ? 'Tue 25 Mar' : 'Wed 26 Mar'}
                 </CardTitle>
               </CardHeader>
               <CardContent className="px-2 pb-3 pt-0">
@@ -624,7 +624,7 @@ export default function MeetingSchedule() {
                   <CardHeader className="pb-2 pt-4 px-4">
                     <CardTitle className="text-white text-base flex items-center gap-2">
                       <Clock className="w-4 h-4 text-accent" />
-                      {day2 === 1 ? 'Wed 13 May' : 'Thu 14 May'}
+                      {day2 === 1 ? 'Tue 25 Mar' : 'Wed 26 Mar'}
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="px-2 pb-3 pt-0">

@@ -1776,7 +1776,7 @@ export const appRouter = router({
       );
 
       // Build floor plan: 12 slots total, 6 per day, 2 × 30-min per 1-hour block
-      // Day 1 (Wed 13 May): slots 1-6 | Day 2 (Thu 14 May): slots 7-12
+      // Day 1 (Tue 25 Mar): slots 1-6 | Day 2 (Wed 26 Mar): slots 7-12
       const slotLabels: Record<number, { day: number; hour: number; round: number; time: string }> = {
         1:  { day: 1, hour: 1, round: 1, time: '11:00–11:30' },
         2:  { day: 1, hour: 1, round: 2, time: '11:30–12:00' },
@@ -1958,18 +1958,18 @@ export const appRouter = router({
         const ALWAYS_EXCLUDED_SPONSOR_IDS = new Set([270001, 510003]);
 
         const slotLabels: Record<number, { day: string; time: string }> = {
-          1:  { day: 'Day 1 (Wed 13 May)', time: '11:00–11:30' },
-          2:  { day: 'Day 1 (Wed 13 May)', time: '11:30–12:00' },
-          3:  { day: 'Day 1 (Wed 13 May)', time: '13:15–13:45' },
-          4:  { day: 'Day 1 (Wed 13 May)', time: '13:45–14:15' },
-          5:  { day: 'Day 1 (Wed 13 May)', time: '14:30–15:00' },
-          6:  { day: 'Day 1 (Wed 13 May)', time: '15:00–15:30' },
-          7:  { day: 'Day 2 (Thu 14 May)', time: '10:30–11:00' },
-          8:  { day: 'Day 2 (Thu 14 May)', time: '11:00–11:30' },
-          9:  { day: 'Day 2 (Thu 14 May)', time: '13:15–13:45' },
-          10: { day: 'Day 2 (Thu 14 May)', time: '13:45–14:15' },
-          11: { day: 'Day 2 (Thu 14 May)', time: '14:30–15:00' },
-          12: { day: 'Day 2 (Thu 14 May)', time: '15:00–15:30' },
+          1:  { day: 'Day 1 (Tue 25 Mar)', time: '11:00–11:30' },
+          2:  { day: 'Day 1 (Tue 25 Mar)', time: '11:30–12:00' },
+          3:  { day: 'Day 1 (Tue 25 Mar)', time: '13:15–13:45' },
+          4:  { day: 'Day 1 (Tue 25 Mar)', time: '13:45–14:15' },
+          5:  { day: 'Day 1 (Tue 25 Mar)', time: '14:30–15:00' },
+          6:  { day: 'Day 1 (Tue 25 Mar)', time: '15:00–15:30' },
+          7:  { day: 'Day 2 (Wed 26 Mar)', time: '10:30–11:00' },
+          8:  { day: 'Day 2 (Wed 26 Mar)', time: '11:00–11:30' },
+          9:  { day: 'Day 2 (Wed 26 Mar)', time: '13:15–13:45' },
+          10: { day: 'Day 2 (Wed 26 Mar)', time: '13:45–14:15' },
+          11: { day: 'Day 2 (Wed 26 Mar)', time: '14:30–15:00' },
+          12: { day: 'Day 2 (Wed 26 Mar)', time: '15:00–15:30' },
         };
 
         const allMeetingsRaw = await db.getAllMeetings();
