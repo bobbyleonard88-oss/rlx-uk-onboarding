@@ -499,7 +499,7 @@ export default function TimeSlotScheduler({
       <div className="space-y-3">
         <h3 className="text-lg font-heading font-bold text-white flex items-center gap-2">
           <Clock className="w-4 h-4 text-accent" />
-          Day 1
+          Wed 25 Mar
         </h3>
         {DAY1_SLOTS.map(renderSlot)}
       </div>
@@ -508,7 +508,7 @@ export default function TimeSlotScheduler({
       <div className="space-y-3">
         <h3 className="text-lg font-heading font-bold text-white flex items-center gap-2">
           <Clock className="w-4 h-4 text-accent" />
-          Day 2
+          Thu 26 Mar
         </h3>
         {DAY2_SLOTS.map(renderSlot)}
       </div>

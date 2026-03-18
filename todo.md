@@ -1442,3 +1442,4 @@
 - [x] Add "New" badge (same style as rank number badge) to delegates not present in sponsor's ranking list in TimeSlotScheduler — both on scheduled meeting cards and in the all-delegate list
 - [x] Add tooltip to "New" badge explaining delegate was confirmed after rankings were submitted
 - [x] Fix meeting schedule dates on sponsor side — change from incorrect May dates to March 25/26
+- [x] Fix all event dates to Wed 25 Mar / Thu 26 Mar (day labels were showing Tue/Wed incorrectly) and audit all other dates across the app

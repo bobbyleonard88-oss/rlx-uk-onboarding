@@ -116,12 +116,12 @@ export default function Analytics() {
 
           {/* Row 1: Time Slot Distribution split into Day 1 | Day 2 */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-            {/* Day 2 (Wed 13 May) */}
+            {/* Day 2 (Wed 25 Mar) */}
             <Card className="bg-slate-800/50 border-slate-700">
               <CardHeader className="pb-3">
                 <CardTitle className="text-white flex items-center gap-2">
                   <Calendar className="w-4 h-4 text-blue-400" />
-                  Time Slot Distribution — Day 1 (Wed 13 May)
+                  Time Slot Distribution — Day 1 (Wed 25 Mar)
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -144,12 +144,12 @@ export default function Analytics() {
               </CardContent>
             </Card>
 
-            {/* Day 3 (Thu 14 May) */}
+            {/* Day 3 (Thu 26 Mar) */}
             <Card className="bg-slate-800/50 border-slate-700">
               <CardHeader className="pb-3">
                 <CardTitle className="text-white flex items-center gap-2">
                   <Calendar className="w-4 h-4 text-indigo-400" />
-                  Time Slot Distribution — Day 2 (Thu 14 May)
+                  Time Slot Distribution — Day 2 (Thu 26 Mar)
                 </CardTitle>
               </CardHeader>
               <CardContent>
