@@ -1431,3 +1431,9 @@
 - [x] Auto-update userId on first domain match so future lookups are instant
 - [x] All 9 getSponsorByUserId call sites updated to pass userEmail
 - [x] 5 domain matching unit tests written and passing
+
+## Admin Scheduling Page - Ranking Display (March 2026)
+- [x] Replace "Top 20" stamp on scheduled meeting cards with actual ranking number from sponsor's prioritisation list
+- [x] Replace "Top 20" stamp on all-delegate list (right panel) with actual ranking number
+- [x] When a meeting is removed (X button), delegate correctly returns to available list with match score (flow already correct)
+- [x] Fix Day 1 slot labels in TimeSlotScheduler (was 10:15/10:45 etc, now correct 11:00/11:30 etc)

@@ -26,6 +26,7 @@ interface Meeting {
   matchReason: string;
   isPriority: boolean;
   isTop20?: boolean;
+  rankPosition?: number | null; // Actual rank number from sponsor's prioritisation list
   timeSlot: number | null;
   attendeeNumber?: number | null;
   adminNotes?: string | null;
@@ -54,12 +55,12 @@ interface TimeSlotSchedulerProps {
 // Slot numbering: 12 slots total — 6 per day, 2 × 30-min slots per 1-hour block
 // Day 1 (Event Day 2): slots 1-6 | Day 2 (Event Day 3): slots 7-12
 const DAY1_SLOTS = [
-  { day: 1, slot: 1, label: "10:15–10:45" },
-  { day: 1, slot: 2, label: "10:45–11:15" },
-  { day: 1, slot: 3, label: "13:30–14:00" },
-  { day: 1, slot: 4, label: "14:00–14:30" },
-  { day: 1, slot: 5, label: "14:45–15:15" },
-  { day: 1, slot: 6, label: "15:15–15:45" },
+  { day: 1, slot: 1, label: "11:00–11:30" },
+  { day: 1, slot: 2, label: "11:30–12:00" },
+  { day: 1, slot: 3, label: "13:15–13:45" },
+  { day: 1, slot: 4, label: "13:45–14:15" },
+  { day: 1, slot: 5, label: "14:30–15:00" },
+  { day: 1, slot: 6, label: "15:00–15:30" },
 ];
 
 const DAY2_SLOTS = [
@@ -124,6 +125,16 @@ export default function TimeSlotScheduler({
     { sponsorId: sponsorId! },
     { enabled: !!sponsorId }
   );
+
+  // Fetch sponsor's ranked delegate list for showing rank positions
+  const { data: sponsorRankings } = trpc.admin.getSponsorRankings.useQuery(
+    { sponsorId: sponsorId! },
+    { enabled: !!sponsorId }
+  );
+  // Build a map of attendeeId -> rank position
+  const rankMap = sponsorRankings
+    ? new Map(sponsorRankings.map(r => [r.attendeeId, r.rank]))
+    : new Map<string, number>();
 
   // Fetch eligible delegates for the selected slot (filters out excluded clients, slot clashes, cap)
   const { data: eligibleData, isFetching: isLoadingEligible } = trpc.admin.getEligibleDelegatesForSlot.useQuery(
@@ -298,9 +309,13 @@ export default function TimeSlotScheduler({
                       Priority
                     </Badge>
                   )}
-                  {meeting.isTop20 && (
+                  {meeting.rankPosition != null ? (
+                    <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30 text-xs font-bold">
+                      #{meeting.rankPosition}
+                    </Badge>
+                  ) : meeting.isTop20 && (
                     <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30 text-xs">
-                      Top 20
+                      Ranked
                     </Badge>
                   )}
                 </div>
@@ -635,6 +650,7 @@ export default function TimeSlotScheduler({
                     const isBooked = bookedDelegateIds.has(delegate.id);
                     const delegateScore = delegateScores?.find(s => s.attendeeId === delegate.id);
                     const matchScore = delegateScore?.matchScore || 0;
+                    const rankPos = rankMap.get(delegate.id);
                     
                     // Color code based on match score
                     const getScoreColor = (score: number) => {
@@ -661,6 +677,11 @@ export default function TimeSlotScheduler({
                             <div className="text-slate-300 text-xs truncate">{delegate.company}</div>
                           </div>
                           <div className="flex items-center gap-1.5 flex-shrink-0">
+                            {rankPos != null && (
+                              <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30 text-xs font-bold">
+                                #{rankPos}
+                              </Badge>
+                            )}
                             {isBooked && (
                               <Badge 
                                 variant="outline" 

@@ -1548,6 +1548,24 @@ export const appRouter = router({
         }));
       }),
     
+    // Get sponsor's ranked delegate list (for showing rank position in scheduling UI)
+    getSponsorRankings: adminProcedure
+      .input(z.object({ sponsorId: z.number() }))
+      .query(async ({ input }) => {
+        const submissions = await db.getRankingsSubmissionsBySponsor(input.sponsorId);
+        if (!submissions.length || !submissions[0].rankingsData) return [];
+        try {
+          const parsed = JSON.parse(submissions[0].rankingsData as string);
+          // rankingsData can be array of IDs or array of {id, ...} objects
+          return (parsed as any[]).map((item: any, index: number) => ({
+            attendeeId: typeof item === 'string' ? item : item.id,
+            rank: index + 1,
+          }));
+        } catch {
+          return [];
+        }
+      }),
+
     // Get analytics dashboard data
     getAnalytics: adminProcedure
       .input(z.object({ includeTestAccounts: z.boolean().optional().default(false) }).optional())

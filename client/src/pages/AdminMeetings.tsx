@@ -26,6 +26,7 @@ interface MatchResult {
   isPriority: boolean;
   isTopRanked: boolean;
   isTop20: boolean;
+  rankPosition?: number | null; // Actual rank number from sponsor's prioritisation list
   timeSlot?: number | null;
   attendeeNumber?: number; // 1 or 2 (for 20-meeting packages)
   delegateInfo: {
@@ -349,6 +350,15 @@ export default function AdminMeetings() {
     { sponsorId: selectedSponsorId! },
     { enabled: !!selectedSponsorId }
   );
+
+  // Fetch sponsor's ranked delegate list for showing rank positions on meeting cards
+  const { data: sponsorRankings } = trpc.admin.getSponsorRankings.useQuery(
+    { sponsorId: selectedSponsorId! },
+    { enabled: !!selectedSponsorId }
+  );
+  const rankMap = sponsorRankings
+    ? new Map(sponsorRankings.map(r => [r.attendeeId, r.rank]))
+    : new Map<string, number>();
   
   // Check if user is admin
   if (!loading && user && user.role !== "admin") {
@@ -896,6 +906,7 @@ export default function AdminMeetings() {
                   matchReason: match.matchReason,
                   isPriority: match.isPriority,
                   isTop20: match.isTop20,
+                  rankPosition: rankMap.get(match.attendeeId) ?? null,
                   timeSlot: match.timeSlot || null,
                 }))}
                 onUpdateSlot={(meetingId, newSlot) => {
