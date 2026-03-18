@@ -1,0 +1,8 @@
+{
+  "query": "UPDATE meetings SET matchReason = 'As Head of TA at AXA with a broad technology transformation underway — covering sourcing automation, talent intelligence, interview scheduling and total workforce solutions — background screening and credential verification is a natural component of a modernised end-to-end hiring process. Veremark offers an opportunity to streamline the verification stage as AXA scales its TA tech stack.' WHERE sponsorId = 810001 AND attendeeId = '113145184682';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute UPDATE meetings SET matchReason = 'As Head of TA at AXA with a broad technology transformation underway — covering sourcing automation, talent intelligence, interview scheduling and total workforce solutions — background screening and credential verification is a natural component of a modernised end-to-end hiring process. Veremark offers an opportunity to streamline the verification stage as AXA scales its TA tech stack.' WHERE sponsorId = 810001 AND attendeeId = '113145184682';",
+  "returncode": 1,
+  "logs": [
+    "ERROR 8027 (HY000) at line 1: Information schema is out of date: schema failed to update in 1 lease, please make sure TiDB can connect to TiKV"
+  ]
+}

@@ -519,6 +519,10 @@ export default function MeetingSchedule() {
           </div>
         )}
 
+        {/* Meeting Schedule — gated behind agreement */}
+        {agreementAccepted && (
+        <>
+
         {/* Header */}
         <Card className="glass-card border-slate-700">
           <CardHeader>
@@ -760,6 +764,8 @@ export default function MeetingSchedule() {
           delegate={selectedDelegate}
           matchReason={selectedMatchReason}
         />
+        </>
+        )}
       </div>
       </div>
     </div>
