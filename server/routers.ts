@@ -2025,6 +2025,14 @@ export const appRouter = router({
         const sponsorMap = new Map(allSponsors.map(s => [s.id, s]));
         const intakeMap = new Map(allIntakeSubmissions.map(i => [i.sponsorId, i]));
 
+        // Assign table numbers: sponsors sorted alphabetically, each gets a sequential table number
+        // 2-rep sponsors (20+ meetings) share the same table number across both reps
+        const exportSortedSponsors = [...allSponsors]
+          .filter(s => !new Set([270001, 510003, 30001, 60001, 90001, 120001]).has(s.id))
+          .sort((a, b) => a.companyName.localeCompare(b.companyName));
+        const exportTableMap = new Map<number, number>();
+        exportSortedSponsors.forEach((s, i) => exportTableMap.set(s.id, i + 1));
+
         // Build rankings lookup: sponsorId -> top-10 ranked attendee IDs (for In Top 10 flag)
         // and sponsorId -> Map<attendeeId, rankPosition> (for exact rank column)
         const rankingsTop10Map = new Map<number, Set<string>>();
@@ -2094,11 +2102,14 @@ export const appRouter = router({
           const repName = isRep2 ? rep2Name : rep1Name;
           const repEmail = isRep2 ? rep2Email : rep1Email;
 
+          const tableNum = exportTableMap.get(meeting.sponsorId);
+
           return {
             // Vendor details
             'Vendor Name': sponsor?.companyName ?? intake?.companyName ?? `Sponsor #${meeting.sponsorId}`,
             'Vendor Rep Name': repName,
             'Vendor Rep Email': repEmail,
+            'Table Number': tableNum != null ? `Table ${tableNum}` : '',
             // Delegate details
             'Delegate Name': delegate ? `${delegate.firstName} ${delegate.lastName}` : meeting.attendeeId,
             'Delegate Company': delegate?.company ?? '',

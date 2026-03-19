@@ -1517,3 +1517,8 @@
 ## Robyn Collins (M42) → Harver (March 2026)
 - [x] Add Robyn Collins to Harver at slot 7 (Att2, best available) — confirmed in DB
 - [x] Verify no disruption to other delegates or sponsors
+
+## Table Numbers in Admin Export
+- [x] Add Table Number column to admin meetings export CSV
+- [x] All sponsors get sequential table numbers (alphabetical order); 2-rep sponsors share same table number across both reps
+- [x] All 45 tests pass
