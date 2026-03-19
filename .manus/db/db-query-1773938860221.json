@@ -1,0 +1,42 @@
+{
+  "query": "\nSELECT m.timeSlot, s.companyName\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nWHERE m.attendeeId = '110260566550'\nORDER BY m.timeSlot;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT m.timeSlot, s.companyName\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nWHERE m.attendeeId = '110260566550'\nORDER BY m.timeSlot;\n",
+  "rows": [
+    {
+      "timeSlot": "1",
+      "companyName": "Maki People"
+    },
+    {
+      "timeSlot": "2",
+      "companyName": "The Martec"
+    },
+    {
+      "timeSlot": "5",
+      "companyName": "Zinc"
+    },
+    {
+      "timeSlot": "7",
+      "companyName": "Appcast"
+    },
+    {
+      "timeSlot": "8",
+      "companyName": "Bright Apply"
+    },
+    {
+      "timeSlot": "10",
+      "companyName": "Harver"
+    },
+    {
+      "timeSlot": "11",
+      "companyName": "Veremark "
+    },
+    {
+      "timeSlot": "12",
+      "companyName": "PerchPeek"
+    }
+  ],
+  "messages": [],
+  "stdout": "timeSlot\tcompanyName\n1\tMaki People\n2\tThe Martec\n5\tZinc\n7\tAppcast\n8\tBright Apply\n10\tHarver\n11\tVeremark \n12\tPerchPeek\n",
+  "stderr": "",
+  "execution_time_ms": 383
+}

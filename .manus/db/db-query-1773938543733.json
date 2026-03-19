@@ -1,0 +1,18 @@
+{
+  "query": "\nSELECT \n  m.attendeeId,\n  m.sponsorId,\n  COUNT(*) as meetingCount,\n  s.companyName as sponsorName,\n  GROUP_CONCAT(m.timeSlot ORDER BY m.timeSlot SEPARATOR ', ') as slots,\n  GROUP_CONCAT(m.id ORDER BY m.id SEPARATOR ' | ') as meetingIds\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nGROUP BY m.attendeeId, m.sponsorId\nHAVING COUNT(*) > 1\nORDER BY meetingCount DESC;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT \n  m.attendeeId,\n  m.sponsorId,\n  COUNT(*) as meetingCount,\n  s.companyName as sponsorName,\n  GROUP_CONCAT(m.timeSlot ORDER BY m.timeSlot SEPARATOR ', ') as slots,\n  GROUP_CONCAT(m.id ORDER BY m.id SEPARATOR ' | ') as meetingIds\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nGROUP BY m.attendeeId, m.sponsorId\nHAVING COUNT(*) > 1\nORDER BY meetingCount DESC;\n",
+  "rows": [
+    {
+      "attendeeId": "195183358360",
+      "sponsorId": "270002",
+      "meetingCount": "2",
+      "sponsorName": "Appcast",
+      "slots": "2, 6",
+      "meetingIds": "663371 | 870015"
+    }
+  ],
+  "messages": [],
+  "stdout": "attendeeId\tsponsorId\tmeetingCount\tsponsorName\tslots\tmeetingIds\n195183358360\t270002\t2\tAppcast\t2, 6\t663371 | 870015\n",
+  "stderr": "",
+  "execution_time_ms": 406
+}

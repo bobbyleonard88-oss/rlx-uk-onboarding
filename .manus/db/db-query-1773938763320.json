@@ -1,0 +1,106 @@
+{
+  "query": "\nSELECT \n  CASE attendeeId \n    WHEN '76678269091' THEN 'Adam Binks (KPMG)'\n    WHEN '4956154' THEN 'Jules Anderson (Gilead)'\n  END as delegateName,\n  m.timeSlot,\n  s.companyName as sponsor,\n  m.id as meetingId\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nWHERE m.attendeeId IN ('76678269091','4956154')\nORDER BY m.attendeeId, m.timeSlot;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT \n  CASE attendeeId \n    WHEN '76678269091' THEN 'Adam Binks (KPMG)'\n    WHEN '4956154' THEN 'Jules Anderson (Gilead)'\n  END as delegateName,\n  m.timeSlot,\n  s.companyName as sponsor,\n  m.id as meetingId\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nWHERE m.attendeeId IN ('76678269091','4956154')\nORDER BY m.attendeeId, m.timeSlot;\n",
+  "rows": [
+    {
+      "delegateName": "Jules Anderson (Gilead)",
+      "timeSlot": "1",
+      "sponsor": "Harver",
+      "meetingId": "780013"
+    },
+    {
+      "delegateName": "Jules Anderson (Gilead)",
+      "timeSlot": "2",
+      "sponsor": "PerchPeek",
+      "meetingId": "690031"
+    },
+    {
+      "delegateName": "Jules Anderson (Gilead)",
+      "timeSlot": "3",
+      "sponsor": "Udder",
+      "meetingId": "663457"
+    },
+    {
+      "delegateName": "Jules Anderson (Gilead)",
+      "timeSlot": "4",
+      "sponsor": "Sapia.ai",
+      "meetingId": "750042"
+    },
+    {
+      "delegateName": "Jules Anderson (Gilead)",
+      "timeSlot": "7",
+      "sponsor": "Veremark ",
+      "meetingId": "810033"
+    },
+    {
+      "delegateName": "Jules Anderson (Gilead)",
+      "timeSlot": "8",
+      "sponsor": "Happydance Careers Websites",
+      "meetingId": "840003"
+    },
+    {
+      "delegateName": "Jules Anderson (Gilead)",
+      "timeSlot": "9",
+      "sponsor": "Bright Apply",
+      "meetingId": "690111"
+    },
+    {
+      "delegateName": "Jules Anderson (Gilead)",
+      "timeSlot": "10",
+      "sponsor": "Stepstone Group UK Ltd",
+      "meetingId": "663395"
+    },
+    {
+      "delegateName": "Adam Binks (KPMG)",
+      "timeSlot": "1",
+      "sponsor": "Stepstone Group UK Ltd",
+      "meetingId": "663388"
+    },
+    {
+      "delegateName": "Adam Binks (KPMG)",
+      "timeSlot": "3",
+      "sponsor": "Amberjack",
+      "meetingId": "663485"
+    },
+    {
+      "delegateName": "Adam Binks (KPMG)",
+      "timeSlot": "4",
+      "sponsor": "Maki People",
+      "meetingId": "663403"
+    },
+    {
+      "delegateName": "Adam Binks (KPMG)",
+      "timeSlot": "5",
+      "sponsor": "PerchPeek",
+      "meetingId": "840007"
+    },
+    {
+      "delegateName": "Adam Binks (KPMG)",
+      "timeSlot": "7",
+      "sponsor": "Sapia.ai",
+      "meetingId": "750041"
+    },
+    {
+      "delegateName": "Adam Binks (KPMG)",
+      "timeSlot": "8",
+      "sponsor": "The Martec",
+      "meetingId": "663510"
+    },
+    {
+      "delegateName": "Adam Binks (KPMG)",
+      "timeSlot": "9",
+      "sponsor": "SHL",
+      "meetingId": "810022"
+    },
+    {
+      "delegateName": "Adam Binks (KPMG)",
+      "timeSlot": "12",
+      "sponsor": "Zinc",
+      "meetingId": "663433"
+    }
+  ],
+  "messages": [],
+  "stdout": "delegateName\ttimeSlot\tsponsor\tmeetingId\nJules Anderson (Gilead)\t1\tHarver\t780013\nJules Anderson (Gilead)\t2\tPerchPeek\t690031\nJules Anderson (Gilead)\t3\tUdder\t663457\nJules Anderson (Gilead)\t4\tSapia.ai\t750042\nJules Anderson (Gilead)\t7\tVeremark \t810033\nJules Anderson (Gilead)\t8\tHappydance Careers Websites\t840003\nJules Anderson (Gilead)\t9\tBright Apply\t690111\nJules Anderson (Gilead)\t10\tStepstone Group UK Ltd\t663395\nAdam Binks (KPMG)\t1\tStepstone Group UK Ltd\t663388\nAdam Binks (KPMG)\t3\tAmberjack\t663485\nAdam Binks (KPMG)\t4\tMaki People\t663403\nAdam Binks (KPMG)\t5\tPerchPeek\t840007\nAdam Binks (KPMG)\t7\tSapia.ai\t750041\nAdam Binks (KPMG)\t8\tThe Martec\t663510\nAdam Binks (KPMG)\t9\tSHL\t810022\nAdam Binks (KPMG)\t12\tZinc\t663433\n",
+  "stderr": "",
+  "execution_time_ms": 386
+}

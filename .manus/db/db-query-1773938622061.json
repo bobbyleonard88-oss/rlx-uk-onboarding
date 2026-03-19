@@ -1,0 +1,9 @@
+{
+  "query": "\nSELECT \n  m.sponsorId,\n  m.attendeeNumber,\n  m.timeSlot,\n  COUNT(*) as meetingCount,\n  s.companyName,\n  GROUP_CONCAT(m.attendeeId ORDER BY m.id SEPARATOR ' | ') as attendeeIds,\n  GROUP_CONCAT(m.id ORDER BY m.id SEPARATOR ' | ') as meetingIds\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nGROUP BY m.sponsorId, m.attendeeNumber, m.timeSlot\nHAVING COUNT(*) > 1\nORDER BY meetingCount DESC;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT \n  m.sponsorId,\n  m.attendeeNumber,\n  m.timeSlot,\n  COUNT(*) as meetingCount,\n  s.companyName,\n  GROUP_CONCAT(m.attendeeId ORDER BY m.id SEPARATOR ' | ') as attendeeIds,\n  GROUP_CONCAT(m.id ORDER BY m.id SEPARATOR ' | ') as meetingIds\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nGROUP BY m.sponsorId, m.attendeeNumber, m.timeSlot\nHAVING COUNT(*) > 1\nORDER BY meetingCount DESC;\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 380
+}

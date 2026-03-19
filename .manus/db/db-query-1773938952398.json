@@ -1,0 +1,26 @@
+{
+  "query": "\nSELECT 'delegate_double_bookings' as check_name, COUNT(*) as violations FROM (\n  SELECT attendeeId, timeSlot, COUNT(*) as cnt\n  FROM meetings\n  GROUP BY attendeeId, timeSlot\n  HAVING COUNT(*) > 1\n) x\nUNION ALL\nSELECT 'repeat_meetings' as check_name, COUNT(*) as violations FROM (\n  SELECT attendeeId, sponsorId, COUNT(*) as cnt\n  FROM meetings\n  GROUP BY attendeeId, sponsorId\n  HAVING COUNT(*) > 1\n) x\nUNION ALL\nSELECT 'sponsor_over_capacity' as check_name, COUNT(*) as violations FROM (\n  SELECT sponsorId, attendeeNumber, timeSlot, COUNT(*) as cnt\n  FROM meetings\n  GROUP BY sponsorId, attendeeNumber, timeSlot\n  HAVING COUNT(*) > 1\n) x\nUNION ALL\nSELECT 'total_meetings' as check_name, COUNT(*) as violations FROM meetings;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT 'delegate_double_bookings' as check_name, COUNT(*) as violations FROM (\n  SELECT attendeeId, timeSlot, COUNT(*) as cnt\n  FROM meetings\n  GROUP BY attendeeId, timeSlot\n  HAVING COUNT(*) > 1\n) x\nUNION ALL\nSELECT 'repeat_meetings' as check_name, COUNT(*) as violations FROM (\n  SELECT attendeeId, sponsorId, COUNT(*) as cnt\n  FROM meetings\n  GROUP BY attendeeId, sponsorId\n  HAVING COUNT(*) > 1\n) x\nUNION ALL\nSELECT 'sponsor_over_capacity' as check_name, COUNT(*) as violations FROM (\n  SELECT sponsorId, attendeeNumber, timeSlot, COUNT(*) as cnt\n  FROM meetings\n  GROUP BY sponsorId, attendeeNumber, timeSlot\n  HAVING COUNT(*) > 1\n) x\nUNION ALL\nSELECT 'total_meetings' as check_name, COUNT(*) as violations FROM meetings;\n",
+  "rows": [
+    {
+      "check_name": "total_meetings",
+      "violations": "279"
+    },
+    {
+      "check_name": "sponsor_over_capacity",
+      "violations": "0"
+    },
+    {
+      "check_name": "delegate_double_bookings",
+      "violations": "0"
+    },
+    {
+      "check_name": "repeat_meetings",
+      "violations": "1"
+    }
+  ],
+  "messages": [],
+  "stdout": "check_name\tviolations\ntotal_meetings\t279\nsponsor_over_capacity\t0\ndelegate_double_bookings\t0\nrepeat_meetings\t1\n",
+  "stderr": "",
+  "execution_time_ms": 374
+}

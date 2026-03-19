@@ -1,0 +1,45 @@
+{
+  "query": "\nSELECT m.attendeeId, m.timeSlot, s.companyName\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nWHERE m.attendeeId = '11132851'\nORDER BY m.timeSlot;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT m.attendeeId, m.timeSlot, s.companyName\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nWHERE m.attendeeId = '11132851'\nORDER BY m.timeSlot;\n",
+  "rows": [
+    {
+      "attendeeId": "11132851",
+      "timeSlot": "3",
+      "companyName": "Symphony Talent "
+    },
+    {
+      "attendeeId": "11132851",
+      "timeSlot": "4",
+      "companyName": "Wilson"
+    },
+    {
+      "attendeeId": "11132851",
+      "timeSlot": "5",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "11132851",
+      "timeSlot": "6",
+      "companyName": "JobSync"
+    },
+    {
+      "attendeeId": "11132851",
+      "timeSlot": "9",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "11132851",
+      "timeSlot": "10",
+      "companyName": "Veremark "
+    },
+    {
+      "attendeeId": "11132851",
+      "timeSlot": "11",
+      "companyName": "SHL"
+    }
+  ],
+  "messages": [],
+  "stdout": "attendeeId\ttimeSlot\tcompanyName\n11132851\t3\tSymphony Talent \n11132851\t4\tWilson\n11132851\t5\tHarver\n11132851\t6\tJobSync\n11132851\t9\tAppcast\n11132851\t10\tVeremark \n11132851\t11\tSHL\n",
+  "stderr": "",
+  "execution_time_ms": 367
+}

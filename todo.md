@@ -1553,3 +1553,10 @@
 - [x] Michelle Monahan — clear
 - [x] Lucy Bousfield — clear
 - [x] Jules Anderson — clear
+
+## Full Schedule Integrity Audit
+- [x] Check all 279 meetings for delegate time clashes (same delegate, same slot, different sponsors) — ZERO clashes
+- [x] Check for repeat meetings (same delegate booked with same sponsor more than once) — 1 intentional (Anna Katyal/Appcast x2, different reps)
+- [x] Check session/workshop conflicts for all 7 speaker delegates — only Michelle Monahan had a conflict
+- [x] Fix any violations found — swapped Michelle Monahan ↔ Mark Kunaseelan at Veremark (meeting 663524→slot 1, meeting 663522→slot 9)
+- [x] CORRECTION: Previous "Adam Binks slot 1 conflict" was WRONG — workshop is 11:15–12:00, slot 1 ends 10:45. Adam is clean.

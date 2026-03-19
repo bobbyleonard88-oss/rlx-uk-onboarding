@@ -1,0 +1,14 @@
+{
+  "query": "\nSELECT v.attendeeId as vSlot10Delegate, v.id as vSlot10MeetingId\nFROM meetings v\nLEFT JOIN sponsors s ON v.sponsorId = s.id\nWHERE s.companyName LIKE '%Veremark%' AND v.timeSlot = 10;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT v.attendeeId as vSlot10Delegate, v.id as vSlot10MeetingId\nFROM meetings v\nLEFT JOIN sponsors s ON v.sponsorId = s.id\nWHERE s.companyName LIKE '%Veremark%' AND v.timeSlot = 10;\n",
+  "rows": [
+    {
+      "vSlot10Delegate": "11132851",
+      "vSlot10MeetingId": "663529"
+    }
+  ],
+  "messages": [],
+  "stdout": "vSlot10Delegate\tvSlot10MeetingId\n11132851\t663529\n",
+  "stderr": "",
+  "execution_time_ms": 402
+}

@@ -1,0 +1,150 @@
+{
+  "query": "\nSELECT m.attendeeId, m.timeSlot, s.companyName as sponsor, m.id as meetingId, m.attendeeNumber\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nWHERE m.attendeeId IN (\n  SELECT DISTINCT attendeeId FROM meetings \n  WHERE attendeeId IN (\n    '208415155065','190898269597','111228357473','195183358360',\n    '110260566550','1076201','163229738551','200101377371',\n    '180289012345','111111111111'\n  )\n)\nORDER BY m.attendeeId, m.timeSlot\nLIMIT 20;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT m.attendeeId, m.timeSlot, s.companyName as sponsor, m.id as meetingId, m.attendeeNumber\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nWHERE m.attendeeId IN (\n  SELECT DISTINCT attendeeId FROM meetings \n  WHERE attendeeId IN (\n    '208415155065','190898269597','111228357473','195183358360',\n    '110260566550','1076201','163229738551','200101377371',\n    '180289012345','111111111111'\n  )\n)\nORDER BY m.attendeeId, m.timeSlot\nLIMIT 20;\n",
+  "rows": [
+    {
+      "attendeeId": "1076201",
+      "timeSlot": "1",
+      "sponsor": "Sapia.ai",
+      "meetingId": "750044",
+      "attendeeNumber": "1"
+    },
+    {
+      "attendeeId": "1076201",
+      "timeSlot": "2",
+      "sponsor": "Radancy",
+      "meetingId": "690091",
+      "attendeeNumber": "1"
+    },
+    {
+      "attendeeId": "1076201",
+      "timeSlot": "3",
+      "sponsor": "Bright Apply",
+      "meetingId": "690103",
+      "attendeeNumber": "1"
+    },
+    {
+      "attendeeId": "1076201",
+      "timeSlot": "4",
+      "sponsor": "Symphony Talent ",
+      "meetingId": "750088",
+      "attendeeNumber": "1"
+    },
+    {
+      "attendeeId": "1076201",
+      "timeSlot": "6",
+      "sponsor": "Amberjack",
+      "meetingId": "663486",
+      "attendeeNumber": "1"
+    },
+    {
+      "attendeeId": "1076201",
+      "timeSlot": "7",
+      "sponsor": "Harver",
+      "meetingId": "840001",
+      "attendeeNumber": "1"
+    },
+    {
+      "attendeeId": "1076201",
+      "timeSlot": "9",
+      "sponsor": "Maki People",
+      "meetingId": "663408",
+      "attendeeNumber": "1"
+    },
+    {
+      "attendeeId": "1076201",
+      "timeSlot": "10",
+      "sponsor": "Zinc",
+      "meetingId": "663435",
+      "attendeeNumber": "1"
+    },
+    {
+      "attendeeId": "110260566550",
+      "timeSlot": "1",
+      "sponsor": "Maki People",
+      "meetingId": "663402",
+      "attendeeNumber": "1"
+    },
+    {
+      "attendeeId": "110260566550",
+      "timeSlot": "2",
+      "sponsor": "The Martec",
+      "meetingId": "663512",
+      "attendeeNumber": "1"
+    },
+    {
+      "attendeeId": "110260566550",
+      "timeSlot": "5",
+      "sponsor": "Zinc",
+      "meetingId": "663429",
+      "attendeeNumber": "1"
+    },
+    {
+      "attendeeId": "110260566550",
+      "timeSlot": "7",
+      "sponsor": "Appcast",
+      "meetingId": "663384",
+      "attendeeNumber": "2"
+    },
+    {
+      "attendeeId": "110260566550",
+      "timeSlot": "8",
+      "sponsor": "Bright Apply",
+      "meetingId": "690108",
+      "attendeeNumber": "1"
+    },
+    {
+      "attendeeId": "110260566550",
+      "timeSlot": "10",
+      "sponsor": "Harver",
+      "meetingId": "780011",
+      "attendeeNumber": "1"
+    },
+    {
+      "attendeeId": "110260566550",
+      "timeSlot": "11",
+      "sponsor": "Veremark ",
+      "meetingId": "663530",
+      "attendeeNumber": "1"
+    },
+    {
+      "attendeeId": "110260566550",
+      "timeSlot": "12",
+      "sponsor": "PerchPeek",
+      "meetingId": "690029",
+      "attendeeNumber": "1"
+    },
+    {
+      "attendeeId": "111228357473",
+      "timeSlot": "1",
+      "sponsor": "Bright Apply",
+      "meetingId": "690107",
+      "attendeeNumber": "1"
+    },
+    {
+      "attendeeId": "111228357473",
+      "timeSlot": "2",
+      "sponsor": "Udder",
+      "meetingId": "663449",
+      "attendeeNumber": "1"
+    },
+    {
+      "attendeeId": "111228357473",
+      "timeSlot": "5",
+      "sponsor": "Harver",
+      "meetingId": "780005",
+      "attendeeNumber": "1"
+    },
+    {
+      "attendeeId": "111228357473",
+      "timeSlot": "6",
+      "sponsor": "inploi",
+      "meetingId": "690081",
+      "attendeeNumber": "1"
+    }
+  ],
+  "messages": [],
+  "stdout": "attendeeId\ttimeSlot\tsponsor\tmeetingId\tattendeeNumber\n1076201\t1\tSapia.ai\t750044\t1\n1076201\t2\tRadancy\t690091\t1\n1076201\t3\tBright Apply\t690103\t1\n1076201\t4\tSymphony Talent \t750088\t1\n1076201\t6\tAmberjack\t663486\t1\n1076201\t7\tHarver\t840001\t1\n1076201\t9\tMaki People\t663408\t1\n1076201\t10\tZinc\t663435\t1\n110260566550\t1\tMaki People\t663402\t1\n110260566550\t2\tThe Martec\t663512\t1\n110260566550\t5\tZinc\t663429\t1\n110260566550\t7\tAppcast\t663384\t2\n110260566550\t8\tBright Apply\t690108\t1\n110260566550\t10\tHarver\t780011\t1\n110260566550\t11\tVeremark \t663530\t1\n110260566550\t12\tPerchPeek\t690029\t1\n111228357473\t1\tBright Apply\t690107\t1\n111228357473\t2\tUdder\t663449\t1\n111228357473\t5\tHarver\t780005\t1\n111228357473\t6\tinploi\t690081\t1\n",
+  "stderr": "",
+  "execution_time_ms": 395
+}

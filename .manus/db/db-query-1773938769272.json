@@ -1,0 +1,226 @@
+{
+  "query": "\nSELECT \n  CASE attendeeId \n    WHEN '9322701' THEN 'Tush Wijeratne (WPP)'\n    WHEN '174442448959' THEN 'Joanna Hackett (Howden)'\n    WHEN '93176107633' THEN 'Mark Kunaseelan (UAL)'\n    WHEN '8196151' THEN 'Michelle Monahan (Eur Tyre)'\n    WHEN '91889321035' THEN 'Lucy Bousfield (Aon)'\n  END as delegateName,\n  m.timeSlot,\n  s.companyName as sponsor,\n  m.id as meetingId\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nWHERE m.attendeeId IN ('9322701','174442448959','93176107633','8196151','91889321035')\nORDER BY m.attendeeId, m.timeSlot;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT \n  CASE attendeeId \n    WHEN '9322701' THEN 'Tush Wijeratne (WPP)'\n    WHEN '174442448959' THEN 'Joanna Hackett (Howden)'\n    WHEN '93176107633' THEN 'Mark Kunaseelan (UAL)'\n    WHEN '8196151' THEN 'Michelle Monahan (Eur Tyre)'\n    WHEN '91889321035' THEN 'Lucy Bousfield (Aon)'\n  END as delegateName,\n  m.timeSlot,\n  s.companyName as sponsor,\n  m.id as meetingId\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nWHERE m.attendeeId IN ('9322701','174442448959','93176107633','8196151','91889321035')\nORDER BY m.attendeeId, m.timeSlot;\n",
+  "rows": [
+    {
+      "delegateName": "Joanna Hackett (Howden)",
+      "timeSlot": "1",
+      "sponsor": "Radancy",
+      "meetingId": "690093"
+    },
+    {
+      "delegateName": "Joanna Hackett (Howden)",
+      "timeSlot": "2",
+      "sponsor": "SHL",
+      "meetingId": "750141"
+    },
+    {
+      "delegateName": "Joanna Hackett (Howden)",
+      "timeSlot": "6",
+      "sponsor": "Stepstone Group UK Ltd",
+      "meetingId": "663392"
+    },
+    {
+      "delegateName": "Joanna Hackett (Howden)",
+      "timeSlot": "7",
+      "sponsor": "Zinc",
+      "meetingId": "663434"
+    },
+    {
+      "delegateName": "Joanna Hackett (Howden)",
+      "timeSlot": "8",
+      "sponsor": "Harver",
+      "meetingId": "780008"
+    },
+    {
+      "delegateName": "Joanna Hackett (Howden)",
+      "timeSlot": "9",
+      "sponsor": "Udder",
+      "meetingId": "663456"
+    },
+    {
+      "delegateName": "Joanna Hackett (Howden)",
+      "timeSlot": "10",
+      "sponsor": "The Martec",
+      "meetingId": "663518"
+    },
+    {
+      "delegateName": "Joanna Hackett (Howden)",
+      "timeSlot": "12",
+      "sponsor": "Appcast",
+      "meetingId": "663368"
+    },
+    {
+      "delegateName": "Michelle Monahan (Eur Tyre)",
+      "timeSlot": "2",
+      "sponsor": "Wilson",
+      "meetingId": "663559"
+    },
+    {
+      "delegateName": "Michelle Monahan (Eur Tyre)",
+      "timeSlot": "3",
+      "sponsor": "SHL",
+      "meetingId": "750151"
+    },
+    {
+      "delegateName": "Michelle Monahan (Eur Tyre)",
+      "timeSlot": "4",
+      "sponsor": "JobSync",
+      "meetingId": "663546"
+    },
+    {
+      "delegateName": "Michelle Monahan (Eur Tyre)",
+      "timeSlot": "5",
+      "sponsor": "Appcast",
+      "meetingId": "663372"
+    },
+    {
+      "delegateName": "Michelle Monahan (Eur Tyre)",
+      "timeSlot": "6",
+      "sponsor": "Zinc",
+      "meetingId": "663428"
+    },
+    {
+      "delegateName": "Michelle Monahan (Eur Tyre)",
+      "timeSlot": "9",
+      "sponsor": "Veremark ",
+      "meetingId": "663524"
+    },
+    {
+      "delegateName": "Lucy Bousfield (Aon)",
+      "timeSlot": "1",
+      "sponsor": "Poetry",
+      "meetingId": "663569"
+    },
+    {
+      "delegateName": "Lucy Bousfield (Aon)",
+      "timeSlot": "4",
+      "sponsor": "hackajob",
+      "meetingId": "810021"
+    },
+    {
+      "delegateName": "Lucy Bousfield (Aon)",
+      "timeSlot": "5",
+      "sponsor": "Amberjack",
+      "meetingId": "663491"
+    },
+    {
+      "delegateName": "Lucy Bousfield (Aon)",
+      "timeSlot": "6",
+      "sponsor": "Happydance Careers Websites",
+      "meetingId": "690050"
+    },
+    {
+      "delegateName": "Lucy Bousfield (Aon)",
+      "timeSlot": "7",
+      "sponsor": "The Martec",
+      "meetingId": "663513"
+    },
+    {
+      "delegateName": "Lucy Bousfield (Aon)",
+      "timeSlot": "8",
+      "sponsor": "Stepstone Group UK Ltd",
+      "meetingId": "663396"
+    },
+    {
+      "delegateName": "Lucy Bousfield (Aon)",
+      "timeSlot": "11",
+      "sponsor": "Appcast",
+      "meetingId": "810026"
+    },
+    {
+      "delegateName": "Lucy Bousfield (Aon)",
+      "timeSlot": "12",
+      "sponsor": "Radancy",
+      "meetingId": "690101"
+    },
+    {
+      "delegateName": "Mark Kunaseelan (UAL)",
+      "timeSlot": "1",
+      "sponsor": "Veremark ",
+      "meetingId": "663522"
+    },
+    {
+      "delegateName": "Mark Kunaseelan (UAL)",
+      "timeSlot": "2",
+      "sponsor": "Symphony Talent ",
+      "meetingId": "750084"
+    },
+    {
+      "delegateName": "Mark Kunaseelan (UAL)",
+      "timeSlot": "3",
+      "sponsor": "Appcast",
+      "meetingId": "663381"
+    },
+    {
+      "delegateName": "Mark Kunaseelan (UAL)",
+      "timeSlot": "4",
+      "sponsor": "Zinc",
+      "meetingId": "663427"
+    },
+    {
+      "delegateName": "Mark Kunaseelan (UAL)",
+      "timeSlot": "6",
+      "sponsor": "Wilson",
+      "meetingId": "663564"
+    },
+    {
+      "delegateName": "Mark Kunaseelan (UAL)",
+      "timeSlot": "10",
+      "sponsor": "Udder",
+      "meetingId": "663458"
+    },
+    {
+      "delegateName": "Tush Wijeratne (WPP)",
+      "timeSlot": "4",
+      "sponsor": "Bright Apply",
+      "meetingId": "690104"
+    },
+    {
+      "delegateName": "Tush Wijeratne (WPP)",
+      "timeSlot": "5",
+      "sponsor": "Poetry",
+      "meetingId": "663568"
+    },
+    {
+      "delegateName": "Tush Wijeratne (WPP)",
+      "timeSlot": "6",
+      "sponsor": "Appcast",
+      "meetingId": "663373"
+    },
+    {
+      "delegateName": "Tush Wijeratne (WPP)",
+      "timeSlot": "7",
+      "sponsor": "PerchPeek",
+      "meetingId": "690026"
+    },
+    {
+      "delegateName": "Tush Wijeratne (WPP)",
+      "timeSlot": "8",
+      "sponsor": "Maki People",
+      "meetingId": "663405"
+    },
+    {
+      "delegateName": "Tush Wijeratne (WPP)",
+      "timeSlot": "9",
+      "sponsor": "Sapia.ai",
+      "meetingId": "750047"
+    },
+    {
+      "delegateName": "Tush Wijeratne (WPP)",
+      "timeSlot": "10",
+      "sponsor": "Wilson",
+      "meetingId": "840009"
+    },
+    {
+      "delegateName": "Tush Wijeratne (WPP)",
+      "timeSlot": "12",
+      "sponsor": "SHL",
+      "meetingId": "750154"
+    }
+  ],
+  "messages": [],
+  "stdout": "delegateName\ttimeSlot\tsponsor\tmeetingId\nJoanna Hackett (Howden)\t1\tRadancy\t690093\nJoanna Hackett (Howden)\t2\tSHL\t750141\nJoanna Hackett (Howden)\t6\tStepstone Group UK Ltd\t663392\nJoanna Hackett (Howden)\t7\tZinc\t663434\nJoanna Hackett (Howden)\t8\tHarver\t780008\nJoanna Hackett (Howden)\t9\tUdder\t663456\nJoanna Hackett (Howden)\t10\tThe Martec\t663518\nJoanna Hackett (Howden)\t12\tAppcast\t663368\nMichelle Monahan (Eur Tyre)\t2\tWilson\t663559\nMichelle Monahan (Eur Tyre)\t3\tSHL\t750151\nMichelle Monahan (Eur Tyre)\t4\tJobSync\t663546\nMichelle Monahan (Eur Tyre)\t5\tAppcast\t663372\nMichelle Monahan (Eur Tyre)\t6\tZinc\t663428\nMichelle Monahan (Eur Tyre)\t9\tVeremark \t663524\nLucy Bousfield (Aon)\t1\tPoetry\t663569\nLucy Bousfield (Aon)\t4\thackajob\t810021\nLucy Bousfield (Aon)\t5\tAmberjack\t663491\nLucy Bousfield (Aon)\t6\tHappydance Careers Websites\t690050\nLucy Bousfield (Aon)\t7\tThe Martec\t663513\nLucy Bousfield (Aon)\t8\tStepstone Group UK Ltd\t663396\nLucy Bousfield (Aon)\t11\tAppcast\t810026\nLucy Bousfield (Aon)\t12\tRadancy\t690101\nMark Kunaseelan (UAL)\t1\tVeremark \t663522\nMark Kunaseelan (UAL)\t2\tSymphony Talent \t750084\nMark Kunaseelan (UAL)\t3\tAppcast\t663381\nMark Kunaseelan (UAL)\t4\tZinc\t663427\nMark Kunaseelan (UAL)\t6\tWilson\t663564\nMark Kunaseelan (UAL)\t10\tUdder\t663458\nTush Wijeratne (WPP)\t4\tBright Apply\t690104\nTush Wijeratne (WPP)\t5\tPoetry\t663568\nTush Wijeratne (WPP)\t6\tAppcast\t663373\nTush Wijeratne (WPP)\t7\tPerchPeek\t690026\nTush Wijeratne (WPP)\t8\tMaki People\t663405\nTush Wijeratne (WPP)\t9\tSapia.ai\t750047\nTush Wijeratne (WPP)\t10\tWilson\t840009\nTush Wijeratne (WPP)\t12\tSHL\t750154\n",
+  "stderr": "",
+  "execution_time_ms": 377
+}

@@ -1,0 +1,46 @@
+{
+  "query": "\nSELECT m.timeSlot, m.attendeeId, m.id as meetingId, s.companyName\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nWHERE m.attendeeId = '8196151'\nORDER BY m.timeSlot;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT m.timeSlot, m.attendeeId, m.id as meetingId, s.companyName\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nWHERE m.attendeeId = '8196151'\nORDER BY m.timeSlot;\n",
+  "rows": [
+    {
+      "timeSlot": "2",
+      "attendeeId": "8196151",
+      "meetingId": "663559",
+      "companyName": "Wilson"
+    },
+    {
+      "timeSlot": "3",
+      "attendeeId": "8196151",
+      "meetingId": "750151",
+      "companyName": "SHL"
+    },
+    {
+      "timeSlot": "4",
+      "attendeeId": "8196151",
+      "meetingId": "663546",
+      "companyName": "JobSync"
+    },
+    {
+      "timeSlot": "5",
+      "attendeeId": "8196151",
+      "meetingId": "663372",
+      "companyName": "Appcast"
+    },
+    {
+      "timeSlot": "6",
+      "attendeeId": "8196151",
+      "meetingId": "663428",
+      "companyName": "Zinc"
+    },
+    {
+      "timeSlot": "9",
+      "attendeeId": "8196151",
+      "meetingId": "663524",
+      "companyName": "Veremark "
+    }
+  ],
+  "messages": [],
+  "stdout": "timeSlot\tattendeeId\tmeetingId\tcompanyName\n2\t8196151\t663559\tWilson\n3\t8196151\t750151\tSHL\n4\t8196151\t663546\tJobSync\n5\t8196151\t663372\tAppcast\n6\t8196151\t663428\tZinc\n9\t8196151\t663524\tVeremark \n",
+  "stderr": "",
+  "execution_time_ms": 396
+}

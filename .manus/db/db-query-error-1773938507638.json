@@ -1,0 +1,8 @@
+{
+  "query": "\nSELECT \n  m.id,\n  m.slot,\n  m.day,\n  m.time,\n  m.sponsorId,\n  m.attendeeId,\n  m.attendeeNumber,\n  m.score,\n  s.name as sponsorName\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nORDER BY m.attendeeId, m.slot;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT \n  m.id,\n  m.slot,\n  m.day,\n  m.time,\n  m.sponsorId,\n  m.attendeeId,\n  m.attendeeNumber,\n  m.score,\n  s.name as sponsorName\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nORDER BY m.attendeeId, m.slot;\n",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 2: Unknown column 'm.slot' in 'order clause'"
+  ]
+}

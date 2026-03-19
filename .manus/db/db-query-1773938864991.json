@@ -1,0 +1,42 @@
+{
+  "query": "\nSELECT m.timeSlot, s.companyName\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nWHERE m.attendeeId = '113145184682'\nORDER BY m.timeSlot;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT m.timeSlot, s.companyName\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nWHERE m.attendeeId = '113145184682'\nORDER BY m.timeSlot;\n",
+  "rows": [
+    {
+      "timeSlot": "2",
+      "companyName": "Maki People"
+    },
+    {
+      "timeSlot": "4",
+      "companyName": "Stepstone Group UK Ltd"
+    },
+    {
+      "timeSlot": "5",
+      "companyName": "The Martec"
+    },
+    {
+      "timeSlot": "7",
+      "companyName": "Amberjack"
+    },
+    {
+      "timeSlot": "8",
+      "companyName": "Sapia.ai"
+    },
+    {
+      "timeSlot": "10",
+      "companyName": "Appcast"
+    },
+    {
+      "timeSlot": "11",
+      "companyName": "inploi"
+    },
+    {
+      "timeSlot": "12",
+      "companyName": "Veremark "
+    }
+  ],
+  "messages": [],
+  "stdout": "timeSlot\tcompanyName\n2\tMaki People\n4\tStepstone Group UK Ltd\n5\tThe Martec\n7\tAmberjack\n8\tSapia.ai\n10\tAppcast\n11\tinploi\n12\tVeremark \n",
+  "stderr": "",
+  "execution_time_ms": 365
+}

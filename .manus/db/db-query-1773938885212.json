@@ -1,0 +1,175 @@
+{
+  "query": "\nSELECT m.attendeeId, m.timeSlot, s.companyName\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nWHERE m.attendeeId IN ('8952301', '8713772', '128491656706', '9477501', '116903349643')\nORDER BY m.attendeeId, m.timeSlot;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT m.attendeeId, m.timeSlot, s.companyName\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nWHERE m.attendeeId IN ('8952301', '8713772', '128491656706', '9477501', '116903349643')\nORDER BY m.attendeeId, m.timeSlot;\n",
+  "rows": [
+    {
+      "attendeeId": "116903349643",
+      "timeSlot": "1",
+      "companyName": "Wilson"
+    },
+    {
+      "attendeeId": "116903349643",
+      "timeSlot": "5",
+      "companyName": "Veremark "
+    },
+    {
+      "attendeeId": "116903349643",
+      "timeSlot": "8",
+      "companyName": "Symphony Talent "
+    },
+    {
+      "attendeeId": "116903349643",
+      "timeSlot": "9",
+      "companyName": "hackajob"
+    },
+    {
+      "attendeeId": "116903349643",
+      "timeSlot": "11",
+      "companyName": "SHL"
+    },
+    {
+      "attendeeId": "128491656706",
+      "timeSlot": "1",
+      "companyName": "Zinc"
+    },
+    {
+      "attendeeId": "128491656706",
+      "timeSlot": "3",
+      "companyName": "Veremark "
+    },
+    {
+      "attendeeId": "128491656706",
+      "timeSlot": "4",
+      "companyName": "PerchPeek"
+    },
+    {
+      "attendeeId": "128491656706",
+      "timeSlot": "5",
+      "companyName": "Bright Apply"
+    },
+    {
+      "attendeeId": "128491656706",
+      "timeSlot": "6",
+      "companyName": "Radancy"
+    },
+    {
+      "attendeeId": "128491656706",
+      "timeSlot": "9",
+      "companyName": "Happydance Careers Websites"
+    },
+    {
+      "attendeeId": "128491656706",
+      "timeSlot": "11",
+      "companyName": "hackajob"
+    },
+    {
+      "attendeeId": "128491656706",
+      "timeSlot": "12",
+      "companyName": "The Martec"
+    },
+    {
+      "attendeeId": "8713772",
+      "timeSlot": "3",
+      "companyName": "Zinc"
+    },
+    {
+      "attendeeId": "8713772",
+      "timeSlot": "4",
+      "companyName": "Veremark "
+    },
+    {
+      "attendeeId": "8713772",
+      "timeSlot": "6",
+      "companyName": "PerchPeek"
+    },
+    {
+      "attendeeId": "8713772",
+      "timeSlot": "7",
+      "companyName": "JobSync"
+    },
+    {
+      "attendeeId": "8713772",
+      "timeSlot": "8",
+      "companyName": "Wilson"
+    },
+    {
+      "attendeeId": "8713772",
+      "timeSlot": "10",
+      "companyName": "Poetry"
+    },
+    {
+      "attendeeId": "8952301",
+      "timeSlot": "1",
+      "companyName": "The Martec"
+    },
+    {
+      "attendeeId": "8952301",
+      "timeSlot": "2",
+      "companyName": "Veremark "
+    },
+    {
+      "attendeeId": "8952301",
+      "timeSlot": "3",
+      "companyName": "PerchPeek"
+    },
+    {
+      "attendeeId": "8952301",
+      "timeSlot": "10",
+      "companyName": "hackajob"
+    },
+    {
+      "attendeeId": "8952301",
+      "timeSlot": "11",
+      "companyName": "Zinc"
+    },
+    {
+      "attendeeId": "8952301",
+      "timeSlot": "12",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "9477501",
+      "timeSlot": "1",
+      "companyName": "inploi"
+    },
+    {
+      "attendeeId": "9477501",
+      "timeSlot": "2",
+      "companyName": "Sapia.ai"
+    },
+    {
+      "attendeeId": "9477501",
+      "timeSlot": "5",
+      "companyName": "Maki People"
+    },
+    {
+      "attendeeId": "9477501",
+      "timeSlot": "6",
+      "companyName": "Veremark "
+    },
+    {
+      "attendeeId": "9477501",
+      "timeSlot": "7",
+      "companyName": "SHL"
+    },
+    {
+      "attendeeId": "9477501",
+      "timeSlot": "8",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "9477501",
+      "timeSlot": "11",
+      "companyName": "Stepstone Group UK Ltd"
+    },
+    {
+      "attendeeId": "9477501",
+      "timeSlot": "12",
+      "companyName": "Harver"
+    }
+  ],
+  "messages": [],
+  "stdout": "attendeeId\ttimeSlot\tcompanyName\n116903349643\t1\tWilson\n116903349643\t5\tVeremark \n116903349643\t8\tSymphony Talent \n116903349643\t9\thackajob\n116903349643\t11\tSHL\n128491656706\t1\tZinc\n128491656706\t3\tVeremark \n128491656706\t4\tPerchPeek\n128491656706\t5\tBright Apply\n128491656706\t6\tRadancy\n128491656706\t9\tHappydance Careers Websites\n128491656706\t11\thackajob\n128491656706\t12\tThe Martec\n8713772\t3\tZinc\n8713772\t4\tVeremark \n8713772\t6\tPerchPeek\n8713772\t7\tJobSync\n8713772\t8\tWilson\n8713772\t10\tPoetry\n8952301\t1\tThe Martec\n8952301\t2\tVeremark \n8952301\t3\tPerchPeek\n8952301\t10\thackajob\n8952301\t11\tZinc\n8952301\t12\tAppcast\n9477501\t1\tinploi\n9477501\t2\tSapia.ai\n9477501\t5\tMaki People\n9477501\t6\tVeremark \n9477501\t7\tSHL\n9477501\t8\tAppcast\n9477501\t11\tStepstone Group UK Ltd\n9477501\t12\tHarver\n",
+  "stderr": "",
+  "execution_time_ms": 387
+}

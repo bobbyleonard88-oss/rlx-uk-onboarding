@@ -1,0 +1,50 @@
+{
+  "query": "\nSELECT m.timeSlot, s.companyName as sponsor, m.id as meetingId\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nWHERE m.attendeeId = '9322701'\nORDER BY m.timeSlot;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT m.timeSlot, s.companyName as sponsor, m.id as meetingId\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nWHERE m.attendeeId = '9322701'\nORDER BY m.timeSlot;\n",
+  "rows": [
+    {
+      "timeSlot": "4",
+      "sponsor": "Bright Apply",
+      "meetingId": "690104"
+    },
+    {
+      "timeSlot": "5",
+      "sponsor": "Poetry",
+      "meetingId": "663568"
+    },
+    {
+      "timeSlot": "6",
+      "sponsor": "Appcast",
+      "meetingId": "663373"
+    },
+    {
+      "timeSlot": "7",
+      "sponsor": "PerchPeek",
+      "meetingId": "690026"
+    },
+    {
+      "timeSlot": "8",
+      "sponsor": "Maki People",
+      "meetingId": "663405"
+    },
+    {
+      "timeSlot": "9",
+      "sponsor": "Sapia.ai",
+      "meetingId": "750047"
+    },
+    {
+      "timeSlot": "10",
+      "sponsor": "Wilson",
+      "meetingId": "840009"
+    },
+    {
+      "timeSlot": "12",
+      "sponsor": "SHL",
+      "meetingId": "750154"
+    }
+  ],
+  "messages": [],
+  "stdout": "timeSlot\tsponsor\tmeetingId\n4\tBright Apply\t690104\n5\tPoetry\t663568\n6\tAppcast\t663373\n7\tPerchPeek\t690026\n8\tMaki People\t663405\n9\tSapia.ai\t750047\n10\tWilson\t840009\n12\tSHL\t750154\n",
+  "stderr": "",
+  "execution_time_ms": 382
+}

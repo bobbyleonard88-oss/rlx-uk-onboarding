@@ -1,0 +1,64 @@
+{
+  "query": "\nSELECT m.id, m.timeSlot, m.attendeeId, m.attendeeNumber, m.matchScore, m.sponsorId, s.companyName\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nWHERE m.attendeeId = '195183358360'\nORDER BY m.timeSlot;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT m.id, m.timeSlot, m.attendeeId, m.attendeeNumber, m.matchScore, m.sponsorId, s.companyName\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nWHERE m.attendeeId = '195183358360'\nORDER BY m.timeSlot;\n",
+  "rows": [
+    {
+      "id": "663448",
+      "timeSlot": "1",
+      "attendeeId": "195183358360",
+      "attendeeNumber": "1",
+      "matchScore": "95",
+      "sponsorId": "360001",
+      "companyName": "Udder"
+    },
+    {
+      "id": "663371",
+      "timeSlot": "2",
+      "attendeeId": "195183358360",
+      "attendeeNumber": "1",
+      "matchScore": "99",
+      "sponsorId": "270002",
+      "companyName": "Appcast"
+    },
+    {
+      "id": "870015",
+      "timeSlot": "6",
+      "attendeeId": "195183358360",
+      "attendeeNumber": "2",
+      "matchScore": "90",
+      "sponsorId": "270002",
+      "companyName": "Appcast"
+    },
+    {
+      "id": "690025",
+      "timeSlot": "10",
+      "attendeeId": "195183358360",
+      "attendeeNumber": "1",
+      "matchScore": "35",
+      "sponsorId": "450001",
+      "companyName": "PerchPeek"
+    },
+    {
+      "id": "663566",
+      "timeSlot": "11",
+      "attendeeId": "195183358360",
+      "attendeeNumber": "1",
+      "matchScore": "52",
+      "sponsorId": "870001",
+      "companyName": "Wilson"
+    },
+    {
+      "id": "780014",
+      "timeSlot": "12",
+      "attendeeId": "195183358360",
+      "attendeeNumber": "1",
+      "matchScore": "62",
+      "sponsorId": "210001",
+      "companyName": "Harver"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttimeSlot\tattendeeId\tattendeeNumber\tmatchScore\tsponsorId\tcompanyName\n663448\t1\t195183358360\t1\t95\t360001\tUdder\n663371\t2\t195183358360\t1\t99\t270002\tAppcast\n870015\t6\t195183358360\t2\t90\t270002\tAppcast\n690025\t10\t195183358360\t1\t35\t450001\tPerchPeek\n663566\t11\t195183358360\t1\t52\t870001\tWilson\n780014\t12\t195183358360\t1\t62\t210001\tHarver\n",
+  "stderr": "",
+  "execution_time_ms": 365
+}

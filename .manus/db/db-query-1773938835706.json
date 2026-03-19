@@ -1,0 +1,70 @@
+{
+  "query": "\nSELECT m.timeSlot, m.attendeeId, m.id as meetingId\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nWHERE s.companyName LIKE '%Veremark%'\nORDER BY m.timeSlot;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT m.timeSlot, m.attendeeId, m.id as meetingId\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nWHERE s.companyName LIKE '%Veremark%'\nORDER BY m.timeSlot;\n",
+  "rows": [
+    {
+      "timeSlot": "1",
+      "attendeeId": "93176107633",
+      "meetingId": "663522"
+    },
+    {
+      "timeSlot": "2",
+      "attendeeId": "8952301",
+      "meetingId": "663521"
+    },
+    {
+      "timeSlot": "3",
+      "attendeeId": "128491656706",
+      "meetingId": "663525"
+    },
+    {
+      "timeSlot": "4",
+      "attendeeId": "8713772",
+      "meetingId": "663523"
+    },
+    {
+      "timeSlot": "5",
+      "attendeeId": "116903349643",
+      "meetingId": "840002"
+    },
+    {
+      "timeSlot": "6",
+      "attendeeId": "9477501",
+      "meetingId": "690033"
+    },
+    {
+      "timeSlot": "7",
+      "attendeeId": "4956154",
+      "meetingId": "810033"
+    },
+    {
+      "timeSlot": "8",
+      "attendeeId": "91862577670",
+      "meetingId": "663528"
+    },
+    {
+      "timeSlot": "9",
+      "attendeeId": "8196151",
+      "meetingId": "663524"
+    },
+    {
+      "timeSlot": "10",
+      "attendeeId": "11132851",
+      "meetingId": "663529"
+    },
+    {
+      "timeSlot": "11",
+      "attendeeId": "110260566550",
+      "meetingId": "663530"
+    },
+    {
+      "timeSlot": "12",
+      "attendeeId": "113145184682",
+      "meetingId": "690032"
+    }
+  ],
+  "messages": [],
+  "stdout": "timeSlot\tattendeeId\tmeetingId\n1\t93176107633\t663522\n2\t8952301\t663521\n3\t128491656706\t663525\n4\t8713772\t663523\n5\t116903349643\t840002\n6\t9477501\t690033\n7\t4956154\t810033\n8\t91862577670\t663528\n9\t8196151\t663524\n10\t11132851\t663529\n11\t110260566550\t663530\n12\t113145184682\t690032\n",
+  "stderr": "",
+  "execution_time_ms": 379
+}

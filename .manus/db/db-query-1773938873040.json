@@ -1,0 +1,42 @@
+{
+  "query": "\nSELECT m.timeSlot, s.companyName\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nWHERE m.attendeeId = '91862577670'\nORDER BY m.timeSlot;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT m.timeSlot, s.companyName\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nWHERE m.attendeeId = '91862577670'\nORDER BY m.timeSlot;\n",
+  "rows": [
+    {
+      "timeSlot": "1",
+      "companyName": "Happydance Careers Websites"
+    },
+    {
+      "timeSlot": "2",
+      "companyName": "hackajob"
+    },
+    {
+      "timeSlot": "3",
+      "companyName": "The Martec"
+    },
+    {
+      "timeSlot": "4",
+      "companyName": "Appcast"
+    },
+    {
+      "timeSlot": "5",
+      "companyName": "Stepstone Group UK Ltd"
+    },
+    {
+      "timeSlot": "7",
+      "companyName": "Bright Apply"
+    },
+    {
+      "timeSlot": "8",
+      "companyName": "Veremark "
+    },
+    {
+      "timeSlot": "12",
+      "companyName": "Maki People"
+    }
+  ],
+  "messages": [],
+  "stdout": "timeSlot\tcompanyName\n1\tHappydance Careers Websites\n2\thackajob\n3\tThe Martec\n4\tAppcast\n5\tStepstone Group UK Ltd\n7\tBright Apply\n8\tVeremark \n12\tMaki People\n",
+  "stderr": "",
+  "execution_time_ms": 383
+}

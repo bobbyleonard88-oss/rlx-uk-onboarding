@@ -1,0 +1,40 @@
+{
+  "query": "\nSELECT v.attendeeId, v.id as meetingId, v.timeSlot\nFROM meetings v\nLEFT JOIN sponsors s ON v.sponsorId = s.id\nWHERE s.companyName LIKE '%Veremark%' AND v.timeSlot IN (1, 2, 3, 4, 5, 6);\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT v.attendeeId, v.id as meetingId, v.timeSlot\nFROM meetings v\nLEFT JOIN sponsors s ON v.sponsorId = s.id\nWHERE s.companyName LIKE '%Veremark%' AND v.timeSlot IN (1, 2, 3, 4, 5, 6);\n",
+  "rows": [
+    {
+      "attendeeId": "8952301",
+      "meetingId": "663521",
+      "timeSlot": "2"
+    },
+    {
+      "attendeeId": "93176107633",
+      "meetingId": "663522",
+      "timeSlot": "1"
+    },
+    {
+      "attendeeId": "8713772",
+      "meetingId": "663523",
+      "timeSlot": "4"
+    },
+    {
+      "attendeeId": "128491656706",
+      "meetingId": "663525",
+      "timeSlot": "3"
+    },
+    {
+      "attendeeId": "9477501",
+      "meetingId": "690033",
+      "timeSlot": "6"
+    },
+    {
+      "attendeeId": "116903349643",
+      "meetingId": "840002",
+      "timeSlot": "5"
+    }
+  ],
+  "messages": [],
+  "stdout": "attendeeId\tmeetingId\ttimeSlot\n8952301\t663521\t2\n93176107633\t663522\t1\n8713772\t663523\t4\n128491656706\t663525\t3\n9477501\t690033\t6\n116903349643\t840002\t5\n",
+  "stderr": "",
+  "execution_time_ms": 403
+}
