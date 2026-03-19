@@ -1,0 +1,24 @@
+{
+  "query": "\n-- Verify Robyn in Harver slot 7\nSELECT s.companyName, m.timeSlot, m.attendeeNumber, m.attendeeId, m.matchScore\nFROM meetings m JOIN sponsors s ON s.id = m.sponsorId\nWHERE s.companyName = 'Harver' AND m.timeSlot = 7 AND m.isVisible = 1;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \n-- Verify Robyn in Harver slot 7\nSELECT s.companyName, m.timeSlot, m.attendeeNumber, m.attendeeId, m.matchScore\nFROM meetings m JOIN sponsors s ON s.id = m.sponsorId\nWHERE s.companyName = 'Harver' AND m.timeSlot = 7 AND m.isVisible = 1;\n",
+  "rows": [
+    {
+      "companyName": "Harver",
+      "timeSlot": "7",
+      "attendeeNumber": "1",
+      "attendeeId": "1076201",
+      "matchScore": "72"
+    },
+    {
+      "companyName": "Harver",
+      "timeSlot": "7",
+      "attendeeNumber": "2",
+      "attendeeId": "194295425320",
+      "matchScore": "82"
+    }
+  ],
+  "messages": [],
+  "stdout": "companyName\ttimeSlot\tattendeeNumber\tattendeeId\tmatchScore\nHarver\t7\t1\t1076201\t72\nHarver\t7\t2\t194295425320\t82\n",
+  "stderr": "",
+  "execution_time_ms": 412
+}

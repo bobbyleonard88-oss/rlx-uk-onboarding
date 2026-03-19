@@ -1,0 +1,8 @@
+{
+  "query": "\n-- Get Appcast sponsor rep details\nSELECT s.companyName, s.sponsorRep1Name, s.sponsorRep2Name, s.id\nFROM sponsors s WHERE s.companyName = 'Appcast';\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \n-- Get Appcast sponsor rep details\nSELECT s.companyName, s.sponsorRep1Name, s.sponsorRep2Name, s.id\nFROM sponsors s WHERE s.companyName = 'Appcast';\n",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 3: Unknown column 's.sponsorrep1name' in 'field list'"
+  ]
+}

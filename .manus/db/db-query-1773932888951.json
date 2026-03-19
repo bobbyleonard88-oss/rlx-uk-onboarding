@@ -1,0 +1,9 @@
+{
+  "query": "\nINSERT INTO meetings (sponsorId, attendeeId, timeSlot, attendeeNumber, matchScore, matchReason, status, isVisible, createdAt, updatedAt)\nSELECT s.id, '194295425320', 7, 2, 82, 'Delegate is actively redesigning volume hiring processes, moving away from CV-driven applications towards SJT and conversational AI with automated interview scheduling - a direct match for Harver core assessment and screening automation platform.', 'suggested', 1, NOW(), NOW()\nFROM sponsors s WHERE s.companyName = 'Harver';\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nINSERT INTO meetings (sponsorId, attendeeId, timeSlot, attendeeNumber, matchScore, matchReason, status, isVisible, createdAt, updatedAt)\nSELECT s.id, '194295425320', 7, 2, 82, 'Delegate is actively redesigning volume hiring processes, moving away from CV-driven applications towards SJT and conversational AI with automated interview scheduling - a direct match for Harver core assessment and screening automation platform.', 'suggested', 1, NOW(), NOW()\nFROM sponsors s WHERE s.companyName = 'Harver';\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 392
+}

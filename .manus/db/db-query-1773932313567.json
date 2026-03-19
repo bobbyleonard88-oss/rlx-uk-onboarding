@@ -1,0 +1,1372 @@
+{
+  "query": "\n-- For each sponsor, find which slots have 0 or 1 attendee booked (open for new meetings)\n-- First get total possible slots per sponsor (max 2 per slot)\nSELECT \n  s.companyName,\n  s.id as sponsorId,\n  m.timeSlot,\n  COUNT(*) as booked_count\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE m.isVisible = 1\nGROUP BY s.id, s.companyName, m.timeSlot\nHAVING COUNT(*) < 2\nORDER BY s.companyName, m.timeSlot;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \n-- For each sponsor, find which slots have 0 or 1 attendee booked (open for new meetings)\n-- First get total possible slots per sponsor (max 2 per slot)\nSELECT \n  s.companyName,\n  s.id as sponsorId,\n  m.timeSlot,\n  COUNT(*) as booked_count\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE m.isVisible = 1\nGROUP BY s.id, s.companyName, m.timeSlot\nHAVING COUNT(*) < 2\nORDER BY s.companyName, m.timeSlot;\n",
+  "rows": [
+    {
+      "companyName": "Amberjack",
+      "sponsorId": "690001",
+      "timeSlot": "1",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Amberjack",
+      "sponsorId": "690001",
+      "timeSlot": "2",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Amberjack",
+      "sponsorId": "690001",
+      "timeSlot": "3",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Amberjack",
+      "sponsorId": "690001",
+      "timeSlot": "4",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Amberjack",
+      "sponsorId": "690001",
+      "timeSlot": "5",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Amberjack",
+      "sponsorId": "690001",
+      "timeSlot": "6",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Amberjack",
+      "sponsorId": "690001",
+      "timeSlot": "7",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Amberjack",
+      "sponsorId": "690001",
+      "timeSlot": "8",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Amberjack",
+      "sponsorId": "690001",
+      "timeSlot": "9",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Amberjack",
+      "sponsorId": "690001",
+      "timeSlot": "10",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Amberjack",
+      "sponsorId": "690001",
+      "timeSlot": "11",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Amberjack",
+      "sponsorId": "690001",
+      "timeSlot": "12",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Appcast",
+      "sponsorId": "270002",
+      "timeSlot": "1",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Appcast",
+      "sponsorId": "270002",
+      "timeSlot": "6",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Appcast",
+      "sponsorId": "270002",
+      "timeSlot": "8",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Appcast",
+      "sponsorId": "270002",
+      "timeSlot": "9",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Bright Apply",
+      "sponsorId": "390001",
+      "timeSlot": "1",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Bright Apply",
+      "sponsorId": "390001",
+      "timeSlot": "2",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Bright Apply",
+      "sponsorId": "390001",
+      "timeSlot": "3",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Bright Apply",
+      "sponsorId": "390001",
+      "timeSlot": "4",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Bright Apply",
+      "sponsorId": "390001",
+      "timeSlot": "5",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Bright Apply",
+      "sponsorId": "390001",
+      "timeSlot": "6",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Bright Apply",
+      "sponsorId": "390001",
+      "timeSlot": "7",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Bright Apply",
+      "sponsorId": "390001",
+      "timeSlot": "8",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Bright Apply",
+      "sponsorId": "390001",
+      "timeSlot": "9",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Bright Apply",
+      "sponsorId": "390001",
+      "timeSlot": "10",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Bright Apply",
+      "sponsorId": "390001",
+      "timeSlot": "11",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Bright Apply",
+      "sponsorId": "390001",
+      "timeSlot": "12",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "hackajob",
+      "sponsorId": "540001",
+      "timeSlot": "1",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "hackajob",
+      "sponsorId": "540001",
+      "timeSlot": "2",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "hackajob",
+      "sponsorId": "540001",
+      "timeSlot": "3",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "hackajob",
+      "sponsorId": "540001",
+      "timeSlot": "4",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "hackajob",
+      "sponsorId": "540001",
+      "timeSlot": "5",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "hackajob",
+      "sponsorId": "540001",
+      "timeSlot": "6",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "hackajob",
+      "sponsorId": "540001",
+      "timeSlot": "7",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "hackajob",
+      "sponsorId": "540001",
+      "timeSlot": "8",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "hackajob",
+      "sponsorId": "540001",
+      "timeSlot": "9",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "hackajob",
+      "sponsorId": "540001",
+      "timeSlot": "10",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "hackajob",
+      "sponsorId": "540001",
+      "timeSlot": "11",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "hackajob",
+      "sponsorId": "540001",
+      "timeSlot": "12",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Happydance Careers Websites",
+      "sponsorId": "600001",
+      "timeSlot": "1",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Happydance Careers Websites",
+      "sponsorId": "600001",
+      "timeSlot": "2",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Happydance Careers Websites",
+      "sponsorId": "600001",
+      "timeSlot": "3",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Happydance Careers Websites",
+      "sponsorId": "600001",
+      "timeSlot": "4",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Happydance Careers Websites",
+      "sponsorId": "600001",
+      "timeSlot": "5",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Happydance Careers Websites",
+      "sponsorId": "600001",
+      "timeSlot": "6",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Happydance Careers Websites",
+      "sponsorId": "600001",
+      "timeSlot": "7",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Happydance Careers Websites",
+      "sponsorId": "600001",
+      "timeSlot": "8",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Happydance Careers Websites",
+      "sponsorId": "600001",
+      "timeSlot": "9",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Happydance Careers Websites",
+      "sponsorId": "600001",
+      "timeSlot": "10",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Happydance Careers Websites",
+      "sponsorId": "600001",
+      "timeSlot": "11",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Happydance Careers Websites",
+      "sponsorId": "600001",
+      "timeSlot": "12",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Harver",
+      "sponsorId": "210001",
+      "timeSlot": "2",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Harver",
+      "sponsorId": "210001",
+      "timeSlot": "7",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Harver",
+      "sponsorId": "210001",
+      "timeSlot": "11",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "inploi",
+      "sponsorId": "720001",
+      "timeSlot": "1",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "inploi",
+      "sponsorId": "720001",
+      "timeSlot": "2",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "inploi",
+      "sponsorId": "720001",
+      "timeSlot": "3",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "inploi",
+      "sponsorId": "720001",
+      "timeSlot": "4",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "inploi",
+      "sponsorId": "720001",
+      "timeSlot": "5",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "inploi",
+      "sponsorId": "720001",
+      "timeSlot": "6",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "inploi",
+      "sponsorId": "720001",
+      "timeSlot": "7",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "inploi",
+      "sponsorId": "720001",
+      "timeSlot": "8",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "inploi",
+      "sponsorId": "720001",
+      "timeSlot": "9",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "inploi",
+      "sponsorId": "720001",
+      "timeSlot": "10",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "inploi",
+      "sponsorId": "720001",
+      "timeSlot": "11",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "inploi",
+      "sponsorId": "720001",
+      "timeSlot": "12",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "JobSync",
+      "sponsorId": "840001",
+      "timeSlot": "1",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "JobSync",
+      "sponsorId": "840001",
+      "timeSlot": "2",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "JobSync",
+      "sponsorId": "840001",
+      "timeSlot": "3",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "JobSync",
+      "sponsorId": "840001",
+      "timeSlot": "4",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "JobSync",
+      "sponsorId": "840001",
+      "timeSlot": "5",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "JobSync",
+      "sponsorId": "840001",
+      "timeSlot": "6",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "JobSync",
+      "sponsorId": "840001",
+      "timeSlot": "7",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "JobSync",
+      "sponsorId": "840001",
+      "timeSlot": "8",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "JobSync",
+      "sponsorId": "840001",
+      "timeSlot": "9",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "JobSync",
+      "sponsorId": "840001",
+      "timeSlot": "10",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "JobSync",
+      "sponsorId": "840001",
+      "timeSlot": "11",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "JobSync",
+      "sponsorId": "840001",
+      "timeSlot": "12",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Maki People",
+      "sponsorId": "180001",
+      "timeSlot": "1",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Maki People",
+      "sponsorId": "180001",
+      "timeSlot": "2",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Maki People",
+      "sponsorId": "180001",
+      "timeSlot": "3",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Maki People",
+      "sponsorId": "180001",
+      "timeSlot": "4",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Maki People",
+      "sponsorId": "180001",
+      "timeSlot": "5",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Maki People",
+      "sponsorId": "180001",
+      "timeSlot": "6",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Maki People",
+      "sponsorId": "180001",
+      "timeSlot": "7",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Maki People",
+      "sponsorId": "180001",
+      "timeSlot": "8",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Maki People",
+      "sponsorId": "180001",
+      "timeSlot": "9",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Maki People",
+      "sponsorId": "180001",
+      "timeSlot": "10",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Maki People",
+      "sponsorId": "180001",
+      "timeSlot": "11",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Maki People",
+      "sponsorId": "180001",
+      "timeSlot": "12",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "PerchPeek",
+      "sponsorId": "450001",
+      "timeSlot": "1",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "PerchPeek",
+      "sponsorId": "450001",
+      "timeSlot": "2",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "PerchPeek",
+      "sponsorId": "450001",
+      "timeSlot": "3",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "PerchPeek",
+      "sponsorId": "450001",
+      "timeSlot": "4",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "PerchPeek",
+      "sponsorId": "450001",
+      "timeSlot": "5",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "PerchPeek",
+      "sponsorId": "450001",
+      "timeSlot": "6",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "PerchPeek",
+      "sponsorId": "450001",
+      "timeSlot": "7",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "PerchPeek",
+      "sponsorId": "450001",
+      "timeSlot": "8",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "PerchPeek",
+      "sponsorId": "450001",
+      "timeSlot": "9",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "PerchPeek",
+      "sponsorId": "450001",
+      "timeSlot": "10",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "PerchPeek",
+      "sponsorId": "450001",
+      "timeSlot": "11",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "PerchPeek",
+      "sponsorId": "450001",
+      "timeSlot": "12",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Poetry",
+      "sponsorId": "900001",
+      "timeSlot": "1",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Poetry",
+      "sponsorId": "900001",
+      "timeSlot": "2",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Poetry",
+      "sponsorId": "900001",
+      "timeSlot": "3",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Poetry",
+      "sponsorId": "900001",
+      "timeSlot": "4",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Poetry",
+      "sponsorId": "900001",
+      "timeSlot": "5",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Poetry",
+      "sponsorId": "900001",
+      "timeSlot": "6",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Poetry",
+      "sponsorId": "900001",
+      "timeSlot": "7",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Poetry",
+      "sponsorId": "900001",
+      "timeSlot": "8",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Poetry",
+      "sponsorId": "900001",
+      "timeSlot": "9",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Poetry",
+      "sponsorId": "900001",
+      "timeSlot": "10",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Poetry",
+      "sponsorId": "900001",
+      "timeSlot": "11",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Poetry",
+      "sponsorId": "900001",
+      "timeSlot": "12",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Radancy",
+      "sponsorId": "810002",
+      "timeSlot": "1",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Radancy",
+      "sponsorId": "810002",
+      "timeSlot": "2",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Radancy",
+      "sponsorId": "810002",
+      "timeSlot": "3",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Radancy",
+      "sponsorId": "810002",
+      "timeSlot": "4",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Radancy",
+      "sponsorId": "810002",
+      "timeSlot": "5",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Radancy",
+      "sponsorId": "810002",
+      "timeSlot": "6",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Radancy",
+      "sponsorId": "810002",
+      "timeSlot": "7",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Radancy",
+      "sponsorId": "810002",
+      "timeSlot": "8",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Radancy",
+      "sponsorId": "810002",
+      "timeSlot": "9",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Radancy",
+      "sponsorId": "810002",
+      "timeSlot": "10",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Radancy",
+      "sponsorId": "810002",
+      "timeSlot": "11",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Radancy",
+      "sponsorId": "810002",
+      "timeSlot": "12",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Sapia.ai",
+      "sponsorId": "240001",
+      "timeSlot": "1",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Sapia.ai",
+      "sponsorId": "240001",
+      "timeSlot": "2",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Sapia.ai",
+      "sponsorId": "240001",
+      "timeSlot": "3",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Sapia.ai",
+      "sponsorId": "240001",
+      "timeSlot": "4",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Sapia.ai",
+      "sponsorId": "240001",
+      "timeSlot": "5",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Sapia.ai",
+      "sponsorId": "240001",
+      "timeSlot": "6",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Sapia.ai",
+      "sponsorId": "240001",
+      "timeSlot": "7",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Sapia.ai",
+      "sponsorId": "240001",
+      "timeSlot": "8",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Sapia.ai",
+      "sponsorId": "240001",
+      "timeSlot": "9",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Sapia.ai",
+      "sponsorId": "240001",
+      "timeSlot": "10",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Sapia.ai",
+      "sponsorId": "240001",
+      "timeSlot": "11",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Sapia.ai",
+      "sponsorId": "240001",
+      "timeSlot": "12",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "SHL",
+      "sponsorId": "750001",
+      "timeSlot": "1",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "SHL",
+      "sponsorId": "750001",
+      "timeSlot": "5",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "SHL",
+      "sponsorId": "750001",
+      "timeSlot": "7",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "SHL",
+      "sponsorId": "750001",
+      "timeSlot": "8",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Stepstone Group UK Ltd",
+      "sponsorId": "150001",
+      "timeSlot": "1",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Stepstone Group UK Ltd",
+      "sponsorId": "150001",
+      "timeSlot": "2",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Stepstone Group UK Ltd",
+      "sponsorId": "150001",
+      "timeSlot": "3",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Stepstone Group UK Ltd",
+      "sponsorId": "150001",
+      "timeSlot": "4",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Stepstone Group UK Ltd",
+      "sponsorId": "150001",
+      "timeSlot": "5",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Stepstone Group UK Ltd",
+      "sponsorId": "150001",
+      "timeSlot": "6",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Stepstone Group UK Ltd",
+      "sponsorId": "150001",
+      "timeSlot": "7",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Stepstone Group UK Ltd",
+      "sponsorId": "150001",
+      "timeSlot": "8",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Stepstone Group UK Ltd",
+      "sponsorId": "150001",
+      "timeSlot": "9",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Stepstone Group UK Ltd",
+      "sponsorId": "150001",
+      "timeSlot": "10",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Stepstone Group UK Ltd",
+      "sponsorId": "150001",
+      "timeSlot": "11",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Stepstone Group UK Ltd",
+      "sponsorId": "150001",
+      "timeSlot": "12",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Symphony Talent ",
+      "sponsorId": "330001",
+      "timeSlot": "1",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Symphony Talent ",
+      "sponsorId": "330001",
+      "timeSlot": "2",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Symphony Talent ",
+      "sponsorId": "330001",
+      "timeSlot": "3",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Symphony Talent ",
+      "sponsorId": "330001",
+      "timeSlot": "4",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Symphony Talent ",
+      "sponsorId": "330001",
+      "timeSlot": "5",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Symphony Talent ",
+      "sponsorId": "330001",
+      "timeSlot": "6",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Symphony Talent ",
+      "sponsorId": "330001",
+      "timeSlot": "7",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Symphony Talent ",
+      "sponsorId": "330001",
+      "timeSlot": "8",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Symphony Talent ",
+      "sponsorId": "330001",
+      "timeSlot": "9",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Symphony Talent ",
+      "sponsorId": "330001",
+      "timeSlot": "10",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Symphony Talent ",
+      "sponsorId": "330001",
+      "timeSlot": "11",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Symphony Talent ",
+      "sponsorId": "330001",
+      "timeSlot": "12",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "The Martec",
+      "sponsorId": "780001",
+      "timeSlot": "1",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "The Martec",
+      "sponsorId": "780001",
+      "timeSlot": "2",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "The Martec",
+      "sponsorId": "780001",
+      "timeSlot": "3",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "The Martec",
+      "sponsorId": "780001",
+      "timeSlot": "4",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "The Martec",
+      "sponsorId": "780001",
+      "timeSlot": "5",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "The Martec",
+      "sponsorId": "780001",
+      "timeSlot": "6",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "The Martec",
+      "sponsorId": "780001",
+      "timeSlot": "7",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "The Martec",
+      "sponsorId": "780001",
+      "timeSlot": "8",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "The Martec",
+      "sponsorId": "780001",
+      "timeSlot": "9",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "The Martec",
+      "sponsorId": "780001",
+      "timeSlot": "10",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "The Martec",
+      "sponsorId": "780001",
+      "timeSlot": "11",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "The Martec",
+      "sponsorId": "780001",
+      "timeSlot": "12",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Udder",
+      "sponsorId": "360001",
+      "timeSlot": "1",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Udder",
+      "sponsorId": "360001",
+      "timeSlot": "2",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Udder",
+      "sponsorId": "360001",
+      "timeSlot": "3",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Udder",
+      "sponsorId": "360001",
+      "timeSlot": "4",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Udder",
+      "sponsorId": "360001",
+      "timeSlot": "5",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Udder",
+      "sponsorId": "360001",
+      "timeSlot": "6",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Udder",
+      "sponsorId": "360001",
+      "timeSlot": "7",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Udder",
+      "sponsorId": "360001",
+      "timeSlot": "8",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Udder",
+      "sponsorId": "360001",
+      "timeSlot": "9",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Udder",
+      "sponsorId": "360001",
+      "timeSlot": "10",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Udder",
+      "sponsorId": "360001",
+      "timeSlot": "11",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Udder",
+      "sponsorId": "360001",
+      "timeSlot": "12",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Veremark ",
+      "sponsorId": "810001",
+      "timeSlot": "1",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Veremark ",
+      "sponsorId": "810001",
+      "timeSlot": "2",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Veremark ",
+      "sponsorId": "810001",
+      "timeSlot": "3",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Veremark ",
+      "sponsorId": "810001",
+      "timeSlot": "4",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Veremark ",
+      "sponsorId": "810001",
+      "timeSlot": "5",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Veremark ",
+      "sponsorId": "810001",
+      "timeSlot": "6",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Veremark ",
+      "sponsorId": "810001",
+      "timeSlot": "7",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Veremark ",
+      "sponsorId": "810001",
+      "timeSlot": "8",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Veremark ",
+      "sponsorId": "810001",
+      "timeSlot": "9",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Veremark ",
+      "sponsorId": "810001",
+      "timeSlot": "10",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Veremark ",
+      "sponsorId": "810001",
+      "timeSlot": "11",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Veremark ",
+      "sponsorId": "810001",
+      "timeSlot": "12",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Wilson",
+      "sponsorId": "870001",
+      "timeSlot": "1",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Wilson",
+      "sponsorId": "870001",
+      "timeSlot": "2",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Wilson",
+      "sponsorId": "870001",
+      "timeSlot": "3",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Wilson",
+      "sponsorId": "870001",
+      "timeSlot": "4",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Wilson",
+      "sponsorId": "870001",
+      "timeSlot": "5",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Wilson",
+      "sponsorId": "870001",
+      "timeSlot": "6",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Wilson",
+      "sponsorId": "870001",
+      "timeSlot": "7",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Wilson",
+      "sponsorId": "870001",
+      "timeSlot": "8",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Wilson",
+      "sponsorId": "870001",
+      "timeSlot": "9",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Wilson",
+      "sponsorId": "870001",
+      "timeSlot": "10",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Wilson",
+      "sponsorId": "870001",
+      "timeSlot": "11",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Wilson",
+      "sponsorId": "870001",
+      "timeSlot": "12",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Zinc",
+      "sponsorId": "300001",
+      "timeSlot": "1",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Zinc",
+      "sponsorId": "300001",
+      "timeSlot": "2",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Zinc",
+      "sponsorId": "300001",
+      "timeSlot": "3",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Zinc",
+      "sponsorId": "300001",
+      "timeSlot": "4",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Zinc",
+      "sponsorId": "300001",
+      "timeSlot": "5",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Zinc",
+      "sponsorId": "300001",
+      "timeSlot": "6",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Zinc",
+      "sponsorId": "300001",
+      "timeSlot": "7",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Zinc",
+      "sponsorId": "300001",
+      "timeSlot": "8",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Zinc",
+      "sponsorId": "300001",
+      "timeSlot": "9",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Zinc",
+      "sponsorId": "300001",
+      "timeSlot": "10",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Zinc",
+      "sponsorId": "300001",
+      "timeSlot": "11",
+      "booked_count": "1"
+    },
+    {
+      "companyName": "Zinc",
+      "sponsorId": "300001",
+      "timeSlot": "12",
+      "booked_count": "1"
+    }
+  ],
+  "messages": [],
+  "stdout": "companyName\tsponsorId\ttimeSlot\tbooked_count\nAmberjack\t690001\t1\t1\nAmberjack\t690001\t2\t1\nAmberjack\t690001\t3\t1\nAmberjack\t690001\t4\t1\nAmberjack\t690001\t5\t1\nAmberjack\t690001\t6\t1\nAmberjack\t690001\t7\t1\nAmberjack\t690001\t8\t1\nAmberjack\t690001\t9\t1\nAmberjack\t690001\t10\t1\nAmberjack\t690001\t11\t1\nAmberjack\t690001\t12\t1\nAppcast\t270002\t1\t1\nAppcast\t270002\t6\t1\nAppcast\t270002\t8\t1\nAppcast\t270002\t9\t1\nBright Apply\t390001\t1\t1\nBright Apply\t390001\t2\t1\nBright Apply\t390001\t3\t1\nBright Apply\t390001\t4\t1\nBright Apply\t390001\t5\t1\nBright Apply\t390001\t6\t1\nBright Apply\t390001\t7\t1\nBright Apply\t390001\t8\t1\nBright Apply\t390001\t9\t1\nBright Apply\t390001\t10\t1\nBright Apply\t390001\t11\t1\nBright Apply\t390001\t12\t1\nhackajob\t540001\t1\t1\nhackajob\t540001\t2\t1\nhackajob\t540001\t3\t1\nhackajob\t540001\t4\t1\nhackajob\t540001\t5\t1\nhackajob\t540001\t6\t1\nhackajob\t540001\t7\t1\nhackajob\t540001\t8\t1\nhackajob\t540001\t9\t1\nhackajob\t540001\t10\t1\nhackajob\t540001\t11\t1\nhackajob\t540001\t12\t1\nHappydance Careers Websites\t600001\t1\t1\nHappydance Careers Websites\t600001\t2\t1\nHappydance Careers Websites\t600001\t3\t1\nHappydance Careers Websites\t600001\t4\t1\nHappydance Careers Websites\t600001\t5\t1\nHappydance Careers Websites\t600001\t6\t1\nHappydance Careers Websites\t600001\t7\t1\nHappydance Careers Websites\t600001\t8\t1\nHappydance Careers Websites\t600001\t9\t1\nHappydance Careers Websites\t600001\t10\t1\nHappydance Careers Websites\t600001\t11\t1\nHappydance Careers Websites\t600001\t12\t1\nHarver\t210001\t2\t1\nHarver\t210001\t7\t1\nHarver\t210001\t11\t1\ninploi\t720001\t1\t1\ninploi\t720001\t2\t1\ninploi\t720001\t3\t1\ninploi\t720001\t4\t1\ninploi\t720001\t5\t1\ninploi\t720001\t6\t1\ninploi\t720001\t7\t1\ninploi\t720001\t8\t1\ninploi\t720001\t9\t1\ninploi\t720001\t10\t1\ninploi\t720001\t11\t1\ninploi\t720001\t12\t1\nJobSync\t840001\t1\t1\nJobSync\t840001\t2\t1\nJobSync\t840001\t3\t1\nJobSync\t840001\t4\t1\nJobSync\t840001\t5\t1\nJobSync\t840001\t6\t1\nJobSync\t840001\t7\t1\nJobSync\t840001\t8\t1\nJobSync\t840001\t9\t1\nJobSync\t840001\t10\t1\nJobSync\t840001\t11\t1\nJobSync\t840001\t12\t1\nMaki People\t180001\t1\t1\nMaki People\t180001\t2\t1\nMaki People\t180001\t3\t1\nMaki People\t180001\t4\t1\nMaki People\t180001\t5\t1\nMaki People\t180001\t6\t1\nMaki People\t180001\t7\t1\nMaki People\t180001\t8\t1\nMaki People\t180001\t9\t1\nMaki People\t180001\t10\t1\nMaki People\t180001\t11\t1\nMaki People\t180001\t12\t1\nPerchPeek\t450001\t1\t1\nPerchPeek\t450001\t2\t1\nPerchPeek\t450001\t3\t1\nPerchPeek\t450001\t4\t1\nPerchPeek\t450001\t5\t1\nPerchPeek\t450001\t6\t1\nPerchPeek\t450001\t7\t1\nPerchPeek\t450001\t8\t1\nPerchPeek\t450001\t9\t1\nPerchPeek\t450001\t10\t1\nPerchPeek\t450001\t11\t1\nPerchPeek\t450001\t12\t1\nPoetry\t900001\t1\t1\nPoetry\t900001\t2\t1\nPoetry\t900001\t3\t1\nPoetry\t900001\t4\t1\nPoetry\t900001\t5\t1\nPoetry\t900001\t6\t1\nPoetry\t900001\t7\t1\nPoetry\t900001\t8\t1\nPoetry\t900001\t9\t1\nPoetry\t900001\t10\t1\nPoetry\t900001\t11\t1\nPoetry\t900001\t12\t1\nRadancy\t810002\t1\t1\nRadancy\t810002\t2\t1\nRadancy\t810002\t3\t1\nRadancy\t810002\t4\t1\nRadancy\t810002\t5\t1\nRadancy\t810002\t6\t1\nRadancy\t810002\t7\t1\nRadancy\t810002\t8\t1\nRadancy\t810002\t9\t1\nRadancy\t810002\t10\t1\nRadancy\t810002\t11\t1\nRadancy\t810002\t12\t1\nSapia.ai\t240001\t1\t1\nSapia.ai\t240001\t2\t1\nSapia.ai\t240001\t3\t1\nSapia.ai\t240001\t4\t1\nSapia.ai\t240001\t5\t1\nSapia.ai\t240001\t6\t1\nSapia.ai\t240001\t7\t1\nSapia.ai\t240001\t8\t1\nSapia.ai\t240001\t9\t1\nSapia.ai\t240001\t10\t1\nSapia.ai\t240001\t11\t1\nSapia.ai\t240001\t12\t1\nSHL\t750001\t1\t1\nSHL\t750001\t5\t1\nSHL\t750001\t7\t1\nSHL\t750001\t8\t1\nStepstone Group UK Ltd\t150001\t1\t1\nStepstone Group UK Ltd\t150001\t2\t1\nStepstone Group UK Ltd\t150001\t3\t1\nStepstone Group UK Ltd\t150001\t4\t1\nStepstone Group UK Ltd\t150001\t5\t1\nStepstone Group UK Ltd\t150001\t6\t1\nStepstone Group UK Ltd\t150001\t7\t1\nStepstone Group UK Ltd\t150001\t8\t1\nStepstone Group UK Ltd\t150001\t9\t1\nStepstone Group UK Ltd\t150001\t10\t1\nStepstone Group UK Ltd\t150001\t11\t1\nStepstone Group UK Ltd\t150001\t12\t1\nSymphony Talent \t330001\t1\t1\nSymphony Talent \t330001\t2\t1\nSymphony Talent \t330001\t3\t1\nSymphony Talent \t330001\t4\t1\nSymphony Talent \t330001\t5\t1\nSymphony Talent \t330001\t6\t1\nSymphony Talent \t330001\t7\t1\nSymphony Talent \t330001\t8\t1\nSymphony Talent \t330001\t9\t1\nSymphony Talent \t330001\t10\t1\nSymphony Talent \t330001\t11\t1\nSymphony Talent \t330001\t12\t1\nThe Martec\t780001\t1\t1\nThe Martec\t780001\t2\t1\nThe Martec\t780001\t3\t1\nThe Martec\t780001\t4\t1\nThe Martec\t780001\t5\t1\nThe Martec\t780001\t6\t1\nThe Martec\t780001\t7\t1\nThe Martec\t780001\t8\t1\nThe Martec\t780001\t9\t1\nThe Martec\t780001\t10\t1\nThe Martec\t780001\t11\t1\nThe Martec\t780001\t12\t1\nUdder\t360001\t1\t1\nUdder\t360001\t2\t1\nUdder\t360001\t3\t1\nUdder\t360001\t4\t1\nUdder\t360001\t5\t1\nUdder\t360001\t6\t1\nUdder\t360001\t7\t1\nUdder\t360001\t8\t1\nUdder\t360001\t9\t1\nUdder\t360001\t10\t1\nUdder\t360001\t11\t1\nUdder\t360001\t12\t1\nVeremark \t810001\t1\t1\nVeremark \t810001\t2\t1\nVeremark \t810001\t3\t1\nVeremark \t810001\t4\t1\nVeremark \t810001\t5\t1\nVeremark \t810001\t6\t1\nVeremark \t810001\t7\t1\nVeremark \t810001\t8\t1\nVeremark \t810001\t9\t1\nVeremark \t810001\t10\t1\nVeremark \t810001\t11\t1\nVeremark \t810001\t12\t1\nWilson\t870001\t1\t1\nWilson\t870001\t2\t1\nWilson\t870001\t3\t1\nWilson\t870001\t4\t1\nWilson\t870001\t5\t1\nWilson\t870001\t6\t1\nWilson\t870001\t7\t1\nWilson\t870001\t8\t1\nWilson\t870001\t9\t1\nWilson\t870001\t10\t1\nWilson\t870001\t11\t1\nWilson\t870001\t12\t1\nZinc\t300001\t1\t1\nZinc\t300001\t2\t1\nZinc\t300001\t3\t1\nZinc\t300001\t4\t1\nZinc\t300001\t5\t1\nZinc\t300001\t6\t1\nZinc\t300001\t7\t1\nZinc\t300001\t8\t1\nZinc\t300001\t9\t1\nZinc\t300001\t10\t1\nZinc\t300001\t11\t1\nZinc\t300001\t12\t1\n",
+  "stderr": "",
+  "execution_time_ms": 402
+}

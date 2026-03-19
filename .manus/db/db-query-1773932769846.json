@@ -1,0 +1,30 @@
+{
+  "query": "\n-- Check which Harver slots 7, 11, 12 are open (need attendeeNumber 2)\nSELECT m.timeSlot, m.attendeeNumber, m.attendeeId\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE s.companyName = 'Harver' AND m.timeSlot IN (7, 11, 12) AND m.isVisible = 1\nORDER BY m.timeSlot, m.attendeeNumber;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \n-- Check which Harver slots 7, 11, 12 are open (need attendeeNumber 2)\nSELECT m.timeSlot, m.attendeeNumber, m.attendeeId\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE s.companyName = 'Harver' AND m.timeSlot IN (7, 11, 12) AND m.isVisible = 1\nORDER BY m.timeSlot, m.attendeeNumber;\n",
+  "rows": [
+    {
+      "timeSlot": "7",
+      "attendeeNumber": "1",
+      "attendeeId": "1076201"
+    },
+    {
+      "timeSlot": "11",
+      "attendeeNumber": "1",
+      "attendeeId": "93174643474"
+    },
+    {
+      "timeSlot": "12",
+      "attendeeNumber": "1",
+      "attendeeId": "195183358360"
+    },
+    {
+      "timeSlot": "12",
+      "attendeeNumber": "2",
+      "attendeeId": "9477501"
+    }
+  ],
+  "messages": [],
+  "stdout": "timeSlot\tattendeeNumber\tattendeeId\n7\t1\t1076201\n11\t1\t93174643474\n12\t1\t195183358360\n12\t2\t9477501\n",
+  "stderr": "",
+  "execution_time_ms": 404
+}

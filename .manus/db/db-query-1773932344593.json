@@ -1,0 +1,136 @@
+{
+  "query": "\nSELECT s.companyName, m.timeSlot, m.attendeeNumber, m.attendeeId\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE s.companyName = 'Harver'\n  AND m.isVisible = 1\nORDER BY m.attendeeNumber, m.timeSlot;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT s.companyName, m.timeSlot, m.attendeeNumber, m.attendeeId\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE s.companyName = 'Harver'\n  AND m.isVisible = 1\nORDER BY m.attendeeNumber, m.timeSlot;\n",
+  "rows": [
+    {
+      "companyName": "Harver",
+      "timeSlot": "1",
+      "attendeeNumber": "1",
+      "attendeeId": "191181016455"
+    },
+    {
+      "companyName": "Harver",
+      "timeSlot": "2",
+      "attendeeNumber": "1",
+      "attendeeId": "452351"
+    },
+    {
+      "companyName": "Harver",
+      "timeSlot": "3",
+      "attendeeNumber": "1",
+      "attendeeId": "13454401"
+    },
+    {
+      "companyName": "Harver",
+      "timeSlot": "4",
+      "attendeeNumber": "1",
+      "attendeeId": "5140258"
+    },
+    {
+      "companyName": "Harver",
+      "timeSlot": "5",
+      "attendeeNumber": "1",
+      "attendeeId": "111228357473"
+    },
+    {
+      "companyName": "Harver",
+      "timeSlot": "6",
+      "attendeeNumber": "1",
+      "attendeeId": "7258470500"
+    },
+    {
+      "companyName": "Harver",
+      "timeSlot": "7",
+      "attendeeNumber": "1",
+      "attendeeId": "1076201"
+    },
+    {
+      "companyName": "Harver",
+      "timeSlot": "8",
+      "attendeeNumber": "1",
+      "attendeeId": "174442448959"
+    },
+    {
+      "companyName": "Harver",
+      "timeSlot": "9",
+      "attendeeNumber": "1",
+      "attendeeId": "122796319563"
+    },
+    {
+      "companyName": "Harver",
+      "timeSlot": "10",
+      "attendeeNumber": "1",
+      "attendeeId": "110260566550"
+    },
+    {
+      "companyName": "Harver",
+      "timeSlot": "11",
+      "attendeeNumber": "1",
+      "attendeeId": "93174643474"
+    },
+    {
+      "companyName": "Harver",
+      "timeSlot": "12",
+      "attendeeNumber": "1",
+      "attendeeId": "195183358360"
+    },
+    {
+      "companyName": "Harver",
+      "timeSlot": "1",
+      "attendeeNumber": "2",
+      "attendeeId": "4956154"
+    },
+    {
+      "companyName": "Harver",
+      "timeSlot": "3",
+      "attendeeNumber": "2",
+      "attendeeId": "9319401"
+    },
+    {
+      "companyName": "Harver",
+      "timeSlot": "4",
+      "attendeeNumber": "2",
+      "attendeeId": "208415155065"
+    },
+    {
+      "companyName": "Harver",
+      "timeSlot": "5",
+      "attendeeNumber": "2",
+      "attendeeId": "11132851"
+    },
+    {
+      "companyName": "Harver",
+      "timeSlot": "6",
+      "attendeeNumber": "2",
+      "attendeeId": "18336501"
+    },
+    {
+      "companyName": "Harver",
+      "timeSlot": "8",
+      "attendeeNumber": "2",
+      "attendeeId": "190937723960"
+    },
+    {
+      "companyName": "Harver",
+      "timeSlot": "9",
+      "attendeeNumber": "2",
+      "attendeeId": "200101377371"
+    },
+    {
+      "companyName": "Harver",
+      "timeSlot": "10",
+      "attendeeNumber": "2",
+      "attendeeId": "203946652193"
+    },
+    {
+      "companyName": "Harver",
+      "timeSlot": "12",
+      "attendeeNumber": "2",
+      "attendeeId": "9477501"
+    }
+  ],
+  "messages": [],
+  "stdout": "companyName\ttimeSlot\tattendeeNumber\tattendeeId\nHarver\t1\t1\t191181016455\nHarver\t2\t1\t452351\nHarver\t3\t1\t13454401\nHarver\t4\t1\t5140258\nHarver\t5\t1\t111228357473\nHarver\t6\t1\t7258470500\nHarver\t7\t1\t1076201\nHarver\t8\t1\t174442448959\nHarver\t9\t1\t122796319563\nHarver\t10\t1\t110260566550\nHarver\t11\t1\t93174643474\nHarver\t12\t1\t195183358360\nHarver\t1\t2\t4956154\nHarver\t3\t2\t9319401\nHarver\t4\t2\t208415155065\nHarver\t5\t2\t11132851\nHarver\t6\t2\t18336501\nHarver\t8\t2\t190937723960\nHarver\t9\t2\t200101377371\nHarver\t10\t2\t203946652193\nHarver\t12\t2\t9477501\n",
+  "stderr": "",
+  "execution_time_ms": 365
+}

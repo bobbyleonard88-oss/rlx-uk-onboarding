@@ -1,0 +1,215 @@
+{
+  "query": "\n-- Get all booked slots for Appcast and Harver to find gaps\nSELECT s.companyName, m.timeSlot, m.attendeeNumber\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE s.companyName IN ('Appcast', 'Harver')\n  AND m.isVisible = 1\nORDER BY s.companyName, m.attendeeNumber, m.timeSlot;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \n-- Get all booked slots for Appcast and Harver to find gaps\nSELECT s.companyName, m.timeSlot, m.attendeeNumber\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE s.companyName IN ('Appcast', 'Harver')\n  AND m.isVisible = 1\nORDER BY s.companyName, m.attendeeNumber, m.timeSlot;\n",
+  "rows": [
+    {
+      "companyName": "Appcast",
+      "timeSlot": "2",
+      "attendeeNumber": "1"
+    },
+    {
+      "companyName": "Appcast",
+      "timeSlot": "3",
+      "attendeeNumber": "1"
+    },
+    {
+      "companyName": "Appcast",
+      "timeSlot": "4",
+      "attendeeNumber": "1"
+    },
+    {
+      "companyName": "Appcast",
+      "timeSlot": "5",
+      "attendeeNumber": "1"
+    },
+    {
+      "companyName": "Appcast",
+      "timeSlot": "6",
+      "attendeeNumber": "1"
+    },
+    {
+      "companyName": "Appcast",
+      "timeSlot": "7",
+      "attendeeNumber": "1"
+    },
+    {
+      "companyName": "Appcast",
+      "timeSlot": "8",
+      "attendeeNumber": "1"
+    },
+    {
+      "companyName": "Appcast",
+      "timeSlot": "9",
+      "attendeeNumber": "1"
+    },
+    {
+      "companyName": "Appcast",
+      "timeSlot": "10",
+      "attendeeNumber": "1"
+    },
+    {
+      "companyName": "Appcast",
+      "timeSlot": "11",
+      "attendeeNumber": "1"
+    },
+    {
+      "companyName": "Appcast",
+      "timeSlot": "12",
+      "attendeeNumber": "1"
+    },
+    {
+      "companyName": "Appcast",
+      "timeSlot": "1",
+      "attendeeNumber": "2"
+    },
+    {
+      "companyName": "Appcast",
+      "timeSlot": "2",
+      "attendeeNumber": "2"
+    },
+    {
+      "companyName": "Appcast",
+      "timeSlot": "3",
+      "attendeeNumber": "2"
+    },
+    {
+      "companyName": "Appcast",
+      "timeSlot": "4",
+      "attendeeNumber": "2"
+    },
+    {
+      "companyName": "Appcast",
+      "timeSlot": "5",
+      "attendeeNumber": "2"
+    },
+    {
+      "companyName": "Appcast",
+      "timeSlot": "7",
+      "attendeeNumber": "2"
+    },
+    {
+      "companyName": "Appcast",
+      "timeSlot": "10",
+      "attendeeNumber": "2"
+    },
+    {
+      "companyName": "Appcast",
+      "timeSlot": "11",
+      "attendeeNumber": "2"
+    },
+    {
+      "companyName": "Appcast",
+      "timeSlot": "12",
+      "attendeeNumber": "2"
+    },
+    {
+      "companyName": "Harver",
+      "timeSlot": "1",
+      "attendeeNumber": "1"
+    },
+    {
+      "companyName": "Harver",
+      "timeSlot": "2",
+      "attendeeNumber": "1"
+    },
+    {
+      "companyName": "Harver",
+      "timeSlot": "3",
+      "attendeeNumber": "1"
+    },
+    {
+      "companyName": "Harver",
+      "timeSlot": "4",
+      "attendeeNumber": "1"
+    },
+    {
+      "companyName": "Harver",
+      "timeSlot": "5",
+      "attendeeNumber": "1"
+    },
+    {
+      "companyName": "Harver",
+      "timeSlot": "6",
+      "attendeeNumber": "1"
+    },
+    {
+      "companyName": "Harver",
+      "timeSlot": "7",
+      "attendeeNumber": "1"
+    },
+    {
+      "companyName": "Harver",
+      "timeSlot": "8",
+      "attendeeNumber": "1"
+    },
+    {
+      "companyName": "Harver",
+      "timeSlot": "9",
+      "attendeeNumber": "1"
+    },
+    {
+      "companyName": "Harver",
+      "timeSlot": "10",
+      "attendeeNumber": "1"
+    },
+    {
+      "companyName": "Harver",
+      "timeSlot": "11",
+      "attendeeNumber": "1"
+    },
+    {
+      "companyName": "Harver",
+      "timeSlot": "12",
+      "attendeeNumber": "1"
+    },
+    {
+      "companyName": "Harver",
+      "timeSlot": "1",
+      "attendeeNumber": "2"
+    },
+    {
+      "companyName": "Harver",
+      "timeSlot": "3",
+      "attendeeNumber": "2"
+    },
+    {
+      "companyName": "Harver",
+      "timeSlot": "4",
+      "attendeeNumber": "2"
+    },
+    {
+      "companyName": "Harver",
+      "timeSlot": "5",
+      "attendeeNumber": "2"
+    },
+    {
+      "companyName": "Harver",
+      "timeSlot": "6",
+      "attendeeNumber": "2"
+    },
+    {
+      "companyName": "Harver",
+      "timeSlot": "8",
+      "attendeeNumber": "2"
+    },
+    {
+      "companyName": "Harver",
+      "timeSlot": "9",
+      "attendeeNumber": "2"
+    },
+    {
+      "companyName": "Harver",
+      "timeSlot": "10",
+      "attendeeNumber": "2"
+    },
+    {
+      "companyName": "Harver",
+      "timeSlot": "12",
+      "attendeeNumber": "2"
+    }
+  ],
+  "messages": [],
+  "stdout": "companyName\ttimeSlot\tattendeeNumber\nAppcast\t2\t1\nAppcast\t3\t1\nAppcast\t4\t1\nAppcast\t5\t1\nAppcast\t6\t1\nAppcast\t7\t1\nAppcast\t8\t1\nAppcast\t9\t1\nAppcast\t10\t1\nAppcast\t11\t1\nAppcast\t12\t1\nAppcast\t1\t2\nAppcast\t2\t2\nAppcast\t3\t2\nAppcast\t4\t2\nAppcast\t5\t2\nAppcast\t7\t2\nAppcast\t10\t2\nAppcast\t11\t2\nAppcast\t12\t2\nHarver\t1\t1\nHarver\t2\t1\nHarver\t3\t1\nHarver\t4\t1\nHarver\t5\t1\nHarver\t6\t1\nHarver\t7\t1\nHarver\t8\t1\nHarver\t9\t1\nHarver\t10\t1\nHarver\t11\t1\nHarver\t12\t1\nHarver\t1\t2\nHarver\t3\t2\nHarver\t4\t2\nHarver\t5\t2\nHarver\t6\t2\nHarver\t8\t2\nHarver\t9\t2\nHarver\t10\t2\nHarver\t12\t2\n",
+  "stderr": "",
+  "execution_time_ms": 384
+}

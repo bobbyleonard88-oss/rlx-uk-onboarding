@@ -1,0 +1,14 @@
+{
+  "query": "\nSELECT companyName, contactName FROM sponsors WHERE companyName = 'Harver';\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT companyName, contactName FROM sponsors WHERE companyName = 'Harver';\n",
+  "rows": [
+    {
+      "companyName": "Harver",
+      "contactName": "Elliot Thompson"
+    }
+  ],
+  "messages": [],
+  "stdout": "companyName\tcontactName\nHarver\tElliot Thompson\n",
+  "stderr": "",
+  "execution_time_ms": 389
+}

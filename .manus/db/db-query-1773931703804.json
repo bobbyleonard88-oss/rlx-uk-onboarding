@@ -1,0 +1,110 @@
+{
+  "query": "\n-- SHL's full current schedule to identify open slots\nSELECT m.timeSlot, m.attendeeNumber, m.attendeeId\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE s.companyName = 'SHL' AND m.isVisible = 1\nORDER BY m.attendeeNumber, m.timeSlot;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \n-- SHL's full current schedule to identify open slots\nSELECT m.timeSlot, m.attendeeNumber, m.attendeeId\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE s.companyName = 'SHL' AND m.isVisible = 1\nORDER BY m.attendeeNumber, m.timeSlot;\n",
+  "rows": [
+    {
+      "timeSlot": "1",
+      "attendeeNumber": "1",
+      "attendeeId": "17812226737"
+    },
+    {
+      "timeSlot": "2",
+      "attendeeNumber": "1",
+      "attendeeId": "92353346050"
+    },
+    {
+      "timeSlot": "3",
+      "attendeeNumber": "1",
+      "attendeeId": "5140258"
+    },
+    {
+      "timeSlot": "4",
+      "attendeeNumber": "1",
+      "attendeeId": "92953690026"
+    },
+    {
+      "timeSlot": "5",
+      "attendeeNumber": "1",
+      "attendeeId": "201697440144"
+    },
+    {
+      "timeSlot": "6",
+      "attendeeNumber": "1",
+      "attendeeId": "122796319563"
+    },
+    {
+      "timeSlot": "7",
+      "attendeeNumber": "1",
+      "attendeeId": "9477501"
+    },
+    {
+      "timeSlot": "9",
+      "attendeeNumber": "1",
+      "attendeeId": "76678269091"
+    },
+    {
+      "timeSlot": "10",
+      "attendeeNumber": "1",
+      "attendeeId": "200923910443"
+    },
+    {
+      "timeSlot": "11",
+      "attendeeNumber": "1",
+      "attendeeId": "116903349643"
+    },
+    {
+      "timeSlot": "12",
+      "attendeeNumber": "1",
+      "attendeeId": "18336501"
+    },
+    {
+      "timeSlot": "2",
+      "attendeeNumber": "2",
+      "attendeeId": "174442448959"
+    },
+    {
+      "timeSlot": "3",
+      "attendeeNumber": "2",
+      "attendeeId": "8196151"
+    },
+    {
+      "timeSlot": "4",
+      "attendeeNumber": "2",
+      "attendeeId": "203946652193"
+    },
+    {
+      "timeSlot": "6",
+      "attendeeNumber": "2",
+      "attendeeId": "194295425320"
+    },
+    {
+      "timeSlot": "8",
+      "attendeeNumber": "2",
+      "attendeeId": "9319401"
+    },
+    {
+      "timeSlot": "9",
+      "attendeeNumber": "2",
+      "attendeeId": "452351"
+    },
+    {
+      "timeSlot": "10",
+      "attendeeNumber": "2",
+      "attendeeId": "200101377371"
+    },
+    {
+      "timeSlot": "11",
+      "attendeeNumber": "2",
+      "attendeeId": "11132851"
+    },
+    {
+      "timeSlot": "12",
+      "attendeeNumber": "2",
+      "attendeeId": "9322701"
+    }
+  ],
+  "messages": [],
+  "stdout": "timeSlot\tattendeeNumber\tattendeeId\n1\t1\t17812226737\n2\t1\t92353346050\n3\t1\t5140258\n4\t1\t92953690026\n5\t1\t201697440144\n6\t1\t122796319563\n7\t1\t9477501\n9\t1\t76678269091\n10\t1\t200923910443\n11\t1\t116903349643\n12\t1\t18336501\n2\t2\t174442448959\n3\t2\t8196151\n4\t2\t203946652193\n6\t2\t194295425320\n8\t2\t9319401\n9\t2\t452351\n10\t2\t200101377371\n11\t2\t11132851\n12\t2\t9322701\n",
+  "stderr": "",
+  "execution_time_ms": 379
+}

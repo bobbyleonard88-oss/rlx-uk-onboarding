@@ -1,0 +1,80 @@
+{
+  "query": "\nSELECT \n  m.attendeeId,\n  COUNT(*) as meeting_count,\n  GROUP_CONCAT(m.timeSlot ORDER BY m.timeSlot) as booked_slots\nFROM meetings m\nWHERE m.isVisible = 1\nGROUP BY m.attendeeId\nHAVING COUNT(*) < 8\nORDER BY COUNT(*) DESC;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT \n  m.attendeeId,\n  COUNT(*) as meeting_count,\n  GROUP_CONCAT(m.timeSlot ORDER BY m.timeSlot) as booked_slots\nFROM meetings m\nWHERE m.isVisible = 1\nGROUP BY m.attendeeId\nHAVING COUNT(*) < 8\nORDER BY COUNT(*) DESC;\n",
+  "rows": [
+    {
+      "attendeeId": "5140258",
+      "meeting_count": "7",
+      "booked_slots": "2,3,4,5,6,7,8"
+    },
+    {
+      "attendeeId": "452351",
+      "meeting_count": "7",
+      "booked_slots": "1,2,7,8,9,11,12"
+    },
+    {
+      "attendeeId": "11132851",
+      "meeting_count": "7",
+      "booked_slots": "3,4,5,6,9,10,11"
+    },
+    {
+      "attendeeId": "208415155065",
+      "meeting_count": "7",
+      "booked_slots": "3,4,5,6,9,10,12"
+    },
+    {
+      "attendeeId": "93176107633",
+      "meeting_count": "6",
+      "booked_slots": "1,2,3,4,7,10"
+    },
+    {
+      "attendeeId": "190937723960",
+      "meeting_count": "6",
+      "booked_slots": "5,6,7,8,9,11"
+    },
+    {
+      "attendeeId": "8952301",
+      "meeting_count": "6",
+      "booked_slots": "1,2,3,10,11,12"
+    },
+    {
+      "attendeeId": "8713772",
+      "meeting_count": "6",
+      "booked_slots": "1,2,3,4,6,7"
+    },
+    {
+      "attendeeId": "194295425320",
+      "meeting_count": "6",
+      "booked_slots": "1,2,3,5,6,10"
+    },
+    {
+      "attendeeId": "9319401",
+      "meeting_count": "6",
+      "booked_slots": "3,4,8,9,11,12"
+    },
+    {
+      "attendeeId": "8196151",
+      "meeting_count": "6",
+      "booked_slots": "3,4,5,6,8,9"
+    },
+    {
+      "attendeeId": "195183358360",
+      "meeting_count": "5",
+      "booked_slots": "1,2,10,11,12"
+    },
+    {
+      "attendeeId": "116903349643",
+      "meeting_count": "5",
+      "booked_slots": "5,8,9,10,11"
+    },
+    {
+      "attendeeId": "18336501",
+      "meeting_count": "5",
+      "booked_slots": "5,6,7,8,12"
+    }
+  ],
+  "messages": [],
+  "stdout": "attendeeId\tmeeting_count\tbooked_slots\n5140258\t7\t2,3,4,5,6,7,8\n452351\t7\t1,2,7,8,9,11,12\n11132851\t7\t3,4,5,6,9,10,11\n208415155065\t7\t3,4,5,6,9,10,12\n93176107633\t6\t1,2,3,4,7,10\n190937723960\t6\t5,6,7,8,9,11\n8952301\t6\t1,2,3,10,11,12\n8713772\t6\t1,2,3,4,6,7\n194295425320\t6\t1,2,3,5,6,10\n9319401\t6\t3,4,8,9,11,12\n8196151\t6\t3,4,5,6,8,9\n195183358360\t5\t1,2,10,11,12\n116903349643\t5\t5,8,9,10,11\n18336501\t5\t5,6,7,8,12\n",
+  "stderr": "",
+  "execution_time_ms": 1960
+}

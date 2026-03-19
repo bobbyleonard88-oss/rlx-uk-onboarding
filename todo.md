@@ -1500,3 +1500,20 @@
 ## tRPC JSON Parse Error on Dashboard (March 2026)
 - [x] Diagnose "Unexpected token '<'" error — confirmed stale log from 17 March (server restart transient), not a live bug
 - [x] No code fix needed — all tRPC calls returning clean JSON today
+
+## SHL Under-Scheduled Delegate Fit Analysis (March 2026)
+- [ ] Pull all delegates with fewer than 8 meetings and their available slots
+- [ ] Cross-reference against SHL's open slots (3, 10, 11) and SHL opt-in list
+- [ ] Report best-fit candidates for direct swaps
+
+## Admin Export: Add Table Numbers (March 2026)
+- [ ] Add tableNumber column to the admin meetings export CSV
+- [ ] Sponsors stay at same table per rep if they have 20+ meetings (2 attendees)
+
+## Anna Katyal (BMS Group) → Appcast (March 2026)
+- [x] Add Anna Katyal to Appcast at slot 6 (Att2, best available) — confirmed in DB
+- [x] Verify no disruption to other delegates or sponsors
+
+## Robyn Collins (M42) → Harver (March 2026)
+- [x] Add Robyn Collins to Harver at slot 7 (Att2, best available) — confirmed in DB
+- [x] Verify no disruption to other delegates or sponsors

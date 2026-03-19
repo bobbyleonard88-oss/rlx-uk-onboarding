@@ -1,0 +1,9 @@
+{
+  "query": "\nINSERT INTO meetings (sponsorId, attendeeId, timeSlot, attendeeNumber, matchScore, matchReason, status, isVisible, createdAt, updatedAt)\nSELECT s.id, '195183358360', 6, 2, 90, 'Delegate opted in to meet Appcast. BMS Group is actively evaluating job distribution and sourcing solutions with no current tooling in place; Appcast programmatic job advertising directly addresses their need to improve quality of hire and reduce agency reliance.', 'suggested', 1, NOW(), NOW()\nFROM sponsors s WHERE s.companyName = 'Appcast';\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nINSERT INTO meetings (sponsorId, attendeeId, timeSlot, attendeeNumber, matchScore, matchReason, status, isVisible, createdAt, updatedAt)\nSELECT s.id, '195183358360', 6, 2, 90, 'Delegate opted in to meet Appcast. BMS Group is actively evaluating job distribution and sourcing solutions with no current tooling in place; Appcast programmatic job advertising directly addresses their need to improve quality of hire and reduce agency reliance.', 'suggested', 1, NOW(), NOW()\nFROM sponsors s WHERE s.companyName = 'Appcast';\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 393
+}

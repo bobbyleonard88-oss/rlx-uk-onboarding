@@ -1,0 +1,8 @@
+{
+  "query": "\n-- Anna Katyal rank for Appcast - look through all sponsor rankings submissions\nSELECT rs.sponsorId, rs.rankings, s.companyName\nFROM rankingsSubmissions rs\nJOIN sponsors s ON s.id = rs.sponsorId\nWHERE s.companyName IN ('Appcast', 'Harver')\nORDER BY rs.sponsorId;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \n-- Anna Katyal rank for Appcast - look through all sponsor rankings submissions\nSELECT rs.sponsorId, rs.rankings, s.companyName\nFROM rankingsSubmissions rs\nJOIN sponsors s ON s.id = rs.sponsorId\nWHERE s.companyName IN ('Appcast', 'Harver')\nORDER BY rs.sponsorId;\n",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 3: Unknown column 'rs.rankings' in 'field list'"
+  ]
+}

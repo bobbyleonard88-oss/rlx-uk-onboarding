@@ -1,0 +1,172 @@
+{
+  "query": "\n-- Get all sponsors and their total meeting counts vs max possible\nSELECT \n  s.companyName,\n  s.id as sponsorId,\n  COUNT(m.id) as total_meetings,\n  MAX(m.attendeeNumber) as max_attendees\nFROM sponsors s\nLEFT JOIN meetings m ON m.sponsorId = s.id AND m.isVisible = 1\nGROUP BY s.id, s.companyName\nORDER BY total_meetings ASC;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \n-- Get all sponsors and their total meeting counts vs max possible\nSELECT \n  s.companyName,\n  s.id as sponsorId,\n  COUNT(m.id) as total_meetings,\n  MAX(m.attendeeNumber) as max_attendees\nFROM sponsors s\nLEFT JOIN meetings m ON m.sponsorId = s.id AND m.isVisible = 1\nGROUP BY s.id, s.companyName\nORDER BY total_meetings ASC;\n",
+  "rows": [
+    {
+      "companyName": "Little Moment",
+      "sponsorId": "120001",
+      "total_meetings": "0",
+      "max_attendees": "NULL"
+    },
+    {
+      "companyName": "Elevate Assess",
+      "sponsorId": "60001",
+      "total_meetings": "0",
+      "max_attendees": "NULL"
+    },
+    {
+      "companyName": "AI Limited",
+      "sponsorId": "30001",
+      "total_meetings": "0",
+      "max_attendees": "NULL"
+    },
+    {
+      "companyName": "NexaTalent Solutions Ltd",
+      "sponsorId": "90001",
+      "total_meetings": "0",
+      "max_attendees": "NULL"
+    },
+    {
+      "companyName": "Visibility Test Company",
+      "sponsorId": "270001",
+      "total_meetings": "0",
+      "max_attendees": "NULL"
+    },
+    {
+      "companyName": "Test Sponsor mtgtest-1773930263708",
+      "sponsorId": "510003",
+      "total_meetings": "0",
+      "max_attendees": "NULL"
+    },
+    {
+      "companyName": "Maki People",
+      "sponsorId": "180001",
+      "total_meetings": "12",
+      "max_attendees": "1"
+    },
+    {
+      "companyName": "The Martec",
+      "sponsorId": "780001",
+      "total_meetings": "12",
+      "max_attendees": "1"
+    },
+    {
+      "companyName": "PerchPeek",
+      "sponsorId": "450001",
+      "total_meetings": "12",
+      "max_attendees": "1"
+    },
+    {
+      "companyName": "Radancy",
+      "sponsorId": "810002",
+      "total_meetings": "12",
+      "max_attendees": "1"
+    },
+    {
+      "companyName": "Stepstone Group UK Ltd",
+      "sponsorId": "150001",
+      "total_meetings": "12",
+      "max_attendees": "1"
+    },
+    {
+      "companyName": "Poetry",
+      "sponsorId": "900001",
+      "total_meetings": "12",
+      "max_attendees": "1"
+    },
+    {
+      "companyName": "Happydance Careers Websites",
+      "sponsorId": "600001",
+      "total_meetings": "12",
+      "max_attendees": "1"
+    },
+    {
+      "companyName": "Bright Apply",
+      "sponsorId": "390001",
+      "total_meetings": "12",
+      "max_attendees": "1"
+    },
+    {
+      "companyName": "Sapia.ai",
+      "sponsorId": "240001",
+      "total_meetings": "12",
+      "max_attendees": "1"
+    },
+    {
+      "companyName": "Symphony Talent ",
+      "sponsorId": "330001",
+      "total_meetings": "12",
+      "max_attendees": "1"
+    },
+    {
+      "companyName": "Zinc",
+      "sponsorId": "300001",
+      "total_meetings": "12",
+      "max_attendees": "1"
+    },
+    {
+      "companyName": "Udder",
+      "sponsorId": "360001",
+      "total_meetings": "12",
+      "max_attendees": "1"
+    },
+    {
+      "companyName": "Amberjack",
+      "sponsorId": "690001",
+      "total_meetings": "12",
+      "max_attendees": "1"
+    },
+    {
+      "companyName": "Veremark ",
+      "sponsorId": "810001",
+      "total_meetings": "12",
+      "max_attendees": "1"
+    },
+    {
+      "companyName": "Wilson",
+      "sponsorId": "870001",
+      "total_meetings": "12",
+      "max_attendees": "1"
+    },
+    {
+      "companyName": "JobSync",
+      "sponsorId": "840001",
+      "total_meetings": "12",
+      "max_attendees": "1"
+    },
+    {
+      "companyName": "inploi",
+      "sponsorId": "720001",
+      "total_meetings": "12",
+      "max_attendees": "1"
+    },
+    {
+      "companyName": "hackajob",
+      "sponsorId": "540001",
+      "total_meetings": "12",
+      "max_attendees": "1"
+    },
+    {
+      "companyName": "Appcast",
+      "sponsorId": "270002",
+      "total_meetings": "20",
+      "max_attendees": "2"
+    },
+    {
+      "companyName": "SHL",
+      "sponsorId": "750001",
+      "total_meetings": "20",
+      "max_attendees": "2"
+    },
+    {
+      "companyName": "Harver",
+      "sponsorId": "210001",
+      "total_meetings": "21",
+      "max_attendees": "2"
+    }
+  ],
+  "messages": [],
+  "stdout": "companyName\tsponsorId\ttotal_meetings\tmax_attendees\nLittle Moment\t120001\t0\tNULL\nElevate Assess\t60001\t0\tNULL\nAI Limited\t30001\t0\tNULL\nNexaTalent Solutions Ltd\t90001\t0\tNULL\nVisibility Test Company\t270001\t0\tNULL\nTest Sponsor mtgtest-1773930263708\t510003\t0\tNULL\nMaki People\t180001\t12\t1\nThe Martec\t780001\t12\t1\nPerchPeek\t450001\t12\t1\nRadancy\t810002\t12\t1\nStepstone Group UK Ltd\t150001\t12\t1\nPoetry\t900001\t12\t1\nHappydance Careers Websites\t600001\t12\t1\nBright Apply\t390001\t12\t1\nSapia.ai\t240001\t12\t1\nSymphony Talent \t330001\t12\t1\nZinc\t300001\t12\t1\nUdder\t360001\t12\t1\nAmberjack\t690001\t12\t1\nVeremark \t810001\t12\t1\nWilson\t870001\t12\t1\nJobSync\t840001\t12\t1\ninploi\t720001\t12\t1\nhackajob\t540001\t12\t1\nAppcast\t270002\t20\t2\nSHL\t750001\t20\t2\nHarver\t210001\t21\t2\n",
+  "stderr": "",
+  "execution_time_ms": 375
+}

@@ -1,0 +1,15 @@
+{
+  "query": "\n-- Check Appcast slot 6 - currently has 1 booking (attendeeNumber 1), so Anna goes in as attendeeNumber 2\n-- Also get Appcast sponsor rep info\nSELECT m.timeSlot, m.attendeeNumber, m.attendeeId\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE s.companyName = 'Appcast' AND m.timeSlot = 6 AND m.isVisible = 1;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \n-- Check Appcast slot 6 - currently has 1 booking (attendeeNumber 1), so Anna goes in as attendeeNumber 2\n-- Also get Appcast sponsor rep info\nSELECT m.timeSlot, m.attendeeNumber, m.attendeeId\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE s.companyName = 'Appcast' AND m.timeSlot = 6 AND m.isVisible = 1;\n",
+  "rows": [
+    {
+      "timeSlot": "6",
+      "attendeeNumber": "1",
+      "attendeeId": "9322701"
+    }
+  ],
+  "messages": [],
+  "stdout": "timeSlot\tattendeeNumber\tattendeeId\n6\t1\t9322701\n",
+  "stderr": "",
+  "execution_time_ms": 368
+}
