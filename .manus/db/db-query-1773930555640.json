@@ -1,0 +1,20 @@
+{
+  "query": "\n-- Jonathan's slots vs Jessica's slots - check for any overlap\nSELECT \n  'Jonathan Kitterhing (208415155065)' as delegate,\n  COUNT(*) as meeting_count,\n  GROUP_CONCAT(m.timeSlot ORDER BY m.timeSlot) as slots\nFROM meetings m WHERE m.attendeeId = '208415155065' AND m.isVisible = 1\nUNION ALL\nSELECT \n  'Jessica Shaunie Green (200101377371)' as delegate,\n  COUNT(*) as meeting_count,\n  GROUP_CONCAT(m.timeSlot ORDER BY m.timeSlot) as slots\nFROM meetings m WHERE m.attendeeId = '200101377371' AND m.isVisible = 1;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \n-- Jonathan's slots vs Jessica's slots - check for any overlap\nSELECT \n  'Jonathan Kitterhing (208415155065)' as delegate,\n  COUNT(*) as meeting_count,\n  GROUP_CONCAT(m.timeSlot ORDER BY m.timeSlot) as slots\nFROM meetings m WHERE m.attendeeId = '208415155065' AND m.isVisible = 1\nUNION ALL\nSELECT \n  'Jessica Shaunie Green (200101377371)' as delegate,\n  COUNT(*) as meeting_count,\n  GROUP_CONCAT(m.timeSlot ORDER BY m.timeSlot) as slots\nFROM meetings m WHERE m.attendeeId = '200101377371' AND m.isVisible = 1;\n",
+  "rows": [
+    {
+      "delegate": "Jonathan Kitterhing (208415155065)",
+      "meeting_count": "7",
+      "slots": "3,4,5,6,9,10,12"
+    },
+    {
+      "delegate": "Jessica Shaunie Green (200101377371)",
+      "meeting_count": "8",
+      "slots": "3,4,5,6,9,10,11,12"
+    }
+  ],
+  "messages": [],
+  "stdout": "delegate\tmeeting_count\tslots\nJonathan Kitterhing (208415155065)\t7\t3,4,5,6,9,10,12\nJessica Shaunie Green (200101377371)\t8\t3,4,5,6,9,10,11,12\n",
+  "stderr": "",
+  "execution_time_ms": 402
+}

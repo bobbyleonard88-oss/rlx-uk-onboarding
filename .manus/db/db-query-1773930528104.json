@@ -1,0 +1,13 @@
+{
+  "query": "\n-- Check if old duplicate ID appears in meetings at all\nSELECT COUNT(*) as meetings_with_old_id FROM meetings WHERE attendeeId = '208415155065' AND isVisible = 1;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \n-- Check if old duplicate ID appears in meetings at all\nSELECT COUNT(*) as meetings_with_old_id FROM meetings WHERE attendeeId = '208415155065' AND isVisible = 1;\n",
+  "rows": [
+    {
+      "meetings_with_old_id": "7"
+    }
+  ],
+  "messages": [],
+  "stdout": "meetings_with_old_id\n7\n",
+  "stderr": "",
+  "execution_time_ms": 366
+}

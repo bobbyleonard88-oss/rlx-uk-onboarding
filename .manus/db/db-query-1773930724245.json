@@ -1,0 +1,80 @@
+{
+  "query": "\n-- Full slot list for LSEG (191181016455) and Amazon (452351)\nSELECT m.attendeeId, m.timeSlot, s.companyName as bookedWith\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE m.isVisible = 1\n  AND m.attendeeId IN ('191181016455', '452351')\nORDER BY m.attendeeId, m.timeSlot;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \n-- Full slot list for LSEG (191181016455) and Amazon (452351)\nSELECT m.attendeeId, m.timeSlot, s.companyName as bookedWith\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE m.isVisible = 1\n  AND m.attendeeId IN ('191181016455', '452351')\nORDER BY m.attendeeId, m.timeSlot;\n",
+  "rows": [
+    {
+      "attendeeId": "191181016455",
+      "timeSlot": "1",
+      "bookedWith": "Harver"
+    },
+    {
+      "attendeeId": "191181016455",
+      "timeSlot": "2",
+      "bookedWith": "inploi"
+    },
+    {
+      "attendeeId": "191181016455",
+      "timeSlot": "3",
+      "bookedWith": "Sapia.ai"
+    },
+    {
+      "attendeeId": "191181016455",
+      "timeSlot": "5",
+      "bookedWith": "Happydance Careers Websites"
+    },
+    {
+      "attendeeId": "191181016455",
+      "timeSlot": "6",
+      "bookedWith": "Maki People"
+    },
+    {
+      "attendeeId": "191181016455",
+      "timeSlot": "7",
+      "bookedWith": "hackajob"
+    },
+    {
+      "attendeeId": "191181016455",
+      "timeSlot": "9",
+      "bookedWith": "Radancy"
+    },
+    {
+      "attendeeId": "191181016455",
+      "timeSlot": "10",
+      "bookedWith": "Bright Apply"
+    },
+    {
+      "attendeeId": "452351",
+      "timeSlot": "1",
+      "bookedWith": "hackajob"
+    },
+    {
+      "attendeeId": "452351",
+      "timeSlot": "2",
+      "bookedWith": "Harver"
+    },
+    {
+      "attendeeId": "452351",
+      "timeSlot": "7",
+      "bookedWith": "Radancy"
+    },
+    {
+      "attendeeId": "452351",
+      "timeSlot": "8",
+      "bookedWith": "inploi"
+    },
+    {
+      "attendeeId": "452351",
+      "timeSlot": "11",
+      "bookedWith": "Bright Apply"
+    },
+    {
+      "attendeeId": "452351",
+      "timeSlot": "12",
+      "bookedWith": "Happydance Careers Websites"
+    }
+  ],
+  "messages": [],
+  "stdout": "attendeeId\ttimeSlot\tbookedWith\n191181016455\t1\tHarver\n191181016455\t2\tinploi\n191181016455\t3\tSapia.ai\n191181016455\t5\tHappydance Careers Websites\n191181016455\t6\tMaki People\n191181016455\t7\thackajob\n191181016455\t9\tRadancy\n191181016455\t10\tBright Apply\n452351\t1\thackajob\n452351\t2\tHarver\n452351\t7\tRadancy\n452351\t8\tinploi\n452351\t11\tBright Apply\n452351\t12\tHappydance Careers Websites\n",
+  "stderr": "",
+  "execution_time_ms": 383
+}

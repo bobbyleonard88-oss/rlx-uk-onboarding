@@ -1,0 +1,9 @@
+{
+  "query": "\nSELECT \n  m1.attendeeId,\n  m1.timeSlot,\n  s1.companyName as sponsor1,\n  s2.companyName as sponsor2,\n  m1.id as meeting1_id,\n  m2.id as meeting2_id\nFROM meetings m1\nJOIN meetings m2 ON m1.attendeeId = m2.attendeeId \n  AND m1.timeSlot = m2.timeSlot \n  AND m1.id < m2.id\nJOIN sponsors s1 ON s1.id = m1.sponsorId\nJOIN sponsors s2 ON s2.id = m2.sponsorId\nWHERE m1.isVisible = 1 AND m2.isVisible = 1\nORDER BY m1.attendeeId, m1.timeSlot;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT \n  m1.attendeeId,\n  m1.timeSlot,\n  s1.companyName as sponsor1,\n  s2.companyName as sponsor2,\n  m1.id as meeting1_id,\n  m2.id as meeting2_id\nFROM meetings m1\nJOIN meetings m2 ON m1.attendeeId = m2.attendeeId \n  AND m1.timeSlot = m2.timeSlot \n  AND m1.id < m2.id\nJOIN sponsors s1 ON s1.id = m1.sponsorId\nJOIN sponsors s2 ON s2.id = m2.sponsorId\nWHERE m1.isVisible = 1 AND m2.isVisible = 1\nORDER BY m1.attendeeId, m1.timeSlot;\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 368
+}

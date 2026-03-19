@@ -1,0 +1,34 @@
+{
+  "query": "\n-- Step 1: Which slots do the 6 RED delegates occupy in SHL's schedule?\nSELECT \n  m.timeSlot,\n  m.attendeeNumber,\n  m.attendeeId,\n  m.matchScore\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE s.companyName = 'SHL'\n  AND m.isVisible = 1\n  AND m.attendeeId IN (\n    '195183358360', -- Anna Katyal, BMS Group\n    '11132851',     -- Martin McDermott, IQ-EQ\n    '200101377371', -- Jessica Shaunie Green, Calor Gas\n    '93176107633',  -- Mark Kunaseelan, UAL\n    '8196151',      -- Michelle Monahan, European Tyre\n    '8952301'       -- Chris Tennant, Infor\n  )\nORDER BY m.attendeeNumber, m.timeSlot;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \n-- Step 1: Which slots do the 6 RED delegates occupy in SHL's schedule?\nSELECT \n  m.timeSlot,\n  m.attendeeNumber,\n  m.attendeeId,\n  m.matchScore\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE s.companyName = 'SHL'\n  AND m.isVisible = 1\n  AND m.attendeeId IN (\n    '195183358360', -- Anna Katyal, BMS Group\n    '11132851',     -- Martin McDermott, IQ-EQ\n    '200101377371', -- Jessica Shaunie Green, Calor Gas\n    '93176107633',  -- Mark Kunaseelan, UAL\n    '8196151',      -- Michelle Monahan, European Tyre\n    '8952301'       -- Chris Tennant, Infor\n  )\nORDER BY m.attendeeNumber, m.timeSlot;\n",
+  "rows": [
+    {
+      "timeSlot": "3",
+      "attendeeNumber": "2",
+      "attendeeId": "8196151",
+      "matchScore": "70"
+    },
+    {
+      "timeSlot": "9",
+      "attendeeNumber": "2",
+      "attendeeId": "195183358360",
+      "matchScore": "98"
+    },
+    {
+      "timeSlot": "10",
+      "attendeeNumber": "2",
+      "attendeeId": "200101377371",
+      "matchScore": "60"
+    },
+    {
+      "timeSlot": "11",
+      "attendeeNumber": "2",
+      "attendeeId": "11132851",
+      "matchScore": "66"
+    }
+  ],
+  "messages": [],
+  "stdout": "timeSlot\tattendeeNumber\tattendeeId\tmatchScore\n3\t2\t8196151\t70\n9\t2\t195183358360\t98\n10\t2\t200101377371\t60\n11\t2\t11132851\t66\n",
+  "stderr": "",
+  "execution_time_ms": 375
+}

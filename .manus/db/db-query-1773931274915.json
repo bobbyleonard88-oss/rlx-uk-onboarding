@@ -1,0 +1,9 @@
+{
+  "query": "\nUPDATE meetings \nSET attendeeId = '452351',\n    matchScore = NULL,\n    matchReason = NULL,\n    status = 'suggested',\n    updatedAt = NOW()\nWHERE attendeeId = '195183358360'\n  AND timeSlot = 9\n  AND attendeeNumber = 2\n  AND sponsorId = (SELECT id FROM sponsors WHERE companyName = 'SHL' LIMIT 1);\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nUPDATE meetings \nSET attendeeId = '452351',\n    matchScore = NULL,\n    matchReason = NULL,\n    status = 'suggested',\n    updatedAt = NOW()\nWHERE attendeeId = '195183358360'\n  AND timeSlot = 9\n  AND attendeeNumber = 2\n  AND sponsorId = (SELECT id FROM sponsors WHERE companyName = 'SHL' LIMIT 1);\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 402
+}

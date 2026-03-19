@@ -1492,3 +1492,11 @@
 - [x] Fix Jessica's ID in attendees.ts (was incorrectly set to 208415155065, corrected to 200101377371)
 - [x] Verify all affected sponsor portals show her meeting correctly (no TS errors, all 45 tests pass)
 - [x] Verify briefing pack CSV download includes her details (data flows from same attendees.ts lookup)
+
+## SHL Slot 9 Swap: Anna Katyal → Cath Possamai (March 2026)
+- [x] Replace Anna Katyal (BMS Group, ID 195183358360) with Cath Possamai (Amazon, ID 452351) at SHL slot 9, attendeeNumber 2
+- [x] Verify Cath's total meeting count stays at 7 (within cap)
+
+## tRPC JSON Parse Error on Dashboard (March 2026)
+- [x] Diagnose "Unexpected token '<'" error — confirmed stale log from 17 March (server restart transient), not a live bug
+- [x] No code fix needed — all tRPC calls returning clean JSON today

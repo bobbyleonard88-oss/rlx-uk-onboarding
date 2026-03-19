@@ -1,0 +1,190 @@
+{
+  "query": "\n-- Incoming delegates: Yuliia Zembal (UKRSIBBANK), Sonal Jain (Nissan), Nikhilesh Mathur (LSEG), \n-- Cath Possamai (Amazon) -- JPMorgan and Macquarie not found in attendees yet\n-- Check their existing meeting slots across ALL sponsors\nSELECT \n  m.attendeeId,\n  m.timeSlot,\n  m.attendeeNumber,\n  s.companyName as bookedWith\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE m.isVisible = 1\n  AND m.attendeeId IN (\n    '128491656706', -- Yuliia Zembal, UKRSIBBANK\n    '110260566550', -- Sonal Jain, Nissan\n    '191181016455', -- Nikhilesh Mathur, LSEG\n    '452351'        -- Cath Possamai, Amazon\n  )\nORDER BY m.attendeeId, m.timeSlot;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \n-- Incoming delegates: Yuliia Zembal (UKRSIBBANK), Sonal Jain (Nissan), Nikhilesh Mathur (LSEG), \n-- Cath Possamai (Amazon) -- JPMorgan and Macquarie not found in attendees yet\n-- Check their existing meeting slots across ALL sponsors\nSELECT \n  m.attendeeId,\n  m.timeSlot,\n  m.attendeeNumber,\n  s.companyName as bookedWith\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE m.isVisible = 1\n  AND m.attendeeId IN (\n    '128491656706', -- Yuliia Zembal, UKRSIBBANK\n    '110260566550', -- Sonal Jain, Nissan\n    '191181016455', -- Nikhilesh Mathur, LSEG\n    '452351'        -- Cath Possamai, Amazon\n  )\nORDER BY m.attendeeId, m.timeSlot;\n",
+  "rows": [
+    {
+      "attendeeId": "110260566550",
+      "timeSlot": "1",
+      "attendeeNumber": "1",
+      "bookedWith": "Maki People"
+    },
+    {
+      "attendeeId": "110260566550",
+      "timeSlot": "2",
+      "attendeeNumber": "1",
+      "bookedWith": "The Martec"
+    },
+    {
+      "attendeeId": "110260566550",
+      "timeSlot": "5",
+      "attendeeNumber": "1",
+      "bookedWith": "Zinc"
+    },
+    {
+      "attendeeId": "110260566550",
+      "timeSlot": "7",
+      "attendeeNumber": "2",
+      "bookedWith": "Appcast"
+    },
+    {
+      "attendeeId": "110260566550",
+      "timeSlot": "8",
+      "attendeeNumber": "1",
+      "bookedWith": "Bright Apply"
+    },
+    {
+      "attendeeId": "110260566550",
+      "timeSlot": "10",
+      "attendeeNumber": "1",
+      "bookedWith": "Harver"
+    },
+    {
+      "attendeeId": "110260566550",
+      "timeSlot": "11",
+      "attendeeNumber": "1",
+      "bookedWith": "Veremark "
+    },
+    {
+      "attendeeId": "110260566550",
+      "timeSlot": "12",
+      "attendeeNumber": "1",
+      "bookedWith": "PerchPeek"
+    },
+    {
+      "attendeeId": "128491656706",
+      "timeSlot": "1",
+      "attendeeNumber": "1",
+      "bookedWith": "Zinc"
+    },
+    {
+      "attendeeId": "128491656706",
+      "timeSlot": "3",
+      "attendeeNumber": "1",
+      "bookedWith": "Veremark "
+    },
+    {
+      "attendeeId": "128491656706",
+      "timeSlot": "4",
+      "attendeeNumber": "1",
+      "bookedWith": "PerchPeek"
+    },
+    {
+      "attendeeId": "128491656706",
+      "timeSlot": "5",
+      "attendeeNumber": "1",
+      "bookedWith": "Bright Apply"
+    },
+    {
+      "attendeeId": "128491656706",
+      "timeSlot": "6",
+      "attendeeNumber": "1",
+      "bookedWith": "Radancy"
+    },
+    {
+      "attendeeId": "128491656706",
+      "timeSlot": "9",
+      "attendeeNumber": "1",
+      "bookedWith": "Happydance Careers Websites"
+    },
+    {
+      "attendeeId": "128491656706",
+      "timeSlot": "11",
+      "attendeeNumber": "1",
+      "bookedWith": "hackajob"
+    },
+    {
+      "attendeeId": "128491656706",
+      "timeSlot": "12",
+      "attendeeNumber": "1",
+      "bookedWith": "The Martec"
+    },
+    {
+      "attendeeId": "191181016455",
+      "timeSlot": "1",
+      "attendeeNumber": "1",
+      "bookedWith": "Harver"
+    },
+    {
+      "attendeeId": "191181016455",
+      "timeSlot": "2",
+      "attendeeNumber": "1",
+      "bookedWith": "inploi"
+    },
+    {
+      "attendeeId": "191181016455",
+      "timeSlot": "3",
+      "attendeeNumber": "1",
+      "bookedWith": "Sapia.ai"
+    },
+    {
+      "attendeeId": "191181016455",
+      "timeSlot": "5",
+      "attendeeNumber": "1",
+      "bookedWith": "Happydance Careers Websites"
+    },
+    {
+      "attendeeId": "191181016455",
+      "timeSlot": "6",
+      "attendeeNumber": "1",
+      "bookedWith": "Maki People"
+    },
+    {
+      "attendeeId": "191181016455",
+      "timeSlot": "7",
+      "attendeeNumber": "1",
+      "bookedWith": "hackajob"
+    },
+    {
+      "attendeeId": "191181016455",
+      "timeSlot": "9",
+      "attendeeNumber": "1",
+      "bookedWith": "Radancy"
+    },
+    {
+      "attendeeId": "191181016455",
+      "timeSlot": "10",
+      "attendeeNumber": "1",
+      "bookedWith": "Bright Apply"
+    },
+    {
+      "attendeeId": "452351",
+      "timeSlot": "1",
+      "attendeeNumber": "1",
+      "bookedWith": "hackajob"
+    },
+    {
+      "attendeeId": "452351",
+      "timeSlot": "2",
+      "attendeeNumber": "1",
+      "bookedWith": "Harver"
+    },
+    {
+      "attendeeId": "452351",
+      "timeSlot": "7",
+      "attendeeNumber": "1",
+      "bookedWith": "Radancy"
+    },
+    {
+      "attendeeId": "452351",
+      "timeSlot": "8",
+      "attendeeNumber": "1",
+      "bookedWith": "inploi"
+    },
+    {
+      "attendeeId": "452351",
+      "timeSlot": "11",
+      "attendeeNumber": "1",
+      "bookedWith": "Bright Apply"
+    },
+    {
+      "attendeeId": "452351",
+      "timeSlot": "12",
+      "attendeeNumber": "1",
+      "bookedWith": "Happydance Careers Websites"
+    }
+  ],
+  "messages": [],
+  "stdout": "attendeeId\ttimeSlot\tattendeeNumber\tbookedWith\n110260566550\t1\t1\tMaki People\n110260566550\t2\t1\tThe Martec\n110260566550\t5\t1\tZinc\n110260566550\t7\t2\tAppcast\n110260566550\t8\t1\tBright Apply\n110260566550\t10\t1\tHarver\n110260566550\t11\t1\tVeremark \n110260566550\t12\t1\tPerchPeek\n128491656706\t1\t1\tZinc\n128491656706\t3\t1\tVeremark \n128491656706\t4\t1\tPerchPeek\n128491656706\t5\t1\tBright Apply\n128491656706\t6\t1\tRadancy\n128491656706\t9\t1\tHappydance Careers Websites\n128491656706\t11\t1\thackajob\n128491656706\t12\t1\tThe Martec\n191181016455\t1\t1\tHarver\n191181016455\t2\t1\tinploi\n191181016455\t3\t1\tSapia.ai\n191181016455\t5\t1\tHappydance Careers Websites\n191181016455\t6\t1\tMaki People\n191181016455\t7\t1\thackajob\n191181016455\t9\t1\tRadancy\n191181016455\t10\t1\tBright Apply\n452351\t1\t1\thackajob\n452351\t2\t1\tHarver\n452351\t7\t1\tRadancy\n452351\t8\t1\tinploi\n452351\t11\t1\tBright Apply\n452351\t12\t1\tHappydance Careers Websites\n",
+  "stderr": "",
+  "execution_time_ms": 383
+}

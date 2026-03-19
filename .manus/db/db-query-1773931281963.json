@@ -1,0 +1,25 @@
+{
+  "query": "\n-- Confirm SHL slot 9 attendee 2 now has Cath\nSELECT m.timeSlot, m.attendeeId, m.attendeeNumber, m.status\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE s.companyName = 'SHL' AND m.timeSlot = 9 AND m.isVisible = 1;\n\n-- Confirm Cath's total meetings\nSELECT COUNT(*) as total_meetings, GROUP_CONCAT(s.companyName ORDER BY m.timeSlot SEPARATOR ', ') as sponsors\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE m.attendeeId = '452351' AND m.isVisible = 1;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \n-- Confirm SHL slot 9 attendee 2 now has Cath\nSELECT m.timeSlot, m.attendeeId, m.attendeeNumber, m.status\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE s.companyName = 'SHL' AND m.timeSlot = 9 AND m.isVisible = 1;\n\n-- Confirm Cath's total meetings\nSELECT COUNT(*) as total_meetings, GROUP_CONCAT(s.companyName ORDER BY m.timeSlot SEPARATOR ', ') as sponsors\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE m.attendeeId = '452351' AND m.isVisible = 1;\n",
+  "rows": [
+    {
+      "timeSlot": "9",
+      "attendeeId": "452351",
+      "attendeeNumber": "2",
+      "status": "suggested"
+    },
+    {
+      "timeSlot": "9",
+      "attendeeId": "76678269091",
+      "attendeeNumber": "1",
+      "status": "confirmed"
+    }
+  ],
+  "messages": [
+    "total_meetings\tsponsors",
+    "7\thackajob, Harver, Radancy, inploi, SHL, Bright Apply, Happydance Careers Websites"
+  ],
+  "stdout": "timeSlot\tattendeeId\tattendeeNumber\tstatus\n9\t452351\t2\tsuggested\n9\t76678269091\t1\tconfirmed\ntotal_meetings\tsponsors\n7\thackajob, Harver, Radancy, inploi, SHL, Bright Apply, Happydance Careers Websites\n",
+  "stderr": "",
+  "execution_time_ms": 539
+}

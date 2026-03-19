@@ -1,0 +1,150 @@
+{
+  "query": "\nSELECT \n  m.timeSlot,\n  m.attendeeId,\n  m.attendeeNumber,\n  m.matchScore,\n  m.status\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE s.companyName = 'SHL'\n  AND m.isVisible = 1\nORDER BY m.attendeeNumber, m.timeSlot;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT \n  m.timeSlot,\n  m.attendeeId,\n  m.attendeeNumber,\n  m.matchScore,\n  m.status\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE s.companyName = 'SHL'\n  AND m.isVisible = 1\nORDER BY m.attendeeNumber, m.timeSlot;\n",
+  "rows": [
+    {
+      "timeSlot": "1",
+      "attendeeId": "17812226737",
+      "attendeeNumber": "1",
+      "matchScore": "97",
+      "status": "confirmed"
+    },
+    {
+      "timeSlot": "2",
+      "attendeeId": "92353346050",
+      "attendeeNumber": "1",
+      "matchScore": "93",
+      "status": "confirmed"
+    },
+    {
+      "timeSlot": "3",
+      "attendeeId": "5140258",
+      "attendeeNumber": "1",
+      "matchScore": "97",
+      "status": "confirmed"
+    },
+    {
+      "timeSlot": "4",
+      "attendeeId": "92953690026",
+      "attendeeNumber": "1",
+      "matchScore": "88",
+      "status": "confirmed"
+    },
+    {
+      "timeSlot": "5",
+      "attendeeId": "201697440144",
+      "attendeeNumber": "1",
+      "matchScore": "86",
+      "status": "confirmed"
+    },
+    {
+      "timeSlot": "6",
+      "attendeeId": "122796319563",
+      "attendeeNumber": "1",
+      "matchScore": "82",
+      "status": "confirmed"
+    },
+    {
+      "timeSlot": "7",
+      "attendeeId": "9477501",
+      "attendeeNumber": "1",
+      "matchScore": "84",
+      "status": "confirmed"
+    },
+    {
+      "timeSlot": "9",
+      "attendeeId": "76678269091",
+      "attendeeNumber": "1",
+      "matchScore": "75",
+      "status": "confirmed"
+    },
+    {
+      "timeSlot": "10",
+      "attendeeId": "200923910443",
+      "attendeeNumber": "1",
+      "matchScore": "80",
+      "status": "confirmed"
+    },
+    {
+      "timeSlot": "11",
+      "attendeeId": "116903349643",
+      "attendeeNumber": "1",
+      "matchScore": "99",
+      "status": "confirmed"
+    },
+    {
+      "timeSlot": "12",
+      "attendeeId": "18336501",
+      "attendeeNumber": "1",
+      "matchScore": "60",
+      "status": "confirmed"
+    },
+    {
+      "timeSlot": "2",
+      "attendeeId": "174442448959",
+      "attendeeNumber": "2",
+      "matchScore": "98",
+      "status": "confirmed"
+    },
+    {
+      "timeSlot": "3",
+      "attendeeId": "8196151",
+      "attendeeNumber": "2",
+      "matchScore": "70",
+      "status": "confirmed"
+    },
+    {
+      "timeSlot": "4",
+      "attendeeId": "203946652193",
+      "attendeeNumber": "2",
+      "matchScore": "68",
+      "status": "confirmed"
+    },
+    {
+      "timeSlot": "6",
+      "attendeeId": "194295425320",
+      "attendeeNumber": "2",
+      "matchScore": "84",
+      "status": "confirmed"
+    },
+    {
+      "timeSlot": "8",
+      "attendeeId": "9319401",
+      "attendeeNumber": "2",
+      "matchScore": "68",
+      "status": "confirmed"
+    },
+    {
+      "timeSlot": "9",
+      "attendeeId": "195183358360",
+      "attendeeNumber": "2",
+      "matchScore": "98",
+      "status": "confirmed"
+    },
+    {
+      "timeSlot": "10",
+      "attendeeId": "200101377371",
+      "attendeeNumber": "2",
+      "matchScore": "60",
+      "status": "confirmed"
+    },
+    {
+      "timeSlot": "11",
+      "attendeeId": "11132851",
+      "attendeeNumber": "2",
+      "matchScore": "66",
+      "status": "confirmed"
+    },
+    {
+      "timeSlot": "12",
+      "attendeeId": "9322701",
+      "attendeeNumber": "2",
+      "matchScore": "66",
+      "status": "confirmed"
+    }
+  ],
+  "messages": [],
+  "stdout": "timeSlot\tattendeeId\tattendeeNumber\tmatchScore\tstatus\n1\t17812226737\t1\t97\tconfirmed\n2\t92353346050\t1\t93\tconfirmed\n3\t5140258\t1\t97\tconfirmed\n4\t92953690026\t1\t88\tconfirmed\n5\t201697440144\t1\t86\tconfirmed\n6\t122796319563\t1\t82\tconfirmed\n7\t9477501\t1\t84\tconfirmed\n9\t76678269091\t1\t75\tconfirmed\n10\t200923910443\t1\t80\tconfirmed\n11\t116903349643\t1\t99\tconfirmed\n12\t18336501\t1\t60\tconfirmed\n2\t174442448959\t2\t98\tconfirmed\n3\t8196151\t2\t70\tconfirmed\n4\t203946652193\t2\t68\tconfirmed\n6\t194295425320\t2\t84\tconfirmed\n8\t9319401\t2\t68\tconfirmed\n9\t195183358360\t2\t98\tconfirmed\n10\t200101377371\t2\t60\tconfirmed\n11\t11132851\t2\t66\tconfirmed\n12\t9322701\t2\t66\tconfirmed\n",
+  "stderr": "",
+  "execution_time_ms": 385
+}
