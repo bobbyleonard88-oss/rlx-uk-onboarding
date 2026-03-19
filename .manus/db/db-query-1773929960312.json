@@ -1,0 +1,30 @@
+{
+  "query": "\nSELECT \n  s.id as sponsor_id,\n  s.companyName,\n  COUNT(m.id) as total_meetings,\n  SUM(CASE WHEN m.status IN ('confirmed','suggested') THEN 1 ELSE 0 END) as published_meetings,\n  SUM(CASE WHEN m.isVisible = 1 THEN 1 ELSE 0 END) as visible_meetings,\n  SUM(CASE WHEN m.status IN ('confirmed','suggested') AND m.isVisible = 1 THEN 1 ELSE 0 END) as portal_visible,\n  GROUP_CONCAT(DISTINCT m.status ORDER BY m.status) as statuses,\n  GROUP_CONCAT(DISTINCT m.isVisible ORDER BY m.isVisible) as visibility_flags\nFROM sponsors s\nLEFT JOIN meetings m ON m.sponsorId = s.id\nWHERE s.companyName IN ('The Martec', 'Poetry')\nGROUP BY s.id, s.companyName;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT \n  s.id as sponsor_id,\n  s.companyName,\n  COUNT(m.id) as total_meetings,\n  SUM(CASE WHEN m.status IN ('confirmed','suggested') THEN 1 ELSE 0 END) as published_meetings,\n  SUM(CASE WHEN m.isVisible = 1 THEN 1 ELSE 0 END) as visible_meetings,\n  SUM(CASE WHEN m.status IN ('confirmed','suggested') AND m.isVisible = 1 THEN 1 ELSE 0 END) as portal_visible,\n  GROUP_CONCAT(DISTINCT m.status ORDER BY m.status) as statuses,\n  GROUP_CONCAT(DISTINCT m.isVisible ORDER BY m.isVisible) as visibility_flags\nFROM sponsors s\nLEFT JOIN meetings m ON m.sponsorId = s.id\nWHERE s.companyName IN ('The Martec', 'Poetry')\nGROUP BY s.id, s.companyName;\n",
+  "rows": [
+    {
+      "sponsor_id": "780001",
+      "companyName": "The Martec",
+      "total_meetings": "12",
+      "published_meetings": "12",
+      "visible_meetings": "12",
+      "portal_visible": "12",
+      "statuses": "confirmed,suggested",
+      "visibility_flags": "1"
+    },
+    {
+      "sponsor_id": "900001",
+      "companyName": "Poetry",
+      "total_meetings": "12",
+      "published_meetings": "12",
+      "visible_meetings": "12",
+      "portal_visible": "12",
+      "statuses": "confirmed,suggested",
+      "visibility_flags": "1"
+    }
+  ],
+  "messages": [],
+  "stdout": "sponsor_id\tcompanyName\ttotal_meetings\tpublished_meetings\tvisible_meetings\tportal_visible\tstatuses\tvisibility_flags\n780001\tThe Martec\t12\t12\t12\t12\tconfirmed,suggested\t1\n900001\tPoetry\t12\t12\t12\t12\tconfirmed,suggested\t1\n",
+  "stderr": "",
+  "execution_time_ms": 402
+}

@@ -1,0 +1,178 @@
+{
+  "query": "\nSELECT s.companyName, m.attendeeId, m.timeSlot, m.attendeeNumber, m.status\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE s.companyName IN ('The Martec', 'Poetry')\nORDER BY s.companyName, m.timeSlot;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT s.companyName, m.attendeeId, m.timeSlot, m.attendeeNumber, m.status\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE s.companyName IN ('The Martec', 'Poetry')\nORDER BY s.companyName, m.timeSlot;\n",
+  "rows": [
+    {
+      "companyName": "Poetry",
+      "attendeeId": "8713772",
+      "timeSlot": "1",
+      "attendeeNumber": "1",
+      "status": "suggested"
+    },
+    {
+      "companyName": "Poetry",
+      "attendeeId": "5140258",
+      "timeSlot": "2",
+      "attendeeNumber": "1",
+      "status": "confirmed"
+    },
+    {
+      "companyName": "Poetry",
+      "attendeeId": "200101377371",
+      "timeSlot": "3",
+      "attendeeNumber": "1",
+      "status": "suggested"
+    },
+    {
+      "companyName": "Poetry",
+      "attendeeId": "13454401",
+      "timeSlot": "4",
+      "attendeeNumber": "1",
+      "status": "suggested"
+    },
+    {
+      "companyName": "Poetry",
+      "attendeeId": "9322701",
+      "timeSlot": "5",
+      "attendeeNumber": "1",
+      "status": "suggested"
+    },
+    {
+      "companyName": "Poetry",
+      "attendeeId": "190937723960",
+      "timeSlot": "6",
+      "attendeeNumber": "1",
+      "status": "suggested"
+    },
+    {
+      "companyName": "Poetry",
+      "attendeeId": "201697440144",
+      "timeSlot": "7",
+      "attendeeNumber": "1",
+      "status": "suggested"
+    },
+    {
+      "companyName": "Poetry",
+      "attendeeId": "92953690026",
+      "timeSlot": "8",
+      "attendeeNumber": "1",
+      "status": "suggested"
+    },
+    {
+      "companyName": "Poetry",
+      "attendeeId": "208415155065",
+      "timeSlot": "9",
+      "attendeeNumber": "1",
+      "status": "suggested"
+    },
+    {
+      "companyName": "Poetry",
+      "attendeeId": "91889321035",
+      "timeSlot": "10",
+      "attendeeNumber": "1",
+      "status": "suggested"
+    },
+    {
+      "companyName": "Poetry",
+      "attendeeId": "203946652193",
+      "timeSlot": "11",
+      "attendeeNumber": "1",
+      "status": "suggested"
+    },
+    {
+      "companyName": "Poetry",
+      "attendeeId": "9319401",
+      "timeSlot": "12",
+      "attendeeNumber": "1",
+      "status": "suggested"
+    },
+    {
+      "companyName": "The Martec",
+      "attendeeId": "8952301",
+      "timeSlot": "1",
+      "attendeeNumber": "1",
+      "status": "suggested"
+    },
+    {
+      "companyName": "The Martec",
+      "attendeeId": "110260566550",
+      "timeSlot": "2",
+      "attendeeNumber": "1",
+      "status": "suggested"
+    },
+    {
+      "companyName": "The Martec",
+      "attendeeId": "91862577670",
+      "timeSlot": "3",
+      "attendeeNumber": "1",
+      "status": "suggested"
+    },
+    {
+      "companyName": "The Martec",
+      "attendeeId": "200101377371",
+      "timeSlot": "4",
+      "attendeeNumber": "1",
+      "status": "suggested"
+    },
+    {
+      "companyName": "The Martec",
+      "attendeeId": "113145184682",
+      "timeSlot": "5",
+      "attendeeNumber": "1",
+      "status": "confirmed"
+    },
+    {
+      "companyName": "The Martec",
+      "attendeeId": "93174643474",
+      "timeSlot": "6",
+      "attendeeNumber": "1",
+      "status": "suggested"
+    },
+    {
+      "companyName": "The Martec",
+      "attendeeId": "91889321035",
+      "timeSlot": "7",
+      "attendeeNumber": "1",
+      "status": "suggested"
+    },
+    {
+      "companyName": "The Martec",
+      "attendeeId": "76678269091",
+      "timeSlot": "8",
+      "attendeeNumber": "1",
+      "status": "suggested"
+    },
+    {
+      "companyName": "The Martec",
+      "attendeeId": "111228357473",
+      "timeSlot": "9",
+      "attendeeNumber": "1",
+      "status": "suggested"
+    },
+    {
+      "companyName": "The Martec",
+      "attendeeId": "174442448959",
+      "timeSlot": "10",
+      "attendeeNumber": "1",
+      "status": "suggested"
+    },
+    {
+      "companyName": "The Martec",
+      "attendeeId": "92353346050",
+      "timeSlot": "11",
+      "attendeeNumber": "1",
+      "status": "suggested"
+    },
+    {
+      "companyName": "The Martec",
+      "attendeeId": "128491656706",
+      "timeSlot": "12",
+      "attendeeNumber": "1",
+      "status": "suggested"
+    }
+  ],
+  "messages": [],
+  "stdout": "companyName\tattendeeId\ttimeSlot\tattendeeNumber\tstatus\nPoetry\t8713772\t1\t1\tsuggested\nPoetry\t5140258\t2\t1\tconfirmed\nPoetry\t200101377371\t3\t1\tsuggested\nPoetry\t13454401\t4\t1\tsuggested\nPoetry\t9322701\t5\t1\tsuggested\nPoetry\t190937723960\t6\t1\tsuggested\nPoetry\t201697440144\t7\t1\tsuggested\nPoetry\t92953690026\t8\t1\tsuggested\nPoetry\t208415155065\t9\t1\tsuggested\nPoetry\t91889321035\t10\t1\tsuggested\nPoetry\t203946652193\t11\t1\tsuggested\nPoetry\t9319401\t12\t1\tsuggested\nThe Martec\t8952301\t1\t1\tsuggested\nThe Martec\t110260566550\t2\t1\tsuggested\nThe Martec\t91862577670\t3\t1\tsuggested\nThe Martec\t200101377371\t4\t1\tsuggested\nThe Martec\t113145184682\t5\t1\tconfirmed\nThe Martec\t93174643474\t6\t1\tsuggested\nThe Martec\t91889321035\t7\t1\tsuggested\nThe Martec\t76678269091\t8\t1\tsuggested\nThe Martec\t111228357473\t9\t1\tsuggested\nThe Martec\t174442448959\t10\t1\tsuggested\nThe Martec\t92353346050\t11\t1\tsuggested\nThe Martec\t128491656706\t12\t1\tsuggested\n",
+  "stderr": "",
+  "execution_time_ms": 400
+}

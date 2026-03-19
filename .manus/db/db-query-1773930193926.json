@@ -1,0 +1,90 @@
+{
+  "query": "\nSELECT s.companyName, m.id, m.timeSlot, m.attendeeNumber, m.status, m.isVisible, m.matchScore, m.matchReason\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE m.attendeeId = '200101377371'\nORDER BY s.companyName, m.timeSlot;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT s.companyName, m.id, m.timeSlot, m.attendeeNumber, m.status, m.isVisible, m.matchScore, m.matchReason\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE m.attendeeId = '200101377371'\nORDER BY s.companyName, m.timeSlot;\n",
+  "rows": [
+    {
+      "companyName": "Appcast",
+      "id": "663382",
+      "timeSlot": "5",
+      "attendeeNumber": "2",
+      "status": "suggested",
+      "isVisible": "1",
+      "matchScore": "58",
+      "matchReason": "Delegate's pain points include 'Brand awareness and marketing of our great culture' and 'Automisation and technology is a huge focus', which Appcast supports by optimizing job advertising reach and efficiency through its programmatic platform."
+    },
+    {
+      "companyName": "Harver",
+      "id": "780018",
+      "timeSlot": "9",
+      "attendeeNumber": "2",
+      "status": "confirmed",
+      "isVisible": "1",
+      "matchScore": "54",
+      "matchReason": "Delegate's objective is 'Automisation and technology is a huge focus this year to incorporate'. Harver provides a suite of automated solutions for engaging, hiring, and developing talent, which aligns with the delegate's focus on automation and technology."
+    },
+    {
+      "companyName": "JobSync",
+      "id": "663554",
+      "timeSlot": "12",
+      "attendeeNumber": "1",
+      "status": "suggested",
+      "isVisible": "1",
+      "matchScore": "60",
+      "matchReason": "Delegate seeks 'AI integration, process streamlining without compromising experience of the candidate', which JobSync directly addresses through its workflow and automation software that optimizes recruitment marketing and enhances candidate experience."
+    },
+    {
+      "companyName": "Poetry",
+      "id": "663572",
+      "timeSlot": "3",
+      "attendeeNumber": "1",
+      "status": "suggested",
+      "isVisible": "1",
+      "matchScore": "68",
+      "matchReason": "Delegate's active projects include 'AI integration' and 'EVP, our market brand'; Poetry's AI-powered recruitment marketing solutions can generate employer brand content and ensure all assets are on-brand, directly supporting EVP and brand awareness goals."
+    },
+    {
+      "companyName": "SHL",
+      "id": "750156",
+      "timeSlot": "10",
+      "attendeeNumber": "2",
+      "status": "confirmed",
+      "isVisible": "1",
+      "matchScore": "60",
+      "matchReason": "Delegate's objective 'Automisation and technology is a huge focus this year to incorporate' and active project 'AI integration' aligns with SHL's 'automation and AI-enabled screening' solutions."
+    },
+    {
+      "companyName": "Stepstone Group UK Ltd",
+      "id": "690006",
+      "timeSlot": "6",
+      "attendeeNumber": "1",
+      "status": "suggested",
+      "isVisible": "1",
+      "matchScore": "64",
+      "matchReason": "Delegate's pain point 'Brand awareness and marketing of our great culture' and project 'EVP, AI integration' are addressed by Stepstone's 'programmatic marketing' for job ad visibility and 'AI driven job marketplaces' to enhance candidate experience and reach."
+    },
+    {
+      "companyName": "Symphony Talent ",
+      "id": "750095",
+      "timeSlot": "11",
+      "attendeeNumber": "1",
+      "status": "confirmed",
+      "isVisible": "1",
+      "matchScore": "68",
+      "matchReason": "Delegate's pain point 'Brand awareness and marketing of our great culture' and active project 'EVP' directly align with Symphony Talent's employer brand strategy, creative, and campaign activation services. Their interest in 'Automisation and technology' and 'candidate experience' is also well-matched by Symphony Talent's integrated platform and differentiated candidate experiences. Note: delegate currently uses Workday (ATS) and Pageup (CRM)."
+    },
+    {
+      "companyName": "The Martec",
+      "id": "663511",
+      "timeSlot": "4",
+      "attendeeNumber": "1",
+      "status": "suggested",
+      "isVisible": "1",
+      "matchScore": "72",
+      "matchReason": "Delegate's pain points include 'Brand awareness and marketing of our great culture' and active projects include 'EVP', which are direct matches for The Martec's mission to make authentic employee stories an engine for employer branding."
+    }
+  ],
+  "messages": [],
+  "stdout": "companyName\tid\ttimeSlot\tattendeeNumber\tstatus\tisVisible\tmatchScore\tmatchReason\nAppcast\t663382\t5\t2\tsuggested\t1\t58\tDelegate's pain points include 'Brand awareness and marketing of our great culture' and 'Automisation and technology is a huge focus', which Appcast supports by optimizing job advertising reach and efficiency through its programmatic platform.\nHarver\t780018\t9\t2\tconfirmed\t1\t54\tDelegate's objective is 'Automisation and technology is a huge focus this year to incorporate'. Harver provides a suite of automated solutions for engaging, hiring, and developing talent, which aligns with the delegate's focus on automation and technology.\nJobSync\t663554\t12\t1\tsuggested\t1\t60\tDelegate seeks 'AI integration, process streamlining without compromising experience of the candidate', which JobSync directly addresses through its workflow and automation software that optimizes recruitment marketing and enhances candidate experience.\nPoetry\t663572\t3\t1\tsuggested\t1\t68\tDelegate's active projects include 'AI integration' and 'EVP, our market brand'; Poetry's AI-powered recruitment marketing solutions can generate employer brand content and ensure all assets are on-brand, directly supporting EVP and brand awareness goals.\nSHL\t750156\t10\t2\tconfirmed\t1\t60\tDelegate's objective 'Automisation and technology is a huge focus this year to incorporate' and active project 'AI integration' aligns with SHL's 'automation and AI-enabled screening' solutions.\nStepstone Group UK Ltd\t690006\t6\t1\tsuggested\t1\t64\tDelegate's pain point 'Brand awareness and marketing of our great culture' and project 'EVP, AI integration' are addressed by Stepstone's 'programmatic marketing' for job ad visibility and 'AI driven job marketplaces' to enhance candidate experience and reach.\nSymphony Talent \t750095\t11\t1\tconfirmed\t1\t68\tDelegate's pain point 'Brand awareness and marketing of our great culture' and active project 'EVP' directly align with Symphony Talent's employer brand strategy, creative, and campaign activation services. Their interest in 'Automisation and technology' and 'candidate experience' is also well-matched by Symphony Talent's integrated platform and differentiated candidate experiences. Note: delegate currently uses Workday (ATS) and Pageup (CRM).\nThe Martec\t663511\t4\t1\tsuggested\t1\t72\tDelegate's pain points include 'Brand awareness and marketing of our great culture' and active projects include 'EVP', which are direct matches for The Martec's mission to make authentic employee stories an engine for employer branding.\n",
+  "stderr": "",
+  "execution_time_ms": 401
+}

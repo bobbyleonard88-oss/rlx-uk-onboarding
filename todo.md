@@ -1481,3 +1481,14 @@
 - [x] Add server-side impersonation procedure (admin-only, creates a temporary session token for any sponsor user)
 - [x] Add "Login As" button directly on each sponsor card in admin dashboard (no need to go to Users page)
 - [x] Route back to admin panel when impersonation session ends (via "Return to Admin" banner)
+
+## Missing Meetings Bug (March 2026)
+- [ ] Investigate why The Martec and Poetry are each missing a meeting on their sponsor portal
+- [ ] Check meeting count, status, and isVisible flags for both sponsors
+- [ ] Fix missing meetings and verify portal shows correct count
+
+## Jessica Shaunie Green (Calor Gas) Missing from Attendees (March 2026)
+- [x] Find all sponsors who have a meeting with Jessica (ID 200101377371) — 8 sponsors affected
+- [x] Fix Jessica's ID in attendees.ts (was incorrectly set to 208415155065, corrected to 200101377371)
+- [x] Verify all affected sponsor portals show her meeting correctly (no TS errors, all 45 tests pass)
+- [x] Verify briefing pack CSV download includes her details (data flows from same attendees.ts lookup)

@@ -1,0 +1,8 @@
+{
+  "query": "\nSELECT \n  s.id as sponsor_id,\n  s.company_name,\n  COUNT(m.id) as total_meetings,\n  SUM(CASE WHEN m.status IN ('confirmed','suggested') THEN 1 ELSE 0 END) as published_meetings,\n  SUM(CASE WHEN m.is_visible = 1 THEN 1 ELSE 0 END) as visible_meetings,\n  SUM(CASE WHEN m.status IN ('confirmed','suggested') AND m.is_visible = 1 THEN 1 ELSE 0 END) as portal_visible,\n  GROUP_CONCAT(DISTINCT m.status) as statuses,\n  GROUP_CONCAT(DISTINCT m.is_visible) as visibility_flags\nFROM sponsors s\nLEFT JOIN meetings m ON m.sponsor_id = s.id\nWHERE s.company_name IN ('The Martec', 'Poetry')\nGROUP BY s.id, s.company_name;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT \n  s.id as sponsor_id,\n  s.company_name,\n  COUNT(m.id) as total_meetings,\n  SUM(CASE WHEN m.status IN ('confirmed','suggested') THEN 1 ELSE 0 END) as published_meetings,\n  SUM(CASE WHEN m.is_visible = 1 THEN 1 ELSE 0 END) as visible_meetings,\n  SUM(CASE WHEN m.status IN ('confirmed','suggested') AND m.is_visible = 1 THEN 1 ELSE 0 END) as portal_visible,\n  GROUP_CONCAT(DISTINCT m.status) as statuses,\n  GROUP_CONCAT(DISTINCT m.is_visible) as visibility_flags\nFROM sponsors s\nLEFT JOIN meetings m ON m.sponsor_id = s.id\nWHERE s.company_name IN ('The Martec', 'Poetry')\nGROUP BY s.id, s.company_name;\n",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 2: Unknown column 'm.sponsor_id' in 'on clause'"
+  ]
+}
