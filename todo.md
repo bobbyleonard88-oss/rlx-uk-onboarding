@@ -1560,3 +1560,8 @@
 - [x] Check session/workshop conflicts for all 7 speaker delegates — only Michelle Monahan had a conflict
 - [x] Fix any violations found — swapped Michelle Monahan ↔ Mark Kunaseelan at Veremark (meeting 663524→slot 1, meeting 663522→slot 9)
 - [x] CORRECTION: Previous "Adam Binks slot 1 conflict" was WRONG — workshop is 11:15–12:00, slot 1 ends 10:45. Adam is clean.
+
+## Anna Katyal (BMS Group) Appcast Duplicate Removal (March 2026)
+- [x] Remove Anna Katyal's duplicate Appcast meeting (slot 6, Rep 2, meeting 870015)
+- [x] Retain original slot 2 meeting (Rep 1, meeting 663371)
+- [x] Verified: 0 repeat meetings, 278 total meetings

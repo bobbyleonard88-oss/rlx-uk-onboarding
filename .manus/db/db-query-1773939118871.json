@@ -1,0 +1,22 @@
+{
+  "query": "\nSELECT 'anna_appcast_meetings' as check_name, COUNT(*) as count\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nWHERE m.attendeeId = '195183358360' AND s.companyName LIKE '%Appcast%'\nUNION ALL\nSELECT 'total_meetings', COUNT(*) FROM meetings\nUNION ALL\nSELECT 'repeat_meetings', COUNT(*) FROM (\n  SELECT attendeeId, sponsorId, COUNT(*) as cnt\n  FROM meetings\n  GROUP BY attendeeId, sponsorId\n  HAVING COUNT(*) > 1\n) x;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT 'anna_appcast_meetings' as check_name, COUNT(*) as count\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nWHERE m.attendeeId = '195183358360' AND s.companyName LIKE '%Appcast%'\nUNION ALL\nSELECT 'total_meetings', COUNT(*) FROM meetings\nUNION ALL\nSELECT 'repeat_meetings', COUNT(*) FROM (\n  SELECT attendeeId, sponsorId, COUNT(*) as cnt\n  FROM meetings\n  GROUP BY attendeeId, sponsorId\n  HAVING COUNT(*) > 1\n) x;\n",
+  "rows": [
+    {
+      "check_name": "total_meetings",
+      "count": "278"
+    },
+    {
+      "check_name": "repeat_meetings",
+      "count": "0"
+    },
+    {
+      "check_name": "anna_appcast_meetings",
+      "count": "1"
+    }
+  ],
+  "messages": [],
+  "stdout": "check_name\tcount\ntotal_meetings\t278\nrepeat_meetings\t0\nanna_appcast_meetings\t1\n",
+  "stderr": "",
+  "execution_time_ms": 388
+}
