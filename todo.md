@@ -1525,3 +1525,12 @@
 
 ## Table Number Fix
 - [x] 2-rep sponsors get two separate table numbers (one per rep) — each rep runs independent meetings at their own table
+
+## Table Numbers: Use Floor Plan Layout
+- [ ] Extract sponsor-to-table mapping from the analytics floor plan page
+- [ ] Apply those table numbers to the export instead of alphabetical order
+
+## Floor Plan: 24 Tables (Every Rep Gets Own Table)
+- [x] Update getFloorPlan to split 2-rep sponsors into 2 separate table entries (one per rep)
+- [x] Update MeetingFloorPlan component to render 24 tables, matching meetings by sponsorId + attendeeNumber
+- [x] Export already uses same composite key logic — consistent

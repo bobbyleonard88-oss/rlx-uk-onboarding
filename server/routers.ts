@@ -1811,13 +1811,25 @@ export const appRouter = router({
         return true;
       });
       const validSponsorIds = new Set(allSponsors.map(s => s.id));
-      // Assign table numbers to sponsors (sorted by companyName for consistency)
-      const sortedSponsors = [...allSponsors].sort((a, b) => a.companyName.localeCompare(b.companyName));
-      const sponsorTableMap = new Map<number, number>();
-      sortedSponsors.forEach((s, i) => sponsorTableMap.set(s.id, i + 1));
       const allMeetings = allMeetingsRaw.filter(
         m => validSponsorIds.has(m.sponsorId)
       );
+
+      // Assign table numbers: every rep with meetings gets their own table.
+      // 2-rep sponsors get 2 consecutive table numbers (one per rep).
+      // Key: `${sponsorId}-${attendeeNumber}` -> tableNumber
+      const sponsorsWithRep2 = new Set(
+        allMeetings.filter(m => m.attendeeNumber === 2).map(m => m.sponsorId)
+      );
+      const sortedSponsors = [...allSponsors].sort((a, b) => a.companyName.localeCompare(b.companyName));
+      const sponsorTableMap = new Map<string, number>(); // key: `${sponsorId}-${attendeeNumber}`
+      let floorTableCounter = 1;
+      for (const s of sortedSponsors) {
+        sponsorTableMap.set(`${s.id}-1`, floorTableCounter++);
+        if (sponsorsWithRep2.has(s.id)) {
+          sponsorTableMap.set(`${s.id}-2`, floorTableCounter++);
+        }
+      }
 
       // Build floor plan: 12 slots total, 6 per day, 2 × 30-min per 1-hour block
       // Day 1 (Wed 25 Mar): slots 1-6 | Day 2 (Thu 26 Mar): slots 7-12
@@ -1855,7 +1867,8 @@ export const appRouter = router({
             meetingId: m.id,
             sponsorId: m.sponsorId,
             sponsorName: sponsor?.companyName ?? 'Unknown Sponsor',
-            tableNumber: sponsorTableMap.get(m.sponsorId) ?? 0,
+            tableNumber: sponsorTableMap.get(`${m.sponsorId}-${m.attendeeNumber ?? 1}`) ?? 0,
+            attendeeNumber: m.attendeeNumber ?? 1,
             attendeeId: m.attendeeId,
             attendeeName: attendee ? `${attendee.firstName} ${attendee.lastName}` : m.attendeeId,
             attendeeCompany: attendee?.company ?? '',
@@ -1865,13 +1878,18 @@ export const appRouter = router({
         }).sort((a, b) => a.tableNumber - b.tableNumber),
       }));
 
+      // Build sponsor table entries — one per rep with meetings
+      const sponsorTableEntries: { id: number; companyName: string; tableNumber: number; repLabel: string }[] = [];
+      for (const s of sortedSponsors) {
+        const t1 = sponsorTableMap.get(`${s.id}-1`);
+        if (t1 != null) sponsorTableEntries.push({ id: s.id, companyName: s.companyName, tableNumber: t1, repLabel: sponsorsWithRep2.has(s.id) ? `${s.companyName} (Rep 1)` : s.companyName });
+        const t2 = sponsorTableMap.get(`${s.id}-2`);
+        if (t2 != null) sponsorTableEntries.push({ id: s.id, companyName: s.companyName, tableNumber: t2, repLabel: `${s.companyName} (Rep 2)` });
+      }
+
       return {
         slots,
-        sponsors: sortedSponsors.map(s => ({
-          id: s.id,
-          companyName: s.companyName,
-          tableNumber: sponsorTableMap.get(s.id) ?? 0,
-        })),
+        sponsors: sponsorTableEntries,
         totalMeetings: allMeetings.length,
       };
     }),

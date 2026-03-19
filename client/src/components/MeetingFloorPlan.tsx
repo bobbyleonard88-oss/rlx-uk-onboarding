@@ -135,12 +135,15 @@ export default function MeetingFloorPlan({ includeTestAccounts = false }: Meetin
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-2">
             {/* Show all sponsor tables, highlight those with meetings */}
-            {floorPlan.sponsors.map(sponsor => {
-              const meeting = slot.meetings.find(m => m.sponsorId === sponsor.id);
+            {floorPlan.sponsors.map((sponsor, idx) => {
+              // For 2-rep sponsors, match by both sponsorId and attendeeNumber (derived from repLabel)
+              const isRep2 = sponsor.repLabel?.endsWith('(Rep 2)');
+              const repNum = isRep2 ? 2 : 1;
+              const meeting = slot.meetings.find(m => m.sponsorId === sponsor.id && (m.attendeeNumber ?? 1) === repNum);
               const colour = tableColour(sponsor.tableNumber);
               return (
                 <div
-                  key={sponsor.id}
+                  key={`${sponsor.id}-${repNum}`}
                   className={`rounded-lg border p-2.5 transition-all ${
                     meeting
                       ? `${colour} shadow-md`
@@ -159,7 +162,7 @@ export default function MeetingFloorPlan({ includeTestAccounts = false }: Meetin
                     )}
                   </div>
                   <p className={`text-xs font-semibold leading-tight truncate ${meeting ? "text-white" : "text-slate-500"}`}>
-                    {sponsor.companyName}
+                    {sponsor.repLabel ?? sponsor.companyName}
                   </p>
                   {meeting ? (
                     <div className="mt-1.5 pt-1.5 border-t border-white/20">
