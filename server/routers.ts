@@ -1738,10 +1738,10 @@ export const appRouter = router({
             // Use same quota overrides as the matching engine
             const ANALYTICS_QUOTA_OVERRIDES: Record<number, number> = {
               450001: 12,  // PerchPeek
-              750001: 22,  // SHL: 22 meetings (20-meeting package + 2 extra from 2-rep slots)
+              750001: 20,  // SHL: 20 meetings (reduced from 22, 2 lowest scoring removed)
               870001: 12,  // Wilson (package says 20, actual is 12)
               390001: 12,  // Bright Apply: 12 meetings (quota was 10 but algorithm gave 12)
-              210001: 21,  // Harver: 21 meetings (20-meeting package + 1 extra from 2-rep slots)
+              210001: 21,  // Harver: 21 meetings (20-meeting package + 1 extra from 2-rep slots, confirmed correct)
               540001: 12,  // hackajob: 12 meetings (originally 10 but 2 extra added)
             };
             const totalSlots = ANALYTICS_QUOTA_OVERRIDES[sponsor.id] ??
