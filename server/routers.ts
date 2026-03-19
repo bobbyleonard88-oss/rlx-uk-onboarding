@@ -475,6 +475,29 @@ export const appRouter = router({
       return await db.getAllUsers();
     }),
 
+    // Create a short-lived impersonation token by sponsorId (admin only)
+    // Looks up the sponsor's linked userId and creates the impersonation token in one step.
+    loginAsSponsor: adminProcedure
+      .input(z.object({ sponsorId: z.number() }))
+      .mutation(async ({ ctx, input }) => {
+        const sponsor = await db.getSponsorById(input.sponsorId);
+        if (!sponsor) throw new Error('Sponsor not found');
+        if (!sponsor.userId) throw new Error('Sponsor has no linked user account yet — they must log in at least once.');
+        const targetUser = await db.getUserById(sponsor.userId);
+        if (!targetUser) throw new Error('Linked user account not found');
+        const { SignJWT } = await import('jose');
+        const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'fallback-secret');
+        const token = await new SignJWT({
+          targetOpenId: targetUser.openId,
+          impersonation: true,
+          adminId: ctx.user.id,
+        })
+          .setProtectedHeader({ alg: 'HS256', typ: 'JWT' })
+          .setExpirationTime('5m')
+          .sign(secret);
+        return { token, sponsorName: sponsor.companyName };
+      }),
+
     // Create a short-lived impersonation token for a target user (admin only)
     createImpersonationToken: adminProcedure
       .input(z.object({ targetUserId: z.number() }))

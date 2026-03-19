@@ -1476,3 +1476,8 @@
 - [ ] Remove James Boyle (Latham & Watkins) from all confirmed meetings
 - [ ] Identify impacted sponsors and best replacement delegates per slot
 - [ ] Remove James Boyle from server/attendees.ts
+
+## Admin "Login As" Feature
+- [x] Add server-side impersonation procedure (admin-only, creates a temporary session token for any sponsor user)
+- [x] Add "Login As" button directly on each sponsor card in admin dashboard (no need to go to Users page)
+- [x] Route back to admin panel when impersonation session ends (via "Return to Admin" banner)

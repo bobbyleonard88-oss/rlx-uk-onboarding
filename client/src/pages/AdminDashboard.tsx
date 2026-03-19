@@ -7,7 +7,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Download, RefreshCw, Users, Calendar, CheckCircle, FileText, List, Archive, ArchiveRestore, AlertCircle, LogOut, User, LogIn, Eye } from "lucide-react";
+import { Download, RefreshCw, Users, Calendar, CheckCircle, FileText, List, Archive, ArchiveRestore, AlertCircle, LogOut, User, LogIn, Eye, LogIn as LoginIcon } from "lucide-react";
 import { Link } from "wouter";
 import { toast } from "sonner";
 import { getLoginUrl } from "@/const";
@@ -120,6 +120,19 @@ export default function AdminDashboard() {
       toast.success("Priority delegate removed");
     },
   });
+
+  const loginAsSponsor = trpc.admin.loginAsSponsor.useMutation({
+    onSuccess: (data) => {
+      window.open(`/api/impersonate?token=${encodeURIComponent(data.token)}`, '_blank');
+    },
+    onError: (error) => toast.error(error.message || "Failed to log in as sponsor"),
+  });
+
+  function handleLoginAsSponsor(sponsorId: number, companyName: string) {
+    if (confirm(`Open a new tab logged in as "${companyName}"? The session expires in 1 hour. You can return to admin via the banner shown in the sponsor portal.`)) {
+      loginAsSponsor.mutate({ sponsorId });
+    }
+  }
 
   // Check if user is not logged in
   if (!loading && !user) {
@@ -305,7 +318,19 @@ export default function AdminDashboard() {
                         <CheckCircle className="w-4 h-4" />
                         {submission.status === "reviewed" ? "Reviewed" : "Mark Reviewed"}
                       </Button>
-                      {showArchived ? (
+                      {/* Login As button */}
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleLoginAsSponsor(submission.sponsorId, submission.companyName)}
+                        disabled={loginAsSponsor.isPending}
+                        className="gap-2 border-indigo-600 text-indigo-300 hover:bg-indigo-900/30 hover:text-indigo-200"
+                        title="Open a new tab logged in as this sponsor"
+                      >
+                        <Eye className="w-4 h-4" />
+                        Login As
+                      </Button>
+                    {showArchived ? (
                         <Button
                           variant="outline"
                           size="sm"
