@@ -27,12 +27,12 @@ import {
 // Day 1 (Event Day 2): slots 1-6 | Day 2 (Event Day 3): slots 7-12
 const TIME_SLOTS = [
   // Day 1 (Event Day 2 - Wed 25 Mar)
-  { day: 1, slot: 1, label: "11:00 – 11:30" },
-  { day: 1, slot: 2, label: "11:30 – 12:00" },
-  { day: 1, slot: 3, label: "13:15 – 13:45" },
-  { day: 1, slot: 4, label: "13:45 – 14:15" },
-  { day: 1, slot: 5, label: "14:30 – 15:00" },
-  { day: 1, slot: 6, label: "15:00 – 15:30" },
+  { day: 1, slot: 1, label: "10:15 – 10:45" },
+  { day: 1, slot: 2, label: "10:45 – 11:15" },
+  { day: 1, slot: 3, label: "13:30 – 14:00" },
+  { day: 1, slot: 4, label: "14:00 – 14:30" },
+  { day: 1, slot: 5, label: "14:45 – 15:15" },
+  { day: 1, slot: 6, label: "15:15 – 15:45" },
   // Day 2 (Event Day 3)
   { day: 2, slot: 7, label: "10:30 – 11:00" },
   { day: 2, slot: 8, label: "11:00 – 11:30" },
@@ -327,12 +327,12 @@ export default function MeetingSchedule() {
       return;
     }
     const slotLabels: Record<number, { day: string; time: string }> = {
-      1:  { day: 'Wed 25 Mar (Day 2)', time: '11:00 – 11:30' },
-      2:  { day: 'Wed 25 Mar (Day 2)', time: '11:30 – 12:00' },
-      3:  { day: 'Wed 25 Mar (Day 2)', time: '13:15 – 13:45' },
-      4:  { day: 'Wed 25 Mar (Day 2)', time: '13:45 – 14:15' },
-      5:  { day: 'Wed 25 Mar (Day 2)', time: '14:30 – 15:00' },
-      6:  { day: 'Wed 25 Mar (Day 2)', time: '15:00 – 15:30' },
+      1:  { day: 'Wed 25 Mar (Day 2)', time: '10:15 – 10:45' },
+      2:  { day: 'Wed 25 Mar (Day 2)', time: '10:45 – 11:15' },
+      3:  { day: 'Wed 25 Mar (Day 2)', time: '13:30 – 14:00' },
+      4:  { day: 'Wed 25 Mar (Day 2)', time: '14:00 – 14:30' },
+      5:  { day: 'Wed 25 Mar (Day 2)', time: '14:45 – 15:15' },
+      6:  { day: 'Wed 25 Mar (Day 2)', time: '15:15 – 15:45' },
       7:  { day: 'Thu 26 Mar (Day 3)', time: '10:30 – 11:00' },
       8:  { day: 'Thu 26 Mar (Day 3)', time: '11:00 – 11:30' },
       9:  { day: 'Thu 26 Mar (Day 3)', time: '13:15 – 13:45' },

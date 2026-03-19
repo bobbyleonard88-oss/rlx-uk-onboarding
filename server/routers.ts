@@ -1666,12 +1666,12 @@ export const appRouter = router({
         // Time slot distribution — 12 slots total, 6 per day, 2 × 30-min per 1-hour block
         // Day 1 (Event Day 2): slots 1-6 | Day 2 (Event Day 3): slots 7-12
         const timeSlotDistribution = [
-          { slot: 1, label: 'Day 1 — 11:00–11:30', count: 0 },
-          { slot: 2, label: 'Day 1 — 11:30–12:00', count: 0 },
-          { slot: 3, label: 'Day 1 — 13:15–13:45', count: 0 },
-          { slot: 4, label: 'Day 1 — 13:45–14:15', count: 0 },
-          { slot: 5, label: 'Day 1 — 14:30–15:00', count: 0 },
-          { slot: 6, label: 'Day 1 — 15:00–15:30', count: 0 },
+          { slot: 1, label: 'Day 1 — 10:15–10:45', count: 0 },
+          { slot: 2, label: 'Day 1 — 10:45–11:15', count: 0 },
+          { slot: 3, label: 'Day 1 — 13:30–14:00', count: 0 },
+          { slot: 4, label: 'Day 1 — 14:00–14:30', count: 0 },
+          { slot: 5, label: 'Day 1 — 14:45–15:15', count: 0 },
+          { slot: 6, label: 'Day 1 — 15:15–15:45', count: 0 },
           { slot: 7, label: 'Day 2 — 10:30–11:00', count: 0 },
           { slot: 8, label: 'Day 2 — 11:00–11:30', count: 0 },
           { slot: 9, label: 'Day 2 — 13:15–13:45', count: 0 },
@@ -1799,12 +1799,12 @@ export const appRouter = router({
       // Build floor plan: 12 slots total, 6 per day, 2 × 30-min per 1-hour block
       // Day 1 (Wed 25 Mar): slots 1-6 | Day 2 (Thu 26 Mar): slots 7-12
       const slotLabels: Record<number, { day: number; hour: number; round: number; time: string }> = {
-        1:  { day: 1, hour: 1, round: 1, time: '11:00–11:30' },
-        2:  { day: 1, hour: 1, round: 2, time: '11:30–12:00' },
-        3:  { day: 1, hour: 2, round: 1, time: '13:15–13:45' },
-        4:  { day: 1, hour: 2, round: 2, time: '13:45–14:15' },
-        5:  { day: 1, hour: 3, round: 1, time: '14:30–15:00' },
-        6:  { day: 1, hour: 3, round: 2, time: '15:00–15:30' },
+        1:  { day: 1, hour: 1, round: 1, time: '10:15–10:45' },
+        2:  { day: 1, hour: 1, round: 2, time: '10:45–11:15' },
+        3:  { day: 1, hour: 2, round: 1, time: '13:30–14:00' },
+        4:  { day: 1, hour: 2, round: 2, time: '14:00–14:30' },
+        5:  { day: 1, hour: 3, round: 1, time: '14:45–15:15' },
+        6:  { day: 1, hour: 3, round: 2, time: '15:15–15:45' },
         7:  { day: 2, hour: 1, round: 1, time: '10:30–11:00' },
         8:  { day: 2, hour: 1, round: 2, time: '11:00–11:30' },
         9:  { day: 2, hour: 2, round: 1, time: '13:15–13:45' },
@@ -1979,12 +1979,12 @@ export const appRouter = router({
         const ALWAYS_EXCLUDED_SPONSOR_IDS = new Set([270001, 510003]);
 
         const slotLabels: Record<number, { day: string; time: string }> = {
-          1:  { day: 'Day 1 (Wed 25 Mar)', time: '11:00–11:30' },
-          2:  { day: 'Day 1 (Wed 25 Mar)', time: '11:30–12:00' },
-          3:  { day: 'Day 1 (Wed 25 Mar)', time: '13:15–13:45' },
-          4:  { day: 'Day 1 (Wed 25 Mar)', time: '13:45–14:15' },
-          5:  { day: 'Day 1 (Wed 25 Mar)', time: '14:30–15:00' },
-          6:  { day: 'Day 1 (Wed 25 Mar)', time: '15:00–15:30' },
+          1:  { day: 'Day 1 (Wed 25 Mar)', time: '10:15–10:45' },
+          2:  { day: 'Day 1 (Wed 25 Mar)', time: '10:45–11:15' },
+          3:  { day: 'Day 1 (Wed 25 Mar)', time: '13:30–14:00' },
+          4:  { day: 'Day 1 (Wed 25 Mar)', time: '14:00–14:30' },
+          5:  { day: 'Day 1 (Wed 25 Mar)', time: '14:45–15:15' },
+          6:  { day: 'Day 1 (Wed 25 Mar)', time: '15:15–15:45' },
           7:  { day: 'Day 2 (Thu 26 Mar)', time: '10:30–11:00' },
           8:  { day: 'Day 2 (Thu 26 Mar)', time: '11:00–11:30' },
           9:  { day: 'Day 2 (Thu 26 Mar)', time: '13:15–13:45' },

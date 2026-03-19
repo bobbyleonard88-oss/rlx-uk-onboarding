@@ -68,12 +68,12 @@ interface TimeSlotSchedulerProps {
 // Slot numbering: 12 slots total — 6 per day, 2 × 30-min slots per 1-hour block
 // Day 1 (Event Day 2): slots 1-6 | Day 2 (Event Day 3): slots 7-12
 const DAY1_SLOTS = [
-  { day: 1, slot: 1, label: "11:00–11:30" },
-  { day: 1, slot: 2, label: "11:30–12:00" },
-  { day: 1, slot: 3, label: "13:15–13:45" },
-  { day: 1, slot: 4, label: "13:45–14:15" },
-  { day: 1, slot: 5, label: "14:30–15:00" },
-  { day: 1, slot: 6, label: "15:00–15:30" },
+  { day: 1, slot: 1, label: "10:15–10:45" },
+  { day: 1, slot: 2, label: "10:45–11:15" },
+  { day: 1, slot: 3, label: "13:30–14:00" },
+  { day: 1, slot: 4, label: "14:00–14:30" },
+  { day: 1, slot: 5, label: "14:45–15:15" },
+  { day: 1, slot: 6, label: "15:15–15:45" },
 ];
 
 const DAY2_SLOTS = [
