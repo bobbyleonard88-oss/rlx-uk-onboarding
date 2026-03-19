@@ -2025,13 +2025,32 @@ export const appRouter = router({
         const sponsorMap = new Map(allSponsors.map(s => [s.id, s]));
         const intakeMap = new Map(allIntakeSubmissions.map(i => [i.sponsorId, i]));
 
-        // Assign table numbers: sponsors sorted alphabetically, each gets a sequential table number
-        // 2-rep sponsors (20+ meetings) share the same table number across both reps
+        // Assign table numbers: sponsors sorted alphabetically.
+        // Single-rep sponsors get one table number.
+        // 2-rep sponsors (attendeeNumber 1 and 2) each get their OWN separate table — they run independent meetings.
+        // We build a map keyed by (sponsorId, attendeeNumber) -> tableNumber.
         const exportSortedSponsors = [...allSponsors]
           .filter(s => !new Set([270001, 510003, 30001, 60001, 90001, 120001]).has(s.id))
           .sort((a, b) => a.companyName.localeCompare(b.companyName));
-        const exportTableMap = new Map<number, number>();
-        exportSortedSponsors.forEach((s, i) => exportTableMap.set(s.id, i + 1));
+
+        // Determine which sponsors have 2 reps (attendeeNumber 2 exists in filtered meetings)
+        const filteredForTable = allMeetingsRaw.filter(m => {
+          if (new Set([270001, 510003, 30001, 60001, 90001, 120001]).has(m.sponsorId)) return false;
+          return true;
+        });
+        const sponsorsWithRep2 = new Set(
+          filteredForTable.filter(m => m.attendeeNumber === 2).map(m => m.sponsorId)
+        );
+
+        // Assign table numbers sequentially: single-rep sponsors get 1 slot, 2-rep sponsors get 2 slots
+        const exportTableMap = new Map<string, number>(); // key: `${sponsorId}-${attendeeNumber}`
+        let tableCounter = 1;
+        for (const s of exportSortedSponsors) {
+          exportTableMap.set(`${s.id}-1`, tableCounter++);
+          if (sponsorsWithRep2.has(s.id)) {
+            exportTableMap.set(`${s.id}-2`, tableCounter++);
+          }
+        }
 
         // Build rankings lookup: sponsorId -> top-10 ranked attendee IDs (for In Top 10 flag)
         // and sponsorId -> Map<attendeeId, rankPosition> (for exact rank column)
@@ -2102,7 +2121,8 @@ export const appRouter = router({
           const repName = isRep2 ? rep2Name : rep1Name;
           const repEmail = isRep2 ? rep2Email : rep1Email;
 
-          const tableNum = exportTableMap.get(meeting.sponsorId);
+          const attendeeNum = meeting.attendeeNumber ?? 1;
+          const tableNum = exportTableMap.get(`${meeting.sponsorId}-${attendeeNum}`);
 
           return {
             // Vendor details

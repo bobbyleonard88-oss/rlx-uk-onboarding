@@ -1522,3 +1522,6 @@
 - [x] Add Table Number column to admin meetings export CSV
 - [x] All sponsors get sequential table numbers (alphabetical order); 2-rep sponsors share same table number across both reps
 - [x] All 45 tests pass
+
+## Table Number Fix
+- [x] 2-rep sponsors get two separate table numbers (one per rep) — each rep runs independent meetings at their own table
