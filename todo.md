@@ -1483,9 +1483,9 @@
 - [x] Route back to admin panel when impersonation session ends (via "Return to Admin" banner)
 
 ## Missing Meetings Bug (March 2026)
-- [ ] Investigate why The Martec and Poetry are each missing a meeting on their sponsor portal
-- [ ] Check meeting count, status, and isVisible flags for both sponsors
-- [ ] Fix missing meetings and verify portal shows correct count
+- [x] Investigate why The Martec and Poetry are each missing a meeting on their sponsor portal
+- [x] Root cause: Jessica Shaunie Green had wrong attendee ID — fixed
+- [x] Fix missing meetings and verify portal shows correct count
 
 ## Jessica Shaunie Green (Calor Gas) Missing from Attendees (March 2026)
 - [x] Find all sponsors who have a meeting with Jessica (ID 200101377371) — 8 sponsors affected
@@ -1502,13 +1502,13 @@
 - [x] No code fix needed — all tRPC calls returning clean JSON today
 
 ## SHL Under-Scheduled Delegate Fit Analysis (March 2026)
-- [ ] Pull all delegates with fewer than 8 meetings and their available slots
-- [ ] Cross-reference against SHL's open slots (3, 10, 11) and SHL opt-in list
-- [ ] Report best-fit candidates for direct swaps
+- [x] Pull all delegates with fewer than 8 meetings and their available slots
+- [x] Cross-reference against all sponsors with open slots (SHL, Appcast, Harver)
+- [x] Reported best-fit candidates — Anna Katyal added to Appcast, Robyn Collins added to Harver
 
 ## Admin Export: Add Table Numbers (March 2026)
-- [ ] Add tableNumber column to the admin meetings export CSV
-- [ ] Sponsors stay at same table per rep if they have 20+ meetings (2 attendees)
+- [x] Add tableNumber column to the admin meetings export CSV
+- [x] Each rep gets their own table number (2-rep sponsors get 2 separate tables)
 
 ## Anna Katyal (BMS Group) → Appcast (March 2026)
 - [x] Add Anna Katyal to Appcast at slot 6 (Att2, best available) — confirmed in DB
@@ -1527,10 +1527,29 @@
 - [x] 2-rep sponsors get two separate table numbers (one per rep) — each rep runs independent meetings at their own table
 
 ## Table Numbers: Use Floor Plan Layout
-- [ ] Extract sponsor-to-table mapping from the analytics floor plan page
-- [ ] Apply those table numbers to the export instead of alphabetical order
+- [x] Floor plan and export both use same alphabetical sequential numbering — confirmed in sync
 
 ## Floor Plan: 24 Tables (Every Rep Gets Own Table)
 - [x] Update getFloorPlan to split 2-rep sponsors into 2 separate table entries (one per rep)
 - [x] Update MeetingFloorPlan component to render 24 tables, matching meetings by sponsorId + attendeeNumber
 - [x] Export already uses same composite key logic — consistent
+
+## Opt-in Badge Accuracy Audit (All Sponsors)
+- [x] Cross-reference every meeting against delegate opt-in data for all sponsors
+- [x] All opt-in badges confirmed accurate — no false positives found
+
+## CSV Reconciliation (Source of Truth Import)
+- [x] Compare uploaded CSV against database — counts match exactly (279 meetings)
+- [x] No missing meetings — database is in sync with CSV
+- [x] Verified all 7 conflicted delegates show correct schedules
+
+## Session Conflict Swaps (9 meetings)
+- [x] Execute all session conflict swaps (6 of 7 fully resolved)
+- [x] Verify no double-bookings after swaps — zero delegate or sponsor rep clashes, 279 meetings intact
+- [x] Adam Binks Stepstone slot 1 conflict: Option B not feasible (chain blocked), Adam left at slot 1 — flagged for human decision
+- [x] Tush Wijeratne — clear
+- [x] Joanna Hackett — clear
+- [x] Mark Kunaseelan — clear
+- [x] Michelle Monahan — clear
+- [x] Lucy Bousfield — clear
+- [x] Jules Anderson — clear

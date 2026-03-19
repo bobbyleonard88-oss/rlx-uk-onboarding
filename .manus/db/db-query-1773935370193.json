@@ -1,0 +1,1405 @@
+{
+  "query": "SELECT m.attendeeId, m.sponsorId, s.companyName FROM meetings m JOIN sponsors s ON m.sponsorId = s.id WHERE m.isVisible = 1 AND m.sponsorId NOT IN (270001, 510003, 30001, 60001, 90001, 120001) ORDER BY s.companyName, m.timeSlot;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT m.attendeeId, m.sponsorId, s.companyName FROM meetings m JOIN sponsors s ON m.sponsorId = s.id WHERE m.isVisible = 1 AND m.sponsorId NOT IN (270001, 510003, 30001, 60001, 90001, 120001) ORDER BY s.companyName, m.timeSlot;",
+  "rows": [
+    {
+      "attendeeId": "92353346050",
+      "sponsorId": "690001",
+      "companyName": "Amberjack"
+    },
+    {
+      "attendeeId": "194295425320",
+      "sponsorId": "690001",
+      "companyName": "Amberjack"
+    },
+    {
+      "attendeeId": "76678269091",
+      "sponsorId": "690001",
+      "companyName": "Amberjack"
+    },
+    {
+      "attendeeId": "17812226737",
+      "sponsorId": "690001",
+      "companyName": "Amberjack"
+    },
+    {
+      "attendeeId": "91889321035",
+      "sponsorId": "690001",
+      "companyName": "Amberjack"
+    },
+    {
+      "attendeeId": "1076201",
+      "sponsorId": "690001",
+      "companyName": "Amberjack"
+    },
+    {
+      "attendeeId": "113145184682",
+      "sponsorId": "690001",
+      "companyName": "Amberjack"
+    },
+    {
+      "attendeeId": "5140258",
+      "sponsorId": "690001",
+      "companyName": "Amberjack"
+    },
+    {
+      "attendeeId": "200923910443",
+      "sponsorId": "690001",
+      "companyName": "Amberjack"
+    },
+    {
+      "attendeeId": "93174643474",
+      "sponsorId": "690001",
+      "companyName": "Amberjack"
+    },
+    {
+      "attendeeId": "122796319563",
+      "sponsorId": "690001",
+      "companyName": "Amberjack"
+    },
+    {
+      "attendeeId": "7258470500",
+      "sponsorId": "690001",
+      "companyName": "Amberjack"
+    },
+    {
+      "attendeeId": "92953690026",
+      "sponsorId": "270002",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "93174643474",
+      "sponsorId": "270002",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "195183358360",
+      "sponsorId": "270002",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "93176107633",
+      "sponsorId": "270002",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "200923910443",
+      "sponsorId": "270002",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "122796319563",
+      "sponsorId": "270002",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "91862577670",
+      "sponsorId": "270002",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "200101377371",
+      "sponsorId": "270002",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "8196151",
+      "sponsorId": "270002",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "195183358360",
+      "sponsorId": "270002",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "9322701",
+      "sponsorId": "270002",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "110260566550",
+      "sponsorId": "270002",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "92353346050",
+      "sponsorId": "270002",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "9477501",
+      "sponsorId": "270002",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "11132851",
+      "sponsorId": "270002",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "194295425320",
+      "sponsorId": "270002",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "113145184682",
+      "sponsorId": "270002",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "91889321035",
+      "sponsorId": "270002",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "9319401",
+      "sponsorId": "270002",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "8952301",
+      "sponsorId": "270002",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "174442448959",
+      "sponsorId": "270002",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "111228357473",
+      "sponsorId": "390001",
+      "companyName": "Bright Apply"
+    },
+    {
+      "attendeeId": "201697440144",
+      "sponsorId": "390001",
+      "companyName": "Bright Apply"
+    },
+    {
+      "attendeeId": "1076201",
+      "sponsorId": "390001",
+      "companyName": "Bright Apply"
+    },
+    {
+      "attendeeId": "9322701",
+      "sponsorId": "390001",
+      "companyName": "Bright Apply"
+    },
+    {
+      "attendeeId": "128491656706",
+      "sponsorId": "390001",
+      "companyName": "Bright Apply"
+    },
+    {
+      "attendeeId": "200923910443",
+      "sponsorId": "390001",
+      "companyName": "Bright Apply"
+    },
+    {
+      "attendeeId": "91862577670",
+      "sponsorId": "390001",
+      "companyName": "Bright Apply"
+    },
+    {
+      "attendeeId": "110260566550",
+      "sponsorId": "390001",
+      "companyName": "Bright Apply"
+    },
+    {
+      "attendeeId": "4956154",
+      "sponsorId": "390001",
+      "companyName": "Bright Apply"
+    },
+    {
+      "attendeeId": "191181016455",
+      "sponsorId": "390001",
+      "companyName": "Bright Apply"
+    },
+    {
+      "attendeeId": "452351",
+      "sponsorId": "390001",
+      "companyName": "Bright Apply"
+    },
+    {
+      "attendeeId": "92353346050",
+      "sponsorId": "390001",
+      "companyName": "Bright Apply"
+    },
+    {
+      "attendeeId": "452351",
+      "sponsorId": "540001",
+      "companyName": "hackajob"
+    },
+    {
+      "attendeeId": "91862577670",
+      "sponsorId": "540001",
+      "companyName": "hackajob"
+    },
+    {
+      "attendeeId": "208415155065",
+      "sponsorId": "540001",
+      "companyName": "hackajob"
+    },
+    {
+      "attendeeId": "91889321035",
+      "sponsorId": "540001",
+      "companyName": "hackajob"
+    },
+    {
+      "attendeeId": "18336501",
+      "sponsorId": "540001",
+      "companyName": "hackajob"
+    },
+    {
+      "attendeeId": "203946652193",
+      "sponsorId": "540001",
+      "companyName": "hackajob"
+    },
+    {
+      "attendeeId": "191181016455",
+      "sponsorId": "540001",
+      "companyName": "hackajob"
+    },
+    {
+      "attendeeId": "17812226737",
+      "sponsorId": "540001",
+      "companyName": "hackajob"
+    },
+    {
+      "attendeeId": "116903349643",
+      "sponsorId": "540001",
+      "companyName": "hackajob"
+    },
+    {
+      "attendeeId": "8952301",
+      "sponsorId": "540001",
+      "companyName": "hackajob"
+    },
+    {
+      "attendeeId": "128491656706",
+      "sponsorId": "540001",
+      "companyName": "hackajob"
+    },
+    {
+      "attendeeId": "200923910443",
+      "sponsorId": "540001",
+      "companyName": "hackajob"
+    },
+    {
+      "attendeeId": "91862577670",
+      "sponsorId": "600001",
+      "companyName": "Happydance Careers Websites"
+    },
+    {
+      "attendeeId": "7258470500",
+      "sponsorId": "600001",
+      "companyName": "Happydance Careers Websites"
+    },
+    {
+      "attendeeId": "201697440144",
+      "sponsorId": "600001",
+      "companyName": "Happydance Careers Websites"
+    },
+    {
+      "attendeeId": "9319401",
+      "sponsorId": "600001",
+      "companyName": "Happydance Careers Websites"
+    },
+    {
+      "attendeeId": "191181016455",
+      "sponsorId": "600001",
+      "companyName": "Happydance Careers Websites"
+    },
+    {
+      "attendeeId": "91889321035",
+      "sponsorId": "600001",
+      "companyName": "Happydance Careers Websites"
+    },
+    {
+      "attendeeId": "13454401",
+      "sponsorId": "600001",
+      "companyName": "Happydance Careers Websites"
+    },
+    {
+      "attendeeId": "4956154",
+      "sponsorId": "600001",
+      "companyName": "Happydance Careers Websites"
+    },
+    {
+      "attendeeId": "128491656706",
+      "sponsorId": "600001",
+      "companyName": "Happydance Careers Websites"
+    },
+    {
+      "attendeeId": "92953690026",
+      "sponsorId": "600001",
+      "companyName": "Happydance Careers Websites"
+    },
+    {
+      "attendeeId": "200923910443",
+      "sponsorId": "600001",
+      "companyName": "Happydance Careers Websites"
+    },
+    {
+      "attendeeId": "452351",
+      "sponsorId": "600001",
+      "companyName": "Happydance Careers Websites"
+    },
+    {
+      "attendeeId": "4956154",
+      "sponsorId": "210001",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "191181016455",
+      "sponsorId": "210001",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "452351",
+      "sponsorId": "210001",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "13454401",
+      "sponsorId": "210001",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "9319401",
+      "sponsorId": "210001",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "5140258",
+      "sponsorId": "210001",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "208415155065",
+      "sponsorId": "210001",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "11132851",
+      "sponsorId": "210001",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "111228357473",
+      "sponsorId": "210001",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "7258470500",
+      "sponsorId": "210001",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "18336501",
+      "sponsorId": "210001",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "1076201",
+      "sponsorId": "210001",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "194295425320",
+      "sponsorId": "210001",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "174442448959",
+      "sponsorId": "210001",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "190937723960",
+      "sponsorId": "210001",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "122796319563",
+      "sponsorId": "210001",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "200101377371",
+      "sponsorId": "210001",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "203946652193",
+      "sponsorId": "210001",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "110260566550",
+      "sponsorId": "210001",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "93174643474",
+      "sponsorId": "210001",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "195183358360",
+      "sponsorId": "210001",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "9477501",
+      "sponsorId": "210001",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "9477501",
+      "sponsorId": "720001",
+      "companyName": "inploi"
+    },
+    {
+      "attendeeId": "191181016455",
+      "sponsorId": "720001",
+      "companyName": "inploi"
+    },
+    {
+      "attendeeId": "203946652193",
+      "sponsorId": "720001",
+      "companyName": "inploi"
+    },
+    {
+      "attendeeId": "92353346050",
+      "sponsorId": "720001",
+      "companyName": "inploi"
+    },
+    {
+      "attendeeId": "200923910443",
+      "sponsorId": "720001",
+      "companyName": "inploi"
+    },
+    {
+      "attendeeId": "111228357473",
+      "sponsorId": "720001",
+      "companyName": "inploi"
+    },
+    {
+      "attendeeId": "7258470500",
+      "sponsorId": "720001",
+      "companyName": "inploi"
+    },
+    {
+      "attendeeId": "452351",
+      "sponsorId": "720001",
+      "companyName": "inploi"
+    },
+    {
+      "attendeeId": "17812226737",
+      "sponsorId": "720001",
+      "companyName": "inploi"
+    },
+    {
+      "attendeeId": "201697440144",
+      "sponsorId": "720001",
+      "companyName": "inploi"
+    },
+    {
+      "attendeeId": "113145184682",
+      "sponsorId": "720001",
+      "companyName": "inploi"
+    },
+    {
+      "attendeeId": "122796319563",
+      "sponsorId": "720001",
+      "companyName": "inploi"
+    },
+    {
+      "attendeeId": "93174643474",
+      "sponsorId": "840001",
+      "companyName": "JobSync"
+    },
+    {
+      "attendeeId": "92953690026",
+      "sponsorId": "840001",
+      "companyName": "JobSync"
+    },
+    {
+      "attendeeId": "92353346050",
+      "sponsorId": "840001",
+      "companyName": "JobSync"
+    },
+    {
+      "attendeeId": "8196151",
+      "sponsorId": "840001",
+      "companyName": "JobSync"
+    },
+    {
+      "attendeeId": "194295425320",
+      "sponsorId": "840001",
+      "companyName": "JobSync"
+    },
+    {
+      "attendeeId": "11132851",
+      "sponsorId": "840001",
+      "companyName": "JobSync"
+    },
+    {
+      "attendeeId": "8713772",
+      "sponsorId": "840001",
+      "companyName": "JobSync"
+    },
+    {
+      "attendeeId": "18336501",
+      "sponsorId": "840001",
+      "companyName": "JobSync"
+    },
+    {
+      "attendeeId": "201697440144",
+      "sponsorId": "840001",
+      "companyName": "JobSync"
+    },
+    {
+      "attendeeId": "111228357473",
+      "sponsorId": "840001",
+      "companyName": "JobSync"
+    },
+    {
+      "attendeeId": "13454401",
+      "sponsorId": "840001",
+      "companyName": "JobSync"
+    },
+    {
+      "attendeeId": "200101377371",
+      "sponsorId": "840001",
+      "companyName": "JobSync"
+    },
+    {
+      "attendeeId": "110260566550",
+      "sponsorId": "180001",
+      "companyName": "Maki People"
+    },
+    {
+      "attendeeId": "113145184682",
+      "sponsorId": "180001",
+      "companyName": "Maki People"
+    },
+    {
+      "attendeeId": "17812226737",
+      "sponsorId": "180001",
+      "companyName": "Maki People"
+    },
+    {
+      "attendeeId": "76678269091",
+      "sponsorId": "180001",
+      "companyName": "Maki People"
+    },
+    {
+      "attendeeId": "9477501",
+      "sponsorId": "180001",
+      "companyName": "Maki People"
+    },
+    {
+      "attendeeId": "191181016455",
+      "sponsorId": "180001",
+      "companyName": "Maki People"
+    },
+    {
+      "attendeeId": "190937723960",
+      "sponsorId": "180001",
+      "companyName": "Maki People"
+    },
+    {
+      "attendeeId": "9322701",
+      "sponsorId": "180001",
+      "companyName": "Maki People"
+    },
+    {
+      "attendeeId": "1076201",
+      "sponsorId": "180001",
+      "companyName": "Maki People"
+    },
+    {
+      "attendeeId": "122796319563",
+      "sponsorId": "180001",
+      "companyName": "Maki People"
+    },
+    {
+      "attendeeId": "7258470500",
+      "sponsorId": "180001",
+      "companyName": "Maki People"
+    },
+    {
+      "attendeeId": "91862577670",
+      "sponsorId": "180001",
+      "companyName": "Maki People"
+    },
+    {
+      "attendeeId": "76678269091",
+      "sponsorId": "450001",
+      "companyName": "PerchPeek"
+    },
+    {
+      "attendeeId": "4956154",
+      "sponsorId": "450001",
+      "companyName": "PerchPeek"
+    },
+    {
+      "attendeeId": "8952301",
+      "sponsorId": "450001",
+      "companyName": "PerchPeek"
+    },
+    {
+      "attendeeId": "128491656706",
+      "sponsorId": "450001",
+      "companyName": "PerchPeek"
+    },
+    {
+      "attendeeId": "208415155065",
+      "sponsorId": "450001",
+      "companyName": "PerchPeek"
+    },
+    {
+      "attendeeId": "8713772",
+      "sponsorId": "450001",
+      "companyName": "PerchPeek"
+    },
+    {
+      "attendeeId": "9322701",
+      "sponsorId": "450001",
+      "companyName": "PerchPeek"
+    },
+    {
+      "attendeeId": "13454401",
+      "sponsorId": "450001",
+      "companyName": "PerchPeek"
+    },
+    {
+      "attendeeId": "203946652193",
+      "sponsorId": "450001",
+      "companyName": "PerchPeek"
+    },
+    {
+      "attendeeId": "195183358360",
+      "sponsorId": "450001",
+      "companyName": "PerchPeek"
+    },
+    {
+      "attendeeId": "92953690026",
+      "sponsorId": "450001",
+      "companyName": "PerchPeek"
+    },
+    {
+      "attendeeId": "110260566550",
+      "sponsorId": "450001",
+      "companyName": "PerchPeek"
+    },
+    {
+      "attendeeId": "8713772",
+      "sponsorId": "900001",
+      "companyName": "Poetry"
+    },
+    {
+      "attendeeId": "5140258",
+      "sponsorId": "900001",
+      "companyName": "Poetry"
+    },
+    {
+      "attendeeId": "200101377371",
+      "sponsorId": "900001",
+      "companyName": "Poetry"
+    },
+    {
+      "attendeeId": "13454401",
+      "sponsorId": "900001",
+      "companyName": "Poetry"
+    },
+    {
+      "attendeeId": "9322701",
+      "sponsorId": "900001",
+      "companyName": "Poetry"
+    },
+    {
+      "attendeeId": "190937723960",
+      "sponsorId": "900001",
+      "companyName": "Poetry"
+    },
+    {
+      "attendeeId": "201697440144",
+      "sponsorId": "900001",
+      "companyName": "Poetry"
+    },
+    {
+      "attendeeId": "92953690026",
+      "sponsorId": "900001",
+      "companyName": "Poetry"
+    },
+    {
+      "attendeeId": "208415155065",
+      "sponsorId": "900001",
+      "companyName": "Poetry"
+    },
+    {
+      "attendeeId": "91889321035",
+      "sponsorId": "900001",
+      "companyName": "Poetry"
+    },
+    {
+      "attendeeId": "203946652193",
+      "sponsorId": "900001",
+      "companyName": "Poetry"
+    },
+    {
+      "attendeeId": "9319401",
+      "sponsorId": "900001",
+      "companyName": "Poetry"
+    },
+    {
+      "attendeeId": "7258470500",
+      "sponsorId": "810002",
+      "companyName": "Radancy"
+    },
+    {
+      "attendeeId": "1076201",
+      "sponsorId": "810002",
+      "companyName": "Radancy"
+    },
+    {
+      "attendeeId": "174442448959",
+      "sponsorId": "810002",
+      "companyName": "Radancy"
+    },
+    {
+      "attendeeId": "201697440144",
+      "sponsorId": "810002",
+      "companyName": "Radancy"
+    },
+    {
+      "attendeeId": "93174643474",
+      "sponsorId": "810002",
+      "companyName": "Radancy"
+    },
+    {
+      "attendeeId": "128491656706",
+      "sponsorId": "810002",
+      "companyName": "Radancy"
+    },
+    {
+      "attendeeId": "452351",
+      "sponsorId": "810002",
+      "companyName": "Radancy"
+    },
+    {
+      "attendeeId": "92353346050",
+      "sponsorId": "810002",
+      "companyName": "Radancy"
+    },
+    {
+      "attendeeId": "191181016455",
+      "sponsorId": "810002",
+      "companyName": "Radancy"
+    },
+    {
+      "attendeeId": "17812226737",
+      "sponsorId": "810002",
+      "companyName": "Radancy"
+    },
+    {
+      "attendeeId": "190937723960",
+      "sponsorId": "810002",
+      "companyName": "Radancy"
+    },
+    {
+      "attendeeId": "91889321035",
+      "sponsorId": "810002",
+      "companyName": "Radancy"
+    },
+    {
+      "attendeeId": "1076201",
+      "sponsorId": "240001",
+      "companyName": "Sapia.ai"
+    },
+    {
+      "attendeeId": "9477501",
+      "sponsorId": "240001",
+      "companyName": "Sapia.ai"
+    },
+    {
+      "attendeeId": "191181016455",
+      "sponsorId": "240001",
+      "companyName": "Sapia.ai"
+    },
+    {
+      "attendeeId": "4956154",
+      "sponsorId": "240001",
+      "companyName": "Sapia.ai"
+    },
+    {
+      "attendeeId": "203946652193",
+      "sponsorId": "240001",
+      "companyName": "Sapia.ai"
+    },
+    {
+      "attendeeId": "5140258",
+      "sponsorId": "240001",
+      "companyName": "Sapia.ai"
+    },
+    {
+      "attendeeId": "76678269091",
+      "sponsorId": "240001",
+      "companyName": "Sapia.ai"
+    },
+    {
+      "attendeeId": "113145184682",
+      "sponsorId": "240001",
+      "companyName": "Sapia.ai"
+    },
+    {
+      "attendeeId": "9322701",
+      "sponsorId": "240001",
+      "companyName": "Sapia.ai"
+    },
+    {
+      "attendeeId": "13454401",
+      "sponsorId": "240001",
+      "companyName": "Sapia.ai"
+    },
+    {
+      "attendeeId": "111228357473",
+      "sponsorId": "240001",
+      "companyName": "Sapia.ai"
+    },
+    {
+      "attendeeId": "93174643474",
+      "sponsorId": "240001",
+      "companyName": "Sapia.ai"
+    },
+    {
+      "attendeeId": "17812226737",
+      "sponsorId": "750001",
+      "companyName": "SHL"
+    },
+    {
+      "attendeeId": "92353346050",
+      "sponsorId": "750001",
+      "companyName": "SHL"
+    },
+    {
+      "attendeeId": "174442448959",
+      "sponsorId": "750001",
+      "companyName": "SHL"
+    },
+    {
+      "attendeeId": "5140258",
+      "sponsorId": "750001",
+      "companyName": "SHL"
+    },
+    {
+      "attendeeId": "8196151",
+      "sponsorId": "750001",
+      "companyName": "SHL"
+    },
+    {
+      "attendeeId": "203946652193",
+      "sponsorId": "750001",
+      "companyName": "SHL"
+    },
+    {
+      "attendeeId": "92953690026",
+      "sponsorId": "750001",
+      "companyName": "SHL"
+    },
+    {
+      "attendeeId": "201697440144",
+      "sponsorId": "750001",
+      "companyName": "SHL"
+    },
+    {
+      "attendeeId": "122796319563",
+      "sponsorId": "750001",
+      "companyName": "SHL"
+    },
+    {
+      "attendeeId": "194295425320",
+      "sponsorId": "750001",
+      "companyName": "SHL"
+    },
+    {
+      "attendeeId": "9477501",
+      "sponsorId": "750001",
+      "companyName": "SHL"
+    },
+    {
+      "attendeeId": "9319401",
+      "sponsorId": "750001",
+      "companyName": "SHL"
+    },
+    {
+      "attendeeId": "452351",
+      "sponsorId": "750001",
+      "companyName": "SHL"
+    },
+    {
+      "attendeeId": "76678269091",
+      "sponsorId": "750001",
+      "companyName": "SHL"
+    },
+    {
+      "attendeeId": "200923910443",
+      "sponsorId": "750001",
+      "companyName": "SHL"
+    },
+    {
+      "attendeeId": "200101377371",
+      "sponsorId": "750001",
+      "companyName": "SHL"
+    },
+    {
+      "attendeeId": "11132851",
+      "sponsorId": "750001",
+      "companyName": "SHL"
+    },
+    {
+      "attendeeId": "116903349643",
+      "sponsorId": "750001",
+      "companyName": "SHL"
+    },
+    {
+      "attendeeId": "9322701",
+      "sponsorId": "750001",
+      "companyName": "SHL"
+    },
+    {
+      "attendeeId": "18336501",
+      "sponsorId": "750001",
+      "companyName": "SHL"
+    },
+    {
+      "attendeeId": "113145184682",
+      "sponsorId": "150001",
+      "companyName": "Stepstone Group UK Ltd"
+    },
+    {
+      "attendeeId": "76678269091",
+      "sponsorId": "150001",
+      "companyName": "Stepstone Group UK Ltd"
+    },
+    {
+      "attendeeId": "122796319563",
+      "sponsorId": "150001",
+      "companyName": "Stepstone Group UK Ltd"
+    },
+    {
+      "attendeeId": "174442448959",
+      "sponsorId": "150001",
+      "companyName": "Stepstone Group UK Ltd"
+    },
+    {
+      "attendeeId": "91862577670",
+      "sponsorId": "150001",
+      "companyName": "Stepstone Group UK Ltd"
+    },
+    {
+      "attendeeId": "200101377371",
+      "sponsorId": "150001",
+      "companyName": "Stepstone Group UK Ltd"
+    },
+    {
+      "attendeeId": "92953690026",
+      "sponsorId": "150001",
+      "companyName": "Stepstone Group UK Ltd"
+    },
+    {
+      "attendeeId": "91889321035",
+      "sponsorId": "150001",
+      "companyName": "Stepstone Group UK Ltd"
+    },
+    {
+      "attendeeId": "93174643474",
+      "sponsorId": "150001",
+      "companyName": "Stepstone Group UK Ltd"
+    },
+    {
+      "attendeeId": "4956154",
+      "sponsorId": "150001",
+      "companyName": "Stepstone Group UK Ltd"
+    },
+    {
+      "attendeeId": "9477501",
+      "sponsorId": "150001",
+      "companyName": "Stepstone Group UK Ltd"
+    },
+    {
+      "attendeeId": "13454401",
+      "sponsorId": "150001",
+      "companyName": "Stepstone Group UK Ltd"
+    },
+    {
+      "attendeeId": "194295425320",
+      "sponsorId": "330001",
+      "companyName": "Symphony Talent "
+    },
+    {
+      "attendeeId": "93176107633",
+      "sponsorId": "330001",
+      "companyName": "Symphony Talent "
+    },
+    {
+      "attendeeId": "11132851",
+      "sponsorId": "330001",
+      "companyName": "Symphony Talent "
+    },
+    {
+      "attendeeId": "1076201",
+      "sponsorId": "330001",
+      "companyName": "Symphony Talent "
+    },
+    {
+      "attendeeId": "190937723960",
+      "sponsorId": "330001",
+      "companyName": "Symphony Talent "
+    },
+    {
+      "attendeeId": "201697440144",
+      "sponsorId": "330001",
+      "companyName": "Symphony Talent "
+    },
+    {
+      "attendeeId": "18336501",
+      "sponsorId": "330001",
+      "companyName": "Symphony Talent "
+    },
+    {
+      "attendeeId": "116903349643",
+      "sponsorId": "330001",
+      "companyName": "Symphony Talent "
+    },
+    {
+      "attendeeId": "9319401",
+      "sponsorId": "330001",
+      "companyName": "Symphony Talent "
+    },
+    {
+      "attendeeId": "208415155065",
+      "sponsorId": "330001",
+      "companyName": "Symphony Talent "
+    },
+    {
+      "attendeeId": "200101377371",
+      "sponsorId": "330001",
+      "companyName": "Symphony Talent "
+    },
+    {
+      "attendeeId": "203946652193",
+      "sponsorId": "330001",
+      "companyName": "Symphony Talent "
+    },
+    {
+      "attendeeId": "8952301",
+      "sponsorId": "780001",
+      "companyName": "The Martec"
+    },
+    {
+      "attendeeId": "110260566550",
+      "sponsorId": "780001",
+      "companyName": "The Martec"
+    },
+    {
+      "attendeeId": "91862577670",
+      "sponsorId": "780001",
+      "companyName": "The Martec"
+    },
+    {
+      "attendeeId": "200101377371",
+      "sponsorId": "780001",
+      "companyName": "The Martec"
+    },
+    {
+      "attendeeId": "113145184682",
+      "sponsorId": "780001",
+      "companyName": "The Martec"
+    },
+    {
+      "attendeeId": "93174643474",
+      "sponsorId": "780001",
+      "companyName": "The Martec"
+    },
+    {
+      "attendeeId": "91889321035",
+      "sponsorId": "780001",
+      "companyName": "The Martec"
+    },
+    {
+      "attendeeId": "76678269091",
+      "sponsorId": "780001",
+      "companyName": "The Martec"
+    },
+    {
+      "attendeeId": "111228357473",
+      "sponsorId": "780001",
+      "companyName": "The Martec"
+    },
+    {
+      "attendeeId": "174442448959",
+      "sponsorId": "780001",
+      "companyName": "The Martec"
+    },
+    {
+      "attendeeId": "92353346050",
+      "sponsorId": "780001",
+      "companyName": "The Martec"
+    },
+    {
+      "attendeeId": "128491656706",
+      "sponsorId": "780001",
+      "companyName": "The Martec"
+    },
+    {
+      "attendeeId": "195183358360",
+      "sponsorId": "360001",
+      "companyName": "Udder"
+    },
+    {
+      "attendeeId": "111228357473",
+      "sponsorId": "360001",
+      "companyName": "Udder"
+    },
+    {
+      "attendeeId": "194295425320",
+      "sponsorId": "360001",
+      "companyName": "Udder"
+    },
+    {
+      "attendeeId": "200923910443",
+      "sponsorId": "360001",
+      "companyName": "Udder"
+    },
+    {
+      "attendeeId": "7258470500",
+      "sponsorId": "360001",
+      "companyName": "Udder"
+    },
+    {
+      "attendeeId": "17812226737",
+      "sponsorId": "360001",
+      "companyName": "Udder"
+    },
+    {
+      "attendeeId": "5140258",
+      "sponsorId": "360001",
+      "companyName": "Udder"
+    },
+    {
+      "attendeeId": "122796319563",
+      "sponsorId": "360001",
+      "companyName": "Udder"
+    },
+    {
+      "attendeeId": "174442448959",
+      "sponsorId": "360001",
+      "companyName": "Udder"
+    },
+    {
+      "attendeeId": "93176107633",
+      "sponsorId": "360001",
+      "companyName": "Udder"
+    },
+    {
+      "attendeeId": "4956154",
+      "sponsorId": "360001",
+      "companyName": "Udder"
+    },
+    {
+      "attendeeId": "208415155065",
+      "sponsorId": "360001",
+      "companyName": "Udder"
+    },
+    {
+      "attendeeId": "93176107633",
+      "sponsorId": "810001",
+      "companyName": "Veremark "
+    },
+    {
+      "attendeeId": "8952301",
+      "sponsorId": "810001",
+      "companyName": "Veremark "
+    },
+    {
+      "attendeeId": "128491656706",
+      "sponsorId": "810001",
+      "companyName": "Veremark "
+    },
+    {
+      "attendeeId": "8713772",
+      "sponsorId": "810001",
+      "companyName": "Veremark "
+    },
+    {
+      "attendeeId": "116903349643",
+      "sponsorId": "810001",
+      "companyName": "Veremark "
+    },
+    {
+      "attendeeId": "9477501",
+      "sponsorId": "810001",
+      "companyName": "Veremark "
+    },
+    {
+      "attendeeId": "4956154",
+      "sponsorId": "810001",
+      "companyName": "Veremark "
+    },
+    {
+      "attendeeId": "91862577670",
+      "sponsorId": "810001",
+      "companyName": "Veremark "
+    },
+    {
+      "attendeeId": "8196151",
+      "sponsorId": "810001",
+      "companyName": "Veremark "
+    },
+    {
+      "attendeeId": "11132851",
+      "sponsorId": "810001",
+      "companyName": "Veremark "
+    },
+    {
+      "attendeeId": "110260566550",
+      "sponsorId": "810001",
+      "companyName": "Veremark "
+    },
+    {
+      "attendeeId": "113145184682",
+      "sponsorId": "810001",
+      "companyName": "Veremark "
+    },
+    {
+      "attendeeId": "9322701",
+      "sponsorId": "870001",
+      "companyName": "Wilson"
+    },
+    {
+      "attendeeId": "8713772",
+      "sponsorId": "870001",
+      "companyName": "Wilson"
+    },
+    {
+      "attendeeId": "92953690026",
+      "sponsorId": "870001",
+      "companyName": "Wilson"
+    },
+    {
+      "attendeeId": "11132851",
+      "sponsorId": "870001",
+      "companyName": "Wilson"
+    },
+    {
+      "attendeeId": "5140258",
+      "sponsorId": "870001",
+      "companyName": "Wilson"
+    },
+    {
+      "attendeeId": "208415155065",
+      "sponsorId": "870001",
+      "companyName": "Wilson"
+    },
+    {
+      "attendeeId": "93176107633",
+      "sponsorId": "870001",
+      "companyName": "Wilson"
+    },
+    {
+      "attendeeId": "8196151",
+      "sponsorId": "870001",
+      "companyName": "Wilson"
+    },
+    {
+      "attendeeId": "190937723960",
+      "sponsorId": "870001",
+      "companyName": "Wilson"
+    },
+    {
+      "attendeeId": "116903349643",
+      "sponsorId": "870001",
+      "companyName": "Wilson"
+    },
+    {
+      "attendeeId": "195183358360",
+      "sponsorId": "870001",
+      "companyName": "Wilson"
+    },
+    {
+      "attendeeId": "111228357473",
+      "sponsorId": "870001",
+      "companyName": "Wilson"
+    },
+    {
+      "attendeeId": "128491656706",
+      "sponsorId": "300001",
+      "companyName": "Zinc"
+    },
+    {
+      "attendeeId": "17812226737",
+      "sponsorId": "300001",
+      "companyName": "Zinc"
+    },
+    {
+      "attendeeId": "8713772",
+      "sponsorId": "300001",
+      "companyName": "Zinc"
+    },
+    {
+      "attendeeId": "93176107633",
+      "sponsorId": "300001",
+      "companyName": "Zinc"
+    },
+    {
+      "attendeeId": "110260566550",
+      "sponsorId": "300001",
+      "companyName": "Zinc"
+    },
+    {
+      "attendeeId": "8196151",
+      "sponsorId": "300001",
+      "companyName": "Zinc"
+    },
+    {
+      "attendeeId": "174442448959",
+      "sponsorId": "300001",
+      "companyName": "Zinc"
+    },
+    {
+      "attendeeId": "7258470500",
+      "sponsorId": "300001",
+      "companyName": "Zinc"
+    },
+    {
+      "attendeeId": "13454401",
+      "sponsorId": "300001",
+      "companyName": "Zinc"
+    },
+    {
+      "attendeeId": "1076201",
+      "sponsorId": "300001",
+      "companyName": "Zinc"
+    },
+    {
+      "attendeeId": "8952301",
+      "sponsorId": "300001",
+      "companyName": "Zinc"
+    },
+    {
+      "attendeeId": "76678269091",
+      "sponsorId": "300001",
+      "companyName": "Zinc"
+    }
+  ],
+  "messages": [],
+  "stdout": "attendeeId\tsponsorId\tcompanyName\n92353346050\t690001\tAmberjack\n194295425320\t690001\tAmberjack\n76678269091\t690001\tAmberjack\n17812226737\t690001\tAmberjack\n91889321035\t690001\tAmberjack\n1076201\t690001\tAmberjack\n113145184682\t690001\tAmberjack\n5140258\t690001\tAmberjack\n200923910443\t690001\tAmberjack\n93174643474\t690001\tAmberjack\n122796319563\t690001\tAmberjack\n7258470500\t690001\tAmberjack\n92953690026\t270002\tAppcast\n93174643474\t270002\tAppcast\n195183358360\t270002\tAppcast\n93176107633\t270002\tAppcast\n200923910443\t270002\tAppcast\n122796319563\t270002\tAppcast\n91862577670\t270002\tAppcast\n200101377371\t270002\tAppcast\n8196151\t270002\tAppcast\n195183358360\t270002\tAppcast\n9322701\t270002\tAppcast\n110260566550\t270002\tAppcast\n92353346050\t270002\tAppcast\n9477501\t270002\tAppcast\n11132851\t270002\tAppcast\n194295425320\t270002\tAppcast\n113145184682\t270002\tAppcast\n91889321035\t270002\tAppcast\n9319401\t270002\tAppcast\n8952301\t270002\tAppcast\n174442448959\t270002\tAppcast\n111228357473\t390001\tBright Apply\n201697440144\t390001\tBright Apply\n1076201\t390001\tBright Apply\n9322701\t390001\tBright Apply\n128491656706\t390001\tBright Apply\n200923910443\t390001\tBright Apply\n91862577670\t390001\tBright Apply\n110260566550\t390001\tBright Apply\n4956154\t390001\tBright Apply\n191181016455\t390001\tBright Apply\n452351\t390001\tBright Apply\n92353346050\t390001\tBright Apply\n452351\t540001\thackajob\n91862577670\t540001\thackajob\n208415155065\t540001\thackajob\n91889321035\t540001\thackajob\n18336501\t540001\thackajob\n203946652193\t540001\thackajob\n191181016455\t540001\thackajob\n17812226737\t540001\thackajob\n116903349643\t540001\thackajob\n8952301\t540001\thackajob\n128491656706\t540001\thackajob\n200923910443\t540001\thackajob\n91862577670\t600001\tHappydance Careers Websites\n7258470500\t600001\tHappydance Careers Websites\n201697440144\t600001\tHappydance Careers Websites\n9319401\t600001\tHappydance Careers Websites\n191181016455\t600001\tHappydance Careers Websites\n91889321035\t600001\tHappydance Careers Websites\n13454401\t600001\tHappydance Careers Websites\n4956154\t600001\tHappydance Careers Websites\n128491656706\t600001\tHappydance Careers Websites\n92953690026\t600001\tHappydance Careers Websites\n200923910443\t600001\tHappydance Careers Websites\n452351\t600001\tHappydance Careers Websites\n4956154\t210001\tHarver\n191181016455\t210001\tHarver\n452351\t210001\tHarver\n13454401\t210001\tHarver\n9319401\t210001\tHarver\n5140258\t210001\tHarver\n208415155065\t210001\tHarver\n11132851\t210001\tHarver\n111228357473\t210001\tHarver\n7258470500\t210001\tHarver\n18336501\t210001\tHarver\n1076201\t210001\tHarver\n194295425320\t210001\tHarver\n174442448959\t210001\tHarver\n190937723960\t210001\tHarver\n122796319563\t210001\tHarver\n200101377371\t210001\tHarver\n203946652193\t210001\tHarver\n110260566550\t210001\tHarver\n93174643474\t210001\tHarver\n195183358360\t210001\tHarver\n9477501\t210001\tHarver\n9477501\t720001\tinploi\n191181016455\t720001\tinploi\n203946652193\t720001\tinploi\n92353346050\t720001\tinploi\n200923910443\t720001\tinploi\n111228357473\t720001\tinploi\n7258470500\t720001\tinploi\n452351\t720001\tinploi\n17812226737\t720001\tinploi\n201697440144\t720001\tinploi\n113145184682\t720001\tinploi\n122796319563\t720001\tinploi\n93174643474\t840001\tJobSync\n92953690026\t840001\tJobSync\n92353346050\t840001\tJobSync\n8196151\t840001\tJobSync\n194295425320\t840001\tJobSync\n11132851\t840001\tJobSync\n8713772\t840001\tJobSync\n18336501\t840001\tJobSync\n201697440144\t840001\tJobSync\n111228357473\t840001\tJobSync\n13454401\t840001\tJobSync\n200101377371\t840001\tJobSync\n110260566550\t180001\tMaki People\n113145184682\t180001\tMaki People\n17812226737\t180001\tMaki People\n76678269091\t180001\tMaki People\n9477501\t180001\tMaki People\n191181016455\t180001\tMaki People\n190937723960\t180001\tMaki People\n9322701\t180001\tMaki People\n1076201\t180001\tMaki People\n122796319563\t180001\tMaki People\n7258470500\t180001\tMaki People\n91862577670\t180001\tMaki People\n76678269091\t450001\tPerchPeek\n4956154\t450001\tPerchPeek\n8952301\t450001\tPerchPeek\n128491656706\t450001\tPerchPeek\n208415155065\t450001\tPerchPeek\n8713772\t450001\tPerchPeek\n9322701\t450001\tPerchPeek\n13454401\t450001\tPerchPeek\n203946652193\t450001\tPerchPeek\n195183358360\t450001\tPerchPeek\n92953690026\t450001\tPerchPeek\n110260566550\t450001\tPerchPeek\n8713772\t900001\tPoetry\n5140258\t900001\tPoetry\n200101377371\t900001\tPoetry\n13454401\t900001\tPoetry\n9322701\t900001\tPoetry\n190937723960\t900001\tPoetry\n201697440144\t900001\tPoetry\n92953690026\t900001\tPoetry\n208415155065\t900001\tPoetry\n91889321035\t900001\tPoetry\n203946652193\t900001\tPoetry\n9319401\t900001\tPoetry\n7258470500\t810002\tRadancy\n1076201\t810002\tRadancy\n174442448959\t810002\tRadancy\n201697440144\t810002\tRadancy\n93174643474\t810002\tRadancy\n128491656706\t810002\tRadancy\n452351\t810002\tRadancy\n92353346050\t810002\tRadancy\n191181016455\t810002\tRadancy\n17812226737\t810002\tRadancy\n190937723960\t810002\tRadancy\n91889321035\t810002\tRadancy\n1076201\t240001\tSapia.ai\n9477501\t240001\tSapia.ai\n191181016455\t240001\tSapia.ai\n4956154\t240001\tSapia.ai\n203946652193\t240001\tSapia.ai\n5140258\t240001\tSapia.ai\n76678269091\t240001\tSapia.ai\n113145184682\t240001\tSapia.ai\n9322701\t240001\tSapia.ai\n13454401\t240001\tSapia.ai\n111228357473\t240001\tSapia.ai\n93174643474\t240001\tSapia.ai\n17812226737\t750001\tSHL\n92353346050\t750001\tSHL\n174442448959\t750001\tSHL\n5140258\t750001\tSHL\n8196151\t750001\tSHL\n203946652193\t750001\tSHL\n92953690026\t750001\tSHL\n201697440144\t750001\tSHL\n122796319563\t750001\tSHL\n194295425320\t750001\tSHL\n9477501\t750001\tSHL\n9319401\t750001\tSHL\n452351\t750001\tSHL\n76678269091\t750001\tSHL\n200923910443\t750001\tSHL\n200101377371\t750001\tSHL\n11132851\t750001\tSHL\n116903349643\t750001\tSHL\n9322701\t750001\tSHL\n18336501\t750001\tSHL\n113145184682\t150001\tStepstone Group UK Ltd\n76678269091\t150001\tStepstone Group UK Ltd\n122796319563\t150001\tStepstone Group UK Ltd\n174442448959\t150001\tStepstone Group UK Ltd\n91862577670\t150001\tStepstone Group UK Ltd\n200101377371\t150001\tStepstone Group UK Ltd\n92953690026\t150001\tStepstone Group UK Ltd\n91889321035\t150001\tStepstone Group UK Ltd\n93174643474\t150001\tStepstone Group UK Ltd\n4956154\t150001\tStepstone Group UK Ltd\n9477501\t150001\tStepstone Group UK Ltd\n13454401\t150001\tStepstone Group UK Ltd\n194295425320\t330001\tSymphony Talent \n93176107633\t330001\tSymphony Talent \n11132851\t330001\tSymphony Talent \n1076201\t330001\tSymphony Talent \n190937723960\t330001\tSymphony Talent \n201697440144\t330001\tSymphony Talent \n18336501\t330001\tSymphony Talent \n116903349643\t330001\tSymphony Talent \n9319401\t330001\tSymphony Talent \n208415155065\t330001\tSymphony Talent \n200101377371\t330001\tSymphony Talent \n203946652193\t330001\tSymphony Talent \n8952301\t780001\tThe Martec\n110260566550\t780001\tThe Martec\n91862577670\t780001\tThe Martec\n200101377371\t780001\tThe Martec\n113145184682\t780001\tThe Martec\n93174643474\t780001\tThe Martec\n91889321035\t780001\tThe Martec\n76678269091\t780001\tThe Martec\n111228357473\t780001\tThe Martec\n174442448959\t780001\tThe Martec\n92353346050\t780001\tThe Martec\n128491656706\t780001\tThe Martec\n195183358360\t360001\tUdder\n111228357473\t360001\tUdder\n194295425320\t360001\tUdder\n200923910443\t360001\tUdder\n7258470500\t360001\tUdder\n17812226737\t360001\tUdder\n5140258\t360001\tUdder\n122796319563\t360001\tUdder\n174442448959\t360001\tUdder\n93176107633\t360001\tUdder\n4956154\t360001\tUdder\n208415155065\t360001\tUdder\n93176107633\t810001\tVeremark \n8952301\t810001\tVeremark \n128491656706\t810001\tVeremark \n8713772\t810001\tVeremark \n116903349643\t810001\tVeremark \n9477501\t810001\tVeremark \n4956154\t810001\tVeremark \n91862577670\t810001\tVeremark \n8196151\t810001\tVeremark \n11132851\t810001\tVeremark \n110260566550\t810001\tVeremark \n113145184682\t810001\tVeremark \n9322701\t870001\tWilson\n8713772\t870001\tWilson\n92953690026\t870001\tWilson\n11132851\t870001\tWilson\n5140258\t870001\tWilson\n208415155065\t870001\tWilson\n93176107633\t870001\tWilson\n8196151\t870001\tWilson\n190937723960\t870001\tWilson\n116903349643\t870001\tWilson\n195183358360\t870001\tWilson\n111228357473\t870001\tWilson\n128491656706\t300001\tZinc\n17812226737\t300001\tZinc\n8713772\t300001\tZinc\n93176107633\t300001\tZinc\n110260566550\t300001\tZinc\n8196151\t300001\tZinc\n174442448959\t300001\tZinc\n7258470500\t300001\tZinc\n13454401\t300001\tZinc\n1076201\t300001\tZinc\n8952301\t300001\tZinc\n76678269091\t300001\tZinc\n",
+  "stderr": "",
+  "execution_time_ms": 387
+}

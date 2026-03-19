@@ -1,0 +1,82 @@
+{
+  "query": "SELECT m.attendeeId, m.timeSlot, m.matchScore, m.matchReason FROM meetings m JOIN sponsors s ON m.sponsorId = s.id WHERE s.companyName LIKE '%Sapia%' AND m.isVisible = 1 ORDER BY m.timeSlot;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT m.attendeeId, m.timeSlot, m.matchScore, m.matchReason FROM meetings m JOIN sponsors s ON m.sponsorId = s.id WHERE s.companyName LIKE '%Sapia%' AND m.isVisible = 1 ORDER BY m.timeSlot;",
+  "rows": [
+    {
+      "attendeeId": "1076201",
+      "timeSlot": "1",
+      "matchScore": "97",
+      "matchReason": "Delegate's 'Active / Confirmed Projects' include 'Assessment Tech' and 'AI', and they are interested in 'AI, Assessment tech, Talent Marketplace, Skills'. Sapia.ai is an AI hiring platform that combines structured conversational interviews with validated AI for competency-based assessment and talent intelligence, directly aligning with these objectives. Note: delegate currently uses Sapia for assessment, indicating an existing relationship. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "attendeeId": "9477501",
+      "timeSlot": "2",
+      "matchScore": "99",
+      "matchReason": "Delegate's pain points include 'Reduce time-to-hire without compromising quality of hire' and 'high-volume assessments for Early Careers and Sales roles', with 'AI Screening (Top funnel)' as a solution area. Sapia.ai's AI hiring platform replaces resume screening with structured, conversational interviews for fair, high-volume assessment, reducing time to hire and improving quality. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "attendeeId": "191181016455",
+      "timeSlot": "3",
+      "matchScore": "95",
+      "matchReason": "Delegate is 'Reviewing assessment tools to funnel good quality candidates through the application process'. Sapia.ai directly addresses this by replacing traditional screening with structured, conversational AI interviews that assess every candidate fairly and at scale, improving quality of hire. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "attendeeId": "4956154",
+      "timeSlot": "4",
+      "matchScore": "100",
+      "matchReason": "Delegate's pain points include 'Screening efficiency' and they are working on 'New AI enabled tech' and 'candidate experience'. Sapia.ai's AI hiring platform directly improves screening efficiency with conversational interviews and enhances candidate experience through its mobile-first, untimed approach."
+    },
+    {
+      "attendeeId": "203946652193",
+      "timeSlot": "5",
+      "matchScore": "90",
+      "matchReason": "Delegate's pain point 'Identifying creative scalable tech to make hiring decisions' aligns with Sapia.ai's AI-driven assessment, but the delegate's broader focus is on 'end2end Talent Management' and 'skills gaps in talent pools', which is partially covered by Sapia.ai's 'talent intelligence' but not its primary focus. Delegate's company size (1001-2500) is below Sapia.ai's target of 10k+. Note: delegate currently uses Assess Candidates."
+    },
+    {
+      "attendeeId": "5140258",
+      "timeSlot": "6",
+      "matchScore": "100",
+      "matchReason": "Delegate is interested in 'Skills Assessment' and 'Careersite enhancement'. Sapia.ai's platform provides competency-based skills assessment through conversational AI, which can integrate to enhance the candidate journey and data insights from the careersite. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "attendeeId": "76678269091",
+      "timeSlot": "7",
+      "matchScore": "100",
+      "matchReason": "Delegate's pain point is 'AI usage in TA across our member firm network' and they are actively evaluating 'AI use cases for TA'. Sapia.ai's enterprise-grade AI hiring platform provides fair, explainable AI for consistent, competency-based hiring decisions at scale across diverse organizations."
+    },
+    {
+      "attendeeId": "113145184682",
+      "timeSlot": "8",
+      "matchScore": "100",
+      "matchReason": "Delegate's primary pain point is 'Assessment Methodology' and they are seeking 'skills based assessment methodology' and 'talent intelligence'. Sapia.ai's platform is built on science-led AI to provide structured, competency-based assessments and generates measurable talent intelligence, directly addressing these needs."
+    },
+    {
+      "attendeeId": "9322701",
+      "timeSlot": "9",
+      "matchScore": "93",
+      "matchReason": "Delegate's pain points include 'AI Governance board' and 'AI Adoption', and they are interested in 'AI usage identification'. Sapia.ai emphasizes responsible AI adoption with transparent scoring, human oversight, and bias-tested models grounded in their FAIR™ framework, directly addressing governance and adoption concerns. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "attendeeId": "13454401",
+      "timeSlot": "10",
+      "matchScore": "100",
+      "matchReason": "Delegate's pain points include 'AI Tech' and they are interested in 'AI' solutions. Sapia.ai offers an AI hiring platform that uses conversational interviews and validated AI to deliver fair, explainable hiring decisions, directly addressing the delegate's interest in AI. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "attendeeId": "111228357473",
+      "timeSlot": "11",
+      "matchScore": "93",
+      "matchReason": "Delegate is 'open to moving from SHL in the next 12 months' for assessments and lists 'Assessments' as a solution area of interest. Sapia.ai provides a validated, science-led AI assessment platform that replaces traditional methods with structured, conversational interviews for fair hiring decisions. Note: delegate currently uses SHL for assessment, a direct competitor. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "attendeeId": "93174643474",
+      "timeSlot": "12",
+      "matchScore": "100",
+      "matchReason": "Delegate's pain point is 'Candidate management and experience' and they are involved in 'AI CRM EDI&B' projects. Sapia.ai improves candidate experience with mobile-first, untimed chat interviews and supports EDI&B through fair, explainable, and bias-tested AI decisions. (Ranked in sponsor's top 20 preferred delegates)"
+    }
+  ],
+  "messages": [],
+  "stdout": "attendeeId\ttimeSlot\tmatchScore\tmatchReason\n1076201\t1\t97\tDelegate's 'Active / Confirmed Projects' include 'Assessment Tech' and 'AI', and they are interested in 'AI, Assessment tech, Talent Marketplace, Skills'. Sapia.ai is an AI hiring platform that combines structured conversational interviews with validated AI for competency-based assessment and talent intelligence, directly aligning with these objectives. Note: delegate currently uses Sapia for assessment, indicating an existing relationship. (Ranked in sponsor's top 20 preferred delegates)\n9477501\t2\t99\tDelegate's pain points include 'Reduce time-to-hire without compromising quality of hire' and 'high-volume assessments for Early Careers and Sales roles', with 'AI Screening (Top funnel)' as a solution area. Sapia.ai's AI hiring platform replaces resume screening with structured, conversational interviews for fair, high-volume assessment, reducing time to hire and improving quality. (Ranked in sponsor's top 20 preferred delegates)\n191181016455\t3\t95\tDelegate is 'Reviewing assessment tools to funnel good quality candidates through the application process'. Sapia.ai directly addresses this by replacing traditional screening with structured, conversational AI interviews that assess every candidate fairly and at scale, improving quality of hire. (Ranked in sponsor's top 20 preferred delegates)\n4956154\t4\t100\tDelegate's pain points include 'Screening efficiency' and they are working on 'New AI enabled tech' and 'candidate experience'. Sapia.ai's AI hiring platform directly improves screening efficiency with conversational interviews and enhances candidate experience through its mobile-first, untimed approach.\n203946652193\t5\t90\tDelegate's pain point 'Identifying creative scalable tech to make hiring decisions' aligns with Sapia.ai's AI-driven assessment, but the delegate's broader focus is on 'end2end Talent Management' and 'skills gaps in talent pools', which is partially covered by Sapia.ai's 'talent intelligence' but not its primary focus. Delegate's company size (1001-2500) is below Sapia.ai's target of 10k+. Note: delegate currently uses Assess Candidates.\n5140258\t6\t100\tDelegate is interested in 'Skills Assessment' and 'Careersite enhancement'. Sapia.ai's platform provides competency-based skills assessment through conversational AI, which can integrate to enhance the candidate journey and data insights from the careersite. (Ranked in sponsor's top 20 preferred delegates)\n76678269091\t7\t100\tDelegate's pain point is 'AI usage in TA across our member firm network' and they are actively evaluating 'AI use cases for TA'. Sapia.ai's enterprise-grade AI hiring platform provides fair, explainable AI for consistent, competency-based hiring decisions at scale across diverse organizations.\n113145184682\t8\t100\tDelegate's primary pain point is 'Assessment Methodology' and they are seeking 'skills based assessment methodology' and 'talent intelligence'. Sapia.ai's platform is built on science-led AI to provide structured, competency-based assessments and generates measurable talent intelligence, directly addressing these needs.\n9322701\t9\t93\tDelegate's pain points include 'AI Governance board' and 'AI Adoption', and they are interested in 'AI usage identification'. Sapia.ai emphasizes responsible AI adoption with transparent scoring, human oversight, and bias-tested models grounded in their FAIR™ framework, directly addressing governance and adoption concerns. (Ranked in sponsor's top 20 preferred delegates)\n13454401\t10\t100\tDelegate's pain points include 'AI Tech' and they are interested in 'AI' solutions. Sapia.ai offers an AI hiring platform that uses conversational interviews and validated AI to deliver fair, explainable hiring decisions, directly addressing the delegate's interest in AI. (Ranked in sponsor's top 20 preferred delegates)\n111228357473\t11\t93\tDelegate is 'open to moving from SHL in the next 12 months' for assessments and lists 'Assessments' as a solution area of interest. Sapia.ai provides a validated, science-led AI assessment platform that replaces traditional methods with structured, conversational interviews for fair hiring decisions. Note: delegate currently uses SHL for assessment, a direct competitor. (Ranked in sponsor's top 20 preferred delegates)\n93174643474\t12\t100\tDelegate's pain point is 'Candidate management and experience' and they are involved in 'AI CRM EDI&B' projects. Sapia.ai improves candidate experience with mobile-first, untimed chat interviews and supports EDI&B through fair, explainable, and bias-tested AI decisions. (Ranked in sponsor's top 20 preferred delegates)\n",
+  "stderr": "",
+  "execution_time_ms": 380
+}

@@ -1,0 +1,230 @@
+{
+  "query": "SELECT m.attendeeId, s.companyName FROM meetings m JOIN sponsors s ON m.sponsorId = s.id WHERE m.isVisible = 1 AND s.companyName IN ('Bright Apply', 'Harver', 'Appcast', 'Happydance') ORDER BY s.companyName, m.timeSlot;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT m.attendeeId, s.companyName FROM meetings m JOIN sponsors s ON m.sponsorId = s.id WHERE m.isVisible = 1 AND s.companyName IN ('Bright Apply', 'Harver', 'Appcast', 'Happydance') ORDER BY s.companyName, m.timeSlot;",
+  "rows": [
+    {
+      "attendeeId": "92953690026",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "195183358360",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "93174643474",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "200923910443",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "93176107633",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "122796319563",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "91862577670",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "8196151",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "200101377371",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "9322701",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "195183358360",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "92353346050",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "110260566550",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "9477501",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "11132851",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "113145184682",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "194295425320",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "9319401",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "91889321035",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "8952301",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "174442448959",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "111228357473",
+      "companyName": "Bright Apply"
+    },
+    {
+      "attendeeId": "201697440144",
+      "companyName": "Bright Apply"
+    },
+    {
+      "attendeeId": "1076201",
+      "companyName": "Bright Apply"
+    },
+    {
+      "attendeeId": "9322701",
+      "companyName": "Bright Apply"
+    },
+    {
+      "attendeeId": "128491656706",
+      "companyName": "Bright Apply"
+    },
+    {
+      "attendeeId": "200923910443",
+      "companyName": "Bright Apply"
+    },
+    {
+      "attendeeId": "91862577670",
+      "companyName": "Bright Apply"
+    },
+    {
+      "attendeeId": "110260566550",
+      "companyName": "Bright Apply"
+    },
+    {
+      "attendeeId": "4956154",
+      "companyName": "Bright Apply"
+    },
+    {
+      "attendeeId": "191181016455",
+      "companyName": "Bright Apply"
+    },
+    {
+      "attendeeId": "452351",
+      "companyName": "Bright Apply"
+    },
+    {
+      "attendeeId": "92353346050",
+      "companyName": "Bright Apply"
+    },
+    {
+      "attendeeId": "191181016455",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "4956154",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "452351",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "13454401",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "9319401",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "208415155065",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "5140258",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "111228357473",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "11132851",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "18336501",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "7258470500",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "1076201",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "194295425320",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "190937723960",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "174442448959",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "200101377371",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "122796319563",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "110260566550",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "203946652193",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "93174643474",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "195183358360",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "9477501",
+      "companyName": "Harver"
+    }
+  ],
+  "messages": [],
+  "stdout": "attendeeId\tcompanyName\n92953690026\tAppcast\n195183358360\tAppcast\n93174643474\tAppcast\n200923910443\tAppcast\n93176107633\tAppcast\n122796319563\tAppcast\n91862577670\tAppcast\n8196151\tAppcast\n200101377371\tAppcast\n9322701\tAppcast\n195183358360\tAppcast\n92353346050\tAppcast\n110260566550\tAppcast\n9477501\tAppcast\n11132851\tAppcast\n113145184682\tAppcast\n194295425320\tAppcast\n9319401\tAppcast\n91889321035\tAppcast\n8952301\tAppcast\n174442448959\tAppcast\n111228357473\tBright Apply\n201697440144\tBright Apply\n1076201\tBright Apply\n9322701\tBright Apply\n128491656706\tBright Apply\n200923910443\tBright Apply\n91862577670\tBright Apply\n110260566550\tBright Apply\n4956154\tBright Apply\n191181016455\tBright Apply\n452351\tBright Apply\n92353346050\tBright Apply\n191181016455\tHarver\n4956154\tHarver\n452351\tHarver\n13454401\tHarver\n9319401\tHarver\n208415155065\tHarver\n5140258\tHarver\n111228357473\tHarver\n11132851\tHarver\n18336501\tHarver\n7258470500\tHarver\n1076201\tHarver\n194295425320\tHarver\n190937723960\tHarver\n174442448959\tHarver\n200101377371\tHarver\n122796319563\tHarver\n110260566550\tHarver\n203946652193\tHarver\n93174643474\tHarver\n195183358360\tHarver\n9477501\tHarver\n",
+  "stderr": "",
+  "execution_time_ms": 404
+}

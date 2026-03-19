@@ -1,0 +1,322 @@
+{
+  "query": "SELECT m.attendeeId, m.timeSlot, m.attendeeNumber, s.companyName FROM meetings m JOIN sponsors s ON m.sponsorId = s.id WHERE m.isVisible = 1 AND m.attendeeId IN ('76678269091','9322701','174442448959','93176107633','8196151','91889321035','4956154') ORDER BY m.attendeeId, m.timeSlot;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT m.attendeeId, m.timeSlot, m.attendeeNumber, s.companyName FROM meetings m JOIN sponsors s ON m.sponsorId = s.id WHERE m.isVisible = 1 AND m.attendeeId IN ('76678269091','9322701','174442448959','93176107633','8196151','91889321035','4956154') ORDER BY m.attendeeId, m.timeSlot;",
+  "rows": [
+    {
+      "attendeeId": "174442448959",
+      "timeSlot": "2",
+      "attendeeNumber": "2",
+      "companyName": "SHL"
+    },
+    {
+      "attendeeId": "174442448959",
+      "timeSlot": "3",
+      "attendeeNumber": "1",
+      "companyName": "Radancy"
+    },
+    {
+      "attendeeId": "174442448959",
+      "timeSlot": "4",
+      "attendeeNumber": "1",
+      "companyName": "Stepstone Group UK Ltd"
+    },
+    {
+      "attendeeId": "174442448959",
+      "timeSlot": "7",
+      "attendeeNumber": "1",
+      "companyName": "Zinc"
+    },
+    {
+      "attendeeId": "174442448959",
+      "timeSlot": "8",
+      "attendeeNumber": "1",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "174442448959",
+      "timeSlot": "9",
+      "attendeeNumber": "1",
+      "companyName": "Udder"
+    },
+    {
+      "attendeeId": "174442448959",
+      "timeSlot": "10",
+      "attendeeNumber": "1",
+      "companyName": "The Martec"
+    },
+    {
+      "attendeeId": "174442448959",
+      "timeSlot": "12",
+      "attendeeNumber": "1",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "4956154",
+      "timeSlot": "1",
+      "attendeeNumber": "2",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "4956154",
+      "timeSlot": "2",
+      "attendeeNumber": "1",
+      "companyName": "PerchPeek"
+    },
+    {
+      "attendeeId": "4956154",
+      "timeSlot": "4",
+      "attendeeNumber": "1",
+      "companyName": "Sapia.ai"
+    },
+    {
+      "attendeeId": "4956154",
+      "timeSlot": "7",
+      "attendeeNumber": "1",
+      "companyName": "Veremark "
+    },
+    {
+      "attendeeId": "4956154",
+      "timeSlot": "8",
+      "attendeeNumber": "1",
+      "companyName": "Happydance Careers Websites"
+    },
+    {
+      "attendeeId": "4956154",
+      "timeSlot": "9",
+      "attendeeNumber": "1",
+      "companyName": "Bright Apply"
+    },
+    {
+      "attendeeId": "4956154",
+      "timeSlot": "10",
+      "attendeeNumber": "1",
+      "companyName": "Stepstone Group UK Ltd"
+    },
+    {
+      "attendeeId": "4956154",
+      "timeSlot": "11",
+      "attendeeNumber": "1",
+      "companyName": "Udder"
+    },
+    {
+      "attendeeId": "76678269091",
+      "timeSlot": "1",
+      "attendeeNumber": "1",
+      "companyName": "PerchPeek"
+    },
+    {
+      "attendeeId": "76678269091",
+      "timeSlot": "2",
+      "attendeeNumber": "1",
+      "companyName": "Stepstone Group UK Ltd"
+    },
+    {
+      "attendeeId": "76678269091",
+      "timeSlot": "3",
+      "attendeeNumber": "1",
+      "companyName": "Amberjack"
+    },
+    {
+      "attendeeId": "76678269091",
+      "timeSlot": "4",
+      "attendeeNumber": "1",
+      "companyName": "Maki People"
+    },
+    {
+      "attendeeId": "76678269091",
+      "timeSlot": "7",
+      "attendeeNumber": "1",
+      "companyName": "Sapia.ai"
+    },
+    {
+      "attendeeId": "76678269091",
+      "timeSlot": "8",
+      "attendeeNumber": "1",
+      "companyName": "The Martec"
+    },
+    {
+      "attendeeId": "76678269091",
+      "timeSlot": "9",
+      "attendeeNumber": "1",
+      "companyName": "SHL"
+    },
+    {
+      "attendeeId": "76678269091",
+      "timeSlot": "12",
+      "attendeeNumber": "1",
+      "companyName": "Zinc"
+    },
+    {
+      "attendeeId": "8196151",
+      "timeSlot": "3",
+      "attendeeNumber": "2",
+      "companyName": "SHL"
+    },
+    {
+      "attendeeId": "8196151",
+      "timeSlot": "4",
+      "attendeeNumber": "1",
+      "companyName": "JobSync"
+    },
+    {
+      "attendeeId": "8196151",
+      "timeSlot": "5",
+      "attendeeNumber": "1",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "8196151",
+      "timeSlot": "6",
+      "attendeeNumber": "1",
+      "companyName": "Zinc"
+    },
+    {
+      "attendeeId": "8196151",
+      "timeSlot": "8",
+      "attendeeNumber": "1",
+      "companyName": "Wilson"
+    },
+    {
+      "attendeeId": "8196151",
+      "timeSlot": "9",
+      "attendeeNumber": "1",
+      "companyName": "Veremark "
+    },
+    {
+      "attendeeId": "91889321035",
+      "timeSlot": "4",
+      "attendeeNumber": "1",
+      "companyName": "hackajob"
+    },
+    {
+      "attendeeId": "91889321035",
+      "timeSlot": "5",
+      "attendeeNumber": "1",
+      "companyName": "Amberjack"
+    },
+    {
+      "attendeeId": "91889321035",
+      "timeSlot": "6",
+      "attendeeNumber": "1",
+      "companyName": "Happydance Careers Websites"
+    },
+    {
+      "attendeeId": "91889321035",
+      "timeSlot": "7",
+      "attendeeNumber": "1",
+      "companyName": "The Martec"
+    },
+    {
+      "attendeeId": "91889321035",
+      "timeSlot": "8",
+      "attendeeNumber": "1",
+      "companyName": "Stepstone Group UK Ltd"
+    },
+    {
+      "attendeeId": "91889321035",
+      "timeSlot": "10",
+      "attendeeNumber": "1",
+      "companyName": "Poetry"
+    },
+    {
+      "attendeeId": "91889321035",
+      "timeSlot": "11",
+      "attendeeNumber": "1",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "91889321035",
+      "timeSlot": "12",
+      "attendeeNumber": "1",
+      "companyName": "Radancy"
+    },
+    {
+      "attendeeId": "93176107633",
+      "timeSlot": "1",
+      "attendeeNumber": "1",
+      "companyName": "Veremark "
+    },
+    {
+      "attendeeId": "93176107633",
+      "timeSlot": "2",
+      "attendeeNumber": "1",
+      "companyName": "Symphony Talent "
+    },
+    {
+      "attendeeId": "93176107633",
+      "timeSlot": "3",
+      "attendeeNumber": "2",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "93176107633",
+      "timeSlot": "4",
+      "attendeeNumber": "1",
+      "companyName": "Zinc"
+    },
+    {
+      "attendeeId": "93176107633",
+      "timeSlot": "7",
+      "attendeeNumber": "1",
+      "companyName": "Wilson"
+    },
+    {
+      "attendeeId": "93176107633",
+      "timeSlot": "10",
+      "attendeeNumber": "1",
+      "companyName": "Udder"
+    },
+    {
+      "attendeeId": "9322701",
+      "timeSlot": "1",
+      "attendeeNumber": "1",
+      "companyName": "Wilson"
+    },
+    {
+      "attendeeId": "9322701",
+      "timeSlot": "4",
+      "attendeeNumber": "1",
+      "companyName": "Bright Apply"
+    },
+    {
+      "attendeeId": "9322701",
+      "timeSlot": "5",
+      "attendeeNumber": "1",
+      "companyName": "Poetry"
+    },
+    {
+      "attendeeId": "9322701",
+      "timeSlot": "6",
+      "attendeeNumber": "1",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "9322701",
+      "timeSlot": "7",
+      "attendeeNumber": "1",
+      "companyName": "PerchPeek"
+    },
+    {
+      "attendeeId": "9322701",
+      "timeSlot": "8",
+      "attendeeNumber": "1",
+      "companyName": "Maki People"
+    },
+    {
+      "attendeeId": "9322701",
+      "timeSlot": "9",
+      "attendeeNumber": "1",
+      "companyName": "Sapia.ai"
+    },
+    {
+      "attendeeId": "9322701",
+      "timeSlot": "12",
+      "attendeeNumber": "2",
+      "companyName": "SHL"
+    }
+  ],
+  "messages": [],
+  "stdout": "attendeeId\ttimeSlot\tattendeeNumber\tcompanyName\n174442448959\t2\t2\tSHL\n174442448959\t3\t1\tRadancy\n174442448959\t4\t1\tStepstone Group UK Ltd\n174442448959\t7\t1\tZinc\n174442448959\t8\t1\tHarver\n174442448959\t9\t1\tUdder\n174442448959\t10\t1\tThe Martec\n174442448959\t12\t1\tAppcast\n4956154\t1\t2\tHarver\n4956154\t2\t1\tPerchPeek\n4956154\t4\t1\tSapia.ai\n4956154\t7\t1\tVeremark \n4956154\t8\t1\tHappydance Careers Websites\n4956154\t9\t1\tBright Apply\n4956154\t10\t1\tStepstone Group UK Ltd\n4956154\t11\t1\tUdder\n76678269091\t1\t1\tPerchPeek\n76678269091\t2\t1\tStepstone Group UK Ltd\n76678269091\t3\t1\tAmberjack\n76678269091\t4\t1\tMaki People\n76678269091\t7\t1\tSapia.ai\n76678269091\t8\t1\tThe Martec\n76678269091\t9\t1\tSHL\n76678269091\t12\t1\tZinc\n8196151\t3\t2\tSHL\n8196151\t4\t1\tJobSync\n8196151\t5\t1\tAppcast\n8196151\t6\t1\tZinc\n8196151\t8\t1\tWilson\n8196151\t9\t1\tVeremark \n91889321035\t4\t1\thackajob\n91889321035\t5\t1\tAmberjack\n91889321035\t6\t1\tHappydance Careers Websites\n91889321035\t7\t1\tThe Martec\n91889321035\t8\t1\tStepstone Group UK Ltd\n91889321035\t10\t1\tPoetry\n91889321035\t11\t1\tAppcast\n91889321035\t12\t1\tRadancy\n93176107633\t1\t1\tVeremark \n93176107633\t2\t1\tSymphony Talent \n93176107633\t3\t2\tAppcast\n93176107633\t4\t1\tZinc\n93176107633\t7\t1\tWilson\n93176107633\t10\t1\tUdder\n9322701\t1\t1\tWilson\n9322701\t4\t1\tBright Apply\n9322701\t5\t1\tPoetry\n9322701\t6\t1\tAppcast\n9322701\t7\t1\tPerchPeek\n9322701\t8\t1\tMaki People\n9322701\t9\t1\tSapia.ai\n9322701\t12\t2\tSHL\n",
+  "stderr": "",
+  "execution_time_ms": 364
+}
