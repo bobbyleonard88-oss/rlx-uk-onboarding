@@ -1,0 +1,402 @@
+{
+  "query": "\nSELECT \n  m.id as meeting_id,\n  m.timeSlot,\n  m.attendeeId,\n  m.attendeeNumber,\n  s.companyName as sponsor,\n  CASE m.timeSlot\n    WHEN 1 THEN 'Wed 10:15'\n    WHEN 2 THEN 'Wed 10:45'\n    WHEN 3 THEN 'Wed 11:00'\n    WHEN 4 THEN 'Wed 11:30'\n    WHEN 5 THEN 'Wed 13:30'\n    WHEN 6 THEN 'Wed 14:00'\n    WHEN 7 THEN 'Thu 10:30'\n    WHEN 8 THEN 'Thu 11:00'\n    WHEN 9 THEN 'Thu 13:15'\n    WHEN 10 THEN 'Thu 13:45'\n    WHEN 11 THEN 'Thu 14:30'\n    WHEN 12 THEN 'Thu 15:00'\n  END as slot_time\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nWHERE m.attendeeId COLLATE utf8mb4_unicode_ci IN ('93176107633','8196151','9477501','8952301','11132851','110260566550','113145184682')\nORDER BY m.attendeeId, m.timeSlot;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT \n  m.id as meeting_id,\n  m.timeSlot,\n  m.attendeeId,\n  m.attendeeNumber,\n  s.companyName as sponsor,\n  CASE m.timeSlot\n    WHEN 1 THEN 'Wed 10:15'\n    WHEN 2 THEN 'Wed 10:45'\n    WHEN 3 THEN 'Wed 11:00'\n    WHEN 4 THEN 'Wed 11:30'\n    WHEN 5 THEN 'Wed 13:30'\n    WHEN 6 THEN 'Wed 14:00'\n    WHEN 7 THEN 'Thu 10:30'\n    WHEN 8 THEN 'Thu 11:00'\n    WHEN 9 THEN 'Thu 13:15'\n    WHEN 10 THEN 'Thu 13:45'\n    WHEN 11 THEN 'Thu 14:30'\n    WHEN 12 THEN 'Thu 15:00'\n  END as slot_time\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nWHERE m.attendeeId COLLATE utf8mb4_unicode_ci IN ('93176107633','8196151','9477501','8952301','11132851','110260566550','113145184682')\nORDER BY m.attendeeId, m.timeSlot;\n",
+  "rows": [
+    {
+      "meeting_id": "663402",
+      "timeSlot": "1",
+      "attendeeId": "110260566550",
+      "attendeeNumber": "1",
+      "sponsor": "Maki People",
+      "slot_time": "Wed 10:15"
+    },
+    {
+      "meeting_id": "663512",
+      "timeSlot": "2",
+      "attendeeId": "110260566550",
+      "attendeeNumber": "1",
+      "sponsor": "The Martec",
+      "slot_time": "Wed 10:45"
+    },
+    {
+      "meeting_id": "663429",
+      "timeSlot": "5",
+      "attendeeId": "110260566550",
+      "attendeeNumber": "1",
+      "sponsor": "Zinc",
+      "slot_time": "Wed 13:30"
+    },
+    {
+      "meeting_id": "663384",
+      "timeSlot": "7",
+      "attendeeId": "110260566550",
+      "attendeeNumber": "2",
+      "sponsor": "Appcast",
+      "slot_time": "Thu 10:30"
+    },
+    {
+      "meeting_id": "690108",
+      "timeSlot": "8",
+      "attendeeId": "110260566550",
+      "attendeeNumber": "1",
+      "sponsor": "Bright Apply",
+      "slot_time": "Thu 11:00"
+    },
+    {
+      "meeting_id": "780011",
+      "timeSlot": "10",
+      "attendeeId": "110260566550",
+      "attendeeNumber": "1",
+      "sponsor": "Harver",
+      "slot_time": "Thu 13:45"
+    },
+    {
+      "meeting_id": "663530",
+      "timeSlot": "11",
+      "attendeeId": "110260566550",
+      "attendeeNumber": "1",
+      "sponsor": "Veremark ",
+      "slot_time": "Thu 14:30"
+    },
+    {
+      "meeting_id": "690029",
+      "timeSlot": "12",
+      "attendeeId": "110260566550",
+      "attendeeNumber": "1",
+      "sponsor": "PerchPeek",
+      "slot_time": "Thu 15:00"
+    },
+    {
+      "meeting_id": "750086",
+      "timeSlot": "3",
+      "attendeeId": "11132851",
+      "attendeeNumber": "1",
+      "sponsor": "Symphony Talent ",
+      "slot_time": "Wed 11:00"
+    },
+    {
+      "meeting_id": "663558",
+      "timeSlot": "4",
+      "attendeeId": "11132851",
+      "attendeeNumber": "1",
+      "sponsor": "Wilson",
+      "slot_time": "Wed 11:30"
+    },
+    {
+      "meeting_id": "780016",
+      "timeSlot": "5",
+      "attendeeId": "11132851",
+      "attendeeNumber": "2",
+      "sponsor": "Harver",
+      "slot_time": "Wed 13:30"
+    },
+    {
+      "meeting_id": "663549",
+      "timeSlot": "6",
+      "attendeeId": "11132851",
+      "attendeeNumber": "1",
+      "sponsor": "JobSync",
+      "slot_time": "Wed 14:00"
+    },
+    {
+      "meeting_id": "663377",
+      "timeSlot": "9",
+      "attendeeId": "11132851",
+      "attendeeNumber": "1",
+      "sponsor": "Appcast",
+      "slot_time": "Thu 13:15"
+    },
+    {
+      "meeting_id": "663529",
+      "timeSlot": "10",
+      "attendeeId": "11132851",
+      "attendeeNumber": "1",
+      "sponsor": "Veremark ",
+      "slot_time": "Thu 13:45"
+    },
+    {
+      "meeting_id": "750155",
+      "timeSlot": "11",
+      "attendeeId": "11132851",
+      "attendeeNumber": "2",
+      "sponsor": "SHL",
+      "slot_time": "Thu 14:30"
+    },
+    {
+      "meeting_id": "663400",
+      "timeSlot": "2",
+      "attendeeId": "113145184682",
+      "attendeeNumber": "1",
+      "sponsor": "Maki People",
+      "slot_time": "Wed 10:45"
+    },
+    {
+      "meeting_id": "663389",
+      "timeSlot": "4",
+      "attendeeId": "113145184682",
+      "attendeeNumber": "1",
+      "sponsor": "Stepstone Group UK Ltd",
+      "slot_time": "Wed 11:30"
+    },
+    {
+      "meeting_id": "810028",
+      "timeSlot": "5",
+      "attendeeId": "113145184682",
+      "attendeeNumber": "1",
+      "sponsor": "The Martec",
+      "slot_time": "Wed 13:30"
+    },
+    {
+      "meeting_id": "663488",
+      "timeSlot": "7",
+      "attendeeId": "113145184682",
+      "attendeeNumber": "1",
+      "sponsor": "Amberjack",
+      "slot_time": "Thu 10:30"
+    },
+    {
+      "meeting_id": "750039",
+      "timeSlot": "8",
+      "attendeeId": "113145184682",
+      "attendeeNumber": "1",
+      "sponsor": "Sapia.ai",
+      "slot_time": "Thu 11:00"
+    },
+    {
+      "meeting_id": "663376",
+      "timeSlot": "10",
+      "attendeeId": "113145184682",
+      "attendeeNumber": "1",
+      "sponsor": "Appcast",
+      "slot_time": "Thu 13:45"
+    },
+    {
+      "meeting_id": "690085",
+      "timeSlot": "11",
+      "attendeeId": "113145184682",
+      "attendeeNumber": "1",
+      "sponsor": "inploi",
+      "slot_time": "Thu 14:30"
+    },
+    {
+      "meeting_id": "690032",
+      "timeSlot": "12",
+      "attendeeId": "113145184682",
+      "attendeeNumber": "1",
+      "sponsor": "Veremark ",
+      "slot_time": "Thu 15:00"
+    },
+    {
+      "meeting_id": "663524",
+      "timeSlot": "1",
+      "attendeeId": "8196151",
+      "attendeeNumber": "1",
+      "sponsor": "Veremark ",
+      "slot_time": "Wed 10:15"
+    },
+    {
+      "meeting_id": "663559",
+      "timeSlot": "2",
+      "attendeeId": "8196151",
+      "attendeeNumber": "1",
+      "sponsor": "Wilson",
+      "slot_time": "Wed 10:45"
+    },
+    {
+      "meeting_id": "750151",
+      "timeSlot": "3",
+      "attendeeId": "8196151",
+      "attendeeNumber": "2",
+      "sponsor": "SHL",
+      "slot_time": "Wed 11:00"
+    },
+    {
+      "meeting_id": "663546",
+      "timeSlot": "4",
+      "attendeeId": "8196151",
+      "attendeeNumber": "1",
+      "sponsor": "JobSync",
+      "slot_time": "Wed 11:30"
+    },
+    {
+      "meeting_id": "663372",
+      "timeSlot": "5",
+      "attendeeId": "8196151",
+      "attendeeNumber": "1",
+      "sponsor": "Appcast",
+      "slot_time": "Wed 13:30"
+    },
+    {
+      "meeting_id": "663428",
+      "timeSlot": "6",
+      "attendeeId": "8196151",
+      "attendeeNumber": "1",
+      "sponsor": "Zinc",
+      "slot_time": "Wed 14:00"
+    },
+    {
+      "meeting_id": "663515",
+      "timeSlot": "1",
+      "attendeeId": "8952301",
+      "attendeeNumber": "1",
+      "sponsor": "The Martec",
+      "slot_time": "Wed 10:15"
+    },
+    {
+      "meeting_id": "663521",
+      "timeSlot": "2",
+      "attendeeId": "8952301",
+      "attendeeNumber": "1",
+      "sponsor": "Veremark ",
+      "slot_time": "Wed 10:45"
+    },
+    {
+      "meeting_id": "690023",
+      "timeSlot": "3",
+      "attendeeId": "8952301",
+      "attendeeNumber": "1",
+      "sponsor": "PerchPeek",
+      "slot_time": "Wed 11:00"
+    },
+    {
+      "meeting_id": "750034",
+      "timeSlot": "10",
+      "attendeeId": "8952301",
+      "attendeeNumber": "1",
+      "sponsor": "hackajob",
+      "slot_time": "Thu 13:45"
+    },
+    {
+      "meeting_id": "663425",
+      "timeSlot": "11",
+      "attendeeId": "8952301",
+      "attendeeNumber": "1",
+      "sponsor": "Zinc",
+      "slot_time": "Thu 14:30"
+    },
+    {
+      "meeting_id": "690008",
+      "timeSlot": "12",
+      "attendeeId": "8952301",
+      "attendeeNumber": "2",
+      "sponsor": "Appcast",
+      "slot_time": "Thu 15:00"
+    },
+    {
+      "meeting_id": "750084",
+      "timeSlot": "2",
+      "attendeeId": "93176107633",
+      "attendeeNumber": "1",
+      "sponsor": "Symphony Talent ",
+      "slot_time": "Wed 10:45"
+    },
+    {
+      "meeting_id": "663381",
+      "timeSlot": "3",
+      "attendeeId": "93176107633",
+      "attendeeNumber": "2",
+      "sponsor": "Appcast",
+      "slot_time": "Wed 11:00"
+    },
+    {
+      "meeting_id": "663427",
+      "timeSlot": "4",
+      "attendeeId": "93176107633",
+      "attendeeNumber": "1",
+      "sponsor": "Zinc",
+      "slot_time": "Wed 11:30"
+    },
+    {
+      "meeting_id": "663564",
+      "timeSlot": "6",
+      "attendeeId": "93176107633",
+      "attendeeNumber": "1",
+      "sponsor": "Wilson",
+      "slot_time": "Wed 14:00"
+    },
+    {
+      "meeting_id": "663522",
+      "timeSlot": "9",
+      "attendeeId": "93176107633",
+      "attendeeNumber": "1",
+      "sponsor": "Veremark ",
+      "slot_time": "Thu 13:15"
+    },
+    {
+      "meeting_id": "663458",
+      "timeSlot": "10",
+      "attendeeId": "93176107633",
+      "attendeeNumber": "1",
+      "sponsor": "Udder",
+      "slot_time": "Thu 13:45"
+    },
+    {
+      "meeting_id": "690079",
+      "timeSlot": "1",
+      "attendeeId": "9477501",
+      "attendeeNumber": "1",
+      "sponsor": "inploi",
+      "slot_time": "Wed 10:15"
+    },
+    {
+      "meeting_id": "750043",
+      "timeSlot": "2",
+      "attendeeId": "9477501",
+      "attendeeNumber": "1",
+      "sponsor": "Sapia.ai",
+      "slot_time": "Wed 10:45"
+    },
+    {
+      "meeting_id": "663404",
+      "timeSlot": "5",
+      "attendeeId": "9477501",
+      "attendeeNumber": "1",
+      "sponsor": "Maki People",
+      "slot_time": "Wed 13:30"
+    },
+    {
+      "meeting_id": "690033",
+      "timeSlot": "6",
+      "attendeeId": "9477501",
+      "attendeeNumber": "1",
+      "sponsor": "Veremark ",
+      "slot_time": "Wed 14:00"
+    },
+    {
+      "meeting_id": "750146",
+      "timeSlot": "7",
+      "attendeeId": "9477501",
+      "attendeeNumber": "1",
+      "sponsor": "SHL",
+      "slot_time": "Thu 10:30"
+    },
+    {
+      "meeting_id": "663374",
+      "timeSlot": "8",
+      "attendeeId": "9477501",
+      "attendeeNumber": "1",
+      "sponsor": "Appcast",
+      "slot_time": "Thu 11:00"
+    },
+    {
+      "meeting_id": "663397",
+      "timeSlot": "11",
+      "attendeeId": "9477501",
+      "attendeeNumber": "1",
+      "sponsor": "Stepstone Group UK Ltd",
+      "slot_time": "Thu 14:30"
+    },
+    {
+      "meeting_id": "780002",
+      "timeSlot": "12",
+      "attendeeId": "9477501",
+      "attendeeNumber": "2",
+      "sponsor": "Harver",
+      "slot_time": "Thu 15:00"
+    }
+  ],
+  "messages": [],
+  "stdout": "meeting_id\ttimeSlot\tattendeeId\tattendeeNumber\tsponsor\tslot_time\n663402\t1\t110260566550\t1\tMaki People\tWed 10:15\n663512\t2\t110260566550\t1\tThe Martec\tWed 10:45\n663429\t5\t110260566550\t1\tZinc\tWed 13:30\n663384\t7\t110260566550\t2\tAppcast\tThu 10:30\n690108\t8\t110260566550\t1\tBright Apply\tThu 11:00\n780011\t10\t110260566550\t1\tHarver\tThu 13:45\n663530\t11\t110260566550\t1\tVeremark \tThu 14:30\n690029\t12\t110260566550\t1\tPerchPeek\tThu 15:00\n750086\t3\t11132851\t1\tSymphony Talent \tWed 11:00\n663558\t4\t11132851\t1\tWilson\tWed 11:30\n780016\t5\t11132851\t2\tHarver\tWed 13:30\n663549\t6\t11132851\t1\tJobSync\tWed 14:00\n663377\t9\t11132851\t1\tAppcast\tThu 13:15\n663529\t10\t11132851\t1\tVeremark \tThu 13:45\n750155\t11\t11132851\t2\tSHL\tThu 14:30\n663400\t2\t113145184682\t1\tMaki People\tWed 10:45\n663389\t4\t113145184682\t1\tStepstone Group UK Ltd\tWed 11:30\n810028\t5\t113145184682\t1\tThe Martec\tWed 13:30\n663488\t7\t113145184682\t1\tAmberjack\tThu 10:30\n750039\t8\t113145184682\t1\tSapia.ai\tThu 11:00\n663376\t10\t113145184682\t1\tAppcast\tThu 13:45\n690085\t11\t113145184682\t1\tinploi\tThu 14:30\n690032\t12\t113145184682\t1\tVeremark \tThu 15:00\n663524\t1\t8196151\t1\tVeremark \tWed 10:15\n663559\t2\t8196151\t1\tWilson\tWed 10:45\n750151\t3\t8196151\t2\tSHL\tWed 11:00\n663546\t4\t8196151\t1\tJobSync\tWed 11:30\n663372\t5\t8196151\t1\tAppcast\tWed 13:30\n663428\t6\t8196151\t1\tZinc\tWed 14:00\n663515\t1\t8952301\t1\tThe Martec\tWed 10:15\n663521\t2\t8952301\t1\tVeremark \tWed 10:45\n690023\t3\t8952301\t1\tPerchPeek\tWed 11:00\n750034\t10\t8952301\t1\thackajob\tThu 13:45\n663425\t11\t8952301\t1\tZinc\tThu 14:30\n690008\t12\t8952301\t2\tAppcast\tThu 15:00\n750084\t2\t93176107633\t1\tSymphony Talent \tWed 10:45\n663381\t3\t93176107633\t2\tAppcast\tWed 11:00\n663427\t4\t93176107633\t1\tZinc\tWed 11:30\n663564\t6\t93176107633\t1\tWilson\tWed 14:00\n663522\t9\t93176107633\t1\tVeremark \tThu 13:15\n663458\t10\t93176107633\t1\tUdder\tThu 13:45\n690079\t1\t9477501\t1\tinploi\tWed 10:15\n750043\t2\t9477501\t1\tSapia.ai\tWed 10:45\n663404\t5\t9477501\t1\tMaki People\tWed 13:30\n690033\t6\t9477501\t1\tVeremark \tWed 14:00\n750146\t7\t9477501\t1\tSHL\tThu 10:30\n663374\t8\t9477501\t1\tAppcast\tThu 11:00\n663397\t11\t9477501\t1\tStepstone Group UK Ltd\tThu 14:30\n780002\t12\t9477501\t2\tHarver\tThu 15:00\n",
+  "stderr": "",
+  "execution_time_ms": 372
+}

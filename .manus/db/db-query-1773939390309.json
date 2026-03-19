@@ -1,0 +1,170 @@
+{
+  "query": "\nSELECT \n  m.id as meeting_id,\n  m.timeSlot,\n  m.attendeeNumber,\n  s.companyName as sponsor,\n  CASE m.timeSlot\n    WHEN 1 THEN 'Wed 11:00'\n    WHEN 2 THEN 'Wed 11:30'\n    WHEN 3 THEN 'Wed 13:15'\n    WHEN 4 THEN 'Wed 13:45'\n    WHEN 5 THEN 'Wed 14:30'\n    WHEN 6 THEN 'Wed 15:00'\n    WHEN 7 THEN 'Thu 10:30'\n    WHEN 8 THEN 'Thu 11:00'\n    WHEN 9 THEN 'Thu 13:15'\n    WHEN 10 THEN 'Thu 13:45'\n    WHEN 11 THEN 'Thu 14:30'\n    WHEN 12 THEN 'Thu 15:00'\n  END as slot_time,\n  CASE m.attendeeId\n    WHEN '9322701' THEN 'Tush Wijeratne (WPP)'\n    WHEN '93176107633' THEN 'Michelle Monahan'\n    WHEN '8196151' THEN 'Mark Kunaseelan'\n  END as delegate_name\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nWHERE m.attendeeId IN ('9322701','93176107633','8196151')\nORDER BY m.attendeeId, m.timeSlot;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT \n  m.id as meeting_id,\n  m.timeSlot,\n  m.attendeeNumber,\n  s.companyName as sponsor,\n  CASE m.timeSlot\n    WHEN 1 THEN 'Wed 11:00'\n    WHEN 2 THEN 'Wed 11:30'\n    WHEN 3 THEN 'Wed 13:15'\n    WHEN 4 THEN 'Wed 13:45'\n    WHEN 5 THEN 'Wed 14:30'\n    WHEN 6 THEN 'Wed 15:00'\n    WHEN 7 THEN 'Thu 10:30'\n    WHEN 8 THEN 'Thu 11:00'\n    WHEN 9 THEN 'Thu 13:15'\n    WHEN 10 THEN 'Thu 13:45'\n    WHEN 11 THEN 'Thu 14:30'\n    WHEN 12 THEN 'Thu 15:00'\n  END as slot_time,\n  CASE m.attendeeId\n    WHEN '9322701' THEN 'Tush Wijeratne (WPP)'\n    WHEN '93176107633' THEN 'Michelle Monahan'\n    WHEN '8196151' THEN 'Mark Kunaseelan'\n  END as delegate_name\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nWHERE m.attendeeId IN ('9322701','93176107633','8196151')\nORDER BY m.attendeeId, m.timeSlot;\n",
+  "rows": [
+    {
+      "meeting_id": "663524",
+      "timeSlot": "1",
+      "attendeeNumber": "1",
+      "sponsor": "Veremark ",
+      "slot_time": "Wed 11:00",
+      "delegate_name": "Mark Kunaseelan"
+    },
+    {
+      "meeting_id": "663559",
+      "timeSlot": "2",
+      "attendeeNumber": "1",
+      "sponsor": "Wilson",
+      "slot_time": "Wed 11:30",
+      "delegate_name": "Mark Kunaseelan"
+    },
+    {
+      "meeting_id": "750151",
+      "timeSlot": "3",
+      "attendeeNumber": "2",
+      "sponsor": "SHL",
+      "slot_time": "Wed 13:15",
+      "delegate_name": "Mark Kunaseelan"
+    },
+    {
+      "meeting_id": "663546",
+      "timeSlot": "4",
+      "attendeeNumber": "1",
+      "sponsor": "JobSync",
+      "slot_time": "Wed 13:45",
+      "delegate_name": "Mark Kunaseelan"
+    },
+    {
+      "meeting_id": "663372",
+      "timeSlot": "5",
+      "attendeeNumber": "1",
+      "sponsor": "Appcast",
+      "slot_time": "Wed 14:30",
+      "delegate_name": "Mark Kunaseelan"
+    },
+    {
+      "meeting_id": "663428",
+      "timeSlot": "6",
+      "attendeeNumber": "1",
+      "sponsor": "Zinc",
+      "slot_time": "Wed 15:00",
+      "delegate_name": "Mark Kunaseelan"
+    },
+    {
+      "meeting_id": "750084",
+      "timeSlot": "2",
+      "attendeeNumber": "1",
+      "sponsor": "Symphony Talent ",
+      "slot_time": "Wed 11:30",
+      "delegate_name": "Michelle Monahan"
+    },
+    {
+      "meeting_id": "663381",
+      "timeSlot": "3",
+      "attendeeNumber": "2",
+      "sponsor": "Appcast",
+      "slot_time": "Wed 13:15",
+      "delegate_name": "Michelle Monahan"
+    },
+    {
+      "meeting_id": "663427",
+      "timeSlot": "4",
+      "attendeeNumber": "1",
+      "sponsor": "Zinc",
+      "slot_time": "Wed 13:45",
+      "delegate_name": "Michelle Monahan"
+    },
+    {
+      "meeting_id": "663564",
+      "timeSlot": "6",
+      "attendeeNumber": "1",
+      "sponsor": "Wilson",
+      "slot_time": "Wed 15:00",
+      "delegate_name": "Michelle Monahan"
+    },
+    {
+      "meeting_id": "663522",
+      "timeSlot": "9",
+      "attendeeNumber": "1",
+      "sponsor": "Veremark ",
+      "slot_time": "Thu 13:15",
+      "delegate_name": "Michelle Monahan"
+    },
+    {
+      "meeting_id": "663458",
+      "timeSlot": "10",
+      "attendeeNumber": "1",
+      "sponsor": "Udder",
+      "slot_time": "Thu 13:45",
+      "delegate_name": "Michelle Monahan"
+    },
+    {
+      "meeting_id": "690104",
+      "timeSlot": "4",
+      "attendeeNumber": "1",
+      "sponsor": "Bright Apply",
+      "slot_time": "Wed 13:45",
+      "delegate_name": "Tush Wijeratne (WPP)"
+    },
+    {
+      "meeting_id": "663568",
+      "timeSlot": "5",
+      "attendeeNumber": "1",
+      "sponsor": "Poetry",
+      "slot_time": "Wed 14:30",
+      "delegate_name": "Tush Wijeratne (WPP)"
+    },
+    {
+      "meeting_id": "663373",
+      "timeSlot": "6",
+      "attendeeNumber": "1",
+      "sponsor": "Appcast",
+      "slot_time": "Wed 15:00",
+      "delegate_name": "Tush Wijeratne (WPP)"
+    },
+    {
+      "meeting_id": "690026",
+      "timeSlot": "7",
+      "attendeeNumber": "1",
+      "sponsor": "PerchPeek",
+      "slot_time": "Thu 10:30",
+      "delegate_name": "Tush Wijeratne (WPP)"
+    },
+    {
+      "meeting_id": "663405",
+      "timeSlot": "8",
+      "attendeeNumber": "1",
+      "sponsor": "Maki People",
+      "slot_time": "Thu 11:00",
+      "delegate_name": "Tush Wijeratne (WPP)"
+    },
+    {
+      "meeting_id": "750047",
+      "timeSlot": "9",
+      "attendeeNumber": "1",
+      "sponsor": "Sapia.ai",
+      "slot_time": "Thu 13:15",
+      "delegate_name": "Tush Wijeratne (WPP)"
+    },
+    {
+      "meeting_id": "840009",
+      "timeSlot": "10",
+      "attendeeNumber": "1",
+      "sponsor": "Wilson",
+      "slot_time": "Thu 13:45",
+      "delegate_name": "Tush Wijeratne (WPP)"
+    },
+    {
+      "meeting_id": "750154",
+      "timeSlot": "12",
+      "attendeeNumber": "2",
+      "sponsor": "SHL",
+      "slot_time": "Thu 15:00",
+      "delegate_name": "Tush Wijeratne (WPP)"
+    }
+  ],
+  "messages": [],
+  "stdout": "meeting_id\ttimeSlot\tattendeeNumber\tsponsor\tslot_time\tdelegate_name\n663524\t1\t1\tVeremark \tWed 11:00\tMark Kunaseelan\n663559\t2\t1\tWilson\tWed 11:30\tMark Kunaseelan\n750151\t3\t2\tSHL\tWed 13:15\tMark Kunaseelan\n663546\t4\t1\tJobSync\tWed 13:45\tMark Kunaseelan\n663372\t5\t1\tAppcast\tWed 14:30\tMark Kunaseelan\n663428\t6\t1\tZinc\tWed 15:00\tMark Kunaseelan\n750084\t2\t1\tSymphony Talent \tWed 11:30\tMichelle Monahan\n663381\t3\t2\tAppcast\tWed 13:15\tMichelle Monahan\n663427\t4\t1\tZinc\tWed 13:45\tMichelle Monahan\n663564\t6\t1\tWilson\tWed 15:00\tMichelle Monahan\n663522\t9\t1\tVeremark \tThu 13:15\tMichelle Monahan\n663458\t10\t1\tUdder\tThu 13:45\tMichelle Monahan\n690104\t4\t1\tBright Apply\tWed 13:45\tTush Wijeratne (WPP)\n663568\t5\t1\tPoetry\tWed 14:30\tTush Wijeratne (WPP)\n663373\t6\t1\tAppcast\tWed 15:00\tTush Wijeratne (WPP)\n690026\t7\t1\tPerchPeek\tThu 10:30\tTush Wijeratne (WPP)\n663405\t8\t1\tMaki People\tThu 11:00\tTush Wijeratne (WPP)\n750047\t9\t1\tSapia.ai\tThu 13:15\tTush Wijeratne (WPP)\n840009\t10\t1\tWilson\tThu 13:45\tTush Wijeratne (WPP)\n750154\t12\t2\tSHL\tThu 15:00\tTush Wijeratne (WPP)\n",
+  "stderr": "",
+  "execution_time_ms": 390
+}

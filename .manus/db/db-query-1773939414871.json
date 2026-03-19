@@ -1,0 +1,138 @@
+{
+  "query": "\nSELECT \n  m.id as meeting_id,\n  m.timeSlot,\n  m.attendeeNumber,\n  s.companyName as sponsor,\n  CASE m.timeSlot\n    WHEN 1 THEN 'Wed 11:00'\n    WHEN 2 THEN 'Wed 11:30'\n    WHEN 3 THEN 'Wed 13:15'\n    WHEN 4 THEN 'Wed 13:45'\n    WHEN 5 THEN 'Wed 14:30'\n    WHEN 6 THEN 'Wed 15:00'\n    WHEN 7 THEN 'Thu 10:30'\n    WHEN 8 THEN 'Thu 11:00'\n    WHEN 9 THEN 'Thu 13:15'\n    WHEN 10 THEN 'Thu 13:45'\n    WHEN 11 THEN 'Thu 14:30'\n    WHEN 12 THEN 'Thu 15:00'\n  END as slot_time,\n  CASE m.attendeeId\n    WHEN '91889321035' THEN 'Lucy Bousfield (Aon)'\n    WHEN '174442448959' THEN 'Joanna Hackett (Howden)'\n  END as delegate_name\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nWHERE m.attendeeId IN ('91889321035','174442448959')\nORDER BY m.attendeeId, m.timeSlot;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT \n  m.id as meeting_id,\n  m.timeSlot,\n  m.attendeeNumber,\n  s.companyName as sponsor,\n  CASE m.timeSlot\n    WHEN 1 THEN 'Wed 11:00'\n    WHEN 2 THEN 'Wed 11:30'\n    WHEN 3 THEN 'Wed 13:15'\n    WHEN 4 THEN 'Wed 13:45'\n    WHEN 5 THEN 'Wed 14:30'\n    WHEN 6 THEN 'Wed 15:00'\n    WHEN 7 THEN 'Thu 10:30'\n    WHEN 8 THEN 'Thu 11:00'\n    WHEN 9 THEN 'Thu 13:15'\n    WHEN 10 THEN 'Thu 13:45'\n    WHEN 11 THEN 'Thu 14:30'\n    WHEN 12 THEN 'Thu 15:00'\n  END as slot_time,\n  CASE m.attendeeId\n    WHEN '91889321035' THEN 'Lucy Bousfield (Aon)'\n    WHEN '174442448959' THEN 'Joanna Hackett (Howden)'\n  END as delegate_name\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nWHERE m.attendeeId IN ('91889321035','174442448959')\nORDER BY m.attendeeId, m.timeSlot;\n",
+  "rows": [
+    {
+      "meeting_id": "690093",
+      "timeSlot": "1",
+      "attendeeNumber": "1",
+      "sponsor": "Radancy",
+      "slot_time": "Wed 11:00",
+      "delegate_name": "Joanna Hackett (Howden)"
+    },
+    {
+      "meeting_id": "750141",
+      "timeSlot": "2",
+      "attendeeNumber": "2",
+      "sponsor": "SHL",
+      "slot_time": "Wed 11:30",
+      "delegate_name": "Joanna Hackett (Howden)"
+    },
+    {
+      "meeting_id": "663392",
+      "timeSlot": "6",
+      "attendeeNumber": "1",
+      "sponsor": "Stepstone Group UK Ltd",
+      "slot_time": "Wed 15:00",
+      "delegate_name": "Joanna Hackett (Howden)"
+    },
+    {
+      "meeting_id": "663434",
+      "timeSlot": "7",
+      "attendeeNumber": "1",
+      "sponsor": "Zinc",
+      "slot_time": "Thu 10:30",
+      "delegate_name": "Joanna Hackett (Howden)"
+    },
+    {
+      "meeting_id": "780008",
+      "timeSlot": "8",
+      "attendeeNumber": "1",
+      "sponsor": "Harver",
+      "slot_time": "Thu 11:00",
+      "delegate_name": "Joanna Hackett (Howden)"
+    },
+    {
+      "meeting_id": "663456",
+      "timeSlot": "9",
+      "attendeeNumber": "1",
+      "sponsor": "Udder",
+      "slot_time": "Thu 13:15",
+      "delegate_name": "Joanna Hackett (Howden)"
+    },
+    {
+      "meeting_id": "663518",
+      "timeSlot": "10",
+      "attendeeNumber": "1",
+      "sponsor": "The Martec",
+      "slot_time": "Thu 13:45",
+      "delegate_name": "Joanna Hackett (Howden)"
+    },
+    {
+      "meeting_id": "663368",
+      "timeSlot": "12",
+      "attendeeNumber": "1",
+      "sponsor": "Appcast",
+      "slot_time": "Thu 15:00",
+      "delegate_name": "Joanna Hackett (Howden)"
+    },
+    {
+      "meeting_id": "663569",
+      "timeSlot": "1",
+      "attendeeNumber": "1",
+      "sponsor": "Poetry",
+      "slot_time": "Wed 11:00",
+      "delegate_name": "Lucy Bousfield (Aon)"
+    },
+    {
+      "meeting_id": "810021",
+      "timeSlot": "4",
+      "attendeeNumber": "1",
+      "sponsor": "hackajob",
+      "slot_time": "Wed 13:45",
+      "delegate_name": "Lucy Bousfield (Aon)"
+    },
+    {
+      "meeting_id": "663491",
+      "timeSlot": "5",
+      "attendeeNumber": "1",
+      "sponsor": "Amberjack",
+      "slot_time": "Wed 14:30",
+      "delegate_name": "Lucy Bousfield (Aon)"
+    },
+    {
+      "meeting_id": "690050",
+      "timeSlot": "6",
+      "attendeeNumber": "1",
+      "sponsor": "Happydance Careers Websites",
+      "slot_time": "Wed 15:00",
+      "delegate_name": "Lucy Bousfield (Aon)"
+    },
+    {
+      "meeting_id": "663513",
+      "timeSlot": "7",
+      "attendeeNumber": "1",
+      "sponsor": "The Martec",
+      "slot_time": "Thu 10:30",
+      "delegate_name": "Lucy Bousfield (Aon)"
+    },
+    {
+      "meeting_id": "663396",
+      "timeSlot": "8",
+      "attendeeNumber": "1",
+      "sponsor": "Stepstone Group UK Ltd",
+      "slot_time": "Thu 11:00",
+      "delegate_name": "Lucy Bousfield (Aon)"
+    },
+    {
+      "meeting_id": "810026",
+      "timeSlot": "11",
+      "attendeeNumber": "1",
+      "sponsor": "Appcast",
+      "slot_time": "Thu 14:30",
+      "delegate_name": "Lucy Bousfield (Aon)"
+    },
+    {
+      "meeting_id": "690101",
+      "timeSlot": "12",
+      "attendeeNumber": "1",
+      "sponsor": "Radancy",
+      "slot_time": "Thu 15:00",
+      "delegate_name": "Lucy Bousfield (Aon)"
+    }
+  ],
+  "messages": [],
+  "stdout": "meeting_id\ttimeSlot\tattendeeNumber\tsponsor\tslot_time\tdelegate_name\n690093\t1\t1\tRadancy\tWed 11:00\tJoanna Hackett (Howden)\n750141\t2\t2\tSHL\tWed 11:30\tJoanna Hackett (Howden)\n663392\t6\t1\tStepstone Group UK Ltd\tWed 15:00\tJoanna Hackett (Howden)\n663434\t7\t1\tZinc\tThu 10:30\tJoanna Hackett (Howden)\n780008\t8\t1\tHarver\tThu 11:00\tJoanna Hackett (Howden)\n663456\t9\t1\tUdder\tThu 13:15\tJoanna Hackett (Howden)\n663518\t10\t1\tThe Martec\tThu 13:45\tJoanna Hackett (Howden)\n663368\t12\t1\tAppcast\tThu 15:00\tJoanna Hackett (Howden)\n663569\t1\t1\tPoetry\tWed 11:00\tLucy Bousfield (Aon)\n810021\t4\t1\thackajob\tWed 13:45\tLucy Bousfield (Aon)\n663491\t5\t1\tAmberjack\tWed 14:30\tLucy Bousfield (Aon)\n690050\t6\t1\tHappydance Careers Websites\tWed 15:00\tLucy Bousfield (Aon)\n663513\t7\t1\tThe Martec\tThu 10:30\tLucy Bousfield (Aon)\n663396\t8\t1\tStepstone Group UK Ltd\tThu 11:00\tLucy Bousfield (Aon)\n810026\t11\t1\tAppcast\tThu 14:30\tLucy Bousfield (Aon)\n690101\t12\t1\tRadancy\tThu 15:00\tLucy Bousfield (Aon)\n",
+  "stderr": "",
+  "execution_time_ms": 412
+}

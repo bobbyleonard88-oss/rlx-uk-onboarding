@@ -1,0 +1,18 @@
+{
+  "query": "\nSELECT dp.firstName, dp.lastName, s.companyName as sponsor, m.timeSlot,\n  CASE m.timeSlot\n    WHEN 1 THEN '10:15–10:45 Wed'\n    WHEN 2 THEN '10:45–11:15 Wed'\n    WHEN 3 THEN '13:30–14:00 Wed'\n    WHEN 4 THEN '14:00–14:30 Wed'\n    WHEN 5 THEN '14:45–15:15 Wed'\n    WHEN 6 THEN '15:15–15:45 Wed'\n    WHEN 7 THEN '10:30–11:00 Thu'\n    WHEN 8 THEN '11:00–11:30 Thu'\n    WHEN 9 THEN '13:15–13:45 Thu'\n    WHEN 10 THEN '13:45–14:15 Thu'\n    WHEN 11 THEN '14:30–15:00 Thu'\n    WHEN 12 THEN '15:00–15:30 Thu'\n  END as slot_time,\n  'SESSION CLASH' as status\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nLEFT JOIN delegateProfiles dp ON m.attendeeId = dp.attendeeId\nWHERE \n  -- Adam Binks: conflict slots 1,2\n  (m.attendeeId = '76678269091' AND m.timeSlot IN (1,2))\n  -- Tush Wijeratne: conflict slot 1\n  OR (m.attendeeId = '9322701' AND m.timeSlot = 1)\n  -- Joanna Hackett: conflict slots 3,4\n  OR (m.attendeeId = '174442448959' AND m.timeSlot IN (3,4))\n  -- Mark Kunaseelan: conflict slot 7\n  OR (m.attendeeId = '8196151' AND m.timeSlot = 7)\n  -- Michelle Monahan: conflict slot 8\n  OR (m.attendeeId = '93176107633' AND m.timeSlot = 8)\n  -- Lucy Bousfield: conflict slot 10\n  OR (m.attendeeId = '91889321035' AND m.timeSlot = 10)\n  -- Jules Anderson: conflict slot 11\n  OR (m.attendeeId = '4956154' AND m.timeSlot = 11)\nORDER BY dp.lastName;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT dp.firstName, dp.lastName, s.companyName as sponsor, m.timeSlot,\n  CASE m.timeSlot\n    WHEN 1 THEN '10:15–10:45 Wed'\n    WHEN 2 THEN '10:45–11:15 Wed'\n    WHEN 3 THEN '13:30–14:00 Wed'\n    WHEN 4 THEN '14:00–14:30 Wed'\n    WHEN 5 THEN '14:45–15:15 Wed'\n    WHEN 6 THEN '15:15–15:45 Wed'\n    WHEN 7 THEN '10:30–11:00 Thu'\n    WHEN 8 THEN '11:00–11:30 Thu'\n    WHEN 9 THEN '13:15–13:45 Thu'\n    WHEN 10 THEN '13:45–14:15 Thu'\n    WHEN 11 THEN '14:30–15:00 Thu'\n    WHEN 12 THEN '15:00–15:30 Thu'\n  END as slot_time,\n  'SESSION CLASH' as status\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nLEFT JOIN delegateProfiles dp ON m.attendeeId = dp.attendeeId\nWHERE \n  -- Adam Binks: conflict slots 1,2\n  (m.attendeeId = '76678269091' AND m.timeSlot IN (1,2))\n  -- Tush Wijeratne: conflict slot 1\n  OR (m.attendeeId = '9322701' AND m.timeSlot = 1)\n  -- Joanna Hackett: conflict slots 3,4\n  OR (m.attendeeId = '174442448959' AND m.timeSlot IN (3,4))\n  -- Mark Kunaseelan: conflict slot 7\n  OR (m.attendeeId = '8196151' AND m.timeSlot = 7)\n  -- Michelle Monahan: conflict slot 8\n  OR (m.attendeeId = '93176107633' AND m.timeSlot = 8)\n  -- Lucy Bousfield: conflict slot 10\n  OR (m.attendeeId = '91889321035' AND m.timeSlot = 10)\n  -- Jules Anderson: conflict slot 11\n  OR (m.attendeeId = '4956154' AND m.timeSlot = 11)\nORDER BY dp.lastName;\n",
+  "rows": [
+    {
+      "firstName": "Adam",
+      "lastName": "Binks",
+      "sponsor": "Stepstone Group UK Ltd",
+      "timeSlot": "1",
+      "slot_time": "10:15–10:45 Wed",
+      "status": "SESSION CLASH"
+    }
+  ],
+  "messages": [],
+  "stdout": "firstName\tlastName\tsponsor\ttimeSlot\tslot_time\tstatus\nAdam\tBinks\tStepstone Group UK Ltd\t1\t10:15–10:45 Wed\tSESSION CLASH\n",
+  "stderr": "",
+  "execution_time_ms": 518
+}

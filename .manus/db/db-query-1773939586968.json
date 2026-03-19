@@ -1,0 +1,106 @@
+{
+  "query": "\nSELECT m.id, m.timeSlot, m.attendeeId, m.attendeeNumber, s.companyName,\n  CASE m.timeSlot\n    WHEN 1 THEN 'Wed 11:00'\n    WHEN 2 THEN 'Wed 11:30'\n    WHEN 3 THEN 'Wed 13:15'\n    WHEN 4 THEN 'Wed 13:45'\n    WHEN 5 THEN 'Wed 14:30'\n    WHEN 6 THEN 'Wed 15:00'\n    WHEN 7 THEN 'Thu 10:30'\n    WHEN 8 THEN 'Thu 11:00'\n    WHEN 9 THEN 'Thu 13:15'\n    WHEN 10 THEN 'Thu 13:45'\n    WHEN 11 THEN 'Thu 14:30'\n    WHEN 12 THEN 'Thu 15:00'\n  END as slot_time\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nWHERE s.companyName LIKE '%Veremark%'\nORDER BY m.timeSlot, m.attendeeNumber;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT m.id, m.timeSlot, m.attendeeId, m.attendeeNumber, s.companyName,\n  CASE m.timeSlot\n    WHEN 1 THEN 'Wed 11:00'\n    WHEN 2 THEN 'Wed 11:30'\n    WHEN 3 THEN 'Wed 13:15'\n    WHEN 4 THEN 'Wed 13:45'\n    WHEN 5 THEN 'Wed 14:30'\n    WHEN 6 THEN 'Wed 15:00'\n    WHEN 7 THEN 'Thu 10:30'\n    WHEN 8 THEN 'Thu 11:00'\n    WHEN 9 THEN 'Thu 13:15'\n    WHEN 10 THEN 'Thu 13:45'\n    WHEN 11 THEN 'Thu 14:30'\n    WHEN 12 THEN 'Thu 15:00'\n  END as slot_time\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nWHERE s.companyName LIKE '%Veremark%'\nORDER BY m.timeSlot, m.attendeeNumber;\n",
+  "rows": [
+    {
+      "id": "663524",
+      "timeSlot": "1",
+      "attendeeId": "8196151",
+      "attendeeNumber": "1",
+      "companyName": "Veremark ",
+      "slot_time": "Wed 11:00"
+    },
+    {
+      "id": "663521",
+      "timeSlot": "2",
+      "attendeeId": "8952301",
+      "attendeeNumber": "1",
+      "companyName": "Veremark ",
+      "slot_time": "Wed 11:30"
+    },
+    {
+      "id": "663525",
+      "timeSlot": "3",
+      "attendeeId": "128491656706",
+      "attendeeNumber": "1",
+      "companyName": "Veremark ",
+      "slot_time": "Wed 13:15"
+    },
+    {
+      "id": "663523",
+      "timeSlot": "4",
+      "attendeeId": "8713772",
+      "attendeeNumber": "1",
+      "companyName": "Veremark ",
+      "slot_time": "Wed 13:45"
+    },
+    {
+      "id": "840002",
+      "timeSlot": "5",
+      "attendeeId": "116903349643",
+      "attendeeNumber": "1",
+      "companyName": "Veremark ",
+      "slot_time": "Wed 14:30"
+    },
+    {
+      "id": "690033",
+      "timeSlot": "6",
+      "attendeeId": "9477501",
+      "attendeeNumber": "1",
+      "companyName": "Veremark ",
+      "slot_time": "Wed 15:00"
+    },
+    {
+      "id": "810033",
+      "timeSlot": "7",
+      "attendeeId": "4956154",
+      "attendeeNumber": "1",
+      "companyName": "Veremark ",
+      "slot_time": "Thu 10:30"
+    },
+    {
+      "id": "663528",
+      "timeSlot": "8",
+      "attendeeId": "91862577670",
+      "attendeeNumber": "1",
+      "companyName": "Veremark ",
+      "slot_time": "Thu 11:00"
+    },
+    {
+      "id": "663522",
+      "timeSlot": "9",
+      "attendeeId": "93176107633",
+      "attendeeNumber": "1",
+      "companyName": "Veremark ",
+      "slot_time": "Thu 13:15"
+    },
+    {
+      "id": "663529",
+      "timeSlot": "10",
+      "attendeeId": "11132851",
+      "attendeeNumber": "1",
+      "companyName": "Veremark ",
+      "slot_time": "Thu 13:45"
+    },
+    {
+      "id": "663530",
+      "timeSlot": "11",
+      "attendeeId": "110260566550",
+      "attendeeNumber": "1",
+      "companyName": "Veremark ",
+      "slot_time": "Thu 14:30"
+    },
+    {
+      "id": "690032",
+      "timeSlot": "12",
+      "attendeeId": "113145184682",
+      "attendeeNumber": "1",
+      "companyName": "Veremark ",
+      "slot_time": "Thu 15:00"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttimeSlot\tattendeeId\tattendeeNumber\tcompanyName\tslot_time\n663524\t1\t8196151\t1\tVeremark \tWed 11:00\n663521\t2\t8952301\t1\tVeremark \tWed 11:30\n663525\t3\t128491656706\t1\tVeremark \tWed 13:15\n663523\t4\t8713772\t1\tVeremark \tWed 13:45\n840002\t5\t116903349643\t1\tVeremark \tWed 14:30\n690033\t6\t9477501\t1\tVeremark \tWed 15:00\n810033\t7\t4956154\t1\tVeremark \tThu 10:30\n663528\t8\t91862577670\t1\tVeremark \tThu 11:00\n663522\t9\t93176107633\t1\tVeremark \tThu 13:15\n663529\t10\t11132851\t1\tVeremark \tThu 13:45\n663530\t11\t110260566550\t1\tVeremark \tThu 14:30\n690032\t12\t113145184682\t1\tVeremark \tThu 15:00\n",
+  "stderr": "",
+  "execution_time_ms": 412
+}

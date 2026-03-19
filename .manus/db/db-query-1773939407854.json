@@ -1,0 +1,28 @@
+{
+  "query": "\nSELECT attendeeId, firstName, lastName, company \nFROM delegateProfiles \nWHERE firstName LIKE '%Lucy%' OR lastName LIKE '%Bousfield%' \n   OR firstName LIKE '%Joanna%' OR lastName LIKE '%Hackett%'\nLIMIT 10;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT attendeeId, firstName, lastName, company \nFROM delegateProfiles \nWHERE firstName LIKE '%Lucy%' OR lastName LIKE '%Bousfield%' \n   OR firstName LIKE '%Joanna%' OR lastName LIKE '%Hackett%'\nLIMIT 10;\n",
+  "rows": [
+    {
+      "attendeeId": "91889321035",
+      "firstName": "Lucy",
+      "lastName": "Bousfield",
+      "company": "Aon"
+    },
+    {
+      "attendeeId": "174442448959",
+      "firstName": "Joanna",
+      "lastName": "Hackett",
+      "company": "Howden"
+    },
+    {
+      "attendeeId": "203946652193",
+      "firstName": "Joanna",
+      "lastName": "Saunders-Hare",
+      "company": "MUFG, Mitsubishi UFJ Financial Group."
+    }
+  ],
+  "messages": [],
+  "stdout": "attendeeId\tfirstName\tlastName\tcompany\n91889321035\tLucy\tBousfield\tAon\n174442448959\tJoanna\tHackett\tHowden\n203946652193\tJoanna\tSaunders-Hare\tMUFG, Mitsubishi UFJ Financial Group.\n",
+  "stderr": "",
+  "execution_time_ms": 373
+}

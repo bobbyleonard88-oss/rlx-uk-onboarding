@@ -1,0 +1,9 @@
+{
+  "query": "\nSELECT action, details, adminName, createdAt \nFROM adminActivityLog \nWHERE action LIKE '%swap%' OR action LIKE '%session%' OR action LIKE '%conflict%' OR details LIKE '%swap%' OR details LIKE '%session%' OR details LIKE '%Binks%' OR details LIKE '%Wijeratne%' OR details LIKE '%Hackett%' OR details LIKE '%Kunaseelan%' OR details LIKE '%Monahan%' OR details LIKE '%Bousfield%' OR details LIKE '%Anderson%'\nORDER BY createdAt ASC;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT action, details, adminName, createdAt \nFROM adminActivityLog \nWHERE action LIKE '%swap%' OR action LIKE '%session%' OR action LIKE '%conflict%' OR details LIKE '%swap%' OR details LIKE '%session%' OR details LIKE '%Binks%' OR details LIKE '%Wijeratne%' OR details LIKE '%Hackett%' OR details LIKE '%Kunaseelan%' OR details LIKE '%Monahan%' OR details LIKE '%Bousfield%' OR details LIKE '%Anderson%'\nORDER BY createdAt ASC;\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 421
+}

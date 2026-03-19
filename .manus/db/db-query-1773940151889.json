@@ -1,0 +1,154 @@
+{
+  "query": "\nSELECT m.id, m.timeSlot, m.attendeeId, s.companyName as sponsor,\n  dp.firstName, dp.lastName\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nLEFT JOIN delegateProfiles dp ON m.attendeeId = dp.attendeeId\nWHERE \n  -- PerchPeek: Adam Binks (slot 1) and Jonathan Kitterhing (slot 5)\n  (s.companyName LIKE '%PerchPeek%' AND m.timeSlot IN (1,5))\n  -- Stepstone: Adam Binks (slot 2), Jessica Shaunie Green (slot 6), Joanna Hackett (slot 4), Carly George (slot 1)\n  OR (s.companyName LIKE '%Stepstone%' AND m.timeSlot IN (1,2,4,6))\n  -- Wilson: Tush Wijeratne (slot 1), James Harley (slot 10), Mark Kunaseelan (slot 7), Anna Katyal (slot 11), Michelle Monahan (slot 8), Alan MacKinnon (slot 2)\n  OR (s.companyName LIKE '%Wilson%' AND m.timeSlot IN (1,2,7,8,10,11))\n  -- Radancy: Joanna Hackett (slot 3), Salina Budaly (slot 5)\n  OR (s.companyName LIKE '%Radancy%' AND m.timeSlot IN (3,5))\n  -- Poetry: Lucy Bousfield (slot 10), Sarah Cooper (slot 2)\n  OR (s.companyName LIKE '%Poetry%' AND m.timeSlot IN (2,10))\n  -- Udder: Jules Anderson (slot 11), Robyn Collins (slot 3)\n  OR (s.companyName LIKE '%Udder%' AND m.timeSlot IN (3,11))\nORDER BY s.companyName, m.timeSlot;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT m.id, m.timeSlot, m.attendeeId, s.companyName as sponsor,\n  dp.firstName, dp.lastName\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nLEFT JOIN delegateProfiles dp ON m.attendeeId = dp.attendeeId\nWHERE \n  -- PerchPeek: Adam Binks (slot 1) and Jonathan Kitterhing (slot 5)\n  (s.companyName LIKE '%PerchPeek%' AND m.timeSlot IN (1,5))\n  -- Stepstone: Adam Binks (slot 2), Jessica Shaunie Green (slot 6), Joanna Hackett (slot 4), Carly George (slot 1)\n  OR (s.companyName LIKE '%Stepstone%' AND m.timeSlot IN (1,2,4,6))\n  -- Wilson: Tush Wijeratne (slot 1), James Harley (slot 10), Mark Kunaseelan (slot 7), Anna Katyal (slot 11), Michelle Monahan (slot 8), Alan MacKinnon (slot 2)\n  OR (s.companyName LIKE '%Wilson%' AND m.timeSlot IN (1,2,7,8,10,11))\n  -- Radancy: Joanna Hackett (slot 3), Salina Budaly (slot 5)\n  OR (s.companyName LIKE '%Radancy%' AND m.timeSlot IN (3,5))\n  -- Poetry: Lucy Bousfield (slot 10), Sarah Cooper (slot 2)\n  OR (s.companyName LIKE '%Poetry%' AND m.timeSlot IN (2,10))\n  -- Udder: Jules Anderson (slot 11), Robyn Collins (slot 3)\n  OR (s.companyName LIKE '%Udder%' AND m.timeSlot IN (3,11))\nORDER BY s.companyName, m.timeSlot;\n",
+  "rows": [
+    {
+      "id": "690024",
+      "timeSlot": "1",
+      "attendeeId": "208415155065",
+      "sponsor": "PerchPeek",
+      "firstName": "Jonathan",
+      "lastName": "Kitterhing"
+    },
+    {
+      "id": "840007",
+      "timeSlot": "5",
+      "attendeeId": "76678269091",
+      "sponsor": "PerchPeek",
+      "firstName": "Adam",
+      "lastName": "Binks"
+    },
+    {
+      "id": "840008",
+      "timeSlot": "2",
+      "attendeeId": "5140258",
+      "sponsor": "Poetry",
+      "firstName": "Sarah",
+      "lastName": "Cooper"
+    },
+    {
+      "id": "663570",
+      "timeSlot": "10",
+      "attendeeId": "8713772",
+      "sponsor": "Poetry",
+      "firstName": "Alan",
+      "lastName": "MacKinnon"
+    },
+    {
+      "id": "690092",
+      "timeSlot": "3",
+      "attendeeId": "7258470500",
+      "sponsor": "Radancy",
+      "firstName": "Mark",
+      "lastName": "Brooker"
+    },
+    {
+      "id": "690094",
+      "timeSlot": "5",
+      "attendeeId": "93174643474",
+      "sponsor": "Radancy",
+      "firstName": "Salina",
+      "lastName": "Budaly"
+    },
+    {
+      "id": "663388",
+      "timeSlot": "1",
+      "attendeeId": "76678269091",
+      "sponsor": "Stepstone Group UK Ltd",
+      "firstName": "Adam",
+      "lastName": "Binks"
+    },
+    {
+      "id": "690006",
+      "timeSlot": "2",
+      "attendeeId": "200101377371",
+      "sponsor": "Stepstone Group UK Ltd",
+      "firstName": "Jessica Shaunie",
+      "lastName": "Green"
+    },
+    {
+      "id": "663389",
+      "timeSlot": "4",
+      "attendeeId": "113145184682",
+      "sponsor": "Stepstone Group UK Ltd",
+      "firstName": "Carly",
+      "lastName": "George"
+    },
+    {
+      "id": "663392",
+      "timeSlot": "6",
+      "attendeeId": "174442448959",
+      "sponsor": "Stepstone Group UK Ltd",
+      "firstName": "Joanna",
+      "lastName": "Hackett"
+    },
+    {
+      "id": "663457",
+      "timeSlot": "3",
+      "attendeeId": "4956154",
+      "sponsor": "Udder",
+      "firstName": "Jules",
+      "lastName": "Anderson"
+    },
+    {
+      "id": "663454",
+      "timeSlot": "11",
+      "attendeeId": "194295425320",
+      "sponsor": "Udder",
+      "firstName": "Robyn",
+      "lastName": "Collins"
+    },
+    {
+      "id": "690001",
+      "timeSlot": "1",
+      "attendeeId": "116903349643",
+      "sponsor": "Wilson",
+      "firstName": "James",
+      "lastName": "Harley"
+    },
+    {
+      "id": "663559",
+      "timeSlot": "2",
+      "attendeeId": "8196151",
+      "sponsor": "Wilson",
+      "firstName": "Michelle",
+      "lastName": "Monahan"
+    },
+    {
+      "id": "663562",
+      "timeSlot": "7",
+      "attendeeId": "208415155065",
+      "sponsor": "Wilson",
+      "firstName": "Jonathan",
+      "lastName": "Kitterhing"
+    },
+    {
+      "id": "663557",
+      "timeSlot": "8",
+      "attendeeId": "8713772",
+      "sponsor": "Wilson",
+      "firstName": "Alan",
+      "lastName": "MacKinnon"
+    },
+    {
+      "id": "840009",
+      "timeSlot": "10",
+      "attendeeId": "9322701",
+      "sponsor": "Wilson",
+      "firstName": "Tush",
+      "lastName": "Wijeratne"
+    },
+    {
+      "id": "663566",
+      "timeSlot": "11",
+      "attendeeId": "195183358360",
+      "sponsor": "Wilson",
+      "firstName": "Anna",
+      "lastName": "Katyal"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttimeSlot\tattendeeId\tsponsor\tfirstName\tlastName\n690024\t1\t208415155065\tPerchPeek\tJonathan\tKitterhing\n840007\t5\t76678269091\tPerchPeek\tAdam\tBinks\n840008\t2\t5140258\tPoetry\tSarah\tCooper\n663570\t10\t8713772\tPoetry\tAlan\tMacKinnon\n690092\t3\t7258470500\tRadancy\tMark\tBrooker\n690094\t5\t93174643474\tRadancy\tSalina\tBudaly\n663388\t1\t76678269091\tStepstone Group UK Ltd\tAdam\tBinks\n690006\t2\t200101377371\tStepstone Group UK Ltd\tJessica Shaunie\tGreen\n663389\t4\t113145184682\tStepstone Group UK Ltd\tCarly\tGeorge\n663392\t6\t174442448959\tStepstone Group UK Ltd\tJoanna\tHackett\n663457\t3\t4956154\tUdder\tJules\tAnderson\n663454\t11\t194295425320\tUdder\tRobyn\tCollins\n690001\t1\t116903349643\tWilson\tJames\tHarley\n663559\t2\t8196151\tWilson\tMichelle\tMonahan\n663562\t7\t208415155065\tWilson\tJonathan\tKitterhing\n663557\t8\t8713772\tWilson\tAlan\tMacKinnon\n840009\t10\t9322701\tWilson\tTush\tWijeratne\n663566\t11\t195183358360\tWilson\tAnna\tKatyal\n",
+  "stderr": "",
+  "execution_time_ms": 399
+}

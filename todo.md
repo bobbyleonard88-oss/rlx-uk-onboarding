@@ -1565,3 +1565,12 @@
 - [x] Remove Anna Katyal's duplicate Appcast meeting (slot 6, Rep 2, meeting 870015)
 - [x] Retain original slot 2 meeting (Rep 1, meeting 663371)
 - [x] Verified: 0 repeat meetings, 278 total meetings
+
+## DB as Source of Truth — Platform Sync
+- [x] Export fresh CSV from DB (all 278 meetings) — RLXUKV6-DB-EXPORT-2026-03-19.csv
+- [x] Verify sponsor portal shows correct meetings from DB — trpc.sponsor.getMyMeetings → db.getMeetingsBySponsor ✅
+- [x] Verify delegate portal shows correct meetings from DB — trpc.admin.getDelegateOverview → db.getAllMeetings ✅
+- [x] Verify admin analytics page pulls from live DB — trpc.admin.getAnalytics → db.getAllMeetings ✅
+- [x] Verify admin export (download all) pulls from live DB — trpc.admin.getAllMeetingsExport → db.getAllMeetings ✅
+- [x] Verify sponsor-side briefing pack export pulls from live DB — uses trpc.sponsor.getMyMeetings data ✅
+- [ ] Adam Binks @ Stepstone slot 1 conflict — deferred, to be actioned separately

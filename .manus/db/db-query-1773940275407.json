@@ -1,0 +1,136 @@
+{
+  "query": "\nSELECT s.companyName as sponsor, dp.firstName, dp.lastName, m.timeSlot, m.id as meeting_id\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nLEFT JOIN delegateProfiles dp ON m.attendeeId = dp.attendeeId\nWHERE \n  (s.companyName LIKE '%PerchPeek%' AND dp.firstName IN ('Adam','Jonathan'))\n  OR (s.companyName LIKE '%Stepstone%' AND dp.firstName IN ('Adam','Jessica Shaunie','Joanna','Carly'))\n  OR (s.companyName LIKE '%Wilson%' AND dp.firstName IN ('Tush','James','Mark','Anna','Michelle','Alan'))\n  OR (s.companyName LIKE '%Radancy%' AND dp.firstName IN ('Joanna','Salina'))\n  OR (s.companyName LIKE '%Poetry%' AND dp.firstName IN ('Lucy','Sarah'))\n  OR (s.companyName LIKE '%Udder%' AND dp.firstName IN ('Jules','Robyn'))\nORDER BY s.companyName, m.timeSlot;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT s.companyName as sponsor, dp.firstName, dp.lastName, m.timeSlot, m.id as meeting_id\nFROM meetings m\nLEFT JOIN sponsors s ON m.sponsorId = s.id\nLEFT JOIN delegateProfiles dp ON m.attendeeId = dp.attendeeId\nWHERE \n  (s.companyName LIKE '%PerchPeek%' AND dp.firstName IN ('Adam','Jonathan'))\n  OR (s.companyName LIKE '%Stepstone%' AND dp.firstName IN ('Adam','Jessica Shaunie','Joanna','Carly'))\n  OR (s.companyName LIKE '%Wilson%' AND dp.firstName IN ('Tush','James','Mark','Anna','Michelle','Alan'))\n  OR (s.companyName LIKE '%Radancy%' AND dp.firstName IN ('Joanna','Salina'))\n  OR (s.companyName LIKE '%Poetry%' AND dp.firstName IN ('Lucy','Sarah'))\n  OR (s.companyName LIKE '%Udder%' AND dp.firstName IN ('Jules','Robyn'))\nORDER BY s.companyName, m.timeSlot;\n",
+  "rows": [
+    {
+      "sponsor": "PerchPeek",
+      "firstName": "Jonathan",
+      "lastName": "Kitterhing",
+      "timeSlot": "1",
+      "meeting_id": "690024"
+    },
+    {
+      "sponsor": "PerchPeek",
+      "firstName": "Adam",
+      "lastName": "Binks",
+      "timeSlot": "5",
+      "meeting_id": "840007"
+    },
+    {
+      "sponsor": "Poetry",
+      "firstName": "Lucy",
+      "lastName": "Bousfield",
+      "timeSlot": "1",
+      "meeting_id": "663569"
+    },
+    {
+      "sponsor": "Poetry",
+      "firstName": "Sarah",
+      "lastName": "Cooper",
+      "timeSlot": "2",
+      "meeting_id": "840008"
+    },
+    {
+      "sponsor": "Radancy",
+      "firstName": "Joanna",
+      "lastName": "Hackett",
+      "timeSlot": "1",
+      "meeting_id": "690093"
+    },
+    {
+      "sponsor": "Radancy",
+      "firstName": "Salina",
+      "lastName": "Budaly",
+      "timeSlot": "5",
+      "meeting_id": "690094"
+    },
+    {
+      "sponsor": "Stepstone Group UK Ltd",
+      "firstName": "Adam",
+      "lastName": "Binks",
+      "timeSlot": "1",
+      "meeting_id": "663388"
+    },
+    {
+      "sponsor": "Stepstone Group UK Ltd",
+      "firstName": "Jessica Shaunie",
+      "lastName": "Green",
+      "timeSlot": "2",
+      "meeting_id": "690006"
+    },
+    {
+      "sponsor": "Stepstone Group UK Ltd",
+      "firstName": "Carly",
+      "lastName": "George",
+      "timeSlot": "4",
+      "meeting_id": "663389"
+    },
+    {
+      "sponsor": "Stepstone Group UK Ltd",
+      "firstName": "Joanna",
+      "lastName": "Hackett",
+      "timeSlot": "6",
+      "meeting_id": "663392"
+    },
+    {
+      "sponsor": "Udder",
+      "firstName": "Jules",
+      "lastName": "Anderson",
+      "timeSlot": "3",
+      "meeting_id": "663457"
+    },
+    {
+      "sponsor": "Udder",
+      "firstName": "Robyn",
+      "lastName": "Collins",
+      "timeSlot": "11",
+      "meeting_id": "663454"
+    },
+    {
+      "sponsor": "Wilson",
+      "firstName": "James",
+      "lastName": "Harley",
+      "timeSlot": "1",
+      "meeting_id": "690001"
+    },
+    {
+      "sponsor": "Wilson",
+      "firstName": "Michelle",
+      "lastName": "Monahan",
+      "timeSlot": "2",
+      "meeting_id": "663559"
+    },
+    {
+      "sponsor": "Wilson",
+      "firstName": "Mark",
+      "lastName": "Kunaseelan",
+      "timeSlot": "6",
+      "meeting_id": "663564"
+    },
+    {
+      "sponsor": "Wilson",
+      "firstName": "Alan",
+      "lastName": "MacKinnon",
+      "timeSlot": "8",
+      "meeting_id": "663557"
+    },
+    {
+      "sponsor": "Wilson",
+      "firstName": "Tush",
+      "lastName": "Wijeratne",
+      "timeSlot": "10",
+      "meeting_id": "840009"
+    },
+    {
+      "sponsor": "Wilson",
+      "firstName": "Anna",
+      "lastName": "Katyal",
+      "timeSlot": "11",
+      "meeting_id": "663566"
+    }
+  ],
+  "messages": [],
+  "stdout": "sponsor\tfirstName\tlastName\ttimeSlot\tmeeting_id\nPerchPeek\tJonathan\tKitterhing\t1\t690024\nPerchPeek\tAdam\tBinks\t5\t840007\nPoetry\tLucy\tBousfield\t1\t663569\nPoetry\tSarah\tCooper\t2\t840008\nRadancy\tJoanna\tHackett\t1\t690093\nRadancy\tSalina\tBudaly\t5\t690094\nStepstone Group UK Ltd\tAdam\tBinks\t1\t663388\nStepstone Group UK Ltd\tJessica Shaunie\tGreen\t2\t690006\nStepstone Group UK Ltd\tCarly\tGeorge\t4\t663389\nStepstone Group UK Ltd\tJoanna\tHackett\t6\t663392\nUdder\tJules\tAnderson\t3\t663457\nUdder\tRobyn\tCollins\t11\t663454\nWilson\tJames\tHarley\t1\t690001\nWilson\tMichelle\tMonahan\t2\t663559\nWilson\tMark\tKunaseelan\t6\t663564\nWilson\tAlan\tMacKinnon\t8\t663557\nWilson\tTush\tWijeratne\t10\t840009\nWilson\tAnna\tKatyal\t11\t663566\n",
+  "stderr": "",
+  "execution_time_ms": 406
+}
