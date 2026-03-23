@@ -1,0 +1,22 @@
+{
+  "query": "\n-- Verify Natalie McGuinness (190937723960) is free at slot 1 (no other meeting at slot 1)\nSELECT 'Natalie free at slot 1' as check_name, COUNT(*) as conflicts\nFROM meetings WHERE attendeeId = '190937723960' AND timeSlot = 1\n\nUNION ALL\n\n-- Verify Joanna Hackett (174442448959) is free at slot 11 (no other meeting at slot 11)\nSELECT 'Joanna free at slot 11' as check_name, COUNT(*) as conflicts\nFROM meetings WHERE attendeeId = '174442448959' AND timeSlot = 11\n\nUNION ALL\n\n-- Verify Mark Brooker (7258470500) is free at slot 1 (no other meeting at slot 1)\nSELECT 'Mark free at slot 1' as check_name, COUNT(*) as conflicts\nFROM meetings WHERE attendeeId = '7258470500' AND timeSlot = 1;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \n-- Verify Natalie McGuinness (190937723960) is free at slot 1 (no other meeting at slot 1)\nSELECT 'Natalie free at slot 1' as check_name, COUNT(*) as conflicts\nFROM meetings WHERE attendeeId = '190937723960' AND timeSlot = 1\n\nUNION ALL\n\n-- Verify Joanna Hackett (174442448959) is free at slot 11 (no other meeting at slot 11)\nSELECT 'Joanna free at slot 11' as check_name, COUNT(*) as conflicts\nFROM meetings WHERE attendeeId = '174442448959' AND timeSlot = 11\n\nUNION ALL\n\n-- Verify Mark Brooker (7258470500) is free at slot 1 (no other meeting at slot 1)\nSELECT 'Mark free at slot 1' as check_name, COUNT(*) as conflicts\nFROM meetings WHERE attendeeId = '7258470500' AND timeSlot = 1;\n",
+  "rows": [
+    {
+      "check_name": "Mark free at slot 1",
+      "conflicts": "0"
+    },
+    {
+      "check_name": "Joanna free at slot 11",
+      "conflicts": "0"
+    },
+    {
+      "check_name": "Natalie free at slot 1",
+      "conflicts": "0"
+    }
+  ],
+  "messages": [],
+  "stdout": "check_name\tconflicts\nMark free at slot 1\t0\nJoanna free at slot 11\t0\nNatalie free at slot 1\t0\n",
+  "stderr": "",
+  "execution_time_ms": 360
+}

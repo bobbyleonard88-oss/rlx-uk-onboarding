@@ -1,0 +1,9 @@
+{
+  "query": "\n-- Check 1: Any delegate double-booked at same slot\nSELECT attendeeId, timeSlot, COUNT(*) as count\nFROM meetings\nGROUP BY attendeeId, timeSlot\nHAVING COUNT(*) > 1;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \n-- Check 1: Any delegate double-booked at same slot\nSELECT attendeeId, timeSlot, COUNT(*) as count\nFROM meetings\nGROUP BY attendeeId, timeSlot\nHAVING COUNT(*) > 1;\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 366
+}

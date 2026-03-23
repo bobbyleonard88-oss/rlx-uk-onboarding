@@ -1,0 +1,16 @@
+{
+  "query": "\n-- First get the meeting IDs we need\n-- Mark Brooker (7258470500) at Radancy slot 3 → slot 1\n-- Joanna Hackett (174442448959) at Radancy slot 1 → slot 11\n-- Natalie McGuinness (190937723960) at Radancy slot 11 → slot 3\n-- Alan MacKinnon (8713772) at Poetry slot 10 → slot 12\n-- Sharron Marsh at Poetry slot 12 → slot 10\n\n-- Get Sharron Marsh's attendeeId first\nSELECT m.attendeeId, m.id as meetingId, m.timeSlot, s.companyName\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE s.companyName = 'Poetry' AND m.timeSlot = 12;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \n-- First get the meeting IDs we need\n-- Mark Brooker (7258470500) at Radancy slot 3 → slot 1\n-- Joanna Hackett (174442448959) at Radancy slot 1 → slot 11\n-- Natalie McGuinness (190937723960) at Radancy slot 11 → slot 3\n-- Alan MacKinnon (8713772) at Poetry slot 10 → slot 12\n-- Sharron Marsh at Poetry slot 12 → slot 10\n\n-- Get Sharron Marsh's attendeeId first\nSELECT m.attendeeId, m.id as meetingId, m.timeSlot, s.companyName\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE s.companyName = 'Poetry' AND m.timeSlot = 12;\n",
+  "rows": [
+    {
+      "attendeeId": "9319401",
+      "meetingId": "663579",
+      "timeSlot": "12",
+      "companyName": "Poetry"
+    }
+  ],
+  "messages": [],
+  "stdout": "attendeeId\tmeetingId\ttimeSlot\tcompanyName\n9319401\t663579\t12\tPoetry\n",
+  "stderr": "",
+  "execution_time_ms": 370
+}

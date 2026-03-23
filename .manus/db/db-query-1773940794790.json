@@ -1,0 +1,30 @@
+{
+  "query": "\nSELECT s.id, s.companyName, u.email \nFROM sponsors s \nJOIN users u ON u.id = s.userId \nWHERE s.companyName IN ('Veremark', 'Wilson', 'Poetry', 'Udder')\nORDER BY s.companyName;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT s.id, s.companyName, u.email \nFROM sponsors s \nJOIN users u ON u.id = s.userId \nWHERE s.companyName IN ('Veremark', 'Wilson', 'Poetry', 'Udder')\nORDER BY s.companyName;\n",
+  "rows": [
+    {
+      "id": "900001",
+      "companyName": "Poetry",
+      "email": "stephen.mcgrath@poetryhr.com"
+    },
+    {
+      "id": "360001",
+      "companyName": "Udder",
+      "email": "deborah.pearson@udder.rocks"
+    },
+    {
+      "id": "810001",
+      "companyName": "Veremark ",
+      "email": "anna.smith@veremark.com"
+    },
+    {
+      "id": "870001",
+      "companyName": "Wilson",
+      "email": "gail.bleakley@wilsonhr.com"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tcompanyName\temail\n900001\tPoetry\tstephen.mcgrath@poetryhr.com\n360001\tUdder\tdeborah.pearson@udder.rocks\n810001\tVeremark \tanna.smith@veremark.com\n870001\tWilson\tgail.bleakley@wilsonhr.com\n",
+  "stderr": "",
+  "execution_time_ms": 387
+}

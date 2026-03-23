@@ -1,0 +1,9 @@
+{
+  "query": "\n-- Radancy swaps:\n-- Mark Brooker (7258470500): slot 3 → 1 (meeting 690092)\nUPDATE meetings SET timeSlot = 1 WHERE id = '690092';\n\n-- Joanna Hackett (174442448959): slot 1 → 11 (meeting 690093)\nUPDATE meetings SET timeSlot = 11 WHERE id = '690093';\n\n-- Natalie McGuinness (190937723960): slot 11 → 3 (meeting 690096)\nUPDATE meetings SET timeSlot = 3 WHERE id = '690096';\n\n-- Poetry swaps:\n-- Alan MacKinnon (8713772): slot 10 → 12 (meeting 663570)\nUPDATE meetings SET timeSlot = 12 WHERE id = '663570';\n\n-- Sharron Marsh (9319401): slot 12 → 10 (meeting 663579)\nUPDATE meetings SET timeSlot = 10 WHERE id = '663579';\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \n-- Radancy swaps:\n-- Mark Brooker (7258470500): slot 3 → 1 (meeting 690092)\nUPDATE meetings SET timeSlot = 1 WHERE id = '690092';\n\n-- Joanna Hackett (174442448959): slot 1 → 11 (meeting 690093)\nUPDATE meetings SET timeSlot = 11 WHERE id = '690093';\n\n-- Natalie McGuinness (190937723960): slot 11 → 3 (meeting 690096)\nUPDATE meetings SET timeSlot = 3 WHERE id = '690096';\n\n-- Poetry swaps:\n-- Alan MacKinnon (8713772): slot 10 → 12 (meeting 663570)\nUPDATE meetings SET timeSlot = 12 WHERE id = '663570';\n\n-- Sharron Marsh (9319401): slot 12 → 10 (meeting 663579)\nUPDATE meetings SET timeSlot = 10 WHERE id = '663579';\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 604
+}

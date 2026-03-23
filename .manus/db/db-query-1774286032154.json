@@ -1,0 +1,142 @@
+{
+  "query": "\nSELECT \n  CASE m.attendeeId\n    WHEN '7258470500' THEN 'Mark Brooker'\n    WHEN '174442448959' THEN 'Joanna Hackett'\n    WHEN '190937723960' THEN 'Natalie McGuinness'\n  END as delegate,\n  m.timeSlot,\n  CASE m.timeSlot\n    WHEN 1 THEN 'Wed 10:15' WHEN 2 THEN 'Wed 10:45' WHEN 3 THEN 'Wed 13:30'\n    WHEN 4 THEN 'Wed 14:00' WHEN 5 THEN 'Wed 14:45' WHEN 6 THEN 'Wed 15:15'\n    WHEN 7 THEN 'Thu 10:30' WHEN 8 THEN 'Thu 11:00' WHEN 9 THEN 'Thu 13:15'\n    WHEN 10 THEN 'Thu 13:45' WHEN 11 THEN 'Thu 14:30' WHEN 12 THEN 'Thu 15:00'\n  END as slotTime,\n  s.companyName as sponsor\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE m.attendeeId IN ('7258470500', '174442448959', '190937723960')\nORDER BY m.attendeeId, m.timeSlot;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT \n  CASE m.attendeeId\n    WHEN '7258470500' THEN 'Mark Brooker'\n    WHEN '174442448959' THEN 'Joanna Hackett'\n    WHEN '190937723960' THEN 'Natalie McGuinness'\n  END as delegate,\n  m.timeSlot,\n  CASE m.timeSlot\n    WHEN 1 THEN 'Wed 10:15' WHEN 2 THEN 'Wed 10:45' WHEN 3 THEN 'Wed 13:30'\n    WHEN 4 THEN 'Wed 14:00' WHEN 5 THEN 'Wed 14:45' WHEN 6 THEN 'Wed 15:15'\n    WHEN 7 THEN 'Thu 10:30' WHEN 8 THEN 'Thu 11:00' WHEN 9 THEN 'Thu 13:15'\n    WHEN 10 THEN 'Thu 13:45' WHEN 11 THEN 'Thu 14:30' WHEN 12 THEN 'Thu 15:00'\n  END as slotTime,\n  s.companyName as sponsor\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE m.attendeeId IN ('7258470500', '174442448959', '190937723960')\nORDER BY m.attendeeId, m.timeSlot;\n",
+  "rows": [
+    {
+      "delegate": "Joanna Hackett",
+      "timeSlot": "1",
+      "slotTime": "Wed 10:15",
+      "sponsor": "Radancy"
+    },
+    {
+      "delegate": "Joanna Hackett",
+      "timeSlot": "2",
+      "slotTime": "Wed 10:45",
+      "sponsor": "SHL"
+    },
+    {
+      "delegate": "Joanna Hackett",
+      "timeSlot": "6",
+      "slotTime": "Wed 15:15",
+      "sponsor": "Stepstone Group UK Ltd"
+    },
+    {
+      "delegate": "Joanna Hackett",
+      "timeSlot": "7",
+      "slotTime": "Thu 10:30",
+      "sponsor": "Zinc"
+    },
+    {
+      "delegate": "Joanna Hackett",
+      "timeSlot": "8",
+      "slotTime": "Thu 11:00",
+      "sponsor": "Harver"
+    },
+    {
+      "delegate": "Joanna Hackett",
+      "timeSlot": "9",
+      "slotTime": "Thu 13:15",
+      "sponsor": "Udder"
+    },
+    {
+      "delegate": "Joanna Hackett",
+      "timeSlot": "10",
+      "slotTime": "Thu 13:45",
+      "sponsor": "The Martec"
+    },
+    {
+      "delegate": "Joanna Hackett",
+      "timeSlot": "12",
+      "slotTime": "Thu 15:00",
+      "sponsor": "Appcast"
+    },
+    {
+      "delegate": "Natalie McGuinness",
+      "timeSlot": "5",
+      "slotTime": "Wed 14:45",
+      "sponsor": "Symphony Talent "
+    },
+    {
+      "delegate": "Natalie McGuinness",
+      "timeSlot": "6",
+      "slotTime": "Wed 15:15",
+      "sponsor": "Poetry"
+    },
+    {
+      "delegate": "Natalie McGuinness",
+      "timeSlot": "7",
+      "slotTime": "Thu 10:30",
+      "sponsor": "Maki People"
+    },
+    {
+      "delegate": "Natalie McGuinness",
+      "timeSlot": "8",
+      "slotTime": "Thu 11:00",
+      "sponsor": "Harver"
+    },
+    {
+      "delegate": "Natalie McGuinness",
+      "timeSlot": "9",
+      "slotTime": "Thu 13:15",
+      "sponsor": "Wilson"
+    },
+    {
+      "delegate": "Natalie McGuinness",
+      "timeSlot": "11",
+      "slotTime": "Thu 14:30",
+      "sponsor": "Radancy"
+    },
+    {
+      "delegate": "Mark Brooker",
+      "timeSlot": "2",
+      "slotTime": "Wed 10:45",
+      "sponsor": "Happydance Careers Websites"
+    },
+    {
+      "delegate": "Mark Brooker",
+      "timeSlot": "3",
+      "slotTime": "Wed 13:30",
+      "sponsor": "Radancy"
+    },
+    {
+      "delegate": "Mark Brooker",
+      "timeSlot": "5",
+      "slotTime": "Wed 14:45",
+      "sponsor": "Udder"
+    },
+    {
+      "delegate": "Mark Brooker",
+      "timeSlot": "6",
+      "slotTime": "Wed 15:15",
+      "sponsor": "Harver"
+    },
+    {
+      "delegate": "Mark Brooker",
+      "timeSlot": "7",
+      "slotTime": "Thu 10:30",
+      "sponsor": "inploi"
+    },
+    {
+      "delegate": "Mark Brooker",
+      "timeSlot": "8",
+      "slotTime": "Thu 11:00",
+      "sponsor": "Zinc"
+    },
+    {
+      "delegate": "Mark Brooker",
+      "timeSlot": "11",
+      "slotTime": "Thu 14:30",
+      "sponsor": "Maki People"
+    },
+    {
+      "delegate": "Mark Brooker",
+      "timeSlot": "12",
+      "slotTime": "Thu 15:00",
+      "sponsor": "Amberjack"
+    }
+  ],
+  "messages": [],
+  "stdout": "delegate\ttimeSlot\tslotTime\tsponsor\nJoanna Hackett\t1\tWed 10:15\tRadancy\nJoanna Hackett\t2\tWed 10:45\tSHL\nJoanna Hackett\t6\tWed 15:15\tStepstone Group UK Ltd\nJoanna Hackett\t7\tThu 10:30\tZinc\nJoanna Hackett\t8\tThu 11:00\tHarver\nJoanna Hackett\t9\tThu 13:15\tUdder\nJoanna Hackett\t10\tThu 13:45\tThe Martec\nJoanna Hackett\t12\tThu 15:00\tAppcast\nNatalie McGuinness\t5\tWed 14:45\tSymphony Talent \nNatalie McGuinness\t6\tWed 15:15\tPoetry\nNatalie McGuinness\t7\tThu 10:30\tMaki People\nNatalie McGuinness\t8\tThu 11:00\tHarver\nNatalie McGuinness\t9\tThu 13:15\tWilson\nNatalie McGuinness\t11\tThu 14:30\tRadancy\nMark Brooker\t2\tWed 10:45\tHappydance Careers Websites\nMark Brooker\t3\tWed 13:30\tRadancy\nMark Brooker\t5\tWed 14:45\tUdder\nMark Brooker\t6\tWed 15:15\tHarver\nMark Brooker\t7\tThu 10:30\tinploi\nMark Brooker\t8\tThu 11:00\tZinc\nMark Brooker\t11\tThu 14:30\tMaki People\nMark Brooker\t12\tThu 15:00\tAmberjack\n",
+  "stderr": "",
+  "execution_time_ms": 371
+}

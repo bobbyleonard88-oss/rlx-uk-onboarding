@@ -1,0 +1,22 @@
+{
+  "query": "\nSELECT attendeeId, timeSlot\nFROM meetings\nWHERE attendeeId IN ('201697440144', '191181016455', '17812226737')\nAND timeSlot = 3;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT attendeeId, timeSlot\nFROM meetings\nWHERE attendeeId IN ('201697440144', '191181016455', '17812226737')\nAND timeSlot = 3;\n",
+  "rows": [
+    {
+      "attendeeId": "17812226737",
+      "timeSlot": "3"
+    },
+    {
+      "attendeeId": "191181016455",
+      "timeSlot": "3"
+    },
+    {
+      "attendeeId": "201697440144",
+      "timeSlot": "3"
+    }
+  ],
+  "messages": [],
+  "stdout": "attendeeId\ttimeSlot\n17812226737\t3\n191181016455\t3\n201697440144\t3\n",
+  "stderr": "",
+  "execution_time_ms": 366
+}

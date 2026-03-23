@@ -1,0 +1,226 @@
+{
+  "query": "\nSELECT m.id, m.timeSlot, m.attendeeNumber, m.status,\n       s.companyName as sponsorName,\n       m.attendeeId,\n       m.matchScore\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE s.companyName IN ('Veremark ', 'Wilson')\nORDER BY s.companyName, m.timeSlot;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT m.id, m.timeSlot, m.attendeeNumber, m.status,\n       s.companyName as sponsorName,\n       m.attendeeId,\n       m.matchScore\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE s.companyName IN ('Veremark ', 'Wilson')\nORDER BY s.companyName, m.timeSlot;\n",
+  "rows": [
+    {
+      "id": "663524",
+      "timeSlot": "1",
+      "attendeeNumber": "1",
+      "status": "suggested",
+      "sponsorName": "Veremark ",
+      "attendeeId": "8196151",
+      "matchScore": "68"
+    },
+    {
+      "id": "663521",
+      "timeSlot": "2",
+      "attendeeNumber": "1",
+      "status": "suggested",
+      "sponsorName": "Veremark ",
+      "attendeeId": "8952301",
+      "matchScore": "79"
+    },
+    {
+      "id": "663525",
+      "timeSlot": "3",
+      "attendeeNumber": "1",
+      "status": "suggested",
+      "sponsorName": "Veremark ",
+      "attendeeId": "128491656706",
+      "matchScore": "83"
+    },
+    {
+      "id": "663523",
+      "timeSlot": "4",
+      "attendeeNumber": "1",
+      "status": "suggested",
+      "sponsorName": "Veremark ",
+      "attendeeId": "8713772",
+      "matchScore": "72"
+    },
+    {
+      "id": "840002",
+      "timeSlot": "5",
+      "attendeeNumber": "1",
+      "status": "confirmed",
+      "sponsorName": "Veremark ",
+      "attendeeId": "116903349643",
+      "matchScore": "55"
+    },
+    {
+      "id": "690033",
+      "timeSlot": "6",
+      "attendeeNumber": "1",
+      "status": "suggested",
+      "sponsorName": "Veremark ",
+      "attendeeId": "9477501",
+      "matchScore": "54"
+    },
+    {
+      "id": "810033",
+      "timeSlot": "7",
+      "attendeeNumber": "1",
+      "status": "confirmed",
+      "sponsorName": "Veremark ",
+      "attendeeId": "4956154",
+      "matchScore": "68"
+    },
+    {
+      "id": "663528",
+      "timeSlot": "8",
+      "attendeeNumber": "1",
+      "status": "suggested",
+      "sponsorName": "Veremark ",
+      "attendeeId": "91862577670",
+      "matchScore": "70"
+    },
+    {
+      "id": "663522",
+      "timeSlot": "9",
+      "attendeeNumber": "1",
+      "status": "suggested",
+      "sponsorName": "Veremark ",
+      "attendeeId": "93176107633",
+      "matchScore": "76"
+    },
+    {
+      "id": "663529",
+      "timeSlot": "10",
+      "attendeeNumber": "1",
+      "status": "suggested",
+      "sponsorName": "Veremark ",
+      "attendeeId": "11132851",
+      "matchScore": "50"
+    },
+    {
+      "id": "663530",
+      "timeSlot": "11",
+      "attendeeNumber": "1",
+      "status": "suggested",
+      "sponsorName": "Veremark ",
+      "attendeeId": "110260566550",
+      "matchScore": "77"
+    },
+    {
+      "id": "690032",
+      "timeSlot": "12",
+      "attendeeNumber": "1",
+      "status": "suggested",
+      "sponsorName": "Veremark ",
+      "attendeeId": "113145184682",
+      "matchScore": "48"
+    },
+    {
+      "id": "690001",
+      "timeSlot": "1",
+      "attendeeNumber": "1",
+      "status": "suggested",
+      "sponsorName": "Wilson",
+      "attendeeId": "116903349643",
+      "matchScore": "97"
+    },
+    {
+      "id": "663559",
+      "timeSlot": "2",
+      "attendeeNumber": "1",
+      "status": "suggested",
+      "sponsorName": "Wilson",
+      "attendeeId": "8196151",
+      "matchScore": "64"
+    },
+    {
+      "id": "663556",
+      "timeSlot": "3",
+      "attendeeNumber": "1",
+      "status": "suggested",
+      "sponsorName": "Wilson",
+      "attendeeId": "92953690026",
+      "matchScore": "98"
+    },
+    {
+      "id": "663558",
+      "timeSlot": "4",
+      "attendeeNumber": "1",
+      "status": "suggested",
+      "sponsorName": "Wilson",
+      "attendeeId": "11132851",
+      "matchScore": "68"
+    },
+    {
+      "id": "663561",
+      "timeSlot": "5",
+      "attendeeNumber": "1",
+      "status": "suggested",
+      "sponsorName": "Wilson",
+      "attendeeId": "5140258",
+      "matchScore": "97"
+    },
+    {
+      "id": "663564",
+      "timeSlot": "6",
+      "attendeeNumber": "1",
+      "status": "suggested",
+      "sponsorName": "Wilson",
+      "attendeeId": "93176107633",
+      "matchScore": "56"
+    },
+    {
+      "id": "663562",
+      "timeSlot": "7",
+      "attendeeNumber": "1",
+      "status": "suggested",
+      "sponsorName": "Wilson",
+      "attendeeId": "208415155065",
+      "matchScore": "60"
+    },
+    {
+      "id": "663557",
+      "timeSlot": "8",
+      "attendeeNumber": "1",
+      "status": "suggested",
+      "sponsorName": "Wilson",
+      "attendeeId": "8713772",
+      "matchScore": "70"
+    },
+    {
+      "id": "663567",
+      "timeSlot": "9",
+      "attendeeNumber": "1",
+      "status": "suggested",
+      "sponsorName": "Wilson",
+      "attendeeId": "190937723960",
+      "matchScore": "48"
+    },
+    {
+      "id": "840009",
+      "timeSlot": "10",
+      "attendeeNumber": "1",
+      "status": "confirmed",
+      "sponsorName": "Wilson",
+      "attendeeId": "9322701",
+      "matchScore": "80"
+    },
+    {
+      "id": "663566",
+      "timeSlot": "11",
+      "attendeeNumber": "1",
+      "status": "suggested",
+      "sponsorName": "Wilson",
+      "attendeeId": "195183358360",
+      "matchScore": "52"
+    },
+    {
+      "id": "663563",
+      "timeSlot": "12",
+      "attendeeNumber": "1",
+      "status": "suggested",
+      "sponsorName": "Wilson",
+      "attendeeId": "111228357473",
+      "matchScore": "56"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttimeSlot\tattendeeNumber\tstatus\tsponsorName\tattendeeId\tmatchScore\n663524\t1\t1\tsuggested\tVeremark \t8196151\t68\n663521\t2\t1\tsuggested\tVeremark \t8952301\t79\n663525\t3\t1\tsuggested\tVeremark \t128491656706\t83\n663523\t4\t1\tsuggested\tVeremark \t8713772\t72\n840002\t5\t1\tconfirmed\tVeremark \t116903349643\t55\n690033\t6\t1\tsuggested\tVeremark \t9477501\t54\n810033\t7\t1\tconfirmed\tVeremark \t4956154\t68\n663528\t8\t1\tsuggested\tVeremark \t91862577670\t70\n663522\t9\t1\tsuggested\tVeremark \t93176107633\t76\n663529\t10\t1\tsuggested\tVeremark \t11132851\t50\n663530\t11\t1\tsuggested\tVeremark \t110260566550\t77\n690032\t12\t1\tsuggested\tVeremark \t113145184682\t48\n690001\t1\t1\tsuggested\tWilson\t116903349643\t97\n663559\t2\t1\tsuggested\tWilson\t8196151\t64\n663556\t3\t1\tsuggested\tWilson\t92953690026\t98\n663558\t4\t1\tsuggested\tWilson\t11132851\t68\n663561\t5\t1\tsuggested\tWilson\t5140258\t97\n663564\t6\t1\tsuggested\tWilson\t93176107633\t56\n663562\t7\t1\tsuggested\tWilson\t208415155065\t60\n663557\t8\t1\tsuggested\tWilson\t8713772\t70\n663567\t9\t1\tsuggested\tWilson\t190937723960\t48\n840009\t10\t1\tconfirmed\tWilson\t9322701\t80\n663566\t11\t1\tsuggested\tWilson\t195183358360\t52\n663563\t12\t1\tsuggested\tWilson\t111228357473\t56\n",
+  "stderr": "",
+  "execution_time_ms": 414
+}

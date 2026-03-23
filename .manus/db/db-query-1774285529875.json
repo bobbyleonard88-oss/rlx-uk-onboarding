@@ -1,0 +1,34 @@
+{
+  "query": "\n-- Mark Brooker @ Radancy slot 3: find Radancy delegates at slots 1,4,9,10 who are free at slot 3\nSELECT 'Mark Brooker - Radancy' as context, m.attendeeId, m.timeSlot as currentSlot, s.companyName as sponsor\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE s.companyName = 'Radancy'\nAND m.timeSlot IN (1,4,9,10)\nAND m.attendeeId NOT IN (\n  SELECT attendeeId FROM meetings WHERE timeSlot = 3\n)\n\nUNION ALL\n\n-- Alan MacKinnon @ Poetry slot 10: find Poetry delegates at slots 1,2,5,9,11,12 who are free at slot 10\nSELECT 'Alan MacKinnon - Poetry' as context, m.attendeeId, m.timeSlot as currentSlot, s.companyName as sponsor\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE s.companyName = 'Poetry'\nAND m.timeSlot IN (1,2,5,9,11,12)\nAND m.attendeeId NOT IN (\n  SELECT attendeeId FROM meetings WHERE timeSlot = 10\n)\n\nORDER BY context, currentSlot;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \n-- Mark Brooker @ Radancy slot 3: find Radancy delegates at slots 1,4,9,10 who are free at slot 3\nSELECT 'Mark Brooker - Radancy' as context, m.attendeeId, m.timeSlot as currentSlot, s.companyName as sponsor\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE s.companyName = 'Radancy'\nAND m.timeSlot IN (1,4,9,10)\nAND m.attendeeId NOT IN (\n  SELECT attendeeId FROM meetings WHERE timeSlot = 3\n)\n\nUNION ALL\n\n-- Alan MacKinnon @ Poetry slot 10: find Poetry delegates at slots 1,2,5,9,11,12 who are free at slot 10\nSELECT 'Alan MacKinnon - Poetry' as context, m.attendeeId, m.timeSlot as currentSlot, s.companyName as sponsor\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE s.companyName = 'Poetry'\nAND m.timeSlot IN (1,2,5,9,11,12)\nAND m.attendeeId NOT IN (\n  SELECT attendeeId FROM meetings WHERE timeSlot = 10\n)\n\nORDER BY context, currentSlot;\n",
+  "rows": [
+    {
+      "context": "Alan MacKinnon - Poetry",
+      "attendeeId": "91889321035",
+      "currentSlot": "1",
+      "sponsor": "Poetry"
+    },
+    {
+      "context": "Alan MacKinnon - Poetry",
+      "attendeeId": "5140258",
+      "currentSlot": "2",
+      "sponsor": "Poetry"
+    },
+    {
+      "context": "Alan MacKinnon - Poetry",
+      "attendeeId": "9319401",
+      "currentSlot": "12",
+      "sponsor": "Poetry"
+    },
+    {
+      "context": "Mark Brooker - Radancy",
+      "attendeeId": "174442448959",
+      "currentSlot": "1",
+      "sponsor": "Radancy"
+    }
+  ],
+  "messages": [],
+  "stdout": "context\tattendeeId\tcurrentSlot\tsponsor\nAlan MacKinnon - Poetry\t91889321035\t1\tPoetry\nAlan MacKinnon - Poetry\t5140258\t2\tPoetry\nAlan MacKinnon - Poetry\t9319401\t12\tPoetry\nMark Brooker - Radancy\t174442448959\t1\tRadancy\n",
+  "stderr": "",
+  "execution_time_ms": 377
+}

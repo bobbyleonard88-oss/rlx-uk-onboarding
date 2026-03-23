@@ -1,0 +1,122 @@
+{
+  "query": "\nSELECT \n  m.attendeeId,\n  CASE m.attendeeId \n    WHEN '7258470500' THEN 'Mark Brooker'\n    WHEN '8713772' THEN 'Alan MacKinnon'\n  END as delegateName,\n  m.timeSlot,\n  CASE m.timeSlot\n    WHEN 1 THEN 'Wed 10:15'\n    WHEN 2 THEN 'Wed 10:45'\n    WHEN 3 THEN 'Wed 13:30'\n    WHEN 4 THEN 'Wed 14:00'\n    WHEN 5 THEN 'Wed 14:45'\n    WHEN 6 THEN 'Wed 15:15'\n    WHEN 7 THEN 'Thu 10:30'\n    WHEN 8 THEN 'Thu 11:00'\n    WHEN 9 THEN 'Thu 13:15'\n    WHEN 10 THEN 'Thu 13:45'\n    WHEN 11 THEN 'Thu 14:30'\n    WHEN 12 THEN 'Thu 15:00'\n  END as slotTime,\n  s.companyName as sponsor,\n  m.id as meetingId\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE m.attendeeId IN ('7258470500', '8713772')\nORDER BY m.attendeeId, m.timeSlot;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT \n  m.attendeeId,\n  CASE m.attendeeId \n    WHEN '7258470500' THEN 'Mark Brooker'\n    WHEN '8713772' THEN 'Alan MacKinnon'\n  END as delegateName,\n  m.timeSlot,\n  CASE m.timeSlot\n    WHEN 1 THEN 'Wed 10:15'\n    WHEN 2 THEN 'Wed 10:45'\n    WHEN 3 THEN 'Wed 13:30'\n    WHEN 4 THEN 'Wed 14:00'\n    WHEN 5 THEN 'Wed 14:45'\n    WHEN 6 THEN 'Wed 15:15'\n    WHEN 7 THEN 'Thu 10:30'\n    WHEN 8 THEN 'Thu 11:00'\n    WHEN 9 THEN 'Thu 13:15'\n    WHEN 10 THEN 'Thu 13:45'\n    WHEN 11 THEN 'Thu 14:30'\n    WHEN 12 THEN 'Thu 15:00'\n  END as slotTime,\n  s.companyName as sponsor,\n  m.id as meetingId\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE m.attendeeId IN ('7258470500', '8713772')\nORDER BY m.attendeeId, m.timeSlot;\n",
+  "rows": [
+    {
+      "attendeeId": "7258470500",
+      "delegateName": "Mark Brooker",
+      "timeSlot": "2",
+      "slotTime": "Wed 10:45",
+      "sponsor": "Happydance Careers Websites",
+      "meetingId": "690047"
+    },
+    {
+      "attendeeId": "7258470500",
+      "delegateName": "Mark Brooker",
+      "timeSlot": "3",
+      "slotTime": "Wed 13:30",
+      "sponsor": "Radancy",
+      "meetingId": "690092"
+    },
+    {
+      "attendeeId": "7258470500",
+      "delegateName": "Mark Brooker",
+      "timeSlot": "5",
+      "slotTime": "Wed 14:45",
+      "sponsor": "Udder",
+      "meetingId": "663452"
+    },
+    {
+      "attendeeId": "7258470500",
+      "delegateName": "Mark Brooker",
+      "timeSlot": "6",
+      "slotTime": "Wed 15:15",
+      "sponsor": "Harver",
+      "meetingId": "780004"
+    },
+    {
+      "attendeeId": "7258470500",
+      "delegateName": "Mark Brooker",
+      "timeSlot": "7",
+      "slotTime": "Thu 10:30",
+      "sponsor": "inploi",
+      "meetingId": "690086"
+    },
+    {
+      "attendeeId": "7258470500",
+      "delegateName": "Mark Brooker",
+      "timeSlot": "8",
+      "slotTime": "Thu 11:00",
+      "sponsor": "Zinc",
+      "meetingId": "663431"
+    },
+    {
+      "attendeeId": "7258470500",
+      "delegateName": "Mark Brooker",
+      "timeSlot": "11",
+      "slotTime": "Thu 14:30",
+      "sponsor": "Maki People",
+      "meetingId": "663410"
+    },
+    {
+      "attendeeId": "7258470500",
+      "delegateName": "Mark Brooker",
+      "timeSlot": "12",
+      "slotTime": "Thu 15:00",
+      "sponsor": "Amberjack",
+      "meetingId": "810029"
+    },
+    {
+      "attendeeId": "8713772",
+      "delegateName": "Alan MacKinnon",
+      "timeSlot": "3",
+      "slotTime": "Wed 13:30",
+      "sponsor": "Zinc",
+      "meetingId": "663426"
+    },
+    {
+      "attendeeId": "8713772",
+      "delegateName": "Alan MacKinnon",
+      "timeSlot": "4",
+      "slotTime": "Wed 14:00",
+      "sponsor": "Veremark ",
+      "meetingId": "663523"
+    },
+    {
+      "attendeeId": "8713772",
+      "delegateName": "Alan MacKinnon",
+      "timeSlot": "6",
+      "slotTime": "Wed 15:15",
+      "sponsor": "PerchPeek",
+      "meetingId": "690020"
+    },
+    {
+      "attendeeId": "8713772",
+      "delegateName": "Alan MacKinnon",
+      "timeSlot": "7",
+      "slotTime": "Thu 10:30",
+      "sponsor": "JobSync",
+      "meetingId": "663551"
+    },
+    {
+      "attendeeId": "8713772",
+      "delegateName": "Alan MacKinnon",
+      "timeSlot": "8",
+      "slotTime": "Thu 11:00",
+      "sponsor": "Wilson",
+      "meetingId": "663557"
+    },
+    {
+      "attendeeId": "8713772",
+      "delegateName": "Alan MacKinnon",
+      "timeSlot": "10",
+      "slotTime": "Thu 13:45",
+      "sponsor": "Poetry",
+      "meetingId": "663570"
+    }
+  ],
+  "messages": [],
+  "stdout": "attendeeId\tdelegateName\ttimeSlot\tslotTime\tsponsor\tmeetingId\n7258470500\tMark Brooker\t2\tWed 10:45\tHappydance Careers Websites\t690047\n7258470500\tMark Brooker\t3\tWed 13:30\tRadancy\t690092\n7258470500\tMark Brooker\t5\tWed 14:45\tUdder\t663452\n7258470500\tMark Brooker\t6\tWed 15:15\tHarver\t780004\n7258470500\tMark Brooker\t7\tThu 10:30\tinploi\t690086\n7258470500\tMark Brooker\t8\tThu 11:00\tZinc\t663431\n7258470500\tMark Brooker\t11\tThu 14:30\tMaki People\t663410\n7258470500\tMark Brooker\t12\tThu 15:00\tAmberjack\t810029\n8713772\tAlan MacKinnon\t3\tWed 13:30\tZinc\t663426\n8713772\tAlan MacKinnon\t4\tWed 14:00\tVeremark \t663523\n8713772\tAlan MacKinnon\t6\tWed 15:15\tPerchPeek\t690020\n8713772\tAlan MacKinnon\t7\tThu 10:30\tJobSync\t663551\n8713772\tAlan MacKinnon\t8\tThu 11:00\tWilson\t663557\n8713772\tAlan MacKinnon\t10\tThu 13:45\tPoetry\t663570\n",
+  "stderr": "",
+  "execution_time_ms": 353
+}

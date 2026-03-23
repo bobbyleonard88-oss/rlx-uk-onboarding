@@ -1,0 +1,45 @@
+{
+  "query": "\nSELECT \n  CASE m.attendeeId\n    WHEN '7258470500' THEN 'Mark Brooker'\n    WHEN '174442448959' THEN 'Joanna Hackett'\n    WHEN '190937723960' THEN 'Natalie McGuinness'\n    WHEN '8713772' THEN 'Alan MacKinnon'\n    WHEN '9319401' THEN 'Sharron Marsh'\n  END as delegate,\n  s.companyName as sponsor,\n  m.timeSlot,\n  CASE m.timeSlot\n    WHEN 1 THEN 'Wed 10:15' WHEN 2 THEN 'Wed 10:45' WHEN 3 THEN 'Wed 13:30'\n    WHEN 4 THEN 'Wed 14:00' WHEN 5 THEN 'Wed 14:45' WHEN 6 THEN 'Wed 15:15'\n    WHEN 7 THEN 'Thu 10:30' WHEN 8 THEN 'Thu 11:00' WHEN 9 THEN 'Thu 13:15'\n    WHEN 10 THEN 'Thu 13:45' WHEN 11 THEN 'Thu 14:30' WHEN 12 THEN 'Thu 15:00'\n  END as slotTime,\n  m.id as meetingId\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE m.id IN ('690092','690093','690096','663570','663579')\nORDER BY s.companyName, m.timeSlot;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT \n  CASE m.attendeeId\n    WHEN '7258470500' THEN 'Mark Brooker'\n    WHEN '174442448959' THEN 'Joanna Hackett'\n    WHEN '190937723960' THEN 'Natalie McGuinness'\n    WHEN '8713772' THEN 'Alan MacKinnon'\n    WHEN '9319401' THEN 'Sharron Marsh'\n  END as delegate,\n  s.companyName as sponsor,\n  m.timeSlot,\n  CASE m.timeSlot\n    WHEN 1 THEN 'Wed 10:15' WHEN 2 THEN 'Wed 10:45' WHEN 3 THEN 'Wed 13:30'\n    WHEN 4 THEN 'Wed 14:00' WHEN 5 THEN 'Wed 14:45' WHEN 6 THEN 'Wed 15:15'\n    WHEN 7 THEN 'Thu 10:30' WHEN 8 THEN 'Thu 11:00' WHEN 9 THEN 'Thu 13:15'\n    WHEN 10 THEN 'Thu 13:45' WHEN 11 THEN 'Thu 14:30' WHEN 12 THEN 'Thu 15:00'\n  END as slotTime,\n  m.id as meetingId\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE m.id IN ('690092','690093','690096','663570','663579')\nORDER BY s.companyName, m.timeSlot;\n",
+  "rows": [
+    {
+      "delegate": "Sharron Marsh",
+      "sponsor": "Poetry",
+      "timeSlot": "10",
+      "slotTime": "Thu 13:45",
+      "meetingId": "663579"
+    },
+    {
+      "delegate": "Alan MacKinnon",
+      "sponsor": "Poetry",
+      "timeSlot": "12",
+      "slotTime": "Thu 15:00",
+      "meetingId": "663570"
+    },
+    {
+      "delegate": "Mark Brooker",
+      "sponsor": "Radancy",
+      "timeSlot": "1",
+      "slotTime": "Wed 10:15",
+      "meetingId": "690092"
+    },
+    {
+      "delegate": "Natalie McGuinness",
+      "sponsor": "Radancy",
+      "timeSlot": "3",
+      "slotTime": "Wed 13:30",
+      "meetingId": "690096"
+    },
+    {
+      "delegate": "Joanna Hackett",
+      "sponsor": "Radancy",
+      "timeSlot": "11",
+      "slotTime": "Thu 14:30",
+      "meetingId": "690093"
+    }
+  ],
+  "messages": [],
+  "stdout": "delegate\tsponsor\ttimeSlot\tslotTime\tmeetingId\nSharron Marsh\tPoetry\t10\tThu 13:45\t663579\nAlan MacKinnon\tPoetry\t12\tThu 15:00\t663570\nMark Brooker\tRadancy\t1\tWed 10:15\t690092\nNatalie McGuinness\tRadancy\t3\tWed 13:30\t690096\nJoanna Hackett\tRadancy\t11\tThu 14:30\t690093\n",
+  "stderr": "",
+  "execution_time_ms": 378
+}

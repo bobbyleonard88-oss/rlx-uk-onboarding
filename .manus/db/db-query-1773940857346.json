@@ -1,0 +1,106 @@
+{
+  "query": "\nSELECT \n  m.timeSlot,\n  CASE m.timeSlot\n    WHEN 1 THEN 'Wed 10:15-10:45'\n    WHEN 2 THEN 'Wed 10:45-11:15'\n    WHEN 3 THEN 'Wed 13:30-14:00'\n    WHEN 4 THEN 'Wed 14:00-14:30'\n    WHEN 5 THEN 'Wed 14:45-15:15'\n    WHEN 6 THEN 'Wed 15:15-15:45'\n    WHEN 7 THEN 'Thu 10:30-11:00'\n    WHEN 8 THEN 'Thu 11:00-11:30'\n    WHEN 9 THEN 'Thu 13:15-13:45'\n    WHEN 10 THEN 'Thu 13:45-14:15'\n    WHEN 11 THEN 'Thu 14:30-15:00'\n    WHEN 12 THEN 'Thu 15:00-15:30'\n  END as slotTime,\n  m.attendeeId,\n  m.matchScore,\n  m.status,\n  m.matchReason\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE s.companyName = 'Veremark '\nORDER BY m.timeSlot;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT \n  m.timeSlot,\n  CASE m.timeSlot\n    WHEN 1 THEN 'Wed 10:15-10:45'\n    WHEN 2 THEN 'Wed 10:45-11:15'\n    WHEN 3 THEN 'Wed 13:30-14:00'\n    WHEN 4 THEN 'Wed 14:00-14:30'\n    WHEN 5 THEN 'Wed 14:45-15:15'\n    WHEN 6 THEN 'Wed 15:15-15:45'\n    WHEN 7 THEN 'Thu 10:30-11:00'\n    WHEN 8 THEN 'Thu 11:00-11:30'\n    WHEN 9 THEN 'Thu 13:15-13:45'\n    WHEN 10 THEN 'Thu 13:45-14:15'\n    WHEN 11 THEN 'Thu 14:30-15:00'\n    WHEN 12 THEN 'Thu 15:00-15:30'\n  END as slotTime,\n  m.attendeeId,\n  m.matchScore,\n  m.status,\n  m.matchReason\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE s.companyName = 'Veremark '\nORDER BY m.timeSlot;\n",
+  "rows": [
+    {
+      "timeSlot": "1",
+      "slotTime": "Wed 10:15-10:45",
+      "attendeeId": "8196151",
+      "matchScore": "68",
+      "status": "suggested",
+      "matchReason": "Delegate explicitly mentions 'Background checks for keys roles for Finance etc.' as a pain point/project. Veremark's 'global background screening and credential verification platform' directly addresses this need to 'reduce hiring risks and make more informed recruitment decisions'."
+    },
+    {
+      "timeSlot": "2",
+      "slotTime": "Wed 10:45-11:15",
+      "attendeeId": "8952301",
+      "matchScore": "79",
+      "status": "suggested",
+      "matchReason": "Delegate states 'Would be interested in background checking vendors' as a solution area of interest. Veremark's 'global background screening and credential verification platform' directly matches this explicit need."
+    },
+    {
+      "timeSlot": "3",
+      "slotTime": "Wed 13:30-14:00",
+      "attendeeId": "128491656706",
+      "matchScore": "83",
+      "status": "suggested",
+      "matchReason": "Delegate is actively exploring pre-onboarding and onboarding improvements, with a specific goal of reducing time-to-hire for mass positions. Veremark streamlined background checks directly address delays at the verification stage that slow onboarding. Delegate also has active interest in meeting background screening vendors."
+    },
+    {
+      "timeSlot": "4",
+      "slotTime": "Wed 14:00-14:30",
+      "attendeeId": "8713772",
+      "matchScore": "72",
+      "status": "suggested",
+      "matchReason": "Delegate lists 'Background Checks' as an Active / Confirmed Project and is 'Actively Evaluating Vendors'. Veremark directly provides solutions for 'global background screening and credential verification', addressing this core project need."
+    },
+    {
+      "timeSlot": "5",
+      "slotTime": "Wed 14:45-15:15",
+      "attendeeId": "116903349643",
+      "matchScore": "55",
+      "status": "confirmed",
+      "matchReason": "James Harley at Syngenta is building out a global executive hiring function and maturing their TA processes. Veremark's background screening and verification platform is relevant to his interest in improving candidate vetting quality and compliance across international hiring. The fit is moderate — James's primary focus is on executive CRM and sourcing strategy, but screening efficiency is a supporting need."
+    },
+    {
+      "timeSlot": "6",
+      "slotTime": "Wed 15:15-15:45",
+      "attendeeId": "9477501",
+      "matchScore": "54",
+      "status": "suggested",
+      "matchReason": "Delegate seeks to 'Reduce time-to-hire without compromising quality of hire' and 'high-volume assessments,' which Veremark can contribute to by speeding up the final verification stage, but it's not their primary focus for early funnel challenges. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "timeSlot": "7",
+      "slotTime": "Thu 10:30-11:00",
+      "attendeeId": "4956154",
+      "matchScore": "68",
+      "status": "confirmed",
+      "matchReason": "Jules is a Director of Talent Acquisition at Gilead Science with active projects around AI-enabled tech, candidate experience, and Workday optimisation. Veremark's background screening and vetting platform connects directly to Jules' interest in screening efficiency and CRM functionality — two of her stated pain points. The fit is genuine but partial: Jules' primary objectives lean toward AI, internal mobility, and candidate experience platforms, which are adjacent rather than central to Veremark's core offering."
+    },
+    {
+      "timeSlot": "8",
+      "slotTime": "Thu 11:00-11:30",
+      "attendeeId": "91862577670",
+      "matchScore": "70",
+      "status": "suggested",
+      "matchReason": "Delegate explicitly opted in to meet Zinc — a deliberate signal of interest in background screening solutions. As Head of TA at Coca-Cola Europacific Partners with a focus on evolving the TA function and optimising their tech stack, background verification is a natural fit within their broader technology review."
+    },
+    {
+      "timeSlot": "9",
+      "slotTime": "Thu 13:15-13:45",
+      "attendeeId": "93176107633",
+      "matchScore": "76",
+      "status": "suggested",
+      "matchReason": "Delegate explicitly lists 'Background Screening' as an Active / Confirmed Project and a Solution Area of Interest, stating 'We have a tech stack that is dated and isn't integrated. We need to modernise our ways of working'. Veremark directly provides a modern, integrated 'global background screening and credential verification platform' to address these needs."
+    },
+    {
+      "timeSlot": "10",
+      "slotTime": "Thu 13:45-14:15",
+      "attendeeId": "11132851",
+      "matchScore": "50",
+      "status": "suggested",
+      "matchReason": "As Global Director of TA at IQ-EQ leading a shift from reactive to always-on hiring, reducing time-to-hire is a central priority. Veremark can meaningfully accelerate the final stages of the hiring journey by eliminating delays caused by slow background verification — helping candidates move from offer to start date faster, which directly addresses the friction and bottlenecks IQ-EQ is working to remove across its global TA function."
+    },
+    {
+      "timeSlot": "11",
+      "slotTime": "Thu 14:30-15:00",
+      "attendeeId": "110260566550",
+      "matchScore": "77",
+      "status": "suggested",
+      "matchReason": "Delegate explicitly opted in to meet Zinc (a direct Veremark competitor) and lists \"Screening\" as a current pain point — a clear signal of active vendor evaluation in the background screening space. With a global TA CoE remit at Nissan, streamlining screening processes across regions is a natural fit for Veremark's platform."
+    },
+    {
+      "timeSlot": "12",
+      "slotTime": "Thu 15:00-15:30",
+      "attendeeId": "113145184682",
+      "matchScore": "48",
+      "status": "suggested",
+      "matchReason": "As Head of TA at AXA with a broad technology transformation underway — covering sourcing automation, talent intelligence, interview scheduling and total workforce solutions — background screening and credential verification is a natural component of a modernised end-to-end hiring process. Veremark offers a strong opportunity to streamline the verification stage as AXA scales its TA tech stack."
+    }
+  ],
+  "messages": [],
+  "stdout": "timeSlot\tslotTime\tattendeeId\tmatchScore\tstatus\tmatchReason\n1\tWed 10:15-10:45\t8196151\t68\tsuggested\tDelegate explicitly mentions 'Background checks for keys roles for Finance etc.' as a pain point/project. Veremark's 'global background screening and credential verification platform' directly addresses this need to 'reduce hiring risks and make more informed recruitment decisions'.\n2\tWed 10:45-11:15\t8952301\t79\tsuggested\tDelegate states 'Would be interested in background checking vendors' as a solution area of interest. Veremark's 'global background screening and credential verification platform' directly matches this explicit need.\n3\tWed 13:30-14:00\t128491656706\t83\tsuggested\tDelegate is actively exploring pre-onboarding and onboarding improvements, with a specific goal of reducing time-to-hire for mass positions. Veremark streamlined background checks directly address delays at the verification stage that slow onboarding. Delegate also has active interest in meeting background screening vendors.\n4\tWed 14:00-14:30\t8713772\t72\tsuggested\tDelegate lists 'Background Checks' as an Active / Confirmed Project and is 'Actively Evaluating Vendors'. Veremark directly provides solutions for 'global background screening and credential verification', addressing this core project need.\n5\tWed 14:45-15:15\t116903349643\t55\tconfirmed\tJames Harley at Syngenta is building out a global executive hiring function and maturing their TA processes. Veremark's background screening and verification platform is relevant to his interest in improving candidate vetting quality and compliance across international hiring. The fit is moderate — James's primary focus is on executive CRM and sourcing strategy, but screening efficiency is a supporting need.\n6\tWed 15:15-15:45\t9477501\t54\tsuggested\tDelegate seeks to 'Reduce time-to-hire without compromising quality of hire' and 'high-volume assessments,' which Veremark can contribute to by speeding up the final verification stage, but it's not their primary focus for early funnel challenges. (Ranked in sponsor's top 20 preferred delegates)\n7\tThu 10:30-11:00\t4956154\t68\tconfirmed\tJules is a Director of Talent Acquisition at Gilead Science with active projects around AI-enabled tech, candidate experience, and Workday optimisation. Veremark's background screening and vetting platform connects directly to Jules' interest in screening efficiency and CRM functionality — two of her stated pain points. The fit is genuine but partial: Jules' primary objectives lean toward AI, internal mobility, and candidate experience platforms, which are adjacent rather than central to Veremark's core offering.\n8\tThu 11:00-11:30\t91862577670\t70\tsuggested\tDelegate explicitly opted in to meet Zinc — a deliberate signal of interest in background screening solutions. As Head of TA at Coca-Cola Europacific Partners with a focus on evolving the TA function and optimising their tech stack, background verification is a natural fit within their broader technology review.\n9\tThu 13:15-13:45\t93176107633\t76\tsuggested\tDelegate explicitly lists 'Background Screening' as an Active / Confirmed Project and a Solution Area of Interest, stating 'We have a tech stack that is dated and isn't integrated. We need to modernise our ways of working'. Veremark directly provides a modern, integrated 'global background screening and credential verification platform' to address these needs.\n10\tThu 13:45-14:15\t11132851\t50\tsuggested\tAs Global Director of TA at IQ-EQ leading a shift from reactive to always-on hiring, reducing time-to-hire is a central priority. Veremark can meaningfully accelerate the final stages of the hiring journey by eliminating delays caused by slow background verification — helping candidates move from offer to start date faster, which directly addresses the friction and bottlenecks IQ-EQ is working to remove across its global TA function.\n11\tThu 14:30-15:00\t110260566550\t77\tsuggested\tDelegate explicitly opted in to meet Zinc (a direct Veremark competitor) and lists \"Screening\" as a current pain point — a clear signal of active vendor evaluation in the background screening space. With a global TA CoE remit at Nissan, streamlining screening processes across regions is a natural fit for Veremark's platform.\n12\tThu 15:00-15:30\t113145184682\t48\tsuggested\tAs Head of TA at AXA with a broad technology transformation underway — covering sourcing automation, talent intelligence, interview scheduling and total workforce solutions — background screening and credential verification is a natural component of a modernised end-to-end hiring process. Veremark offers a strong opportunity to streamline the verification stage as AXA scales its TA tech stack.\n",
+  "stderr": "",
+  "execution_time_ms": 393
+}

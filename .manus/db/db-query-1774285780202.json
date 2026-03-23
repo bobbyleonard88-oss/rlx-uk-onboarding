@@ -1,0 +1,82 @@
+{
+  "query": "\nSELECT \n  m.timeSlot,\n  CASE m.timeSlot\n    WHEN 1 THEN 'Wed 10:15' WHEN 2 THEN 'Wed 10:45' WHEN 3 THEN 'Wed 13:30'\n    WHEN 4 THEN 'Wed 14:00' WHEN 5 THEN 'Wed 14:45' WHEN 6 THEN 'Wed 15:15'\n    WHEN 7 THEN 'Thu 10:30' WHEN 8 THEN 'Thu 11:00' WHEN 9 THEN 'Thu 13:15'\n    WHEN 10 THEN 'Thu 13:45' WHEN 11 THEN 'Thu 14:30' WHEN 12 THEN 'Thu 15:00'\n  END as slotTime,\n  m.attendeeId,\n  m.id as meetingId\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE s.companyName = 'Radancy'\nORDER BY m.timeSlot;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT \n  m.timeSlot,\n  CASE m.timeSlot\n    WHEN 1 THEN 'Wed 10:15' WHEN 2 THEN 'Wed 10:45' WHEN 3 THEN 'Wed 13:30'\n    WHEN 4 THEN 'Wed 14:00' WHEN 5 THEN 'Wed 14:45' WHEN 6 THEN 'Wed 15:15'\n    WHEN 7 THEN 'Thu 10:30' WHEN 8 THEN 'Thu 11:00' WHEN 9 THEN 'Thu 13:15'\n    WHEN 10 THEN 'Thu 13:45' WHEN 11 THEN 'Thu 14:30' WHEN 12 THEN 'Thu 15:00'\n  END as slotTime,\n  m.attendeeId,\n  m.id as meetingId\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE s.companyName = 'Radancy'\nORDER BY m.timeSlot;\n",
+  "rows": [
+    {
+      "timeSlot": "1",
+      "slotTime": "Wed 10:15",
+      "attendeeId": "174442448959",
+      "meetingId": "690093"
+    },
+    {
+      "timeSlot": "2",
+      "slotTime": "Wed 10:45",
+      "attendeeId": "1076201",
+      "meetingId": "690091"
+    },
+    {
+      "timeSlot": "3",
+      "slotTime": "Wed 13:30",
+      "attendeeId": "7258470500",
+      "meetingId": "690092"
+    },
+    {
+      "timeSlot": "4",
+      "slotTime": "Wed 14:00",
+      "attendeeId": "201697440144",
+      "meetingId": "690100"
+    },
+    {
+      "timeSlot": "5",
+      "slotTime": "Wed 14:45",
+      "attendeeId": "93174643474",
+      "meetingId": "690094"
+    },
+    {
+      "timeSlot": "6",
+      "slotTime": "Wed 15:15",
+      "attendeeId": "128491656706",
+      "meetingId": "690095"
+    },
+    {
+      "timeSlot": "7",
+      "slotTime": "Thu 10:30",
+      "attendeeId": "452351",
+      "meetingId": "690098"
+    },
+    {
+      "timeSlot": "8",
+      "slotTime": "Thu 11:00",
+      "attendeeId": "92353346050",
+      "meetingId": "690097"
+    },
+    {
+      "timeSlot": "9",
+      "slotTime": "Thu 13:15",
+      "attendeeId": "191181016455",
+      "meetingId": "690099"
+    },
+    {
+      "timeSlot": "10",
+      "slotTime": "Thu 13:45",
+      "attendeeId": "17812226737",
+      "meetingId": "690102"
+    },
+    {
+      "timeSlot": "11",
+      "slotTime": "Thu 14:30",
+      "attendeeId": "190937723960",
+      "meetingId": "690096"
+    },
+    {
+      "timeSlot": "12",
+      "slotTime": "Thu 15:00",
+      "attendeeId": "91889321035",
+      "meetingId": "690101"
+    }
+  ],
+  "messages": [],
+  "stdout": "timeSlot\tslotTime\tattendeeId\tmeetingId\n1\tWed 10:15\t174442448959\t690093\n2\tWed 10:45\t1076201\t690091\n3\tWed 13:30\t7258470500\t690092\n4\tWed 14:00\t201697440144\t690100\n5\tWed 14:45\t93174643474\t690094\n6\tWed 15:15\t128491656706\t690095\n7\tThu 10:30\t452351\t690098\n8\tThu 11:00\t92353346050\t690097\n9\tThu 13:15\t191181016455\t690099\n10\tThu 13:45\t17812226737\t690102\n11\tThu 14:30\t190937723960\t690096\n12\tThu 15:00\t91889321035\t690101\n",
+  "stderr": "",
+  "execution_time_ms": 512
+}
