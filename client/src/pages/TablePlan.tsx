@@ -235,38 +235,33 @@ export default function TablePlan() {
               {searchResults.length === 0 ? (
                 <p className="text-slate-400 text-sm">No meetings found for "{search}".</p>
               ) : (
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="border-b border-slate-700">
-                        <th className="text-left text-xs text-slate-400 font-medium pb-2 pr-4">Slot</th>
-                        <th className="text-left text-xs text-slate-400 font-medium pb-2 pr-4">Time</th>
-                        <th className="text-left text-xs text-slate-400 font-medium pb-2 pr-4">Table</th>
-                        <th className="text-left text-xs text-slate-400 font-medium pb-2 pr-4">Sponsor</th>
-                        <th className="text-left text-xs text-slate-400 font-medium pb-2 pr-4">Delegate</th>
-                        <th className="text-left text-xs text-slate-400 font-medium pb-2 pr-4">Company</th>
-                        <th className="text-left text-xs text-slate-400 font-medium pb-2">Job Title</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {searchResults.map((r, i) => (
-                        <tr key={i} className="border-b border-slate-800 hover:bg-slate-700/30 transition-colors">
-                          <td className="py-2 pr-4 text-slate-300">{r.label}</td>
-                          <td className="py-2 pr-4 text-slate-300">{r.time}</td>
-                          <td className="py-2 pr-4">
-                            <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-bold text-white ${tableColour(r.meeting.tableNumber)}`}>
-                              T{r.meeting.tableNumber}
-                              {r.meeting.isStarred && <Star className="w-3 h-3 fill-yellow-300 text-yellow-300" />}
-                            </span>
-                          </td>
-                          <td className="py-2 pr-4 text-white font-medium">{r.meeting.sponsorName}</td>
-                          <td className="py-2 pr-4 text-slate-200">{r.meeting.attendeeName}</td>
-                          <td className="py-2 pr-4 text-slate-300">{r.meeting.attendeeCompany}</td>
-                          <td className="py-2 text-slate-400 text-xs">{r.meeting.attendeeJobTitle}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                <div className="space-y-3">
+                  {searchResults.map((r, i) => (
+                    <div key={i} className="rounded-lg bg-slate-700/40 border border-slate-700 p-3 flex flex-col sm:flex-row sm:items-center gap-3">
+                      {/* Table badge */}
+                      <div className="shrink-0">
+                        <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded text-sm font-bold text-white ${tableColour(r.meeting.tableNumber)}`}>
+                          T{r.meeting.tableNumber}
+                          {r.meeting.isStarred && <Star className="w-3.5 h-3.5 fill-yellow-300 text-yellow-300" />}
+                        </span>
+                      </div>
+                      {/* Main info */}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 mb-1">
+                          <span className="text-white font-semibold text-sm">{r.meeting.attendeeName}</span>
+                          {r.meeting.attendeeJobTitle && (
+                            <span className="text-slate-400 text-xs">{r.meeting.attendeeJobTitle}</span>
+                          )}
+                        </div>
+                        <p className="text-slate-300 text-sm truncate">{r.meeting.attendeeCompany}</p>
+                      </div>
+                      {/* Sponsor + slot */}
+                      <div className="shrink-0 text-right sm:text-right">
+                        <p className="text-purple-300 text-sm font-medium">{r.meeting.sponsorName}</p>
+                        <p className="text-slate-500 text-xs mt-0.5">{r.time} · {r.label}</p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               )}
             </CardContent>

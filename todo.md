@@ -1617,3 +1617,6 @@
 
 ## Table Plan UI — March 25 2026
 - [x] Remove the four stat cards (Sponsor Tables, Total Meetings, Days, Rescheduled Meetings) from the top of the public table plan page
+
+## Table Plan Mobile Search — March 25 2026
+- [x] Improve mobile layout of search results — replace cramped table with card-per-result on small screens
