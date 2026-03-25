@@ -1611,3 +1611,6 @@
 - [x] Add star icon markers on Maki+Red Bull (meeting 663404) and Happydance+Aon (meeting 690050)
 - [x] Add search feature (by company and person name) on the public table plan page
 - [x] Register /table-plan route in App.tsx as a public route
+
+## Table Plan Star Label — March 25 2026
+- [x] Change star badge legend from "featured meeting" to "Rescheduled" on public table plan

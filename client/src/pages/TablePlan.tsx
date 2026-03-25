@@ -279,7 +279,7 @@ export default function TablePlan() {
             { icon: <Table className="w-4 h-4 text-purple-400" />, label: "Sponsor Tables", value: floorPlan.sponsors.length },
             { icon: <Users className="w-4 h-4 text-blue-400" />, label: "Total Meetings", value: floorPlan.totalMeetings },
             { icon: <Calendar className="w-4 h-4 text-emerald-400" />, label: "Days", value: 2 },
-            { icon: <Star className="w-4 h-4 text-yellow-400" />, label: "Starred Meetings", value: floorPlan.slots.flatMap(s => s.meetings).filter(m => m.isStarred).length },
+            { icon: <Star className="w-4 h-4 text-yellow-400" />, label: "Rescheduled Meetings", value: floorPlan.slots.flatMap(s => s.meetings).filter(m => m.isStarred).length },
           ].map((stat, i) => (
             <Card key={i} className="bg-slate-800/50 border-slate-700">
               <CardContent className="p-4 flex items-center gap-3">
@@ -327,7 +327,7 @@ export default function TablePlan() {
               {/* Star legend */}
               <div className="ml-auto flex items-center gap-1.5 text-xs text-yellow-400">
                 <Star className="w-3.5 h-3.5 fill-yellow-400" />
-                <span>= featured meeting</span>
+                <span>= Rescheduled</span>
               </div>
             </div>
             {/* Two rounds side by side */}
