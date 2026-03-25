@@ -194,13 +194,13 @@ function SingleRow({ item, index }: { item: SingleItem; index: number }) {
 
   return (
     <AnimatedSection delay={index * 35}>
-      <div className={`flex gap-4 p-4 rounded-lg border transition-all ${
+      <div className={`flex gap-3 px-3 py-2.5 rounded-lg border transition-all ${
         item.highlight
           ? "bg-gradient-to-r from-primary/10 to-accent/5 border-accent/30"
           : "bg-slate-800/30 border-slate-700/50 hover:border-slate-600/70"
       }`}>
         {/* Time */}
-        <div className="flex-shrink-0 w-28 text-right pt-0.5">
+        <div className="flex-shrink-0 w-24 text-right pt-0.5">
           {item.time && <span className="text-sm font-mono font-medium text-accent/90">{item.time}</span>}
         </div>
         {/* Icon */}
@@ -228,7 +228,7 @@ function ConcurrentRow({ item, index }: { item: ConcurrentItem; index: number })
     <AnimatedSection delay={index * 35}>
       <div className="rounded-lg border border-accent/20 overflow-hidden">
         {/* Time header */}
-        <div className="flex items-center gap-2 px-4 py-2 bg-accent/10 border-b border-accent/20">
+        <div className="flex items-center gap-2 px-3 py-1.5 bg-accent/10 border-b border-accent/20">
           <Clock className="w-3.5 h-3.5 text-accent flex-shrink-0" />
           <span className="text-sm font-mono font-semibold text-accent">{item.time}</span>
           <span className="text-xs text-slate-400 ml-1">— concurrent sessions</span>
@@ -237,7 +237,7 @@ function ConcurrentRow({ item, index }: { item: ConcurrentItem; index: number })
         {/* Two-column tracks */}
         <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-slate-700/50">
           {/* Left — 1:1 Meetings */}
-          <div className={`flex items-start gap-3 p-4 ${leftCfg.bg}`}>
+          <div className={`flex items-start gap-3 px-4 py-3 ${leftCfg.bg}`}>
             <TypeBadge type={item.left.type} />
             <div>
               <p className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Track A</p>
@@ -252,7 +252,7 @@ function ConcurrentRow({ item, index }: { item: ConcurrentItem; index: number })
           </div>
 
           {/* Right — Parallel session */}
-          <div className="flex items-start gap-3 p-4 bg-slate-800/40">
+          <div className="flex items-start gap-3 px-4 py-3 bg-slate-800/40">
             <TypeBadge type={item.right.type} />
             <div>
               <p className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Track B</p>
@@ -270,23 +270,22 @@ function ConcurrentRow({ item, index }: { item: ConcurrentItem; index: number })
 
 export default function EventAgenda() {
   return (
-    <div className="min-h-screen py-20">
-      <div className="container max-w-5xl">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-6 lg:p-10">
+      <div className="max-w-5xl mx-auto">
         {/* Header */}
         <AnimatedSection>
-          <div className="mb-12 text-center">
-            <h1 className="text-foreground mb-4">Event Agenda</h1>
-            <div className="gold-divider max-w-md mx-auto mb-8" />
-            <p className="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-              Official programme for the RLUK Exchange 2026 at The Grove Hotel Spa &amp; Golf, Hertfordshire.
-              Final topics and speakers are subject to change ahead of the event day.
+          <div className="mb-8">
+            <h1 className="text-3xl font-heading font-bold text-white mb-1">Event Agenda</h1>
+            <p className="text-white/60 text-sm">
+              Official programme for RLUK Exchange 2026 at The Grove Hotel Spa &amp; Golf, Hertfordshire.
+              Topics and speakers are subject to change.
             </p>
           </div>
         </AnimatedSection>
 
         {/* Event Summary */}
         <AnimatedSection delay={100}>
-          <div className="glass-card p-8 rounded-lg mb-12 bg-gradient-to-br from-primary/20 to-accent/20 border-accent/30">
+          <div className="glass-card p-5 rounded-lg mb-8 bg-gradient-to-br from-primary/20 to-accent/20 border-accent/30">
             <div className="grid md:grid-cols-3 gap-6 text-center">
               <div className="flex flex-col items-center">
                 <div className="w-14 h-14 rounded-full bg-accent/20 flex items-center justify-center mb-3 border-2 border-accent/30">
@@ -315,12 +314,12 @@ export default function EventAgenda() {
         </AnimatedSection>
 
         {/* Day-by-Day */}
-        <div className="space-y-12">
+        <div className="space-y-6">
           {agenda.map((day, dayIndex) => (
             <AnimatedSection key={day.day} delay={dayIndex * 80}>
               <div className="glass-card rounded-lg overflow-hidden border-slate-700/50">
                 {/* Day Header */}
-                <div className="bg-gradient-to-r from-primary/30 to-accent/20 border-b border-accent/30 p-6">
+                <div className="bg-gradient-to-r from-primary/30 to-accent/20 border-b border-accent/30 px-5 py-4">
                   <div className="flex items-center gap-3 mb-1">
                     <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center border-2 border-accent/40">
                       <Sun className="w-5 h-5 text-accent" />
@@ -334,7 +333,7 @@ export default function EventAgenda() {
                 </div>
 
                 {/* Items */}
-                <div className="p-4 space-y-2">
+                <div className="p-3 space-y-1.5">
                   {day.items.map((item, i) =>
                     item.kind === "concurrent"
                       ? <ConcurrentRow key={i} item={item} index={i} />

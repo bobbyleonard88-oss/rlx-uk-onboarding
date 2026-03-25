@@ -1593,3 +1593,14 @@
 - [x] Restore agenda to Event Details page (currently missing/broken)
 - [x] Fix Feedback page 404 (route not registered or import missing)
 - [x] Remove Intake Form tab from sponsor nav (strip to 3 tabs: Meeting Schedule, Event Details, Feedback)
+
+## Meeting Schedule Page — March 25 2026
+- [x] Restore View Profile and Download buttons to each meeting card (were already present)
+- [ ] Make meeting cards more compact/less tall (reduce padding, tighten layout)
+
+## Agenda & Event Details Split — March 25 2026
+- [x] Split Agenda out of EventDetails into its own separate page/tab in the nav
+- [x] Add Agenda as 4th tab in sponsor nav (Meeting Schedule, Event Details, Agenda, Feedback)
+- [x] Register /agenda route in App.tsx (already exists as EventAgenda)
+- [x] Redesign Agenda page: concurrent sessions shown side-by-side, restore previous visual style
+- [x] EventDetails page: remove agenda section, keep only venue/travel/location info

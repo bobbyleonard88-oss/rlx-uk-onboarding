@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { Calendar, MapPin, Star, CheckCircle } from "lucide-react";
+import { Calendar, MapPin, Star, CheckCircle, BookOpen } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
@@ -7,6 +7,7 @@ import { trpc } from "@/lib/trpc";
 const navItems = [
   { path: "/meeting-schedule", label: "Meeting Schedule", icon: Calendar },
   { path: "/event-details",    label: "Event Details",    icon: MapPin },
+  { path: "/agenda",           label: "Agenda",           icon: BookOpen },
   { path: "/feedback",         label: "Feedback",         icon: Star },
 ];
 
