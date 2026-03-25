@@ -1679,3 +1679,6 @@
 
 ## Admin Header Nav Overflow Fix — March 25 2026
 - [x] Fix admin nav overflow: items overlap with email/logout on right side
+
+## Expanded Ratings CSV Export — March 25 2026
+- [x] Add all delegate details to getAllMeetingsExport: companySize, industry, teamSize, budgetAuthority, assessmentTool, ats, crm, marketIntelligence, regionalRemit, activeConfirmedProjects, activeBudgetRange, primaryMeetingObjective, contractSignOff, keySolutionAreasOfInterest, currentPainPoints, currentProjectStage, isRescheduled

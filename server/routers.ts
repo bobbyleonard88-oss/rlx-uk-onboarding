@@ -2279,6 +2279,22 @@ export const appRouter = router({
             'Delegate Name': delegate ? `${delegate.firstName} ${delegate.lastName}` : meeting.attendeeId,
             'Delegate Company': delegate?.company ?? '',
             'Delegate Job Title': delegate?.jobTitle ?? '',
+            'Delegate Company Size': delegate?.companySize ?? '',
+            'Delegate Industry': delegate?.industry ?? '',
+            'Delegate Team Size': delegate?.teamSize ?? '',
+            'Delegate Regional Remit': delegate?.regionalRemit ?? '',
+            'Budget Authority': delegate?.budgetAuthority ?? '',
+            'Contract Sign-Off': delegate?.contractSignOff ?? '',
+            'Active Budget Range': delegate?.activeBudgetRange ?? '',
+            'Active Confirmed Projects': delegate?.activeConfirmedProjects ?? '',
+            'Primary Meeting Objective': delegate?.primaryMeetingObjective ?? '',
+            'Key Solution Areas of Interest': delegate?.keySolutionAreasOfInterest ?? '',
+            'Current Pain Points': delegate?.currentPainPoints ?? '',
+            'Current Project Stage': delegate?.currentProjectStage ?? '',
+            'Assessment Tool': delegate?.assessmentTool ?? '',
+            'ATS': delegate?.ats ?? '',
+            'CRM': delegate?.crm ?? '',
+            'Market Intelligence': delegate?.marketIntelligence ?? '',
             // Priority flags
             'Vendor Rank': vendorRank != null ? `#${vendorRank}` : '',
             'In Vendor Top 10': isTop10 ? 'Yes' : 'No',
@@ -2293,7 +2309,9 @@ export const appRouter = router({
             'Match Reason': meeting.matchReason ?? '',
             // Status
             'Status': meeting.status,
-               // Post-event rating
+            // Rescheduled flag
+            'Rescheduled': meeting.isRescheduled ? 'Yes' : 'No',
+            // Post-event rating
             'Meeting Rating': meeting.meetingRating != null ? `${meeting.meetingRating}/5` : '',
             // Post-event notes
             'Meeting Notes': meeting.meetingNotes ?? '',
