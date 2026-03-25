@@ -1637,3 +1637,6 @@
 - [x] Build new admin Feedback & Notes tab with full table of all notes across all sponsors
 - [x] Add CSV export to admin Feedback & Notes tab
 - [x] Register new admin route in App.tsx
+
+## Public Table Plan Mobile Font — March 25 2026
+- [x] Increase font sizes on search result cards for better mobile readability

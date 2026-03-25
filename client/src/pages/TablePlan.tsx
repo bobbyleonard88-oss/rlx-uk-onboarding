@@ -239,46 +239,46 @@ export default function TablePlan() {
                   {searchResults.map((r, i) => (
                     <div key={i} className="rounded-xl bg-slate-800/60 border border-slate-700 overflow-hidden">
                       {/* Top bar: time + location */}
-                      <div className="flex items-center gap-3 px-4 py-2 bg-slate-700/50 border-b border-slate-700">
-                        <div className="flex items-center gap-1.5 text-xs text-slate-300">
-                          <Calendar className="w-3.5 h-3.5 text-purple-400 shrink-0" />
-                          <span className="font-medium">{r.time}</span>
+                      <div className="flex flex-wrap items-center gap-2 px-4 py-2.5 bg-slate-700/50 border-b border-slate-700">
+                        <div className="flex items-center gap-1.5 text-sm text-slate-300">
+                          <Calendar className="w-4 h-4 text-purple-400 shrink-0" />
+                          <span className="font-semibold">{r.time}</span>
                           <span className="text-slate-500">·</span>
                           <span className="text-slate-400">{r.label}</span>
                         </div>
-                        <div className="flex items-center gap-1.5 text-xs text-slate-300 ml-auto">
-                          <MapPin className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                        <div className="flex items-center gap-1.5 text-sm text-slate-300 ml-auto">
+                          <MapPin className="w-4 h-4 text-emerald-400 shrink-0" />
                           <span>Ivory Suite</span>
-                          <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-bold text-white ml-1 ${tableColour(r.meeting.tableNumber)}`}>
+                          <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded text-sm font-bold text-white ml-1 ${tableColour(r.meeting.tableNumber)}`}>
                             Table {r.meeting.tableNumber}
-                            {r.meeting.isStarred && <Star className="w-3 h-3 fill-yellow-300 text-yellow-300" />}
+                            {r.meeting.isStarred && <Star className="w-3.5 h-3.5 fill-yellow-300 text-yellow-300" />}
                           </span>
                         </div>
                       </div>
                       {/* Body: delegate ↔ sponsor */}
-                      <div className="flex flex-col sm:flex-row sm:items-center gap-3 px-4 py-3">
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-4 px-4 py-4">
                         {/* Delegate */}
                         <div className="flex-1 min-w-0">
-                          <p className="text-[11px] uppercase tracking-wider text-slate-500 mb-0.5">Delegate</p>
-                          <p className="text-white font-semibold text-sm leading-tight">{r.meeting.attendeeName}</p>
+                          <p className="text-xs uppercase tracking-wider text-slate-500 mb-1">Delegate</p>
+                          <p className="text-white font-semibold text-base leading-tight">{r.meeting.attendeeName}</p>
                           {r.meeting.attendeeJobTitle && (
-                            <p className="text-slate-400 text-xs mt-0.5">{r.meeting.attendeeJobTitle}</p>
+                            <p className="text-slate-400 text-sm mt-0.5">{r.meeting.attendeeJobTitle}</p>
                           )}
                           {r.meeting.attendeeCompany && (
-                            <p className="text-purple-300/80 text-xs font-medium mt-0.5">{r.meeting.attendeeCompany}</p>
+                            <p className="text-purple-300/80 text-sm font-medium mt-0.5">{r.meeting.attendeeCompany}</p>
                           )}
                         </div>
                         {/* Divider */}
                         <div className="hidden sm:flex items-center">
-                          <div className="w-px h-10 bg-slate-600" />
+                          <div className="w-px h-12 bg-slate-600" />
                         </div>
                         {/* Sponsor */}
                         <div className="flex-1 min-w-0 sm:text-right">
-                          <p className="text-[11px] uppercase tracking-wider text-slate-500 mb-0.5">Meeting with</p>
-                          <p className="text-white font-semibold text-sm">{r.meeting.sponsorName}</p>
+                          <p className="text-xs uppercase tracking-wider text-slate-500 mb-1">Meeting with</p>
+                          <p className="text-white font-semibold text-base">{r.meeting.sponsorName}</p>
                           {r.meeting.isStarred && (
-                            <span className="inline-flex items-center gap-1 text-yellow-400 text-xs mt-0.5">
-                              <Star className="w-3 h-3 fill-yellow-400" /> Rescheduled
+                            <span className="inline-flex items-center gap-1 text-yellow-400 text-sm mt-0.5">
+                              <Star className="w-3.5 h-3.5 fill-yellow-400" /> Rescheduled
                             </span>
                           )}
                         </div>
