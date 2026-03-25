@@ -1620,3 +1620,10 @@
 
 ## Table Plan Mobile Search — March 25 2026
 - [x] Improve mobile layout of search results — replace cramped table with card-per-result on small screens
+
+## Sponsor UX — March 25 2026
+- [x] Compact Feedback page meeting cards (reduce padding/height, tighter layout)
+- [x] Redirect sponsors to /meeting-schedule (not /dashboard) on login
+
+## Public Table Plan Search Results — March 25 2026
+- [x] Redesign search result cards: clearly show time, table location, delegate name, job title, company in structured event-style layout

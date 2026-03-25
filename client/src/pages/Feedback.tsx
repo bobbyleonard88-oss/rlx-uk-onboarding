@@ -29,7 +29,7 @@ function StarRating({
           aria-label={`Rate ${star} star${star > 1 ? "s" : ""}`}
         >
           <Star
-            className={`w-6 h-6 transition-colors ${
+            className={`w-5 h-5 transition-colors ${
               star <= display
                 ? "fill-amber-400 text-amber-400"
                 : "text-white/20 fill-transparent"
@@ -149,7 +149,7 @@ export default function Feedback() {
           <p className="text-white/40 text-sm">No confirmed meetings yet.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
           {confirmedMeetings.map((meeting) => {
             const delegate = meeting.delegateProfile;
             const name = delegate
@@ -162,30 +162,27 @@ export default function Feedback() {
             return (
               <div
                 key={meeting.id}
-                className={`glass-card rounded-xl p-5 space-y-3 transition-all duration-200 ${
+                className={`glass-card rounded-lg px-4 py-3 flex items-center gap-3 transition-all duration-200 ${
                   meeting.meetingRating ? "border border-amber-400/20" : "border border-white/5"
                 }`}
               >
                 {/* Slot badge */}
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-purple-300 bg-purple-500/20 px-2.5 py-1 rounded-full border border-purple-500/30">
-                    {slotTime}
-                  </span>
-                  {meeting.meetingRating && (
-                    <span className="text-xs text-amber-400/80">Rated</span>
+                <span className="shrink-0 text-xs text-purple-300 bg-purple-500/20 px-2 py-0.5 rounded-full border border-purple-500/30 whitespace-nowrap">
+                  {slotTime}
+                </span>
+
+                {/* Delegate info */}
+                <div className="flex-1 min-w-0">
+                  <p className="text-white font-semibold text-sm leading-tight truncate">{name}</p>
+                  {(jobTitle || company) && (
+                    <p className="text-white/50 text-xs truncate">
+                      {[jobTitle, company].filter(Boolean).join(" · ")}
+                    </p>
                   )}
                 </div>
 
-                {/* Delegate info */}
-                <div>
-                  <p className="text-white font-semibold text-base leading-tight">{name}</p>
-                  {jobTitle && <p className="text-white/60 text-sm">{jobTitle}</p>}
-                  {company && <p className="text-white/40 text-xs">{company}</p>}
-                </div>
-
                 {/* Star rating */}
-                <div>
-                  <p className="text-white/40 text-xs mb-2">How was this meeting?</p>
+                <div className="shrink-0">
                   <StarRating
                     rating={meeting.meetingRating}
                     saving={savingId === meeting.id}
