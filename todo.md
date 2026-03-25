@@ -1647,3 +1647,6 @@
 
 ## Table Plan Time Text Fix — March 25 2026
 - [x] Fix time text visibility in public table plan search result cards (text too faint/invisible)
+
+## Agenda Fix — March 25 2026
+- [x] Fix missing Sapia.ai workshop on the Agenda page (09:15–10:15, Indigo Suite, Thursday)

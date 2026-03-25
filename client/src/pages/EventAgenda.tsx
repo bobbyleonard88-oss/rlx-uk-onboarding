@@ -15,6 +15,7 @@ interface SingleItem {
   time?: string;
   title: string;
   format?: string;
+  room?: string;
   type: SessionType;
   highlight?: boolean;
 }
@@ -126,6 +127,14 @@ const agenda: DayAgenda[] = [
       { kind: "single", title: "Morning Wellness Session & Hotel Breakfast",                  type: "wellness" },
       { kind: "single", time: "09:00–09:15", title: "Host Welcome & Introductions",           type: "keynote" },
       {
+        kind: "single",
+        time: "09:15–10:15",
+        title: "Sapia.ai Workshop",
+        format: "Workshop",
+        room: "Indigo Suite",
+        type: "session",
+      },
+      {
         kind: "concurrent",
         time: "10:30–11:30",
         left:  { title: "1:1 Meetings", room: "Ivory Suite",                                 type: "meeting" },
@@ -214,6 +223,11 @@ function SingleRow({ item, index }: { item: SingleItem; index: number }) {
             {item.title}
           </h4>
           {item.format && <span className={`text-xs italic ${cfg.color} opacity-80`}>{item.format}</span>}
+          {item.room && (
+            <span className="inline-flex items-center gap-1 text-xs text-slate-400 mt-0.5">
+              <MapPin className="w-3 h-3" />{item.room}
+            </span>
+          )}
         </div>
       </div>
     </AnimatedSection>
