@@ -1,0 +1,18 @@
+{
+  "query": "SELECT m.id, m.sponsorId, m.attendeeId, m.timeSlot, m.isRescheduled, s.companyName FROM meetings m JOIN sponsors s ON m.sponsorId = s.id WHERE m.attendeeId = '92953690026' AND s.companyName LIKE '%SHL%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT m.id, m.sponsorId, m.attendeeId, m.timeSlot, m.isRescheduled, s.companyName FROM meetings m JOIN sponsors s ON m.sponsorId = s.id WHERE m.attendeeId = '92953690026' AND s.companyName LIKE '%SHL%';",
+  "rows": [
+    {
+      "id": "750159",
+      "sponsorId": "750001",
+      "attendeeId": "92953690026",
+      "timeSlot": "4",
+      "isRescheduled": "0",
+      "companyName": "SHL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tsponsorId\tattendeeId\ttimeSlot\tisRescheduled\tcompanyName\n750159\t750001\t92953690026\t4\t0\tSHL\n",
+  "stderr": "",
+  "execution_time_ms": 360
+}
