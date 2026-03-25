@@ -1644,3 +1644,6 @@
 ## Sticky Search & Dashboard Cleanup — March 25 2026
 - [x] Make search bar sticky on public table plan page (full-width on mobile, always visible)
 - [x] Clean up sponsor dashboard: remove Partner Intake Form and Meeting Rankings cards, add Rate Your Meetings CTA card linking to /feedback
+
+## Table Plan Time Text Fix — March 25 2026
+- [x] Fix time text visibility in public table plan search result cards (text too faint/invisible)

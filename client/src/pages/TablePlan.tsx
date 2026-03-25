@@ -251,17 +251,18 @@ export default function TablePlan() {
                   {searchResults.map((r, i) => (
                     <div key={i} className="rounded-xl bg-slate-800/60 border border-slate-700 overflow-hidden">
                       {/* Top bar: time + location */}
-                      <div className="flex flex-wrap items-center gap-2 px-4 py-2.5 bg-slate-700/50 border-b border-slate-700">
-                        <div className="flex items-center gap-1.5 text-sm text-slate-300">
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-2 px-4 py-3 bg-slate-700/70 border-b border-slate-600">
+                        {/* Time + slot label */}
+                        <div className="flex items-center gap-2">
                           <Calendar className="w-4 h-4 text-purple-400 shrink-0" />
-                          <span className="font-semibold">{r.time}</span>
-                          <span className="text-slate-500">·</span>
-                          <span className="text-slate-400">{r.label}</span>
+                          <span className="font-bold text-white text-base">{r.time}</span>
+                          <span className="text-slate-300 text-sm">{r.label}</span>
                         </div>
-                        <div className="flex items-center gap-1.5 text-sm text-slate-300 ml-auto">
+                        {/* Location + table */}
+                        <div className="flex items-center gap-2 sm:ml-auto">
                           <MapPin className="w-4 h-4 text-emerald-400 shrink-0" />
-                          <span>Ivory Suite</span>
-                          <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded text-sm font-bold text-white ml-1 ${tableColour(r.meeting.tableNumber)}`}>
+                          <span className="text-slate-200 text-sm">Ivory Suite</span>
+                          <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded text-sm font-bold text-white ${tableColour(r.meeting.tableNumber)}`}>
                             Table {r.meeting.tableNumber}
                             {r.meeting.isStarred && <Star className="w-3.5 h-3.5 fill-yellow-300 text-yellow-300" />}
                           </span>
