@@ -73,6 +73,7 @@ export default function AdminHeader() {
     { path: "/admin/meetings", label: "Meetings" },
     { path: "/admin/analytics", label: "Analytics" },
     { path: "/admin/feedback-notes", label: "Feedback & Notes" },
+    { path: "/admin/rescheduled", label: "Rescheduled ★" },
     { path: "/admin/delegate-overview", label: "Delegate Overview" },
     { path: "/admin/users", label: "Users" },
     { path: "/admin/activity-log", label: "Activity Log" },

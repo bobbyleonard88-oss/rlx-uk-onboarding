@@ -27,6 +27,7 @@ import MeetingSchedule from "./pages/MeetingSchedule";
 import DelegateOverview from "./pages/DelegateOverview";
 import Analytics from "./pages/Analytics";
 import AdminFeedbackNotes from "./pages/AdminFeedbackNotes";
+import AdminRescheduled from "./pages/AdminRescheduled";
 import ActivityLog from "./pages/ActivityLog";
 import EventAgenda from "./pages/EventAgenda";
 import EventDetails from "./pages/EventDetails";
@@ -93,6 +94,7 @@ function Router() {
             <Route path="/admin/users" component={AdminUsers} />
             <Route path="/admin/analytics" component={Analytics} />
             <Route path="/admin/feedback-notes" component={AdminFeedbackNotes} />
+            <Route path="/admin/rescheduled" component={AdminRescheduled} />
             <Route path="/admin/delegate-overview" component={DelegateOverview} />
             <Route path="/admin/activity-log" component={ActivityLog} />
             <Route component={NotFound} />

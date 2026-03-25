@@ -330,10 +330,9 @@ export const appRouter = router({
   // Public router — no auth required
   public: router({
     // Public floor plan — all meetings grouped by time slot, no login needed
-    // Starred meeting IDs: Maki+Red Bull (663404), Happydance+Aon (690050), Oliver Browne+Wilson (663556)
+    // Rescheduled status is now managed via the admin back office (isRescheduled DB column)
     getFloorPlan: publicProcedure
       .query(async () => {
-        const STARRED_MEETING_IDS = new Set([663404, 690050, 663556]);
         const TEST_SPONSOR_IDS = new Set([30001, 60001, 90001, 120001]);
         const ALWAYS_EXCLUDED_SPONSOR_IDS = new Set([270001, 510003]);
         const allMeetingsRaw = await db.getAllMeetings();
@@ -396,7 +395,7 @@ export const appRouter = router({
               attendeeCompany: attendee?.company ?? '',
               attendeeJobTitle: attendee?.jobTitle ?? '',
               status: m.status,
-              isStarred: STARRED_MEETING_IDS.has(m.id),
+              isStarred: m.isRescheduled === 1,
             };
           }).sort((a: any, b: any) => a.tableNumber - b.tableNumber),
         }));
@@ -2355,6 +2354,48 @@ export const appRouter = router({
       .mutation(async ({ input }) => {
         await db.clearSponsorRatings(input.sponsorId);
         return { success: true };
+      }),
+
+    // Toggle a meeting's rescheduled flag (shows/hides gold star on public table plan)
+    toggleMeetingRescheduled: adminProcedure
+      .input(z.object({ meetingId: z.number(), isRescheduled: z.boolean() }))
+      .mutation(async ({ input }) => {
+        await db.toggleMeetingRescheduled(input.meetingId, input.isRescheduled);
+        return { success: true };
+      }),
+
+    // Get all meetings with their rescheduled status (for admin management page)
+    getAllMeetingsWithRescheduled: adminProcedure
+      .query(async () => {
+        const TEST_SPONSOR_IDS = new Set([30001, 60001, 90001, 120001]);
+        const ALWAYS_EXCLUDED_SPONSOR_IDS = new Set([270001, 510003]);
+        const allMeetingsRaw = await db.getAllMeetings();
+        const allSponsorsRaw = await db.getAllSponsors();
+        const sponsorMap = new Map(allSponsorsRaw.map((s: any) => [s.id, s]));
+        return allMeetingsRaw
+          .filter((m: any) => {
+            const sponsor = sponsorMap.get(m.sponsorId);
+            if (!sponsor) return false;
+            if (ALWAYS_EXCLUDED_SPONSOR_IDS.has(m.sponsorId)) return false;
+            if (TEST_SPONSOR_IDS.has(m.sponsorId)) return false;
+            if (m.status === 'declined') return false;
+            if (m.isVisible === 0) return false;
+            return true;
+          })
+          .map((m: any) => {
+            const sponsor = sponsorMap.get(m.sponsorId);
+            const delegate = attendees.find((a: any) => a.id === m.attendeeId);
+            return {
+              id: m.id,
+              sponsorId: m.sponsorId,
+              sponsorName: sponsor?.companyName ?? 'Unknown',
+              delegateName: delegate ? `${delegate.firstName} ${delegate.lastName}` : m.attendeeId,
+              delegateCompany: delegate?.company ?? '',
+              timeSlot: m.timeSlot,
+              isRescheduled: m.isRescheduled === 1,
+            };
+          })
+          .sort((a: any, b: any) => a.sponsorName.localeCompare(b.sponsorName));
       }),
   }),
 });

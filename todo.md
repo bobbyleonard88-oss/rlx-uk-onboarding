@@ -1661,3 +1661,13 @@
 
 ## Rescheduled Meeting Star — March 25 2026
 - [x] Add Oliver Browne (Lockton) x Wilson meeting (ID 663556) to rescheduled list on /table-plan
+
+## Admin Rescheduled Toggle — March 25 2026
+- [x] Add isRescheduled column (int default 0) to meetings schema in drizzle/schema.ts
+- [x] Run pnpm db:push to migrate the column
+- [x] Seed existing 3 starred meetings (663404, 690050, 663556) as isRescheduled=1 in DB
+- [x] Add toggleRescheduled admin tRPC procedure
+- [x] Update public.getFloorPlan to use isRescheduled DB column instead of hardcoded set
+- [x] Build admin "Rescheduled Meetings" page with star/unstar toggle UI
+- [x] Add "Rescheduled Meetings" link to admin navigation
+- [x] Write vitest tests for toggleRescheduled procedure

@@ -896,3 +896,27 @@ export async function clearSponsorRatings(sponsorId: number) {
     .set({ meetingRating: null, updatedAt: new Date() })
     .where(eq(meetings.sponsorId, sponsorId));
 }
+
+export async function toggleMeetingRescheduled(meetingId: number, isRescheduled: boolean) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db
+    .update(meetings)
+    .set({ isRescheduled: isRescheduled ? 1 : 0, updatedAt: new Date() })
+    .where(eq(meetings.id, meetingId));
+}
+
+export async function getRescheduledMeetings() {
+  const db = await getDb();
+  if (!db) return [];
+  return db
+    .select({
+      id: meetings.id,
+      sponsorId: meetings.sponsorId,
+      attendeeId: meetings.attendeeId,
+      timeSlot: meetings.timeSlot,
+      isRescheduled: meetings.isRescheduled,
+    })
+    .from(meetings)
+    .where(eq(meetings.isRescheduled, 1));
+}
