@@ -28,6 +28,8 @@ import DelegateOverview from "./pages/DelegateOverview";
 import Analytics from "./pages/Analytics";
 import ActivityLog from "./pages/ActivityLog";
 import EventAgenda from "./pages/EventAgenda";
+import EventDetails from "./pages/EventDetails";
+import Feedback from "./pages/Feedback";
 import NewMeetingNotification from "./components/NewMeetingNotification";
 
 // Banner shown when admin is viewing the portal as a sponsor
@@ -117,6 +119,8 @@ function Router() {
             <Route path="/sponsor-profile" component={SponsorProfile} />
             <Route path="/meeting-schedule" component={MeetingSchedule} />
             <Route path="/agenda" component={EventAgenda} />
+            <Route path="/event-details" component={EventDetails} />
+            <Route path="/feedback" component={Feedback} />
             <Route path="/404" component={NotFound} />
             {/* Final fallback route */}
             <Route component={NotFound} />

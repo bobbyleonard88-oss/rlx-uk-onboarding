@@ -1587,3 +1587,9 @@
 - [x] Admin analytics: add per-sponsor meeting score breakdown section
 - [x] Admin analytics: add export CSV of all meeting scores per sponsor
 - [x] Admin meetings CSV export: add star rating column to existing download
+
+## Bug Fixes — March 25 2026
+- [x] Fix Event Details page error message (runtime crash)
+- [x] Restore agenda to Event Details page (currently missing/broken)
+- [x] Fix Feedback page 404 (route not registered or import missing)
+- [x] Remove Intake Form tab from sponsor nav (strip to 3 tabs: Meeting Schedule, Event Details, Feedback)

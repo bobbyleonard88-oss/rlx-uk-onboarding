@@ -1,12 +1,11 @@
 import { Link, useLocation } from "wouter";
-import { Calendar, FormInput, MapPin, Star, CheckCircle } from "lucide-react";
+import { Calendar, MapPin, Star, CheckCircle } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
 
 const navItems = [
   { path: "/meeting-schedule", label: "Meeting Schedule", icon: Calendar },
-  { path: "/intake",           label: "Intake Form",      icon: FormInput },
   { path: "/event-details",    label: "Event Details",    icon: MapPin },
   { path: "/feedback",         label: "Feedback",         icon: Star },
 ];
@@ -16,16 +15,11 @@ export default function Navigation() {
   const [hasNewMeetings, setHasNewMeetings] = useState(false);
   const { user, loading } = useAuth();
 
-  const { data: intakeStatus } = trpc.intake.getSubmission.useQuery(undefined, {
-    enabled: !!user,
-  });
-
   const { data: meetings } = trpc.sponsor.getMyMeetings.useQuery(undefined, {
     enabled: !!user,
   });
 
   const hasMeetings = !!(meetings && meetings.length > 0);
-  const isIntakeComplete = !!intakeStatus;
 
   useEffect(() => {
     if (hasMeetings) {
@@ -71,7 +65,6 @@ export default function Navigation() {
             const Icon = item.icon;
             const isActive = location === item.path;
             const isBlocked = !loading && !user;
-            const isCompleted = item.path === "/intake" && isIntakeComplete;
             const isMeetingSchedule = item.path === "/meeting-schedule";
 
             return (
@@ -103,9 +96,6 @@ export default function Navigation() {
                       <span className="hidden lg:block font-heading text-sm font-medium flex-1">
                         {item.label}
                       </span>
-                      {isCompleted && (
-                        <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
-                      )}
                       {isMeetingSchedule && hasMeetings && !hasNewMeetings && (
                         <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
                       )}
