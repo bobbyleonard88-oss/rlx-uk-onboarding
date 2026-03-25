@@ -1676,3 +1676,6 @@
 - [x] Add star/unstar toggle to each meeting row on admin table plan page (/admin/table-plan or TablePlan admin view)
 - [x] Star Oliver Browne x SHL meeting in DB
 - [x] Remove standalone /admin/rescheduled page (replaced by inline toggle on table plan)
+
+## Admin Header Nav Overflow Fix — March 25 2026
+- [x] Fix admin nav overflow: items overlap with email/logout on right side
