@@ -468,6 +468,7 @@ export async function getMeetingsBySponsor(sponsorId: number) {
       notes: meetings.notes,
       adminNotes: meetings.adminNotes,
       meetingRating: meetings.meetingRating,
+      meetingNotes: meetings.meetingNotes,
       createdAt: meetings.createdAt,
       updatedAt: meetings.updatedAt,
       attendeeFirstName: delegateProfiles.firstName,
@@ -732,7 +733,7 @@ export async function updateMeeting(id: number, updates: Partial<Omit<InsertMeet
     .where(eq(meetings.id, id));
 }
 
-export async function updateMeetingNotes(meetingId: number, adminNotes: string) {
+export async function updateAdminMeetingNotes(meetingId: number, adminNotes: string) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
   
@@ -875,5 +876,14 @@ export async function updateMeetingRating(meetingId: number, rating: number) {
   await db
     .update(meetings)
     .set({ meetingRating: rating, updatedAt: new Date() })
+    .where(eq(meetings.id, meetingId));
+}
+
+export async function updateMeetingNotes(meetingId: number, notes: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db
+    .update(meetings)
+    .set({ meetingNotes: notes, updatedAt: new Date() })
     .where(eq(meetings.id, meetingId));
 }

@@ -150,6 +150,7 @@ export const meetings = mysqlTable("meetings", {
   notes: text("notes"),
   adminNotes: text("adminNotes"), // Admin-only notes not visible to sponsors
   meetingRating: int("meetingRating"), // 1-5 star rating from sponsor post-event
+  meetingNotes: text("meetingNotes"), // Free-text notes from sponsor post-event
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });

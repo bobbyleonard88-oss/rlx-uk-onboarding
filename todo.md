@@ -1627,3 +1627,13 @@
 
 ## Public Table Plan Search Results — March 25 2026
 - [x] Redesign search result cards: clearly show time, table location, delegate name, job title, company in structured event-style layout
+
+## Meeting Notes Feature — March 25 2026
+- [x] Add meetingNotes (text, nullable) column to meetings table and push migration
+- [x] Add saveMeetingNote tRPC procedure (sponsor-protected, saves on blur)
+- [x] Update getMyMeetings to return meetingNotes field
+- [x] Add notes textarea to each Feedback page meeting card (saves on blur, shows saved state)
+- [x] Add meeting notes summary section to Analytics page (per-sponsor notes breakdown)
+- [x] Build new admin Feedback & Notes tab with full table of all notes across all sponsors
+- [x] Add CSV export to admin Feedback & Notes tab
+- [x] Register new admin route in App.tsx

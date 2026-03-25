@@ -440,7 +440,27 @@ export default function Analytics() {
             );
           })()}
 
-          {/* Row 5: Meeting Floor Plan — full width */}
+          {/* Row 5: Notes summary link */}
+          <div className="grid grid-cols-1 gap-6 mb-6">
+            <Card className="bg-slate-800/50 border-slate-700">
+              <CardContent className="pt-5 pb-4 px-5 flex items-center justify-between gap-4">
+                <div>
+                  <h3 className="text-white font-semibold text-base mb-1">Meeting Notes &amp; Feedback</h3>
+                  <p className="text-slate-400 text-sm">
+                    Sponsors can leave per-meeting notes and star ratings on their Feedback page. View all submitted notes, search by sponsor or delegate, and export to CSV.
+                  </p>
+                </div>
+                <a
+                  href="/admin/feedback-notes"
+                  className="shrink-0 inline-flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white text-sm font-medium rounded-lg transition-colors"
+                >
+                  View Feedback &amp; Notes →
+                </a>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Row 6: Meeting Floor Plan — full width */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="lg:col-span-2">
               <MeetingFloorPlan includeTestAccounts={includeTestAccounts} />

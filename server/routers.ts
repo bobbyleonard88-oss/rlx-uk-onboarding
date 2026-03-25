@@ -88,6 +88,7 @@ export const appRouter = router({
         return {
           ...m,
           meetingRating: m.meetingRating ?? null,
+          meetingNotes: m.meetingNotes ?? null,
           hasDelegateOptIn,
           // Full delegate profile fields for meeting schedule display
           delegateProfile: delegate ? {
@@ -308,6 +309,20 @@ export const appRouter = router({
           throw new TRPCError({ code: 'FORBIDDEN', message: 'Meeting not found or access denied' });
         }
         await db.updateMeetingRating(input.meetingId, input.rating);
+        return { success: true };
+      }),
+
+    // Save notes for a meeting — sponsor only
+    saveMeetingNote: protectedProcedure
+      .input(z.object({ meetingId: z.number(), notes: z.string().max(2000) }))
+      .mutation(async ({ ctx, input }) => {
+        const sponsor = await db.getSponsorByUserId(ctx.user.id, ctx.user.email ?? undefined);
+        if (!sponsor) throw new TRPCError({ code: 'UNAUTHORIZED', message: 'No sponsor account found' });
+        const meeting = await db.getMeetingById(input.meetingId);
+        if (!meeting || meeting.sponsorId !== sponsor.id) {
+          throw new TRPCError({ code: 'FORBIDDEN', message: 'Meeting not found or access denied' });
+        }
+        await db.updateMeetingNotes(input.meetingId, input.notes);
         return { success: true };
       }),
   }),
@@ -931,7 +946,7 @@ export const appRouter = router({
         adminNotes: z.string(),
       }))
       .mutation(async ({ input }) => {
-        await db.updateMeetingNotes(input.meetingId, input.adminNotes);
+        await db.updateAdminMeetingNotes(input.meetingId, input.adminNotes);
         return { success: true };
       }),
     
@@ -2279,11 +2294,12 @@ export const appRouter = router({
             'Match Reason': meeting.matchReason ?? '',
             // Status
             'Status': meeting.status,
-            // Post-event rating
+               // Post-event rating
             'Meeting Rating': meeting.meetingRating != null ? `${meeting.meetingRating}/5` : '',
+            // Post-event notes
+            'Meeting Notes': meeting.meetingNotes ?? '',
           };
         });
-
         // Sort by vendor name then slot
         rows.sort((a, b) => {
           const vendorCmp = a['Vendor Name'].localeCompare(b['Vendor Name']);
@@ -2292,10 +2308,47 @@ export const appRouter = router({
           const slotB = parseInt(b['Meeting Slot'].replace('Slot ', '')) || 99;
           return slotA - slotB;
         });
-
         return rows;
+      }),
+    // Get all meeting feedback notes for admin view
+    getFeedbackNotes: adminProcedure
+      .input(z.object({ includeTestAccounts: z.boolean().optional().default(false) }).optional())
+      .query(async ({ input }) => {
+        const includeTestAccounts = input?.includeTestAccounts ?? false;
+        const TEST_SPONSOR_IDS = new Set([30001, 60001, 90001, 120001]);
+        const ALWAYS_EXCLUDED_SPONSOR_IDS = new Set([270001, 510003]);
+        const allMeetingsRaw = await db.getAllMeetings();
+        const allSponsorsRaw = await db.getAllSponsors();
+        const attendees = await db.getAllDelegateProfiles();
+        const allSponsors = allSponsorsRaw.filter(s => {
+          if (ALWAYS_EXCLUDED_SPONSOR_IDS.has(s.id)) return false;
+          if (!includeTestAccounts && TEST_SPONSOR_IDS.has(s.id)) return false;
+          return true;
+        });
+        const validSponsorIds = new Set(allSponsors.map(s => s.id));
+        const sponsorMap = new Map(allSponsors.map(s => [s.id, s]));
+        // Only meetings with notes or ratings
+        const feedbackMeetings = allMeetingsRaw.filter(
+          m => validSponsorIds.has(m.sponsorId) &&
+            ((m.meetingNotes && m.meetingNotes.trim().length > 0) ||
+             (m.meetingRating != null && m.meetingRating > 0))
+        );
+        return feedbackMeetings.map(m => {
+          const sponsor = sponsorMap.get(m.sponsorId);
+          const delegate = attendees.find(a => a.attendeeId === m.attendeeId);
+          return {
+            meetingId: m.id,
+            sponsorId: m.sponsorId,
+            sponsorName: sponsor?.companyName ?? `Sponsor #${m.sponsorId}`,
+            delegateName: delegate ? `${delegate.firstName} ${delegate.lastName}` : m.attendeeId,
+            delegateCompany: delegate?.company ?? '',
+            delegateJobTitle: delegate?.jobTitle ?? '',
+            timeSlot: m.timeSlot,
+            meetingRating: m.meetingRating ?? null,
+            meetingNotes: m.meetingNotes ?? '',
+          };
+        }).sort((a, b) => a.sponsorName.localeCompare(b.sponsorName));
       }),
   }),
 });
-
 export type AppRouter = typeof appRouter;

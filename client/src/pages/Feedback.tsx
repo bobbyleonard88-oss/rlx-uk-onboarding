@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Star, CheckCircle2, Loader2 } from "lucide-react";
+import { useState, useCallback } from "react";
+import { Star, CheckCircle2, Loader2, Save, MessageSquare } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { getLoginUrl } from "@/const";
@@ -60,6 +60,116 @@ const SLOT_TIMES: Record<number, string> = {
   12: "Thu 15:00",
 };
 
+function MeetingCard({
+  meeting,
+  savingRatingId,
+  onRate,
+}: {
+  meeting: {
+    id: number;
+    timeSlot: number | null;
+    meetingRating: number | null;
+    meetingNotes: string | null;
+    delegateProfile: {
+      firstName?: string | null;
+      lastName?: string | null;
+      jobTitle?: string | null;
+      company?: string | null;
+    } | null;
+  };
+  savingRatingId: number | null;
+  onRate: (meetingId: number, rating: number) => void;
+}) {
+  const utils = trpc.useUtils();
+  const delegate = meeting.delegateProfile;
+  const name = delegate
+    ? `${delegate.firstName ?? ""} ${delegate.lastName ?? ""}`.trim()
+    : "Delegate";
+  const jobTitle = delegate?.jobTitle ?? "";
+  const company = delegate?.company ?? "";
+  const slotTime = SLOT_TIMES[meeting.timeSlot ?? 0] ?? `Slot ${meeting.timeSlot}`;
+
+  const [notes, setNotes] = useState(meeting.meetingNotes ?? "");
+  const [noteSaved, setNoteSaved] = useState(false);
+  const [savingNote, setSavingNote] = useState(false);
+
+  const noteMutation = trpc.rankings.saveMeetingNote.useMutation({
+    onMutate: () => {
+      setSavingNote(true);
+      setNoteSaved(false);
+    },
+    onSuccess: () => {
+      setSavingNote(false);
+      setNoteSaved(true);
+      utils.sponsor.getMyMeetings.invalidate();
+      setTimeout(() => setNoteSaved(false), 3000);
+    },
+    onError: () => {
+      setSavingNote(false);
+    },
+  });
+
+  const handleBlur = useCallback(() => {
+    const trimmed = notes.trim();
+    if (trimmed !== (meeting.meetingNotes ?? "").trim()) {
+      noteMutation.mutate({ meetingId: meeting.id, notes: trimmed });
+    }
+  }, [notes, meeting.meetingNotes, meeting.id, noteMutation]);
+
+  return (
+    <div
+      className={`glass-card rounded-xl p-4 flex flex-col gap-3 transition-all duration-200 ${
+        meeting.meetingRating ? "border border-amber-400/20" : "border border-white/5"
+      }`}
+    >
+      {/* Top row: slot badge + name + stars */}
+      <div className="flex items-start gap-3">
+        <span className="shrink-0 text-xs text-purple-300 bg-purple-500/20 px-2 py-0.5 rounded-full border border-purple-500/30 whitespace-nowrap mt-0.5">
+          {slotTime}
+        </span>
+        <div className="flex-1 min-w-0">
+          <p className="text-white font-semibold text-sm leading-tight truncate">{name}</p>
+          {(jobTitle || company) && (
+            <p className="text-white/50 text-xs truncate">
+              {[jobTitle, company].filter(Boolean).join(" · ")}
+            </p>
+          )}
+        </div>
+        <div className="shrink-0">
+          <StarRating
+            rating={meeting.meetingRating}
+            saving={savingRatingId === meeting.id}
+            onRate={(r) => onRate(meeting.id, r)}
+          />
+        </div>
+      </div>
+
+      {/* Notes textarea */}
+      <div className="relative">
+        <textarea
+          value={notes}
+          onChange={(e) => setNotes(e.target.value)}
+          onBlur={handleBlur}
+          placeholder="Add notes about this meeting…"
+          rows={2}
+          className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white/80 text-xs placeholder:text-white/25 resize-none focus:outline-none focus:border-purple-500/50 focus:bg-white/8 transition-all"
+        />
+        <div className="absolute bottom-2 right-2 flex items-center gap-1.5">
+          {savingNote && <Loader2 className="w-3 h-3 text-white/30 animate-spin" />}
+          {noteSaved && !savingNote && (
+            <span className="text-green-400/70 text-[10px] flex items-center gap-1">
+              <Save className="w-3 h-3" /> Saved
+            </span>
+          )}
+          {!savingNote && !noteSaved && notes.trim() && (
+            <MessageSquare className="w-3 h-3 text-white/20" />
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Feedback() {
   const { user, loading: authLoading } = useAuth();
   const utils = trpc.useUtils();
@@ -68,12 +178,12 @@ export default function Feedback() {
     enabled: !!user,
   });
 
-  const [savingId, setSavingId] = useState<number | null>(null);
+  const [savingRatingId, setSavingRatingId] = useState<number | null>(null);
 
   const rateMutation = trpc.rankings.rateMeeting.useMutation({
-    onMutate: ({ meetingId }) => setSavingId(meetingId),
+    onMutate: ({ meetingId }) => setSavingRatingId(meetingId),
     onSettled: () => {
-      setSavingId(null);
+      setSavingRatingId(null);
       utils.sponsor.getMyMeetings.invalidate();
     },
   });
@@ -115,7 +225,7 @@ export default function Feedback() {
       <div>
         <h1 className="text-3xl font-heading font-bold text-white mb-1">Meeting Feedback</h1>
         <p className="text-white/60 text-sm">
-          Rate each of your 1:1 meetings, then complete the event feedback form below.
+          Rate each of your 1:1 meetings and add any notes. Once all meetings are rated, the event feedback form will appear below.
         </p>
       </div>
 
@@ -149,51 +259,21 @@ export default function Feedback() {
           <p className="text-white/40 text-sm">No confirmed meetings yet.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
-          {confirmedMeetings.map((meeting) => {
-            const delegate = meeting.delegateProfile;
-            const name = delegate
-              ? `${delegate.firstName ?? ""} ${delegate.lastName ?? ""}`.trim()
-              : "Delegate";
-            const jobTitle = delegate?.jobTitle ?? "";
-            const company = delegate?.company ?? "";
-            const slotTime = SLOT_TIMES[meeting.timeSlot ?? 0] ?? `Slot ${meeting.timeSlot}`;
-
-            return (
-              <div
-                key={meeting.id}
-                className={`glass-card rounded-lg px-4 py-3 flex items-center gap-3 transition-all duration-200 ${
-                  meeting.meetingRating ? "border border-amber-400/20" : "border border-white/5"
-                }`}
-              >
-                {/* Slot badge */}
-                <span className="shrink-0 text-xs text-purple-300 bg-purple-500/20 px-2 py-0.5 rounded-full border border-purple-500/30 whitespace-nowrap">
-                  {slotTime}
-                </span>
-
-                {/* Delegate info */}
-                <div className="flex-1 min-w-0">
-                  <p className="text-white font-semibold text-sm leading-tight truncate">{name}</p>
-                  {(jobTitle || company) && (
-                    <p className="text-white/50 text-xs truncate">
-                      {[jobTitle, company].filter(Boolean).join(" · ")}
-                    </p>
-                  )}
-                </div>
-
-                {/* Star rating */}
-                <div className="shrink-0">
-                  <StarRating
-                    rating={meeting.meetingRating}
-                    saving={savingId === meeting.id}
-                    onRate={(r) =>
-                      rateMutation.mutate({ meetingId: meeting.id, rating: r })
-                    }
-                  />
-                </div>
-              </div>
-            );
-          })}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {confirmedMeetings.map((meeting) => (
+            <MeetingCard
+              key={meeting.id}
+              meeting={{
+                id: meeting.id,
+                timeSlot: meeting.timeSlot,
+                meetingRating: meeting.meetingRating,
+                meetingNotes: meeting.meetingNotes,
+                delegateProfile: meeting.delegateProfile,
+              }}
+              savingRatingId={savingRatingId}
+              onRate={(id, r) => rateMutation.mutate({ meetingId: id, rating: r })}
+            />
+          ))}
         </div>
       )}
 
