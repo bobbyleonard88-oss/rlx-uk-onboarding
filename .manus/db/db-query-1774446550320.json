@@ -1,0 +1,45 @@
+{
+  "query": "SELECT id, sponsorId, attendeeId, timeSlot, status FROM meetings LIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT id, sponsorId, attendeeId, timeSlot, status FROM meetings LIMIT 5;",
+  "rows": [
+    {
+      "id": "663368",
+      "sponsorId": "270002",
+      "attendeeId": "174442448959",
+      "timeSlot": "12",
+      "status": "suggested"
+    },
+    {
+      "id": "663369",
+      "sponsorId": "270002",
+      "attendeeId": "91862577670",
+      "timeSlot": "4",
+      "status": "suggested"
+    },
+    {
+      "id": "663370",
+      "sponsorId": "270002",
+      "attendeeId": "200923910443",
+      "timeSlot": "3",
+      "status": "suggested"
+    },
+    {
+      "id": "663371",
+      "sponsorId": "270002",
+      "attendeeId": "195183358360",
+      "timeSlot": "2",
+      "status": "suggested"
+    },
+    {
+      "id": "663372",
+      "sponsorId": "270002",
+      "attendeeId": "8196151",
+      "timeSlot": "5",
+      "status": "suggested"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tsponsorId\tattendeeId\ttimeSlot\tstatus\n663368\t270002\t174442448959\t12\tsuggested\n663369\t270002\t91862577670\t4\tsuggested\n663370\t270002\t200923910443\t3\tsuggested\n663371\t270002\t195183358360\t2\tsuggested\n663372\t270002\t8196151\t5\tsuggested\n",
+  "stderr": "",
+  "execution_time_ms": 383
+}

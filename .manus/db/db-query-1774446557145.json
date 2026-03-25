@@ -1,0 +1,229 @@
+{
+  "query": "SHOW COLUMNS FROM delegateProfiles; SELECT id, firstName, lastName, company FROM delegateProfiles WHERE firstName LIKE '%Oliver%' LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SHOW COLUMNS FROM delegateProfiles; SELECT id, firstName, lastName, company FROM delegateProfiles WHERE firstName LIKE '%Oliver%' LIMIT 10;",
+  "rows": [
+    {
+      "Field": "id",
+      "Type": "int",
+      "Null": "NO",
+      "Key": "PRI",
+      "Default": "NULL",
+      "Extra": "auto_increment"
+    },
+    {
+      "Field": "attendeeId",
+      "Type": "varchar(64)",
+      "Null": "NO",
+      "Key": "UNI",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "firstName",
+      "Type": "varchar(255)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "lastName",
+      "Type": "varchar(255)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "company",
+      "Type": "varchar(255)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "jobTitle",
+      "Type": "varchar(255)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "industry",
+      "Type": "varchar(255)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "challenges",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "interests",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "profileData",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "createdAt",
+      "Type": "timestamp",
+      "Null": "NO",
+      "Key": "",
+      "Default": "CURRENT_TIMESTAMP",
+      "Extra": ""
+    },
+    {
+      "Field": "updatedAt",
+      "Type": "timestamp",
+      "Null": "NO",
+      "Key": "",
+      "Default": "CURRENT_TIMESTAMP",
+      "Extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP"
+    },
+    {
+      "Field": "totalOrgEmployees",
+      "Type": "varchar(255)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "hiresPerYear",
+      "Type": "varchar(255)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "decisionMakingLevel",
+      "Type": "varchar(255)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "activeConfirmedProjects",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "activeProjectBudget",
+      "Type": "varchar(255)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "primaryMeetingObjective",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "contractSignoff",
+      "Type": "varchar(255)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "toolsAssessments",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "toolsATS",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "toolsCRM",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "toolsTalentIntelligence",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "toolsOther",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "keySolutionAreas",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "currentPainPoints",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "currentProjectStage",
+      "Type": "varchar(255)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    }
+  ],
+  "messages": [
+    "id\tfirstName\tlastName\tcompany",
+    "7\tOliver\tBrowne\tLockton"
+  ],
+  "stdout": "Field\tType\tNull\tKey\tDefault\tExtra\nid\tint\tNO\tPRI\tNULL\tauto_increment\nattendeeId\tvarchar(64)\tNO\tUNI\tNULL\t\nfirstName\tvarchar(255)\tNO\t\tNULL\t\nlastName\tvarchar(255)\tNO\t\tNULL\t\ncompany\tvarchar(255)\tNO\t\tNULL\t\njobTitle\tvarchar(255)\tYES\t\tNULL\t\nindustry\tvarchar(255)\tYES\t\tNULL\t\nchallenges\ttext\tYES\t\tNULL\t\ninterests\ttext\tYES\t\tNULL\t\nprofileData\ttext\tYES\t\tNULL\t\ncreatedAt\ttimestamp\tNO\t\tCURRENT_TIMESTAMP\t\nupdatedAt\ttimestamp\tNO\t\tCURRENT_TIMESTAMP\tDEFAULT_GENERATED on update CURRENT_TIMESTAMP\ntotalOrgEmployees\tvarchar(255)\tYES\t\tNULL\t\nhiresPerYear\tvarchar(255)\tYES\t\tNULL\t\ndecisionMakingLevel\tvarchar(255)\tYES\t\tNULL\t\nactiveConfirmedProjects\ttext\tYES\t\tNULL\t\nactiveProjectBudget\tvarchar(255)\tYES\t\tNULL\t\nprimaryMeetingObjective\ttext\tYES\t\tNULL\t\ncontractSignoff\tvarchar(255)\tYES\t\tNULL\t\ntoolsAssessments\ttext\tYES\t\tNULL\t\ntoolsATS\ttext\tYES\t\tNULL\t\ntoolsCRM\ttext\tYES\t\tNULL\t\ntoolsTalentIntelligence\ttext\tYES\t\tNULL\t\ntoolsOther\ttext\tYES\t\tNULL\t\nkeySolutionAreas\ttext\tYES\t\tNULL\t\ncurrentPainPoints\ttext\tYES\t\tNULL\t\ncurrentProjectStage\tvarchar(255)\tYES\t\tNULL\t\nid\tfirstName\tlastName\tcompany\n7\tOliver\tBrowne\tLockton\n",
+  "stderr": "",
+  "execution_time_ms": 404
+}

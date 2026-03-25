@@ -330,10 +330,10 @@ export const appRouter = router({
   // Public router — no auth required
   public: router({
     // Public floor plan — all meetings grouped by time slot, no login needed
-    // Starred meeting IDs: Maki+Red Bull (663404), Happydance+Aon (690050)
+    // Starred meeting IDs: Maki+Red Bull (663404), Happydance+Aon (690050), Oliver Browne+Wilson (663556)
     getFloorPlan: publicProcedure
       .query(async () => {
-        const STARRED_MEETING_IDS = new Set([663404, 690050]);
+        const STARRED_MEETING_IDS = new Set([663404, 690050, 663556]);
         const TEST_SPONSOR_IDS = new Set([30001, 60001, 90001, 120001]);
         const ALWAYS_EXCLUDED_SPONSOR_IDS = new Set([270001, 510003]);
         const allMeetingsRaw = await db.getAllMeetings();

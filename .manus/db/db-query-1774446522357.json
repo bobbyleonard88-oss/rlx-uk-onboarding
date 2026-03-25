@@ -1,0 +1,9 @@
+{
+  "query": "\nSELECT m.id, m.sponsorId, m.attendeeId, m.timeSlot, m.status,\n       d.firstName, d.lastName, d.company,\n       s.companyName AS sponsorCompany\nFROM meetings m\nJOIN delegateProfiles d ON m.attendeeId = d.id\nJOIN sponsors s ON m.sponsorId = s.id\nWHERE (d.firstName LIKE '%Oliver%' AND d.lastName LIKE '%Brown%')\nORDER BY m.id;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT m.id, m.sponsorId, m.attendeeId, m.timeSlot, m.status,\n       d.firstName, d.lastName, d.company,\n       s.companyName AS sponsorCompany\nFROM meetings m\nJOIN delegateProfiles d ON m.attendeeId = d.id\nJOIN sponsors s ON m.sponsorId = s.id\nWHERE (d.firstName LIKE '%Oliver%' AND d.lastName LIKE '%Brown%')\nORDER BY m.id;\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 349
+}
