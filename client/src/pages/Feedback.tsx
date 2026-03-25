@@ -144,16 +144,28 @@ function MeetingCard({
         </div>
       </div>
 
-      {/* Notes textarea */}
+      {/* Notes textarea — locked until a star rating is given */}
       <div className="relative">
         <textarea
           value={notes}
-          onChange={(e) => setNotes(e.target.value)}
-          onBlur={handleBlur}
-          placeholder="Add notes about this meeting…"
+          onChange={(e) => meeting.meetingRating && setNotes(e.target.value)}
+          onBlur={meeting.meetingRating ? handleBlur : undefined}
+          placeholder={meeting.meetingRating ? "Add notes about this meeting…" : "Rate this meeting first to add notes…"}
           rows={2}
-          className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white/80 text-xs placeholder:text-white/25 resize-none focus:outline-none focus:border-purple-500/50 focus:bg-white/8 transition-all"
+          disabled={!meeting.meetingRating}
+          className={`w-full border rounded-lg px-3 py-2 text-xs resize-none focus:outline-none transition-all ${
+            meeting.meetingRating
+              ? "bg-white/5 border-white/10 text-white/80 placeholder:text-white/25 focus:border-purple-500/50 focus:bg-white/8 cursor-text"
+              : "bg-white/2 border-white/5 text-white/20 placeholder:text-white/20 cursor-not-allowed opacity-50"
+          }`}
         />
+        {!meeting.meetingRating && (
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <span className="text-white/25 text-[10px] flex items-center gap-1">
+              <Star className="w-3 h-3" /> Rate first
+            </span>
+          </div>
+        )}
         <div className="absolute bottom-2 right-2 flex items-center gap-1.5">
           {savingNote && <Loader2 className="w-3 h-3 text-white/30 animate-spin" />}
           {noteSaved && !savingNote && (
@@ -161,7 +173,7 @@ function MeetingCard({
               <Save className="w-3 h-3" /> Saved
             </span>
           )}
-          {!savingNote && !noteSaved && notes.trim() && (
+          {!savingNote && !noteSaved && notes.trim() && meeting.meetingRating && (
             <MessageSquare className="w-3 h-3 text-white/20" />
           )}
         </div>

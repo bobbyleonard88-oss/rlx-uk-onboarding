@@ -1,0 +1,45 @@
+{
+  "query": "SELECT id, sponsorId, attendeeId, meetingRating, meetingNotes FROM meetings WHERE meetingRating IS NOT NULL OR (meetingNotes IS NOT NULL AND meetingNotes != '') LIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT id, sponsorId, attendeeId, meetingRating, meetingNotes FROM meetings WHERE meetingRating IS NOT NULL OR (meetingNotes IS NOT NULL AND meetingNotes != '') LIMIT 5;",
+  "rows": [
+    {
+      "id": "663544",
+      "sponsorId": "840001",
+      "attendeeId": "93174643474",
+      "meetingRating": "4",
+      "meetingNotes": "Engaging and interested. Keen to meet to explore opportunity and pricing"
+    },
+    {
+      "id": "663545",
+      "sponsorId": "840001",
+      "attendeeId": "194295425320",
+      "meetingRating": "NULL",
+      "meetingNotes": "Lovely conversation but because she's leaving it will only be a warm intro, but might recommend us"
+    },
+    {
+      "id": "663546",
+      "sponsorId": "840001",
+      "attendeeId": "8196151",
+      "meetingRating": "NULL",
+      "meetingNotes": "Engaging and interested. Keen to explore opportunity and pricing, wants to see JobSync in action"
+    },
+    {
+      "id": "663547",
+      "sponsorId": "840001",
+      "attendeeId": "92353346050",
+      "meetingRating": "NULL",
+      "meetingNotes": "Engaging and interested. Keen to meet to explore opportunity and pricing, and involve others"
+    },
+    {
+      "id": "663549",
+      "sponsorId": "840001",
+      "attendeeId": "11132851",
+      "meetingRating": "NULL",
+      "meetingNotes": "Engaging and interested. Keen to meet to discuss further"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tsponsorId\tattendeeId\tmeetingRating\tmeetingNotes\n663544\t840001\t93174643474\t4\tEngaging and interested. Keen to meet to explore opportunity and pricing\n663545\t840001\t194295425320\tNULL\tLovely conversation but because she's leaving it will only be a warm intro, but might recommend us\n663546\t840001\t8196151\tNULL\tEngaging and interested. Keen to explore opportunity and pricing, wants to see JobSync in action\n663547\t840001\t92353346050\tNULL\tEngaging and interested. Keen to meet to explore opportunity and pricing, and involve others\n663549\t840001\t11132851\tNULL\tEngaging and interested. Keen to meet to discuss further\n",
+  "stderr": "",
+  "execution_time_ms": 438
+}

@@ -1,0 +1,14 @@
+{
+  "query": "SELECT COUNT(*) as total, SUM(CASE WHEN meetingRating IS NOT NULL THEN 1 ELSE 0 END) as rated FROM meetings WHERE sponsorId = 840001;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT COUNT(*) as total, SUM(CASE WHEN meetingRating IS NOT NULL THEN 1 ELSE 0 END) as rated FROM meetings WHERE sponsorId = 840001;",
+  "rows": [
+    {
+      "total": "12",
+      "rated": "12"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\trated\n12\t12\n",
+  "stderr": "",
+  "execution_time_ms": 341
+}

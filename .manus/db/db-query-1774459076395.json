@@ -1,0 +1,82 @@
+{
+  "query": "SELECT id, attendeeId, meetingRating, meetingNotes FROM meetings WHERE sponsorId = 840001 ORDER BY id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT id, attendeeId, meetingRating, meetingNotes FROM meetings WHERE sponsorId = 840001 ORDER BY id;",
+  "rows": [
+    {
+      "id": "663544",
+      "attendeeId": "93174643474",
+      "meetingRating": "4",
+      "meetingNotes": "Engaging and interested. Keen to meet to explore opportunity and pricing"
+    },
+    {
+      "id": "663545",
+      "attendeeId": "194295425320",
+      "meetingRating": "4",
+      "meetingNotes": "Lovely conversation but because she's leaving it will only be a warm intro, but might recommend us"
+    },
+    {
+      "id": "663546",
+      "attendeeId": "8196151",
+      "meetingRating": "4",
+      "meetingNotes": "Engaging and interested. Keen to explore opportunity and pricing, wants to see JobSync in action"
+    },
+    {
+      "id": "663547",
+      "attendeeId": "92353346050",
+      "meetingRating": "4",
+      "meetingNotes": "Engaging and interested. Keen to meet to explore opportunity and pricing, and involve others"
+    },
+    {
+      "id": "663549",
+      "attendeeId": "11132851",
+      "meetingRating": "4",
+      "meetingNotes": "Engaging and interested. Keen to meet to discuss further"
+    },
+    {
+      "id": "663551",
+      "attendeeId": "8713772",
+      "meetingRating": "4",
+      "meetingNotes": "NULL"
+    },
+    {
+      "id": "663552",
+      "attendeeId": "111228357473",
+      "meetingRating": "4",
+      "meetingNotes": "NULL"
+    },
+    {
+      "id": "663553",
+      "attendeeId": "201697440144",
+      "meetingRating": "4",
+      "meetingNotes": "NULL"
+    },
+    {
+      "id": "663554",
+      "attendeeId": "200101377371",
+      "meetingRating": "4",
+      "meetingNotes": "NULL"
+    },
+    {
+      "id": "690015",
+      "attendeeId": "92953690026",
+      "meetingRating": "4",
+      "meetingNotes": "Engaging and interested but not ready to pursue right now. But one potentially for the long burn"
+    },
+    {
+      "id": "840004",
+      "attendeeId": "18336501",
+      "meetingRating": "4",
+      "meetingNotes": "NULL"
+    },
+    {
+      "id": "840010",
+      "attendeeId": "13454401",
+      "meetingRating": "4",
+      "meetingNotes": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tattendeeId\tmeetingRating\tmeetingNotes\n663544\t93174643474\t4\tEngaging and interested. Keen to meet to explore opportunity and pricing\n663545\t194295425320\t4\tLovely conversation but because she's leaving it will only be a warm intro, but might recommend us\n663546\t8196151\t4\tEngaging and interested. Keen to explore opportunity and pricing, wants to see JobSync in action\n663547\t92353346050\t4\tEngaging and interested. Keen to meet to explore opportunity and pricing, and involve others\n663549\t11132851\t4\tEngaging and interested. Keen to meet to discuss further\n663551\t8713772\t4\tNULL\n663552\t111228357473\t4\tNULL\n663553\t201697440144\t4\tNULL\n663554\t200101377371\t4\tNULL\n690015\t92953690026\t4\tEngaging and interested but not ready to pursue right now. But one potentially for the long burn\n840004\t18336501\t4\tNULL\n840010\t13454401\t4\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 360
+}

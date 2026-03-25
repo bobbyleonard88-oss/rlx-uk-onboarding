@@ -1682,3 +1682,7 @@
 
 ## Expanded Ratings CSV Export — March 25 2026
 - [x] Add all delegate details to getAllMeetingsExport: companySize, industry, teamSize, budgetAuthority, assessmentTool, ats, crm, marketIntelligence, regionalRemit, activeConfirmedProjects, activeBudgetRange, primaryMeetingObjective, contractSignOff, keySolutionAreasOfInterest, currentPainPoints, currentProjectStage, isRescheduled
+
+## Feedback UX + Jobsync Ratings — March 25 2026
+- [x] Set all Jobsync unrated meetings to 4 stars (only meetings with notes)
+- [x] Lock notes textarea until star rating is selected on Feedback page

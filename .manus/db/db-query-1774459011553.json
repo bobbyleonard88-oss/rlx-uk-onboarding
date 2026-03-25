@@ -1,0 +1,25 @@
+{
+  "query": "SELECT status, meetingRating, COUNT(*) as count FROM meetings WHERE sponsorId = 840001 GROUP BY status, meetingRating ORDER BY status, meetingRating;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT status, meetingRating, COUNT(*) as count FROM meetings WHERE sponsorId = 840001 GROUP BY status, meetingRating ORDER BY status, meetingRating;",
+  "rows": [
+    {
+      "status": "suggested",
+      "meetingRating": "NULL",
+      "count": "9"
+    },
+    {
+      "status": "suggested",
+      "meetingRating": "4",
+      "count": "1"
+    },
+    {
+      "status": "confirmed",
+      "meetingRating": "4",
+      "count": "2"
+    }
+  ],
+  "messages": [],
+  "stdout": "status\tmeetingRating\tcount\nsuggested\tNULL\t9\nsuggested\t4\t1\nconfirmed\t4\t2\n",
+  "stderr": "",
+  "execution_time_ms": 366
+}

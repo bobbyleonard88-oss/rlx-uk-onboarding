@@ -1,0 +1,70 @@
+{
+  "query": "SELECT id, meetingRating, CASE WHEN meetingNotes IS NOT NULL AND meetingNotes != '' THEN 'Has notes' ELSE 'No notes' END as notes_status FROM meetings WHERE sponsorId = 840001 ORDER BY id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT id, meetingRating, CASE WHEN meetingNotes IS NOT NULL AND meetingNotes != '' THEN 'Has notes' ELSE 'No notes' END as notes_status FROM meetings WHERE sponsorId = 840001 ORDER BY id;",
+  "rows": [
+    {
+      "id": "663544",
+      "meetingRating": "4",
+      "notes_status": "Has notes"
+    },
+    {
+      "id": "663545",
+      "meetingRating": "4",
+      "notes_status": "Has notes"
+    },
+    {
+      "id": "663546",
+      "meetingRating": "4",
+      "notes_status": "Has notes"
+    },
+    {
+      "id": "663547",
+      "meetingRating": "4",
+      "notes_status": "Has notes"
+    },
+    {
+      "id": "663549",
+      "meetingRating": "4",
+      "notes_status": "Has notes"
+    },
+    {
+      "id": "663551",
+      "meetingRating": "NULL",
+      "notes_status": "No notes"
+    },
+    {
+      "id": "663552",
+      "meetingRating": "NULL",
+      "notes_status": "No notes"
+    },
+    {
+      "id": "663553",
+      "meetingRating": "NULL",
+      "notes_status": "No notes"
+    },
+    {
+      "id": "663554",
+      "meetingRating": "NULL",
+      "notes_status": "No notes"
+    },
+    {
+      "id": "690015",
+      "meetingRating": "4",
+      "notes_status": "Has notes"
+    },
+    {
+      "id": "840004",
+      "meetingRating": "NULL",
+      "notes_status": "No notes"
+    },
+    {
+      "id": "840010",
+      "meetingRating": "NULL",
+      "notes_status": "No notes"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tmeetingRating\tnotes_status\n663544\t4\tHas notes\n663545\t4\tHas notes\n663546\t4\tHas notes\n663547\t4\tHas notes\n663549\t4\tHas notes\n663551\tNULL\tNo notes\n663552\tNULL\tNo notes\n663553\tNULL\tNo notes\n663554\tNULL\tNo notes\n690015\t4\tHas notes\n840004\tNULL\tNo notes\n840010\tNULL\tNo notes\n",
+  "stderr": "",
+  "execution_time_ms": 379
+}
