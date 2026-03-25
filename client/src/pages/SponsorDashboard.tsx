@@ -1,13 +1,13 @@
 /**
- * Sponsor Dashboard - Submission Tracking
- * Shows sponsor their submission status and provides quick access to forms
+ * Sponsor Dashboard - Post-Event View
+ * Shows sponsor their meetings and prompts them to rate meetings and leave notes
  */
 
 import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle, AlertCircle, FileText, List, LogOut, User, ArrowRight, Calendar, Users } from "lucide-react";
+import { Star, LogOut, User, ArrowRight, Calendar, MessageSquare, CheckCircle } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import AnimatedSection from "@/components/AnimatedSection";
 import { useEffect, useRef } from "react";
@@ -15,11 +15,8 @@ import { useEffect, useRef } from "react";
 export default function SponsorDashboard() {
   const { user, loading } = useAuth({ redirectOnUnauthenticated: true });
   const [, navigate] = useLocation();
-  
-  const { data: intakeSubmission, isLoading: intakeLoading } = trpc.intake.getSubmission.useQuery();
-  const { data: rankingsSubmission, isLoading: rankingsLoading } = trpc.rankings.myRankingsSubmission.useQuery();
+
   const { data: meetings = [], isLoading: meetingsLoading } = trpc.sponsor.getMyMeetings.useQuery();
-  const { data: submissionStats } = trpc.sponsor.getSubmissionStats.useQuery();
   const trackActivity = trpc.sponsor.trackActivity.useMutation();
   const hasTrackedLogin = useRef(false);
 
@@ -31,12 +28,11 @@ export default function SponsorDashboard() {
     }
   }, [user]);
 
-  const hasIntake = !!intakeSubmission;
-  const hasRankings = !!rankingsSubmission;
-  const hasMeetings = meetings.length > 0;
-  const isComplete = hasIntake && hasRankings;
+  const ratedCount = meetings.filter(m => m.meetingRating != null).length;
+  const notedCount = meetings.filter(m => m.meetingNotes && m.meetingNotes.trim().length > 0).length;
+  const allRated = meetings.length > 0 && ratedCount === meetings.length;
 
-  if (loading || intakeLoading || rankingsLoading) {
+  if (loading || meetingsLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
@@ -62,9 +58,7 @@ export default function SponsorDashboard() {
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => {
-                  window.location.href = '/api/auth/logout';
-                }}
+                onClick={() => { window.location.href = '/api/auth/logout'; }}
                 className="gap-2 text-muted-foreground hover:text-foreground hover:bg-destructive/20"
               >
                 <LogOut className="w-4 h-4" />
@@ -77,286 +71,125 @@ export default function SponsorDashboard() {
 
       <div className="py-6">
         <div className="container max-w-6xl">
-          {/* Page title + status inline */}
+          {/* Page title */}
           <AnimatedSection>
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <h1 className="text-2xl font-heading font-bold text-foreground leading-tight">Welcome to Your Dashboard</h1>
-                <p className="text-sm text-muted-foreground mt-0.5">Track your onboarding progress for the RLX event.</p>
-              </div>
+            <div className="mb-5">
+              <h1 className="text-2xl font-heading font-bold text-foreground leading-tight">Welcome Back</h1>
+              <p className="text-sm text-muted-foreground mt-0.5">Thank you for attending RLX UK. Here's a summary of your event.</p>
             </div>
           </AnimatedSection>
 
-          {/* Completion Status */}
-          <AnimatedSection delay={50}>
-            <Card className={`glass-card mb-3 ${isComplete ? 'border-green-500/50 bg-green-500/5' : 'border-yellow-500/50 bg-yellow-500/5'}`}>
-              <CardHeader className="py-3">
-                <CardTitle className="flex items-center gap-3">
-                  {isComplete ? (
-                    <>
-                      <CheckCircle className="w-6 h-6 text-green-500" />
-                      <span className="text-green-500">Onboarding Complete!</span>
-                    </>
-                  ) : (
-                    <>
-                      <AlertCircle className="w-6 h-6 text-yellow-500" />
-                      <span className="text-yellow-500">Onboarding In Progress</span>
-                    </>
-                  )}
-                </CardTitle>
-                <CardDescription>
-                  {isComplete 
-                    ? "You've completed both required submissions. The CS team will review and contact you soon."
-                    : "Please complete both the intake form and meeting rankings to finish your onboarding."}
-                </CardDescription>
-              </CardHeader>
-            </Card>
-          </AnimatedSection>
+          {/* Meeting summary row */}
+          <div className="grid sm:grid-cols-3 gap-4 mb-5">
+            {/* Total meetings */}
+            <AnimatedSection delay={50}>
+              <Card className="glass-card">
+                <CardContent className="pt-5 pb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center shrink-0">
+                      <Calendar className="w-5 h-5 text-accent" />
+                    </div>
+                    <div>
+                      <p className="text-2xl font-bold text-foreground">{meetings.length}</p>
+                      <p className="text-xs text-muted-foreground">Confirmed meetings</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </AnimatedSection>
 
-          {/* Submission Count Indicator */}
-          {submissionStats && submissionStats.totalSponsors > 0 && (
+            {/* Rated */}
             <AnimatedSection delay={100}>
-              <Card className="glass-card mb-3 border-primary/20 bg-primary/5">
-                <CardContent className="pt-3 pb-3">
-                  <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center">
-                        <Users className="w-5 h-5 text-primary" />
-                      </div>
-                      <div>
-                        <p className="text-sm font-medium text-foreground">Sponsor Participation</p>
-                        <p className="text-xs text-muted-foreground">How your peers are progressing</p>
-                      </div>
+              <Card className="glass-card">
+                <CardContent className="pt-5 pb-4">
+                  <div className="flex items-center gap-3">
+                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 ${allRated ? 'bg-green-500/20' : 'bg-yellow-500/10'}`}>
+                      <Star className={`w-5 h-5 ${allRated ? 'text-green-500' : 'text-yellow-500'}`} />
                     </div>
-                    <div className="flex gap-6 text-center">
-                      <div>
-                        <p className="text-2xl font-bold text-primary">
-                          {submissionStats.totalSponsors > 0
-                            ? `${Math.round((submissionStats.intakeCount / submissionStats.totalSponsors) * 100)}%`
-                            : '—'}
-                        </p>
-                        <p className="text-xs text-muted-foreground">of sponsors have completed intake</p>
-                        <div className="mt-1 h-1.5 w-28 bg-muted rounded-full overflow-hidden">
-                          <div
-                            className="h-full bg-primary rounded-full transition-all duration-700"
-                            style={{ width: submissionStats.totalSponsors > 0 ? `${Math.min(Math.round((submissionStats.intakeCount / submissionStats.totalSponsors) * 100), 100)}%` : '0%' }}
-                          />
-                        </div>
-                      </div>
-                      <div className="w-px bg-border" />
-                      <div>
-                        <p className="text-2xl font-bold text-accent">
-                          {submissionStats.totalSponsors > 0
-                            ? `${Math.round((submissionStats.rankingsCount / submissionStats.totalSponsors) * 100)}%`
-                            : '—'}
-                        </p>
-                        <p className="text-xs text-muted-foreground">of sponsors have completed rankings</p>
-                        <div className="mt-1 h-1.5 w-28 bg-muted rounded-full overflow-hidden">
-                          <div
-                            className="h-full bg-accent rounded-full transition-all duration-700"
-                            style={{ width: submissionStats.totalSponsors > 0 ? `${Math.min(Math.round((submissionStats.rankingsCount / submissionStats.totalSponsors) * 100), 100)}%` : '0%' }}
-                          />
-                        </div>
-                      </div>
+                    <div>
+                      <p className="text-2xl font-bold text-foreground">{ratedCount}<span className="text-base text-muted-foreground font-normal"> / {meetings.length}</span></p>
+                      <p className="text-xs text-muted-foreground">Meetings rated</p>
                     </div>
                   </div>
                 </CardContent>
               </Card>
             </AnimatedSection>
-          )}
 
-          {/* Submission Cards */}
-          <div className="grid md:grid-cols-3 gap-4 mb-4">
-            {/* Intake Form Card */}
+            {/* Notes */}
             <AnimatedSection delay={150}>
-              <Card className="glass-card h-full">
-                <CardHeader>
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${hasIntake ? 'bg-green-500/20' : 'bg-muted'}`}>
-                        <FileText className={`w-6 h-6 ${hasIntake ? 'text-green-500' : 'text-muted-foreground'}`} />
-                      </div>
-                      <div>
-                        <CardTitle className="text-xl">Partner Intake Form</CardTitle>
-                        <CardDescription>Company & attendee information</CardDescription>
-                      </div>
+              <Card className="glass-card">
+                <CardContent className="pt-5 pb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center shrink-0">
+                      <MessageSquare className="w-5 h-5 text-primary" />
                     </div>
-                    {hasIntake ? (
-                      <CheckCircle className="w-5 h-5 text-green-500" />
-                    ) : (
-                      <AlertCircle className="w-5 h-5 text-yellow-500" />
-                    )}
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {hasIntake ? (
-                      <>
-                        <p className="text-sm text-muted-foreground">
-                          Submitted on {new Date(intakeSubmission.submittedAt).toLocaleDateString()}
-                        </p>
-                        <div className="flex gap-2">
-                          <Button
-                            onClick={() => navigate("/intake")}
-                            variant="outline"
-                            className="flex-1"
-                          >
-                            Edit Submission
-                          </Button>
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <p className="text-sm text-muted-foreground mb-4">
-                          Complete your company profile and attendee details to help us facilitate meaningful connections.
-                        </p>
-                        <Button
-                          onClick={() => navigate("/intake")}
-                          className="w-full gap-2"
-                        >
-                          Complete Intake Form
-                          <ArrowRight className="w-4 h-4" />
-                        </Button>
-                      </>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-            </AnimatedSection>
-
-            {/* Rankings Card */}
-            <AnimatedSection delay={200}>
-              <Card className="glass-card h-full">
-                <CardHeader>
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${hasRankings ? 'bg-green-500/20' : 'bg-muted'}`}>
-                        <List className={`w-6 h-6 ${hasRankings ? 'text-green-500' : 'text-muted-foreground'}`} />
-                      </div>
-                      <div>
-                        <CardTitle className="text-xl">Meeting Rankings</CardTitle>
-                        <CardDescription>Prioritize your delegate meetings</CardDescription>
-                      </div>
+                    <div>
+                      <p className="text-2xl font-bold text-foreground">{notedCount}<span className="text-base text-muted-foreground font-normal"> / {meetings.length}</span></p>
+                      <p className="text-xs text-muted-foreground">Meetings with notes</p>
                     </div>
-                    {hasRankings ? (
-                      <CheckCircle className="w-5 h-5 text-green-500" />
-                    ) : (
-                      <AlertCircle className="w-5 h-5 text-yellow-500" />
-                    )}
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {hasRankings ? (
-                      <>
-                        <p className="text-sm text-muted-foreground">
-                          Submitted on {new Date(rankingsSubmission.submittedAt).toLocaleDateString()}
-                        </p>
-                        <div className="flex gap-2">
-                          <Button
-                            onClick={() => navigate("/prioritize")}
-                            variant="outline"
-                            className="flex-1"
-                          >
-                            Edit Rankings
-                          </Button>
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <p className="text-sm text-muted-foreground mb-4">
-                          Rank all delegates in order of meeting priority to help us schedule the most valuable meetings for your team.
-                        </p>
-                        <Button
-                          onClick={() => navigate("/prioritize")}
-                          className="w-full gap-2"
-                        >
-                          Prioritize Meetings
-                          <ArrowRight className="w-4 h-4" />
-                        </Button>
-                      </>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-            </AnimatedSection>
-
-            {/* My Meetings Card */}
-            <AnimatedSection delay={250}>
-              <Card className="glass-card h-full">
-                <CardHeader>
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${hasMeetings ? 'bg-accent/20' : 'bg-muted'}`}>
-                        <Calendar className={`w-6 h-6 ${hasMeetings ? 'text-accent' : 'text-muted-foreground'}`} />
-                      </div>
-                      <div>
-                        <CardTitle className="text-xl">My Meetings</CardTitle>
-                        <CardDescription>View your scheduled meetings</CardDescription>
-                      </div>
-                    </div>
-                    {hasMeetings && (
-                      <CheckCircle className="w-5 h-5 text-green-500" />
-                    )}
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {hasMeetings ? (
-                      <>
-                        <p className="text-sm text-muted-foreground">
-                          You have {meetings.length} confirmed meeting{meetings.length !== 1 ? 's' : ''} scheduled
-                        </p>
-                        <Button
-                          onClick={() => navigate("/meeting-schedule")}
-                          className="w-full gap-2"
-                        >
-                          View Meeting Schedule
-                          <ArrowRight className="w-4 h-4" />
-                        </Button>
-                      </>
-                    ) : (
-                      <>
-                        <p className="text-sm text-muted-foreground mb-4">
-                          Your meetings will appear here once they are published by the RLX team.
-                        </p>
-                        <Button
-                          disabled
-                          variant="outline"
-                          className="w-full"
-                        >
-                          No Meetings Yet
-                        </Button>
-                      </>
-                    )}
                   </div>
                 </CardContent>
               </Card>
             </AnimatedSection>
           </div>
 
-          {/* Quick Links */}
+          {/* Rate Your Meetings CTA */}
           <AnimatedSection delay={200}>
+            <Card className={`glass-card mb-5 ${allRated ? 'border-green-500/40 bg-green-500/5' : 'border-accent/40 bg-accent/5'}`}>
+              <CardHeader className="pb-3">
+                <div className="flex items-start gap-4">
+                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${allRated ? 'bg-green-500/20' : 'bg-accent/20'}`}>
+                    {allRated
+                      ? <CheckCircle className="w-6 h-6 text-green-500" />
+                      : <Star className="w-6 h-6 text-accent" />
+                    }
+                  </div>
+                  <div className="flex-1">
+                    <CardTitle className={`text-lg ${allRated ? 'text-green-400' : 'text-accent'}`}>
+                      {allRated ? 'All meetings rated — thank you!' : 'Rate Your Meetings'}
+                    </CardTitle>
+                    <CardDescription className="mt-1">
+                      {allRated
+                        ? `You've rated all ${meetings.length} meetings. The post-event feedback form is now available on the Feedback tab.`
+                        : `You've rated ${ratedCount} of ${meetings.length} meetings. Once all are rated, the post-event feedback form will unlock.`
+                      }
+                    </CardDescription>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <Button
+                  onClick={() => navigate("/feedback")}
+                  className={`gap-2 ${allRated ? 'bg-green-600 hover:bg-green-700' : 'bg-accent hover:bg-accent/90'} text-white`}
+                >
+                  {allRated ? 'View Feedback & Notes' : 'Go to Feedback Tab'}
+                  <ArrowRight className="w-4 h-4" />
+                </Button>
+              </CardContent>
+            </Card>
+          </AnimatedSection>
+
+          {/* Quick links */}
+          <AnimatedSection delay={250}>
             <Card className="glass-card">
-              <CardHeader>
-                <CardTitle>Quick Links</CardTitle>
-                <CardDescription>Navigate to other sections of the onboarding journey</CardDescription>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base">Quick Links</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid sm:grid-cols-3 gap-3">
-                  <Link href="/overview">
+                  <Link href="/meeting-schedule">
                     <Button variant="outline" className="w-full">
-                      Event Overview
+                      Meeting Schedule
                     </Button>
                   </Link>
-                  <Link href="/timeline">
+                  <Link href="/event-details">
                     <Button variant="outline" className="w-full">
-                      Event Timeline
+                      Event Details
                     </Button>
                   </Link>
-                  <Link href="/faq">
+                  <Link href="/agenda">
                     <Button variant="outline" className="w-full">
-                      FAQ
+                      Agenda
                     </Button>
                   </Link>
                 </div>

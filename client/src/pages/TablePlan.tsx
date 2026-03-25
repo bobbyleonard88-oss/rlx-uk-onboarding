@@ -192,26 +192,38 @@ export default function TablePlan() {
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       {/* Header */}
       <div className="border-b border-slate-700/60 bg-slate-900/80 backdrop-blur-sm sticky top-0 z-20">
-        <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-purple-600/20 border border-purple-500/30 flex items-center justify-center">
-              <Table className="w-4 h-4 text-purple-400" />
+        <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 py-3">
+          <div className="flex items-center justify-between gap-3 mb-3 sm:mb-0">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-lg bg-purple-600/20 border border-purple-500/30 flex items-center justify-center shrink-0">
+                <Table className="w-4 h-4 text-purple-400" />
+              </div>
+              <div>
+                <h1 className="text-base sm:text-lg font-bold text-white leading-tight">RLX UK — Table Plan</h1>
+                <p className="text-xs text-slate-400 hidden sm:block">
+                  {floorPlan.sponsors.length} tables · {floorPlan.totalMeetings} meetings
+                </p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-lg font-bold text-white leading-tight">RLX UK — Table Plan</h1>
-              <p className="text-xs text-slate-400">
-                {floorPlan.sponsors.length} tables · {floorPlan.totalMeetings} meetings
-              </p>
+            {/* Search — hidden on mobile (shown below) */}
+            <div className="relative hidden sm:block w-72">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
+              <Input
+                placeholder="Search person or company…"
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                className="pl-8 bg-slate-800/60 border-slate-600 text-white placeholder:text-slate-500 text-sm h-9 focus:border-purple-500"
+              />
             </div>
           </div>
-          {/* Search */}
-          <div className="relative w-full sm:w-72">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
+          {/* Search — full-width on mobile */}
+          <div className="relative sm:hidden">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
             <Input
               placeholder="Search person or company…"
               value={search}
               onChange={e => setSearch(e.target.value)}
-              className="pl-8 bg-slate-800/60 border-slate-600 text-white placeholder:text-slate-500 text-sm h-9 focus:border-purple-500"
+              className="pl-9 bg-slate-800/60 border-slate-600 text-white placeholder:text-slate-500 text-base h-11 focus:border-purple-500 w-full"
             />
           </div>
         </div>

@@ -1640,3 +1640,7 @@
 
 ## Public Table Plan Mobile Font — March 25 2026
 - [x] Increase font sizes on search result cards for better mobile readability
+
+## Sticky Search & Dashboard Cleanup — March 25 2026
+- [x] Make search bar sticky on public table plan page (full-width on mobile, always visible)
+- [x] Clean up sponsor dashboard: remove Partner Intake Form and Meeting Rankings cards, add Rate Your Meetings CTA card linking to /feedback
