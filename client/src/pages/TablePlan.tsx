@@ -273,28 +273,6 @@ export default function TablePlan() {
           </Card>
         )}
 
-        {/* Stats bar */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          {[
-            { icon: <Table className="w-4 h-4 text-purple-400" />, label: "Sponsor Tables", value: floorPlan.sponsors.length },
-            { icon: <Users className="w-4 h-4 text-blue-400" />, label: "Total Meetings", value: floorPlan.totalMeetings },
-            { icon: <Calendar className="w-4 h-4 text-emerald-400" />, label: "Days", value: 2 },
-            { icon: <Star className="w-4 h-4 text-yellow-400" />, label: "Rescheduled Meetings", value: floorPlan.slots.flatMap(s => s.meetings).filter(m => m.isStarred).length },
-          ].map((stat, i) => (
-            <Card key={i} className="bg-slate-800/50 border-slate-700">
-              <CardContent className="p-4 flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-slate-700/60 flex items-center justify-center shrink-0">
-                  {stat.icon}
-                </div>
-                <div>
-                  <p className="text-xl font-bold text-white">{stat.value}</p>
-                  <p className="text-xs text-slate-400">{stat.label}</p>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-
         {/* Floor plan card */}
         <Card className="bg-slate-800/50 border-slate-700">
           <CardHeader className="pb-3">

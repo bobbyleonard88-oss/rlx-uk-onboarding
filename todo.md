@@ -1614,3 +1614,6 @@
 
 ## Table Plan Star Label — March 25 2026
 - [x] Change star badge legend from "featured meeting" to "Rescheduled" on public table plan
+
+## Table Plan UI — March 25 2026
+- [x] Remove the four stat cards (Sponsor Tables, Total Meetings, Days, Rescheduled Meetings) from the top of the public table plan page
