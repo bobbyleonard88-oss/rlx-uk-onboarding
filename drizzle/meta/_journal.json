@@ -120,6 +120,13 @@
       "when": 1773756944068,
       "tag": "0016_curved_rumiko_fujikawa",
       "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "5",
+      "when": 1774426686221,
+      "tag": "0017_public_ezekiel_stane",
+      "breakpoints": true
     }
   ]
 }

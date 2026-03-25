@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Calendar, Download, FileText, Clock, Building2, User, ChevronDown, Eye, AlertTriangle, CheckCircle2 } from "lucide-react";
+import { Calendar, Download, FileText, Clock, Building2, User, ChevronDown, Eye, AlertTriangle, CheckCircle2, MapPin } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import PageHeader from "@/components/PageHeader";
 import DelegateProfileModal from "@/components/DelegateProfileModal";
@@ -589,6 +589,10 @@ export default function MeetingSchedule() {
                 <CardTitle className="text-white text-base flex items-center gap-2">
                   <Clock className="w-4 h-4 text-accent" />
                   {day === 1 ? 'Wed 25 Mar' : 'Thu 26 Mar'}
+                  <span className="ml-auto flex items-center gap-1 text-[10px] font-normal text-emerald-400/80">
+                    <MapPin className="w-3 h-3" />
+                    Ivory Suite
+                  </span>
                 </CardTitle>
               </CardHeader>
               <CardContent className="px-2 pb-3 pt-0">
@@ -682,10 +686,14 @@ export default function MeetingSchedule() {
               {[1, 2].map(day2 => (
                 <Card key={day2} className="glass-card border-slate-700">
                   <CardHeader className="pb-2 pt-4 px-4">
-                    <CardTitle className="text-white text-base flex items-center gap-2">
-                      <Clock className="w-4 h-4 text-accent" />
-                      {day2 === 1 ? 'Wed 25 Mar' : 'Thu 26 Mar'}
-                    </CardTitle>
+                <CardTitle className="text-white text-base flex items-center gap-2">
+                  <Clock className="w-4 h-4 text-accent" />
+                  {day2 === 1 ? 'Wed 25 Mar' : 'Thu 26 Mar'}
+                  <span className="ml-auto flex items-center gap-1 text-[10px] font-normal text-emerald-400/80">
+                    <MapPin className="w-3 h-3" />
+                    Ivory Suite
+                  </span>
+                </CardTitle>
                   </CardHeader>
                   <CardContent className="px-2 pb-3 pt-0">
                     <div className="divide-y divide-slate-700/60">

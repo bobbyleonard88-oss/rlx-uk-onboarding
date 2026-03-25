@@ -2,6 +2,7 @@ import { COOKIE_NAME } from "@shared/const";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router, protectedProcedure, adminProcedure } from "./_core/trpc";
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import * as db from "./db";
 import { notifyOwner } from "./_core/notification";
@@ -86,6 +87,7 @@ export const appRouter = router({
         );
         return {
           ...m,
+          meetingRating: m.meetingRating ?? null,
           hasDelegateOptIn,
           // Full delegate profile fields for meeting schedule display
           delegateProfile: delegate ? {
@@ -293,6 +295,21 @@ export const appRouter = router({
       // Return the most recent submission
       return submissions.length > 0 ? submissions[0] : null;
     }),
+
+    // Rate a meeting (1-5 stars) — sponsor only
+    rateMeeting: protectedProcedure
+      .input(z.object({ meetingId: z.number(), rating: z.number().min(1).max(5) }))
+      .mutation(async ({ ctx, input }) => {
+        const sponsor = await db.getSponsorByUserId(ctx.user.id, ctx.user.email ?? undefined);
+        if (!sponsor) throw new TRPCError({ code: 'UNAUTHORIZED', message: 'No sponsor account found' });
+        // Verify the meeting belongs to this sponsor
+        const meeting = await db.getMeetingById(input.meetingId);
+        if (!meeting || meeting.sponsorId !== sponsor.id) {
+          throw new TRPCError({ code: 'FORBIDDEN', message: 'Meeting not found or access denied' });
+        }
+        await db.updateMeetingRating(input.meetingId, input.rating);
+        return { success: true };
+      }),
   }),
 
   // Admin router (CS team dashboard)
@@ -1773,12 +1790,20 @@ export const appRouter = router({
               ? sponsorMeetings.reduce((sum, m) => sum + (m.matchScore || 0), 0) / sponsorMeetings.length
               : 0;
             
+            // Meeting ratings analytics
+            const ratedMeetings = sponsorMeetings.filter(m => m.meetingRating != null && m.meetingRating > 0);
+            const avgRating = ratedMeetings.length > 0
+              ? ratedMeetings.reduce((sum, m) => sum + (m.meetingRating ?? 0), 0) / ratedMeetings.length
+              : null;
+            
             return {
               sponsorId: sponsor.id,
               companyName: sponsor.companyName,
               meetingsScheduled: sponsorMeetings.length,
               totalSlots,
               avgMatchScore: avgScore,
+              ratedMeetingsCount: ratedMeetings.length,
+              avgMeetingRating: avgRating,
             };
           })
         );
@@ -2166,6 +2191,8 @@ export const appRouter = router({
             'Match Reason': meeting.matchReason ?? '',
             // Status
             'Status': meeting.status,
+            // Post-event rating
+            'Meeting Rating': meeting.meetingRating != null ? `${meeting.meetingRating}/5` : '',
           };
         });
 

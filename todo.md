@@ -1574,3 +1574,16 @@
 - [x] Verify admin export (download all) pulls from live DB — trpc.admin.getAllMeetingsExport → db.getAllMeetings ✅
 - [x] Verify sponsor-side briefing pack export pulls from live DB — uses trpc.sponsor.getMyMeetings data ✅
 - [ ] Adam Binks @ Stepstone slot 1 conflict — deferred, to be actioned separately
+
+## Sponsor Portal Redesign & Feedback Feature
+- [x] Strip sponsor nav to 4 tabs only: Meeting Schedule, Intake Form, Event Details, Feedback
+- [x] Remove all other sponsor nav tabs (Overview, Features & Values, Rules of Engagement, Add-Ons, Timeline, Agenda, Matchmaking, etc.)
+- [x] Add meetingRating (int 1-5, nullable) column to meetings table and push migration
+- [x] Add tRPC procedure to save/update a meeting star rating (protected, sponsor only)
+- [x] Build Feedback page: two-column grid of confirmed meetings (delegate name, job title, company + 5-star rating)
+- [x] 5-star rating is clickable and saves to DB immediately on click
+- [x] Monday.com form embed appears below meeting list only once all meetings have been rated
+- [x] Monday.com embed: https://forms.monday.com/forms/embed/72bb02339d10616b3f55d5ddd78070e4?r=use1
+- [x] Admin analytics: add per-sponsor meeting score breakdown section
+- [x] Admin analytics: add export CSV of all meeting scores per sponsor
+- [x] Admin meetings CSV export: add star rating column to existing download

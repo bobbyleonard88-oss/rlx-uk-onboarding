@@ -467,6 +467,7 @@ export async function getMeetingsBySponsor(sponsorId: number) {
       isVisible: meetings.isVisible,
       notes: meetings.notes,
       adminNotes: meetings.adminNotes,
+      meetingRating: meetings.meetingRating,
       createdAt: meetings.createdAt,
       updatedAt: meetings.updatedAt,
       attendeeFirstName: delegateProfiles.firstName,
@@ -859,4 +860,20 @@ export async function getUserById(id: number) {
   if (!db) return null;
   const result = await db.select().from(users).where(eq(users.id, id)).limit(1);
   return result[0] ?? null;
+}
+
+export async function getMeetingById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.select().from(meetings).where(eq(meetings.id, id)).limit(1);
+  return result[0] ?? null;
+}
+
+export async function updateMeetingRating(meetingId: number, rating: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db
+    .update(meetings)
+    .set({ meetingRating: rating, updatedAt: new Date() })
+    .where(eq(meetings.id, meetingId));
 }

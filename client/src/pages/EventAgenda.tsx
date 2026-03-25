@@ -26,6 +26,7 @@ interface ConcurrentItem {
   left: {
     title: string;
     type: SessionType;
+    room?: string;
   };
   right: {
     title: string;
@@ -88,7 +89,7 @@ const agenda: DayAgenda[] = [
       {
         kind: "concurrent",
         time: "10:15–11:15",
-        left:  { title: "1:1 Meetings Hour",                                                  type: "meeting" },
+        left:  { title: "1:1 Meetings Hour", room: "Ivory Suite",                            type: "meeting" },
         right: { title: "The AI Toolbox: Tips, Tricks & Real Use Cases",  format: "Peer-to-peer show and tell", type: "session" },
       },
       {
@@ -103,14 +104,14 @@ const agenda: DayAgenda[] = [
       {
         kind: "concurrent",
         time: "13:30–14:30",
-        left:  { title: "1:1 Meetings Hour",                                                  type: "meeting" },
+        left:  { title: "1:1 Meetings Hour", room: "Ivory Suite",                            type: "meeting" },
         right: { title: "Tech Stack Reckoning: Simplify, Integrate or Start Again?", format: "Peer-to-peer roundtable", type: "session" },
       },
       { kind: "single", title: "Afternoon Break", type: "break" },
       {
         kind: "concurrent",
         time: "14:45–15:45",
-        left:  { title: "1:1 Meetings Hour",                                                  type: "meeting" },
+        left:  { title: "1:1 Meetings Hour", room: "Ivory Suite",                            type: "meeting" },
         right: { title: "Signal Over Noise: Hiring Quality in a High-Volume, AI-Accelerated World", format: "Peer-to-peer roundtable", type: "session" },
       },
       { kind: "single", time: "15:45–17:00", title: "Experiential Sessions & Networking",    type: "social" },
@@ -127,7 +128,7 @@ const agenda: DayAgenda[] = [
       {
         kind: "concurrent",
         time: "10:30–11:30",
-        left:  { title: "1:1 Meetings",                                                       type: "meeting" },
+        left:  { title: "1:1 Meetings", room: "Ivory Suite",                                 type: "meeting" },
         right: { title: "Shared Challenges Workshop Hour", format: "Peer-to-peer workshop",   type: "session" },
       },
       {
@@ -142,14 +143,14 @@ const agenda: DayAgenda[] = [
       {
         kind: "concurrent",
         time: "13:15–14:15",
-        left:  { title: "1:1 Meetings",                                                       type: "meeting" },
+        left:  { title: "1:1 Meetings", room: "Ivory Suite",                                 type: "meeting" },
         right: { title: "From Reactive TA to Workforce Strategist: Skills, Mobility & Org Redesign", format: "Peer-to-peer roundtable", type: "session" },
       },
       { kind: "single", title: "Afternoon Break", type: "break" },
       {
         kind: "concurrent",
         time: "14:30–15:30",
-        left:  { title: "1:1 Meetings",                                                       type: "meeting" },
+        left:  { title: "1:1 Meetings", room: "Ivory Suite",                                 type: "meeting" },
         right: { title: "Employer Value Under Pressure: Brand, Early Careers & Candidate Experience", format: "Peer-to-peer roundtable", type: "session" },
       },
       {
@@ -241,6 +242,12 @@ function ConcurrentRow({ item, index }: { item: ConcurrentItem; index: number })
             <div>
               <p className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Track A</p>
               <h4 className={`font-heading font-bold text-sm text-white leading-snug`}>{item.left.title}</h4>
+              {item.left.room && (
+                <p className="flex items-center gap-1 text-xs text-emerald-400/80 mt-1">
+                  <MapPin className="w-3 h-3" />
+                  {item.left.room}
+                </p>
+              )}
             </div>
           </div>
 
@@ -294,6 +301,7 @@ export default function EventAgenda() {
                 </div>
                 <h3 className="text-lg font-heading font-bold text-foreground mb-1">The Grove Hotel</h3>
                 <p className="text-muted-foreground text-sm">Spa &amp; Golf, Hertfordshire, UK</p>
+                <p className="text-muted-foreground text-xs mt-1">1:1 Meetings — Ivory Suite</p>
               </div>
               <div className="flex flex-col items-center">
                 <div className="w-14 h-14 rounded-full bg-accent/20 flex items-center justify-center mb-3 border-2 border-accent/30">

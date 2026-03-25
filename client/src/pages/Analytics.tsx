@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { trpc } from "@/lib/trpc";
-import { BarChart3, Users, Calendar, TrendingUp, Download } from "lucide-react";
+import { BarChart3, Users, Calendar, TrendingUp, Download, Star } from "lucide-react";
 import AdminHeader from "@/components/AdminHeader";
 import MeetingFloorPlan from "@/components/MeetingFloorPlan";
 import { useTestMode } from "@/hooks/useTestMode";
@@ -335,7 +335,112 @@ export default function Analytics() {
             </Card>
           </div>
 
-          {/* Row 4: Meeting Floor Plan — full width */}
+          {/* Row 4: Per-Sponsor Meeting Ratings */}
+          {(() => {
+            const ratedSponsors = analytics.sponsorStats
+              .filter((s: any) => s.avgMeetingRating != null)
+              .sort((a: any, b: any) => (b.avgMeetingRating ?? 0) - (a.avgMeetingRating ?? 0));
+            const totalRated = analytics.sponsorStats.reduce((sum: number, s: any) => sum + (s.ratedMeetingsCount ?? 0), 0);
+            const overallAvgRating = ratedSponsors.length > 0
+              ? ratedSponsors.reduce((sum: number, s: any) => sum + (s.avgMeetingRating ?? 0), 0) / ratedSponsors.length
+              : null;
+            return (
+              <div className="grid grid-cols-1 mb-6">
+                <Card className="bg-slate-800/50 border-slate-700">
+                  <CardHeader className="pb-3">
+                    <div className="flex items-start justify-between gap-2">
+                      <div>
+                        <CardTitle className="text-white flex items-center gap-2">
+                          <Star className="w-4 h-4 text-amber-400" />
+                          Post-Event Meeting Ratings
+                        </CardTitle>
+                        <p className="text-sm text-slate-400 mt-1">
+                          {totalRated} meeting{totalRated !== 1 ? 's' : ''} rated across {ratedSponsors.length} sponsor{ratedSponsors.length !== 1 ? 's' : ''}
+                          {overallAvgRating != null && (
+                            <span className="ml-2 text-amber-400 font-medium">
+                              — Overall avg: {overallAvgRating.toFixed(1)}/5
+                            </span>
+                          )}
+                        </p>
+                      </div>
+                      {ratedSponsors.length > 0 && (
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="border-slate-600 text-slate-300 hover:text-white shrink-0 gap-1.5"
+                          onClick={() => {
+                            const rows = analytics.sponsorStats
+                              .filter((s: any) => s.ratedMeetingsCount > 0)
+                              .sort((a: any, b: any) => (b.avgMeetingRating ?? 0) - (a.avgMeetingRating ?? 0))
+                              .map((s: any) => [
+                                s.companyName,
+                                s.ratedMeetingsCount,
+                                s.meetingsScheduled,
+                                s.avgMeetingRating != null ? s.avgMeetingRating.toFixed(2) : '',
+                              ]);
+                            const csv = [
+                              ['Sponsor', 'Meetings Rated', 'Total Meetings', 'Avg Rating (1-5)'].join(','),
+                              ...rows.map((r: string[]) => r.map((c: string) => `"${c}"`).join(','))
+                            ].join('\n');
+                            const blob = new Blob([csv], { type: 'text/csv' });
+                            const url = URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.href = url;
+                            a.download = `sponsor-ratings-${new Date().toISOString().split('T')[0]}.csv`;
+                            document.body.appendChild(a);
+                            a.click();
+                            document.body.removeChild(a);
+                            URL.revokeObjectURL(url);
+                          }}
+                        >
+                          <Download className="w-3.5 h-3.5" />
+                          Export CSV
+                        </Button>
+                      )}
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    {ratedSponsors.length === 0 ? (
+                      <p className="text-slate-400 text-sm text-center py-4">
+                        No meeting ratings submitted yet. Ratings will appear here once sponsors rate their meetings in the Feedback tab.
+                      </p>
+                    ) : (
+                      <div className="space-y-3">
+                        {ratedSponsors.map((sponsor: any, index: number) => (
+                          <div key={sponsor.sponsorId} className="flex items-center gap-3 p-2.5 bg-slate-700/40 rounded-lg">
+                            <span className="text-slate-500 text-xs w-5 text-right shrink-0">{index + 1}</span>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-white text-sm font-medium truncate">{sponsor.companyName}</p>
+                              <p className="text-slate-400 text-xs">
+                                {sponsor.ratedMeetingsCount}/{sponsor.meetingsScheduled} meetings rated
+                              </p>
+                            </div>
+                            <div className="flex items-center gap-1 shrink-0">
+                              {[1,2,3,4,5].map(star => (
+                                <Star
+                                  key={star}
+                                  className={`w-3.5 h-3.5 ${
+                                    star <= Math.round(sponsor.avgMeetingRating ?? 0)
+                                      ? 'fill-amber-400 text-amber-400'
+                                      : 'text-slate-600 fill-transparent'
+                                  }`}
+                                />
+                              ))}
+                              <span className="text-amber-400 text-sm font-semibold ml-1">
+                                {(sponsor.avgMeetingRating ?? 0).toFixed(1)}
+                              </span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </div>
+            );
+          })()}
+
+          {/* Row 5: Meeting Floor Plan — full width */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="lg:col-span-2">
               <MeetingFloorPlan includeTestAccounts={includeTestAccounts} />
