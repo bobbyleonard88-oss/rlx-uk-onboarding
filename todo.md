@@ -1650,3 +1650,11 @@
 
 ## Agenda Fix — March 25 2026
 - [x] Fix missing Sapia.ai workshop on the Agenda page (09:15–10:15, Indigo Suite, Thursday)
+
+## Admin Clear Ratings — March 25 2026
+- [x] Wipe all meetingRating values for Wilson sponsor in the DB
+- [x] Add clearSponsorRatings admin tRPC procedure (sets all meetingRating to NULL for a given sponsorId)
+- [x] Add "Clear All Ratings" button per sponsor in the admin Feedback & Notes page with confirmation dialog
+
+## Sapia.ai Workshop Title — March 25 2026
+- [x] Update Sapia.ai workshop title on Agenda page to "Hiring in the Age of Intelligence"

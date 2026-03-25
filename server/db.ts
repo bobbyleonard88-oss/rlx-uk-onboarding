@@ -887,3 +887,12 @@ export async function updateMeetingNotes(meetingId: number, notes: string) {
     .set({ meetingNotes: notes, updatedAt: new Date() })
     .where(eq(meetings.id, meetingId));
 }
+
+export async function clearSponsorRatings(sponsorId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db
+    .update(meetings)
+    .set({ meetingRating: null, updatedAt: new Date() })
+    .where(eq(meetings.sponsorId, sponsorId));
+}

@@ -1,9 +1,10 @@
 import { useState, useMemo } from "react";
 import { trpc } from "@/lib/trpc";
 import AdminHeader from "@/components/AdminHeader";
-import { Star, Download, MessageSquare, ChevronDown, ChevronRight, Search, Loader2 } from "lucide-react";
+import { Star, Download, MessageSquare, ChevronDown, ChevronRight, Search, Loader2, Trash2, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
 
 const SLOT_TIMES: Record<number, string> = {
   1: "Wed 10:15", 2: "Wed 10:45", 3: "Wed 13:30", 4: "Wed 14:00",
@@ -26,10 +27,57 @@ function StarDisplay({ rating }: { rating: number | null }) {
   );
 }
 
+function ConfirmDialog({
+  sponsorName,
+  onConfirm,
+  onCancel,
+}: {
+  sponsorName: string;
+  onConfirm: () => void;
+  onCancel: () => void;
+}) {
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+      <div className="bg-slate-900 border border-slate-700 rounded-2xl p-6 max-w-sm w-full mx-4 shadow-2xl">
+        <div className="flex items-start gap-3 mb-4">
+          <div className="w-10 h-10 rounded-full bg-red-500/15 border border-red-500/30 flex items-center justify-center flex-shrink-0">
+            <AlertTriangle className="w-5 h-5 text-red-400" />
+          </div>
+          <div>
+            <h3 className="text-white font-semibold text-base">Clear All Ratings?</h3>
+            <p className="text-slate-400 text-sm mt-1">
+              This will permanently wipe all star ratings for <span className="text-white font-medium">{sponsorName}</span>. Notes will not be affected. This cannot be undone.
+            </p>
+          </div>
+        </div>
+        <div className="flex gap-3 justify-end">
+          <Button
+            variant="outline"
+            onClick={onCancel}
+            className="border-slate-600 text-slate-300 hover:text-white bg-slate-800"
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={onConfirm}
+            className="bg-red-600 hover:bg-red-700 text-white border-0"
+          >
+            <Trash2 className="w-4 h-4 mr-1.5" />
+            Clear Ratings
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function SponsorGroup({
+  sponsorId,
   sponsorName,
   meetings,
+  onRatingsCleared,
 }: {
+  sponsorId: number;
   sponsorName: string;
   meetings: Array<{
     meetingId: number;
@@ -40,78 +88,117 @@ function SponsorGroup({
     meetingRating: number | null;
     meetingNotes: string;
   }>;
+  onRatingsCleared: () => void;
 }) {
   const [open, setOpen] = useState(true);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+
+  const clearRatings = trpc.admin.clearSponsorRatings.useMutation({
+    onSuccess: () => {
+      toast.success(`Ratings cleared for ${sponsorName}`);
+      setConfirmOpen(false);
+      onRatingsCleared();
+    },
+    onError: () => {
+      toast.error("Failed to clear ratings. Please try again.");
+      setConfirmOpen(false);
+    },
+  });
+
   const avgRating = useMemo(() => {
     const rated = meetings.filter(m => m.meetingRating != null && m.meetingRating > 0);
     if (!rated.length) return null;
     return rated.reduce((s, m) => s + (m.meetingRating ?? 0), 0) / rated.length;
   }, [meetings]);
   const notedCount = meetings.filter(m => m.meetingNotes?.trim()).length;
+  const ratedCount = meetings.filter(m => m.meetingRating != null && m.meetingRating > 0).length;
 
   return (
-    <div className="border border-slate-700 rounded-xl overflow-hidden mb-3">
-      <button
-        onClick={() => setOpen(!open)}
-        className="w-full flex items-center justify-between px-5 py-3.5 bg-slate-800/60 hover:bg-slate-800 transition-colors text-left"
-      >
-        <div className="flex items-center gap-3">
-          {open ? <ChevronDown className="w-4 h-4 text-slate-400" /> : <ChevronRight className="w-4 h-4 text-slate-400" />}
-          <span className="text-white font-semibold text-sm">{sponsorName}</span>
-          <span className="text-slate-500 text-xs">{meetings.length} meeting{meetings.length !== 1 ? "s" : ""}</span>
-          {notedCount > 0 && (
-            <span className="flex items-center gap-1 text-purple-400 text-xs">
-              <MessageSquare className="w-3 h-3" /> {notedCount} note{notedCount !== 1 ? "s" : ""}
-            </span>
-          )}
-        </div>
-        <div className="flex items-center gap-4">
-          {avgRating != null && (
-            <div className="flex items-center gap-1.5">
-              <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-              <span className="text-amber-400 text-sm font-medium">{avgRating.toFixed(1)}</span>
-              <span className="text-slate-500 text-xs">avg</span>
-            </div>
-          )}
-        </div>
-      </button>
-
-      {open && (
-        <div className="divide-y divide-slate-700/50">
-          {meetings.map((m) => (
-            <div key={m.meetingId} className="px-5 py-3 bg-slate-900/30 grid grid-cols-1 md:grid-cols-[1fr_1fr_auto] gap-3 items-start">
-              {/* Delegate info */}
-              <div>
-                <p className="text-white text-sm font-medium">{m.delegateName}</p>
-                <p className="text-slate-400 text-xs">{[m.delegateJobTitle, m.delegateCompany].filter(Boolean).join(" · ")}</p>
-                <span className="inline-block mt-1 text-xs text-purple-300 bg-purple-500/15 px-2 py-0.5 rounded-full border border-purple-500/20">
-                  {SLOT_TIMES[m.timeSlot ?? 0] ?? `Slot ${m.timeSlot}`}
-                </span>
-              </div>
-
-              {/* Notes */}
-              <div>
-                {m.meetingNotes?.trim() ? (
-                  <p className="text-slate-300 text-sm leading-relaxed italic">"{m.meetingNotes}"</p>
-                ) : (
-                  <p className="text-slate-600 text-xs">No notes left</p>
-                )}
-              </div>
-
-              {/* Rating */}
-              <div className="flex justify-end">
-                <StarDisplay rating={m.meetingRating} />
-              </div>
-            </div>
-          ))}
-        </div>
+    <>
+      {confirmOpen && (
+        <ConfirmDialog
+          sponsorName={sponsorName}
+          onConfirm={() => clearRatings.mutate({ sponsorId })}
+          onCancel={() => setConfirmOpen(false)}
+        />
       )}
-    </div>
+      <div className="border border-slate-700 rounded-xl overflow-hidden mb-3">
+        <button
+          onClick={() => setOpen(!open)}
+          className="w-full flex items-center justify-between px-5 py-3.5 bg-slate-800/60 hover:bg-slate-800 transition-colors text-left"
+        >
+          <div className="flex items-center gap-3 flex-1 min-w-0">
+            {open ? <ChevronDown className="w-4 h-4 text-slate-400 flex-shrink-0" /> : <ChevronRight className="w-4 h-4 text-slate-400 flex-shrink-0" />}
+            <span className="text-white font-semibold text-sm truncate">{sponsorName}</span>
+            <span className="text-slate-500 text-xs flex-shrink-0">{meetings.length} meeting{meetings.length !== 1 ? "s" : ""}</span>
+            {notedCount > 0 && (
+              <span className="flex items-center gap-1 text-purple-400 text-xs flex-shrink-0">
+                <MessageSquare className="w-3 h-3" /> {notedCount} note{notedCount !== 1 ? "s" : ""}
+              </span>
+            )}
+          </div>
+          <div className="flex items-center gap-3 flex-shrink-0 ml-3">
+            {avgRating != null && (
+              <div className="flex items-center gap-1.5">
+                <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                <span className="text-amber-400 text-sm font-medium">{avgRating.toFixed(1)}</span>
+                <span className="text-slate-500 text-xs">avg</span>
+              </div>
+            )}
+            {ratedCount > 0 && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setConfirmOpen(true);
+                }}
+                className="flex items-center gap-1 text-xs text-red-400 hover:text-red-300 border border-red-500/30 hover:border-red-400/50 rounded-lg px-2.5 py-1 bg-red-500/10 hover:bg-red-500/15 transition-colors"
+                title={`Clear all ratings for ${sponsorName}`}
+              >
+                <Trash2 className="w-3 h-3" />
+                <span className="hidden sm:inline">Clear ratings</span>
+              </button>
+            )}
+          </div>
+        </button>
+
+        {open && (
+          <div className="divide-y divide-slate-700/50">
+            {meetings.map((m) => (
+              <div key={m.meetingId} className="px-5 py-3 bg-slate-900/30 grid grid-cols-1 md:grid-cols-[1fr_1fr_auto] gap-3 items-start">
+                {/* Delegate info */}
+                <div>
+                  <p className="text-white text-sm font-medium">{m.delegateName}</p>
+                  <p className="text-slate-400 text-xs">{[m.delegateJobTitle, m.delegateCompany].filter(Boolean).join(" · ")}</p>
+                  <span className="inline-block mt-1 text-xs text-purple-300 bg-purple-500/15 px-2 py-0.5 rounded-full border border-purple-500/20">
+                    {SLOT_TIMES[m.timeSlot ?? 0] ?? `Slot ${m.timeSlot}`}
+                  </span>
+                </div>
+
+                {/* Notes */}
+                <div>
+                  {m.meetingNotes?.trim() ? (
+                    <p className="text-slate-300 text-sm leading-relaxed italic">"{m.meetingNotes}"</p>
+                  ) : (
+                    <p className="text-slate-600 text-xs">No notes left</p>
+                  )}
+                </div>
+
+                {/* Rating */}
+                <div className="flex justify-end">
+                  <StarDisplay rating={m.meetingRating} />
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </>
   );
 }
 
 export default function AdminFeedbackNotes() {
   const [search, setSearch] = useState("");
+  const utils = trpc.useUtils();
 
   const { data, isLoading } = trpc.admin.getFeedbackNotes.useQuery(
     { includeTestAccounts: false },
@@ -120,13 +207,13 @@ export default function AdminFeedbackNotes() {
 
   const grouped = useMemo(() => {
     if (!data) return [];
-    const map = new Map<string, typeof data>();
+    const map = new Map<string, { sponsorId: number; meetings: typeof data }>();
     for (const m of data) {
       const key = m.sponsorName;
-      if (!map.has(key)) map.set(key, []);
-      map.get(key)!.push(m);
+      if (!map.has(key)) map.set(key, { sponsorId: m.sponsorId, meetings: [] });
+      map.get(key)!.meetings.push(m);
     }
-    return Array.from(map.entries()).map(([name, meetings]) => ({ name, meetings }));
+    return Array.from(map.entries()).map(([name, { sponsorId, meetings }]) => ({ name, sponsorId, meetings }));
   }, [data]);
 
   const filtered = useMemo(() => {
@@ -244,7 +331,13 @@ export default function AdminFeedbackNotes() {
           </div>
         ) : (
           filtered.map(g => (
-            <SponsorGroup key={g.name} sponsorName={g.name} meetings={g.meetings} />
+            <SponsorGroup
+              key={g.name}
+              sponsorId={g.sponsorId}
+              sponsorName={g.name}
+              meetings={g.meetings}
+              onRatingsCleared={() => utils.admin.getFeedbackNotes.invalidate()}
+            />
           ))
         )}
       </div>

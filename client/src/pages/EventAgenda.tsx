@@ -129,8 +129,8 @@ const agenda: DayAgenda[] = [
       {
         kind: "single",
         time: "09:15–10:15",
-        title: "Sapia.ai Workshop",
-        format: "Workshop",
+        title: "Hiring in the Age of Intelligence",
+        format: "Workshop — Sapia.ai",
         room: "Indigo Suite",
         type: "session",
       },

@@ -2349,6 +2349,13 @@ export const appRouter = router({
           };
         }).sort((a, b) => a.sponsorName.localeCompare(b.sponsorName));
       }),
+
+    clearSponsorRatings: adminProcedure
+      .input(z.object({ sponsorId: z.number() }))
+      .mutation(async ({ input }) => {
+        await db.clearSponsorRatings(input.sponsorId);
+        return { success: true };
+      }),
   }),
 });
 export type AppRouter = typeof appRouter;
