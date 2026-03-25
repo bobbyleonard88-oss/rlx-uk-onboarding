@@ -1,0 +1,15 @@
+{
+  "query": "SELECT id, sponsorId, matchReason FROM meetings WHERE (matchReason LIKE '%competitor%' OR matchReason LIKE '%opted in to meet%') AND sponsorId != 300001;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT id, sponsorId, matchReason FROM meetings WHERE (matchReason LIKE '%competitor%' OR matchReason LIKE '%opted in to meet%') AND sponsorId != 300001;",
+  "rows": [
+    {
+      "id": "750086",
+      "sponsorId": "330001",
+      "matchReason": "Delegate's pain point 'We lack consistent, structured talent pipelines' and interest in 'CRM and Onboarding Solution tech to support top of the funnell' aligns with Symphony Talent's 'career site and CRM technology' which helps 'attract, engage and convert critical talent with precision and scale'. Note: delegate currently uses Smart Recruiters and HireEZ, competitors for some aspects of Symphony Talent's offering. (Ranked in sponsor's top 20 preferred delegates)"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tsponsorId\tmatchReason\n750086\t330001\tDelegate's pain point 'We lack consistent, structured talent pipelines' and interest in 'CRM and Onboarding Solution tech to support top of the funnell' aligns with Symphony Talent's 'career site and CRM technology' which helps 'attract, engage and convert critical talent with precision and scale'. Note: delegate currently uses Smart Recruiters and HireEZ, competitors for some aspects of Symphony Talent's offering. (Ranked in sponsor's top 20 preferred delegates)\n",
+  "stderr": "",
+  "execution_time_ms": 357
+}

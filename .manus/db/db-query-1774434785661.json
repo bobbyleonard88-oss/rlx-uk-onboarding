@@ -1,0 +1,18 @@
+{
+  "query": "SELECT id, companyName FROM sponsors WHERE companyName LIKE '%Aon%' OR companyName LIKE '%Happydance%' OR companyName LIKE '%Happy Dance%' OR companyName LIKE '%Maki%' OR companyName LIKE '%Red Bull%' OR companyName LIKE '%RedBull%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT id, companyName FROM sponsors WHERE companyName LIKE '%Aon%' OR companyName LIKE '%Happydance%' OR companyName LIKE '%Happy Dance%' OR companyName LIKE '%Maki%' OR companyName LIKE '%Red Bull%' OR companyName LIKE '%RedBull%';",
+  "rows": [
+    {
+      "id": "180001",
+      "companyName": "Maki People"
+    },
+    {
+      "id": "600001",
+      "companyName": "Happydance Careers Websites"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tcompanyName\n180001\tMaki People\n600001\tHappydance Careers Websites\n",
+  "stderr": "",
+  "execution_time_ms": 352
+}

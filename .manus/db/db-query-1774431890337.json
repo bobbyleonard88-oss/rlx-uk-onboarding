@@ -1,0 +1,118 @@
+{
+  "query": "\nSELECT id, attendeeId, matchScore, isTopRanked, isPriority, status, timeSlot FROM meetings WHERE sponsorId = 600001 ORDER BY timeSlot;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT id, attendeeId, matchScore, isTopRanked, isPriority, status, timeSlot FROM meetings WHERE sponsorId = 600001 ORDER BY timeSlot;\n",
+  "rows": [
+    {
+      "id": "690056",
+      "attendeeId": "91862577670",
+      "matchScore": "68",
+      "isTopRanked": "0",
+      "isPriority": "0",
+      "status": "suggested",
+      "timeSlot": "1"
+    },
+    {
+      "id": "690047",
+      "attendeeId": "7258470500",
+      "matchScore": "90",
+      "isTopRanked": "0",
+      "isPriority": "0",
+      "status": "suggested",
+      "timeSlot": "2"
+    },
+    {
+      "id": "810027",
+      "attendeeId": "201697440144",
+      "matchScore": "58",
+      "isTopRanked": "0",
+      "isPriority": "0",
+      "status": "confirmed",
+      "timeSlot": "3"
+    },
+    {
+      "id": "690052",
+      "attendeeId": "9319401",
+      "matchScore": "74",
+      "isTopRanked": "0",
+      "isPriority": "0",
+      "status": "suggested",
+      "timeSlot": "4"
+    },
+    {
+      "id": "690048",
+      "attendeeId": "191181016455",
+      "matchScore": "90",
+      "isTopRanked": "0",
+      "isPriority": "0",
+      "status": "suggested",
+      "timeSlot": "5"
+    },
+    {
+      "id": "690050",
+      "attendeeId": "91889321035",
+      "matchScore": "76",
+      "isTopRanked": "0",
+      "isPriority": "0",
+      "status": "suggested",
+      "timeSlot": "6"
+    },
+    {
+      "id": "690051",
+      "attendeeId": "13454401",
+      "matchScore": "74",
+      "isTopRanked": "1",
+      "isPriority": "0",
+      "status": "suggested",
+      "timeSlot": "7"
+    },
+    {
+      "id": "840003",
+      "attendeeId": "4956154",
+      "matchScore": "85",
+      "isTopRanked": "0",
+      "isPriority": "0",
+      "status": "confirmed",
+      "timeSlot": "8"
+    },
+    {
+      "id": "690046",
+      "attendeeId": "128491656706",
+      "matchScore": "90",
+      "isTopRanked": "0",
+      "isPriority": "0",
+      "status": "suggested",
+      "timeSlot": "9"
+    },
+    {
+      "id": "690055",
+      "attendeeId": "92953690026",
+      "matchScore": "68",
+      "isTopRanked": "1",
+      "isPriority": "0",
+      "status": "suggested",
+      "timeSlot": "10"
+    },
+    {
+      "id": "690054",
+      "attendeeId": "200923910443",
+      "matchScore": "70",
+      "isTopRanked": "0",
+      "isPriority": "0",
+      "status": "suggested",
+      "timeSlot": "11"
+    },
+    {
+      "id": "690049",
+      "attendeeId": "452351",
+      "matchScore": "90",
+      "isTopRanked": "0",
+      "isPriority": "0",
+      "status": "suggested",
+      "timeSlot": "12"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tattendeeId\tmatchScore\tisTopRanked\tisPriority\tstatus\ttimeSlot\n690056\t91862577670\t68\t0\t0\tsuggested\t1\n690047\t7258470500\t90\t0\t0\tsuggested\t2\n810027\t201697440144\t58\t0\t0\tconfirmed\t3\n690052\t9319401\t74\t0\t0\tsuggested\t4\n690048\t191181016455\t90\t0\t0\tsuggested\t5\n690050\t91889321035\t76\t0\t0\tsuggested\t6\n690051\t13454401\t74\t1\t0\tsuggested\t7\n840003\t4956154\t85\t0\t0\tconfirmed\t8\n690046\t128491656706\t90\t0\t0\tsuggested\t9\n690055\t92953690026\t68\t1\t0\tsuggested\t10\n690054\t200923910443\t70\t0\t0\tsuggested\t11\n690049\t452351\t90\t0\t0\tsuggested\t12\n",
+  "stderr": "",
+  "execution_time_ms": 352
+}

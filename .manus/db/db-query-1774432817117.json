@@ -1,0 +1,20 @@
+{
+  "query": "SELECT id, attendeeId, matchReason FROM meetings WHERE id IN (690051, 690055);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT id, attendeeId, matchReason FROM meetings WHERE id IN (690051, 690055);",
+  "rows": [
+    {
+      "id": "690051",
+      "attendeeId": "13454401",
+      "matchReason": "The delegate's active project 'Early Careers review' and interest in 'AI' directly align with Happydance's AI-enabled technology for inspiring talent and its ability to 'ensure initial interest is translated into meaningful candidate alignment' for specific talent pools like early careers. Note: delegate currently uses Phenom (a direct competitor). (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "id": "690055",
+      "attendeeId": "92953690026",
+      "matchReason": "The delegate's project 'Technology Implementation of Phenom' indicates an existing candidate experience platform. However, Happydance's focus on careers websites that 'ensure employer brands are showcased beautifully' and provide 'full control' could appeal to a delegate looking for advanced branding and flexibility beyond existing solutions. Note: delegate currently uses Phenom (a direct competitor). (Ranked in sponsor's top 20 preferred delegates)"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tattendeeId\tmatchReason\n690051\t13454401\tThe delegate's active project 'Early Careers review' and interest in 'AI' directly align with Happydance's AI-enabled technology for inspiring talent and its ability to 'ensure initial interest is translated into meaningful candidate alignment' for specific talent pools like early careers. Note: delegate currently uses Phenom (a direct competitor). (Ranked in sponsor's top 20 preferred delegates)\n690055\t92953690026\tThe delegate's project 'Technology Implementation of Phenom' indicates an existing candidate experience platform. However, Happydance's focus on careers websites that 'ensure employer brands are showcased beautifully' and provide 'full control' could appeal to a delegate looking for advanced branding and flexibility beyond existing solutions. Note: delegate currently uses Phenom (a direct competitor). (Ranked in sponsor's top 20 preferred delegates)\n",
+  "stderr": "",
+  "execution_time_ms": 359
+}

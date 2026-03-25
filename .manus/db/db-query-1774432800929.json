@@ -1,0 +1,85 @@
+{
+  "query": "SELECT id, sponsorId, matchReason FROM meetings WHERE matchReason LIKE '%competitor%' OR matchReason LIKE '%opted in to meet%' OR matchReason LIKE '%Zinc%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT id, sponsorId, matchReason FROM meetings WHERE matchReason LIKE '%competitor%' OR matchReason LIKE '%opted in to meet%' OR matchReason LIKE '%Zinc%';",
+  "rows": [
+    {
+      "id": "663424",
+      "sponsorId": "300001",
+      "matchReason": "Delegate is 'keen to look at technology in both vetting & on-boarding' and has 'vetting & on-boarding' as an active project, which Zinc's automated background checks directly address to improve efficiency and reduce processing time. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "id": "663425",
+      "sponsorId": "300001",
+      "matchReason": "Delegate explicitly states 'Would be interested in background checking vendors' as a meeting objective, directly aligning with Zinc's offering. Note: delegate will be using Pinpoint ATS from June."
+    },
+    {
+      "id": "663426",
+      "sponsorId": "300001",
+      "matchReason": "Delegate has 'Background Checks' as an active project and is looking for 'Better understanding of how the solutions 'are better' than existing partnerships/solutions', which Zinc directly offers. Note: delegate currently uses Workday ATS. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "id": "663427",
+      "sponsorId": "300001",
+      "matchReason": "Delegate explicitly lists 'Background Screening' and 'Compliance' as active projects and meeting objectives, directly matching Zinc's core product and compliance focus. Note: delegate currently uses Oleeo ATS."
+    },
+    {
+      "id": "663428",
+      "sponsorId": "300001",
+      "matchReason": "Delegate explicitly lists 'Background checks for keys roles for Finance etc.' as a pain point and is looking for 'What systems/software that are compatible and cost effective that can help me support with current projects', which Zinc directly provides. Note: delegate currently uses TalentLink ATS."
+    },
+    {
+      "id": "663429",
+      "sponsorId": "300001",
+      "matchReason": "Delegate's current pain points explicitly include 'Screening', and they use Workday, which Zinc integrates with, making it a strong match for their needs. Note: delegate currently uses Workday ATS."
+    },
+    {
+      "id": "663430",
+      "sponsorId": "300001",
+      "matchReason": "Delegate is looking for 'instruments to improve experience on pre-onboarding and onboarding stages' and 'process automation', which Zinc's automated background checks and real-time status updates can directly enhance."
+    },
+    {
+      "id": "663431",
+      "sponsorId": "300001",
+      "matchReason": "Delegate's pain points include 'Reducing team budgets whilst not reducing quality' and 'blending technology with human endeavour', which Zinc's automation could contribute to, but it's not a direct match. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "id": "663432",
+      "sponsorId": "300001",
+      "matchReason": "Delegate's pain points include 'Simplification' and they are 'Sharing and learning from peers on their journey', which Zinc's automated background checks could contribute to, but it's not a primary focus. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "id": "663433",
+      "sponsorId": "300001",
+      "matchReason": "Delegate's meeting objectives include 'Global capability of vendors, ability to deploy as stand alone product and integrate with local ATSs', which aligns with Zinc's global coverage and integration capabilities."
+    },
+    {
+      "id": "663434",
+      "sponsorId": "300001",
+      "matchReason": "Delegate's pain points include 'automation' and 'system standardisation', which Zinc's automated and integrated background check solution can support as part of a wider tech stack. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "id": "663435",
+      "sponsorId": "300001",
+      "matchReason": "Delegate's active projects and objectives are focused on 'Assessment Tech', 'RPO renewal', and 'AI', which are outside Zinc's core offering. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "id": "690051",
+      "sponsorId": "600001",
+      "matchReason": "The delegate's active project 'Early Careers review' and interest in 'AI' directly align with Happydance's AI-enabled technology for inspiring talent and its ability to 'ensure initial interest is translated into meaningful candidate alignment' for specific talent pools like early careers. Note: delegate currently uses Phenom (a direct competitor). (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "id": "690055",
+      "sponsorId": "600001",
+      "matchReason": "The delegate's project 'Technology Implementation of Phenom' indicates an existing candidate experience platform. However, Happydance's focus on careers websites that 'ensure employer brands are showcased beautifully' and provide 'full control' could appeal to a delegate looking for advanced branding and flexibility beyond existing solutions. Note: delegate currently uses Phenom (a direct competitor). (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "id": "750086",
+      "sponsorId": "330001",
+      "matchReason": "Delegate's pain point 'We lack consistent, structured talent pipelines' and interest in 'CRM and Onboarding Solution tech to support top of the funnell' aligns with Symphony Talent's 'career site and CRM technology' which helps 'attract, engage and convert critical talent with precision and scale'. Note: delegate currently uses Smart Recruiters and HireEZ, competitors for some aspects of Symphony Talent's offering. (Ranked in sponsor's top 20 preferred delegates)"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tsponsorId\tmatchReason\n663424\t300001\tDelegate is 'keen to look at technology in both vetting & on-boarding' and has 'vetting & on-boarding' as an active project, which Zinc's automated background checks directly address to improve efficiency and reduce processing time. (Ranked in sponsor's top 20 preferred delegates)\n663425\t300001\tDelegate explicitly states 'Would be interested in background checking vendors' as a meeting objective, directly aligning with Zinc's offering. Note: delegate will be using Pinpoint ATS from June.\n663426\t300001\tDelegate has 'Background Checks' as an active project and is looking for 'Better understanding of how the solutions 'are better' than existing partnerships/solutions', which Zinc directly offers. Note: delegate currently uses Workday ATS. (Ranked in sponsor's top 20 preferred delegates)\n663427\t300001\tDelegate explicitly lists 'Background Screening' and 'Compliance' as active projects and meeting objectives, directly matching Zinc's core product and compliance focus. Note: delegate currently uses Oleeo ATS.\n663428\t300001\tDelegate explicitly lists 'Background checks for keys roles for Finance etc.' as a pain point and is looking for 'What systems/software that are compatible and cost effective that can help me support with current projects', which Zinc directly provides. Note: delegate currently uses TalentLink ATS.\n663429\t300001\tDelegate's current pain points explicitly include 'Screening', and they use Workday, which Zinc integrates with, making it a strong match for their needs. Note: delegate currently uses Workday ATS.\n663430\t300001\tDelegate is looking for 'instruments to improve experience on pre-onboarding and onboarding stages' and 'process automation', which Zinc's automated background checks and real-time status updates can directly enhance.\n663431\t300001\tDelegate's pain points include 'Reducing team budgets whilst not reducing quality' and 'blending technology with human endeavour', which Zinc's automation could contribute to, but it's not a direct match. (Ranked in sponsor's top 20 preferred delegates)\n663432\t300001\tDelegate's pain points include 'Simplification' and they are 'Sharing and learning from peers on their journey', which Zinc's automated background checks could contribute to, but it's not a primary focus. (Ranked in sponsor's top 20 preferred delegates)\n663433\t300001\tDelegate's meeting objectives include 'Global capability of vendors, ability to deploy as stand alone product and integrate with local ATSs', which aligns with Zinc's global coverage and integration capabilities.\n663434\t300001\tDelegate's pain points include 'automation' and 'system standardisation', which Zinc's automated and integrated background check solution can support as part of a wider tech stack. (Ranked in sponsor's top 20 preferred delegates)\n663435\t300001\tDelegate's active projects and objectives are focused on 'Assessment Tech', 'RPO renewal', and 'AI', which are outside Zinc's core offering. (Ranked in sponsor's top 20 preferred delegates)\n690051\t600001\tThe delegate's active project 'Early Careers review' and interest in 'AI' directly align with Happydance's AI-enabled technology for inspiring talent and its ability to 'ensure initial interest is translated into meaningful candidate alignment' for specific talent pools like early careers. Note: delegate currently uses Phenom (a direct competitor). (Ranked in sponsor's top 20 preferred delegates)\n690055\t600001\tThe delegate's project 'Technology Implementation of Phenom' indicates an existing candidate experience platform. However, Happydance's focus on careers websites that 'ensure employer brands are showcased beautifully' and provide 'full control' could appeal to a delegate looking for advanced branding and flexibility beyond existing solutions. Note: delegate currently uses Phenom (a direct competitor). (Ranked in sponsor's top 20 preferred delegates)\n750086\t330001\tDelegate's pain point 'We lack consistent, structured talent pipelines' and interest in 'CRM and Onboarding Solution tech to support top of the funnell' aligns with Symphony Talent's 'career site and CRM technology' which helps 'attract, engage and convert critical talent with precision and scale'. Note: delegate currently uses Smart Recruiters and HireEZ, competitors for some aspects of Symphony Talent's offering. (Ranked in sponsor's top 20 preferred delegates)\n",
+  "stderr": "",
+  "execution_time_ms": 349
+}

@@ -1,0 +1,22 @@
+{
+  "query": "SELECT id, sponsorId, attendeeId, matchReason FROM meetings WHERE matchReason LIKE '%Zinc%' AND matchReason LIKE '%opted in%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT id, sponsorId, attendeeId, matchReason FROM meetings WHERE matchReason LIKE '%Zinc%' AND matchReason LIKE '%opted in%';",
+  "rows": [
+    {
+      "id": "663528",
+      "sponsorId": "810001",
+      "attendeeId": "91862577670",
+      "matchReason": "Delegate explicitly opted in to meet Zinc — a deliberate signal of interest in background screening solutions. As Head of TA at Coca-Cola Europacific Partners with a focus on evolving the TA function and optimising their tech stack, background verification is a natural fit within their broader technology review."
+    },
+    {
+      "id": "663530",
+      "sponsorId": "810001",
+      "attendeeId": "110260566550",
+      "matchReason": "Delegate explicitly opted in to meet Zinc (a direct Veremark competitor) and lists \"Screening\" as a current pain point — a clear signal of active vendor evaluation in the background screening space. With a global TA CoE remit at Nissan, streamlining screening processes across regions is a natural fit for Veremark's platform."
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tsponsorId\tattendeeId\tmatchReason\n663528\t810001\t91862577670\tDelegate explicitly opted in to meet Zinc — a deliberate signal of interest in background screening solutions. As Head of TA at Coca-Cola Europacific Partners with a focus on evolving the TA function and optimising their tech stack, background verification is a natural fit within their broader technology review.\n663530\t810001\t110260566550\tDelegate explicitly opted in to meet Zinc (a direct Veremark competitor) and lists \"Screening\" as a current pain point — a clear signal of active vendor evaluation in the background screening space. With a global TA CoE remit at Nissan, streamlining screening processes across regions is a natural fit for Veremark's platform.\n",
+  "stderr": "",
+  "execution_time_ms": 360
+}

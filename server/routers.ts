@@ -312,6 +312,94 @@ export const appRouter = router({
       }),
   }),
 
+  // Public router — no auth required
+  public: router({
+    // Public floor plan — all meetings grouped by time slot, no login needed
+    // Starred meeting IDs: Maki+Red Bull (663404), Happydance+Aon (690050)
+    getFloorPlan: publicProcedure
+      .query(async () => {
+        const STARRED_MEETING_IDS = new Set([663404, 690050]);
+        const TEST_SPONSOR_IDS = new Set([30001, 60001, 90001, 120001]);
+        const ALWAYS_EXCLUDED_SPONSOR_IDS = new Set([270001, 510003]);
+        const allMeetingsRaw = await db.getAllMeetings();
+        const allSponsorsRaw = await db.getAllSponsors();
+        const allSponsors = allSponsorsRaw.filter((s: any) => {
+          if (ALWAYS_EXCLUDED_SPONSOR_IDS.has(s.id)) return false;
+          if (TEST_SPONSOR_IDS.has(s.id)) return false;
+          return true;
+        });
+        const validSponsorIds = new Set(allSponsors.map((s: any) => s.id));
+        const allMeetings = allMeetingsRaw.filter(
+          (m: any) => validSponsorIds.has(m.sponsorId)
+        );
+        const sponsorsWithRep2 = new Set(
+          allMeetings.filter((m: any) => m.attendeeNumber === 2).map((m: any) => m.sponsorId)
+        );
+        const sortedSponsors = [...allSponsors].sort((a: any, b: any) => a.companyName.localeCompare(b.companyName));
+        const sponsorTableMap = new Map<string, number>();
+        let tableCounter = 1;
+        for (const s of sortedSponsors) {
+          sponsorTableMap.set(`${s.id}-1`, tableCounter++);
+          if (sponsorsWithRep2.has(s.id)) {
+            sponsorTableMap.set(`${s.id}-2`, tableCounter++);
+          }
+        }
+        const slotLabels: Record<number, { day: number; time: string; label: string }> = {
+          1:  { day: 1, time: '10:15–10:45', label: 'Day 1 · Slot 1' },
+          2:  { day: 1, time: '10:45–11:15', label: 'Day 1 · Slot 2' },
+          3:  { day: 1, time: '13:30–14:00', label: 'Day 1 · Slot 3' },
+          4:  { day: 1, time: '14:00–14:30', label: 'Day 1 · Slot 4' },
+          5:  { day: 1, time: '14:45–15:15', label: 'Day 1 · Slot 5' },
+          6:  { day: 1, time: '15:15–15:45', label: 'Day 1 · Slot 6' },
+          7:  { day: 2, time: '10:30–11:00', label: 'Day 2 · Slot 1' },
+          8:  { day: 2, time: '11:00–11:30', label: 'Day 2 · Slot 2' },
+          9:  { day: 2, time: '13:15–13:45', label: 'Day 2 · Slot 3' },
+          10: { day: 2, time: '13:45–14:15', label: 'Day 2 · Slot 4' },
+          11: { day: 2, time: '14:30–15:00', label: 'Day 2 · Slot 5' },
+          12: { day: 2, time: '15:00–15:30', label: 'Day 2 · Slot 6' },
+        };
+        const slotMap = new Map<number, typeof allMeetings>();
+        for (let i = 1; i <= 12; i++) slotMap.set(i, []);
+        for (const m of allMeetings) {
+          if (m.timeSlot && slotMap.has(m.timeSlot)) {
+            slotMap.get(m.timeSlot)!.push(m);
+          }
+        }
+        const slots = Array.from(slotMap.entries()).map(([slotNum, slotMeetings]) => ({
+          slot: slotNum,
+          ...slotLabels[slotNum],
+          meetings: slotMeetings.map((m: any) => {
+            const sponsor = allSponsors.find((s: any) => s.id === m.sponsorId);
+            const attendee = attendees.find((a: any) => a.id === m.attendeeId);
+            return {
+              meetingId: m.id,
+              sponsorId: m.sponsorId,
+              sponsorName: sponsor?.companyName ?? 'Unknown',
+              tableNumber: sponsorTableMap.get(`${m.sponsorId}-${m.attendeeNumber ?? 1}`) ?? 0,
+              attendeeNumber: m.attendeeNumber ?? 1,
+              attendeeName: attendee ? `${attendee.firstName} ${attendee.lastName}` : '',
+              attendeeCompany: attendee?.company ?? '',
+              attendeeJobTitle: attendee?.jobTitle ?? '',
+              status: m.status,
+              isStarred: STARRED_MEETING_IDS.has(m.id),
+            };
+          }).sort((a: any, b: any) => a.tableNumber - b.tableNumber),
+        }));
+        const sponsorTableEntries = [] as { id: number; companyName: string; tableNumber: number; repLabel: string }[];
+        for (const s of sortedSponsors) {
+          const t1 = sponsorTableMap.get(`${s.id}-1`);
+          if (t1 != null) sponsorTableEntries.push({ id: s.id, companyName: s.companyName, tableNumber: t1, repLabel: sponsorsWithRep2.has(s.id) ? `${s.companyName} (Rep 1)` : s.companyName });
+          const t2 = sponsorTableMap.get(`${s.id}-2`);
+          if (t2 != null) sponsorTableEntries.push({ id: s.id, companyName: s.companyName, tableNumber: t2, repLabel: `${s.companyName} (Rep 2)` });
+        }
+        return {
+          slots,
+          sponsors: sponsorTableEntries,
+          totalMeetings: allMeetings.length,
+        };
+      }),
+  }),
+
   // Admin router (CS team dashboard)
   admin: router({
     // Get all submissions (rankings + intake, including partial submissions)

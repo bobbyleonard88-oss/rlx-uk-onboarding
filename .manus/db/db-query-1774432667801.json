@@ -1,0 +1,15 @@
+{
+  "query": "SELECT id, attendeeId, matchReason FROM meetings WHERE id = 663530;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT id, attendeeId, matchReason FROM meetings WHERE id = 663530;",
+  "rows": [
+    {
+      "id": "663530",
+      "attendeeId": "110260566550",
+      "matchReason": "Delegate lists \"Screening\" as a current pain point — a clear signal of active vendor evaluation in the background screening space. With a global TA CoE remit at Nissan, streamlining screening processes across regions is a natural fit for Veremark's platform."
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tattendeeId\tmatchReason\n663530\t110260566550\tDelegate lists \"Screening\" as a current pain point — a clear signal of active vendor evaluation in the background screening space. With a global TA CoE remit at Nissan, streamlining screening processes across regions is a natural fit for Veremark's platform.\n",
+  "stderr": "",
+  "execution_time_ms": 345
+}

@@ -1,0 +1,22 @@
+{
+  "query": "SELECT attendeeId, firstName, lastName, company FROM delegateProfiles WHERE company LIKE '%Aon%' OR company LIKE '%Red Bull%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT attendeeId, firstName, lastName, company FROM delegateProfiles WHERE company LIKE '%Aon%' OR company LIKE '%Red Bull%';",
+  "rows": [
+    {
+      "attendeeId": "91889321035",
+      "firstName": "Lucy",
+      "lastName": "Bousfield",
+      "company": "Aon"
+    },
+    {
+      "attendeeId": "9477501",
+      "firstName": "Edwin",
+      "lastName": "Pene",
+      "company": "Red Bull"
+    }
+  ],
+  "messages": [],
+  "stdout": "attendeeId\tfirstName\tlastName\tcompany\n91889321035\tLucy\tBousfield\tAon\n9477501\tEdwin\tPene\tRed Bull\n",
+  "stderr": "",
+  "execution_time_ms": 350
+}

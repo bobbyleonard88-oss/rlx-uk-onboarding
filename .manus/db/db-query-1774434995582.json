@@ -1,0 +1,24 @@
+{
+  "query": "\nSELECT id, sponsorId, attendeeId, timeSlot, status FROM meetings WHERE (sponsorId = 600001 AND attendeeId = '91889321035') OR (sponsorId = 180001 AND attendeeId = '9477501');\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT id, sponsorId, attendeeId, timeSlot, status FROM meetings WHERE (sponsorId = 600001 AND attendeeId = '91889321035') OR (sponsorId = 180001 AND attendeeId = '9477501');\n",
+  "rows": [
+    {
+      "id": "663404",
+      "sponsorId": "180001",
+      "attendeeId": "9477501",
+      "timeSlot": "5",
+      "status": "suggested"
+    },
+    {
+      "id": "690050",
+      "sponsorId": "600001",
+      "attendeeId": "91889321035",
+      "timeSlot": "6",
+      "status": "suggested"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tsponsorId\tattendeeId\ttimeSlot\tstatus\n663404\t180001\t9477501\t5\tsuggested\n690050\t600001\t91889321035\t6\tsuggested\n",
+  "stderr": "",
+  "execution_time_ms": 347
+}

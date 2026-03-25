@@ -1,0 +1,18 @@
+{
+  "query": "\nSELECT id, companyName, contactName FROM sponsors WHERE companyName LIKE '%Happy Dance%' OR contactName LIKE '%Happy Dance%';\nSELECT id, firstName, lastName, company, jobTitle, attendeeId FROM delegateProfiles WHERE firstName LIKE '%Sarah%' AND lastName LIKE '%Cooper%';\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT id, companyName, contactName FROM sponsors WHERE companyName LIKE '%Happy Dance%' OR contactName LIKE '%Happy Dance%';\nSELECT id, firstName, lastName, company, jobTitle, attendeeId FROM delegateProfiles WHERE firstName LIKE '%Sarah%' AND lastName LIKE '%Cooper%';\n",
+  "rows": [
+    {
+      "id": "13",
+      "firstName": "Sarah",
+      "lastName": "Cooper",
+      "company": "Rentokil Initial",
+      "jobTitle": "Group HR Technology, Insights and Recruitment Director",
+      "attendeeId": "5140258"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tfirstName\tlastName\tcompany\tjobTitle\tattendeeId\n13\tSarah\tCooper\tRentokil Initial\tGroup HR Technology, Insights and Recruitment Director\t5140258\n",
+  "stderr": "",
+  "execution_time_ms": 422
+}

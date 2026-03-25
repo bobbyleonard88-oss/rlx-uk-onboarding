@@ -1,0 +1,130 @@
+{
+  "query": "SELECT id, sponsorId, attendeeId, matchReason FROM meetings WHERE matchReason LIKE '%competitor%' OR matchReason LIKE '%opted in to meet%' ORDER BY sponsorId;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT id, sponsorId, attendeeId, matchReason FROM meetings WHERE matchReason LIKE '%competitor%' OR matchReason LIKE '%opted in to meet%' ORDER BY sponsorId;",
+  "rows": [
+    {
+      "id": "663404",
+      "sponsorId": "180001",
+      "attendeeId": "9477501",
+      "matchReason": "Delegate's pain point 'Reduce time-to-hire without compromising quality of hire' and interest in 'AI Screening (Top funnel), On-demand interview (High Volume Assessment), Ai Noteraker' is a direct match for Maki's 'autonomous AI agents' for 'skill screening, conversational interviews, in-depth assessments' which 'accelerate time to hire' and 'improve candidate experience'. Note: delegate currently uses HireVue for assessments, which is a competitor."
+    },
+    {
+      "id": "663406",
+      "sponsorId": "180001",
+      "attendeeId": "191181016455",
+      "matchReason": "Delegate's pain point 'Reviewing assessment tools to funnel good quality candidates through the application process' is a direct match for Maki's 'in-depth assessments' and 'skill based screening' designed to make 'highly predictive hiring decisions'. Note: delegate currently uses Codility and Cappfinity for assessments, which are competitors."
+    },
+    {
+      "id": "663408",
+      "sponsorId": "180001",
+      "attendeeId": "1076201",
+      "matchReason": "Delegate's 'Active / Confirmed Projects: Assessment Tech, AI' and interest in 'AI, Assessment tech, Skills' is a direct match for Maki's 'advanced AI to streamline every step of the talent acquisition journey' and its 'skill screening, conversational interviews, in-depth assessments'. Note: delegate currently uses Sova, SHL, Cappfinity, Codility for assessments, which are competitors. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "id": "663410",
+      "sponsorId": "180001",
+      "attendeeId": "7258470500",
+      "matchReason": "Delegate's pain point 'skills based hiring' and interest in 'Agentic AI' is a direct match for Maki's 'skill based screening and conversational assessments' and its 'autonomous AI agents' that enable 'highly predictive hiring decisions'. Note: delegate currently uses Sapia, SHL, Korn Ferry for assessments, which are competitors. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "id": "663411",
+      "sponsorId": "180001",
+      "attendeeId": "91862577670",
+      "matchReason": "Delegate's pain point 'Humanising AI in processes' and interest in 'AI developments for sourcing' aligns with Maki's 'commitment to fairness and accuracy, backed by science-audited AI and explainable scoring' and its 'autonomous AI agents' for screening and assessments. Note: delegate currently uses Talogy for assessments, which is a competitor."
+    },
+    {
+      "id": "663401",
+      "sponsorId": "180001",
+      "attendeeId": "17812226737",
+      "matchReason": "Delegate's pain point 'reviewing how assessments can improve quality of hire and therefore reduce attrition' and interest in 'latest capabilities (inc AI) of technology in the assessment' is directly addressed by Maki's 'in-depth assessments' and focus on 'highly predictive hiring decisions that drive on-the-job success' and 'lower attrition'. Note: delegate currently uses AON for assessments, which is a competitor. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "id": "750046",
+      "sponsorId": "240001",
+      "attendeeId": "111228357473",
+      "matchReason": "Delegate is 'open to moving from SHL in the next 12 months' for assessments and lists 'Assessments' as a solution area of interest. Sapia.ai provides a validated, science-led AI assessment platform that replaces traditional methods with structured, conversational interviews for fair hiring decisions. Note: delegate currently uses SHL for assessment, a direct competitor. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "id": "750086",
+      "sponsorId": "330001",
+      "attendeeId": "11132851",
+      "matchReason": "Delegate's pain point 'We lack consistent, structured talent pipelines' and interest in 'CRM and Onboarding Solution tech to support top of the funnell' aligns with Symphony Talent's 'career site and CRM technology' which helps 'attract, engage and convert critical talent with precision and scale'. Note: delegate currently uses Smart Recruiters and HireEZ, competitors for some aspects of Symphony Talent's offering. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "id": "690055",
+      "sponsorId": "600001",
+      "attendeeId": "92953690026",
+      "matchReason": "The delegate's project 'Technology Implementation of Phenom' indicates an existing candidate experience platform. However, Happydance's focus on careers websites that 'ensure employer brands are showcased beautifully' and provide 'full control' could appeal to a delegate looking for advanced branding and flexibility beyond existing solutions. Note: delegate currently uses Phenom (a direct competitor). (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "id": "690051",
+      "sponsorId": "600001",
+      "attendeeId": "13454401",
+      "matchReason": "The delegate's active project 'Early Careers review' and interest in 'AI' directly align with Happydance's AI-enabled technology for inspiring talent and its ability to 'ensure initial interest is translated into meaningful candidate alignment' for specific talent pools like early careers. Note: delegate currently uses Phenom (a direct competitor). (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "id": "750139",
+      "sponsorId": "750001",
+      "attendeeId": "116903349643",
+      "matchReason": "Delegate's pain point 'Building a scalable Executive Hiring Function' and use of 'Hogan' for assessment indicates an interest in robust assessment, which aligns with SHL's 'scientifically backed workforce data' and 'highly validated talent solutions' for 'leadership capability'. Note: delegate currently uses Hogan, a competitor. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "id": "750141",
+      "sponsorId": "750001",
+      "attendeeId": "174442448959",
+      "matchReason": "Delegate's interest in 'AI and automation' and 'globally joined up systems and data' has some overlap with SHL's 'AI-enabled screening' and 'reusable skills data that Talent Teams can apply across the employee lifecycle'. Note: delegate currently uses Arctic Shores, a competitor. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "id": "750142",
+      "sponsorId": "750001",
+      "attendeeId": "5140258",
+      "matchReason": "Delegate's active project 'Skills Assessment' and objective to 'pilot and scale across a challenging devolved tech stack' directly aligns with SHL's 'highly validated talent solutions' and 'reusable skills data that Talent Teams can apply across the employee lifecycle'. Note: delegate currently uses Vervoe, a competitor. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "id": "750143",
+      "sponsorId": "750001",
+      "attendeeId": "17812226737",
+      "matchReason": "Delegate's pain point 'reviewing how assessments can improve quality of hire and therefore reduce attrition' and active project 'Assessment' directly matches SHL's 'highly validated talent solutions' that 'provide organizations with the insights needed to optimally leverage their people’s potential and maximize business outcomes'. Note: delegate currently uses AON, a competitor. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "id": "750144",
+      "sponsorId": "750001",
+      "attendeeId": "92353346050",
+      "matchReason": "Delegate's active project 'Early Talent - Global redesign' and meeting objective 'Understanding. Early Talent, Assessment' directly aligns with SHL's solution to 'Select the best graduates quickly when application volumes are high' and 'highly validated talent solutions'. Note: delegate currently uses PEPhire, a competitor. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "id": "750145",
+      "sponsorId": "750001",
+      "attendeeId": "201697440144",
+      "matchReason": "Delegate's pain point 'Detecting signal from high volume of applicants' and 'Looking at assessment technology that enables us to select the right candidates' directly aligns with SHL's ability to 'Streamline hiring and improve decision-making with objective, data-led insight' and 'Select the best graduates quickly when application volumes are high'. Note: delegate currently uses HireVue, a competitor. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "id": "750146",
+      "sponsorId": "750001",
+      "attendeeId": "9477501",
+      "matchReason": "Delegate's pain point 'high-volume assessments for Early Careers and Sales roles' and active project 'AI Interview / Note taking with interview coaching feedback' directly matches SHL's solutions to 'Select the best graduates quickly when application volumes are high' and 'Accelerate sales transformation through predictive talent insight'. Note: delegate currently uses HireVue and Red Bull Wingfinder, competitors. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "id": "750149",
+      "sponsorId": "750001",
+      "attendeeId": "122796319563",
+      "matchReason": "Delegate's pain point 'no automated for screening high volumes of applicants' and active project 'Assessments upgrade' directly addresses SHL's solution to 'Hire at scale and speed without compromising quality' and 'Select the best graduates quickly when application volumes are high'. Note: delegate currently uses AON, a competitor. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "id": "750153",
+      "sponsorId": "750001",
+      "attendeeId": "9319401",
+      "matchReason": "Delegate's pain points 'Early Careers, AI' and meeting objective 'Meeting suppliers with new options. AI and Early Careers' directly aligns with SHL's solutions to 'Select the best graduates quickly when application volumes are high' and 'Assess future skills and potential, including AI readiness'. Note: delegate currently uses Thomas, a competitor."
+    },
+    {
+      "id": "663528",
+      "sponsorId": "810001",
+      "attendeeId": "91862577670",
+      "matchReason": "Delegate explicitly opted in to meet Zinc — a deliberate signal of interest in background screening solutions. As Head of TA at Coca-Cola Europacific Partners with a focus on evolving the TA function and optimising their tech stack, background verification is a natural fit within their broader technology review."
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tsponsorId\tattendeeId\tmatchReason\n663404\t180001\t9477501\tDelegate's pain point 'Reduce time-to-hire without compromising quality of hire' and interest in 'AI Screening (Top funnel), On-demand interview (High Volume Assessment), Ai Noteraker' is a direct match for Maki's 'autonomous AI agents' for 'skill screening, conversational interviews, in-depth assessments' which 'accelerate time to hire' and 'improve candidate experience'. Note: delegate currently uses HireVue for assessments, which is a competitor.\n663406\t180001\t191181016455\tDelegate's pain point 'Reviewing assessment tools to funnel good quality candidates through the application process' is a direct match for Maki's 'in-depth assessments' and 'skill based screening' designed to make 'highly predictive hiring decisions'. Note: delegate currently uses Codility and Cappfinity for assessments, which are competitors.\n663408\t180001\t1076201\tDelegate's 'Active / Confirmed Projects: Assessment Tech, AI' and interest in 'AI, Assessment tech, Skills' is a direct match for Maki's 'advanced AI to streamline every step of the talent acquisition journey' and its 'skill screening, conversational interviews, in-depth assessments'. Note: delegate currently uses Sova, SHL, Cappfinity, Codility for assessments, which are competitors. (Ranked in sponsor's top 20 preferred delegates)\n663410\t180001\t7258470500\tDelegate's pain point 'skills based hiring' and interest in 'Agentic AI' is a direct match for Maki's 'skill based screening and conversational assessments' and its 'autonomous AI agents' that enable 'highly predictive hiring decisions'. Note: delegate currently uses Sapia, SHL, Korn Ferry for assessments, which are competitors. (Ranked in sponsor's top 20 preferred delegates)\n663411\t180001\t91862577670\tDelegate's pain point 'Humanising AI in processes' and interest in 'AI developments for sourcing' aligns with Maki's 'commitment to fairness and accuracy, backed by science-audited AI and explainable scoring' and its 'autonomous AI agents' for screening and assessments. Note: delegate currently uses Talogy for assessments, which is a competitor.\n663401\t180001\t17812226737\tDelegate's pain point 'reviewing how assessments can improve quality of hire and therefore reduce attrition' and interest in 'latest capabilities (inc AI) of technology in the assessment' is directly addressed by Maki's 'in-depth assessments' and focus on 'highly predictive hiring decisions that drive on-the-job success' and 'lower attrition'. Note: delegate currently uses AON for assessments, which is a competitor. (Ranked in sponsor's top 20 preferred delegates)\n750046\t240001\t111228357473\tDelegate is 'open to moving from SHL in the next 12 months' for assessments and lists 'Assessments' as a solution area of interest. Sapia.ai provides a validated, science-led AI assessment platform that replaces traditional methods with structured, conversational interviews for fair hiring decisions. Note: delegate currently uses SHL for assessment, a direct competitor. (Ranked in sponsor's top 20 preferred delegates)\n750086\t330001\t11132851\tDelegate's pain point 'We lack consistent, structured talent pipelines' and interest in 'CRM and Onboarding Solution tech to support top of the funnell' aligns with Symphony Talent's 'career site and CRM technology' which helps 'attract, engage and convert critical talent with precision and scale'. Note: delegate currently uses Smart Recruiters and HireEZ, competitors for some aspects of Symphony Talent's offering. (Ranked in sponsor's top 20 preferred delegates)\n690055\t600001\t92953690026\tThe delegate's project 'Technology Implementation of Phenom' indicates an existing candidate experience platform. However, Happydance's focus on careers websites that 'ensure employer brands are showcased beautifully' and provide 'full control' could appeal to a delegate looking for advanced branding and flexibility beyond existing solutions. Note: delegate currently uses Phenom (a direct competitor). (Ranked in sponsor's top 20 preferred delegates)\n690051\t600001\t13454401\tThe delegate's active project 'Early Careers review' and interest in 'AI' directly align with Happydance's AI-enabled technology for inspiring talent and its ability to 'ensure initial interest is translated into meaningful candidate alignment' for specific talent pools like early careers. Note: delegate currently uses Phenom (a direct competitor). (Ranked in sponsor's top 20 preferred delegates)\n750139\t750001\t116903349643\tDelegate's pain point 'Building a scalable Executive Hiring Function' and use of 'Hogan' for assessment indicates an interest in robust assessment, which aligns with SHL's 'scientifically backed workforce data' and 'highly validated talent solutions' for 'leadership capability'. Note: delegate currently uses Hogan, a competitor. (Ranked in sponsor's top 20 preferred delegates)\n750141\t750001\t174442448959\tDelegate's interest in 'AI and automation' and 'globally joined up systems and data' has some overlap with SHL's 'AI-enabled screening' and 'reusable skills data that Talent Teams can apply across the employee lifecycle'. Note: delegate currently uses Arctic Shores, a competitor. (Ranked in sponsor's top 20 preferred delegates)\n750142\t750001\t5140258\tDelegate's active project 'Skills Assessment' and objective to 'pilot and scale across a challenging devolved tech stack' directly aligns with SHL's 'highly validated talent solutions' and 'reusable skills data that Talent Teams can apply across the employee lifecycle'. Note: delegate currently uses Vervoe, a competitor. (Ranked in sponsor's top 20 preferred delegates)\n750143\t750001\t17812226737\tDelegate's pain point 'reviewing how assessments can improve quality of hire and therefore reduce attrition' and active project 'Assessment' directly matches SHL's 'highly validated talent solutions' that 'provide organizations with the insights needed to optimally leverage their people’s potential and maximize business outcomes'. Note: delegate currently uses AON, a competitor. (Ranked in sponsor's top 20 preferred delegates)\n750144\t750001\t92353346050\tDelegate's active project 'Early Talent - Global redesign' and meeting objective 'Understanding. Early Talent, Assessment' directly aligns with SHL's solution to 'Select the best graduates quickly when application volumes are high' and 'highly validated talent solutions'. Note: delegate currently uses PEPhire, a competitor. (Ranked in sponsor's top 20 preferred delegates)\n750145\t750001\t201697440144\tDelegate's pain point 'Detecting signal from high volume of applicants' and 'Looking at assessment technology that enables us to select the right candidates' directly aligns with SHL's ability to 'Streamline hiring and improve decision-making with objective, data-led insight' and 'Select the best graduates quickly when application volumes are high'. Note: delegate currently uses HireVue, a competitor. (Ranked in sponsor's top 20 preferred delegates)\n750146\t750001\t9477501\tDelegate's pain point 'high-volume assessments for Early Careers and Sales roles' and active project 'AI Interview / Note taking with interview coaching feedback' directly matches SHL's solutions to 'Select the best graduates quickly when application volumes are high' and 'Accelerate sales transformation through predictive talent insight'. Note: delegate currently uses HireVue and Red Bull Wingfinder, competitors. (Ranked in sponsor's top 20 preferred delegates)\n750149\t750001\t122796319563\tDelegate's pain point 'no automated for screening high volumes of applicants' and active project 'Assessments upgrade' directly addresses SHL's solution to 'Hire at scale and speed without compromising quality' and 'Select the best graduates quickly when application volumes are high'. Note: delegate currently uses AON, a competitor. (Ranked in sponsor's top 20 preferred delegates)\n750153\t750001\t9319401\tDelegate's pain points 'Early Careers, AI' and meeting objective 'Meeting suppliers with new options. AI and Early Careers' directly aligns with SHL's solutions to 'Select the best graduates quickly when application volumes are high' and 'Assess future skills and potential, including AI readiness'. Note: delegate currently uses Thomas, a competitor.\n663528\t810001\t91862577670\tDelegate explicitly opted in to meet Zinc — a deliberate signal of interest in background screening solutions. As Head of TA at Coca-Cola Europacific Partners with a focus on evolving the TA function and optimising their tech stack, background verification is a natural fit within their broader technology review.\n",
+  "stderr": "",
+  "execution_time_ms": 350
+}

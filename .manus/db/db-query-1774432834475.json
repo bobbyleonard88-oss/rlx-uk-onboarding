@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE meetings SET matchReason = 'Delegate\\'s pain point \\'We lack consistent, structured talent pipelines\\' and interest in \\'CRM and Onboarding Solution tech to support top of the funnel\\' aligns with Symphony Talent\\'s \\'career site and CRM technology\\' which helps \\'attract, engage and convert critical talent with precision and scale\\'. (Ranked in sponsor\\'s top 20 preferred delegates)' WHERE id = 750086;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute UPDATE meetings SET matchReason = 'Delegate\\'s pain point \\'We lack consistent, structured talent pipelines\\' and interest in \\'CRM and Onboarding Solution tech to support top of the funnel\\' aligns with Symphony Talent\\'s \\'career site and CRM technology\\' which helps \\'attract, engage and convert critical talent with precision and scale\\'. (Ranked in sponsor\\'s top 20 preferred delegates)' WHERE id = 750086;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 354
+}

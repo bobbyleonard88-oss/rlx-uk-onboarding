@@ -1,0 +1,85 @@
+{
+  "query": "\nSELECT m.id, m.sponsorId, s.companyName, m.matchScore, m.isTopRanked, m.status, m.timeSlot FROM meetings m JOIN sponsors s ON m.sponsorId = s.id WHERE m.attendeeId = '5140258' ORDER BY m.timeSlot;\nDESCRIBE rankingsSubmissions;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute \nSELECT m.id, m.sponsorId, s.companyName, m.matchScore, m.isTopRanked, m.status, m.timeSlot FROM meetings m JOIN sponsors s ON m.sponsorId = s.id WHERE m.attendeeId = '5140258' ORDER BY m.timeSlot;\nDESCRIBE rankingsSubmissions;\n",
+  "rows": [
+    {
+      "id": "840008",
+      "sponsorId": "900001",
+      "companyName": "Poetry",
+      "matchScore": "72",
+      "isTopRanked": "0",
+      "status": "confirmed",
+      "timeSlot": "2"
+    },
+    {
+      "id": "750142",
+      "sponsorId": "750001",
+      "companyName": "SHL",
+      "matchScore": "97",
+      "isTopRanked": "1",
+      "status": "confirmed",
+      "timeSlot": "3"
+    },
+    {
+      "id": "780003",
+      "sponsorId": "210001",
+      "companyName": "Harver",
+      "matchScore": "97",
+      "isTopRanked": "1",
+      "status": "confirmed",
+      "timeSlot": "4"
+    },
+    {
+      "id": "663561",
+      "sponsorId": "870001",
+      "companyName": "Wilson",
+      "matchScore": "97",
+      "isTopRanked": "0",
+      "status": "suggested",
+      "timeSlot": "5"
+    },
+    {
+      "id": "750037",
+      "sponsorId": "240001",
+      "companyName": "Sapia.ai",
+      "matchScore": "100",
+      "isTopRanked": "1",
+      "status": "confirmed",
+      "timeSlot": "6"
+    },
+    {
+      "id": "663453",
+      "sponsorId": "360001",
+      "companyName": "Udder",
+      "matchScore": "80",
+      "isTopRanked": "0",
+      "status": "suggested",
+      "timeSlot": "7"
+    },
+    {
+      "id": "663492",
+      "sponsorId": "690001",
+      "companyName": "Amberjack",
+      "matchScore": "99",
+      "isTopRanked": "0",
+      "status": "suggested",
+      "timeSlot": "8"
+    }
+  ],
+  "messages": [
+    "Field\tType\tNull\tKey\tDefault\tExtra",
+    "id\tint\tNO\tPRI\tNULL\tauto_increment",
+    "sponsorId\tint\tNO\t\tNULL\t",
+    "userId\tint\tNO\t\tNULL\t",
+    "rankingsData\ttext\tNO\t\tNULL\t",
+    "submittedAt\ttimestamp\tNO\t\tCURRENT_TIMESTAMP\t",
+    "status\tenum('pending','reviewed')\tNO\t\tpending\t",
+    "isReviewed\tint\tNO\t\t0\t",
+    "isArchived\tint\tNO\t\t0\t",
+    "reviewedBy\tvarchar(255)\tYES\t\tNULL\t",
+    "reviewedAt\ttimestamp\tYES\t\tNULL\t"
+  ],
+  "stdout": "id\tsponsorId\tcompanyName\tmatchScore\tisTopRanked\tstatus\ttimeSlot\n840008\t900001\tPoetry\t72\t0\tconfirmed\t2\n750142\t750001\tSHL\t97\t1\tconfirmed\t3\n780003\t210001\tHarver\t97\t1\tconfirmed\t4\n663561\t870001\tWilson\t97\t0\tsuggested\t5\n750037\t240001\tSapia.ai\t100\t1\tconfirmed\t6\n663453\t360001\tUdder\t80\t0\tsuggested\t7\n663492\t690001\tAmberjack\t99\t0\tsuggested\t8\nField\tType\tNull\tKey\tDefault\tExtra\nid\tint\tNO\tPRI\tNULL\tauto_increment\nsponsorId\tint\tNO\t\tNULL\t\nuserId\tint\tNO\t\tNULL\t\nrankingsData\ttext\tNO\t\tNULL\t\nsubmittedAt\ttimestamp\tNO\t\tCURRENT_TIMESTAMP\t\nstatus\tenum('pending','reviewed')\tNO\t\tpending\t\nisReviewed\tint\tNO\t\t0\t\nisArchived\tint\tNO\t\t0\t\nreviewedBy\tvarchar(255)\tYES\t\tNULL\t\nreviewedAt\ttimestamp\tYES\t\tNULL\t\n",
+  "stderr": "",
+  "execution_time_ms": 400
+}

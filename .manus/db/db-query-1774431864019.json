@@ -1,0 +1,15 @@
+{
+  "query": "SELECT id, companyName, contactName FROM sponsors WHERE companyName LIKE '%Happy%' OR companyName LIKE '%Dance%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT id, companyName, contactName FROM sponsors WHERE companyName LIKE '%Happy%' OR companyName LIKE '%Dance%';",
+  "rows": [
+    {
+      "id": "600001",
+      "companyName": "Happydance Careers Websites",
+      "contactName": "Dave Ralph"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tcompanyName\tcontactName\n600001\tHappydance Careers Websites\tDave Ralph\n",
+  "stderr": "",
+  "execution_time_ms": 358
+}

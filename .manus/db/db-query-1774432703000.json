@@ -1,0 +1,34 @@
+{
+  "query": "SELECT id, sponsorId, attendeeId, matchReason FROM meetings WHERE (matchReason LIKE '%competitor%' OR matchReason LIKE '%opted in to meet%') AND id NOT IN (663401, 663404, 663406, 663408, 663410, 663411, 750046, 750086, 690051, 690055, 750139, 750141, 750142, 750143, 750144, 750145) ORDER BY sponsorId;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT id, sponsorId, attendeeId, matchReason FROM meetings WHERE (matchReason LIKE '%competitor%' OR matchReason LIKE '%opted in to meet%') AND id NOT IN (663401, 663404, 663406, 663408, 663410, 663411, 750046, 750086, 690051, 690055, 750139, 750141, 750142, 750143, 750144, 750145) ORDER BY sponsorId;",
+  "rows": [
+    {
+      "id": "750146",
+      "sponsorId": "750001",
+      "attendeeId": "9477501",
+      "matchReason": "Delegate's pain point 'high-volume assessments for Early Careers and Sales roles' and active project 'AI Interview / Note taking with interview coaching feedback' directly matches SHL's solutions to 'Select the best graduates quickly when application volumes are high' and 'Accelerate sales transformation through predictive talent insight'. Note: delegate currently uses HireVue and Red Bull Wingfinder, competitors. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "id": "750149",
+      "sponsorId": "750001",
+      "attendeeId": "122796319563",
+      "matchReason": "Delegate's pain point 'no automated for screening high volumes of applicants' and active project 'Assessments upgrade' directly addresses SHL's solution to 'Hire at scale and speed without compromising quality' and 'Select the best graduates quickly when application volumes are high'. Note: delegate currently uses AON, a competitor. (Ranked in sponsor's top 20 preferred delegates)"
+    },
+    {
+      "id": "750153",
+      "sponsorId": "750001",
+      "attendeeId": "9319401",
+      "matchReason": "Delegate's pain points 'Early Careers, AI' and meeting objective 'Meeting suppliers with new options. AI and Early Careers' directly aligns with SHL's solutions to 'Select the best graduates quickly when application volumes are high' and 'Assess future skills and potential, including AI readiness'. Note: delegate currently uses Thomas, a competitor."
+    },
+    {
+      "id": "663528",
+      "sponsorId": "810001",
+      "attendeeId": "91862577670",
+      "matchReason": "Delegate explicitly opted in to meet Zinc — a deliberate signal of interest in background screening solutions. As Head of TA at Coca-Cola Europacific Partners with a focus on evolving the TA function and optimising their tech stack, background verification is a natural fit within their broader technology review."
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tsponsorId\tattendeeId\tmatchReason\n750146\t750001\t9477501\tDelegate's pain point 'high-volume assessments for Early Careers and Sales roles' and active project 'AI Interview / Note taking with interview coaching feedback' directly matches SHL's solutions to 'Select the best graduates quickly when application volumes are high' and 'Accelerate sales transformation through predictive talent insight'. Note: delegate currently uses HireVue and Red Bull Wingfinder, competitors. (Ranked in sponsor's top 20 preferred delegates)\n750149\t750001\t122796319563\tDelegate's pain point 'no automated for screening high volumes of applicants' and active project 'Assessments upgrade' directly addresses SHL's solution to 'Hire at scale and speed without compromising quality' and 'Select the best graduates quickly when application volumes are high'. Note: delegate currently uses AON, a competitor. (Ranked in sponsor's top 20 preferred delegates)\n750153\t750001\t9319401\tDelegate's pain points 'Early Careers, AI' and meeting objective 'Meeting suppliers with new options. AI and Early Careers' directly aligns with SHL's solutions to 'Select the best graduates quickly when application volumes are high' and 'Assess future skills and potential, including AI readiness'. Note: delegate currently uses Thomas, a competitor.\n663528\t810001\t91862577670\tDelegate explicitly opted in to meet Zinc — a deliberate signal of interest in background screening solutions. As Head of TA at Coca-Cola Europacific Partners with a focus on evolving the TA function and optimising their tech stack, background verification is a natural fit within their broader technology review.\n",
+  "stderr": "",
+  "execution_time_ms": 363
+}

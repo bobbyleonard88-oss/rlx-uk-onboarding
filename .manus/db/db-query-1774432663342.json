@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE meetings SET matchReason = 'Delegate lists \"Screening\" as a current pain point — a clear signal of active vendor evaluation in the background screening space. With a global TA CoE remit at Nissan, streamlining screening processes across regions is a natural fit for Veremark\\'s platform.' WHERE id = 663530;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute UPDATE meetings SET matchReason = 'Delegate lists \"Screening\" as a current pain point — a clear signal of active vendor evaluation in the background screening space. With a global TA CoE remit at Nissan, streamlining screening processes across regions is a natural fit for Veremark\\'s platform.' WHERE id = 663530;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 364
+}

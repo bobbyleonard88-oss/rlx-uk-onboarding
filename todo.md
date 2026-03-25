@@ -1604,3 +1604,10 @@
 - [x] Register /agenda route in App.tsx (already exists as EventAgenda)
 - [x] Redesign Agenda page: concurrent sessions shown side-by-side, restore previous visual style
 - [x] EventDetails page: remove agenda section, keep only venue/travel/location info
+
+## Public Table Plan — March 25 2026
+- [x] Create public tRPC procedure (publicProcedure) to fetch all meetings with delegate/sponsor info
+- [x] Build /table-plan public page (no login required) matching analytics layout/style
+- [x] Add star icon markers on Maki+Red Bull (meeting 663404) and Happydance+Aon (meeting 690050)
+- [x] Add search feature (by company and person name) on the public table plan page
+- [x] Register /table-plan route in App.tsx as a public route
