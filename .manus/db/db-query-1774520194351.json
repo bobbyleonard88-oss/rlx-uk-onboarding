@@ -1,0 +1,314 @@
+{
+  "query": "SELECT dp.attendeeId, dp.firstName, dp.lastName, dp.company,\n  GROUP_CONCAT(m.timeSlot ORDER BY m.timeSlot) as bookedSlots,\n  COUNT(m.id) as meetingCount\nFROM delegateProfiles dp\nINNER JOIN meetings m ON m.attendeeId = dp.attendeeId AND m.status IN ('confirmed','suggested')\nGROUP BY dp.attendeeId, dp.firstName, dp.lastName, dp.company\nHAVING meetingCount > 0\nORDER BY dp.lastName;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT dp.attendeeId, dp.firstName, dp.lastName, dp.company,\n  GROUP_CONCAT(m.timeSlot ORDER BY m.timeSlot) as bookedSlots,\n  COUNT(m.id) as meetingCount\nFROM delegateProfiles dp\nINNER JOIN meetings m ON m.attendeeId = dp.attendeeId AND m.status IN ('confirmed','suggested')\nGROUP BY dp.attendeeId, dp.firstName, dp.lastName, dp.company\nHAVING meetingCount > 0\nORDER BY dp.lastName;",
+  "rows": [
+    {
+      "attendeeId": "4956154",
+      "firstName": "Jules",
+      "lastName": "Anderson",
+      "company": "Gilead Science",
+      "bookedSlots": "1,2,3,4,7,8,9,10",
+      "meetingCount": "8"
+    },
+    {
+      "attendeeId": "76678269091",
+      "firstName": "Adam",
+      "lastName": "Binks",
+      "company": "KPMG",
+      "bookedSlots": "1,3,4,5,7,8,9,12",
+      "meetingCount": "8"
+    },
+    {
+      "attendeeId": "91889321035",
+      "firstName": "Lucy",
+      "lastName": "Bousfield",
+      "company": "Aon",
+      "bookedSlots": "1,4,5,6,7,8,11,12",
+      "meetingCount": "8"
+    },
+    {
+      "attendeeId": "18336501",
+      "firstName": "Andrew",
+      "lastName": "Boyd",
+      "company": "Convatec",
+      "bookedSlots": "5,6,7,8,12",
+      "meetingCount": "5"
+    },
+    {
+      "attendeeId": "91862577670",
+      "firstName": "Lisa",
+      "lastName": "Brignal",
+      "company": "Coca-Cola Europacific partners",
+      "bookedSlots": "1,2,3,4,5,7,8,12",
+      "meetingCount": "8"
+    },
+    {
+      "attendeeId": "7258470500",
+      "firstName": "Mark",
+      "lastName": "Brooker",
+      "company": "BT Group",
+      "bookedSlots": "1,2,5,6,7,8,11,12",
+      "meetingCount": "8"
+    },
+    {
+      "attendeeId": "92953690026",
+      "firstName": "Oliver",
+      "lastName": "Browne",
+      "company": "Lockton",
+      "bookedSlots": "1,2,3,4,7,8,10,11",
+      "meetingCount": "8"
+    },
+    {
+      "attendeeId": "93174643474",
+      "firstName": "Salina",
+      "lastName": "Budaly",
+      "company": "Balfour Beatty",
+      "bookedSlots": "1,2,5,6,9,10,11,12",
+      "meetingCount": "8"
+    },
+    {
+      "attendeeId": "13454401",
+      "firstName": "Mark",
+      "lastName": "Coad",
+      "company": "GSK",
+      "bookedSlots": "3,4,7,8,9,10,11,12",
+      "meetingCount": "8"
+    },
+    {
+      "attendeeId": "194295425320",
+      "firstName": "Robyn",
+      "lastName": "Collins",
+      "company": "M42",
+      "bookedSlots": "1,2,5,6,7,11",
+      "meetingCount": "6"
+    },
+    {
+      "attendeeId": "5140258",
+      "firstName": "Sarah",
+      "lastName": "Cooper",
+      "company": "Rentokil Initial",
+      "bookedSlots": "2,3,4,5,6,7,8,10",
+      "meetingCount": "8"
+    },
+    {
+      "attendeeId": "17812226737",
+      "firstName": "Rikki",
+      "lastName": "Fullerton",
+      "company": "Serco",
+      "bookedSlots": "1,2,3,4,6,8,9,10",
+      "meetingCount": "8"
+    },
+    {
+      "attendeeId": "113145184682",
+      "firstName": "Carly",
+      "lastName": "George",
+      "company": "AXA",
+      "bookedSlots": "2,4,5,7,8,10,11,12",
+      "meetingCount": "8"
+    },
+    {
+      "attendeeId": "200101377371",
+      "firstName": "Jessica Shaunie",
+      "lastName": "Green",
+      "company": "Calor Gas",
+      "bookedSlots": "2,3,4,5,9,10,11,12",
+      "meetingCount": "8"
+    },
+    {
+      "attendeeId": "174442448959",
+      "firstName": "Joanna",
+      "lastName": "Hackett",
+      "company": "Howden",
+      "bookedSlots": "2,6,7,8,9,10,11,12",
+      "meetingCount": "8"
+    },
+    {
+      "attendeeId": "116903349643",
+      "firstName": "James",
+      "lastName": "Harley",
+      "company": "Syngenta",
+      "bookedSlots": "1,5,8,9,11",
+      "meetingCount": "5"
+    },
+    {
+      "attendeeId": "110260566550",
+      "firstName": "Sonal",
+      "lastName": "Jain",
+      "company": "Nissan Motor Corporation",
+      "bookedSlots": "1,2,5,7,8,10,11,12",
+      "meetingCount": "8"
+    },
+    {
+      "attendeeId": "111228357473",
+      "firstName": "Hollie",
+      "lastName": "Jordan",
+      "company": "Ramboll",
+      "bookedSlots": "1,2,5,6,9,10,11,12",
+      "meetingCount": "8"
+    },
+    {
+      "attendeeId": "195183358360",
+      "firstName": "Anna",
+      "lastName": "Katyal",
+      "company": "BMS Group",
+      "bookedSlots": "1,2,10,11,12",
+      "meetingCount": "5"
+    },
+    {
+      "attendeeId": "208415155065",
+      "firstName": "Jonathan",
+      "lastName": "Kitterhing",
+      "company": "Swiss Re Management Ltd",
+      "bookedSlots": "1,3,4,7,9,10,12",
+      "meetingCount": "7"
+    },
+    {
+      "attendeeId": "93176107633",
+      "firstName": "Mark",
+      "lastName": "Kunaseelan",
+      "company": "University of the Arts London",
+      "bookedSlots": "2,3,4,6,8,9,10",
+      "meetingCount": "7"
+    },
+    {
+      "attendeeId": "122796319563",
+      "firstName": "Julie",
+      "lastName": "Lowe",
+      "company": "easyJet",
+      "bookedSlots": "3,4,6,8,9,10,11,12",
+      "meetingCount": "8"
+    },
+    {
+      "attendeeId": "8713772",
+      "firstName": "Alan",
+      "lastName": "MacKinnon",
+      "company": "Smith and Nephew plc",
+      "bookedSlots": "3,4,6,7,8,12",
+      "meetingCount": "6"
+    },
+    {
+      "attendeeId": "9319401",
+      "firstName": "Sharron",
+      "lastName": "Marsh",
+      "company": "The Doyle Collection",
+      "bookedSlots": "3,4,10,11",
+      "meetingCount": "4"
+    },
+    {
+      "attendeeId": "191181016455",
+      "firstName": "Nikhilesh",
+      "lastName": "Mathur",
+      "company": "London Stock Exchange Group",
+      "bookedSlots": "1,2,3,5,6,7,9,10",
+      "meetingCount": "8"
+    },
+    {
+      "attendeeId": "11132851",
+      "firstName": "Martin",
+      "lastName": "McDermott",
+      "company": "IQ-EQ",
+      "bookedSlots": "3,4,5,6,9,10,11",
+      "meetingCount": "7"
+    },
+    {
+      "attendeeId": "190937723960",
+      "firstName": "Natalie",
+      "lastName": "McGuinness",
+      "company": "Busy Bees Nurseries",
+      "bookedSlots": "3,5,6,7,8,9",
+      "meetingCount": "6"
+    },
+    {
+      "attendeeId": "8196151",
+      "firstName": "Michelle",
+      "lastName": "Monahan",
+      "company": "European Tyre Enterprise Limited",
+      "bookedSlots": "1,2,3,4,5,6,9",
+      "meetingCount": "7"
+    },
+    {
+      "attendeeId": "200923910443",
+      "firstName": "Nuria",
+      "lastName": "Munoz",
+      "company": "Munich Re",
+      "bookedSlots": "3,4,5,6,9,10,11,12",
+      "meetingCount": "8"
+    },
+    {
+      "attendeeId": "201697440144",
+      "firstName": "Ciaran",
+      "lastName": "O'Regan",
+      "company": "the LEGO Group",
+      "bookedSlots": "2,3,4,5,6,7,9,10",
+      "meetingCount": "8"
+    },
+    {
+      "attendeeId": "9477501",
+      "firstName": "Edwin",
+      "lastName": "Pene",
+      "company": "Red Bull",
+      "bookedSlots": "1,2,5,6,7,8,11,12",
+      "meetingCount": "8"
+    },
+    {
+      "attendeeId": "452351",
+      "firstName": "Cath",
+      "lastName": "Possamai",
+      "company": "Amazon",
+      "bookedSlots": "1,2,7,8,9,11,12",
+      "meetingCount": "7"
+    },
+    {
+      "attendeeId": "92353346050",
+      "firstName": "Debbie",
+      "lastName": "Robinson",
+      "company": "PepsiCo",
+      "bookedSlots": "1,2,3,4,7,8,11,12",
+      "meetingCount": "8"
+    },
+    {
+      "attendeeId": "203946652193",
+      "firstName": "Joanna",
+      "lastName": "Saunders-Hare",
+      "company": "MUFG, Mitsubishi UFJ Financial Group.",
+      "bookedSlots": "3,4,5,6,9,10,11,12",
+      "meetingCount": "8"
+    },
+    {
+      "attendeeId": "8952301",
+      "firstName": "Chris",
+      "lastName": "Tennant",
+      "company": "Infor",
+      "bookedSlots": "1,2,3,10,11,12",
+      "meetingCount": "6"
+    },
+    {
+      "attendeeId": "1076201",
+      "firstName": "Jon",
+      "lastName": "Warwick",
+      "company": "Sky",
+      "bookedSlots": "1,2,3,4,6,7,9,10",
+      "meetingCount": "8"
+    },
+    {
+      "attendeeId": "9322701",
+      "firstName": "Tush",
+      "lastName": "Wijeratne",
+      "company": "WPP",
+      "bookedSlots": "4,5,6,7,8,9,10,12",
+      "meetingCount": "8"
+    },
+    {
+      "attendeeId": "128491656706",
+      "firstName": "Yuliia",
+      "lastName": "Zembal",
+      "company": "UKRSIBBANK BNP PARIBAS GROUP",
+      "bookedSlots": "1,3,4,5,6,9,11,12",
+      "meetingCount": "8"
+    }
+  ],
+  "messages": [],
+  "stdout": "attendeeId\tfirstName\tlastName\tcompany\tbookedSlots\tmeetingCount\n4956154\tJules\tAnderson\tGilead Science\t1,2,3,4,7,8,9,10\t8\n76678269091\tAdam\tBinks\tKPMG\t1,3,4,5,7,8,9,12\t8\n91889321035\tLucy\tBousfield\tAon\t1,4,5,6,7,8,11,12\t8\n18336501\tAndrew\tBoyd\tConvatec\t5,6,7,8,12\t5\n91862577670\tLisa\tBrignal\tCoca-Cola Europacific partners\t1,2,3,4,5,7,8,12\t8\n7258470500\tMark\tBrooker\tBT Group\t1,2,5,6,7,8,11,12\t8\n92953690026\tOliver\tBrowne\tLockton\t1,2,3,4,7,8,10,11\t8\n93174643474\tSalina\tBudaly\tBalfour Beatty\t1,2,5,6,9,10,11,12\t8\n13454401\tMark\tCoad\tGSK\t3,4,7,8,9,10,11,12\t8\n194295425320\tRobyn\tCollins\tM42\t1,2,5,6,7,11\t6\n5140258\tSarah\tCooper\tRentokil Initial\t2,3,4,5,6,7,8,10\t8\n17812226737\tRikki\tFullerton\tSerco\t1,2,3,4,6,8,9,10\t8\n113145184682\tCarly\tGeorge\tAXA\t2,4,5,7,8,10,11,12\t8\n200101377371\tJessica Shaunie\tGreen\tCalor Gas\t2,3,4,5,9,10,11,12\t8\n174442448959\tJoanna\tHackett\tHowden\t2,6,7,8,9,10,11,12\t8\n116903349643\tJames\tHarley\tSyngenta\t1,5,8,9,11\t5\n110260566550\tSonal\tJain\tNissan Motor Corporation\t1,2,5,7,8,10,11,12\t8\n111228357473\tHollie\tJordan\tRamboll\t1,2,5,6,9,10,11,12\t8\n195183358360\tAnna\tKatyal\tBMS Group\t1,2,10,11,12\t5\n208415155065\tJonathan\tKitterhing\tSwiss Re Management Ltd\t1,3,4,7,9,10,12\t7\n93176107633\tMark\tKunaseelan\tUniversity of the Arts London\t2,3,4,6,8,9,10\t7\n122796319563\tJulie\tLowe\teasyJet\t3,4,6,8,9,10,11,12\t8\n8713772\tAlan\tMacKinnon\tSmith and Nephew plc\t3,4,6,7,8,12\t6\n9319401\tSharron\tMarsh\tThe Doyle Collection\t3,4,10,11\t4\n191181016455\tNikhilesh\tMathur\tLondon Stock Exchange Group\t1,2,3,5,6,7,9,10\t8\n11132851\tMartin\tMcDermott\tIQ-EQ\t3,4,5,6,9,10,11\t7\n190937723960\tNatalie\tMcGuinness\tBusy Bees Nurseries\t3,5,6,7,8,9\t6\n8196151\tMichelle\tMonahan\tEuropean Tyre Enterprise Limited\t1,2,3,4,5,6,9\t7\n200923910443\tNuria\tMunoz\tMunich Re\t3,4,5,6,9,10,11,12\t8\n201697440144\tCiaran\tO'Regan\tthe LEGO Group\t2,3,4,5,6,7,9,10\t8\n9477501\tEdwin\tPene\tRed Bull\t1,2,5,6,7,8,11,12\t8\n452351\tCath\tPossamai\tAmazon\t1,2,7,8,9,11,12\t7\n92353346050\tDebbie\tRobinson\tPepsiCo\t1,2,3,4,7,8,11,12\t8\n203946652193\tJoanna\tSaunders-Hare\tMUFG, Mitsubishi UFJ Financial Group.\t3,4,5,6,9,10,11,12\t8\n8952301\tChris\tTennant\tInfor\t1,2,3,10,11,12\t6\n1076201\tJon\tWarwick\tSky\t1,2,3,4,6,7,9,10\t8\n9322701\tTush\tWijeratne\tWPP\t4,5,6,7,8,9,10,12\t8\n128491656706\tYuliia\tZembal\tUKRSIBBANK BNP PARIBAS GROUP\t1,3,4,5,6,9,11,12\t8\n",
+  "stderr": "",
+  "execution_time_ms": 356
+}

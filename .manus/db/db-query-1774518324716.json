@@ -1,0 +1,46 @@
+{
+  "query": "SELECT dp.attendeeId, dp.firstName, dp.lastName, dp.company,\n  COUNT(m.id) as totalMeetings,\n  MAX(CASE WHEN m.timeSlot = 7 THEN 'BOOKED' ELSE NULL END) as slot7,\n  MAX(CASE WHEN s.companyName = 'Harver' THEN 'YES' ELSE NULL END) as metHarver\nFROM delegateProfiles dp\nLEFT JOIN meetings m ON m.attendeeId = dp.attendeeId AND m.status IN ('confirmed','suggested')\nLEFT JOIN sponsors s ON s.id = m.sponsorId\nWHERE dp.attendeeId != '194295425320'\nGROUP BY dp.attendeeId, dp.firstName, dp.lastName, dp.company\nHAVING slot7 IS NULL AND metHarver IS NULL AND totalMeetings > 0 AND totalMeetings < 8\nORDER BY totalMeetings DESC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT dp.attendeeId, dp.firstName, dp.lastName, dp.company,\n  COUNT(m.id) as totalMeetings,\n  MAX(CASE WHEN m.timeSlot = 7 THEN 'BOOKED' ELSE NULL END) as slot7,\n  MAX(CASE WHEN s.companyName = 'Harver' THEN 'YES' ELSE NULL END) as metHarver\nFROM delegateProfiles dp\nLEFT JOIN meetings m ON m.attendeeId = dp.attendeeId AND m.status IN ('confirmed','suggested')\nLEFT JOIN sponsors s ON s.id = m.sponsorId\nWHERE dp.attendeeId != '194295425320'\nGROUP BY dp.attendeeId, dp.firstName, dp.lastName, dp.company\nHAVING slot7 IS NULL AND metHarver IS NULL AND totalMeetings > 0 AND totalMeetings < 8\nORDER BY totalMeetings DESC;",
+  "rows": [
+    {
+      "attendeeId": "8196151",
+      "firstName": "Michelle",
+      "lastName": "Monahan",
+      "company": "European Tyre Enterprise Limited",
+      "totalMeetings": "7",
+      "slot7": "NULL",
+      "metHarver": "NULL"
+    },
+    {
+      "attendeeId": "93176107633",
+      "firstName": "Mark",
+      "lastName": "Kunaseelan",
+      "company": "University of the Arts London",
+      "totalMeetings": "7",
+      "slot7": "NULL",
+      "metHarver": "NULL"
+    },
+    {
+      "attendeeId": "8952301",
+      "firstName": "Chris",
+      "lastName": "Tennant",
+      "company": "Infor",
+      "totalMeetings": "6",
+      "slot7": "NULL",
+      "metHarver": "NULL"
+    },
+    {
+      "attendeeId": "116903349643",
+      "firstName": "James",
+      "lastName": "Harley",
+      "company": "Syngenta",
+      "totalMeetings": "5",
+      "slot7": "NULL",
+      "metHarver": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "attendeeId\tfirstName\tlastName\tcompany\ttotalMeetings\tslot7\tmetHarver\n8196151\tMichelle\tMonahan\tEuropean Tyre Enterprise Limited\t7\tNULL\tNULL\n93176107633\tMark\tKunaseelan\tUniversity of the Arts London\t7\tNULL\tNULL\n8952301\tChris\tTennant\tInfor\t6\tNULL\tNULL\n116903349643\tJames\tHarley\tSyngenta\t5\tNULL\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 365
+}

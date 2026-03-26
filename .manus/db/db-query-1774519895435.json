@@ -1,0 +1,135 @@
+{
+  "query": "SELECT s.id, s.companyName, i.submittedAt\nFROM sponsors s\nLEFT JOIN intakeSubmissions i ON i.sponsorId = s.id\nWHERE s.companyName NOT LIKE 'Test%' AND s.companyName NOT LIKE 'Visibility%'\nORDER BY i.submittedAt ASC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT s.id, s.companyName, i.submittedAt\nFROM sponsors s\nLEFT JOIN intakeSubmissions i ON i.sponsorId = s.id\nWHERE s.companyName NOT LIKE 'Test%' AND s.companyName NOT LIKE 'Visibility%'\nORDER BY i.submittedAt ASC;",
+  "rows": [
+    {
+      "id": "30001",
+      "companyName": "AI Limited",
+      "submittedAt": "2026-02-16 13:00:23"
+    },
+    {
+      "id": "60001",
+      "companyName": "Elevate Assess",
+      "submittedAt": "2026-02-17 09:44:07"
+    },
+    {
+      "id": "90001",
+      "companyName": "NexaTalent Solutions Ltd",
+      "submittedAt": "2026-02-17 10:46:31"
+    },
+    {
+      "id": "120001",
+      "companyName": "Little Moment",
+      "submittedAt": "2026-02-18 10:23:17"
+    },
+    {
+      "id": "150001",
+      "companyName": "Stepstone Group UK Ltd",
+      "submittedAt": "2026-02-18 17:13:26"
+    },
+    {
+      "id": "180001",
+      "companyName": "Maki People",
+      "submittedAt": "2026-02-19 10:21:58"
+    },
+    {
+      "id": "270002",
+      "companyName": "Appcast",
+      "submittedAt": "2026-02-20 16:54:53"
+    },
+    {
+      "id": "300001",
+      "companyName": "Zinc",
+      "submittedAt": "2026-02-23 16:10:04"
+    },
+    {
+      "id": "210001",
+      "companyName": "Harver",
+      "submittedAt": "2026-02-25 14:20:50"
+    },
+    {
+      "id": "450001",
+      "companyName": "PerchPeek",
+      "submittedAt": "2026-02-26 12:12:52"
+    },
+    {
+      "id": "540001",
+      "companyName": "hackajob",
+      "submittedAt": "2026-03-02 17:51:35"
+    },
+    {
+      "id": "390001",
+      "companyName": "Bright Apply",
+      "submittedAt": "2026-03-03 19:34:05"
+    },
+    {
+      "id": "360001",
+      "companyName": "Udder",
+      "submittedAt": "2026-03-04 11:19:34"
+    },
+    {
+      "id": "600001",
+      "companyName": "Happydance Careers Websites",
+      "submittedAt": "2026-03-04 15:42:30"
+    },
+    {
+      "id": "690001",
+      "companyName": "Amberjack",
+      "submittedAt": "2026-03-10 20:10:11"
+    },
+    {
+      "id": "720001",
+      "companyName": "inploi",
+      "submittedAt": "2026-03-12 11:48:10"
+    },
+    {
+      "id": "750001",
+      "companyName": "SHL",
+      "submittedAt": "2026-03-12 18:07:31"
+    },
+    {
+      "id": "780001",
+      "companyName": "The Martec",
+      "submittedAt": "2026-03-13 09:11:57"
+    },
+    {
+      "id": "810001",
+      "companyName": "Veremark ",
+      "submittedAt": "2026-03-13 12:12:33"
+    },
+    {
+      "id": "810002",
+      "companyName": "Radancy",
+      "submittedAt": "2026-03-13 13:11:14"
+    },
+    {
+      "id": "840001",
+      "companyName": "JobSync",
+      "submittedAt": "2026-03-13 15:52:38"
+    },
+    {
+      "id": "870001",
+      "companyName": "Wilson",
+      "submittedAt": "2026-03-16 09:58:00"
+    },
+    {
+      "id": "900001",
+      "companyName": "Poetry",
+      "submittedAt": "2026-03-16 11:05:53"
+    },
+    {
+      "id": "240001",
+      "companyName": "Sapia.ai",
+      "submittedAt": "2026-03-17 15:11:40"
+    },
+    {
+      "id": "330001",
+      "companyName": "Symphony Talent ",
+      "submittedAt": "2026-03-25 08:22:37"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tcompanyName\tsubmittedAt\n30001\tAI Limited\t2026-02-16 13:00:23\n60001\tElevate Assess\t2026-02-17 09:44:07\n90001\tNexaTalent Solutions Ltd\t2026-02-17 10:46:31\n120001\tLittle Moment\t2026-02-18 10:23:17\n150001\tStepstone Group UK Ltd\t2026-02-18 17:13:26\n180001\tMaki People\t2026-02-19 10:21:58\n270002\tAppcast\t2026-02-20 16:54:53\n300001\tZinc\t2026-02-23 16:10:04\n210001\tHarver\t2026-02-25 14:20:50\n450001\tPerchPeek\t2026-02-26 12:12:52\n540001\thackajob\t2026-03-02 17:51:35\n390001\tBright Apply\t2026-03-03 19:34:05\n360001\tUdder\t2026-03-04 11:19:34\n600001\tHappydance Careers Websites\t2026-03-04 15:42:30\n690001\tAmberjack\t2026-03-10 20:10:11\n720001\tinploi\t2026-03-12 11:48:10\n750001\tSHL\t2026-03-12 18:07:31\n780001\tThe Martec\t2026-03-13 09:11:57\n810001\tVeremark \t2026-03-13 12:12:33\n810002\tRadancy\t2026-03-13 13:11:14\n840001\tJobSync\t2026-03-13 15:52:38\n870001\tWilson\t2026-03-16 09:58:00\n900001\tPoetry\t2026-03-16 11:05:53\n240001\tSapia.ai\t2026-03-17 15:11:40\n330001\tSymphony Talent \t2026-03-25 08:22:37\n",
+  "stderr": "",
+  "execution_time_ms": 346
+}

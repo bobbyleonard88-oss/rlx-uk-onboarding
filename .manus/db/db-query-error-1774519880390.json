@@ -1,0 +1,8 @@
+{
+  "query": "SELECT s.id, s.companyName, s.meetingQuota, i.submittedAt\nFROM sponsors s\nLEFT JOIN intakeSubmissions i ON i.sponsorId = s.id\nORDER BY i.submittedAt ASC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT s.id, s.companyName, s.meetingQuota, i.submittedAt\nFROM sponsors s\nLEFT JOIN intakeSubmissions i ON i.sponsorId = s.id\nORDER BY i.submittedAt ASC;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 's.meetingquota' in 'field list'"
+  ]
+}

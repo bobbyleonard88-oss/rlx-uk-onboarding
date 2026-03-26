@@ -1,0 +1,12 @@
+{
+  "query": "-- Find Sharron's Slot 11 meeting\nSELECT m.id, m.sponsorId, m.attendeeId, m.timeSlot, m.attendeeNumber\nFROM meetings m\nWHERE m.attendeeId = '9319401' AND m.timeSlot = 11;\n\n-- Check Rikki's booked slots and total meetings\nSELECT GROUP_CONCAT(m.timeSlot ORDER BY m.timeSlot) as bookedSlots, COUNT(*) as totalMeetings\nFROM meetings m\nWHERE m.attendeeId = '17812226737' AND m.status IN ('confirmed','suggested');\n\n-- Check if Rikki has met Appcast (sponsorId for Appcast)\nSELECT m.sponsorId, vi.name as sponsorName\nFROM meetings m\nJOIN vendorIntakeSubmissions vi ON vi.sponsorId = m.sponsorId\nWHERE m.attendeeId = '17812226737'\nGROUP BY m.sponsorId, vi.name;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute -- Find Sharron's Slot 11 meeting\nSELECT m.id, m.sponsorId, m.attendeeId, m.timeSlot, m.attendeeNumber\nFROM meetings m\nWHERE m.attendeeId = '9319401' AND m.timeSlot = 11;\n\n-- Check Rikki's booked slots and total meetings\nSELECT GROUP_CONCAT(m.timeSlot ORDER BY m.timeSlot) as bookedSlots, COUNT(*) as totalMeetings\nFROM meetings m\nWHERE m.attendeeId = '17812226737' AND m.status IN ('confirmed','suggested');\n\n-- Check if Rikki has met Appcast (sponsorId for Appcast)\nSELECT m.sponsorId, vi.name as sponsorName\nFROM meetings m\nJOIN vendorIntakeSubmissions vi ON vi.sponsorId = m.sponsorId\nWHERE m.attendeeId = '17812226737'\nGROUP BY m.sponsorId, vi.name;",
+  "returncode": 1,
+  "logs": [
+    "id\tsponsorId\tattendeeId\ttimeSlot\tattendeeNumber",
+    "690017\t270002\t9319401\t11\t2",
+    "bookedSlots\ttotalMeetings",
+    "1,2,3,4,6,8,9,10\t8",
+    "ERROR 1146 (42S02) at line 12: Table 'ahkzvnyzsgv4nexzoiv78q.vendorIntakeSubmissions' doesn't exist"
+  ]
+}

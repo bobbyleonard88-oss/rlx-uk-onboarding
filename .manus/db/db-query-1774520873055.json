@@ -1,0 +1,20 @@
+{
+  "query": "UPDATE meetings SET attendeeId = '17812226737' WHERE id = 690017;\n\nSELECT m.id, m.sponsorId, m.attendeeId, m.timeSlot, s.companyName,\n  dp.firstName, dp.lastName, dp.company\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nJOIN delegateProfiles dp ON dp.attendeeId = m.attendeeId\nWHERE m.id = 690017;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute UPDATE meetings SET attendeeId = '17812226737' WHERE id = 690017;\n\nSELECT m.id, m.sponsorId, m.attendeeId, m.timeSlot, s.companyName,\n  dp.firstName, dp.lastName, dp.company\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nJOIN delegateProfiles dp ON dp.attendeeId = m.attendeeId\nWHERE m.id = 690017;",
+  "rows": [
+    {
+      "id": "690017",
+      "sponsorId": "270002",
+      "attendeeId": "17812226737",
+      "timeSlot": "11",
+      "companyName": "Appcast",
+      "firstName": "Rikki",
+      "lastName": "Fullerton",
+      "company": "Serco"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tsponsorId\tattendeeId\ttimeSlot\tcompanyName\tfirstName\tlastName\tcompany\n690017\t270002\t17812226737\t11\tAppcast\tRikki\tFullerton\tSerco\n",
+  "stderr": "",
+  "execution_time_ms": 421
+}
