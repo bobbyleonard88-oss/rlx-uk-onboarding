@@ -103,7 +103,12 @@ export default function AdminTablePlan() {
       .filter(([, v]) => v.day === day && v.hour === hour)
       .map(([k]) => Number(k))
       .sort();
-    return { round1Slot: matching[0] ?? null, round2Slot: matching[1] ?? null };
+    // Day 2 Hour 2 (slots 9 & 10): slot 9 is 13:15–13:45 (earlier) so must be Round 1 (left)
+    // The numeric sort gives [9, 10] which is correct — but the visual was swapped; apply same fix as public page
+    const isDay2Hour2 = day === 2 && hour === 2;
+    return isDay2Hour2
+      ? { round1Slot: matching[1] ?? null, round2Slot: matching[0] ?? null }
+      : { round1Slot: matching[0] ?? null, round2Slot: matching[1] ?? null };
   }, [selectedDay, selectedHour]);
 
   const searchLower = search.trim().toLowerCase();
