@@ -72,7 +72,11 @@ export default function TablePlan() {
       .filter(([, v]) => v.day === day && v.hour === hour)
       .map(([k]) => Number(k))
       .sort();
-    return { round1Slot: matching[0] ?? null, round2Slot: matching[1] ?? null };
+    // Day 2 Hour 2 (slots 9 & 10): display is visually swapped — show slot 10 as Round 1 (left) and slot 9 as Round 2 (right)
+    const isDay2Hour2 = day === 2 && hour === 2;
+    return isDay2Hour2
+      ? { round1Slot: matching[1] ?? null, round2Slot: matching[0] ?? null }
+      : { round1Slot: matching[0] ?? null, round2Slot: matching[1] ?? null };
   }, [selectedDay, selectedHour]);
 
   // Normalised search query

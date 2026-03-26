@@ -1,0 +1,18 @@
+{
+  "query": "SELECT timeSlot, COUNT(*) as meetingCount FROM meetings WHERE timeSlot IN (9, 10) GROUP BY timeSlot ORDER BY timeSlot;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT timeSlot, COUNT(*) as meetingCount FROM meetings WHERE timeSlot IN (9, 10) GROUP BY timeSlot ORDER BY timeSlot;",
+  "rows": [
+    {
+      "timeSlot": "9",
+      "meetingCount": "23"
+    },
+    {
+      "timeSlot": "10",
+      "meetingCount": "24"
+    }
+  ],
+  "messages": [],
+  "stdout": "timeSlot\tmeetingCount\n9\t23\n10\t24\n",
+  "stderr": "",
+  "execution_time_ms": 354
+}

@@ -1,0 +1,34 @@
+{
+  "query": "-- Delegates who have a meeting in Slot 8 (11:00) but NOT in Slot 7 (10:30)\nSELECT \n  dp.firstName, dp.lastName, dp.company,\n  s.companyName as slot8Sponsor\nFROM meetings m8\nJOIN delegateProfiles dp ON dp.attendeeId = m8.attendeeId\nJOIN sponsors s ON s.id = m8.sponsorId\nWHERE m8.timeSlot = 8\n  AND m8.attendeeId NOT IN (\n    SELECT attendeeId FROM meetings WHERE timeSlot = 7\n  )\nORDER BY dp.lastName;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute -- Delegates who have a meeting in Slot 8 (11:00) but NOT in Slot 7 (10:30)\nSELECT \n  dp.firstName, dp.lastName, dp.company,\n  s.companyName as slot8Sponsor\nFROM meetings m8\nJOIN delegateProfiles dp ON dp.attendeeId = m8.attendeeId\nJOIN sponsors s ON s.id = m8.sponsorId\nWHERE m8.timeSlot = 8\n  AND m8.attendeeId NOT IN (\n    SELECT attendeeId FROM meetings WHERE timeSlot = 7\n  )\nORDER BY dp.lastName;",
+  "rows": [
+    {
+      "firstName": "Rikki",
+      "lastName": "Fullerton",
+      "company": "Serco",
+      "slot8Sponsor": "hackajob"
+    },
+    {
+      "firstName": "James",
+      "lastName": "Harley",
+      "company": "Syngenta",
+      "slot8Sponsor": "Symphony Talent "
+    },
+    {
+      "firstName": "Mark",
+      "lastName": "Kunaseelan",
+      "company": "University of the Arts London",
+      "slot8Sponsor": "SHL"
+    },
+    {
+      "firstName": "Julie",
+      "lastName": "Lowe",
+      "company": "easyJet",
+      "slot8Sponsor": "Udder"
+    }
+  ],
+  "messages": [],
+  "stdout": "firstName\tlastName\tcompany\tslot8Sponsor\nRikki\tFullerton\tSerco\thackajob\nJames\tHarley\tSyngenta\tSymphony Talent \nMark\tKunaseelan\tUniversity of the Arts London\tSHL\nJulie\tLowe\teasyJet\tUdder\n",
+  "stderr": "",
+  "execution_time_ms": 414
+}
