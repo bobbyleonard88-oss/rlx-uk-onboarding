@@ -1,0 +1,80 @@
+{
+  "query": "SELECT dp.attendeeId, dp.firstName, dp.lastName, dp.company,\n  m.id as meetingId, m.timeSlot, m.status, s.companyName\nFROM delegateProfiles dp\nJOIN meetings m ON m.attendeeId = dp.attendeeId\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE dp.firstName LIKE '%Robyn%' AND dp.lastName LIKE '%Collins%'\nORDER BY m.timeSlot;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT dp.attendeeId, dp.firstName, dp.lastName, dp.company,\n  m.id as meetingId, m.timeSlot, m.status, s.companyName\nFROM delegateProfiles dp\nJOIN meetings m ON m.attendeeId = dp.attendeeId\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE dp.firstName LIKE '%Robyn%' AND dp.lastName LIKE '%Collins%'\nORDER BY m.timeSlot;",
+  "rows": [
+    {
+      "attendeeId": "194295425320",
+      "firstName": "Robyn",
+      "lastName": "Collins",
+      "company": "M42",
+      "meetingId": "750085",
+      "timeSlot": "1",
+      "status": "confirmed",
+      "companyName": "Symphony Talent "
+    },
+    {
+      "attendeeId": "194295425320",
+      "firstName": "Robyn",
+      "lastName": "Collins",
+      "company": "M42",
+      "meetingId": "663490",
+      "timeSlot": "2",
+      "status": "suggested",
+      "companyName": "Amberjack"
+    },
+    {
+      "attendeeId": "194295425320",
+      "firstName": "Robyn",
+      "lastName": "Collins",
+      "company": "M42",
+      "meetingId": "663545",
+      "timeSlot": "5",
+      "status": "suggested",
+      "companyName": "JobSync"
+    },
+    {
+      "attendeeId": "194295425320",
+      "firstName": "Robyn",
+      "lastName": "Collins",
+      "company": "M42",
+      "meetingId": "750147",
+      "timeSlot": "6",
+      "status": "confirmed",
+      "companyName": "SHL"
+    },
+    {
+      "attendeeId": "194295425320",
+      "firstName": "Robyn",
+      "lastName": "Collins",
+      "company": "M42",
+      "meetingId": "870016",
+      "timeSlot": "7",
+      "status": "suggested",
+      "companyName": "Harver"
+    },
+    {
+      "attendeeId": "194295425320",
+      "firstName": "Robyn",
+      "lastName": "Collins",
+      "company": "M42",
+      "meetingId": "663387",
+      "timeSlot": "10",
+      "status": "suggested",
+      "companyName": "Appcast"
+    },
+    {
+      "attendeeId": "194295425320",
+      "firstName": "Robyn",
+      "lastName": "Collins",
+      "company": "M42",
+      "meetingId": "663454",
+      "timeSlot": "11",
+      "status": "suggested",
+      "companyName": "Udder"
+    }
+  ],
+  "messages": [],
+  "stdout": "attendeeId\tfirstName\tlastName\tcompany\tmeetingId\ttimeSlot\tstatus\tcompanyName\n194295425320\tRobyn\tCollins\tM42\t750085\t1\tconfirmed\tSymphony Talent \n194295425320\tRobyn\tCollins\tM42\t663490\t2\tsuggested\tAmberjack\n194295425320\tRobyn\tCollins\tM42\t663545\t5\tsuggested\tJobSync\n194295425320\tRobyn\tCollins\tM42\t750147\t6\tconfirmed\tSHL\n194295425320\tRobyn\tCollins\tM42\t870016\t7\tsuggested\tHarver\n194295425320\tRobyn\tCollins\tM42\t663387\t10\tsuggested\tAppcast\n194295425320\tRobyn\tCollins\tM42\t663454\t11\tsuggested\tUdder\n",
+  "stderr": "",
+  "execution_time_ms": 404
+}

@@ -1,0 +1,25 @@
+{
+  "query": "-- 1. Confirm Robyn's Appcast Slot 10 meeting\nSELECT m.id, dp.firstName, dp.lastName, dp.company, m.timeSlot, s.companyName\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nJOIN delegateProfiles dp ON dp.attendeeId = m.attendeeId\nWHERE m.attendeeId = '194295425320' AND m.timeSlot = 10 AND s.companyName = 'Appcast';\n\n-- 2. Confirm Sarah Cooper is free in slot 10\nSELECT COUNT(*) as slot10Bookings FROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE m.attendeeId = '5140258' AND m.timeSlot = 10 AND m.status IN ('confirmed','suggested');\n\n-- 3. Confirm Sarah has NOT met Appcast\nSELECT COUNT(*) as metAppcast FROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE m.attendeeId = '5140258' AND s.companyName = 'Appcast' AND m.status IN ('confirmed','suggested');\n\n-- 4. Confirm Sarah's total meeting count\nSELECT COUNT(*) as totalMeetings FROM meetings\nWHERE attendeeId = '5140258' AND status IN ('confirmed','suggested');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute -- 1. Confirm Robyn's Appcast Slot 10 meeting\nSELECT m.id, dp.firstName, dp.lastName, dp.company, m.timeSlot, s.companyName\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nJOIN delegateProfiles dp ON dp.attendeeId = m.attendeeId\nWHERE m.attendeeId = '194295425320' AND m.timeSlot = 10 AND s.companyName = 'Appcast';\n\n-- 2. Confirm Sarah Cooper is free in slot 10\nSELECT COUNT(*) as slot10Bookings FROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE m.attendeeId = '5140258' AND m.timeSlot = 10 AND m.status IN ('confirmed','suggested');\n\n-- 3. Confirm Sarah has NOT met Appcast\nSELECT COUNT(*) as metAppcast FROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE m.attendeeId = '5140258' AND s.companyName = 'Appcast' AND m.status IN ('confirmed','suggested');\n\n-- 4. Confirm Sarah's total meeting count\nSELECT COUNT(*) as totalMeetings FROM meetings\nWHERE attendeeId = '5140258' AND status IN ('confirmed','suggested');",
+  "rows": [
+    {
+      "id": "663387",
+      "firstName": "Robyn",
+      "lastName": "Collins",
+      "company": "M42",
+      "timeSlot": "10",
+      "companyName": "Appcast"
+    }
+  ],
+  "messages": [
+    "slot10Bookings",
+    "0",
+    "metAppcast",
+    "0",
+    "totalMeetings",
+    "7"
+  ],
+  "stdout": "id\tfirstName\tlastName\tcompany\ttimeSlot\tcompanyName\n663387\tRobyn\tCollins\tM42\t10\tAppcast\nslot10Bookings\n0\nmetAppcast\n0\ntotalMeetings\n7\n",
+  "stderr": "",
+  "execution_time_ms": 624
+}

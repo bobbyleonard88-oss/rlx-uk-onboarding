@@ -1,0 +1,52 @@
+{
+  "query": "SELECT dp.attendeeId, dp.firstName, dp.lastName, dp.company,\n  COUNT(m.id) as totalMeetings\nFROM delegateProfiles dp\nLEFT JOIN meetings m ON m.attendeeId = dp.attendeeId AND m.status IN ('confirmed','suggested')\nWHERE dp.attendeeId IN ('192905181704','5140258','194698768792','116903349643','185464523694','452351','8713772','190937723960','93137898669','16427701','910801','21545051','183232510638','91862579761','93380106578','12731251','18336501','191181142545')\nGROUP BY dp.attendeeId, dp.firstName, dp.lastName, dp.company\nHAVING totalMeetings > 0\nORDER BY totalMeetings DESC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT dp.attendeeId, dp.firstName, dp.lastName, dp.company,\n  COUNT(m.id) as totalMeetings\nFROM delegateProfiles dp\nLEFT JOIN meetings m ON m.attendeeId = dp.attendeeId AND m.status IN ('confirmed','suggested')\nWHERE dp.attendeeId IN ('192905181704','5140258','194698768792','116903349643','185464523694','452351','8713772','190937723960','93137898669','16427701','910801','21545051','183232510638','91862579761','93380106578','12731251','18336501','191181142545')\nGROUP BY dp.attendeeId, dp.firstName, dp.lastName, dp.company\nHAVING totalMeetings > 0\nORDER BY totalMeetings DESC;",
+  "rows": [
+    {
+      "attendeeId": "452351",
+      "firstName": "Cath",
+      "lastName": "Possamai",
+      "company": "Amazon",
+      "totalMeetings": "7"
+    },
+    {
+      "attendeeId": "5140258",
+      "firstName": "Sarah",
+      "lastName": "Cooper",
+      "company": "Rentokil Initial",
+      "totalMeetings": "7"
+    },
+    {
+      "attendeeId": "8713772",
+      "firstName": "Alan",
+      "lastName": "MacKinnon",
+      "company": "Smith and Nephew plc",
+      "totalMeetings": "6"
+    },
+    {
+      "attendeeId": "190937723960",
+      "firstName": "Natalie",
+      "lastName": "McGuinness",
+      "company": "Busy Bees Nurseries",
+      "totalMeetings": "6"
+    },
+    {
+      "attendeeId": "18336501",
+      "firstName": "Andrew",
+      "lastName": "Boyd",
+      "company": "Convatec",
+      "totalMeetings": "5"
+    },
+    {
+      "attendeeId": "116903349643",
+      "firstName": "James",
+      "lastName": "Harley",
+      "company": "Syngenta",
+      "totalMeetings": "5"
+    }
+  ],
+  "messages": [],
+  "stdout": "attendeeId\tfirstName\tlastName\tcompany\ttotalMeetings\n452351\tCath\tPossamai\tAmazon\t7\n5140258\tSarah\tCooper\tRentokil Initial\t7\n8713772\tAlan\tMacKinnon\tSmith and Nephew plc\t6\n190937723960\tNatalie\tMcGuinness\tBusy Bees Nurseries\t6\n18336501\tAndrew\tBoyd\tConvatec\t5\n116903349643\tJames\tHarley\tSyngenta\t5\n",
+  "stderr": "",
+  "execution_time_ms": 360
+}

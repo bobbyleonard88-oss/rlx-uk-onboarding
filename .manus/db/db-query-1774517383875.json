@@ -1,0 +1,172 @@
+{
+  "query": "SELECT dp.attendeeId, dp.firstName, dp.lastName, dp.company,\n  COUNT(m.id) as totalMeetings,\n  MAX(CASE WHEN m.timeSlot = 10 THEN 'BOOKED' ELSE NULL END) as slot10,\n  MAX(CASE WHEN s.companyName = 'Appcast' THEN 'YES' ELSE NULL END) as metAppcast\nFROM delegateProfiles dp\nLEFT JOIN meetings m ON m.attendeeId = dp.attendeeId AND m.status IN ('confirmed','suggested')\nLEFT JOIN sponsors s ON s.id = m.sponsorId\nWHERE dp.attendeeId != '194295425320'\nGROUP BY dp.attendeeId, dp.firstName, dp.lastName, dp.company\nHAVING slot10 IS NULL AND metAppcast IS NULL AND totalMeetings < 8\nORDER BY dp.lastName;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT dp.attendeeId, dp.firstName, dp.lastName, dp.company,\n  COUNT(m.id) as totalMeetings,\n  MAX(CASE WHEN m.timeSlot = 10 THEN 'BOOKED' ELSE NULL END) as slot10,\n  MAX(CASE WHEN s.companyName = 'Appcast' THEN 'YES' ELSE NULL END) as metAppcast\nFROM delegateProfiles dp\nLEFT JOIN meetings m ON m.attendeeId = dp.attendeeId AND m.status IN ('confirmed','suggested')\nLEFT JOIN sponsors s ON s.id = m.sponsorId\nWHERE dp.attendeeId != '194295425320'\nGROUP BY dp.attendeeId, dp.firstName, dp.lastName, dp.company\nHAVING slot10 IS NULL AND metAppcast IS NULL AND totalMeetings < 8\nORDER BY dp.lastName;",
+  "rows": [
+    {
+      "attendeeId": "18336501",
+      "firstName": "Andrew",
+      "lastName": "Boyd",
+      "company": "Convatec",
+      "totalMeetings": "5",
+      "slot10": "NULL",
+      "metAppcast": "NULL"
+    },
+    {
+      "attendeeId": "12731251",
+      "firstName": "James",
+      "lastName": "Boyle",
+      "company": "Latham & Watkins",
+      "totalMeetings": "0",
+      "slot10": "NULL",
+      "metAppcast": "NULL"
+    },
+    {
+      "attendeeId": "93380106578",
+      "firstName": "Peter",
+      "lastName": "Buchanan-Parker",
+      "company": "JPMorganChase",
+      "totalMeetings": "0",
+      "slot10": "NULL",
+      "metAppcast": "NULL"
+    },
+    {
+      "attendeeId": "91862579761",
+      "firstName": "Laura",
+      "lastName": "Callaghan",
+      "company": "Western Union",
+      "totalMeetings": "0",
+      "slot10": "NULL",
+      "metAppcast": "NULL"
+    },
+    {
+      "attendeeId": "5140258",
+      "firstName": "Sarah",
+      "lastName": "Cooper",
+      "company": "Rentokil Initial",
+      "totalMeetings": "7",
+      "slot10": "NULL",
+      "metAppcast": "NULL"
+    },
+    {
+      "attendeeId": "93137898669",
+      "firstName": "Jennifer",
+      "lastName": "Cunningham",
+      "company": "Pearson",
+      "totalMeetings": "0",
+      "slot10": "NULL",
+      "metAppcast": "NULL"
+    },
+    {
+      "attendeeId": "116903349643",
+      "firstName": "James",
+      "lastName": "Harley",
+      "company": "Syngenta",
+      "totalMeetings": "5",
+      "slot10": "NULL",
+      "metAppcast": "NULL"
+    },
+    {
+      "attendeeId": "21545051",
+      "firstName": "Jen",
+      "lastName": "Hulme",
+      "company": "BPP",
+      "totalMeetings": "0",
+      "slot10": "NULL",
+      "metAppcast": "NULL"
+    },
+    {
+      "attendeeId": "183232510638",
+      "firstName": "James",
+      "lastName": "Kennedy",
+      "company": "Palo Alto Networks",
+      "totalMeetings": "0",
+      "slot10": "NULL",
+      "metAppcast": "NULL"
+    },
+    {
+      "attendeeId": "910801",
+      "firstName": "Caroline",
+      "lastName": "Loubert",
+      "company": "Argus Media Ltd",
+      "totalMeetings": "0",
+      "slot10": "NULL",
+      "metAppcast": "NULL"
+    },
+    {
+      "attendeeId": "8713772",
+      "firstName": "Alan",
+      "lastName": "MacKinnon",
+      "company": "Smith and Nephew plc",
+      "totalMeetings": "6",
+      "slot10": "NULL",
+      "metAppcast": "NULL"
+    },
+    {
+      "attendeeId": "190937723960",
+      "firstName": "Natalie",
+      "lastName": "McGuinness",
+      "company": "Busy Bees Nurseries",
+      "totalMeetings": "6",
+      "slot10": "NULL",
+      "metAppcast": "NULL"
+    },
+    {
+      "attendeeId": "185464523694",
+      "firstName": "David",
+      "lastName": "Nottage",
+      "company": "Screwfix",
+      "totalMeetings": "0",
+      "slot10": "NULL",
+      "metAppcast": "NULL"
+    },
+    {
+      "attendeeId": "192905181704",
+      "firstName": "Theresa",
+      "lastName": "O’Brien",
+      "company": "CBRE",
+      "totalMeetings": "0",
+      "slot10": "NULL",
+      "metAppcast": "NULL"
+    },
+    {
+      "attendeeId": "194698768792",
+      "firstName": "Nainik",
+      "lastName": "Patel",
+      "company": "Hitachi",
+      "totalMeetings": "0",
+      "slot10": "NULL",
+      "metAppcast": "NULL"
+    },
+    {
+      "attendeeId": "452351",
+      "firstName": "Cath",
+      "lastName": "Possamai",
+      "company": "Amazon",
+      "totalMeetings": "7",
+      "slot10": "NULL",
+      "metAppcast": "NULL"
+    },
+    {
+      "attendeeId": "16427701",
+      "firstName": "Claudia",
+      "lastName": "Sneddon Da Silva Raposo",
+      "company": "Expleo Group",
+      "totalMeetings": "0",
+      "slot10": "NULL",
+      "metAppcast": "NULL"
+    },
+    {
+      "attendeeId": "191181142545",
+      "firstName": "Christopher",
+      "lastName": "Widdison",
+      "company": "Macquarie",
+      "totalMeetings": "0",
+      "slot10": "NULL",
+      "metAppcast": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "attendeeId\tfirstName\tlastName\tcompany\ttotalMeetings\tslot10\tmetAppcast\n18336501\tAndrew\tBoyd\tConvatec\t5\tNULL\tNULL\n12731251\tJames\tBoyle\tLatham & Watkins\t0\tNULL\tNULL\n93380106578\tPeter\tBuchanan-Parker\tJPMorganChase\t0\tNULL\tNULL\n91862579761\tLaura\tCallaghan\tWestern Union\t0\tNULL\tNULL\n5140258\tSarah\tCooper\tRentokil Initial\t7\tNULL\tNULL\n93137898669\tJennifer\tCunningham\tPearson\t0\tNULL\tNULL\n116903349643\tJames\tHarley\tSyngenta\t5\tNULL\tNULL\n21545051\tJen\tHulme\tBPP\t0\tNULL\tNULL\n183232510638\tJames\tKennedy\tPalo Alto Networks\t0\tNULL\tNULL\n910801\tCaroline\tLoubert\tArgus Media Ltd\t0\tNULL\tNULL\n8713772\tAlan\tMacKinnon\tSmith and Nephew plc\t6\tNULL\tNULL\n190937723960\tNatalie\tMcGuinness\tBusy Bees Nurseries\t6\tNULL\tNULL\n185464523694\tDavid\tNottage\tScrewfix\t0\tNULL\tNULL\n192905181704\tTheresa\tO’Brien\tCBRE\t0\tNULL\tNULL\n194698768792\tNainik\tPatel\tHitachi\t0\tNULL\tNULL\n452351\tCath\tPossamai\tAmazon\t7\tNULL\tNULL\n16427701\tClaudia\tSneddon Da Silva Raposo\tExpleo Group\t0\tNULL\tNULL\n191181142545\tChristopher\tWiddison\tMacquarie\t0\tNULL\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 351
+}

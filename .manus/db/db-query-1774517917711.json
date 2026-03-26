@@ -1,0 +1,18 @@
+{
+  "query": "SELECT m.id, dp.firstName, dp.lastName, dp.company, m.timeSlot, s.companyName\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nJOIN delegateProfiles dp ON dp.attendeeId = m.attendeeId\nWHERE m.id = 663387;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT m.id, dp.firstName, dp.lastName, dp.company, m.timeSlot, s.companyName\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nJOIN delegateProfiles dp ON dp.attendeeId = m.attendeeId\nWHERE m.id = 663387;",
+  "rows": [
+    {
+      "id": "663387",
+      "firstName": "Sarah",
+      "lastName": "Cooper",
+      "company": "Rentokil Initial",
+      "timeSlot": "10",
+      "companyName": "Appcast"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tfirstName\tlastName\tcompany\ttimeSlot\tcompanyName\n663387\tSarah\tCooper\tRentokil Initial\t10\tAppcast\n",
+  "stderr": "",
+  "execution_time_ms": 349
+}
