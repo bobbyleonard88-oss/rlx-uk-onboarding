@@ -1,0 +1,16 @@
+{
+  "query": "SELECT m.id, m.attendeeId, m.timeSlot, s.companyName\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE m.attendeeId = '9319401'\nAND m.timeSlot = 9\nAND s.companyName LIKE '%Symphony%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT m.id, m.attendeeId, m.timeSlot, s.companyName\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nWHERE m.attendeeId = '9319401'\nAND m.timeSlot = 9\nAND s.companyName LIKE '%Symphony%';",
+  "rows": [
+    {
+      "id": "750093",
+      "attendeeId": "9319401",
+      "timeSlot": "9",
+      "companyName": "Symphony Talent "
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tattendeeId\ttimeSlot\tcompanyName\n750093\t9319401\t9\tSymphony Talent \n",
+  "stderr": "",
+  "execution_time_ms": 350
+}

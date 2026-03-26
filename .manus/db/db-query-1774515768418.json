@@ -1,0 +1,18 @@
+{
+  "query": "SELECT m.id, dp.firstName, dp.lastName, dp.company, m.timeSlot, s.companyName\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nJOIN delegateProfiles dp ON dp.attendeeId = m.attendeeId\nWHERE m.id = 750093;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT m.id, dp.firstName, dp.lastName, dp.company, m.timeSlot, s.companyName\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nJOIN delegateProfiles dp ON dp.attendeeId = m.attendeeId\nWHERE m.id = 750093;",
+  "rows": [
+    {
+      "id": "750093",
+      "firstName": "Michelle",
+      "lastName": "Monahan",
+      "company": "European Tyre Enterprise Limited",
+      "timeSlot": "9",
+      "companyName": "Symphony Talent "
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tfirstName\tlastName\tcompany\ttimeSlot\tcompanyName\n750093\tMichelle\tMonahan\tEuropean Tyre Enterprise Limited\t9\tSymphony Talent \n",
+  "stderr": "",
+  "execution_time_ms": 343
+}
