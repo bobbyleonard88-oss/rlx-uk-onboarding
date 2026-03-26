@@ -1,0 +1,46 @@
+{
+  "query": "SELECT * FROM matchCache WHERE attendeeId IN ('192905181704','194698768792','185464523694','93137898669','190898269597','16427701','12731251','910801','192303904943','93380106578') LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT * FROM matchCache WHERE attendeeId IN ('192905181704','194698768792','185464523694','93137898669','190898269597','16427701','12731251','910801','192303904943','93380106578') LIMIT 10;",
+  "rows": [
+    {
+      "id": "4",
+      "sponsorId": "270002",
+      "attendeeId": "12731251",
+      "matchScore": "85",
+      "matchReason": "This delegate is building a best-in-class recruiting function with global cohesion and is exploring employer branding, which Appcast directly supports through its job advertising solutions. The conversation offers a concrete path to enhancing brand visibility and achieving global cohesion in talent attraction.",
+      "createdAt": "2026-03-11 10:13:48",
+      "updatedAt": "2026-03-11 10:13:48"
+    },
+    {
+      "id": "23",
+      "sponsorId": "270002",
+      "attendeeId": "190898269597",
+      "matchScore": "10",
+      "matchReason": "This delegate is interested in 'TA Skill based hiring, EU Pay Directive and AI in TA' and exploring 'Ai, Automation, org redesign to reduce HC'. Appcast's offerings do not directly address skill-based hiring, pay directives, or general AI/automation for organizational redesign.",
+      "createdAt": "2026-03-11 10:14:14",
+      "updatedAt": "2026-03-11 10:14:14"
+    },
+    {
+      "id": "35",
+      "sponsorId": "270002",
+      "attendeeId": "194698768792",
+      "matchScore": "35",
+      "matchReason": "This delegate is building a value case to introduce AI/Technology to attract and retain talent, which broadly aligns with Appcast's offering. The delegate seeks to understand how technology can improve candidate and hiring manager experience.",
+      "createdAt": "2026-03-11 10:14:24",
+      "updatedAt": "2026-03-11 10:14:24"
+    },
+    {
+      "id": "40",
+      "sponsorId": "270002",
+      "attendeeId": "16427701",
+      "matchScore": "0",
+      "matchReason": "This delegate has no stated pain points or solution areas that align with Appcast's offerings. The delegate wants to connect with like-minded people and review their global ATS.",
+      "createdAt": "2026-03-11 10:14:25",
+      "updatedAt": "2026-03-11 10:14:25"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tsponsorId\tattendeeId\tmatchScore\tmatchReason\tcreatedAt\tupdatedAt\n4\t270002\t12731251\t85\tThis delegate is building a best-in-class recruiting function with global cohesion and is exploring employer branding, which Appcast directly supports through its job advertising solutions. The conversation offers a concrete path to enhancing brand visibility and achieving global cohesion in talent attraction.\t2026-03-11 10:13:48\t2026-03-11 10:13:48\n23\t270002\t190898269597\t10\tThis delegate is interested in 'TA Skill based hiring, EU Pay Directive and AI in TA' and exploring 'Ai, Automation, org redesign to reduce HC'. Appcast's offerings do not directly address skill-based hiring, pay directives, or general AI/automation for organizational redesign.\t2026-03-11 10:14:14\t2026-03-11 10:14:14\n35\t270002\t194698768792\t35\tThis delegate is building a value case to introduce AI/Technology to attract and retain talent, which broadly aligns with Appcast's offering. The delegate seeks to understand how technology can improve candidate and hiring manager experience.\t2026-03-11 10:14:24\t2026-03-11 10:14:24\n40\t270002\t16427701\t0\tThis delegate has no stated pain points or solution areas that align with Appcast's offerings. The delegate wants to connect with like-minded people and review their global ATS.\t2026-03-11 10:14:25\t2026-03-11 10:14:25\n",
+  "stderr": "",
+  "execution_time_ms": 353
+}

@@ -1,0 +1,66 @@
+{
+  "query": "SELECT dp.attendeeId, dp.firstName, dp.lastName, dp.company,\n  GROUP_CONCAT(m.timeSlot ORDER BY m.timeSlot SEPARATOR ',') as bookedSlots\nFROM delegateProfiles dp\nLEFT JOIN meetings m ON m.attendeeId = dp.attendeeId AND m.status IN ('confirmed','suggested')\nWHERE dp.attendeeId IN ('113145184682','17812226737','93176107633','91862577670','200101377371','8196151','190937723960','93174643474')\nGROUP BY dp.attendeeId, dp.firstName, dp.lastName, dp.company\nORDER BY dp.lastName;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT dp.attendeeId, dp.firstName, dp.lastName, dp.company,\n  GROUP_CONCAT(m.timeSlot ORDER BY m.timeSlot SEPARATOR ',') as bookedSlots\nFROM delegateProfiles dp\nLEFT JOIN meetings m ON m.attendeeId = dp.attendeeId AND m.status IN ('confirmed','suggested')\nWHERE dp.attendeeId IN ('113145184682','17812226737','93176107633','91862577670','200101377371','8196151','190937723960','93174643474')\nGROUP BY dp.attendeeId, dp.firstName, dp.lastName, dp.company\nORDER BY dp.lastName;",
+  "rows": [
+    {
+      "attendeeId": "91862577670",
+      "firstName": "Lisa",
+      "lastName": "Brignal",
+      "company": "Coca-Cola Europacific partners",
+      "bookedSlots": "1,2,3,4,5,7,8,12"
+    },
+    {
+      "attendeeId": "93174643474",
+      "firstName": "Salina",
+      "lastName": "Budaly",
+      "company": "Balfour Beatty",
+      "bookedSlots": "1,2,5,6,9,10,11,12"
+    },
+    {
+      "attendeeId": "17812226737",
+      "firstName": "Rikki",
+      "lastName": "Fullerton",
+      "company": "Serco",
+      "bookedSlots": "1,2,3,4,6,8,9,10"
+    },
+    {
+      "attendeeId": "113145184682",
+      "firstName": "Carly",
+      "lastName": "George",
+      "company": "AXA",
+      "bookedSlots": "2,4,5,7,8,10,11,12"
+    },
+    {
+      "attendeeId": "200101377371",
+      "firstName": "Jessica Shaunie",
+      "lastName": "Green",
+      "company": "Calor Gas",
+      "bookedSlots": "2,3,4,5,9,10,11,12"
+    },
+    {
+      "attendeeId": "93176107633",
+      "firstName": "Mark",
+      "lastName": "Kunaseelan",
+      "company": "University of the Arts London",
+      "bookedSlots": "2,3,4,6,9,10"
+    },
+    {
+      "attendeeId": "190937723960",
+      "firstName": "Natalie",
+      "lastName": "McGuinness",
+      "company": "Busy Bees Nurseries",
+      "bookedSlots": "3,5,6,7,8,9"
+    },
+    {
+      "attendeeId": "8196151",
+      "firstName": "Michelle",
+      "lastName": "Monahan",
+      "company": "European Tyre Enterprise Limited",
+      "bookedSlots": "1,2,3,4,5,6"
+    }
+  ],
+  "messages": [],
+  "stdout": "attendeeId\tfirstName\tlastName\tcompany\tbookedSlots\n91862577670\tLisa\tBrignal\tCoca-Cola Europacific partners\t1,2,3,4,5,7,8,12\n93174643474\tSalina\tBudaly\tBalfour Beatty\t1,2,5,6,9,10,11,12\n17812226737\tRikki\tFullerton\tSerco\t1,2,3,4,6,8,9,10\n113145184682\tCarly\tGeorge\tAXA\t2,4,5,7,8,10,11,12\n200101377371\tJessica Shaunie\tGreen\tCalor Gas\t2,3,4,5,9,10,11,12\n93176107633\tMark\tKunaseelan\tUniversity of the Arts London\t2,3,4,6,9,10\n190937723960\tNatalie\tMcGuinness\tBusy Bees Nurseries\t3,5,6,7,8,9\n8196151\tMichelle\tMonahan\tEuropean Tyre Enterprise Limited\t1,2,3,4,5,6\n",
+  "stderr": "",
+  "execution_time_ms": 355
+}

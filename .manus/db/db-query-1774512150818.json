@@ -1,0 +1,46 @@
+{
+  "query": "SELECT DISTINCT timeSlot FROM meetings WHERE timeSlot IS NOT NULL ORDER BY timeSlot;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT DISTINCT timeSlot FROM meetings WHERE timeSlot IS NOT NULL ORDER BY timeSlot;",
+  "rows": [
+    {
+      "timeSlot": "1"
+    },
+    {
+      "timeSlot": "2"
+    },
+    {
+      "timeSlot": "3"
+    },
+    {
+      "timeSlot": "4"
+    },
+    {
+      "timeSlot": "5"
+    },
+    {
+      "timeSlot": "6"
+    },
+    {
+      "timeSlot": "7"
+    },
+    {
+      "timeSlot": "8"
+    },
+    {
+      "timeSlot": "9"
+    },
+    {
+      "timeSlot": "10"
+    },
+    {
+      "timeSlot": "11"
+    },
+    {
+      "timeSlot": "12"
+    }
+  ],
+  "messages": [],
+  "stdout": "timeSlot\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n",
+  "stderr": "",
+  "execution_time_ms": 349
+}

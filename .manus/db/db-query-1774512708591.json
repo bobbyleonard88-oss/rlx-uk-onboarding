@@ -1,0 +1,64 @@
+{
+  "query": "-- Meeting counts and existing meetings with the 3 sponsors for all candidate delegates\nSELECT \n  dp.firstName, dp.lastName, dp.company,\n  COUNT(m.id) as totalMeetings,\n  MAX(CASE WHEN s.companyName = 'SHL' THEN 'YES' ELSE NULL END) as metSHL,\n  MAX(CASE WHEN s.companyName LIKE '%Symphony%' THEN 'YES' ELSE NULL END) as metSymphony,\n  MAX(CASE WHEN s.companyName = 'Appcast' THEN 'YES' ELSE NULL END) as metAppcast\nFROM delegateProfiles dp\nLEFT JOIN meetings m ON m.attendeeId = dp.attendeeId AND m.status IN ('confirmed','suggested')\nLEFT JOIN sponsors s ON s.id = m.sponsorId\nWHERE dp.attendeeId IN ('8196151','17812226737','91862577670','93174643474','200101377371','93176107633')\nGROUP BY dp.attendeeId, dp.firstName, dp.lastName, dp.company\nORDER BY dp.lastName;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute -- Meeting counts and existing meetings with the 3 sponsors for all candidate delegates\nSELECT \n  dp.firstName, dp.lastName, dp.company,\n  COUNT(m.id) as totalMeetings,\n  MAX(CASE WHEN s.companyName = 'SHL' THEN 'YES' ELSE NULL END) as metSHL,\n  MAX(CASE WHEN s.companyName LIKE '%Symphony%' THEN 'YES' ELSE NULL END) as metSymphony,\n  MAX(CASE WHEN s.companyName = 'Appcast' THEN 'YES' ELSE NULL END) as metAppcast\nFROM delegateProfiles dp\nLEFT JOIN meetings m ON m.attendeeId = dp.attendeeId AND m.status IN ('confirmed','suggested')\nLEFT JOIN sponsors s ON s.id = m.sponsorId\nWHERE dp.attendeeId IN ('8196151','17812226737','91862577670','93174643474','200101377371','93176107633')\nGROUP BY dp.attendeeId, dp.firstName, dp.lastName, dp.company\nORDER BY dp.lastName;",
+  "rows": [
+    {
+      "firstName": "Lisa",
+      "lastName": "Brignal",
+      "company": "Coca-Cola Europacific partners",
+      "totalMeetings": "8",
+      "metSHL": "NULL",
+      "metSymphony": "NULL",
+      "metAppcast": "YES"
+    },
+    {
+      "firstName": "Salina",
+      "lastName": "Budaly",
+      "company": "Balfour Beatty",
+      "totalMeetings": "8",
+      "metSHL": "NULL",
+      "metSymphony": "NULL",
+      "metAppcast": "YES"
+    },
+    {
+      "firstName": "Rikki",
+      "lastName": "Fullerton",
+      "company": "Serco",
+      "totalMeetings": "8",
+      "metSHL": "YES",
+      "metSymphony": "NULL",
+      "metAppcast": "NULL"
+    },
+    {
+      "firstName": "Jessica Shaunie",
+      "lastName": "Green",
+      "company": "Calor Gas",
+      "totalMeetings": "8",
+      "metSHL": "YES",
+      "metSymphony": "YES",
+      "metAppcast": "YES"
+    },
+    {
+      "firstName": "Mark",
+      "lastName": "Kunaseelan",
+      "company": "University of the Arts London",
+      "totalMeetings": "6",
+      "metSHL": "NULL",
+      "metSymphony": "YES",
+      "metAppcast": "YES"
+    },
+    {
+      "firstName": "Michelle",
+      "lastName": "Monahan",
+      "company": "European Tyre Enterprise Limited",
+      "totalMeetings": "6",
+      "metSHL": "YES",
+      "metSymphony": "NULL",
+      "metAppcast": "YES"
+    }
+  ],
+  "messages": [],
+  "stdout": "firstName\tlastName\tcompany\ttotalMeetings\tmetSHL\tmetSymphony\tmetAppcast\nLisa\tBrignal\tCoca-Cola Europacific partners\t8\tNULL\tNULL\tYES\nSalina\tBudaly\tBalfour Beatty\t8\tNULL\tNULL\tYES\nRikki\tFullerton\tSerco\t8\tYES\tNULL\tNULL\nJessica Shaunie\tGreen\tCalor Gas\t8\tYES\tYES\tYES\nMark\tKunaseelan\tUniversity of the Arts London\t6\tNULL\tYES\tYES\nMichelle\tMonahan\tEuropean Tyre Enterprise Limited\t6\tYES\tNULL\tYES\n",
+  "stderr": "",
+  "execution_time_ms": 456
+}

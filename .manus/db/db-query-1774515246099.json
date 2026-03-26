@@ -1,0 +1,19 @@
+{
+  "query": "SELECT m.id, m.attendeeId, dp.firstName, dp.lastName, dp.company, m.timeSlot, s.companyName\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nJOIN delegateProfiles dp ON dp.attendeeId = m.attendeeId\nWHERE m.id = 750153;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT m.id, m.attendeeId, dp.firstName, dp.lastName, dp.company, m.timeSlot, s.companyName\nFROM meetings m\nJOIN sponsors s ON s.id = m.sponsorId\nJOIN delegateProfiles dp ON dp.attendeeId = m.attendeeId\nWHERE m.id = 750153;",
+  "rows": [
+    {
+      "id": "750153",
+      "attendeeId": "93176107633",
+      "firstName": "Mark",
+      "lastName": "Kunaseelan",
+      "company": "University of the Arts London",
+      "timeSlot": "8",
+      "companyName": "SHL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tattendeeId\tfirstName\tlastName\tcompany\ttimeSlot\tcompanyName\n750153\t93176107633\tMark\tKunaseelan\tUniversity of the Arts London\t8\tSHL\n",
+  "stderr": "",
+  "execution_time_ms": 374
+}

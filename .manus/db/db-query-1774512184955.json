@@ -1,0 +1,340 @@
+{
+  "query": "-- Free in slot 9 (Symphony Talent replacement)\nSELECT dp.attendeeId, dp.firstName, dp.lastName, dp.company\nFROM delegateProfiles dp\nWHERE dp.attendeeId NOT IN (\n  SELECT attendeeId FROM meetings WHERE timeSlot = 9 AND status IN ('confirmed','suggested')\n) AND dp.attendeeId != '9319401'\nORDER BY dp.lastName;\n\n-- Free in slot 11 (Appcast replacement)  \nSELECT dp.attendeeId, dp.firstName, dp.lastName, dp.company\nFROM delegateProfiles dp\nWHERE dp.attendeeId NOT IN (\n  SELECT attendeeId FROM meetings WHERE timeSlot = 11 AND status IN ('confirmed','suggested')\n) AND dp.attendeeId != '9319401'\nORDER BY dp.lastName;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute -- Free in slot 9 (Symphony Talent replacement)\nSELECT dp.attendeeId, dp.firstName, dp.lastName, dp.company\nFROM delegateProfiles dp\nWHERE dp.attendeeId NOT IN (\n  SELECT attendeeId FROM meetings WHERE timeSlot = 9 AND status IN ('confirmed','suggested')\n) AND dp.attendeeId != '9319401'\nORDER BY dp.lastName;\n\n-- Free in slot 11 (Appcast replacement)  \nSELECT dp.attendeeId, dp.firstName, dp.lastName, dp.company\nFROM delegateProfiles dp\nWHERE dp.attendeeId NOT IN (\n  SELECT attendeeId FROM meetings WHERE timeSlot = 11 AND status IN ('confirmed','suggested')\n) AND dp.attendeeId != '9319401'\nORDER BY dp.lastName;",
+  "rows": [
+    {
+      "attendeeId": "91889321035",
+      "firstName": "Lucy",
+      "lastName": "Bousfield",
+      "company": "Aon"
+    },
+    {
+      "attendeeId": "18336501",
+      "firstName": "Andrew",
+      "lastName": "Boyd",
+      "company": "Convatec"
+    },
+    {
+      "attendeeId": "12731251",
+      "firstName": "James",
+      "lastName": "Boyle",
+      "company": "Latham & Watkins"
+    },
+    {
+      "attendeeId": "91862577670",
+      "firstName": "Lisa",
+      "lastName": "Brignal",
+      "company": "Coca-Cola Europacific partners"
+    },
+    {
+      "attendeeId": "7258470500",
+      "firstName": "Mark",
+      "lastName": "Brooker",
+      "company": "BT Group"
+    },
+    {
+      "attendeeId": "92953690026",
+      "firstName": "Oliver",
+      "lastName": "Browne",
+      "company": "Lockton"
+    },
+    {
+      "attendeeId": "93380106578",
+      "firstName": "Peter",
+      "lastName": "Buchanan-Parker",
+      "company": "JPMorganChase"
+    },
+    {
+      "attendeeId": "91862579761",
+      "firstName": "Laura",
+      "lastName": "Callaghan",
+      "company": "Western Union"
+    },
+    {
+      "attendeeId": "194295425320",
+      "firstName": "Robyn",
+      "lastName": "Collins",
+      "company": "M42"
+    },
+    {
+      "attendeeId": "5140258",
+      "firstName": "Sarah",
+      "lastName": "Cooper",
+      "company": "Rentokil Initial"
+    },
+    {
+      "attendeeId": "93137898669",
+      "firstName": "Jennifer",
+      "lastName": "Cunningham",
+      "company": "Pearson"
+    },
+    {
+      "attendeeId": "113145184682",
+      "firstName": "Carly",
+      "lastName": "George",
+      "company": "AXA"
+    },
+    {
+      "attendeeId": "21545051",
+      "firstName": "Jen",
+      "lastName": "Hulme",
+      "company": "BPP"
+    },
+    {
+      "attendeeId": "110260566550",
+      "firstName": "Sonal",
+      "lastName": "Jain",
+      "company": "Nissan Motor Corporation"
+    },
+    {
+      "attendeeId": "195183358360",
+      "firstName": "Anna",
+      "lastName": "Katyal",
+      "company": "BMS Group"
+    },
+    {
+      "attendeeId": "183232510638",
+      "firstName": "James",
+      "lastName": "Kennedy",
+      "company": "Palo Alto Networks"
+    },
+    {
+      "attendeeId": "910801",
+      "firstName": "Caroline",
+      "lastName": "Loubert",
+      "company": "Argus Media Ltd"
+    },
+    {
+      "attendeeId": "8713772",
+      "firstName": "Alan",
+      "lastName": "MacKinnon",
+      "company": "Smith and Nephew plc"
+    },
+    {
+      "attendeeId": "8196151",
+      "firstName": "Michelle",
+      "lastName": "Monahan",
+      "company": "European Tyre Enterprise Limited"
+    },
+    {
+      "attendeeId": "185464523694",
+      "firstName": "David",
+      "lastName": "Nottage",
+      "company": "Screwfix"
+    },
+    {
+      "attendeeId": "192905181704",
+      "firstName": "Theresa",
+      "lastName": "O’Brien",
+      "company": "CBRE"
+    },
+    {
+      "attendeeId": "194698768792",
+      "firstName": "Nainik",
+      "lastName": "Patel",
+      "company": "Hitachi"
+    },
+    {
+      "attendeeId": "9477501",
+      "firstName": "Edwin",
+      "lastName": "Pene",
+      "company": "Red Bull"
+    },
+    {
+      "attendeeId": "92353346050",
+      "firstName": "Debbie",
+      "lastName": "Robinson",
+      "company": "PepsiCo"
+    },
+    {
+      "attendeeId": "16427701",
+      "firstName": "Claudia",
+      "lastName": "Sneddon Da Silva Raposo",
+      "company": "Expleo Group"
+    },
+    {
+      "attendeeId": "8952301",
+      "firstName": "Chris",
+      "lastName": "Tennant",
+      "company": "Infor"
+    },
+    {
+      "attendeeId": "191181142545",
+      "firstName": "Christopher",
+      "lastName": "Widdison",
+      "company": "Macquarie"
+    },
+    {
+      "attendeeId": "attendeeId",
+      "firstName": "firstName",
+      "lastName": "lastName",
+      "company": "company"
+    },
+    {
+      "attendeeId": "4956154",
+      "firstName": "Jules",
+      "lastName": "Anderson",
+      "company": "Gilead Science"
+    },
+    {
+      "attendeeId": "76678269091",
+      "firstName": "Adam",
+      "lastName": "Binks",
+      "company": "KPMG"
+    },
+    {
+      "attendeeId": "18336501",
+      "firstName": "Andrew",
+      "lastName": "Boyd",
+      "company": "Convatec"
+    },
+    {
+      "attendeeId": "12731251",
+      "firstName": "James",
+      "lastName": "Boyle",
+      "company": "Latham & Watkins"
+    },
+    {
+      "attendeeId": "91862577670",
+      "firstName": "Lisa",
+      "lastName": "Brignal",
+      "company": "Coca-Cola Europacific partners"
+    },
+    {
+      "attendeeId": "93380106578",
+      "firstName": "Peter",
+      "lastName": "Buchanan-Parker",
+      "company": "JPMorganChase"
+    },
+    {
+      "attendeeId": "91862579761",
+      "firstName": "Laura",
+      "lastName": "Callaghan",
+      "company": "Western Union"
+    },
+    {
+      "attendeeId": "5140258",
+      "firstName": "Sarah",
+      "lastName": "Cooper",
+      "company": "Rentokil Initial"
+    },
+    {
+      "attendeeId": "93137898669",
+      "firstName": "Jennifer",
+      "lastName": "Cunningham",
+      "company": "Pearson"
+    },
+    {
+      "attendeeId": "17812226737",
+      "firstName": "Rikki",
+      "lastName": "Fullerton",
+      "company": "Serco"
+    },
+    {
+      "attendeeId": "21545051",
+      "firstName": "Jen",
+      "lastName": "Hulme",
+      "company": "BPP"
+    },
+    {
+      "attendeeId": "183232510638",
+      "firstName": "James",
+      "lastName": "Kennedy",
+      "company": "Palo Alto Networks"
+    },
+    {
+      "attendeeId": "208415155065",
+      "firstName": "Jonathan",
+      "lastName": "Kitterhing",
+      "company": "Swiss Re Management Ltd"
+    },
+    {
+      "attendeeId": "93176107633",
+      "firstName": "Mark",
+      "lastName": "Kunaseelan",
+      "company": "University of the Arts London"
+    },
+    {
+      "attendeeId": "910801",
+      "firstName": "Caroline",
+      "lastName": "Loubert",
+      "company": "Argus Media Ltd"
+    },
+    {
+      "attendeeId": "8713772",
+      "firstName": "Alan",
+      "lastName": "MacKinnon",
+      "company": "Smith and Nephew plc"
+    },
+    {
+      "attendeeId": "191181016455",
+      "firstName": "Nikhilesh",
+      "lastName": "Mathur",
+      "company": "London Stock Exchange Group"
+    },
+    {
+      "attendeeId": "190937723960",
+      "firstName": "Natalie",
+      "lastName": "McGuinness",
+      "company": "Busy Bees Nurseries"
+    },
+    {
+      "attendeeId": "8196151",
+      "firstName": "Michelle",
+      "lastName": "Monahan",
+      "company": "European Tyre Enterprise Limited"
+    },
+    {
+      "attendeeId": "185464523694",
+      "firstName": "David",
+      "lastName": "Nottage",
+      "company": "Screwfix"
+    },
+    {
+      "attendeeId": "201697440144",
+      "firstName": "Ciaran",
+      "lastName": "O'Regan",
+      "company": "the LEGO Group"
+    },
+    {
+      "attendeeId": "192905181704",
+      "firstName": "Theresa",
+      "lastName": "O’Brien",
+      "company": "CBRE"
+    },
+    {
+      "attendeeId": "194698768792",
+      "firstName": "Nainik",
+      "lastName": "Patel",
+      "company": "Hitachi"
+    },
+    {
+      "attendeeId": "16427701",
+      "firstName": "Claudia",
+      "lastName": "Sneddon Da Silva Raposo",
+      "company": "Expleo Group"
+    },
+    {
+      "attendeeId": "1076201",
+      "firstName": "Jon",
+      "lastName": "Warwick",
+      "company": "Sky"
+    },
+    {
+      "attendeeId": "191181142545",
+      "firstName": "Christopher",
+      "lastName": "Widdison",
+      "company": "Macquarie"
+    },
+    {
+      "attendeeId": "9322701",
+      "firstName": "Tush",
+      "lastName": "Wijeratne",
+      "company": "WPP"
+    }
+  ],
+  "messages": [],
+  "stdout": "attendeeId\tfirstName\tlastName\tcompany\n91889321035\tLucy\tBousfield\tAon\n18336501\tAndrew\tBoyd\tConvatec\n12731251\tJames\tBoyle\tLatham & Watkins\n91862577670\tLisa\tBrignal\tCoca-Cola Europacific partners\n7258470500\tMark\tBrooker\tBT Group\n92953690026\tOliver\tBrowne\tLockton\n93380106578\tPeter\tBuchanan-Parker\tJPMorganChase\n91862579761\tLaura\tCallaghan\tWestern Union\n194295425320\tRobyn\tCollins\tM42\n5140258\tSarah\tCooper\tRentokil Initial\n93137898669\tJennifer\tCunningham\tPearson\n113145184682\tCarly\tGeorge\tAXA\n21545051\tJen\tHulme\tBPP\n110260566550\tSonal\tJain\tNissan Motor Corporation\n195183358360\tAnna\tKatyal\tBMS Group\n183232510638\tJames\tKennedy\tPalo Alto Networks\n910801\tCaroline\tLoubert\tArgus Media Ltd\n8713772\tAlan\tMacKinnon\tSmith and Nephew plc\n8196151\tMichelle\tMonahan\tEuropean Tyre Enterprise Limited\n185464523694\tDavid\tNottage\tScrewfix\n192905181704\tTheresa\tO’Brien\tCBRE\n194698768792\tNainik\tPatel\tHitachi\n9477501\tEdwin\tPene\tRed Bull\n92353346050\tDebbie\tRobinson\tPepsiCo\n16427701\tClaudia\tSneddon Da Silva Raposo\tExpleo Group\n8952301\tChris\tTennant\tInfor\n191181142545\tChristopher\tWiddison\tMacquarie\nattendeeId\tfirstName\tlastName\tcompany\n4956154\tJules\tAnderson\tGilead Science\n76678269091\tAdam\tBinks\tKPMG\n18336501\tAndrew\tBoyd\tConvatec\n12731251\tJames\tBoyle\tLatham & Watkins\n91862577670\tLisa\tBrignal\tCoca-Cola Europacific partners\n93380106578\tPeter\tBuchanan-Parker\tJPMorganChase\n91862579761\tLaura\tCallaghan\tWestern Union\n5140258\tSarah\tCooper\tRentokil Initial\n93137898669\tJennifer\tCunningham\tPearson\n17812226737\tRikki\tFullerton\tSerco\n21545051\tJen\tHulme\tBPP\n183232510638\tJames\tKennedy\tPalo Alto Networks\n208415155065\tJonathan\tKitterhing\tSwiss Re Management Ltd\n93176107633\tMark\tKunaseelan\tUniversity of the Arts London\n910801\tCaroline\tLoubert\tArgus Media Ltd\n8713772\tAlan\tMacKinnon\tSmith and Nephew plc\n191181016455\tNikhilesh\tMathur\tLondon Stock Exchange Group\n190937723960\tNatalie\tMcGuinness\tBusy Bees Nurseries\n8196151\tMichelle\tMonahan\tEuropean Tyre Enterprise Limited\n185464523694\tDavid\tNottage\tScrewfix\n201697440144\tCiaran\tO'Regan\tthe LEGO Group\n192905181704\tTheresa\tO’Brien\tCBRE\n194698768792\tNainik\tPatel\tHitachi\n16427701\tClaudia\tSneddon Da Silva Raposo\tExpleo Group\n1076201\tJon\tWarwick\tSky\n191181142545\tChristopher\tWiddison\tMacquarie\n9322701\tTush\tWijeratne\tWPP\n",
+  "stderr": "",
+  "execution_time_ms": 401
+}

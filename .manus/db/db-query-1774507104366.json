@@ -1,0 +1,124 @@
+{
+  "query": "SELECT DISTINCT attendeeId FROM meetings WHERE status IN ('confirmed','suggested') ORDER BY attendeeId;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT DISTINCT attendeeId FROM meetings WHERE status IN ('confirmed','suggested') ORDER BY attendeeId;",
+  "rows": [
+    {
+      "attendeeId": "1076201"
+    },
+    {
+      "attendeeId": "110260566550"
+    },
+    {
+      "attendeeId": "111228357473"
+    },
+    {
+      "attendeeId": "11132851"
+    },
+    {
+      "attendeeId": "113145184682"
+    },
+    {
+      "attendeeId": "116903349643"
+    },
+    {
+      "attendeeId": "122796319563"
+    },
+    {
+      "attendeeId": "128491656706"
+    },
+    {
+      "attendeeId": "13454401"
+    },
+    {
+      "attendeeId": "174442448959"
+    },
+    {
+      "attendeeId": "17812226737"
+    },
+    {
+      "attendeeId": "18336501"
+    },
+    {
+      "attendeeId": "190937723960"
+    },
+    {
+      "attendeeId": "191181016455"
+    },
+    {
+      "attendeeId": "194295425320"
+    },
+    {
+      "attendeeId": "195183358360"
+    },
+    {
+      "attendeeId": "200101377371"
+    },
+    {
+      "attendeeId": "200923910443"
+    },
+    {
+      "attendeeId": "201697440144"
+    },
+    {
+      "attendeeId": "203946652193"
+    },
+    {
+      "attendeeId": "208415155065"
+    },
+    {
+      "attendeeId": "452351"
+    },
+    {
+      "attendeeId": "4956154"
+    },
+    {
+      "attendeeId": "5140258"
+    },
+    {
+      "attendeeId": "7258470500"
+    },
+    {
+      "attendeeId": "76678269091"
+    },
+    {
+      "attendeeId": "8196151"
+    },
+    {
+      "attendeeId": "8713772"
+    },
+    {
+      "attendeeId": "8952301"
+    },
+    {
+      "attendeeId": "91862577670"
+    },
+    {
+      "attendeeId": "91889321035"
+    },
+    {
+      "attendeeId": "92353346050"
+    },
+    {
+      "attendeeId": "92953690026"
+    },
+    {
+      "attendeeId": "93174643474"
+    },
+    {
+      "attendeeId": "93176107633"
+    },
+    {
+      "attendeeId": "9319401"
+    },
+    {
+      "attendeeId": "9322701"
+    },
+    {
+      "attendeeId": "9477501"
+    }
+  ],
+  "messages": [],
+  "stdout": "attendeeId\n1076201\n110260566550\n111228357473\n11132851\n113145184682\n116903349643\n122796319563\n128491656706\n13454401\n174442448959\n17812226737\n18336501\n190937723960\n191181016455\n194295425320\n195183358360\n200101377371\n200923910443\n201697440144\n203946652193\n208415155065\n452351\n4956154\n5140258\n7258470500\n76678269091\n8196151\n8713772\n8952301\n91862577670\n91889321035\n92353346050\n92953690026\n93174643474\n93176107633\n9319401\n9322701\n9477501\n",
+  "stderr": "",
+  "execution_time_ms": 356
+}

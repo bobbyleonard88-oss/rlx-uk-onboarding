@@ -1,0 +1,14 @@
+{
+  "query": "SELECT isVisible, COUNT(*) as count FROM meetings GROUP BY isVisible; SELECT notes, adminNotes, COUNT(*) as count FROM meetings WHERE notes IS NOT NULL OR adminNotes IS NOT NULL GROUP BY notes, adminNotes LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT isVisible, COUNT(*) as count FROM meetings GROUP BY isVisible; SELECT notes, adminNotes, COUNT(*) as count FROM meetings WHERE notes IS NOT NULL OR adminNotes IS NOT NULL GROUP BY notes, adminNotes LIMIT 10;",
+  "rows": [
+    {
+      "isVisible": "1",
+      "count": "278"
+    }
+  ],
+  "messages": [],
+  "stdout": "isVisible\tcount\n1\t278\n",
+  "stderr": "",
+  "execution_time_ms": 405
+}

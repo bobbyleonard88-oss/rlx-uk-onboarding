@@ -1,0 +1,91 @@
+{
+  "query": "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'delegateProfiles' ORDER BY ORDINAL_POSITION;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'delegateProfiles' ORDER BY ORDINAL_POSITION;",
+  "rows": [
+    {
+      "COLUMN_NAME": "id"
+    },
+    {
+      "COLUMN_NAME": "attendeeId"
+    },
+    {
+      "COLUMN_NAME": "firstName"
+    },
+    {
+      "COLUMN_NAME": "lastName"
+    },
+    {
+      "COLUMN_NAME": "company"
+    },
+    {
+      "COLUMN_NAME": "jobTitle"
+    },
+    {
+      "COLUMN_NAME": "industry"
+    },
+    {
+      "COLUMN_NAME": "challenges"
+    },
+    {
+      "COLUMN_NAME": "interests"
+    },
+    {
+      "COLUMN_NAME": "profileData"
+    },
+    {
+      "COLUMN_NAME": "createdAt"
+    },
+    {
+      "COLUMN_NAME": "updatedAt"
+    },
+    {
+      "COLUMN_NAME": "totalOrgEmployees"
+    },
+    {
+      "COLUMN_NAME": "hiresPerYear"
+    },
+    {
+      "COLUMN_NAME": "decisionMakingLevel"
+    },
+    {
+      "COLUMN_NAME": "activeConfirmedProjects"
+    },
+    {
+      "COLUMN_NAME": "activeProjectBudget"
+    },
+    {
+      "COLUMN_NAME": "primaryMeetingObjective"
+    },
+    {
+      "COLUMN_NAME": "contractSignoff"
+    },
+    {
+      "COLUMN_NAME": "toolsAssessments"
+    },
+    {
+      "COLUMN_NAME": "toolsATS"
+    },
+    {
+      "COLUMN_NAME": "toolsCRM"
+    },
+    {
+      "COLUMN_NAME": "toolsTalentIntelligence"
+    },
+    {
+      "COLUMN_NAME": "toolsOther"
+    },
+    {
+      "COLUMN_NAME": "keySolutionAreas"
+    },
+    {
+      "COLUMN_NAME": "currentPainPoints"
+    },
+    {
+      "COLUMN_NAME": "currentProjectStage"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\nid\nattendeeId\nfirstName\nlastName\ncompany\njobTitle\nindustry\nchallenges\ninterests\nprofileData\ncreatedAt\nupdatedAt\ntotalOrgEmployees\nhiresPerYear\ndecisionMakingLevel\nactiveConfirmedProjects\nactiveProjectBudget\nprimaryMeetingObjective\ncontractSignoff\ntoolsAssessments\ntoolsATS\ntoolsCRM\ntoolsTalentIntelligence\ntoolsOther\nkeySolutionAreas\ncurrentPainPoints\ncurrentProjectStage\n",
+  "stderr": "",
+  "execution_time_ms": 347
+}

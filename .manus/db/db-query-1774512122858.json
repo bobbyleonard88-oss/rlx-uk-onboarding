@@ -1,0 +1,9 @@
+{
+  "query": "SELECT m.id, s.companyName, m.timeSlot, m.status FROM meetings m JOIN sponsors s ON s.id = m.sponsorId WHERE m.attendeeId = '30003' AND m.status IN ('confirmed','suggested') ORDER BY m.timeSlot;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT m.id, s.companyName, m.timeSlot, m.status FROM meetings m JOIN sponsors s ON s.id = m.sponsorId WHERE m.attendeeId = '30003' AND m.status IN ('confirmed','suggested') ORDER BY m.timeSlot;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 351
+}

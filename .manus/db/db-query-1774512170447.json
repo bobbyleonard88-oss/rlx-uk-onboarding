@@ -1,0 +1,28 @@
+{
+  "query": "SELECT m.id, s.companyName, m.timeSlot, m.status FROM meetings m JOIN sponsors s ON s.id = m.sponsorId WHERE m.attendeeId = '9319401' AND m.timeSlot >= 7 AND m.status IN ('confirmed','suggested') AND s.companyName NOT LIKE '%Poetry%' ORDER BY m.timeSlot;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT m.id, s.companyName, m.timeSlot, m.status FROM meetings m JOIN sponsors s ON s.id = m.sponsorId WHERE m.attendeeId = '9319401' AND m.timeSlot >= 7 AND m.status IN ('confirmed','suggested') AND s.companyName NOT LIKE '%Poetry%' ORDER BY m.timeSlot;",
+  "rows": [
+    {
+      "id": "750153",
+      "companyName": "SHL",
+      "timeSlot": "8",
+      "status": "confirmed"
+    },
+    {
+      "id": "750093",
+      "companyName": "Symphony Talent ",
+      "timeSlot": "9",
+      "status": "confirmed"
+    },
+    {
+      "id": "690017",
+      "companyName": "Appcast",
+      "timeSlot": "11",
+      "status": "suggested"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tcompanyName\ttimeSlot\tstatus\n750153\tSHL\t8\tconfirmed\n750093\tSymphony Talent \t9\tconfirmed\n690017\tAppcast\t11\tsuggested\n",
+  "stderr": "",
+  "execution_time_ms": 348
+}

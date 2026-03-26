@@ -1,0 +1,206 @@
+{
+  "query": "-- Find delegates NOT already booked in slot 8 (for SHL replacement)\nSELECT dp.attendeeId, dp.firstName, dp.lastName, dp.company, dp.jobTitle\nFROM delegateProfiles dp\nWHERE dp.attendeeId NOT IN (\n  SELECT attendeeId FROM meetings WHERE timeSlot = 8 AND status IN ('confirmed','suggested')\n)\nAND dp.attendeeId != '9319401'\nORDER BY dp.lastName;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute -- Find delegates NOT already booked in slot 8 (for SHL replacement)\nSELECT dp.attendeeId, dp.firstName, dp.lastName, dp.company, dp.jobTitle\nFROM delegateProfiles dp\nWHERE dp.attendeeId NOT IN (\n  SELECT attendeeId FROM meetings WHERE timeSlot = 8 AND status IN ('confirmed','suggested')\n)\nAND dp.attendeeId != '9319401'\nORDER BY dp.lastName;\n",
+  "rows": [
+    {
+      "attendeeId": "12731251",
+      "firstName": "James",
+      "lastName": "Boyle",
+      "company": "Latham & Watkins",
+      "jobTitle": "Director of Global Associate Recruiting"
+    },
+    {
+      "attendeeId": "93380106578",
+      "firstName": "Peter",
+      "lastName": "Buchanan-Parker",
+      "company": "JPMorganChase",
+      "jobTitle": "Executive Director, Talent Acquisition"
+    },
+    {
+      "attendeeId": "93174643474",
+      "firstName": "Salina",
+      "lastName": "Budaly",
+      "company": "Balfour Beatty",
+      "jobTitle": "Global TA Leader"
+    },
+    {
+      "attendeeId": "91862579761",
+      "firstName": "Laura",
+      "lastName": "Callaghan",
+      "company": "Western Union",
+      "jobTitle": "Global Talent Acquisition Leader"
+    },
+    {
+      "attendeeId": "194295425320",
+      "firstName": "Robyn",
+      "lastName": "Collins",
+      "company": "M42",
+      "jobTitle": "VP TA"
+    },
+    {
+      "attendeeId": "93137898669",
+      "firstName": "Jennifer",
+      "lastName": "Cunningham",
+      "company": "Pearson",
+      "jobTitle": "Vice president global recruiting"
+    },
+    {
+      "attendeeId": "200101377371",
+      "firstName": "Jessica Shaunie",
+      "lastName": "Green",
+      "company": "Calor Gas",
+      "jobTitle": "Head of talent acquisition"
+    },
+    {
+      "attendeeId": "21545051",
+      "firstName": "Jen",
+      "lastName": "Hulme",
+      "company": "BPP",
+      "jobTitle": "Head of Talent Acquisition"
+    },
+    {
+      "attendeeId": "111228357473",
+      "firstName": "Hollie",
+      "lastName": "Jordan",
+      "company": "Ramboll",
+      "jobTitle": "Head of Global Talent Acquisition"
+    },
+    {
+      "attendeeId": "195183358360",
+      "firstName": "Anna",
+      "lastName": "Katyal",
+      "company": "BMS Group",
+      "jobTitle": "Head of Talent Acquisition"
+    },
+    {
+      "attendeeId": "183232510638",
+      "firstName": "James",
+      "lastName": "Kennedy",
+      "company": "Palo Alto Networks",
+      "jobTitle": "Talent Acquisition Director, EMEA"
+    },
+    {
+      "attendeeId": "208415155065",
+      "firstName": "Jonathan",
+      "lastName": "Kitterhing",
+      "company": "Swiss Re Management Ltd",
+      "jobTitle": "Global head of Talent Acquisition"
+    },
+    {
+      "attendeeId": "93176107633",
+      "firstName": "Mark",
+      "lastName": "Kunaseelan",
+      "company": "University of the Arts London",
+      "jobTitle": "HR/TA Leader"
+    },
+    {
+      "attendeeId": "910801",
+      "firstName": "Caroline",
+      "lastName": "Loubert",
+      "company": "Argus Media Ltd",
+      "jobTitle": "Global Head of TA"
+    },
+    {
+      "attendeeId": "191181016455",
+      "firstName": "Nikhilesh",
+      "lastName": "Mathur",
+      "company": "London Stock Exchange Group",
+      "jobTitle": "nikhilesh.mathurlseg.com"
+    },
+    {
+      "attendeeId": "11132851",
+      "firstName": "Martin",
+      "lastName": "McDermott",
+      "company": "IQ-EQ",
+      "jobTitle": "Global Director of Talent Acquisition"
+    },
+    {
+      "attendeeId": "8196151",
+      "firstName": "Michelle",
+      "lastName": "Monahan",
+      "company": "European Tyre Enterprise Limited",
+      "jobTitle": "Head of Recruitment"
+    },
+    {
+      "attendeeId": "200923910443",
+      "firstName": "Nuria",
+      "lastName": "Munoz",
+      "company": "Munich Re",
+      "jobTitle": "Head of Talent Acquisition Europe and Latin America"
+    },
+    {
+      "attendeeId": "185464523694",
+      "firstName": "David",
+      "lastName": "Nottage",
+      "company": "Screwfix",
+      "jobTitle": "Head of TA"
+    },
+    {
+      "attendeeId": "201697440144",
+      "firstName": "Ciaran",
+      "lastName": "O'Regan",
+      "company": "the LEGO Group",
+      "jobTitle": "Director, Talent Acquisition"
+    },
+    {
+      "attendeeId": "192905181704",
+      "firstName": "Theresa",
+      "lastName": "O’Brien",
+      "company": "CBRE",
+      "jobTitle": "Global Head of TA"
+    },
+    {
+      "attendeeId": "194698768792",
+      "firstName": "Nainik",
+      "lastName": "Patel",
+      "company": "Hitachi",
+      "jobTitle": "Delivery Lead, Head of Global Talent Acquisition"
+    },
+    {
+      "attendeeId": "203946652193",
+      "firstName": "Joanna",
+      "lastName": "Saunders-Hare",
+      "company": "MUFG, Mitsubishi UFJ Financial Group.",
+      "jobTitle": "Executive Director, Talent Acquisition"
+    },
+    {
+      "attendeeId": "16427701",
+      "firstName": "Claudia",
+      "lastName": "Sneddon Da Silva Raposo",
+      "company": "Expleo Group",
+      "jobTitle": "Global HRIS DIrector and HRD UK NAM"
+    },
+    {
+      "attendeeId": "8952301",
+      "firstName": "Chris",
+      "lastName": "Tennant",
+      "company": "Infor",
+      "jobTitle": "VP Talent Acquisition"
+    },
+    {
+      "attendeeId": "1076201",
+      "firstName": "Jon",
+      "lastName": "Warwick",
+      "company": "Sky",
+      "jobTitle": "Group Director TA"
+    },
+    {
+      "attendeeId": "191181142545",
+      "firstName": "Christopher",
+      "lastName": "Widdison",
+      "company": "Macquarie",
+      "jobTitle": "EMEA Head of Talent Acquisition"
+    },
+    {
+      "attendeeId": "128491656706",
+      "firstName": "Yuliia",
+      "lastName": "Zembal",
+      "company": "UKRSIBBANK BNP PARIBAS GROUP",
+      "jobTitle": "Head of Talent Acquisition"
+    }
+  ],
+  "messages": [],
+  "stdout": "attendeeId\tfirstName\tlastName\tcompany\tjobTitle\n12731251\tJames\tBoyle\tLatham & Watkins\tDirector of Global Associate Recruiting\n93380106578\tPeter\tBuchanan-Parker\tJPMorganChase\tExecutive Director, Talent Acquisition\n93174643474\tSalina\tBudaly\tBalfour Beatty\tGlobal TA Leader\n91862579761\tLaura\tCallaghan\tWestern Union\tGlobal Talent Acquisition Leader\n194295425320\tRobyn\tCollins\tM42\tVP TA\n93137898669\tJennifer\tCunningham\tPearson\tVice president global recruiting\n200101377371\tJessica Shaunie\tGreen\tCalor Gas\tHead of talent acquisition\n21545051\tJen\tHulme\tBPP\tHead of Talent Acquisition\n111228357473\tHollie\tJordan\tRamboll\tHead of Global Talent Acquisition\n195183358360\tAnna\tKatyal\tBMS Group\tHead of Talent Acquisition\n183232510638\tJames\tKennedy\tPalo Alto Networks\tTalent Acquisition Director, EMEA\n208415155065\tJonathan\tKitterhing\tSwiss Re Management Ltd\tGlobal head of Talent Acquisition\n93176107633\tMark\tKunaseelan\tUniversity of the Arts London\tHR/TA Leader\n910801\tCaroline\tLoubert\tArgus Media Ltd\tGlobal Head of TA\n191181016455\tNikhilesh\tMathur\tLondon Stock Exchange Group\tnikhilesh.mathurlseg.com\n11132851\tMartin\tMcDermott\tIQ-EQ\tGlobal Director of Talent Acquisition\n8196151\tMichelle\tMonahan\tEuropean Tyre Enterprise Limited\tHead of Recruitment\n200923910443\tNuria\tMunoz\tMunich Re\tHead of Talent Acquisition Europe and Latin America\n185464523694\tDavid\tNottage\tScrewfix\tHead of TA\n201697440144\tCiaran\tO'Regan\tthe LEGO Group\tDirector, Talent Acquisition\n192905181704\tTheresa\tO’Brien\tCBRE\tGlobal Head of TA\n194698768792\tNainik\tPatel\tHitachi\tDelivery Lead, Head of Global Talent Acquisition\n203946652193\tJoanna\tSaunders-Hare\tMUFG, Mitsubishi UFJ Financial Group.\tExecutive Director, Talent Acquisition\n16427701\tClaudia\tSneddon Da Silva Raposo\tExpleo Group\tGlobal HRIS DIrector and HRD UK NAM\n8952301\tChris\tTennant\tInfor\tVP Talent Acquisition\n1076201\tJon\tWarwick\tSky\tGroup Director TA\n191181142545\tChristopher\tWiddison\tMacquarie\tEMEA Head of Talent Acquisition\n128491656706\tYuliia\tZembal\tUKRSIBBANK BNP PARIBAS GROUP\tHead of Talent Acquisition\n",
+  "stderr": "",
+  "execution_time_ms": 349
+}

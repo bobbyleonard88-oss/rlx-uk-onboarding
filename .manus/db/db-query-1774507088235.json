@@ -1,0 +1,160 @@
+{
+  "query": "SELECT id FROM delegateProfiles ORDER BY id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT id FROM delegateProfiles ORDER BY id;",
+  "rows": [
+    {
+      "id": "1"
+    },
+    {
+      "id": "2"
+    },
+    {
+      "id": "3"
+    },
+    {
+      "id": "4"
+    },
+    {
+      "id": "5"
+    },
+    {
+      "id": "6"
+    },
+    {
+      "id": "7"
+    },
+    {
+      "id": "8"
+    },
+    {
+      "id": "9"
+    },
+    {
+      "id": "10"
+    },
+    {
+      "id": "11"
+    },
+    {
+      "id": "12"
+    },
+    {
+      "id": "13"
+    },
+    {
+      "id": "14"
+    },
+    {
+      "id": "15"
+    },
+    {
+      "id": "16"
+    },
+    {
+      "id": "17"
+    },
+    {
+      "id": "18"
+    },
+    {
+      "id": "19"
+    },
+    {
+      "id": "20"
+    },
+    {
+      "id": "21"
+    },
+    {
+      "id": "22"
+    },
+    {
+      "id": "23"
+    },
+    {
+      "id": "24"
+    },
+    {
+      "id": "25"
+    },
+    {
+      "id": "26"
+    },
+    {
+      "id": "27"
+    },
+    {
+      "id": "28"
+    },
+    {
+      "id": "29"
+    },
+    {
+      "id": "30"
+    },
+    {
+      "id": "31"
+    },
+    {
+      "id": "32"
+    },
+    {
+      "id": "33"
+    },
+    {
+      "id": "34"
+    },
+    {
+      "id": "35"
+    },
+    {
+      "id": "36"
+    },
+    {
+      "id": "37"
+    },
+    {
+      "id": "38"
+    },
+    {
+      "id": "39"
+    },
+    {
+      "id": "40"
+    },
+    {
+      "id": "41"
+    },
+    {
+      "id": "42"
+    },
+    {
+      "id": "43"
+    },
+    {
+      "id": "44"
+    },
+    {
+      "id": "45"
+    },
+    {
+      "id": "46"
+    },
+    {
+      "id": "47"
+    },
+    {
+      "id": "30001"
+    },
+    {
+      "id": "30002"
+    },
+    {
+      "id": "30003"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n32\n33\n34\n35\n36\n37\n38\n39\n40\n41\n42\n43\n44\n45\n46\n47\n30001\n30002\n30003\n",
+  "stderr": "",
+  "execution_time_ms": 346
+}

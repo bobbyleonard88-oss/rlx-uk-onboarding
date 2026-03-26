@@ -1,0 +1,17 @@
+{
+  "query": "SELECT id, firstName, lastName, company, jobTitle FROM delegateProfiles WHERE firstName LIKE '%Sharon%' OR firstName LIKE '%Sharron%' OR lastName LIKE '%Marsh%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT id, firstName, lastName, company, jobTitle FROM delegateProfiles WHERE firstName LIKE '%Sharon%' OR firstName LIKE '%Sharron%' OR lastName LIKE '%Marsh%';",
+  "rows": [
+    {
+      "id": "30003",
+      "firstName": "Sharron",
+      "lastName": "Marsh",
+      "company": "The Doyle Collection",
+      "jobTitle": "HR/TA Leader"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tfirstName\tlastName\tcompany\tjobTitle\n30003\tSharron\tMarsh\tThe Doyle Collection\tHR/TA Leader\n",
+  "stderr": "",
+  "execution_time_ms": 353
+}

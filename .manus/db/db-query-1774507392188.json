@@ -1,0 +1,30 @@
+{
+  "query": "SELECT mc.attendeeId, mc.matchScore, LEFT(mc.matchReason, 200) as reason FROM matchCache mc WHERE mc.attendeeId IN ('192905181704','194698768792','185464523694','93137898669','190898269597','16427701','12731251','910801','192303904943','93380106578') ORDER BY mc.attendeeId LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT mc.attendeeId, mc.matchScore, LEFT(mc.matchReason, 200) as reason FROM matchCache mc WHERE mc.attendeeId IN ('192905181704','194698768792','185464523694','93137898669','190898269597','16427701','12731251','910801','192303904943','93380106578') ORDER BY mc.attendeeId LIMIT 20;",
+  "rows": [
+    {
+      "attendeeId": "12731251",
+      "matchScore": "85",
+      "reason": "This delegate is building a best-in-class recruiting function with global cohesion and is exploring employer branding, which Appcast directly supports through its job advertising solutions. The conver"
+    },
+    {
+      "attendeeId": "16427701",
+      "matchScore": "0",
+      "reason": "This delegate has no stated pain points or solution areas that align with Appcast's offerings. The delegate wants to connect with like-minded people and review their global ATS."
+    },
+    {
+      "attendeeId": "190898269597",
+      "matchScore": "10",
+      "reason": "This delegate is interested in 'TA Skill based hiring, EU Pay Directive and AI in TA' and exploring 'Ai, Automation, org redesign to reduce HC'. Appcast's offerings do not directly address skill-based"
+    },
+    {
+      "attendeeId": "194698768792",
+      "matchScore": "35",
+      "reason": "This delegate is building a value case to introduce AI/Technology to attract and retain talent, which broadly aligns with Appcast's offering. The delegate seeks to understand how technology can improv"
+    }
+  ],
+  "messages": [],
+  "stdout": "attendeeId\tmatchScore\treason\n12731251\t85\tThis delegate is building a best-in-class recruiting function with global cohesion and is exploring employer branding, which Appcast directly supports through its job advertising solutions. The conver\n16427701\t0\tThis delegate has no stated pain points or solution areas that align with Appcast's offerings. The delegate wants to connect with like-minded people and review their global ATS.\n190898269597\t10\tThis delegate is interested in 'TA Skill based hiring, EU Pay Directive and AI in TA' and exploring 'Ai, Automation, org redesign to reduce HC'. Appcast's offerings do not directly address skill-based\n194698768792\t35\tThis delegate is building a value case to introduce AI/Technology to attract and retain talent, which broadly aligns with Appcast's offering. The delegate seeks to understand how technology can improv\n",
+  "stderr": "",
+  "execution_time_ms": 350
+}
