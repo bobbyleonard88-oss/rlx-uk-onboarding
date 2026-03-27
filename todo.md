@@ -1686,3 +1686,17 @@
 ## Feedback UX + Jobsync Ratings — March 25 2026
 - [x] Set all Jobsync unrated meetings to 4 stars (only meetings with notes)
 - [x] Lock notes textarea until star rating is selected on Feedback page
+
+## AI Reporting Tool — March 27 2026
+- [ ] Add generateReport adminProcedure in routers.ts: accepts a free-text prompt, builds context from all rated meetings/notes/rankings, calls invokeLLM, returns markdown report
+- [ ] Create AdminReporting.tsx page with prompt input, submit button, markdown output, copy/download buttons
+- [ ] Register /admin/reporting route in App.tsx
+- [ ] Add "AI Reports" nav item to AdminHeader
+- [ ] Write vitest test for generateReport procedure
+
+## Per-Sponsor Report Generator — March 27 2026
+- [x] Add getSponsorReport adminProcedure: returns all meetings for a sponsor with delegate name, company, match %, opt-in status, sponsor rating, AI match reason; errors if any meetings are unrated
+- [x] Create AdminReporting.tsx page: sponsor dropdown, "Generate Report" button, table view of all meetings, blocked with warning if unrated meetings exist
+- [x] Register /admin/reporting route in App.tsx
+- [x] Add "Reports" nav item to AdminHeader
+- [x] Write vitest test for getSponsorReport procedure

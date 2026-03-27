@@ -30,6 +30,7 @@ import AdminFeedbackNotes from "./pages/AdminFeedbackNotes";
 import AdminRescheduled from "./pages/AdminRescheduled";
 import AdminTablePlan from "./pages/AdminTablePlan";
 import ActivityLog from "./pages/ActivityLog";
+import AdminReporting from "./pages/AdminReporting";
 import EventAgenda from "./pages/EventAgenda";
 import EventDetails from "./pages/EventDetails";
 import Feedback from "./pages/Feedback";
@@ -103,6 +104,7 @@ function Router() {
             <Route path="/admin/table-plan" component={AdminTablePlan} />
             <Route path="/admin/delegate-overview" component={DelegateOverview} />
             <Route path="/admin/activity-log" component={ActivityLog} />
+            <Route path="/admin/reporting" component={AdminReporting} />
             <Route component={NotFound} />
           </Switch>
         </div>

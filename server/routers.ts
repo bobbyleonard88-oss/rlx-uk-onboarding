@@ -2415,6 +2415,104 @@ export const appRouter = router({
           })
           .sort((a: any, b: any) => a.sponsorName.localeCompare(b.sponsorName));
       }),
+
+    // Per-sponsor meeting report — all meetings with delegate info, match %, opt-in, rating, AI reason
+    // Blocked (throws) if any visible meetings for this sponsor are unrated
+    getSponsorReport: adminProcedure
+      .input(z.object({ sponsorId: z.number() }))
+      .query(async ({ input }) => {
+        const allSponsorsRaw = await db.getAllSponsors();
+        const sponsor = (allSponsorsRaw as any[]).find((s: any) => s.id === input.sponsorId);
+
+        const allMeetings = await db.getMeetingsBySponsor(input.sponsorId);
+        // Only visible, non-declined meetings
+        const visibleMeetings = (allMeetings as any[]).filter(
+          (m: any) => m.isVisible === 1 && m.status !== 'declined'
+        );
+
+        // Block if any meetings are unrated
+        const unratedCount = visibleMeetings.filter((m: any) => !m.meetingRating).length;
+        if (unratedCount > 0) {
+          throw new TRPCError({
+            code: 'PRECONDITION_FAILED',
+            message: `${unratedCount} meeting${unratedCount === 1 ? ' is' : 's are'} not yet rated. All meetings must be rated before generating this report.`,
+          });
+        }
+
+        // Get sponsor rankings to determine rank position for each delegate
+        const rankingsSubmissions = await db.getRankingsSubmissionsBySponsor(input.sponsorId);
+        let rankedAttendeeIds: string[] = [];
+        if (rankingsSubmissions.length > 0 && rankingsSubmissions[0].rankingsData) {
+          try {
+            rankedAttendeeIds = JSON.parse(rankingsSubmissions[0].rankingsData);
+          } catch {}
+        }
+
+        const sponsorNameLower = (sponsor.companyName ?? '').toLowerCase();
+
+        const meetings = visibleMeetings.map((m: any) => {
+          const delegate = attendees.find((a: any) => a.id === m.attendeeId);
+          const rankIndex = rankedAttendeeIds.indexOf(m.attendeeId);
+          const rankPosition = rankIndex >= 0 ? rankIndex + 1 : null;
+          const optedIn = delegate
+            ? ((delegate as any).optInSponsors ?? []).some((s: string) =>
+                s.toLowerCase().includes(sponsorNameLower) ||
+                sponsorNameLower.includes(s.toLowerCase())
+              )
+            : false;
+
+          return {
+            meetingId: m.id,
+            timeSlot: m.timeSlot,
+            delegateName: delegate ? `${(delegate as any).firstName} ${(delegate as any).lastName}` : m.attendeeId,
+            delegateCompany: (delegate as any)?.company ?? '',
+            delegateJobTitle: (delegate as any)?.jobTitle ?? '',
+            matchScore: m.matchScore ?? null,
+            matchReason: m.matchReason ?? null,
+            optedIn,
+            rankPosition,
+            meetingRating: m.meetingRating,
+          };
+        }).sort((a: any, b: any) => (a.timeSlot ?? 99) - (b.timeSlot ?? 99));
+
+        const totalMeetings = meetings.length;
+        const avgRating = totalMeetings > 0
+          ? meetings.reduce((sum: number, m: any) => sum + (m.meetingRating ?? 0), 0) / totalMeetings
+          : 0;
+
+        return {
+          sponsorId: sponsor.id,
+          sponsorName: sponsor.companyName,
+          totalMeetings,
+          avgRating: Math.round(avgRating * 100) / 100,
+          meetings,
+        };
+      }),
+
+    // List all sponsors with meeting/rating counts for the report selector
+    getReportableSponsorStatus: adminProcedure
+      .query(async () => {
+        const TEST_SPONSOR_IDS = new Set([30001, 60001, 90001, 120001]);
+        const ALWAYS_EXCLUDED_SPONSOR_IDS = new Set([270001, 510003]);
+        const allSponsorsRaw = await db.getAllSponsors();
+        const allMeetingsRaw = await db.getAllMeetings();
+
+        return (allSponsorsRaw as any[])
+          .map((s: any) => {
+            const meetings = (allMeetingsRaw as any[]).filter(
+              (m: any) => m.sponsorId === s.id && m.isVisible === 1 && m.status !== 'declined'
+            );
+            const rated = meetings.filter((m: any) => m.meetingRating != null && m.meetingRating > 0).length;
+            return {
+              id: s.id,
+              name: s.companyName,
+              totalMeetings: meetings.length,
+              ratedMeetings: rated,
+              allRated: meetings.length > 0 && rated === meetings.length,
+            };
+          })
+          .sort((a: any, b: any) => a.name.localeCompare(b.name));
+      }),
   }),
 });
 export type AppRouter = typeof appRouter;
