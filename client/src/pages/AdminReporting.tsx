@@ -64,7 +64,7 @@ const TIER_LABELS: Record<Tier, string> = {
 };
 
 function downloadCSV(sponsorName: string, meetings: any[]) {
-  const headers = ["Time Slot", "Delegate", "Company", "Job Title", "Rank", "Match %", "Opted In", "Rating", "Opportunity", "AI Match Reason"];
+  const headers = ["Time Slot", "Delegate", "Company", "Job Title", "Rank", "Match %", "Opted In", "Rating", "Opportunity"];
   const rows = meetings.map((m) => [
     SLOT_TIMES[m.timeSlot] ?? `Slot ${m.timeSlot}`,
     m.delegateName,
@@ -75,7 +75,6 @@ function downloadCSV(sponsorName: string, meetings: any[]) {
     m.optedIn ? "Yes" : "No",
     m.meetingRating != null ? `${m.meetingRating}/5` : "—",
     TIER_LABELS[m.opportunityTier as Tier] ?? "—",
-    (m.matchReason ?? "").replace(/"/g, '""'),
   ]);
   const csv = [headers, ...rows]
     .map((row) => row.map((cell) => `"${cell}"`).join(","))
@@ -317,7 +316,7 @@ export default function AdminReporting() {
                     <th className="text-left text-slate-400 font-medium px-4 py-3 text-xs uppercase tracking-wider whitespace-nowrap">Opted In</th>
                     <th className="text-left text-slate-400 font-medium px-4 py-3 text-xs uppercase tracking-wider whitespace-nowrap">Rating</th>
                     <th className="text-left text-slate-400 font-medium px-4 py-3 text-xs uppercase tracking-wider whitespace-nowrap">Opportunity</th>
-                    <th className="text-left text-slate-400 font-medium px-4 py-3 text-xs uppercase tracking-wider">AI Match Reason</th>
+
                   </tr>
                 </thead>
                 <tbody>
@@ -364,9 +363,7 @@ export default function AdminReporting() {
                       <td className="px-4 py-3 whitespace-nowrap">
                         <TierBadge tier={m.opportunityTier as Tier} />
                       </td>
-                      <td className="px-4 py-3 text-slate-300 text-xs max-w-sm">
-                        {m.matchReason ?? <span className="text-slate-500">—</span>}
-                      </td>
+
                     </tr>
                   ))}
                 </tbody>
