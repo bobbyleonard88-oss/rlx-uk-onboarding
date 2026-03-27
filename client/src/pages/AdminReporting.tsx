@@ -4,7 +4,8 @@ import AdminHeader from "@/components/AdminHeader";
 import { Button } from "@/components/ui/button";
 import { CheckCircle2, AlertCircle, FileText, Download, Camera } from "lucide-react";
 import { toast } from "sonner";
-import html2canvas from "html2canvas";
+// @ts-ignore
+import domtoimage from "dom-to-image-more";
 
 const SLOT_TIMES: Record<number, string> = {
   1: "Wed 10:15", 2: "Wed 10:45", 3: "Wed 13:30", 4: "Wed 14:00",
@@ -127,20 +128,24 @@ export default function AdminReporting() {
     if (!reportPanelRef.current) return;
     setIsCapturing(true);
     try {
-      const canvas = await html2canvas(reportPanelRef.current, {
-        backgroundColor: "#1e1b2e",
-        scale: 2,
-        useCORS: true,
-        logging: false,
+      const node = reportPanelRef.current;
+      const dataUrl = await domtoimage.toPng(node, {
+        bgcolor: "#1e293b",
+        width: node.scrollWidth,
+        height: node.scrollHeight,
+        style: {
+          transform: "scale(1)",
+          transformOrigin: "top left",
+        },
       });
-      const url = canvas.toDataURL("image/png");
       const a = document.createElement("a");
-      a.href = url;
+      a.href = dataUrl;
       a.download = `RLX-2026-${report?.sponsorName?.replace(/\s+/g, "-") ?? "Report"}-Screenshot.png`;
       a.click();
       toast.success("Screenshot saved");
-    } catch {
-      toast.error("Screenshot failed");
+    } catch (err) {
+      console.error("Screenshot error:", err);
+      toast.error("Screenshot failed — please try again");
     } finally {
       setIsCapturing(false);
     }
