@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import { trpc } from "@/lib/trpc";
 import AdminHeader from "@/components/AdminHeader";
 import { Button } from "@/components/ui/button";
-import { Star, CheckCircle2, AlertCircle, FileText, Download } from "lucide-react";
+import { CheckCircle2, AlertCircle, FileText, Download, Camera } from "lucide-react";
 import { toast } from "sonner";
+import html2canvas from "html2canvas";
 
 const SLOT_TIMES: Record<number, string> = {
   1: "Wed 10:15", 2: "Wed 10:45", 3: "Wed 13:30", 4: "Wed 14:00",
@@ -90,7 +91,8 @@ function downloadCSV(sponsorName: string, meetings: any[]) {
 
 export default function AdminReporting() {
   const [selectedSponsorId, setSelectedSponsorId] = useState<number | null>(null);
-  const [reportRequested, setReportRequested] = useState(false);
+  const [isCapturing, setIsCapturing] = useState(false);
+  const reportPanelRef = useRef<HTMLDivElement>(null);
 
   const { data: sponsorStatuses, isLoading: loadingStatuses } = trpc.admin.getReportableSponsorStatus.useQuery();
 
@@ -106,16 +108,42 @@ export default function AdminReporting() {
 
   const selectedStatus = sponsorStatuses?.find((s) => s.id === selectedSponsorId);
 
-  const handleGenerate = async () => {
-    if (!selectedSponsorId) return;
-    setReportRequested(true);
-    await fetchReport();
-  };
+  // Auto-generate when a fully-rated sponsor is selected
+  const handleSponsorClick = useCallback(async (sponsorId: number, allRated: boolean) => {
+    setSelectedSponsorId(sponsorId);
+    if (allRated) {
+      // Small delay to let the query input update before refetching
+      setTimeout(() => fetchReport(), 50);
+    }
+  }, [fetchReport]);
 
   const handleDownload = () => {
     if (!report) return;
     downloadCSV(report.sponsorName, report.meetings);
     toast.success("CSV downloaded");
+  };
+
+  const handleScreenshot = async () => {
+    if (!reportPanelRef.current) return;
+    setIsCapturing(true);
+    try {
+      const canvas = await html2canvas(reportPanelRef.current, {
+        backgroundColor: "#1e1b2e",
+        scale: 2,
+        useCORS: true,
+        logging: false,
+      });
+      const url = canvas.toDataURL("image/png");
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `RLX-2026-${report?.sponsorName?.replace(/\s+/g, "-") ?? "Report"}-Screenshot.png`;
+      a.click();
+      toast.success("Screenshot saved");
+    } catch {
+      toast.error("Screenshot failed");
+    } finally {
+      setIsCapturing(false);
+    }
   };
 
   const tierCounts = report
@@ -125,6 +153,8 @@ export default function AdminReporting() {
         red: report.meetings.filter((m: any) => m.opportunityTier === "red").length,
       }
     : null;
+
+  const showReport = report && !loadingReport;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900/20 to-slate-900">
@@ -138,7 +168,7 @@ export default function AdminReporting() {
           </div>
           <div>
             <h1 className="text-2xl font-bold text-white font-heading">Sponsor Reports</h1>
-            <p className="text-slate-400 text-sm">Generate a full meeting report for any sponsor. All meetings must be rated first.</p>
+            <p className="text-slate-400 text-sm">Click a sponsor to generate their report. All meetings must be rated first.</p>
           </div>
         </div>
 
@@ -159,14 +189,13 @@ export default function AdminReporting() {
                     return (
                       <button
                         key={s.id}
-                        onClick={() => {
-                          setSelectedSponsorId(s.id);
-                          setReportRequested(false);
-                        }}
+                        onClick={() => handleSponsorClick(s.id, ready)}
                         className={`w-full text-left px-3 py-2.5 rounded-xl border transition-all ${
                           isSelected
                             ? "bg-violet-500/20 border-violet-500/50 text-white"
-                            : "bg-slate-800/40 border-slate-700/40 text-slate-300 hover:bg-slate-700/40 hover:text-white"
+                            : ready
+                              ? "bg-slate-800/40 border-slate-700/40 text-slate-300 hover:bg-slate-700/40 hover:text-white cursor-pointer"
+                              : "bg-slate-800/20 border-slate-700/20 text-slate-500 cursor-default"
                         }`}
                       >
                         <div className="flex items-center justify-between gap-2">
@@ -174,11 +203,12 @@ export default function AdminReporting() {
                           {ready ? (
                             <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
                           ) : (
-                            <AlertCircle className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                            <AlertCircle className="w-3.5 h-3.5 text-amber-400/50 shrink-0" />
                           )}
                         </div>
                         <div className="text-xs mt-0.5 text-slate-500">
                           {s.ratedMeetings}/{s.totalMeetings} rated
+                          {ready && <span className="text-emerald-500/70 ml-1">· ready</span>}
                         </div>
                       </button>
                     );
@@ -188,9 +218,9 @@ export default function AdminReporting() {
             </div>
           </div>
 
-          {/* Right column: full report panel */}
+          {/* Right column: report panel */}
           <div className="flex-1 min-w-0">
-            <div className="bg-slate-800/50 border border-slate-700/50 rounded-2xl overflow-hidden">
+            <div ref={reportPanelRef} className="bg-slate-800/50 border border-slate-700/50 rounded-2xl overflow-hidden">
 
               {/* No sponsor selected */}
               {!selectedSponsorId && (
@@ -213,38 +243,39 @@ export default function AdminReporting() {
                       </p>
                     </div>
                     <div className="flex items-center gap-2 shrink-0">
-                      {report && reportRequested && (
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={handleDownload}
-                          className="border-slate-600 text-slate-300 hover:text-white bg-slate-800 h-9 gap-1.5"
-                        >
-                          <Download className="w-3.5 h-3.5" />
-                          CSV
-                        </Button>
+                      {showReport && (
+                        <>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={handleScreenshot}
+                            disabled={isCapturing}
+                            className="border-slate-600 text-slate-300 hover:text-white bg-slate-800 h-9 gap-1.5"
+                          >
+                            <Camera className="w-3.5 h-3.5" />
+                            {isCapturing ? "Capturing…" : "Screenshot"}
+                          </Button>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={handleDownload}
+                            className="border-slate-600 text-slate-300 hover:text-white bg-slate-800 h-9 gap-1.5"
+                          >
+                            <Download className="w-3.5 h-3.5" />
+                            CSV
+                          </Button>
+                        </>
                       )}
-                      <Button
-                        onClick={handleGenerate}
-                        disabled={loadingReport || !selectedStatus?.allRated}
-                        className="bg-violet-600 hover:bg-violet-500 text-white h-9 px-4 gap-1.5 disabled:opacity-50"
-                      >
-                        {loadingReport ? (
-                          <>
-                            <span className="animate-spin w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full" />
-                            Generating…
-                          </>
-                        ) : (
-                          <>
-                            <FileText className="w-3.5 h-3.5" />
-                            Generate Report
-                          </>
-                        )}
-                      </Button>
+                      {loadingReport && (
+                        <div className="flex items-center gap-2 text-slate-400 text-sm">
+                          <span className="animate-spin w-4 h-4 border-2 border-slate-600 border-t-violet-400 rounded-full" />
+                          Generating…
+                        </div>
+                      )}
                     </div>
                   </div>
 
-                  {/* Blocked state */}
+                  {/* Blocked: not all rated */}
                   {!selectedStatus?.allRated && (
                     <div className="m-5 flex items-start gap-3 bg-amber-500/10 border border-amber-500/30 rounded-xl p-4">
                       <AlertCircle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
@@ -259,7 +290,7 @@ export default function AdminReporting() {
                   )}
 
                   {/* Error */}
-                  {reportError && reportRequested && (
+                  {reportError && (
                     <div className="m-5 flex items-start gap-3 bg-red-500/10 border border-red-500/30 rounded-xl p-4">
                       <AlertCircle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
                       <p className="text-red-300 text-sm">{reportError.message}</p>
@@ -267,7 +298,7 @@ export default function AdminReporting() {
                   )}
 
                   {/* Summary stats */}
-                  {report && reportRequested && !loadingReport && tierCounts && (
+                  {showReport && tierCounts && (
                     <div className="px-5 py-4 border-b border-slate-700/50 grid grid-cols-5 gap-3">
                       <div className="bg-slate-900/50 rounded-xl p-3 text-center">
                         <div className="text-2xl font-bold text-white">{report.totalMeetings}</div>
@@ -292,8 +323,8 @@ export default function AdminReporting() {
                     </div>
                   )}
 
-                  {/* Report table */}
-                  {report && reportRequested && !loadingReport && (
+                  {/* Meeting table */}
+                  {showReport && (
                     <div className="overflow-x-auto">
                       <table className="w-full text-sm">
                         <thead>
