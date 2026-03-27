@@ -118,7 +118,6 @@ export default function AdminReporting() {
     toast.success("CSV downloaded");
   };
 
-  // Tier summary counts
   const tierCounts = report
     ? {
         green: report.meetings.filter((m: any) => m.opportunityTier === "green").length,
@@ -130,31 +129,30 @@ export default function AdminReporting() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900/20 to-slate-900">
       <AdminHeader />
-      <div className="p-6 max-w-7xl mx-auto">
+      <div className="p-6 max-w-screen-2xl mx-auto">
+
         {/* Page header */}
-        <div className="mb-8">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-xl bg-violet-500/20 border border-violet-500/30 flex items-center justify-center">
-              <FileText className="w-5 h-5 text-violet-400" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold text-white font-heading">Sponsor Reports</h1>
-              <p className="text-slate-400 text-sm">Generate a full meeting report for any sponsor. All meetings must be rated first.</p>
-            </div>
+        <div className="mb-6 flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-violet-500/20 border border-violet-500/30 flex items-center justify-center">
+            <FileText className="w-5 h-5 text-violet-400" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold text-white font-heading">Sponsor Reports</h1>
+            <p className="text-slate-400 text-sm">Generate a full meeting report for any sponsor. All meetings must be rated first.</p>
           </div>
         </div>
 
-        {/* Sponsor selector + status grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-          {/* Left: selector */}
-          <div className="lg:col-span-1">
-            <div className="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-5">
-              <h2 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Select Sponsor</h2>
+        {/* Two-column layout */}
+        <div className="flex gap-6 items-start">
 
+          {/* Left column: sponsor list */}
+          <div className="w-64 shrink-0">
+            <div className="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-4 sticky top-6">
+              <h2 className="text-white font-semibold mb-3 text-xs uppercase tracking-wider">Sponsors</h2>
               {loadingStatuses ? (
-                <div className="text-slate-400 text-sm">Loading sponsors…</div>
+                <div className="text-slate-400 text-sm">Loading…</div>
               ) : (
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                   {sponsorStatuses?.map((s) => {
                     const isSelected = selectedSponsorId === s.id;
                     const ready = s.allRated && s.totalMeetings > 0;
@@ -174,12 +172,12 @@ export default function AdminReporting() {
                         <div className="flex items-center justify-between gap-2">
                           <span className="text-sm font-medium truncate">{s.name}</span>
                           {ready ? (
-                            <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
                           ) : (
-                            <AlertCircle className="w-4 h-4 text-amber-400 shrink-0" />
+                            <AlertCircle className="w-3.5 h-3.5 text-amber-400 shrink-0" />
                           )}
                         </div>
-                        <div className="text-xs mt-0.5 text-slate-400">
+                        <div className="text-xs mt-0.5 text-slate-500">
                           {s.ratedMeetings}/{s.totalMeetings} rated
                         </div>
                       </button>
@@ -190,22 +188,27 @@ export default function AdminReporting() {
             </div>
           </div>
 
-          {/* Right: generate panel */}
-          <div className="lg:col-span-2">
-            <div className="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-5 h-full flex flex-col gap-4">
-              {!selectedSponsorId ? (
-                <div className="flex-1 flex items-center justify-center">
+          {/* Right column: full report panel */}
+          <div className="flex-1 min-w-0">
+            <div className="bg-slate-800/50 border border-slate-700/50 rounded-2xl overflow-hidden">
+
+              {/* No sponsor selected */}
+              {!selectedSponsorId && (
+                <div className="flex items-center justify-center h-64">
                   <div className="text-center text-slate-500">
                     <FileText className="w-10 h-10 mx-auto mb-3 opacity-30" />
                     <p className="text-sm">Select a sponsor to generate their report</p>
                   </div>
                 </div>
-              ) : (
+              )}
+
+              {selectedSponsorId && (
                 <>
-                  <div className="flex items-start justify-between gap-4">
+                  {/* Report header */}
+                  <div className="px-5 py-4 border-b border-slate-700/50 flex items-center justify-between gap-4">
                     <div>
                       <h2 className="text-white font-bold text-lg">{selectedStatus?.name}</h2>
-                      <p className="text-slate-400 text-sm mt-0.5">
+                      <p className="text-slate-400 text-sm">
                         {selectedStatus?.ratedMeetings} of {selectedStatus?.totalMeetings} meetings rated
                       </p>
                     </div>
@@ -243,7 +246,7 @@ export default function AdminReporting() {
 
                   {/* Blocked state */}
                   {!selectedStatus?.allRated && (
-                    <div className="flex items-start gap-3 bg-amber-500/10 border border-amber-500/30 rounded-xl p-4">
+                    <div className="m-5 flex items-start gap-3 bg-amber-500/10 border border-amber-500/30 rounded-xl p-4">
                       <AlertCircle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
                       <div>
                         <p className="text-amber-300 font-medium text-sm">Report unavailable</p>
@@ -255,17 +258,17 @@ export default function AdminReporting() {
                     </div>
                   )}
 
-                  {/* Error from server */}
+                  {/* Error */}
                   {reportError && reportRequested && (
-                    <div className="flex items-start gap-3 bg-red-500/10 border border-red-500/30 rounded-xl p-4">
+                    <div className="m-5 flex items-start gap-3 bg-red-500/10 border border-red-500/30 rounded-xl p-4">
                       <AlertCircle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
                       <p className="text-red-300 text-sm">{reportError.message}</p>
                     </div>
                   )}
 
-                  {/* Summary stats when report loaded */}
+                  {/* Summary stats */}
                   {report && reportRequested && !loadingReport && tierCounts && (
-                    <div className="grid grid-cols-5 gap-3">
+                    <div className="px-5 py-4 border-b border-slate-700/50 grid grid-cols-5 gap-3">
                       <div className="bg-slate-900/50 rounded-xl p-3 text-center">
                         <div className="text-2xl font-bold text-white">{report.totalMeetings}</div>
                         <div className="text-slate-400 text-xs mt-0.5">Meetings</div>
@@ -288,89 +291,78 @@ export default function AdminReporting() {
                       </div>
                     </div>
                   )}
+
+                  {/* Report table */}
+                  {report && reportRequested && !loadingReport && (
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm">
+                        <thead>
+                          <tr className="border-b border-slate-700/50">
+                            <th className="text-left text-slate-400 font-medium px-4 py-3 text-xs uppercase tracking-wider whitespace-nowrap">Slot</th>
+                            <th className="text-left text-slate-400 font-medium px-4 py-3 text-xs uppercase tracking-wider whitespace-nowrap">Delegate</th>
+                            <th className="text-left text-slate-400 font-medium px-4 py-3 text-xs uppercase tracking-wider whitespace-nowrap">Company</th>
+                            <th className="text-left text-slate-400 font-medium px-4 py-3 text-xs uppercase tracking-wider whitespace-nowrap">Rank</th>
+                            <th className="text-left text-slate-400 font-medium px-4 py-3 text-xs uppercase tracking-wider whitespace-nowrap">Match %</th>
+                            <th className="text-left text-slate-400 font-medium px-4 py-3 text-xs uppercase tracking-wider whitespace-nowrap">Opted In</th>
+                            <th className="text-left text-slate-400 font-medium px-4 py-3 text-xs uppercase tracking-wider whitespace-nowrap">Rating</th>
+                            <th className="text-left text-slate-400 font-medium px-4 py-3 text-xs uppercase tracking-wider whitespace-nowrap">Opportunity</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {report.meetings.map((m: any, i: number) => (
+                            <tr
+                              key={m.meetingId}
+                              className={`border-b border-slate-700/30 hover:bg-slate-700/20 transition-colors ${
+                                i % 2 === 0 ? "" : "bg-slate-800/20"
+                              }`}
+                            >
+                              <td className="px-4 py-3 text-slate-400 text-xs whitespace-nowrap">
+                                {SLOT_TIMES[m.timeSlot] ?? `Slot ${m.timeSlot}`}
+                              </td>
+                              <td className="px-4 py-3">
+                                <div className="text-white font-medium whitespace-nowrap">{m.delegateName}</div>
+                                <div className="text-slate-400 text-xs mt-0.5">{m.delegateJobTitle}</div>
+                              </td>
+                              <td className="px-4 py-3 text-slate-300 whitespace-nowrap">{m.delegateCompany}</td>
+                              <td className="px-4 py-3 whitespace-nowrap text-xs">
+                                {m.rankPosition ? (
+                                  <span className="font-mono text-violet-300">#{m.rankPosition}</span>
+                                ) : (
+                                  <span className="text-slate-500">Unranked</span>
+                                )}
+                              </td>
+                              <td className="px-4 py-3 whitespace-nowrap">
+                                {m.matchScore != null ? (
+                                  <span className={`font-mono text-sm font-semibold ${
+                                    m.matchScore >= 80 ? "text-emerald-400" :
+                                    m.matchScore >= 60 ? "text-amber-400" : "text-slate-400"
+                                  }`}>
+                                    {m.matchScore}%
+                                  </span>
+                                ) : (
+                                  <span className="text-slate-500">—</span>
+                                )}
+                              </td>
+                              <td className="px-4 py-3 whitespace-nowrap">
+                                <OptInBadge optedIn={m.optedIn} />
+                              </td>
+                              <td className="px-4 py-3 whitespace-nowrap">
+                                <RatingBadge rating={m.meetingRating} />
+                              </td>
+                              <td className="px-4 py-3 whitespace-nowrap">
+                                <TierBadge tier={m.opportunityTier as Tier} />
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
                 </>
               )}
             </div>
           </div>
         </div>
-
-        {/* Report table */}
-        {report && reportRequested && !loadingReport && (
-          <div className="bg-slate-800/50 border border-slate-700/50 rounded-2xl overflow-hidden">
-            <div className="px-5 py-4 border-b border-slate-700/50 flex items-center justify-between">
-              <h2 className="text-white font-semibold">
-                {report.sponsorName} — Meeting Report
-              </h2>
-              <span className="text-slate-400 text-sm">{report.totalMeetings} meetings</span>
-            </div>
-
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b border-slate-700/50">
-                    <th className="text-left text-slate-400 font-medium px-4 py-3 text-xs uppercase tracking-wider whitespace-nowrap">Slot</th>
-                    <th className="text-left text-slate-400 font-medium px-4 py-3 text-xs uppercase tracking-wider whitespace-nowrap">Delegate</th>
-                    <th className="text-left text-slate-400 font-medium px-4 py-3 text-xs uppercase tracking-wider whitespace-nowrap">Company</th>
-                    <th className="text-left text-slate-400 font-medium px-4 py-3 text-xs uppercase tracking-wider whitespace-nowrap">Rank</th>
-                    <th className="text-left text-slate-400 font-medium px-4 py-3 text-xs uppercase tracking-wider whitespace-nowrap">Match %</th>
-                    <th className="text-left text-slate-400 font-medium px-4 py-3 text-xs uppercase tracking-wider whitespace-nowrap">Opted In</th>
-                    <th className="text-left text-slate-400 font-medium px-4 py-3 text-xs uppercase tracking-wider whitespace-nowrap">Rating</th>
-                    <th className="text-left text-slate-400 font-medium px-4 py-3 text-xs uppercase tracking-wider whitespace-nowrap">Opportunity</th>
-
-                  </tr>
-                </thead>
-                <tbody>
-                  {report.meetings.map((m: any, i: number) => (
-                    <tr
-                      key={m.meetingId}
-                      className={`border-b border-slate-700/30 hover:bg-slate-700/20 transition-colors ${
-                        i % 2 === 0 ? "" : "bg-slate-800/20"
-                      }`}
-                    >
-                      <td className="px-4 py-3 text-slate-400 text-xs whitespace-nowrap">
-                        {SLOT_TIMES[m.timeSlot] ?? `Slot ${m.timeSlot}`}
-                      </td>
-                      <td className="px-4 py-3">
-                        <div className="text-white font-medium whitespace-nowrap">{m.delegateName}</div>
-                        <div className="text-slate-400 text-xs mt-0.5">{m.delegateJobTitle}</div>
-                      </td>
-                      <td className="px-4 py-3 text-slate-300 whitespace-nowrap">{m.delegateCompany}</td>
-                      <td className="px-4 py-3 whitespace-nowrap text-xs">
-                        {m.rankPosition ? (
-                          <span className="font-mono text-violet-300">#{m.rankPosition}</span>
-                        ) : (
-                          <span className="text-slate-500">Unranked</span>
-                        )}
-                      </td>
-                      <td className="px-4 py-3 whitespace-nowrap">
-                        {m.matchScore != null ? (
-                          <span className={`font-mono text-sm font-semibold ${
-                            m.matchScore >= 80 ? "text-emerald-400" :
-                            m.matchScore >= 60 ? "text-amber-400" : "text-slate-400"
-                          }`}>
-                            {m.matchScore}%
-                          </span>
-                        ) : (
-                          <span className="text-slate-500">—</span>
-                        )}
-                      </td>
-                      <td className="px-4 py-3 whitespace-nowrap">
-                        <OptInBadge optedIn={m.optedIn} />
-                      </td>
-                      <td className="px-4 py-3 whitespace-nowrap">
-                        <RatingBadge rating={m.meetingRating} />
-                      </td>
-                      <td className="px-4 py-3 whitespace-nowrap">
-                        <TierBadge tier={m.opportunityTier as Tier} />
-                      </td>
-
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
