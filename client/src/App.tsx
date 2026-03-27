@@ -35,6 +35,7 @@ import EventDetails from "./pages/EventDetails";
 import Feedback from "./pages/Feedback";
 import NewMeetingNotification from "./components/NewMeetingNotification";
 import TablePlan from "./pages/TablePlan";
+import Testimonials from "./pages/Testimonials";
 
 // Banner shown when admin is viewing the portal as a sponsor
 function ImpersonationBanner() {
@@ -81,6 +82,9 @@ function Router() {
   // Public routes — no auth, no sidebar
   if (location === "/table-plan") {
     return <TablePlan />;
+  }
+  if (location === "/testimonials") {
+    return <Testimonials />;
   }
 
   // Admin routes: full-width, no sponsor sidebar
