@@ -1,0 +1,45 @@
+{
+  "query": "SELECT sponsorId, COUNT(*) as rated_meetings, AVG(meetingRating) as avg_rating FROM meetings WHERE meetingRating IS NOT NULL AND meetingRating > 0 GROUP BY sponsorId ORDER BY rated_meetings DESC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT sponsorId, COUNT(*) as rated_meetings, AVG(meetingRating) as avg_rating FROM meetings WHERE meetingRating IS NOT NULL AND meetingRating > 0 GROUP BY sponsorId ORDER BY rated_meetings DESC;",
+  "rows": [
+    {
+      "sponsorId": "210001",
+      "rated_meetings": "13",
+      "avg_rating": "3.7692"
+    },
+    {
+      "sponsorId": "900001",
+      "rated_meetings": "12",
+      "avg_rating": "4.0000"
+    },
+    {
+      "sponsorId": "330001",
+      "rated_meetings": "12",
+      "avg_rating": "3.4167"
+    },
+    {
+      "sponsorId": "780001",
+      "rated_meetings": "6",
+      "avg_rating": "4.3333"
+    },
+    {
+      "sponsorId": "390001",
+      "rated_meetings": "6",
+      "avg_rating": "3.8333"
+    },
+    {
+      "sponsorId": "840001",
+      "rated_meetings": "6",
+      "avg_rating": "3.6667"
+    },
+    {
+      "sponsorId": "750001",
+      "rated_meetings": "1",
+      "avg_rating": "4.0000"
+    }
+  ],
+  "messages": [],
+  "stdout": "sponsorId\trated_meetings\tavg_rating\n210001\t13\t3.7692\n900001\t12\t4.0000\n330001\t12\t3.4167\n780001\t6\t4.3333\n390001\t6\t3.8333\n840001\t6\t3.6667\n750001\t1\t4.0000\n",
+  "stderr": "",
+  "execution_time_ms": 351
+}

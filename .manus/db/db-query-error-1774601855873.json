@@ -1,0 +1,8 @@
+{
+  "query": "SELECT sponsor_id, COUNT(*) as rated_meetings, AVG(meetingRating) as avg_rating FROM meetings WHERE meetingRating IS NOT NULL AND meetingRating > 0 GROUP BY sponsor_id ORDER BY rated_meetings DESC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 35vWS7AKWm9z2SD.36f32dd08149 --database AHKzVnYzSGv4NeXzoiv78q --execute SELECT sponsor_id, COUNT(*) as rated_meetings, AVG(meetingRating) as avg_rating FROM meetings WHERE meetingRating IS NOT NULL AND meetingRating > 0 GROUP BY sponsor_id ORDER BY rated_meetings DESC;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'sponsor_id' in 'group statement'"
+  ]
+}

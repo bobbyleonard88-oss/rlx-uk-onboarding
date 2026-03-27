@@ -145,7 +145,8 @@ function SponsorGroup({
                 <span className="text-slate-500 text-xs">avg</span>
               </div>
             )}
-            {ratedCount > 0 && (
+{/* Clear ratings button temporarily hidden — ratings backed up 2026-03-27 */
+            /* {ratedCount > 0 && (
               <button
                 onClick={(e) => {
                   e.stopPropagation();
@@ -157,7 +158,7 @@ function SponsorGroup({
                 <Trash2 className="w-3 h-3" />
                 <span className="hidden sm:inline">Clear ratings</span>
               </button>
-            )}
+            )} */}
           </div>
         </button>
 
