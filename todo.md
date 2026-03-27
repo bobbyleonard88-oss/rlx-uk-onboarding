@@ -1700,3 +1700,9 @@
 - [x] Register /admin/reporting route in App.tsx
 - [x] Add "Reports" nav item to AdminHeader
 - [x] Write vitest test for getSponsorReport procedure
+
+## Opportunity Tier Column in Sponsor Report — March 27 2026
+- [x] Add opportunityTier field to getSponsorReport procedure output (Green/Amber/Red based on rating)
+- [x] Add Tier column to AdminReporting.tsx report table with emoji badge
+- [x] Add Tier column to CSV export
+- [x] Write/update vitest test for tier logic

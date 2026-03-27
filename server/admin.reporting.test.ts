@@ -143,6 +143,17 @@ describe("admin.getSponsorReport", () => {
     expect(optedIn2).toBe(false);
   });
 
+  it("assigns correct opportunity tier based on rating", () => {
+    const getOpportunityTier = (rating: number) =>
+      rating >= 4 ? 'green' : rating === 3 ? 'amber' : 'red';
+
+    expect(getOpportunityTier(5)).toBe('green');
+    expect(getOpportunityTier(4)).toBe('green');
+    expect(getOpportunityTier(3)).toBe('amber');
+    expect(getOpportunityTier(2)).toBe('red');
+    expect(getOpportunityTier(1)).toBe('red');
+  });
+
   it("correctly resolves rank position from rankings data", () => {
     const rankedAttendeeIds = ["delegate-2", "delegate-1", "delegate-3"];
     const rankIndex = rankedAttendeeIds.indexOf("delegate-1");

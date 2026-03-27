@@ -2472,6 +2472,7 @@ export const appRouter = router({
             optedIn,
             rankPosition,
             meetingRating: m.meetingRating,
+            opportunityTier: m.meetingRating >= 4 ? 'green' : m.meetingRating === 3 ? 'amber' : 'red',
           };
         }).sort((a: any, b: any) => (a.timeSlot ?? 99) - (b.timeSlot ?? 99));
 

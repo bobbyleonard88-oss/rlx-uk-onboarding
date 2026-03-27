@@ -11,18 +11,27 @@ const SLOT_TIMES: Record<number, string> = {
   9: "Thu 13:15", 10: "Thu 13:45", 11: "Thu 14:30", 12: "Thu 15:00",
 };
 
-function StarDisplay({ rating }: { rating: number | null }) {
-  if (!rating) return <span className="text-slate-500 text-xs">—</span>;
+type Tier = "green" | "amber" | "red";
+
+function TierBadge({ tier }: { tier: Tier }) {
+  if (tier === "green") {
+    return (
+      <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 whitespace-nowrap">
+        🟢 Active
+      </span>
+    );
+  }
+  if (tier === "amber") {
+    return (
+      <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-500/15 text-amber-400 border border-amber-500/30 whitespace-nowrap">
+        🟡 Future
+      </span>
+    );
+  }
   return (
-    <div className="flex items-center gap-0.5">
-      {[1, 2, 3, 4, 5].map((s) => (
-        <Star
-          key={s}
-          className={`w-3.5 h-3.5 ${s <= rating ? "fill-amber-400 text-amber-400" : "text-slate-600 fill-transparent"}`}
-        />
-      ))}
-      <span className="text-amber-400 text-xs ml-1 font-medium">{rating}/5</span>
-    </div>
+    <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-red-500/15 text-red-400 border border-red-500/30 whitespace-nowrap">
+      🔴 No fit
+    </span>
   );
 }
 
@@ -48,8 +57,14 @@ function OptInBadge({ optedIn }: { optedIn: boolean }) {
   );
 }
 
+const TIER_LABELS: Record<Tier, string> = {
+  green: "🟢 Active opportunity",
+  amber: "🟡 Future potential",
+  red: "🔴 Not a fit",
+};
+
 function downloadCSV(sponsorName: string, meetings: any[]) {
-  const headers = ["Time Slot", "Delegate", "Company", "Job Title", "Rank", "Match %", "Opted In", "Rating", "AI Match Reason"];
+  const headers = ["Time Slot", "Delegate", "Company", "Job Title", "Rank", "Match %", "Opted In", "Rating", "Opportunity", "AI Match Reason"];
   const rows = meetings.map((m) => [
     SLOT_TIMES[m.timeSlot] ?? `Slot ${m.timeSlot}`,
     m.delegateName,
@@ -59,6 +74,7 @@ function downloadCSV(sponsorName: string, meetings: any[]) {
     m.matchScore != null ? `${m.matchScore}%` : "—",
     m.optedIn ? "Yes" : "No",
     m.meetingRating != null ? `${m.meetingRating}/5` : "—",
+    TIER_LABELS[m.opportunityTier as Tier] ?? "—",
     (m.matchReason ?? "").replace(/"/g, '""'),
   ]);
   const csv = [headers, ...rows]
@@ -86,10 +102,7 @@ export default function AdminReporting() {
     refetch: fetchReport,
   } = trpc.admin.getSponsorReport.useQuery(
     { sponsorId: selectedSponsorId! },
-    {
-      enabled: false, // only run when explicitly triggered
-      retry: false,
-    }
+    { enabled: false, retry: false }
   );
 
   const selectedStatus = sponsorStatuses?.find((s) => s.id === selectedSponsorId);
@@ -105,6 +118,15 @@ export default function AdminReporting() {
     downloadCSV(report.sponsorName, report.meetings);
     toast.success("CSV downloaded");
   };
+
+  // Tier summary counts
+  const tierCounts = report
+    ? {
+        green: report.meetings.filter((m: any) => m.opportunityTier === "green").length,
+        amber: report.meetings.filter((m: any) => m.opportunityTier === "amber").length,
+        red: report.meetings.filter((m: any) => m.opportunityTier === "red").length,
+      }
+    : null;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900/20 to-slate-900">
@@ -171,7 +193,7 @@ export default function AdminReporting() {
 
           {/* Right: generate panel */}
           <div className="lg:col-span-2">
-            <div className="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-5 h-full flex flex-col">
+            <div className="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-5 h-full flex flex-col gap-4">
               {!selectedSponsorId ? (
                 <div className="flex-1 flex items-center justify-center">
                   <div className="text-center text-slate-500">
@@ -181,7 +203,7 @@ export default function AdminReporting() {
                 </div>
               ) : (
                 <>
-                  <div className="flex items-start justify-between gap-4 mb-5">
+                  <div className="flex items-start justify-between gap-4">
                     <div>
                       <h2 className="text-white font-bold text-lg">{selectedStatus?.name}</h2>
                       <p className="text-slate-400 text-sm mt-0.5">
@@ -243,21 +265,27 @@ export default function AdminReporting() {
                   )}
 
                   {/* Summary stats when report loaded */}
-                  {report && reportRequested && !loadingReport && (
-                    <div className="grid grid-cols-3 gap-3">
+                  {report && reportRequested && !loadingReport && tierCounts && (
+                    <div className="grid grid-cols-5 gap-3">
                       <div className="bg-slate-900/50 rounded-xl p-3 text-center">
                         <div className="text-2xl font-bold text-white">{report.totalMeetings}</div>
-                        <div className="text-slate-400 text-xs mt-0.5">Total Meetings</div>
+                        <div className="text-slate-400 text-xs mt-0.5">Meetings</div>
                       </div>
                       <div className="bg-slate-900/50 rounded-xl p-3 text-center">
                         <div className="text-2xl font-bold text-amber-400">{report.avgRating.toFixed(2)}</div>
-                        <div className="text-slate-400 text-xs mt-0.5">Avg Rating</div>
+                        <div className="text-slate-400 text-xs mt-0.5">Avg ★</div>
                       </div>
-                      <div className="bg-slate-900/50 rounded-xl p-3 text-center">
-                        <div className="text-2xl font-bold text-violet-400">
-                          {report.meetings.filter((m) => m.optedIn).length}
-                        </div>
-                        <div className="text-slate-400 text-xs mt-0.5">Opted In</div>
+                      <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-xl p-3 text-center">
+                        <div className="text-2xl font-bold text-emerald-400">{tierCounts.green}</div>
+                        <div className="text-slate-400 text-xs mt-0.5">🟢 Active</div>
+                      </div>
+                      <div className="bg-amber-500/10 border border-amber-500/20 rounded-xl p-3 text-center">
+                        <div className="text-2xl font-bold text-amber-400">{tierCounts.amber}</div>
+                        <div className="text-slate-400 text-xs mt-0.5">🟡 Future</div>
+                      </div>
+                      <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-3 text-center">
+                        <div className="text-2xl font-bold text-red-400">{tierCounts.red}</div>
+                        <div className="text-slate-400 text-xs mt-0.5">🔴 No fit</div>
                       </div>
                     </div>
                   )}
@@ -277,7 +305,6 @@ export default function AdminReporting() {
               <span className="text-slate-400 text-sm">{report.totalMeetings} meetings</span>
             </div>
 
-            {/* Desktop table */}
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
@@ -289,11 +316,12 @@ export default function AdminReporting() {
                     <th className="text-left text-slate-400 font-medium px-4 py-3 text-xs uppercase tracking-wider whitespace-nowrap">Match %</th>
                     <th className="text-left text-slate-400 font-medium px-4 py-3 text-xs uppercase tracking-wider whitespace-nowrap">Opted In</th>
                     <th className="text-left text-slate-400 font-medium px-4 py-3 text-xs uppercase tracking-wider whitespace-nowrap">Rating</th>
+                    <th className="text-left text-slate-400 font-medium px-4 py-3 text-xs uppercase tracking-wider whitespace-nowrap">Opportunity</th>
                     <th className="text-left text-slate-400 font-medium px-4 py-3 text-xs uppercase tracking-wider">AI Match Reason</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {report.meetings.map((m, i) => (
+                  {report.meetings.map((m: any, i: number) => (
                     <tr
                       key={m.meetingId}
                       className={`border-b border-slate-700/30 hover:bg-slate-700/20 transition-colors ${
@@ -308,7 +336,7 @@ export default function AdminReporting() {
                         <div className="text-slate-400 text-xs mt-0.5">{m.delegateJobTitle}</div>
                       </td>
                       <td className="px-4 py-3 text-slate-300 whitespace-nowrap">{m.delegateCompany}</td>
-                      <td className="px-4 py-3 text-slate-300 whitespace-nowrap text-xs">
+                      <td className="px-4 py-3 whitespace-nowrap text-xs">
                         {m.rankPosition ? (
                           <span className="font-mono text-violet-300">#{m.rankPosition}</span>
                         ) : (
@@ -332,6 +360,9 @@ export default function AdminReporting() {
                       </td>
                       <td className="px-4 py-3 whitespace-nowrap">
                         <RatingBadge rating={m.meetingRating} />
+                      </td>
+                      <td className="px-4 py-3 whitespace-nowrap">
+                        <TierBadge tier={m.opportunityTier as Tier} />
                       </td>
                       <td className="px-4 py-3 text-slate-300 text-xs max-w-sm">
                         {m.matchReason ?? <span className="text-slate-500">—</span>}
