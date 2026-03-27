@@ -249,3 +249,21 @@ export const sponsorActivityLog = mysqlTable("sponsorActivityLog", {
 
 export type SponsorActivityLog = typeof sponsorActivityLog.$inferSelect;
 export type InsertSponsorActivityLog = typeof sponsorActivityLog.$inferInsert;
+
+/**
+ * Meeting Ratings Log - permanent audit trail of every rating submission.
+ * A new row is written every time a sponsor submits or changes a rating,
+ * so ratings can never be lost even if the meeting record is cleared.
+ */
+export const meetingRatingsLog = mysqlTable("meetingRatingsLog", {
+  id: int("id").autoincrement().primaryKey(),
+  meetingId: int("meetingId").notNull(), // Link to meetings table
+  sponsorId: int("sponsorId").notNull(), // Denormalised for fast queries
+  attendeeId: varchar("attendeeId", { length: 64 }).notNull(), // Denormalised
+  rating: int("rating").notNull(), // 1-5 star value submitted
+  notes: text("notes"), // Meeting notes at time of submission (snapshot)
+  submittedAt: timestamp("submittedAt").defaultNow().notNull(),
+});
+
+export type MeetingRatingsLog = typeof meetingRatingsLog.$inferSelect;
+export type InsertMeetingRatingsLog = typeof meetingRatingsLog.$inferInsert;

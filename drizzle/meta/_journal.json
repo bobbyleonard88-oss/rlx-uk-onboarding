@@ -141,6 +141,13 @@
       "when": 1774447265396,
       "tag": "0019_sour_thor",
       "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "5",
+      "when": 1774601992326,
+      "tag": "0020_flowery_killraven",
+      "breakpoints": true
     }
   ]
 }

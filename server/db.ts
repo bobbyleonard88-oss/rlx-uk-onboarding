@@ -1,6 +1,6 @@
 import { desc, eq, and, sql, ne } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users, sponsors, InsertSponsor, rankingsSubmissions, InsertRankingsSubmission, vendorProfiles, InsertVendorProfile, delegateProfiles, InsertDelegateProfile, priorityTags, InsertPriorityTag, meetings, InsertMeeting, intakeSubmissions, InsertIntakeSubmission, matchCache, InsertMatchCache, adminActivityLog, InsertAdminActivityLog, sponsorActivityLog, InsertSponsorActivityLog } from "../drizzle/schema";
+import { InsertUser, users, sponsors, InsertSponsor, rankingsSubmissions, InsertRankingsSubmission, vendorProfiles, InsertVendorProfile, delegateProfiles, InsertDelegateProfile, priorityTags, InsertPriorityTag, meetings, InsertMeeting, intakeSubmissions, InsertIntakeSubmission, matchCache, InsertMatchCache, adminActivityLog, InsertAdminActivityLog, sponsorActivityLog, InsertSponsorActivityLog, meetingRatingsLog } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -873,10 +873,23 @@ export async function getMeetingById(id: number) {
 export async function updateMeetingRating(meetingId: number, rating: number) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
+  // Update the meeting record
   await db
     .update(meetings)
     .set({ meetingRating: rating, updatedAt: new Date() })
     .where(eq(meetings.id, meetingId));
+  // Write permanent audit log entry — this is never deleted
+  const meeting = await db.select().from(meetings).where(eq(meetings.id, meetingId)).limit(1);
+  if (meeting[0]) {
+    await db.insert(meetingRatingsLog).values({
+      meetingId,
+      sponsorId: meeting[0].sponsorId,
+      attendeeId: meeting[0].attendeeId,
+      rating,
+      notes: meeting[0].meetingNotes ?? null,
+      submittedAt: new Date(),
+    });
+  }
 }
 
 export async function updateMeetingNotes(meetingId: number, notes: string) {
