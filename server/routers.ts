@@ -1897,6 +1897,11 @@ export const appRouter = router({
             const avgRating = ratedMeetings.length > 0
               ? ratedMeetings.reduce((sum, m) => sum + (m.meetingRating ?? 0), 0) / ratedMeetings.length
               : null;
+
+            // Opportunity tier counts
+            const greenCount = ratedMeetings.filter(m => (m.meetingRating ?? 0) >= 4).length;
+            const amberCount = ratedMeetings.filter(m => (m.meetingRating ?? 0) === 3).length;
+            const redCount = ratedMeetings.filter(m => (m.meetingRating ?? 0) <= 2).length;
             
             return {
               sponsorId: sponsor.id,
@@ -1906,6 +1911,9 @@ export const appRouter = router({
               avgMatchScore: avgScore,
               ratedMeetingsCount: ratedMeetings.length,
               avgMeetingRating: avgRating,
+              greenCount,
+              amberCount,
+              redCount,
             };
           })
         );

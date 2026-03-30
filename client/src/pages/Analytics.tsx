@@ -414,6 +414,26 @@ export default function Analytics() {
                               <p className="text-slate-400 text-xs">
                                 {sponsor.ratedMeetingsCount}/{sponsor.meetingsScheduled} meetings rated
                               </p>
+                              {/* Opportunity tier mini-bar */}
+                              {sponsor.ratedMeetingsCount > 0 && (
+                                <div className="flex items-center gap-1.5 mt-1.5 flex-wrap">
+                                  {(sponsor.greenCount ?? 0) > 0 && (
+                                    <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-xs bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                                      🟢 {sponsor.greenCount}
+                                    </span>
+                                  )}
+                                  {(sponsor.amberCount ?? 0) > 0 && (
+                                    <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-xs bg-amber-500/15 text-amber-400 border border-amber-500/30">
+                                      🟡 {sponsor.amberCount}
+                                    </span>
+                                  )}
+                                  {(sponsor.redCount ?? 0) > 0 && (
+                                    <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-xs bg-red-500/15 text-red-400 border border-red-500/30">
+                                      🔴 {sponsor.redCount}
+                                    </span>
+                                  )}
+                                </div>
+                              )}
                             </div>
                             <div className="flex items-center gap-1 shrink-0">
                               {[1,2,3,4,5].map(star => (

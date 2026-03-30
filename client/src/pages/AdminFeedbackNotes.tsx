@@ -12,6 +12,33 @@ const SLOT_TIMES: Record<number, string> = {
   9: "Thu 13:15", 10: "Thu 13:45", 11: "Thu 14:30", 12: "Thu 15:00",
 };
 
+type Tier = "green" | "amber" | "red";
+
+function getTier(rating: number | null): Tier | null {
+  if (!rating || rating <= 0) return null;
+  if (rating >= 4) return "green";
+  if (rating === 3) return "amber";
+  return "red";
+}
+
+function TierBadge({ tier }: { tier: Tier }) {
+  if (tier === "green") return (
+    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 whitespace-nowrap">
+      🟢 Active
+    </span>
+  );
+  if (tier === "amber") return (
+    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-500/15 text-amber-400 border border-amber-500/30 whitespace-nowrap">
+      🟡 Future
+    </span>
+  );
+  return (
+    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-red-500/15 text-red-400 border border-red-500/30 whitespace-nowrap">
+      🔴 No fit
+    </span>
+  );
+}
+
 function StarDisplay({ rating }: { rating: number | null }) {
   if (!rating) return <span className="text-slate-500 text-xs">—</span>;
   return (
@@ -184,9 +211,12 @@ function SponsorGroup({
                   )}
                 </div>
 
-                {/* Rating */}
-                <div className="flex justify-end">
+                {/* Rating + Tier */}
+                <div className="flex flex-col items-end gap-1.5">
                   <StarDisplay rating={m.meetingRating} />
+                  {getTier(m.meetingRating) && (
+                    <TierBadge tier={getTier(m.meetingRating)!} />
+                  )}
                 </div>
               </div>
             ))}
