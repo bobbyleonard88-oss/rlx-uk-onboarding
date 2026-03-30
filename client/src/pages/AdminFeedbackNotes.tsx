@@ -117,7 +117,7 @@ function SponsorGroup({
   }>;
   onRatingsCleared: () => void;
 }) {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
 
   const clearRatings = trpc.admin.clearSponsorRatings.useMutation({
