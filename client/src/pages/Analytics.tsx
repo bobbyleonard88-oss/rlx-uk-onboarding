@@ -229,10 +229,10 @@ export default function Analytics() {
                     className="border-slate-600 text-slate-300 hover:text-white shrink-0 gap-1.5"
                     onClick={() => {
                       const rows = analytics.mostInDemandDelegates.map((d, i) =>
-                        [`${i + 1}`, d.name, d.company, `${d.demandScore}`, `${d.rankingCount}`]
+                        [`${i + 1}`, d.name, d.company, `${d.demandScore}`, `${d.rankingCount}`, (d as any).avgRating != null ? (d as any).avgRating.toFixed(2) : 'N/A', `${(d as any).ratedCount ?? 0}`]
                       );
                       const csv = [
-                        ["Rank", "Name", "Company", "Demand Score", "Sponsors Ranked By"].join(","),
+                        ["Rank", "Name", "Company", "Demand Score", "Sponsors Ranked By", "Avg Sponsor Rating", "Times Rated"].join(","),
                         ...rows.map(r => r.map(c => `"${c}"`).join(","))
                       ].join("\n");
                       const blob = new Blob([csv], { type: "text/csv" });
@@ -288,6 +288,15 @@ export default function Analytics() {
                         <Badge variant="outline" className="text-slate-400 border-slate-600 text-xs">
                           {(delegate as any).meetingCount ?? delegate.rankingCount} meetings
                         </Badge>
+                        {(delegate as any).avgRating != null ? (
+                          <Badge className="bg-amber-500/20 text-amber-300 border-amber-500/30 text-xs">
+                            {'★'.repeat(Math.round((delegate as any).avgRating))}{'☆'.repeat(5 - Math.round((delegate as any).avgRating))} {(delegate as any).avgRating.toFixed(1)}
+                          </Badge>
+                        ) : (
+                          <Badge variant="outline" className="text-slate-600 border-slate-700 text-xs">
+                            unrated
+                          </Badge>
+                        )}
                       </div>
                     </div>
                   ))}

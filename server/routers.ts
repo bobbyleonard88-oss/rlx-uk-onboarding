@@ -1854,9 +1854,23 @@ export const appRouter = router({
           delegateMeetingCountMap.set(meeting.attendeeId, (delegateMeetingCountMap.get(meeting.attendeeId) || 0) + 1);
         }
 
+        // Build avg rating per delegate (across all sponsor ratings for that delegate)
+        const delegateRatingMap = new Map<string, { sum: number; count: number }>();
+        for (const meeting of allMeetings) {
+          if (meeting.meetingRating != null && meeting.meetingRating > 0) {
+            const existing = delegateRatingMap.get(meeting.attendeeId) || { sum: 0, count: 0 };
+            delegateRatingMap.set(meeting.attendeeId, {
+              sum: existing.sum + meeting.meetingRating,
+              count: existing.count + 1,
+            });
+          }
+        }
+
         const mostInDemandDelegates = Array.from(demandScores.entries())
           .map(([attendeeId, demandScore]) => {
             const delegate = attendees.find(d => d.id === attendeeId);
+            const ratingData = delegateRatingMap.get(attendeeId);
+            const avgRating = ratingData && ratingData.count > 0 ? ratingData.sum / ratingData.count : null;
             return {
               attendeeId,
               name: delegate ? `${delegate.firstName} ${delegate.lastName}` : 'Unknown',
@@ -1867,6 +1881,8 @@ export const appRouter = router({
                 return rankedList.includes(attendeeId);
               }).length,
               meetingCount: delegateMeetingCountMap.get(attendeeId) || 0,
+              avgRating,
+              ratedCount: ratingData?.count ?? 0,
             };
           })
           .filter(d => d.name !== 'Unknown')
