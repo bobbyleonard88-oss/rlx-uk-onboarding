@@ -288,7 +288,13 @@ export default function AdminFeedbackNotes() {
 
   const handleExport = () => {
     if (!data) return;
-    const headers = ["Sponsor", "Delegate", "Company", "Job Title", "Time Slot", "Rating", "Notes"];
+    const tierLabel = (rating: number | null) => {
+      if (rating == null || rating === 0) return "";
+      if (rating >= 4) return "Active opportunity";
+      if (rating === 3) return "Future potential";
+      return "Not a fit";
+    };
+    const headers = ["Sponsor", "Delegate", "Company", "Job Title", "Time Slot", "Rating", "Opportunity", "Notes"];
     const rows = data.map(m => [
       m.sponsorName,
       m.delegateName,
@@ -296,6 +302,7 @@ export default function AdminFeedbackNotes() {
       m.delegateJobTitle,
       SLOT_TIMES[m.timeSlot ?? 0] ?? `Slot ${m.timeSlot}`,
       m.meetingRating != null ? `${m.meetingRating}/5` : "",
+      tierLabel(m.meetingRating ?? null),
       m.meetingNotes ?? "",
     ]);
     const csv = [headers, ...rows]
