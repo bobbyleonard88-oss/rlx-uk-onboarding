@@ -239,6 +239,7 @@ function SponsorGroup({
 
 export default function AdminFeedbackNotes() {
   const [search, setSearch] = useState("");
+  const [tierFilter, setTierFilter] = useState<Tier | null>(null);
   const utils = trpc.useUtils();
 
   const { data, isLoading } = trpc.admin.getFeedbackNotes.useQuery(
@@ -258,21 +259,32 @@ export default function AdminFeedbackNotes() {
   }, [data]);
 
   const filtered = useMemo(() => {
-    if (!search.trim()) return grouped;
-    const q = search.toLowerCase();
-    return grouped
-      .map(g => ({
-        ...g,
-        meetings: g.meetings.filter(
-          m =>
-            m.delegateName.toLowerCase().includes(q) ||
-            m.delegateCompany.toLowerCase().includes(q) ||
-            g.name.toLowerCase().includes(q) ||
-            m.meetingNotes?.toLowerCase().includes(q)
-        ),
-      }))
-      .filter(g => g.meetings.length > 0);
-  }, [grouped, search]);
+    let result = grouped;
+    if (search.trim()) {
+      const q = search.toLowerCase();
+      result = result
+        .map(g => ({
+          ...g,
+          meetings: g.meetings.filter(
+            m =>
+              m.delegateName.toLowerCase().includes(q) ||
+              m.delegateCompany.toLowerCase().includes(q) ||
+              g.name.toLowerCase().includes(q) ||
+              m.meetingNotes?.toLowerCase().includes(q)
+          ),
+        }))
+        .filter(g => g.meetings.length > 0);
+    }
+    if (tierFilter) {
+      result = result
+        .map(g => ({
+          ...g,
+          meetings: g.meetings.filter(m => getTier(m.meetingRating ?? null) === tierFilter),
+        }))
+        .filter(g => g.meetings.length > 0);
+    }
+    return result;
+  }, [grouped, search, tierFilter]);
 
   const handleExport = () => {
     if (!data) return;
@@ -374,15 +386,59 @@ export default function AdminFeedbackNotes() {
           </div>
         )}
 
-        {/* Search */}
-        <div className="relative mb-5">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
-          <Input
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-            placeholder="Search by sponsor, delegate, company or note content…"
-            className="pl-9 bg-slate-800 border-slate-600 text-white placeholder:text-slate-500"
-          />
+        {/* Search + Tier Filter */}
+        <div className="flex flex-col sm:flex-row gap-3 mb-5">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+            <Input
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              placeholder="Search by sponsor, delegate, company or note content…"
+              className="pl-9 bg-slate-800 border-slate-600 text-white placeholder:text-slate-500"
+            />
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setTierFilter(null)}
+              className={`px-3 py-2 rounded-lg text-xs font-medium border transition-colors ${
+                tierFilter === null
+                  ? 'bg-slate-600 border-slate-500 text-white'
+                  : 'bg-slate-800 border-slate-700 text-slate-400 hover:text-white hover:border-slate-500'
+              }`}
+            >
+              All
+            </button>
+            <button
+              onClick={() => setTierFilter(tierFilter === 'green' ? null : 'green')}
+              className={`px-3 py-2 rounded-lg text-xs font-medium border transition-colors ${
+                tierFilter === 'green'
+                  ? 'bg-emerald-500/25 border-emerald-500/60 text-emerald-300'
+                  : 'bg-slate-800 border-slate-700 text-slate-400 hover:text-emerald-400 hover:border-emerald-500/40'
+              }`}
+            >
+              🟢 Active
+            </button>
+            <button
+              onClick={() => setTierFilter(tierFilter === 'amber' ? null : 'amber')}
+              className={`px-3 py-2 rounded-lg text-xs font-medium border transition-colors ${
+                tierFilter === 'amber'
+                  ? 'bg-amber-500/25 border-amber-500/60 text-amber-300'
+                  : 'bg-slate-800 border-slate-700 text-slate-400 hover:text-amber-400 hover:border-amber-500/40'
+              }`}
+            >
+              🟡 Future
+            </button>
+            <button
+              onClick={() => setTierFilter(tierFilter === 'red' ? null : 'red')}
+              className={`px-3 py-2 rounded-lg text-xs font-medium border transition-colors ${
+                tierFilter === 'red'
+                  ? 'bg-red-500/25 border-red-500/60 text-red-300'
+                  : 'bg-slate-800 border-slate-700 text-slate-400 hover:text-red-400 hover:border-red-500/40'
+              }`}
+            >
+              🔴 No fit
+            </button>
+          </div>
         </div>
 
         {/* Content */}
