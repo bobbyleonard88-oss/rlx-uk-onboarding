@@ -1,14 +1,19 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import React, { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { trpc } from "@/lib/trpc";
-import { BarChart3, Users, Calendar, TrendingUp, Download, Star } from "lucide-react";
+import { BarChart3, Users, Calendar, TrendingUp, Download, Star, ChevronUp, ChevronDown, ChevronsUpDown } from "lucide-react";
 import AdminHeader from "@/components/AdminHeader";
 import MeetingFloorPlan from "@/components/MeetingFloorPlan";
 import { useTestMode } from "@/hooks/useTestMode";
 
+type DelegateSortKey = 'name' | 'company' | 'meetingCount' | 'avgMatchScore' | 'avgRating' | 'ratedCount';
+
 export default function Analytics() {
   const includeTestAccounts = useTestMode();
+  const [delegateSortKey, setDelegateSortKey] = React.useState<DelegateSortKey>('avgRating');
+  const [delegateSortDir, setDelegateSortDir] = React.useState<'asc' | 'desc'>('desc');
 
   const { data: analytics, isLoading } = trpc.admin.getAnalytics.useQuery(
     { includeTestAccounts }
@@ -210,99 +215,186 @@ export default function Analytics() {
 
           {/* Row 2: Most In-Demand Delegates | Sponsor Statistics */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 items-start">
-            {/* Most In-Demand Delegates */}
-            <Card className="bg-slate-800/50 border-slate-700 flex flex-col">
-              <CardHeader className="pb-3">
-                <div className="flex items-start justify-between gap-2">
-                  <div>
-                    <CardTitle className="text-white flex items-center gap-2">
-                      <TrendingUp className="w-5 h-5" />
-                      Most In-Demand Delegates
-                    </CardTitle>
-                    <p className="text-sm text-slate-400 mt-1">
-                      Based on sponsor rankings — higher ranked = more points
-                    </p>
-                  </div>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="border-slate-600 text-slate-300 hover:text-white shrink-0 gap-1.5"
-                    onClick={() => {
-                      const rows = analytics.mostInDemandDelegates.map((d, i) =>
-                        [`${i + 1}`, d.name, d.company, `${d.demandScore}`, `${d.rankingCount}`, (d as any).avgRating != null ? (d as any).avgRating.toFixed(2) : 'N/A', `${(d as any).ratedCount ?? 0}`]
-                      );
-                      const csv = [
-                        ["Rank", "Name", "Company", "Demand Score", "Sponsors Ranked By", "Avg Sponsor Rating", "Times Rated"].join(","),
-                        ...rows.map(r => r.map(c => `"${c}"`).join(","))
-                      ].join("\n");
-                      const blob = new Blob([csv], { type: "text/csv" });
-                      const url = URL.createObjectURL(blob);
-                      const a = document.createElement("a");
-                      a.href = url;
-                      a.download = `delegate-rankings-${new Date().toISOString().split("T")[0]}.csv`;
-                      document.body.appendChild(a);
-                      a.click();
-                      document.body.removeChild(a);
-                      URL.revokeObjectURL(url);
-                    }}
-                  >
-                    <Download className="w-3.5 h-3.5" />
-                    Download All
-                  </Button>
-                </div>
-              </CardHeader>
-              <CardContent className="flex-1 overflow-hidden">
-                <div
-                  className="space-y-2 overflow-y-auto pr-1"
-                  style={{ maxHeight: `${Math.max(analytics.sponsorStats.length * 44, 440)}px` }}
-                >
-                  {analytics.mostInDemandDelegates.map((delegate, index) => (
-                    <div
-                      key={delegate.attendeeId}
-                      className="flex items-center justify-between p-2 bg-slate-700/50 rounded"
-                    >
-                      <div className="flex items-center gap-3">
-                        <Badge
-                          variant="secondary"
-                          className={`w-6 h-6 flex items-center justify-center p-0 shrink-0 ${
-                            index === 0
-                              ? "bg-yellow-500/20 text-yellow-300 border-yellow-500/30"
-                              : index === 1
-                              ? "bg-slate-400/20 text-slate-300 border-slate-400/30"
-                              : index === 2
-                              ? "bg-orange-500/20 text-orange-300 border-orange-500/30"
-                              : ""
-                          }`}
-                        >
-                          {index + 1}
-                        </Badge>
-                        <div>
-                          <div className="text-white font-medium text-sm">{delegate.name}</div>
-                          <div className="text-slate-400 text-xs">{delegate.company}</div>
-                        </div>
+            {/* Most In-Demand Delegates — sortable table */}
+            {(() => {
+              const handleDelegateSort = (key: DelegateSortKey) => {
+                if (delegateSortKey === key) {
+                  setDelegateSortDir(d => d === 'asc' ? 'desc' : 'asc');
+                } else {
+                  setDelegateSortKey(key);
+                  setDelegateSortDir('desc');
+                }
+              };
+
+              const sortedDelegates = [...analytics.mostInDemandDelegates].sort((a, b) => {
+                const dir = delegateSortDir === 'asc' ? 1 : -1;
+                const av = (a as any);
+                const bv = (b as any);
+                switch (delegateSortKey) {
+                  case 'name': return dir * a.name.localeCompare(b.name);
+                  case 'company': return dir * a.company.localeCompare(b.company);
+                  case 'meetingCount': return dir * ((av.meetingCount ?? 0) - (bv.meetingCount ?? 0));
+                  case 'avgMatchScore': return dir * ((av.avgMatchScore ?? 0) - (bv.avgMatchScore ?? 0));
+                  case 'avgRating': {
+                    // Weighted sort: more ratings = more confidence; ties broken by ratedCount
+                    const PRIOR_W = 3, PRIOR_M = 3.0;
+                    const wa = av.ratedCount > 0 ? (av.avgRating * av.ratedCount + PRIOR_W * PRIOR_M) / (av.ratedCount + PRIOR_W) : PRIOR_M;
+                    const wb = bv.ratedCount > 0 ? (bv.avgRating * bv.ratedCount + PRIOR_W * PRIOR_M) / (bv.ratedCount + PRIOR_W) : PRIOR_M;
+                    if (wa !== wb) return dir * (wa - wb);
+                    return dir * ((av.ratedCount ?? 0) - (bv.ratedCount ?? 0));
+                  }
+                  case 'ratedCount': return dir * ((av.ratedCount ?? 0) - (bv.ratedCount ?? 0));
+                  default: return 0;
+                }
+              });
+
+              const SortIcon = ({ col }: { col: DelegateSortKey }) => {
+                if (delegateSortKey !== col) return <ChevronsUpDown className="w-3 h-3 text-slate-500" />;
+                return delegateSortDir === 'asc'
+                  ? <ChevronUp className="w-3 h-3 text-purple-400" />
+                  : <ChevronDown className="w-3 h-3 text-purple-400" />;
+              };
+
+              const downloadCsv = () => {
+                const rows = sortedDelegates.map((d, i) => [
+                  `${i + 1}`,
+                  d.name,
+                  d.company,
+                  `${(d as any).meetingCount ?? 0}`,
+                  (d as any).avgMatchScore != null ? (d as any).avgMatchScore.toFixed(1) : 'N/A',
+                  (d as any).avgRating != null ? (d as any).avgRating.toFixed(2) : 'N/A',
+                  `${(d as any).ratedCount ?? 0}`,
+                ]);
+                const csv = [
+                  ['#', 'Name', 'Company', 'Meetings', 'Avg Match Score', 'Avg Meeting Rating', 'Ratings Count'].join(','),
+                  ...rows.map(r => r.map(c => `"${c}"`).join(','))
+                ].join('\n');
+                const blob = new Blob([csv], { type: 'text/csv' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `delegates-${new Date().toISOString().split('T')[0]}.csv`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+              };
+
+              return (
+                <Card className="bg-slate-800/50 border-slate-700 flex flex-col">
+                  <CardHeader className="pb-3">
+                    <div className="flex items-start justify-between gap-2">
+                      <div>
+                        <CardTitle className="text-white flex items-center gap-2">
+                          <TrendingUp className="w-5 h-5" />
+                          Delegate Performance
+                        </CardTitle>
+                        <p className="text-sm text-slate-400 mt-1">
+                          Click any column header to sort. Rating column weighted by number of ratings received.
+                        </p>
                       </div>
-                      <div className="flex items-center gap-2 shrink-0">
-                        <Badge className="bg-blue-500/20 text-blue-300 border-blue-500/30 text-xs">
-                          {delegate.demandScore} pts
-                        </Badge>
-                        <Badge variant="outline" className="text-slate-400 border-slate-600 text-xs">
-                          {(delegate as any).meetingCount ?? delegate.rankingCount} meetings
-                        </Badge>
-                        {(delegate as any).avgRating != null ? (
-                          <Badge className="bg-amber-500/20 text-amber-300 border-amber-500/30 text-xs">
-                            {'★'.repeat(Math.round((delegate as any).avgRating))}{'☆'.repeat(5 - Math.round((delegate as any).avgRating))} {(delegate as any).avgRating.toFixed(1)}
-                          </Badge>
-                        ) : (
-                          <Badge variant="outline" className="text-slate-600 border-slate-700 text-xs">
-                            unrated
-                          </Badge>
-                        )}
-                      </div>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="border-slate-600 text-slate-300 hover:text-white shrink-0 gap-1.5"
+                        onClick={downloadCsv}
+                      >
+                        <Download className="w-3.5 h-3.5" />
+                        CSV
+                      </Button>
                     </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+                  </CardHeader>
+                  <CardContent className="flex-1 overflow-hidden p-0">
+                    <div className="overflow-auto" style={{ maxHeight: `${Math.max(analytics.sponsorStats.length * 44, 440)}px` }}>
+                      <table className="w-full text-sm">
+                        <thead className="sticky top-0 bg-slate-800 z-10">
+                          <tr className="border-b border-slate-700">
+                            <th className="text-left text-slate-400 font-medium px-4 py-2 w-8">#</th>
+                            <th
+                              className="text-left text-slate-400 font-medium px-3 py-2 cursor-pointer hover:text-white select-none"
+                              onClick={() => handleDelegateSort('name')}
+                            >
+                              <span className="flex items-center gap-1">Name <SortIcon col="name" /></span>
+                            </th>
+                            <th
+                              className="text-left text-slate-400 font-medium px-3 py-2 cursor-pointer hover:text-white select-none hidden lg:table-cell"
+                              onClick={() => handleDelegateSort('company')}
+                            >
+                              <span className="flex items-center gap-1">Company <SortIcon col="company" /></span>
+                            </th>
+                            <th
+                              className="text-right text-slate-400 font-medium px-3 py-2 cursor-pointer hover:text-white select-none"
+                              onClick={() => handleDelegateSort('meetingCount')}
+                            >
+                              <span className="flex items-center justify-end gap-1">Meetings <SortIcon col="meetingCount" /></span>
+                            </th>
+                            <th
+                              className="text-right text-slate-400 font-medium px-3 py-2 cursor-pointer hover:text-white select-none"
+                              onClick={() => handleDelegateSort('avgMatchScore')}
+                            >
+                              <span className="flex items-center justify-end gap-1">Avg Match <SortIcon col="avgMatchScore" /></span>
+                            </th>
+                            <th
+                              className="text-right text-slate-400 font-medium px-3 py-2 cursor-pointer hover:text-white select-none"
+                              onClick={() => handleDelegateSort('avgRating')}
+                            >
+                              <span className="flex items-center justify-end gap-1">Avg Rating <SortIcon col="avgRating" /></span>
+                            </th>
+                            <th
+                              className="text-right text-slate-400 font-medium px-3 py-2 cursor-pointer hover:text-white select-none"
+                              onClick={() => handleDelegateSort('ratedCount')}
+                            >
+                              <span className="flex items-center justify-end gap-1"># Rated <SortIcon col="ratedCount" /></span>
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {sortedDelegates.map((delegate, index) => {
+                            const d = delegate as any;
+                            return (
+                              <tr
+                                key={delegate.attendeeId}
+                                className="border-b border-slate-700/50 hover:bg-slate-700/30 transition-colors"
+                              >
+                                <td className="px-4 py-2.5 text-slate-500 text-xs">{index + 1}</td>
+                                <td className="px-3 py-2.5">
+                                  <div className="text-white font-medium text-sm leading-tight">{delegate.name}</div>
+                                  <div className="text-slate-400 text-xs lg:hidden">{delegate.company}</div>
+                                </td>
+                                <td className="px-3 py-2.5 text-slate-300 text-sm hidden lg:table-cell">{delegate.company}</td>
+                                <td className="px-3 py-2.5 text-right">
+                                  <span className="text-slate-200 text-sm font-medium">{d.meetingCount ?? 0}</span>
+                                </td>
+                                <td className="px-3 py-2.5 text-right">
+                                  {d.avgMatchScore != null ? (
+                                    <span className="text-purple-300 text-sm font-medium">{d.avgMatchScore.toFixed(0)}%</span>
+                                  ) : (
+                                    <span className="text-slate-600 text-xs">—</span>
+                                  )}
+                                </td>
+                                <td className="px-3 py-2.5 text-right">
+                                  {d.avgRating != null ? (
+                                    <span className="inline-flex items-center gap-1">
+                                      <span className="text-amber-400 text-sm font-semibold">{d.avgRating.toFixed(1)}</span>
+                                      <span className="text-amber-500/60 text-xs">/5</span>
+                                    </span>
+                                  ) : (
+                                    <span className="text-slate-600 text-xs">unrated</span>
+                                  )}
+                                </td>
+                                <td className="px-3 py-2.5 text-right">
+                                  <span className="text-slate-400 text-sm">{d.ratedCount ?? 0}</span>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })()}
 
             {/* Sponsor Statistics */}
             <Card className="bg-slate-800/50 border-slate-700">

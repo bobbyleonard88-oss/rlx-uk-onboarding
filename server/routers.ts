@@ -1854,6 +1854,18 @@ export const appRouter = router({
           delegateMeetingCountMap.set(meeting.attendeeId, (delegateMeetingCountMap.get(meeting.attendeeId) || 0) + 1);
         }
 
+        // Build avg match score per delegate
+        const delegateMatchScoreMap = new Map<string, { sum: number; count: number }>();
+        for (const meeting of allMeetings) {
+          if (meeting.matchScore != null) {
+            const existing = delegateMatchScoreMap.get(meeting.attendeeId) || { sum: 0, count: 0 };
+            delegateMatchScoreMap.set(meeting.attendeeId, {
+              sum: existing.sum + meeting.matchScore,
+              count: existing.count + 1,
+            });
+          }
+        }
+
         // Build avg rating per delegate (across all sponsor ratings for that delegate)
         const delegateRatingMap = new Map<string, { sum: number; count: number }>();
         for (const meeting of allMeetings) {
@@ -1870,7 +1882,18 @@ export const appRouter = router({
           .map(([attendeeId, demandScore]) => {
             const delegate = attendees.find(d => d.id === attendeeId);
             const ratingData = delegateRatingMap.get(attendeeId);
+            const matchScoreData = delegateMatchScoreMap.get(attendeeId);
             const avgRating = ratingData && ratingData.count > 0 ? ratingData.sum / ratingData.count : null;
+            const avgMatchScore = matchScoreData && matchScoreData.count > 0 ? matchScoreData.sum / matchScoreData.count : null;
+            const meetingCount = delegateMeetingCountMap.get(attendeeId) || 0;
+            const ratedCount = ratingData?.count ?? 0;
+            // Weighted sort score: avg rating weighted by number of ratings received
+            // Delegates with more ratings carry more confidence — Bayesian-style with prior of 3.0
+            const PRIOR_WEIGHT = 3; // equivalent to 3 "ghost" ratings at 3.0
+            const PRIOR_MEAN = 3.0;
+            const weightedRating = ratedCount > 0
+              ? (ratingData!.sum + PRIOR_WEIGHT * PRIOR_MEAN) / (ratedCount + PRIOR_WEIGHT)
+              : PRIOR_MEAN;
             return {
               attendeeId,
               name: delegate ? `${delegate.firstName} ${delegate.lastName}` : 'Unknown',
@@ -1880,13 +1903,15 @@ export const appRouter = router({
                 const rankedList = r.rankingsData ? JSON.parse(r.rankingsData) : [];
                 return rankedList.includes(attendeeId);
               }).length,
-              meetingCount: delegateMeetingCountMap.get(attendeeId) || 0,
+              meetingCount,
               avgRating,
-              ratedCount: ratingData?.count ?? 0,
+              avgMatchScore,
+              ratedCount,
+              weightedRating,
             };
           })
           .filter(d => d.name !== 'Unknown')
-          .sort((a, b) => b.demandScore - a.demandScore);
+          .sort((a, b) => b.weightedRating - a.weightedRating || b.ratedCount - a.ratedCount);
         
         // Sponsor statistics (excluding test/inactive sponsors)
         const sponsorStats = await Promise.all(
@@ -2538,6 +2563,372 @@ export const appRouter = router({
           })
           .sort((a: any, b: any) => a.name.localeCompare(b.name));
       }),
+    // ── Matching Intelligence ──────────────────────────────────────────────────
+
+    // 1. Top-N Ranking Coverage: for each sponsor, how many of their top-N
+    //    ranked delegates (sliding to fill cancelled slots) made it into the schedule.
+    getTopNCoverage: adminProcedure.query(async () => {
+      const TEST_SPONSOR_IDS = new Set([30001, 60001, 90001, 120001]);
+      const ALWAYS_EXCLUDED_SPONSOR_IDS = new Set([270001, 510003]);
+      const SPONSOR_MEETING_COUNT_OVERRIDES: Record<number, number> = {
+        450001: 12, 750001: 24, 870001: 12, 390001: 10,
+      };
+
+      const allSponsorsRaw = await db.getAllSponsors();
+      const allMeetingsRaw = await db.getAllMeetings();
+      // Active attendee IDs — from attendees.ts (only present delegates are in this list)
+      const allAttendeesRaw = attendees as any[];
+      const activeAttendeeIds = new Set(allAttendeesRaw.map((a: any) => a.id));
+
+      const results: Array<{
+        sponsorId: number;
+        sponsorName: string;
+        quota: number;
+        metFromTopN: number;
+        cancelledSkipped: number;
+        hitPct: number;
+        avgRating: number | null;
+        ratedCount: number;
+      }> = [];
+
+      for (const sponsor of allSponsorsRaw as any[]) {
+        if (ALWAYS_EXCLUDED_SPONSOR_IDS.has(sponsor.id)) continue;
+        if (TEST_SPONSOR_IDS.has(sponsor.id)) continue;
+
+        const intakeSubmission = await db.getIntakeSubmissionBySponsor(sponsor.id);
+        const quota = SPONSOR_MEETING_COUNT_OVERRIDES[sponsor.id] ??
+          (intakeSubmission?.meetingPackage === '20' ? 20 : 12);
+
+        // Get latest rankings submission
+        const rankingsSubs = await db.getRankingsSubmissionsBySponsor(sponsor.id);
+        if (!rankingsSubs.length) continue;
+        const latestSub = rankingsSubs[0];
+        let rankedIds: number[] = [];
+        try {
+          rankedIds = JSON.parse(latestSub.rankingsData || '[]');
+        } catch { continue; }
+        if (!rankedIds.length) continue;
+
+        // Slide down to fill cancelled slots — collect first `quota` active ranked delegates
+        const effectiveTopN: number[] = [];
+        let cancelledSkipped = 0;
+        for (const id of rankedIds) {
+          if (effectiveTopN.length >= quota) break;
+          if (activeAttendeeIds.has(id)) {
+            effectiveTopN.push(id);
+          } else {
+            cancelledSkipped++;
+          }
+        }
+
+        // Sponsor's actual scheduled meetings (visible, not declined)
+        const sponsorMeetings = (allMeetingsRaw as any[]).filter(
+          (m: any) => m.sponsorId === sponsor.id && m.isVisible === 1 && m.status !== 'declined'
+        );
+        const scheduledDelegateIds = new Set(sponsorMeetings.map((m: any) => m.attendeeId));
+
+        const metFromTopN = effectiveTopN.filter(id => scheduledDelegateIds.has(id)).length;
+        const hitPct = effectiveTopN.length > 0 ? Math.round((metFromTopN / effectiveTopN.length) * 100) : 0;
+
+        // Post-event avg rating
+        const ratedMeetings = sponsorMeetings.filter((m: any) => m.meetingRating != null && m.meetingRating > 0);
+        const avgRating = ratedMeetings.length > 0
+          ? Math.round((ratedMeetings.reduce((s: number, m: any) => s + m.meetingRating, 0) / ratedMeetings.length) * 10) / 10
+          : null;
+
+        results.push({
+          sponsorId: sponsor.id,
+          sponsorName: sponsor.companyName,
+          quota,
+          metFromTopN,
+          cancelledSkipped,
+          hitPct,
+          avgRating,
+          ratedCount: ratedMeetings.length,
+        });
+      }
+
+      return results.sort((a, b) => b.hitPct - a.hitPct);
+    }),
+
+    // 6. Sponsor Schedule Confidence Score: combines hit rate, avg match score,
+    //    opt-in overlap, and (if available) post-event avg rating into a single score.
+    getScheduleConfidence: adminProcedure.query(async () => {
+      const TEST_SPONSOR_IDS = new Set([30001, 60001, 90001, 120001]);
+      const ALWAYS_EXCLUDED_SPONSOR_IDS = new Set([270001, 510003]);
+      const SPONSOR_MEETING_COUNT_OVERRIDES: Record<number, number> = {
+        450001: 12, 750001: 24, 870001: 12, 390001: 10,
+      };
+
+      const allSponsorsRaw = await db.getAllSponsors();
+      const allMeetingsRaw = await db.getAllMeetings();
+      // Active attendee IDs — from attendees.ts
+      const allAttendeesRaw = attendees as any[];
+      const activeAttendeeIds = new Set(allAttendeesRaw.map((a: any) => a.id));
+
+      const results: Array<{
+        sponsorId: number;
+        sponsorName: string;
+        confidenceScore: number;
+        hitRate: number;
+        avgMatchScore: number;
+        optInOverlap: number;
+        avgRating: number | null;
+        ratedCount: number;
+        totalMeetings: number;
+        breakdown: { hitRate: number; matchScore: number; optIn: number; feedback: number };
+      }> = [];
+
+      for (const sponsor of allSponsorsRaw as any[]) {
+        if (ALWAYS_EXCLUDED_SPONSOR_IDS.has(sponsor.id)) continue;
+        if (TEST_SPONSOR_IDS.has(sponsor.id)) continue;
+
+        const intakeSubmission = await db.getIntakeSubmissionBySponsor(sponsor.id);
+        const quota = SPONSOR_MEETING_COUNT_OVERRIDES[sponsor.id] ??
+          (intakeSubmission?.meetingPackage === '20' ? 20 : 12);
+
+        const rankingsSubs = await db.getRankingsSubmissionsBySponsor(sponsor.id);
+        if (!rankingsSubs.length) continue;
+        const latestSub = rankingsSubs[0];
+        let rankedIds: number[] = [];
+        try { rankedIds = JSON.parse(latestSub.rankingsData || '[]'); } catch { continue; }
+        if (!rankedIds.length) continue;
+
+        // Effective top-N (sliding)
+        const effectiveTopN: number[] = [];
+        for (const id of rankedIds) {
+          if (effectiveTopN.length >= quota) break;
+          if (activeAttendeeIds.has(id)) effectiveTopN.push(id);
+        }
+
+        const sponsorMeetings = (allMeetingsRaw as any[]).filter(
+          (m: any) => m.sponsorId === sponsor.id && m.isVisible === 1 && m.status !== 'declined'
+        );
+        if (!sponsorMeetings.length) continue;
+
+        const scheduledDelegateIds = new Set(sponsorMeetings.map((m: any) => m.attendeeId));
+        const metFromTopN = effectiveTopN.filter(id => scheduledDelegateIds.has(id)).length;
+        const hitRate = effectiveTopN.length > 0 ? (metFromTopN / effectiveTopN.length) * 100 : 0;
+
+        // Avg match score
+        const matchScores = sponsorMeetings.map((m: any) => m.matchScore).filter((s: any) => s != null);
+        const avgMatchScore = matchScores.length > 0
+          ? matchScores.reduce((a: number, b: number) => a + b, 0) / matchScores.length
+          : 0;
+
+        // Opt-in overlap: % of scheduled meetings where delegate opted in
+        const optInMeetings = sponsorMeetings.filter((m: any) => {
+          const attendee = (allAttendeesRaw as any[]).find((a: any) => a.id === m.attendeeId);
+          if (!attendee?.optInSponsors) return false;
+          try {
+            const optIns: number[] = JSON.parse(attendee.optInSponsors);
+            return optIns.includes(sponsor.id);
+          } catch { return false; }
+        });
+        const optInOverlap = (optInMeetings.length / sponsorMeetings.length) * 100;
+
+        // Post-event avg rating
+        const ratedMeetings = sponsorMeetings.filter((m: any) => m.meetingRating != null && m.meetingRating > 0);
+        const avgRating = ratedMeetings.length > 0
+          ? ratedMeetings.reduce((s: number, m: any) => s + m.meetingRating, 0) / ratedMeetings.length
+          : null;
+
+        // Confidence score formula (pre-event weights):
+        //   40% hit rate (0-100 → 0-40)
+        //   35% avg match score (0-100 → 0-35)
+        //   25% opt-in overlap (0-100 → 0-25)
+        // If post-event feedback available, blend in: 30% feedback (1-5 → 0-100), reduce others proportionally
+        let confidenceScore: number;
+        let breakdown: { hitRate: number; matchScore: number; optIn: number; feedback: number };
+
+        if (avgRating !== null && ratedMeetings.length >= Math.ceil(sponsorMeetings.length * 0.5)) {
+          // Post-event mode: feedback available for ≥50% of meetings
+          const feedbackNorm = ((avgRating - 1) / 4) * 100; // 1-5 → 0-100
+          confidenceScore = Math.round(
+            hitRate * 0.30 + avgMatchScore * 0.25 + optInOverlap * 0.15 + feedbackNorm * 0.30
+          );
+          breakdown = {
+            hitRate: Math.round(hitRate * 0.30),
+            matchScore: Math.round(avgMatchScore * 0.25),
+            optIn: Math.round(optInOverlap * 0.15),
+            feedback: Math.round(feedbackNorm * 0.30),
+          };
+        } else {
+          // Pre-event mode
+          confidenceScore = Math.round(hitRate * 0.40 + avgMatchScore * 0.35 + optInOverlap * 0.25);
+          breakdown = {
+            hitRate: Math.round(hitRate * 0.40),
+            matchScore: Math.round(avgMatchScore * 0.35),
+            optIn: Math.round(optInOverlap * 0.25),
+            feedback: 0,
+          };
+        }
+
+        results.push({
+          sponsorId: sponsor.id,
+          sponsorName: sponsor.companyName,
+          confidenceScore: Math.min(100, Math.max(0, confidenceScore)),
+          hitRate: Math.round(hitRate),
+          avgMatchScore: Math.round(avgMatchScore),
+          optInOverlap: Math.round(optInOverlap),
+          avgRating: avgRating !== null ? Math.round(avgRating * 10) / 10 : null,
+          ratedCount: ratedMeetings.length,
+          totalMeetings: sponsorMeetings.length,
+          breakdown,
+        });
+      }
+
+      return results.sort((a, b) => b.confidenceScore - a.confidenceScore);
+    }),
+
+    // 8. Algorithm Weight Simulator: given custom weights for rankings/AI/opt-in,
+    //    preview what the top-N hit rates and avg match scores would look like.
+    simulateWeights: adminProcedure
+      .input(z.object({
+        rankingsWeight: z.number().min(0).max(100),
+        aiWeight: z.number().min(0).max(100),
+        optInWeight: z.number().min(0).max(100),
+      }))
+      .query(async ({ input }) => {
+        const TEST_SPONSOR_IDS = new Set([30001, 60001, 90001, 120001]);
+        const ALWAYS_EXCLUDED_SPONSOR_IDS = new Set([270001, 510003]);
+        const SPONSOR_MEETING_COUNT_OVERRIDES: Record<number, number> = {
+          450001: 12, 750001: 24, 870001: 12, 390001: 10,
+        };
+
+        // Normalise weights to sum to 1
+        const total = input.rankingsWeight + input.aiWeight + input.optInWeight;
+        const wRank = total > 0 ? input.rankingsWeight / total : 0.55;
+        const wAI = total > 0 ? input.aiWeight / total : 0.40;
+        const wOptIn = total > 0 ? input.optInWeight / total : 0.05;
+
+        const allSponsorsRaw = await db.getAllSponsors();
+        const allMeetingsRaw = await db.getAllMeetings();
+        // Active attendee IDs — from attendees.ts
+        const allAttendeesRaw = attendees as any[];
+        const activeAttendeeIds = new Set(allAttendeesRaw.map((a: any) => a.id));
+
+        // Build opt-in map: attendeeId → Set<sponsorId>
+        const optInMap = new Map<number, Set<number>>();
+        for (const att of allAttendeesRaw as any[]) {
+          try {
+            const names: string[] = Array.isArray(att.optInSponsors) ? att.optInSponsors : JSON.parse(att.optInSponsors || '[]');
+            // Store sponsor names for lookup
+            (att as any)._optInNames = new Set(names.map((n: string) => n.toLowerCase()));
+            optInMap.set(att.id, new Set<number>()); // placeholder
+          } catch { optInMap.set(att.id, new Set()); }
+        }
+
+        const results: Array<{
+          sponsorId: number;
+          sponsorName: string;
+          quota: number;
+          simMetFromTopN: number;
+          simHitPct: number;
+          simAvgScore: number;
+          actualHitPct: number;
+          delta: number;
+        }> = [];
+
+        for (const sponsor of allSponsorsRaw as any[]) {
+          if (ALWAYS_EXCLUDED_SPONSOR_IDS.has(sponsor.id)) continue;
+          if (TEST_SPONSOR_IDS.has(sponsor.id)) continue;
+
+          const intakeSubmission = await db.getIntakeSubmissionBySponsor(sponsor.id);
+          const quota = SPONSOR_MEETING_COUNT_OVERRIDES[sponsor.id] ??
+            (intakeSubmission?.meetingPackage === '20' ? 20 : 12);
+
+          const rankingsSubs = await db.getRankingsSubmissionsBySponsor(sponsor.id);
+          if (!rankingsSubs.length) continue;
+          const latestSub = rankingsSubs[0];
+          let rankedIds: number[] = [];
+          try { rankedIds = JSON.parse(latestSub.rankingsData || '[]'); } catch { continue; }
+          if (!rankedIds.length) continue;
+
+          // Build rank position map (lower = better)
+          const rankPos = new Map<number, number>();
+          rankedIds.forEach((id, i) => rankPos.set(id, i + 1));
+
+          // Get all active attendees as candidate pool
+          const candidates = (allAttendeesRaw as any[]).filter((a: any) => a.isVisible !== 0);
+
+          // Score each candidate under the simulated weights
+          const scored = candidates.map((att: any) => {
+            const pos = rankPos.get(att.id);
+            // Rank score: ranked delegates get score based on position (1st = 1.0, last = 0.0)
+            const rankScore = pos != null
+              ? Math.max(0, 1 - (pos - 1) / Math.max(rankedIds.length - 1, 1))
+              : 0;
+            // AI match score (normalised 0-1)
+            const sponsorMeeting = (allMeetingsRaw as any[]).find(
+              (m: any) => m.sponsorId === sponsor.id && m.attendeeId === att.id && m.isVisible === 1
+            );
+            const aiScore = sponsorMeeting?.matchScore != null ? sponsorMeeting.matchScore / 100 : 0.5;
+            // Opt-in bonus
+            const optInBonus = ((att as any)._optInNames?.has(sponsor.companyName?.toLowerCase() ?? '') ? 1 : 0);
+
+            return {
+              attendeeId: att.id,
+              score: wRank * rankScore + wAI * aiScore + wOptIn * optInBonus,
+              aiScore,
+            };
+          });
+
+          // Sort by simulated score descending, take top quota
+          scored.sort((a: any, b: any) => b.score - a.score);
+          const simTopN = scored.slice(0, quota);
+          const simTopNIds = new Set(simTopN.map((s: any) => s.attendeeId));
+
+          // Actual scheduled meetings
+          const sponsorMeetings = (allMeetingsRaw as any[]).filter(
+            (m: any) => m.sponsorId === sponsor.id && m.isVisible === 1 && m.status !== 'declined'
+          );
+          const scheduledIds = new Set(sponsorMeetings.map((m: any) => m.attendeeId));
+
+          // Effective actual top-N (sliding)
+          const effectiveTopN: number[] = [];
+          for (const id of rankedIds) {
+            if (effectiveTopN.length >= quota) break;
+            if (activeAttendeeIds.has(id)) effectiveTopN.push(id);
+          }
+          const actualMet = effectiveTopN.filter(id => scheduledIds.has(id)).length;
+          const actualHitPct = effectiveTopN.length > 0 ? Math.round((actualMet / effectiveTopN.length) * 100) : 0;
+
+          // Simulated: how many of simTopN are in the actual schedule
+          const simMet = Array.from(simTopNIds).filter(id => scheduledIds.has(id)).length;
+          const simHitPct = quota > 0 ? Math.round((simMet / quota) * 100) : 0;
+          const simAvgScore = simTopN.length > 0
+            ? Math.round((simTopN.reduce((s: number, x: any) => s + x.aiScore * 100, 0) / simTopN.length))
+            : 0;
+
+          results.push({
+            sponsorId: sponsor.id,
+            sponsorName: sponsor.companyName,
+            quota,
+            simMetFromTopN: simMet,
+            simHitPct,
+            simAvgScore,
+            actualHitPct,
+            delta: simHitPct - actualHitPct,
+          });
+        }
+
+        const overallSimHit = results.length > 0
+          ? Math.round(results.reduce((s, r) => s + r.simHitPct, 0) / results.length)
+          : 0;
+        const overallActualHit = results.length > 0
+          ? Math.round(results.reduce((s, r) => s + r.actualHitPct, 0) / results.length)
+          : 0;
+
+        return {
+          weights: { rankingsWeight: input.rankingsWeight, aiWeight: input.aiWeight, optInWeight: input.optInWeight },
+          overallSimHit,
+          overallActualHit,
+          delta: overallSimHit - overallActualHit,
+          sponsors: results.sort((a, b) => b.simHitPct - a.simHitPct),
+        };
+      }),
+
   }),
 });
 export type AppRouter = typeof appRouter;

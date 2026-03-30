@@ -1706,3 +1706,10 @@
 - [x] Add Tier column to AdminReporting.tsx report table with emoji badge
 - [x] Add Tier column to CSV export
 - [x] Write/update vitest test for tier logic
+
+## Matching Intelligence Page — March 2026
+- [ ] Build getMatchingIntelligence tRPC procedure: top-N coverage per sponsor, confidence score per sponsor, algorithm weight simulator
+- [ ] Create AdminMatchingIntelligence.tsx page with three sections: Top-N Coverage, Schedule Confidence, Weight Simulator
+- [ ] Register /admin/matching-intelligence route in App.tsx
+- [ ] Add "Matching" nav item to AdminHeader
+- [ ] Write vitest tests for getMatchingIntelligence procedure
