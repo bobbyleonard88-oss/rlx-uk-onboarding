@@ -297,6 +297,16 @@ export default function AdminFeedbackNotes() {
     return rated.reduce((s, m) => s + (m.meetingRating ?? 0), 0) / rated.length;
   }, [data]);
 
+  const tierTotals = useMemo(() => {
+    if (!data) return { green: 0, amber: 0, red: 0 };
+    const rated = data.filter(m => m.meetingRating != null && m.meetingRating > 0);
+    return {
+      green: rated.filter(m => (m.meetingRating ?? 0) >= 4).length,
+      amber: rated.filter(m => (m.meetingRating ?? 0) === 3).length,
+      red: rated.filter(m => (m.meetingRating ?? 0) <= 2).length,
+    };
+  }, [data]);
+
   return (
     <div className="min-h-screen bg-slate-950 text-white">
       <AdminHeader />
@@ -323,10 +333,10 @@ export default function AdminFeedbackNotes() {
 
         {/* Summary stats */}
         {data && data.length > 0 && (
-          <div className="grid grid-cols-3 gap-4 mb-6">
+          <div className="grid grid-cols-3 sm:grid-cols-6 gap-4 mb-6">
             <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-4 text-center">
               <p className="text-2xl font-bold text-amber-400">{overallAvg != null ? overallAvg.toFixed(1) : "—"}</p>
-              <p className="text-slate-400 text-xs mt-1">Overall avg rating</p>
+              <p className="text-slate-400 text-xs mt-1">Avg rating</p>
             </div>
             <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-4 text-center">
               <p className="text-2xl font-bold text-white">{totalRated}</p>
@@ -335,6 +345,18 @@ export default function AdminFeedbackNotes() {
             <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-4 text-center">
               <p className="text-2xl font-bold text-purple-400">{totalNotes}</p>
               <p className="text-slate-400 text-xs mt-1">Notes left</p>
+            </div>
+            <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-4 text-center">
+              <p className="text-2xl font-bold text-emerald-400">{tierTotals.green}</p>
+              <p className="text-emerald-400/70 text-xs mt-1">🟢 Active</p>
+            </div>
+            <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl p-4 text-center">
+              <p className="text-2xl font-bold text-amber-400">{tierTotals.amber}</p>
+              <p className="text-amber-400/70 text-xs mt-1">🟡 Future</p>
+            </div>
+            <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 text-center">
+              <p className="text-2xl font-bold text-red-400">{tierTotals.red}</p>
+              <p className="text-red-400/70 text-xs mt-1">🔴 No fit</p>
             </div>
           </div>
         )}

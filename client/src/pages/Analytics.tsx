@@ -114,6 +114,41 @@ export default function Analytics() {
             </Card>
           </div>
 
+          {/* Opportunity Tier Summary */}
+          {(() => {
+            const allRated = analytics.sponsorStats.filter((s: any) => s.ratedMeetingsCount > 0);
+            const totalGreen = allRated.reduce((sum: number, s: any) => sum + (s.greenCount ?? 0), 0);
+            const totalAmber = allRated.reduce((sum: number, s: any) => sum + (s.amberCount ?? 0), 0);
+            const totalRed = allRated.reduce((sum: number, s: any) => sum + (s.redCount ?? 0), 0);
+            const totalTiered = totalGreen + totalAmber + totalRed;
+            if (totalTiered === 0) return null;
+            return (
+              <div className="grid grid-cols-3 gap-4 mb-6">
+                <Card className="bg-emerald-500/10 border-emerald-500/30">
+                  <CardContent className="pt-5 pb-4 text-center">
+                    <p className="text-3xl font-bold text-emerald-400">{totalGreen}</p>
+                    <p className="text-emerald-400/80 text-sm mt-1 font-medium">🟢 Active opportunity</p>
+                    <p className="text-emerald-400/50 text-xs mt-0.5">{totalTiered > 0 ? Math.round((totalGreen / totalTiered) * 100) : 0}% of rated meetings</p>
+                  </CardContent>
+                </Card>
+                <Card className="bg-amber-500/10 border-amber-500/30">
+                  <CardContent className="pt-5 pb-4 text-center">
+                    <p className="text-3xl font-bold text-amber-400">{totalAmber}</p>
+                    <p className="text-amber-400/80 text-sm mt-1 font-medium">🟡 Future potential</p>
+                    <p className="text-amber-400/50 text-xs mt-0.5">{totalTiered > 0 ? Math.round((totalAmber / totalTiered) * 100) : 0}% of rated meetings</p>
+                  </CardContent>
+                </Card>
+                <Card className="bg-red-500/10 border-red-500/30">
+                  <CardContent className="pt-5 pb-4 text-center">
+                    <p className="text-3xl font-bold text-red-400">{totalRed}</p>
+                    <p className="text-red-400/80 text-sm mt-1 font-medium">🔴 Not a fit</p>
+                    <p className="text-red-400/50 text-xs mt-0.5">{totalTiered > 0 ? Math.round((totalRed / totalTiered) * 100) : 0}% of rated meetings</p>
+                  </CardContent>
+                </Card>
+              </div>
+            );
+          })()}
+
           {/* Row 1: Time Slot Distribution split into Day 1 | Day 2 */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
             {/* Day 2 (Wed 25 Mar) */}
