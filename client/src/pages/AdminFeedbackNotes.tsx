@@ -139,6 +139,9 @@ function SponsorGroup({
   }, [meetings]);
   const notedCount = meetings.filter(m => m.meetingNotes?.trim()).length;
   const ratedCount = meetings.filter(m => m.meetingRating != null && m.meetingRating > 0).length;
+  const greenCount = meetings.filter(m => (m.meetingRating ?? 0) >= 4).length;
+  const amberCount = meetings.filter(m => (m.meetingRating ?? 0) === 3).length;
+  const redCount = meetings.filter(m => m.meetingRating != null && m.meetingRating > 0 && (m.meetingRating ?? 0) <= 2).length;
 
   return (
     <>
@@ -161,6 +164,13 @@ function SponsorGroup({
             {notedCount > 0 && (
               <span className="flex items-center gap-1 text-purple-400 text-xs flex-shrink-0">
                 <MessageSquare className="w-3 h-3" /> {notedCount} note{notedCount !== 1 ? "s" : ""}
+              </span>
+            )}
+            {ratedCount > 0 && (
+              <span className="flex items-center gap-1.5 text-xs flex-shrink-0">
+                {greenCount > 0 && <span className="text-emerald-400">🟢 {greenCount}</span>}
+                {amberCount > 0 && <span className="text-amber-400">🟡 {amberCount}</span>}
+                {redCount > 0 && <span className="text-red-400">🔴 {redCount}</span>}
               </span>
             )}
           </div>
