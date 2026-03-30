@@ -376,9 +376,10 @@ export default function Analytics() {
               .filter((s: any) => s.avgMeetingRating != null)
               .sort((a: any, b: any) => (b.avgMeetingRating ?? 0) - (a.avgMeetingRating ?? 0));
             const totalRated = analytics.sponsorStats.reduce((sum: number, s: any) => sum + (s.ratedMeetingsCount ?? 0), 0);
-            const overallAvgRating = ratedSponsors.length > 0
-              ? ratedSponsors.reduce((sum: number, s: any) => sum + (s.avgMeetingRating ?? 0), 0) / ratedSponsors.length
-              : null;
+            // Use true weighted mean (sum of all ratings / total rated meetings) not average-of-averages
+            const totalRatingSum = analytics.sponsorStats.reduce((sum: number, s: any) => 
+              sum + ((s.avgMeetingRating ?? 0) * (s.ratedMeetingsCount ?? 0)), 0);
+            const overallAvgRating = totalRated > 0 ? totalRatingSum / totalRated : null;
             return (
               <div className="grid grid-cols-1 mb-6">
                 <Card className="bg-slate-800/50 border-slate-700">
