@@ -168,9 +168,9 @@ function SponsorGroup({
             )}
             {ratedCount > 0 && (
               <span className="flex items-center gap-1.5 text-xs flex-shrink-0">
-                {greenCount > 0 && <span className="text-emerald-400">🟢 {greenCount}</span>}
-                {amberCount > 0 && <span className="text-amber-400">🟡 {amberCount}</span>}
-                {redCount > 0 && <span className="text-red-400">🔴 {redCount}</span>}
+                {greenCount > 0 && <span className="text-emerald-400">🟢 {greenCount} ({Math.round((greenCount / ratedCount) * 100)}%)</span>}
+                {amberCount > 0 && <span className="text-amber-400">🟡 {amberCount} ({Math.round((amberCount / ratedCount) * 100)}%)</span>}
+                {redCount > 0 && <span className="text-red-400">🔴 {redCount} ({Math.round((redCount / ratedCount) * 100)}%)</span>}
               </span>
             )}
           </div>
