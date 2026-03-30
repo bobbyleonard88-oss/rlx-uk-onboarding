@@ -383,7 +383,11 @@ export default function Analytics() {
           {(() => {
             const ratedSponsors = analytics.sponsorStats
               .filter((s: any) => s.avgMeetingRating != null)
-              .sort((a: any, b: any) => (b.avgMeetingRating ?? 0) - (a.avgMeetingRating ?? 0));
+              .sort((a: any, b: any) => {
+                const ratingDiff = (b.avgMeetingRating ?? 0) - (a.avgMeetingRating ?? 0);
+                if (ratingDiff !== 0) return ratingDiff;
+                return (b.ratedMeetingsCount ?? 0) - (a.ratedMeetingsCount ?? 0);
+              });
             const totalRated = analytics.sponsorStats.reduce((sum: number, s: any) => sum + (s.ratedMeetingsCount ?? 0), 0);
             // Use true weighted mean (sum of all ratings / total rated meetings) not average-of-averages
             const totalRatingSum = analytics.sponsorStats.reduce((sum: number, s: any) => 
@@ -416,7 +420,11 @@ export default function Analytics() {
                           onClick={() => {
                             const rows = analytics.sponsorStats
                               .filter((s: any) => s.ratedMeetingsCount > 0)
-                              .sort((a: any, b: any) => (b.avgMeetingRating ?? 0) - (a.avgMeetingRating ?? 0))
+                              .sort((a: any, b: any) => {
+                                const ratingDiff = (b.avgMeetingRating ?? 0) - (a.avgMeetingRating ?? 0);
+                                if (ratingDiff !== 0) return ratingDiff;
+                                return (b.ratedMeetingsCount ?? 0) - (a.ratedMeetingsCount ?? 0);
+                              })
                               .map((s: any) => [
                                 s.companyName,
                                 s.ratedMeetingsCount,
