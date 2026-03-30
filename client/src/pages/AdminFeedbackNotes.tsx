@@ -349,14 +349,17 @@ export default function AdminFeedbackNotes() {
             <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-4 text-center">
               <p className="text-2xl font-bold text-emerald-400">{tierTotals.green}</p>
               <p className="text-emerald-400/70 text-xs mt-1">🟢 Active</p>
+              {totalRated > 0 && <p className="text-emerald-400/50 text-xs">{Math.round((tierTotals.green / totalRated) * 100)}% of rated</p>}
             </div>
             <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl p-4 text-center">
               <p className="text-2xl font-bold text-amber-400">{tierTotals.amber}</p>
               <p className="text-amber-400/70 text-xs mt-1">🟡 Future</p>
+              {totalRated > 0 && <p className="text-amber-400/50 text-xs">{Math.round((tierTotals.amber / totalRated) * 100)}% of rated</p>}
             </div>
             <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 text-center">
               <p className="text-2xl font-bold text-red-400">{tierTotals.red}</p>
               <p className="text-red-400/70 text-xs mt-1">🔴 No fit</p>
+              {totalRated > 0 && <p className="text-red-400/50 text-xs">{Math.round((tierTotals.red / totalRated) * 100)}% of rated</p>}
             </div>
           </div>
         )}
