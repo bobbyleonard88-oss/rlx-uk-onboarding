@@ -2499,12 +2499,21 @@ export const appRouter = router({
           } catch {}
         }
 
+        // Build effective rank list: remove cancelled delegates (those not in active attendees list)
+        // so rank positions reflect the post-cancellation order sponsors actually experienced
+        const activeAttendeeIds = new Set(attendees.map((a: any) => a.id));
+        const effectiveRankedIds = rankedAttendeeIds.filter((id: string) => activeAttendeeIds.has(id));
+
         const sponsorNameLower = (sponsor.companyName ?? '').toLowerCase();
 
         const meetings = visibleMeetings.map((m: any) => {
           const delegate = attendees.find((a: any) => a.id === m.attendeeId);
-          const rankIndex = rankedAttendeeIds.indexOf(m.attendeeId);
-          const rankPosition = rankIndex >= 0 ? rankIndex + 1 : null;
+          // Use effective rank (post-cancellation) — falls back to original rank if not found
+          const effectiveRankIndex = effectiveRankedIds.indexOf(m.attendeeId);
+          const originalRankIndex = rankedAttendeeIds.indexOf(m.attendeeId);
+          const rankPosition = effectiveRankIndex >= 0 ? effectiveRankIndex + 1
+            : originalRankIndex >= 0 ? originalRankIndex + 1
+            : null;
           const optedIn = delegate
             ? ((delegate as any).optInSponsors ?? []).some((s: string) =>
                 s.toLowerCase().includes(sponsorNameLower) ||
