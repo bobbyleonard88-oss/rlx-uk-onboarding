@@ -161,6 +161,9 @@ function SponsorGroup({
             {open ? <ChevronDown className="w-4 h-4 text-slate-400 flex-shrink-0" /> : <ChevronRight className="w-4 h-4 text-slate-400 flex-shrink-0" />}
             <span className="text-white font-semibold text-sm truncate">{sponsorName}</span>
             <span className="text-slate-500 text-xs flex-shrink-0">{meetings.length} meeting{meetings.length !== 1 ? "s" : ""}</span>
+            <span className="text-slate-400 text-xs flex-shrink-0">
+              {ratedCount}/{meetings.length} rated
+            </span>
             {notedCount > 0 && (
               <span className="flex items-center gap-1 text-purple-400 text-xs flex-shrink-0">
                 <MessageSquare className="w-3 h-3" /> {notedCount} note{notedCount !== 1 ? "s" : ""}
