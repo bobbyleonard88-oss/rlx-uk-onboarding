@@ -567,9 +567,14 @@ export default function Analytics() {
                                       🟢 {sponsor.greenCount}
                                     </span>
                                   )}
-                                  {(sponsor.amberCount ?? 0) > 0 && (
-                                    <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-xs bg-amber-500/15 text-amber-400 border border-amber-500/30">
-                                      🟡 {sponsor.amberCount}
+                                  {(sponsor.yellowCount ?? 0) > 0 && (
+                                    <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-xs bg-yellow-500/15 text-yellow-400 border border-yellow-500/30">
+                                      🟡 {sponsor.yellowCount}
+                                    </span>
+                                  )}
+                                  {(sponsor.orangeCount ?? 0) > 0 && (
+                                    <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-xs bg-orange-500/15 text-orange-400 border border-orange-500/30">
+                                      🟠 {sponsor.orangeCount}
                                     </span>
                                   )}
                                   {(sponsor.redCount ?? 0) > 0 && (

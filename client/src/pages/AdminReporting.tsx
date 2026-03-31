@@ -1,4 +1,5 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useMemo } from "react";
+import { ChevronUp, ChevronDown as ChevronDownIcon } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 import AdminHeader from "@/components/AdminHeader";
 import { Button } from "@/components/ui/button";
@@ -13,7 +14,7 @@ const SLOT_TIMES: Record<number, string> = {
   9: "Thu 13:15", 10: "Thu 13:45", 11: "Thu 14:30", 12: "Thu 15:00",
 };
 
-type Tier = "green" | "amber" | "red";
+type Tier = "green" | "yellow" | "orange" | "red";
 
 function TierBadge({ tier }: { tier: Tier }) {
   if (tier === "green") {
@@ -23,16 +24,23 @@ function TierBadge({ tier }: { tier: Tier }) {
       </span>
     );
   }
-  if (tier === "amber") {
+  if (tier === "yellow") {
     return (
-      <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-500/15 text-amber-400 border border-amber-500/30 whitespace-nowrap">
+      <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-500/15 text-yellow-400 border border-yellow-500/30 whitespace-nowrap">
         🟡 Medium Term
+      </span>
+    );
+  }
+  if (tier === "orange") {
+    return (
+      <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-orange-500/15 text-orange-400 border border-orange-500/30 whitespace-nowrap">
+        🟠 Longer Term
       </span>
     );
   }
   return (
     <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-red-500/15 text-red-400 border border-red-500/30 whitespace-nowrap">
-      🔴 No Fit / Longer Term
+      🔴 No Fit
     </span>
   );
 }
@@ -61,9 +69,12 @@ function OptInBadge({ optedIn }: { optedIn: boolean }) {
 
 const TIER_LABELS: Record<Tier, string> = {
   green: "🟢 Short Term Opp",
-  amber: "🟡 Medium Term",
-  red: "🔴 No Fit / Longer Term",
+  yellow: "🟡 Medium Term",
+  orange: "🟠 Longer Term",
+  red: "🔴 No Fit",
 };
+
+const TIER_ORDER: Record<string, number> = { green: 0, yellow: 1, orange: 2, red: 3 };
 
 function downloadCSV(sponsorName: string, meetings: any[]) {
   const headers = ["Time Slot", "Delegate", "Company", "Job Title", "Rank", "Match %", "Opted In", "Rating", "Opportunity"];
@@ -90,10 +101,24 @@ function downloadCSV(sponsorName: string, meetings: any[]) {
   URL.revokeObjectURL(url);
 }
 
+type SortCol = "slot" | "delegate" | "company" | "rank" | "match" | "optedin" | "rating" | "opportunity";
+type SortDir = "asc" | "desc";
+
 export default function AdminReporting() {
   const [selectedSponsorId, setSelectedSponsorId] = useState<number | null>(null);
   const [isCapturing, setIsCapturing] = useState(false);
+  const [sortCol, setSortCol] = useState<SortCol>("slot");
+  const [sortDir, setSortDir] = useState<SortDir>("asc");
   const reportPanelRef = useRef<HTMLDivElement>(null);
+
+  const handleSort = (col: SortCol) => {
+    if (sortCol === col) {
+      setSortDir(d => d === "asc" ? "desc" : "asc");
+    } else {
+      setSortCol(col);
+      setSortDir("asc");
+    }
+  };
 
   const { data: sponsorStatuses, isLoading: loadingStatuses } = trpc.admin.getReportableSponsorStatus.useQuery();
 
@@ -154,12 +179,35 @@ export default function AdminReporting() {
   const tierCounts = report
     ? {
         green: report.meetings.filter((m: any) => m.opportunityTier === "green").length,
-        amber: report.meetings.filter((m: any) => m.opportunityTier === "amber").length,
+        yellow: report.meetings.filter((m: any) => m.opportunityTier === "yellow").length,
+        orange: report.meetings.filter((m: any) => m.opportunityTier === "orange").length,
         red: report.meetings.filter((m: any) => m.opportunityTier === "red").length,
       }
     : null;
 
   const showReport = report && !loadingReport;
+
+  const sortedMeetings = useMemo(() => {
+    if (!report?.meetings) return [];
+    const meetings = [...report.meetings];
+    meetings.sort((a: any, b: any) => {
+      let av: any, bv: any;
+      switch (sortCol) {
+        case "slot": av = a.timeSlot ?? 99; bv = b.timeSlot ?? 99; break;
+        case "delegate": av = a.delegateName ?? ""; bv = b.delegateName ?? ""; break;
+        case "company": av = a.delegateCompany ?? ""; bv = b.delegateCompany ?? ""; break;
+        case "rank": av = a.rankPosition ?? 9999; bv = b.rankPosition ?? 9999; break;
+        case "match": av = a.matchScore ?? -1; bv = b.matchScore ?? -1; break;
+        case "optedin": av = a.optedIn ? 0 : 1; bv = b.optedIn ? 0 : 1; break;
+        case "rating": av = a.meetingRating ?? -1; bv = b.meetingRating ?? -1; break;
+        case "opportunity": av = TIER_ORDER[a.opportunityTier] ?? 99; bv = TIER_ORDER[b.opportunityTier] ?? 99; break;
+        default: return 0;
+      }
+      if (typeof av === "string") return sortDir === "asc" ? av.localeCompare(bv) : bv.localeCompare(av);
+      return sortDir === "asc" ? av - bv : bv - av;
+    });
+    return meetings;
+  }, [report, sortCol, sortDir]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900/20 to-slate-900">
@@ -304,7 +352,7 @@ export default function AdminReporting() {
 
                   {/* Summary stats */}
                   {showReport && tierCounts && (
-                    <div className="px-5 py-4 border-b border-slate-700/50 grid grid-cols-5 gap-3">
+                    <div className="px-5 py-4 border-b border-slate-700/50 grid grid-cols-3 lg:grid-cols-6 gap-3">
                       <div className="bg-slate-900/50 rounded-xl p-3 text-center">
                         <div className="text-2xl font-bold text-white">{report.totalMeetings}</div>
                         <div className="text-slate-400 text-xs mt-0.5">Meetings</div>
@@ -317,13 +365,17 @@ export default function AdminReporting() {
                         <div className="text-2xl font-bold text-emerald-400">{tierCounts.green}</div>
                         <div className="text-slate-400 text-xs mt-0.5">🟢 Short Term</div>
                       </div>
-                      <div className="bg-amber-500/10 border border-amber-500/20 rounded-xl p-3 text-center">
-                        <div className="text-2xl font-bold text-amber-400">{tierCounts.amber}</div>
+                      <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-xl p-3 text-center">
+                        <div className="text-2xl font-bold text-yellow-400">{tierCounts.yellow}</div>
                         <div className="text-slate-400 text-xs mt-0.5">🟡 Medium Term</div>
+                      </div>
+                      <div className="bg-orange-500/10 border border-orange-500/20 rounded-xl p-3 text-center">
+                        <div className="text-2xl font-bold text-orange-400">{tierCounts.orange}</div>
+                        <div className="text-slate-400 text-xs mt-0.5">🟠 Longer Term</div>
                       </div>
                       <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-3 text-center">
                         <div className="text-2xl font-bold text-red-400">{tierCounts.red}</div>
-                        <div className="text-slate-400 text-xs mt-0.5">🔴 No Fit / Longer Term</div>
+                        <div className="text-slate-400 text-xs mt-0.5">🔴 No Fit</div>
                       </div>
                     </div>
                   )}
@@ -334,18 +386,37 @@ export default function AdminReporting() {
                       <table className="w-full text-sm">
                         <thead>
                           <tr className="border-b border-slate-700/50">
-                            <th className="text-left text-slate-400 font-medium px-4 py-3 text-xs uppercase tracking-wider whitespace-nowrap">Slot</th>
-                            <th className="text-left text-slate-400 font-medium px-4 py-3 text-xs uppercase tracking-wider whitespace-nowrap">Delegate</th>
-                            <th className="text-left text-slate-400 font-medium px-4 py-3 text-xs uppercase tracking-wider whitespace-nowrap">Company</th>
-                            <th className="text-left text-slate-400 font-medium px-4 py-3 text-xs uppercase tracking-wider whitespace-nowrap">Rank</th>
-                            <th className="text-left text-slate-400 font-medium px-4 py-3 text-xs uppercase tracking-wider whitespace-nowrap">Match %</th>
-                            <th className="text-left text-slate-400 font-medium px-4 py-3 text-xs uppercase tracking-wider whitespace-nowrap">Opted In</th>
-                            <th className="text-left text-slate-400 font-medium px-4 py-3 text-xs uppercase tracking-wider whitespace-nowrap">Rating</th>
-                            <th className="text-left text-slate-400 font-medium px-4 py-3 text-xs uppercase tracking-wider whitespace-nowrap">Opportunity</th>
+                            {([
+                              { col: "slot" as SortCol, label: "Slot" },
+                              { col: "delegate" as SortCol, label: "Delegate" },
+                              { col: "company" as SortCol, label: "Company" },
+                              { col: "rank" as SortCol, label: "Rank" },
+                              { col: "match" as SortCol, label: "Match %" },
+                              { col: "optedin" as SortCol, label: "Opted In" },
+                              { col: "rating" as SortCol, label: "Rating" },
+                              { col: "opportunity" as SortCol, label: "Opportunity" },
+                            ]).map(({ col, label }) => (
+                              <th
+                                key={col}
+                                onClick={() => handleSort(col)}
+                                className="text-left text-slate-400 font-medium px-4 py-3 text-xs uppercase tracking-wider whitespace-nowrap cursor-pointer select-none hover:text-white transition-colors group"
+                              >
+                                <span className="inline-flex items-center gap-1">
+                                  {label}
+                                  <span className="inline-flex flex-col opacity-40 group-hover:opacity-80 transition-opacity">
+                                    {sortCol === col ? (
+                                      sortDir === "asc" ? <ChevronUp className="w-3 h-3 text-violet-400 opacity-100" /> : <ChevronDownIcon className="w-3 h-3 text-violet-400 opacity-100" />
+                                    ) : (
+                                      <ChevronUp className="w-3 h-3" />
+                                    )}
+                                  </span>
+                                </span>
+                              </th>
+                            ))}
                           </tr>
                         </thead>
                         <tbody>
-                          {report.meetings.map((m: any, i: number) => (
+                          {sortedMeetings.map((m: any, i: number) => (
                             <tr
                               key={m.meetingId}
                               className={`border-b border-slate-700/30 hover:bg-slate-700/20 transition-colors ${

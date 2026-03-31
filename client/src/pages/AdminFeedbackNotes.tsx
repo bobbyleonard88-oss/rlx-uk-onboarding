@@ -12,13 +12,13 @@ const SLOT_TIMES: Record<number, string> = {
   9: "Thu 13:15", 10: "Thu 13:45", 11: "Thu 14:30", 12: "Thu 15:00",
 };
 
-type Tier = "green" | "amber" | "red";
+type Tier = "green" | "yellow" | "orange" | "red";
 
 function getTier(rating: number | null): Tier | null {
   if (!rating || rating <= 0) return null;
   if (rating >= 4) return "green";
-  if (rating === 3) return "amber";
-  // 1 and 2 are both red
+  if (rating === 3) return "yellow";
+  if (rating === 2) return "orange";
   return "red";
 }
 
@@ -28,14 +28,19 @@ function TierBadge({ tier }: { tier: Tier }) {
       🟢 Short Term Opp
     </span>
   );
-  if (tier === "amber") return (
-    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-500/15 text-amber-400 border border-amber-500/30 whitespace-nowrap">
+  if (tier === "yellow") return (
+    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-500/15 text-yellow-400 border border-yellow-500/30 whitespace-nowrap">
       🟡 Medium Term
+    </span>
+  );
+  if (tier === "orange") return (
+    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-orange-500/15 text-orange-400 border border-orange-500/30 whitespace-nowrap">
+      🟠 Longer Term
     </span>
   );
   return (
     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-red-500/15 text-red-400 border border-red-500/30 whitespace-nowrap">
-      🔴 No Fit / Longer Term
+      🔴 No Fit
     </span>
   );
 }
@@ -141,8 +146,9 @@ function SponsorGroup({
   const notedCount = meetings.filter(m => m.meetingNotes?.trim()).length;
   const ratedCount = meetings.filter(m => m.meetingRating != null && m.meetingRating > 0).length;
   const greenCount = meetings.filter(m => (m.meetingRating ?? 0) >= 4).length;
-  const amberCount = meetings.filter(m => (m.meetingRating ?? 0) === 3).length;
-  const redCount = meetings.filter(m => m.meetingRating != null && m.meetingRating > 0 && (m.meetingRating ?? 0) <= 2).length;
+  const yellowCount = meetings.filter(m => (m.meetingRating ?? 0) === 3).length;
+  const orangeCount = meetings.filter(m => (m.meetingRating ?? 0) === 2).length;
+  const redCount = meetings.filter(m => (m.meetingRating ?? 0) === 1).length;
 
   return (
     <>
@@ -173,7 +179,8 @@ function SponsorGroup({
             {ratedCount > 0 && (
               <span className="flex items-center gap-1.5 text-xs flex-shrink-0">
                 {greenCount > 0 && <span className="text-emerald-400">🟢 {greenCount} ({Math.round((greenCount / ratedCount) * 100)}%)</span>}
-                {amberCount > 0 && <span className="text-amber-400">🟡 {amberCount} ({Math.round((amberCount / ratedCount) * 100)}%)</span>}
+                {yellowCount > 0 && <span className="text-yellow-400">🟡 {yellowCount} ({Math.round((yellowCount / ratedCount) * 100)}%)</span>}
+                {orangeCount > 0 && <span className="text-orange-400">🟠 {orangeCount} ({Math.round((orangeCount / ratedCount) * 100)}%)</span>}
                 {redCount > 0 && <span className="text-red-400">🔴 {redCount} ({Math.round((redCount / ratedCount) * 100)}%)</span>}
               </span>
             )}
@@ -297,7 +304,8 @@ export default function AdminFeedbackNotes() {
       if (rating >= 4) return "Short Term Opp";
       if (rating === 3) return "Medium Term";
       if (rating === 2) return "Longer Term";
-      return "No Fit";
+      if (rating === 1) return "No Fit";
+      return "";
     };
     const headers = ["Sponsor", "Delegate", "Company", "Job Title", "Time Slot", "Rating", "Opportunity", "Notes"];
     const rows = data.map(m => [
@@ -332,12 +340,13 @@ export default function AdminFeedbackNotes() {
   }, [data]);
 
   const tierTotals = useMemo(() => {
-    if (!data) return { green: 0, amber: 0, red: 0 };
+    if (!data) return { green: 0, yellow: 0, orange: 0, red: 0 };
     const rated = data.filter(m => m.meetingRating != null && m.meetingRating > 0);
     return {
       green: rated.filter(m => (m.meetingRating ?? 0) >= 4).length,
-      amber: rated.filter(m => (m.meetingRating ?? 0) === 3).length,
-      red: rated.filter(m => (m.meetingRating ?? 0) <= 2).length,
+      yellow: rated.filter(m => (m.meetingRating ?? 0) === 3).length,
+      orange: rated.filter(m => (m.meetingRating ?? 0) === 2).length,
+      red: rated.filter(m => (m.meetingRating ?? 0) === 1).length,
     };
   }, [data]);
 
@@ -367,7 +376,7 @@ export default function AdminFeedbackNotes() {
 
         {/* Summary stats */}
         {data && data.length > 0 && (
-          <div className="grid grid-cols-3 sm:grid-cols-6 gap-4 mb-6">
+          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-4 mb-6">
             <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-4 text-center">
               <p className="text-2xl font-bold text-amber-400">{overallAvg != null ? overallAvg.toFixed(1) : "—"}</p>
               <p className="text-slate-400 text-xs mt-1">Avg rating</p>
@@ -385,14 +394,19 @@ export default function AdminFeedbackNotes() {
               <p className="text-emerald-400/70 text-xs mt-1">🟢 Short Term Opp</p>
               {totalRated > 0 && <p className="text-emerald-400/50 text-xs">{Math.round((tierTotals.green / totalRated) * 100)}% of rated</p>}
             </div>
-            <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl p-4 text-center">
-              <p className="text-2xl font-bold text-amber-400">{tierTotals.amber}</p>
-              <p className="text-amber-400/70 text-xs mt-1">🟡 Medium Term</p>
-              {totalRated > 0 && <p className="text-amber-400/50 text-xs">{Math.round((tierTotals.amber / totalRated) * 100)}% of rated</p>}
+            <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4 text-center">
+              <p className="text-2xl font-bold text-yellow-400">{tierTotals.yellow}</p>
+              <p className="text-yellow-400/70 text-xs mt-1">🟡 Medium Term</p>
+              {totalRated > 0 && <p className="text-yellow-400/50 text-xs">{Math.round((tierTotals.yellow / totalRated) * 100)}% of rated</p>}
+            </div>
+            <div className="bg-orange-500/10 border border-orange-500/30 rounded-xl p-4 text-center">
+              <p className="text-2xl font-bold text-orange-400">{tierTotals.orange}</p>
+              <p className="text-orange-400/70 text-xs mt-1">🟠 Longer Term</p>
+              {totalRated > 0 && <p className="text-orange-400/50 text-xs">{Math.round((tierTotals.orange / totalRated) * 100)}% of rated</p>}
             </div>
             <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 text-center">
               <p className="text-2xl font-bold text-red-400">{tierTotals.red}</p>
-              <p className="text-red-400/70 text-xs mt-1">🔴 No Fit / Longer Term</p>
+              <p className="text-red-400/70 text-xs mt-1">🔴 No Fit</p>
               {totalRated > 0 && <p className="text-red-400/50 text-xs">{Math.round((tierTotals.red / totalRated) * 100)}% of rated</p>}
             </div>
           </div>
@@ -431,14 +445,24 @@ export default function AdminFeedbackNotes() {
               🟢 Short Term
             </button>
             <button
-              onClick={() => setTierFilter(tierFilter === 'amber' ? null : 'amber')}
+              onClick={() => setTierFilter(tierFilter === 'yellow' ? null : 'yellow')}
               className={`px-3 py-2 rounded-lg text-xs font-medium border transition-colors ${
-                tierFilter === 'amber'
-                  ? 'bg-amber-500/25 border-amber-500/60 text-amber-300'
-                  : 'bg-slate-800 border-slate-700 text-slate-400 hover:text-amber-400 hover:border-amber-500/40'
+                tierFilter === 'yellow'
+                  ? 'bg-yellow-500/25 border-yellow-500/60 text-yellow-300'
+                  : 'bg-slate-800 border-slate-700 text-slate-400 hover:text-yellow-400 hover:border-yellow-500/40'
               }`}
             >
               🟡 Medium Term
+            </button>
+            <button
+              onClick={() => setTierFilter(tierFilter === 'orange' ? null : 'orange')}
+              className={`px-3 py-2 rounded-lg text-xs font-medium border transition-colors ${
+                tierFilter === 'orange'
+                  ? 'bg-orange-500/25 border-orange-500/60 text-orange-300'
+                  : 'bg-slate-800 border-slate-700 text-slate-400 hover:text-orange-400 hover:border-orange-500/40'
+              }`}
+            >
+              🟠 Longer Term
             </button>
             <button
               onClick={() => setTierFilter(tierFilter === 'red' ? null : 'red')}
@@ -448,7 +472,7 @@ export default function AdminFeedbackNotes() {
                   : 'bg-slate-800 border-slate-700 text-slate-400 hover:text-red-400 hover:border-red-500/40'
               }`}
             >
-              🔴 No Fit / Longer Term
+              🔴 No Fit
             </button>
           </div>
         </div>

@@ -1941,8 +1941,9 @@ export const appRouter = router({
 
             // Opportunity tier counts
             const greenCount = ratedMeetings.filter(m => (m.meetingRating ?? 0) >= 4).length;
-            const amberCount = ratedMeetings.filter(m => (m.meetingRating ?? 0) === 3).length;
-            const redCount = ratedMeetings.filter(m => (m.meetingRating ?? 0) <= 2).length;
+            const yellowCount = ratedMeetings.filter(m => (m.meetingRating ?? 0) === 3).length;
+            const orangeCount = ratedMeetings.filter(m => (m.meetingRating ?? 0) === 2).length;
+            const redCount = ratedMeetings.filter(m => (m.meetingRating ?? 0) === 1).length;
             
             return {
               sponsorId: sponsor.id,
@@ -1953,7 +1954,8 @@ export const appRouter = router({
               ratedMeetingsCount: ratedMeetings.length,
               avgMeetingRating: avgRating,
               greenCount,
-              amberCount,
+              yellowCount,
+              orangeCount,
               redCount,
             };
           })
@@ -2521,7 +2523,7 @@ export const appRouter = router({
             optedIn,
             rankPosition,
             meetingRating: m.meetingRating,
-            opportunityTier: m.meetingRating >= 4 ? 'green' : m.meetingRating === 3 ? 'amber' : 'red',
+            opportunityTier: m.meetingRating >= 4 ? 'green' : m.meetingRating === 3 ? 'yellow' : m.meetingRating === 2 ? 'orange' : 'red',
           };
         }).sort((a: any, b: any) => (a.timeSlot ?? 99) - (b.timeSlot ?? 99));
 
