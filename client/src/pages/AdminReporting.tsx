@@ -19,20 +19,20 @@ function TierBadge({ tier }: { tier: Tier }) {
   if (tier === "green") {
     return (
       <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 whitespace-nowrap">
-        🟢 Active
+        🟢 Short Term Opp
       </span>
     );
   }
   if (tier === "amber") {
     return (
       <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-500/15 text-amber-400 border border-amber-500/30 whitespace-nowrap">
-        🟡 Future
+        🟡 Medium Term
       </span>
     );
   }
   return (
     <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-red-500/15 text-red-400 border border-red-500/30 whitespace-nowrap">
-      🔴 No fit
+      🔴 No Fit / Longer Term
     </span>
   );
 }
@@ -60,9 +60,9 @@ function OptInBadge({ optedIn }: { optedIn: boolean }) {
 }
 
 const TIER_LABELS: Record<Tier, string> = {
-  green: "🟢 Active opportunity",
-  amber: "🟡 Future potential",
-  red: "🔴 Not a fit",
+  green: "🟢 Short Term Opp",
+  amber: "🟡 Medium Term",
+  red: "🔴 No Fit / Longer Term",
 };
 
 function downloadCSV(sponsorName: string, meetings: any[]) {
@@ -315,15 +315,15 @@ export default function AdminReporting() {
                       </div>
                       <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-xl p-3 text-center">
                         <div className="text-2xl font-bold text-emerald-400">{tierCounts.green}</div>
-                        <div className="text-slate-400 text-xs mt-0.5">🟢 Active</div>
+                        <div className="text-slate-400 text-xs mt-0.5">🟢 Short Term</div>
                       </div>
                       <div className="bg-amber-500/10 border border-amber-500/20 rounded-xl p-3 text-center">
                         <div className="text-2xl font-bold text-amber-400">{tierCounts.amber}</div>
-                        <div className="text-slate-400 text-xs mt-0.5">🟡 Future</div>
+                        <div className="text-slate-400 text-xs mt-0.5">🟡 Medium Term</div>
                       </div>
                       <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-3 text-center">
                         <div className="text-2xl font-bold text-red-400">{tierCounts.red}</div>
-                        <div className="text-slate-400 text-xs mt-0.5">🔴 No fit</div>
+                        <div className="text-slate-400 text-xs mt-0.5">🔴 No Fit / Longer Term</div>
                       </div>
                     </div>
                   )}

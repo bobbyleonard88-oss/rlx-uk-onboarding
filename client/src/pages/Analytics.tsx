@@ -132,21 +132,21 @@ export default function Analytics() {
                 <Card className="bg-emerald-500/10 border-emerald-500/30">
                   <CardContent className="pt-5 pb-4 text-center">
                     <p className="text-3xl font-bold text-emerald-400">{totalGreen}</p>
-                    <p className="text-emerald-400/80 text-sm mt-1 font-medium">🟢 Active opportunity</p>
+                    <p className="text-emerald-400/80 text-sm mt-1 font-medium">🟢 Short Term Opp</p>
                     <p className="text-emerald-400/50 text-xs mt-0.5">{totalTiered > 0 ? Math.round((totalGreen / totalTiered) * 100) : 0}% of rated meetings</p>
                   </CardContent>
                 </Card>
                 <Card className="bg-amber-500/10 border-amber-500/30">
                   <CardContent className="pt-5 pb-4 text-center">
                     <p className="text-3xl font-bold text-amber-400">{totalAmber}</p>
-                    <p className="text-amber-400/80 text-sm mt-1 font-medium">🟡 Future potential</p>
+                    <p className="text-amber-400/80 text-sm mt-1 font-medium">🟡 Medium Term</p>
                     <p className="text-amber-400/50 text-xs mt-0.5">{totalTiered > 0 ? Math.round((totalAmber / totalTiered) * 100) : 0}% of rated meetings</p>
                   </CardContent>
                 </Card>
                 <Card className="bg-red-500/10 border-red-500/30">
                   <CardContent className="pt-5 pb-4 text-center">
                     <p className="text-3xl font-bold text-red-400">{totalRed}</p>
-                    <p className="text-red-400/80 text-sm mt-1 font-medium">🔴 Not a fit</p>
+                    <p className="text-red-400/80 text-sm mt-1 font-medium">🔴 No Fit / Longer Term</p>
                     <p className="text-red-400/50 text-xs mt-0.5">{totalTiered > 0 ? Math.round((totalRed / totalTiered) * 100) : 0}% of rated meetings</p>
                   </CardContent>
                 </Card>

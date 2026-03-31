@@ -18,23 +18,24 @@ function getTier(rating: number | null): Tier | null {
   if (!rating || rating <= 0) return null;
   if (rating >= 4) return "green";
   if (rating === 3) return "amber";
+  // 1 and 2 are both red
   return "red";
 }
 
 function TierBadge({ tier }: { tier: Tier }) {
   if (tier === "green") return (
     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 whitespace-nowrap">
-      🟢 Active
+      🟢 Short Term Opp
     </span>
   );
   if (tier === "amber") return (
     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-500/15 text-amber-400 border border-amber-500/30 whitespace-nowrap">
-      🟡 Future
+      🟡 Medium Term
     </span>
   );
   return (
     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-red-500/15 text-red-400 border border-red-500/30 whitespace-nowrap">
-      🔴 No fit
+      🔴 No Fit / Longer Term
     </span>
   );
 }
@@ -293,9 +294,10 @@ export default function AdminFeedbackNotes() {
     if (!data) return;
     const tierLabel = (rating: number | null) => {
       if (rating == null || rating === 0) return "";
-      if (rating >= 4) return "Active opportunity";
-      if (rating === 3) return "Future potential";
-      return "Not a fit";
+      if (rating >= 4) return "Short Term Opp";
+      if (rating === 3) return "Medium Term";
+      if (rating === 2) return "Longer Term";
+      return "No Fit";
     };
     const headers = ["Sponsor", "Delegate", "Company", "Job Title", "Time Slot", "Rating", "Opportunity", "Notes"];
     const rows = data.map(m => [
@@ -380,17 +382,17 @@ export default function AdminFeedbackNotes() {
             </div>
             <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-4 text-center">
               <p className="text-2xl font-bold text-emerald-400">{tierTotals.green}</p>
-              <p className="text-emerald-400/70 text-xs mt-1">🟢 Active</p>
+              <p className="text-emerald-400/70 text-xs mt-1">🟢 Short Term Opp</p>
               {totalRated > 0 && <p className="text-emerald-400/50 text-xs">{Math.round((tierTotals.green / totalRated) * 100)}% of rated</p>}
             </div>
             <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl p-4 text-center">
               <p className="text-2xl font-bold text-amber-400">{tierTotals.amber}</p>
-              <p className="text-amber-400/70 text-xs mt-1">🟡 Future</p>
+              <p className="text-amber-400/70 text-xs mt-1">🟡 Medium Term</p>
               {totalRated > 0 && <p className="text-amber-400/50 text-xs">{Math.round((tierTotals.amber / totalRated) * 100)}% of rated</p>}
             </div>
             <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 text-center">
               <p className="text-2xl font-bold text-red-400">{tierTotals.red}</p>
-              <p className="text-red-400/70 text-xs mt-1">🔴 No fit</p>
+              <p className="text-red-400/70 text-xs mt-1">🔴 No Fit / Longer Term</p>
               {totalRated > 0 && <p className="text-red-400/50 text-xs">{Math.round((tierTotals.red / totalRated) * 100)}% of rated</p>}
             </div>
           </div>
@@ -426,7 +428,7 @@ export default function AdminFeedbackNotes() {
                   : 'bg-slate-800 border-slate-700 text-slate-400 hover:text-emerald-400 hover:border-emerald-500/40'
               }`}
             >
-              🟢 Active
+              🟢 Short Term
             </button>
             <button
               onClick={() => setTierFilter(tierFilter === 'amber' ? null : 'amber')}
@@ -436,7 +438,7 @@ export default function AdminFeedbackNotes() {
                   : 'bg-slate-800 border-slate-700 text-slate-400 hover:text-amber-400 hover:border-amber-500/40'
               }`}
             >
-              🟡 Future
+              🟡 Medium Term
             </button>
             <button
               onClick={() => setTierFilter(tierFilter === 'red' ? null : 'red')}
@@ -446,7 +448,7 @@ export default function AdminFeedbackNotes() {
                   : 'bg-slate-800 border-slate-700 text-slate-400 hover:text-red-400 hover:border-red-500/40'
               }`}
             >
-              🔴 No fit
+              🔴 No Fit / Longer Term
             </button>
           </div>
         </div>
