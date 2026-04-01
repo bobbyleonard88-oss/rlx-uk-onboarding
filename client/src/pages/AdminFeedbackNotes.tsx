@@ -25,7 +25,7 @@ function getTier(rating: number | null): Tier | null {
 function TierBadge({ tier }: { tier: Tier }) {
   if (tier === "green") return (
     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 whitespace-nowrap">
-      🟢 Short Term Opp
+      🟢 Immediate Opportunity
     </span>
   );
   if (tier === "yellow") return (
@@ -301,7 +301,7 @@ export default function AdminFeedbackNotes() {
     if (!data) return;
     const tierLabel = (rating: number | null) => {
       if (rating == null || rating === 0) return "";
-      if (rating >= 4) return "Short Term Opp";
+      if (rating >= 4) return "Immediate Opportunity";
       if (rating === 3) return "Medium Term";
       if (rating === 2) return "Longer Term";
       if (rating === 1) return "No Fit";
@@ -391,7 +391,7 @@ export default function AdminFeedbackNotes() {
             </div>
             <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-4 text-center">
               <p className="text-2xl font-bold text-emerald-400">{tierTotals.green}</p>
-              <p className="text-emerald-400/70 text-xs mt-1">🟢 Short Term Opp</p>
+              <p className="text-emerald-400/70 text-xs mt-1">🟢 Immediate Opportunity</p>
               {totalRated > 0 && <p className="text-emerald-400/50 text-xs">{Math.round((tierTotals.green / totalRated) * 100)}% of rated</p>}
             </div>
             <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4 text-center">
@@ -442,7 +442,7 @@ export default function AdminFeedbackNotes() {
                   : 'bg-slate-800 border-slate-700 text-slate-400 hover:text-emerald-400 hover:border-emerald-500/40'
               }`}
             >
-              🟢 Short Term
+              🟢 Immediate Opportunity
             </button>
             <button
               onClick={() => setTierFilter(tierFilter === 'yellow' ? null : 'yellow')}

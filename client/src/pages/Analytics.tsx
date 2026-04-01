@@ -132,7 +132,7 @@ export default function Analytics() {
                 <Card className="bg-emerald-500/10 border-emerald-500/30">
                   <CardContent className="pt-5 pb-4 text-center">
                     <p className="text-3xl font-bold text-emerald-400">{totalGreen}</p>
-                    <p className="text-emerald-400/80 text-sm mt-1 font-medium">🟢 Short Term Opp</p>
+                    <p className="text-emerald-400/80 text-sm mt-1 font-medium">🟢 Immediate Opportunity</p>
                     <p className="text-emerald-400/50 text-xs mt-0.5">{totalTiered > 0 ? Math.round((totalGreen / totalTiered) * 100) : 0}% of rated meetings</p>
                   </CardContent>
                 </Card>

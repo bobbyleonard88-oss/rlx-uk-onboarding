@@ -20,7 +20,7 @@ function TierBadge({ tier }: { tier: Tier }) {
   if (tier === "green") {
     return (
       <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 whitespace-nowrap">
-        🟢 Short Term Opp
+        🟢 Immediate Opportunity
       </span>
     );
   }
@@ -68,7 +68,7 @@ function OptInBadge({ optedIn }: { optedIn: boolean }) {
 }
 
 const TIER_LABELS: Record<Tier, string> = {
-  green: "🟢 Short Term Opp",
+  green: "🟢 Immediate Opportunity",
   yellow: "🟡 Medium Term",
   orange: "🟠 Longer Term",
   red: "🔴 No Fit",
@@ -363,7 +363,7 @@ export default function AdminReporting() {
                       </div>
                       <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-xl p-3 text-center">
                         <div className="text-2xl font-bold text-emerald-400">{tierCounts.green}</div>
-                        <div className="text-slate-400 text-xs mt-0.5">🟢 Short Term</div>
+                        <div className="text-slate-400 text-xs mt-0.5">🟢 Immediate Opportunity</div>
                       </div>
                       <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-xl p-3 text-center">
                         <div className="text-2xl font-bold text-yellow-400">{tierCounts.yellow}</div>
