@@ -12,12 +12,14 @@ import { ENV } from "./_core/env";
 import { generateAllMatches, saveMatches } from "./matchingEngine";
 import { attendees } from "./attendees";
 import { eventRouter } from "./routers/eventRouter";
+import { seedRouter } from "./routers/seedRouter";
 
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
   system: systemRouter,
   event: eventRouter,
+  seed: seedRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {
