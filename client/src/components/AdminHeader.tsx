@@ -68,6 +68,7 @@ export default function AdminHeader() {
     { path: "/admin", label: "Dashboard" },
     { path: "/admin/settings", label: "Event Settings" },
     { path: "/admin/agenda", label: "Agenda" },
+    { path: "/admin/seed", label: "Demo Data" },
     { path: "/admin/meetings", label: "Meetings" },
     { path: "/admin/analytics", label: "Analytics" },
     { path: "/admin/feedback-notes", label: "Feedback & Notes" },
