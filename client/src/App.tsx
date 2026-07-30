@@ -17,6 +17,7 @@ import AdminTablePlan from "./pages/AdminTablePlan";
 import AdminUsers from "./pages/AdminUsers";
 import AdminEventSettings from "./pages/AdminEventSettings";
 import AdminAgenda from "./pages/AdminAgenda";
+import AdminSeedData from "./pages/AdminSeedData";
 import ActivityLog from "./pages/ActivityLog";
 import Analytics from "./pages/Analytics";
 import DelegateOverview from "./pages/DelegateOverview";
@@ -118,6 +119,7 @@ function Router() {
             <Route path="/admin/reporting"          component={AdminReporting} />
             <Route path="/admin/settings"           component={AdminEventSettings} />
             <Route path="/admin/agenda"             component={AdminAgenda} />
+            <Route path="/admin/seed"               component={AdminSeedData} />
             <Route component={NotFound} />
           </Switch>
         </div>
