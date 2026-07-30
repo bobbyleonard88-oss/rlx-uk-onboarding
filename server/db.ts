@@ -1,6 +1,6 @@
 import { desc, eq, and, sql, ne } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users, sponsors, InsertSponsor, rankingsSubmissions, InsertRankingsSubmission, vendorProfiles, InsertVendorProfile, delegateProfiles, InsertDelegateProfile, priorityTags, InsertPriorityTag, meetings, InsertMeeting, intakeSubmissions, InsertIntakeSubmission, matchCache, InsertMatchCache, adminActivityLog, InsertAdminActivityLog, sponsorActivityLog, InsertSponsorActivityLog, meetingRatingsLog } from "../drizzle/schema";
+import { InsertUser, users, sponsors, InsertSponsor, rankingsSubmissions, InsertRankingsSubmission, vendorProfiles, InsertVendorProfile, delegateProfiles, InsertDelegateProfile, priorityTags, InsertPriorityTag, meetings, InsertMeeting, intakeSubmissions, InsertIntakeSubmission, matchCache, InsertMatchCache, adminActivityLog, InsertAdminActivityLog, sponsorActivityLog, InsertSponsorActivityLog, meetingRatingsLog, events, InsertEvent, agendaSessions, InsertAgendaSession, meetingRequests, InsertMeetingRequest, chatThreads, InsertChatThread, chatMessages, InsertChatMessage, notifications, InsertNotification, delegateSchedule, InsertDelegateSchedule } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -419,7 +419,7 @@ export async function getAllMeetings() {
   return allMeetings.filter(m => !archivedSponsorIds.has(m.sponsorId));
 }
 
-export async function updateMeetingStatus(id: number, status: "suggested" | "confirmed" | "declined") {
+export async function updateMeetingStatus(id: number, status: "suggested" | "confirmed" | "declined" | "cancelled") {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
   
@@ -932,4 +932,291 @@ export async function getRescheduledMeetings() {
     })
     .from(meetings)
     .where(eq(meetings.isRescheduled, 1));
+}
+
+// ─── Events ───────────────────────────────────────────────────────────────────
+
+export async function getAllEvents() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(events).orderBy(desc(events.createdAt));
+}
+
+export async function getActiveEvent() {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.select().from(events).where(eq(events.isActive, 1)).limit(1);
+  if (result.length > 0) return result[0];
+  // Fallback: return the most recently created event
+  const fallback = await db.select().from(events).orderBy(desc(events.createdAt)).limit(1);
+  return fallback.length > 0 ? fallback[0] : null;
+}
+
+export async function getEventById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.select().from(events).where(eq(events.id, id)).limit(1);
+  return result.length > 0 ? result[0] : null;
+}
+
+export async function createEvent(data: InsertEvent): Promise<number> {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const result = await db.insert(events).values(data);
+  return Number((result as any).insertId ?? 0);
+}
+
+export async function updateEvent(id: number, data: Partial<InsertEvent>): Promise<void> {
+  const db = await getDb();
+  if (!db) return;
+  await db.update(events).set({ ...data, updatedAt: new Date() }).where(eq(events.id, id));
+}
+
+export async function setActiveEvent(id: number): Promise<void> {
+  const db = await getDb();
+  if (!db) return;
+  // Deactivate all events, then activate the target
+  await db.update(events).set({ isActive: 0 });
+  await db.update(events).set({ isActive: 1, updatedAt: new Date() }).where(eq(events.id, id));
+}
+
+// ─── Agenda Sessions ──────────────────────────────────────────────────────────
+
+export async function getAgendaSessions(eventId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db
+    .select()
+    .from(agendaSessions)
+    .where(eq(agendaSessions.eventId, eventId))
+    .orderBy(agendaSessions.dayNumber, agendaSessions.sortOrder, agendaSessions.startTime);
+}
+
+export async function getAgendaSessionById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.select().from(agendaSessions).where(eq(agendaSessions.id, id)).limit(1);
+  return result.length > 0 ? result[0] : null;
+}
+
+export async function createAgendaSession(data: InsertAgendaSession): Promise<number> {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const result = await db.insert(agendaSessions).values(data);
+  return Number((result as any).insertId ?? 0);
+}
+
+export async function updateAgendaSession(id: number, data: Partial<InsertAgendaSession>): Promise<void> {
+  const db = await getDb();
+  if (!db) return;
+  await db.update(agendaSessions).set({ ...data, updatedAt: new Date() }).where(eq(agendaSessions.id, id));
+}
+
+export async function deleteAgendaSession(id: number): Promise<void> {
+  const db = await getDb();
+  if (!db) return;
+  await db.delete(agendaSessions).where(eq(agendaSessions.id, id));
+}
+
+export async function getMeetingBlockSessions(eventId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db
+    .select()
+    .from(agendaSessions)
+    .where(and(eq(agendaSessions.eventId, eventId), eq(agendaSessions.sessionType, "meeting_block")))
+    .orderBy(agendaSessions.dayNumber, agendaSessions.sortOrder);
+}
+
+// ─── Notifications ────────────────────────────────────────────────────────────
+
+export async function createNotification(data: InsertNotification): Promise<number> {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const result = await db.insert(notifications).values(data);
+  return Number((result as any).insertId ?? 0);
+}
+
+export async function getNotificationsForUser(userId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db
+    .select()
+    .from(notifications)
+    .where(eq(notifications.userId, userId))
+    .orderBy(desc(notifications.createdAt))
+    .limit(50);
+}
+
+export async function markNotificationRead(id: number): Promise<void> {
+  const db = await getDb();
+  if (!db) return;
+  await db.update(notifications).set({ isRead: 1 }).where(eq(notifications.id, id));
+}
+
+export async function markAllNotificationsRead(userId: number): Promise<void> {
+  const db = await getDb();
+  if (!db) return;
+  await db.update(notifications).set({ isRead: 1 }).where(eq(notifications.userId, userId));
+}
+
+export async function getUnreadNotificationCount(userId: number): Promise<number> {
+  const db = await getDb();
+  if (!db) return 0;
+  const result = await db
+    .select({ count: sql<number>`count(*)` })
+    .from(notifications)
+    .where(and(eq(notifications.userId, userId), eq(notifications.isRead, 0)));
+  return Number(result[0]?.count ?? 0);
+}
+
+// ─── Chat Threads ─────────────────────────────────────────────────────────────
+
+export async function createChatThread(data: InsertChatThread): Promise<number> {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const result = await db.insert(chatThreads).values(data);
+  return Number((result as any).insertId ?? 0);
+}
+
+export async function getChatThreadByMeetingId(meetingId: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.select().from(chatThreads).where(eq(chatThreads.meetingId, meetingId)).limit(1);
+  return result.length > 0 ? result[0] : null;
+}
+
+export async function getChatThreadsForSponsor(sponsorId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db
+    .select()
+    .from(chatThreads)
+    .where(eq(chatThreads.sponsorId, sponsorId))
+    .orderBy(desc(chatThreads.lastMessageAt));
+}
+
+export async function getChatThreadsForDelegate(delegateId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db
+    .select()
+    .from(chatThreads)
+    .where(eq(chatThreads.delegateId, delegateId))
+    .orderBy(desc(chatThreads.lastMessageAt));
+}
+
+export async function getAllChatThreads() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(chatThreads).orderBy(desc(chatThreads.lastMessageAt));
+}
+
+// ─── Chat Messages ────────────────────────────────────────────────────────────
+
+export async function createChatMessage(data: InsertChatMessage): Promise<number> {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const result = await db.insert(chatMessages).values(data);
+  const msgId = Number((result as any).insertId ?? 0);
+  // Update thread last message info
+  await db
+    .update(chatThreads)
+    .set({
+      lastMessageAt: new Date(),
+      lastMessagePreview: data.body.slice(0, 255),
+      updatedAt: new Date(),
+    })
+    .where(eq(chatThreads.id, data.threadId));
+  return msgId;
+}
+
+export async function getChatMessages(threadId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db
+    .select()
+    .from(chatMessages)
+    .where(eq(chatMessages.threadId, threadId))
+    .orderBy(chatMessages.createdAt);
+}
+
+export async function markMessagesRead(threadId: number, userId: number): Promise<void> {
+  const db = await getDb();
+  if (!db) return;
+  // Mark all messages in this thread as read that were NOT sent by this user
+  await db
+    .update(chatMessages)
+    .set({ isRead: 1 })
+    .where(and(eq(chatMessages.threadId, threadId), ne(chatMessages.senderUserId, userId)));
+}
+
+// ─── Meeting Requests ─────────────────────────────────────────────────────────
+
+export async function createMeetingRequest(data: InsertMeetingRequest): Promise<number> {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const result = await db.insert(meetingRequests).values(data);
+  return Number((result as any).insertId ?? 0);
+}
+
+export async function getMeetingRequestById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.select().from(meetingRequests).where(eq(meetingRequests.id, id)).limit(1);
+  return result.length > 0 ? result[0] : null;
+}
+
+export async function getMeetingRequestsForSponsor(sponsorId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db
+    .select()
+    .from(meetingRequests)
+    .where(eq(meetingRequests.sponsorId, sponsorId))
+    .orderBy(desc(meetingRequests.createdAt));
+}
+
+export async function getMeetingRequestsForDelegate(delegateId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db
+    .select()
+    .from(meetingRequests)
+    .where(eq(meetingRequests.delegateId, delegateId))
+    .orderBy(desc(meetingRequests.createdAt));
+}
+
+export async function updateMeetingRequestStatus(
+  id: number,
+  status: "pending" | "accepted" | "declined" | "cancelled" | "rescheduled",
+): Promise<void> {
+  const db = await getDb();
+  if (!db) return;
+  await db
+    .update(meetingRequests)
+    .set({ status, respondedAt: new Date(), updatedAt: new Date() })
+    .where(eq(meetingRequests.id, id));
+}
+
+// ─── Delegate Schedule ────────────────────────────────────────────────────────
+
+export async function getDelegateSchedule(delegateId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(delegateSchedule).where(eq(delegateSchedule.delegateId, delegateId));
+}
+
+export async function addSessionToSchedule(delegateId: number, sessionId: number): Promise<void> {
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(delegateSchedule).values({ delegateId, sessionId }).onDuplicateKeyUpdate({ set: { delegateId } });
+}
+
+export async function removeSessionFromSchedule(delegateId: number, sessionId: number): Promise<void> {
+  const db = await getDb();
+  if (!db) return;
+  await db
+    .delete(delegateSchedule)
+    .where(and(eq(delegateSchedule.delegateId, delegateId), eq(delegateSchedule.sessionId, sessionId)));
 }
