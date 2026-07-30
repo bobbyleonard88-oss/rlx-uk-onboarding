@@ -66,11 +66,13 @@ export default function AdminHeader() {
 
   const navItems = [
     { path: "/admin", label: "Dashboard" },
+    { path: "/admin/settings", label: "Event Settings" },
+    { path: "/admin/agenda", label: "Agenda" },
     { path: "/admin/meetings", label: "Meetings" },
     { path: "/admin/analytics", label: "Analytics" },
     { path: "/admin/feedback-notes", label: "Feedback & Notes" },
-    { path: "/admin/table-plan", label: "Table Plan ★" },
-    { path: "/admin/delegate-overview", label: "Delegate Overview" },
+    { path: "/admin/table-plan", label: "Table Plan" },
+    { path: "/admin/delegate-overview", label: "Delegates" },
     { path: "/admin/users", label: "Users" },
     { path: "/admin/activity-log", label: "Activity Log" },
     { path: "/admin/reporting", label: "Reports" },
