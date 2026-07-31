@@ -37,36 +37,26 @@ const EVENT_DATA = {
 
 const AGENDA_SESSIONS = [
   // ── Day 1 ──────────────────────────────────────────────────────────────────
+  // Meetings are free-floating 20-min slots scheduled by admin — not shown as agenda items.
+  // The agenda shows fixed sessions that block time for everyone.
   { dayNumber: 1, startTime: "08:00", endTime: "09:30", title: "Arrival & Registration", sessionType: "arrival", room: "Grand Foyer", isHighlight: 0, isOptional: 0, sortOrder: 1 },
-  { dayNumber: 1, startTime: "09:30", endTime: "10:15", title: "Opening Keynote: The Future of Talent Acquisition", sessionType: "keynote", room: "Ivory Suite", format: "Keynote Address", isHighlight: 1, isOptional: 0, sortOrder: 2 },
+  { dayNumber: 1, startTime: "09:30", endTime: "10:15", title: "Opening Keynote: The Future of Talent Acquisition", sessionType: "keynote", room: "Ivory Suite", format: "Keynote Address", isHighlight: 1, isOptional: 0, sortOrder: 2, description: "Setting the scene for two days of high-impact conversations." },
   { dayNumber: 1, startTime: "10:15", endTime: "10:30", title: "Morning Coffee", sessionType: "break", room: "Terrace", isHighlight: 0, isOptional: 0, sortOrder: 3 },
-  { dayNumber: 1, startTime: "10:30", endTime: "11:00", title: "Meeting Block 1", sessionType: "meeting_block", room: "Ballroom", meetingSlotNumber: 1, isHighlight: 0, isOptional: 0, sortOrder: 4 },
-  { dayNumber: 1, startTime: "11:05", endTime: "11:35", title: "Meeting Block 2", sessionType: "meeting_block", room: "Ballroom", meetingSlotNumber: 2, isHighlight: 0, isOptional: 0, sortOrder: 5 },
-  { dayNumber: 1, startTime: "11:40", endTime: "12:10", title: "Meeting Block 3", sessionType: "meeting_block", room: "Ballroom", meetingSlotNumber: 3, isHighlight: 0, isOptional: 0, sortOrder: 6 },
-  { dayNumber: 1, startTime: "12:15", endTime: "12:45", title: "Meeting Block 4", sessionType: "meeting_block", room: "Ballroom", meetingSlotNumber: 4, isHighlight: 0, isOptional: 0, sortOrder: 7 },
-  { dayNumber: 1, startTime: "12:45", endTime: "14:00", title: "Networking Lunch", sessionType: "meal", room: "Conservatory Restaurant", isHighlight: 0, isOptional: 0, sortOrder: 8 },
-  { dayNumber: 1, startTime: "14:00", endTime: "14:30", title: "Meeting Block 5", sessionType: "meeting_block", room: "Ballroom", meetingSlotNumber: 5, isHighlight: 0, isOptional: 0, sortOrder: 9 },
-  { dayNumber: 1, startTime: "14:35", endTime: "15:05", title: "Meeting Block 6", sessionType: "meeting_block", room: "Ballroom", meetingSlotNumber: 6, isHighlight: 0, isOptional: 0, sortOrder: 10 },
-  { dayNumber: 1, startTime: "15:10", endTime: "15:40", title: "Meeting Block 7", sessionType: "meeting_block", room: "Ballroom", meetingSlotNumber: 7, isHighlight: 0, isOptional: 0, sortOrder: 11 },
-  { dayNumber: 1, startTime: "15:40", endTime: "16:00", title: "Afternoon Tea", sessionType: "break", room: "Terrace", isHighlight: 0, isOptional: 0, sortOrder: 12 },
-  { dayNumber: 1, startTime: "16:00", endTime: "16:45", title: "Panel: AI in Recruitment — Hype vs Reality", sessionType: "session", room: "Ivory Suite", format: "Panel Discussion", isHighlight: 1, isOptional: 1, sortOrder: 13, description: "Four leading TA practitioners debate the real-world impact of AI tools on hiring quality and speed." },
-  { dayNumber: 1, startTime: "16:45", endTime: "17:15", title: "Meeting Block 8", sessionType: "meeting_block", room: "Ballroom", meetingSlotNumber: 8, isHighlight: 0, isOptional: 0, sortOrder: 14 },
-  { dayNumber: 1, startTime: "17:15", endTime: "18:30", title: "Spa & Wellness Break", sessionType: "wellness", room: "The Spa at The Grove", isHighlight: 0, isOptional: 1, sortOrder: 15, description: "Complimentary access to the pool, steam room, and relaxation areas." },
-  { dayNumber: 1, startTime: "19:00", endTime: "19:45", title: "Drinks Reception", sessionType: "social", room: "Walled Garden", isHighlight: 1, isOptional: 0, sortOrder: 16 },
-  { dayNumber: 1, startTime: "19:45", endTime: "22:30", title: "Gala Dinner", sessionType: "meal", room: "The Stables", isHighlight: 1, isOptional: 0, sortOrder: 17, description: "Three-course gala dinner with awards and entertainment." },
+  { dayNumber: 1, startTime: "12:45", endTime: "14:00", title: "Networking Lunch", sessionType: "meal", room: "Conservatory Restaurant", isHighlight: 0, isOptional: 0, sortOrder: 4 },
+  { dayNumber: 1, startTime: "15:40", endTime: "16:00", title: "Afternoon Tea", sessionType: "break", room: "Terrace", isHighlight: 0, isOptional: 0, sortOrder: 5 },
+  { dayNumber: 1, startTime: "16:00", endTime: "16:45", title: "Panel: AI in Recruitment — Hype vs Reality", sessionType: "session", room: "Ivory Suite", format: "Panel Discussion", isHighlight: 1, isOptional: 1, sortOrder: 6, description: "Four leading TA practitioners debate the real-world impact of AI tools on hiring quality and speed." },
+  { dayNumber: 1, startTime: "17:15", endTime: "18:30", title: "Spa & Wellness Break", sessionType: "wellness", room: "The Spa at The Grove", isHighlight: 0, isOptional: 1, sortOrder: 7, description: "Complimentary access to the pool, steam room, and relaxation areas." },
+  { dayNumber: 1, startTime: "19:00", endTime: "19:45", title: "Drinks Reception", sessionType: "social", room: "Walled Garden", isHighlight: 1, isOptional: 0, sortOrder: 8 },
+  { dayNumber: 1, startTime: "19:45", endTime: "22:30", title: "Gala Dinner", sessionType: "meal", room: "The Stables", isHighlight: 1, isOptional: 0, sortOrder: 9, description: "Three-course gala dinner with awards and entertainment." },
   // ── Day 2 ──────────────────────────────────────────────────────────────────
   { dayNumber: 2, startTime: "07:30", endTime: "08:45", title: "Morning Run & Yoga", sessionType: "wellness", room: "Hotel Grounds", isHighlight: 0, isOptional: 1, sortOrder: 1, description: "Optional guided 5k run or yoga session on the lawn." },
   { dayNumber: 2, startTime: "08:00", endTime: "09:00", title: "Breakfast", sessionType: "meal", room: "Conservatory Restaurant", isHighlight: 0, isOptional: 0, sortOrder: 2 },
   { dayNumber: 2, startTime: "09:00", endTime: "09:45", title: "Keynote: Building Employer Brands That Actually Work", sessionType: "keynote", room: "Ivory Suite", format: "Keynote Address", isHighlight: 1, isOptional: 0, sortOrder: 3 },
-  { dayNumber: 2, startTime: "09:45", endTime: "10:15", title: "Meeting Block 9", sessionType: "meeting_block", room: "Ballroom", meetingSlotNumber: 9, isHighlight: 0, isOptional: 0, sortOrder: 4 },
-  { dayNumber: 2, startTime: "10:20", endTime: "10:50", title: "Meeting Block 10", sessionType: "meeting_block", room: "Ballroom", meetingSlotNumber: 10, isHighlight: 0, isOptional: 0, sortOrder: 5 },
-  { dayNumber: 2, startTime: "10:50", endTime: "11:10", title: "Coffee Break", sessionType: "break", room: "Terrace", isHighlight: 0, isOptional: 0, sortOrder: 6 },
-  { dayNumber: 2, startTime: "11:10", endTime: "11:40", title: "Meeting Block 11", sessionType: "meeting_block", room: "Ballroom", meetingSlotNumber: 11, isHighlight: 0, isOptional: 0, sortOrder: 7 },
-  { dayNumber: 2, startTime: "11:45", endTime: "12:15", title: "Meeting Block 12", sessionType: "meeting_block", room: "Ballroom", meetingSlotNumber: 12, isHighlight: 0, isOptional: 0, sortOrder: 8 },
-  { dayNumber: 2, startTime: "12:15", endTime: "13:30", title: "Farewell Lunch", sessionType: "meal", room: "Conservatory Restaurant", isHighlight: 0, isOptional: 0, sortOrder: 9 },
-  { dayNumber: 2, startTime: "13:30", endTime: "14:15", title: "Roundtable: Diversity, Equity & Inclusion in Hiring", sessionType: "session", room: "Ivory Suite", format: "Roundtable", isHighlight: 0, isOptional: 1, sortOrder: 10, description: "Facilitated discussion on practical DEI strategies that move the needle." },
-  { dayNumber: 2, startTime: "14:15", endTime: "15:00", title: "Closing Keynote & Awards", sessionType: "keynote", room: "Ivory Suite", format: "Keynote & Ceremony", isHighlight: 1, isOptional: 0, sortOrder: 11 },
-  { dayNumber: 2, startTime: "15:00", endTime: "15:30", title: "Departures & Farewell", sessionType: "social", room: "Grand Foyer", isHighlight: 0, isOptional: 0, sortOrder: 12 },
+  { dayNumber: 2, startTime: "10:50", endTime: "11:10", title: "Coffee Break", sessionType: "break", room: "Terrace", isHighlight: 0, isOptional: 0, sortOrder: 4 },
+  { dayNumber: 2, startTime: "12:15", endTime: "13:30", title: "Farewell Lunch", sessionType: "meal", room: "Conservatory Restaurant", isHighlight: 0, isOptional: 0, sortOrder: 5 },
+  { dayNumber: 2, startTime: "13:30", endTime: "14:15", title: "Roundtable: Diversity, Equity & Inclusion in Hiring", sessionType: "session", room: "Ivory Suite", format: "Roundtable", isHighlight: 0, isOptional: 1, sortOrder: 6, description: "Facilitated discussion on practical DEI strategies that move the needle." },
+  { dayNumber: 2, startTime: "14:15", endTime: "15:00", title: "Closing Keynote & Awards", sessionType: "keynote", room: "Ivory Suite", format: "Keynote & Ceremony", isHighlight: 1, isOptional: 0, sortOrder: 7 },
+  { dayNumber: 2, startTime: "15:00", endTime: "15:30", title: "Departures & Farewell", sessionType: "social", room: "Grand Foyer", isHighlight: 0, isOptional: 0, sortOrder: 8 },
 ];
 
 const SPONSORS_DATA = [
@@ -161,7 +151,6 @@ export const seedRouter = router({
           room: session.room ?? null,
           format: (session as any).format ?? null,
           description: (session as any).description ?? null,
-          meetingSlotNumber: (session as any).meetingSlotNumber ?? null,
           isHighlight: session.isHighlight,
           isOptional: session.isOptional,
           sortOrder: session.sortOrder,
