@@ -1018,15 +1018,7 @@ export async function deleteAgendaSession(id: number): Promise<void> {
   await db.delete(agendaSessions).where(eq(agendaSessions.id, id));
 }
 
-export async function getMeetingBlockSessions(eventId: number) {
-  const db = await getDb();
-  if (!db) return [];
-  return db
-    .select()
-    .from(agendaSessions)
-    .where(and(eq(agendaSessions.eventId, eventId), eq(agendaSessions.sessionType, "meeting_block")))
-    .orderBy(agendaSessions.dayNumber, agendaSessions.sortOrder);
-}
+// getMeetingBlockSessions removed — meetings are now free-floating 20-min slots, not tied to agenda blocks.
 
 // ─── Notifications ────────────────────────────────────────────────────────────
 
