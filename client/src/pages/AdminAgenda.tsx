@@ -22,7 +22,6 @@ import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
 import {
   Calendar,
-  Clock,
   MapPin,
   Utensils,
   Users,
@@ -44,32 +43,29 @@ type SessionType =
   | "arrival"
   | "keynote"
   | "session"
-  | "meeting_block"
   | "meal"
   | "break"
   | "social"
   | "wellness";
 
 const SESSION_TYPES: { value: SessionType; label: string; icon: React.ElementType; color: string }[] = [
-  { value: "arrival",       label: "Arrival",       icon: MapPin,    color: "text-accent" },
-  { value: "keynote",       label: "Keynote",        icon: Star,      color: "text-yellow-400" },
-  { value: "session",       label: "Session",        icon: Mic,       color: "text-blue-400" },
-  { value: "meeting_block", label: "Meeting Block",  icon: Clock,     color: "text-emerald-400" },
-  { value: "meal",          label: "Meal",           icon: Utensils,  color: "text-amber-400" },
-  { value: "break",         label: "Break",          icon: Coffee,    color: "text-slate-400" },
-  { value: "social",        label: "Social",         icon: Users,     color: "text-purple-400" },
-  { value: "wellness",      label: "Wellness",       icon: Sun,       color: "text-rose-400" },
+  { value: "arrival",  label: "Arrival",  icon: MapPin,   color: "text-accent" },
+  { value: "keynote",  label: "Keynote",  icon: Star,     color: "text-yellow-400" },
+  { value: "session",  label: "Session",  icon: Mic,      color: "text-blue-400" },
+  { value: "meal",     label: "Meal",     icon: Utensils, color: "text-amber-400" },
+  { value: "break",    label: "Break",    icon: Coffee,   color: "text-slate-400" },
+  { value: "social",   label: "Social",   icon: Users,    color: "text-purple-400" },
+  { value: "wellness", label: "Wellness", icon: Sun,      color: "text-rose-400" },
 ];
 
 const typeConfig: Record<SessionType, { icon: React.ElementType; color: string; bg: string }> = {
-  arrival:       { icon: MapPin,    color: "text-accent",        bg: "bg-accent/10 border-accent/30" },
-  meal:          { icon: Utensils,  color: "text-amber-400",     bg: "bg-amber-400/10 border-amber-400/30" },
-  social:        { icon: Users,     color: "text-purple-400",    bg: "bg-purple-400/10 border-purple-400/30" },
-  break:         { icon: Coffee,    color: "text-slate-400",     bg: "bg-slate-400/10 border-slate-400/30" },
-  session:       { icon: Mic,       color: "text-blue-400",      bg: "bg-blue-400/10 border-blue-400/30" },
-  keynote:       { icon: Star,      color: "text-yellow-400",    bg: "bg-yellow-400/10 border-yellow-400/30" },
-  meeting_block: { icon: Clock,     color: "text-emerald-400",   bg: "bg-emerald-400/10 border-emerald-400/30" },
-  wellness:      { icon: Sun,       color: "text-rose-400",      bg: "bg-rose-400/10 border-rose-400/30" },
+  arrival:  { icon: MapPin,   color: "text-accent",      bg: "bg-accent/10 border-accent/30" },
+  meal:     { icon: Utensils, color: "text-amber-400",   bg: "bg-amber-400/10 border-amber-400/30" },
+  social:   { icon: Users,    color: "text-purple-400",  bg: "bg-purple-400/10 border-purple-400/30" },
+  break:    { icon: Coffee,   color: "text-slate-400",   bg: "bg-slate-400/10 border-slate-400/30" },
+  session:  { icon: Mic,      color: "text-blue-400",    bg: "bg-blue-400/10 border-blue-400/30" },
+  keynote:  { icon: Star,     color: "text-yellow-400",  bg: "bg-yellow-400/10 border-yellow-400/30" },
+  wellness: { icon: Sun,      color: "text-rose-400",    bg: "bg-rose-400/10 border-rose-400/30" },
 };
 
 // ─── Zod Schema ───────────────────────────────────────────────────────────────
@@ -83,11 +79,10 @@ const sessionSchema = z.object({
   room: z.string().optional(),
   format: z.string().optional(),
   sessionType: z.enum([
-    "arrival", "keynote", "session", "meeting_block", "meal", "break", "social", "wellness",
+    "arrival", "keynote", "session", "meal", "break", "social", "wellness",
   ]),
   isOptional: z.boolean().optional().default(false),
   isHighlight: z.boolean().optional().default(false),
-  meetingSlotNumber: z.number().optional(),
   sortOrder: z.number().optional().default(0),
 });
 
@@ -136,7 +131,6 @@ function SessionForm({
       sessionType: "session",
       isOptional: false,
       isHighlight: false,
-      meetingSlotNumber: undefined,
       sortOrder: 0,
     },
   });
@@ -144,13 +138,12 @@ function SessionForm({
   const sessionType = watch("sessionType");
   const isOptional = watch("isOptional");
   const isHighlight = watch("isHighlight");
-  const isMeetingBlock = sessionType === "meeting_block";
 
   const onSubmit = (data: SessionFormValues) => {
     if (sessionId) {
-      updateSession.mutate({ id: sessionId, ...data, meetingSlotNumber: data.meetingSlotNumber ?? undefined });
+      updateSession.mutate({ id: sessionId, ...data });
     } else {
-      createSession.mutate({ eventId, ...data, meetingSlotNumber: data.meetingSlotNumber ?? undefined });
+      createSession.mutate({ eventId, ...data });
     }
   };
 
@@ -228,19 +221,6 @@ function SessionForm({
           <Label className="text-xs font-medium text-slate-300">Room</Label>
           <Input {...register("room")} placeholder="e.g. Ivory Suite" className={`mt-1 ${inputClass}`} />
         </div>
-        {/* Meeting Slot Number (only for meeting_block) */}
-        {isMeetingBlock && (
-          <div>
-            <Label className="text-xs font-medium text-slate-300">Meeting Slot #</Label>
-            <Input
-              type="number"
-              {...register("meetingSlotNumber", { valueAsNumber: true })}
-              placeholder="1"
-              className={`mt-1 ${inputClass}`}
-            />
-            <p className="mt-0.5 text-xs text-slate-500">Unique slot number used for meeting assignment</p>
-          </div>
-        )}
       </div>
 
       {/* Description */}
@@ -332,7 +312,6 @@ function SessionRow({
             sessionType: session.sessionType,
             isOptional: session.isOptional === 1,
             isHighlight: session.isHighlight === 1,
-            meetingSlotNumber: session.meetingSlotNumber,
             sortOrder: session.sortOrder,
           }}
           onSuccess={() => { setEditing(false); onRefetch(); }}
