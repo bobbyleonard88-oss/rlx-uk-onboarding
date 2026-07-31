@@ -1,96 +1,315 @@
-# RLX UK 2026 Platform Evolution Plan
+# RLX UK 2026 — Event App · Full Build Specification
 
-This document outlines the roadmap to evolve the existing RLX onboarding tool into a fully interactive, self-service event management platform with three distinct portals: Admin, Sponsor, and Delegate.
+> **Spec locked:** July 2026 after client review session.
+> **Stack:** React 19 + tRPC 11 + Drizzle ORM + MySQL (Manus hosted)
+> **Design:** Mobile-first, premium dark theme — deep navy + purple, Montserrat/Playfair, glassmorphic cards
 
-## Architectural Foundation
+---
 
-The existing app is a solid fullstack application using React 19, tRPC 11, Drizzle ORM, and MySQL. It currently supports an Admin portal (`/admin/*`) and a Sponsor portal (`/*`).
+## Locked Specification
 
-To achieve the new requirements, we will:
-1. **Clean Slate**: Start with a fresh database schema (no legacy event data).
-2. **Multi-Portal Routing**: Restructure the frontend routing to clearly separate `/admin`, `/sponsor`, and `/delegate`.
-3. **Data-Driven Configuration**: Move hard-coded logic (like the agenda and time slots) into the database.
-4. **PWA Support**: Add a web app manifest and service worker for installability.
+### Three Portals
 
-## Phase 1: Foundation & Event Settings (Current Phase)
+| Portal | Route | Users |
+|---|---|---|
+| Admin | `/admin/*` | RLX team — full back-office control |
+| Sponsor | `/*` | Sponsor company reps |
+| Delegate | `/delegate/*` | Senior HR/TA leaders |
 
-**Goal**: Establish the clean multi-portal architecture, define the new database schema, and build the Admin Event Settings and Agenda management pages.
+---
 
-- [ ] **Codebase Cleanup**
-  - [ ] Remove legacy one-off scripts (`fix-*.ts`, `check-*.mjs`, etc.) from the root and `server/` directories.
-  - [ ] Clear out legacy data models and hard-coded arrays (e.g., `attendees.ts`, `EventAgenda.tsx` static data).
-- [ ] **Database Schema Redesign**
-  - [ ] Create `events` table (name, dates, venue, match weights).
-  - [ ] Create `agendaSessions` table (title, time, room, type, etc.).
-  - [ ] Create `sponsorCredits` table or add credit fields to the `sponsors` table.
-  - [ ] Create `meetingRequests` table (status: pending, accepted, declined, cancelled).
-  - [ ] Create `chatThreads` and `chatMessages` tables.
-  - [ ] Update `users` table to explicitly handle `delegate` roles.
-- [ ] **Routing & Architecture**
-  - [ ] Refactor `App.tsx` to explicitly route `/admin/*`, `/sponsor/*`, and `/delegate/*`.
-  - [ ] Create placeholder dashboard pages for the Delegate portal.
-- [ ] **Admin Event Settings**
-  - [ ] Build a new Admin page (`/admin/settings`) to configure global event details.
-  - [ ] Build a new Admin page (`/admin/agenda`) for full CRUD management of the event agenda.
-- [ ] **PWA Configuration**
-  - [ ] Add `manifest.json` and basic service worker to `client/public/`.
+### Meeting Rules (LOCKED)
 
-## Phase 2: The Delegate Portal & Agenda Selection
+- All meetings are **20 minutes** duration
+- **15-minute buffer** after every meeting (35 minutes total blocked per meeting)
+- Meetings are **free-floating** — no fixed "meeting blocks" in the agenda. Any free 20-min slot in the day works
+- **Admin generates the first full schedule** — these meetings are auto-confirmed, no acceptance needed
+- After the initial schedule, **delegates can send additional meeting requests** to sponsors
+- **Sponsors cannot send requests** unless admin turns on the sponsor-request toggle (per-event toggle)
+- Meeting **request** does NOT consume a credit — only **acceptance/confirmation** does
+- If a meeting is **cancelled**, the credit is returned to the sponsor
+- Sponsors can go **above their credit allowance** if a delegate sends them a request — admin has full visibility and control
+- Admin can **add or remove credits** from any sponsor at any time
 
-**Goal**: Build the core experience for delegates, allowing them to view the event and manage their personal schedule.
+---
 
-- [ ] **Delegate Authentication & Onboarding**
-  - [ ] Implement login flow for delegates.
-  - [ ] Create a profile setup/verification page.
-- [ ] **Personal Schedule Management**
-  - [ ] Display the full, DB-driven event agenda to delegates.
-  - [ ] Allow delegates to add/remove optional sessions to their personal schedule.
-  - [ ] Enforce overlap validation (cannot attend two concurrent sessions).
-- [ ] **Sponsor Visibility**
-  - [ ] Allow delegates to browse the list of attending sponsors and their vendor profiles.
+### Credit System (LOCKED)
 
-## Phase 3: The Interactive Meeting System & Credits
+- Admin sets a credit allowance per sponsor (matches their purchased package)
+- Credits consumed only on meeting confirmation
+- Credits returned on cancellation
+- Admin toggle (per event): allow/disallow sponsors from sending their own meeting requests
+- Sponsors see their remaining credits at all times
+- Sponsors can exceed their credit limit if a delegate requests them — this is allowed and tracked
 
-**Goal**: Implement the core self-service meeting engine where sponsors and delegates can request, accept, and reschedule meetings.
+---
 
-- [ ] **Credit System Implementation**
-  - [ ] Build admin UI to set/adjust meeting credit allowances per sponsor.
-  - [ ] Build sponsor UI to display remaining credits.
-- [ ] **Meeting Request Flow**
-  - [ ] Enable sponsors to request meetings with delegates (costs 1 credit).
-  - [ ] Enable delegates to request meetings with sponsors (minimum 8 confirmed required).
-  - [ ] Implement Inbox/Requests UI for both portals to accept/decline incoming requests.
-- [ ] **Constraint Engine**
-  - [ ] Validate table assignments (default to sponsor's fixed table, allow override).
-  - [ ] Prevent double-booking (check against confirmed meetings and personal session schedules).
-  - [ ] Suggest alternative time slots when a clash occurs.
-- [ ] **Rescheduling & Cancellations**
-  - [ ] Allow either party to request a reschedule.
-  - [ ] Allow cancellations (refunds 1 credit to the sponsor).
+### Delegate Minimum Requirement (LOCKED)
 
-## Phase 4: Two-Way Messaging & Notifications
+- Minimum **8 confirmed meetings** per delegate (configurable per event by admin — `minMeetings` field)
+- Live tracker always visible: "X of 8 minimum confirmed"
+- Not a hard block — it's a target with visibility
 
-**Goal**: Enable private communication between matched parties and keep users informed of updates.
+---
 
-- [ ] **Messaging System**
-  - [ ] Build chat UI in both Sponsor and Delegate portals.
-  - [ ] Restrict chat access to only parties with a *confirmed* meeting.
-  - [ ] Build Admin UI to monitor all chat threads.
-- [ ] **Notification Engine**
-  - [ ] Implement in-app notification center (bell icon) for both portals.
-  - [ ] Trigger notifications for: new requests, confirmations, declines, reschedules, and new messages.
-  - [ ] Integrate email fallback notifications using the existing email infrastructure.
+### Profiles (LOCKED)
 
-## Phase 5: Polish, Ratings & Launch
+**Delegate sees sponsor:**
+- Rep + company as one unified profile (no split)
+- Rep name, title, company name, company description
+- Match score prominently displayed
+- Match reasoning: "We matched you because..."
+- Nudge: *"If anything here doesn't reflect your current situation, use your meeting time to have that conversation."*
 
-**Goal**: Finalize the design, implement post-event features, and prepare for production.
+**Sponsor sees delegate:**
+- Full intake profile: pain points, tools (ATS/CRM/TI/Other), budget, company size, decision-making level, active projects, current project stage, challenges, interests
+- Match score + reasoning
+- Same nudge text
 
-- [ ] **Design & Theming**
-  - [ ] Ensure mobile-first responsiveness across all new interactive views.
-  - [ ] Refine the premium dark theme (deep navy, purple accents, Montserrat/Playfair typography) to ensure it feels like a high-end app.
-- [ ] **Rating System**
-  - [ ] Implement the 1-5 star rating system (1★ = No Fit, 2★ = Longer Term, 3★ = Medium Term, 4/5★ = Immediate Opportunity).
-  - [ ] Add automated post-event rating reminders.
-- [ ] **Final QA & Testing**
-  - [ ] End-to-end testing of the full meeting lifecycle.
-  - [ ] Verify PWA installability on iOS and Android.
+**Delegate discovery view:**
+- All sponsors at the event, ranked by match score against the delegate's profile
+- Each card: rep name, company, match score, top 2 match reasons
+- "Request Meeting" button if they have a free slot and sponsor has capacity
+- "View Profile" → full unified sponsor profile
+
+---
+
+### Chat (LOCKED)
+
+- Text messages only as baseline
+- Optional image/document sharing (file upload)
+- Only available between a sponsor and delegate who have a **confirmed meeting**
+- Admin can view all threads (read-only)
+- Real-time updates (SSE or 5s polling)
+
+---
+
+### Notifications
+
+- In-app notification centre (bell icon in nav)
+- Email notifications
+- Triggers: meeting request, confirmation, decline, reschedule, new message, rating reminder
+
+---
+
+### PWA
+
+- Installable on iOS and Android
+- Offline support for schedule viewing
+- App icons, manifest, service worker
+
+---
+
+## Phase Status
+
+---
+
+### ✅ Phase 1 — Complete
+
+- [x] Multi-portal routing: `/admin/*`, `/delegate/*`, `/*` (sponsor)
+- [x] Drizzle schema: events, agendaSessions, meetingRequests, chatThreads, chatMessages, notifications, delegateSchedule
+- [x] Admin Event Settings page (`/admin/settings`)
+- [x] Admin Agenda Management page (`/admin/agenda`) — full session CRUD, day-by-day
+- [x] Admin Demo Data page (`/admin/seed`) — one-click seed
+- [x] Delegate Dashboard shell (`/delegate`)
+- [x] Delegate Agenda view (`/delegate/agenda`)
+- [x] PWA: manifest.json, sw.js, meta tags
+- [x] AdminHeader updated with new nav items
+- [x] Migration SQL: 0021_rlx_platform_evolution.sql
+
+---
+
+### 🔧 Phase 1b — Schema Corrections & Dashboard Fix (Next)
+
+- [ ] Fix blank admin dashboard (DB migration not yet applied — new tables missing)
+- [ ] Remove `meeting_block` session type from agenda (meetings are free-floating)
+- [ ] Remove `meetingSlotNumber` from agendaSessions schema
+- [ ] Update seed data: remove meeting_block sessions, replace with realistic free-day sessions
+- [ ] Add `minMeetings` int to events table (default 8)
+- [ ] Add `sponsorRequestsEnabled` int to events table (default 0 = off)
+- [ ] Add `meetingDurationMins` int to events table (default 20)
+- [ ] Add `meetingBufferMins` int to events table (default 15)
+- [ ] Fix admin dashboard to show event overview, stats, and quick links
+- [ ] Update migration SQL with schema corrections
+
+---
+
+### 🔲 Phase 2 — Credit System + Admin Schedule Generation
+
+**Goal:** Admin can generate the initial meeting schedule. Credits work correctly. Sponsor credit display live.
+
+#### Schema
+- [ ] meetings.status: add `admin_confirmed` as distinct from `confirmed` (delegate-accepted)
+- [ ] Confirm sponsors.meetingCredits and creditsUsed are wired correctly
+
+#### Admin pages
+- [ ] Admin Sponsor Management (`/admin/sponsors`)
+  - List all sponsors: credits remaining, credits used, table number, meeting count
+  - Edit credits (add/remove), edit table number
+  - Toggle: allow/disallow sponsor from sending requests
+  - Global event toggle: sponsorRequestsEnabled
+- [ ] Admin Schedule Generator (`/admin/schedule`)
+  - Input: number of meetings per delegate, event date range
+  - Algorithm: assign meetings to free 20-min slots, respecting 15-min buffers and session clashes
+  - Preview grid before confirming
+  - One-click confirm → sets all generated meetings to `admin_confirmed`
+- [ ] Admin Meetings page — updated to show admin_confirmed / requested / confirmed / cancelled
+
+#### Sponsor portal
+- [ ] Credit tracker widget (always visible in sponsor nav/header)
+  - "X credits remaining of Y total" + visual progress bar
+- [ ] Sponsor meeting schedule page — all confirmed meetings with delegate profiles
+- [ ] Sponsor delegate profile view — full intake data + match score + match reasoning
+
+#### Delegate portal
+- [ ] Minimum meeting tracker (always visible)
+  - "X of 8 minimum meetings confirmed" — red < 8, amber = 8, green > 8
+- [ ] Delegate meeting schedule page — all confirmed meetings with sponsor profiles
+- [ ] Delegate sponsor profile view — unified rep + company + match score + reasoning
+
+---
+
+### 🔲 Phase 3 — Meeting Requests, Reschedule, Overlap Enforcement
+
+**Goal:** Delegates can send additional meeting requests. Either party can request reschedules. System enforces no-overlap.
+
+- [ ] Delegate → Sponsor meeting request flow
+  - Delegate selects sponsor from discovery view
+  - System checks: no time clash for either party (20-min + 15-min buffer + session clashes)
+  - System suggests up to 3 available time slots
+  - Delegate picks a slot + optional message → sends request
+  - Sponsor receives in-app + email notification
+  - Sponsor accepts or declines
+  - On accept: meeting confirmed, credit consumed, chat thread created
+  - On decline: credit not consumed, delegate notified
+- [ ] Reschedule request flow (either party)
+  - Either party can request to move a confirmed meeting
+  - System finds alternative slots (20-min + 15-min buffer + session clashes)
+  - Suggests up to 3 alternatives
+  - Other party accepts or declines
+  - If accepted: meeting updated, both notified
+  - If declined: original meeting stays
+- [ ] Overlap enforcement (hard blocks)
+  - Cannot book into a slot that clashes with another meeting
+  - 15-minute buffer after every meeting is blocked
+  - If delegate has added a session to their schedule, that time is blocked
+- [ ] Admin override: admin can force-move any meeting regardless of clashes
+
+---
+
+### 🔲 Phase 4 — Match Scoring Display + Delegate Discovery
+
+**Goal:** Both parties see why they've been matched. Delegates can discover and evaluate all sponsors.
+
+- [ ] Match score calculation (server-side, cached in matchCache)
+  - Inputs: delegate intake data vs sponsor profile
+  - Weights: pain points (35%), industry (20%), company size (15%), budget (20%), tools (10%)
+  - Output: 0–100 score + human-readable reasoning string
+- [ ] Delegate discovery page (`/delegate/sponsors`)
+  - All sponsors ranked by match score
+  - Card: rep name, company, match score, top 2 match reasons
+  - "Request Meeting" button
+  - "View Profile" → full unified sponsor profile
+- [ ] Sponsor profile page (delegate view)
+  - Rep photo, name, title, company name + description
+  - Match score prominently displayed
+  - Match reasoning + nudge text
+- [ ] Delegate profile page (sponsor view)
+  - Full intake data
+  - Match score + reasoning + nudge text
+- [ ] Meeting card (both portals) — inline match score + top reason
+
+---
+
+### 🔲 Phase 5 — Two-Way Chat
+
+**Goal:** Confirmed meeting pairs can message each other. Admin can view all threads.
+
+- [ ] Chat thread auto-created when a meeting is confirmed
+- [ ] Chat UI (`/delegate/messages`, `/messages` for sponsor)
+  - Thread list: sorted by last message, unread badge
+  - Thread view: message bubbles, timestamps, read receipts
+  - Text input + send
+  - Optional: image/document attachment (S3 upload)
+- [ ] Real-time updates (SSE or 5s polling)
+- [ ] Unread message count in nav (both portals)
+- [ ] Admin messages view (`/admin/messages`) — read-only
+- [ ] In-app + email notification on new message (email batched, max 1/hour per thread)
+
+---
+
+### 🔲 Phase 6 — Notifications, Ratings, Admin Reporting
+
+**Goal:** Full notification system, post-event ratings, admin export tools.
+
+- [ ] In-app notification centre (bell icon in nav)
+  - Unread count badge
+  - Notification list: type icon, title, body, timestamp, read/unread
+  - Mark all read
+  - Click → navigate to relevant page
+- [ ] Email notifications for all triggers
+- [ ] Post-event rating flow
+  - 24h after event end: email + in-app prompt to rate each meeting
+  - Rating tiers: 1★ No Fit, 2★ Longer Term, 3★ Medium Term, 4★/5★ Immediate Opportunity
+  - Optional notes field
+  - Both sponsor and delegate rate independently
+- [ ] Admin reporting page
+  - Meeting completion rate, average match score, rating distribution
+  - Credit utilisation per sponsor
+  - Export to CSV
+
+---
+
+### 🔲 Phase 7 — PWA Polish + Production Hardening
+
+- [ ] Push notifications (web push API)
+- [ ] Offline schedule viewing (service worker caches schedule data)
+- [ ] App icons (192px, 512px) for iOS/Android home screen
+- [ ] Performance: lazy load routes, optimise bundle
+- [ ] Accessibility: keyboard navigation, ARIA labels, colour contrast
+- [ ] Security: rate limiting on meeting requests, input sanitisation
+- [ ] Error boundaries on all portal pages
+- [ ] Loading skeletons on all data-fetching pages
+
+---
+
+## Navigation Map
+
+### Admin (`/admin/*`)
+
+| Route | Page |
+|---|---|
+| `/admin` | Dashboard — event overview, stats |
+| `/admin/settings` | Event Settings — name, dates, venue, weights, min meetings, sponsor toggle |
+| `/admin/agenda` | Agenda Management — session CRUD |
+| `/admin/sponsors` | Sponsor Management — credits, tables, toggles |
+| `/admin/schedule` | Schedule Generator — generate + confirm initial meetings |
+| `/admin/meetings` | All Meetings — status, override, cancel |
+| `/admin/messages` | All Chat Threads — read-only |
+| `/admin/users` | User Management |
+| `/admin/analytics` | Analytics |
+| `/admin/reporting` | Reports + Export |
+| `/admin/activity-log` | Activity Log |
+| `/admin/seed` | Demo Data |
+
+### Sponsor (`/*`)
+
+| Route | Page |
+|---|---|
+| `/dashboard` | Sponsor Dashboard — credits, upcoming meetings, unread messages |
+| `/meeting-schedule` | My Schedule — all confirmed meetings |
+| `/agenda` | Event Agenda — read-only |
+| `/event-details` | Event Details — venue, dates |
+| `/messages` | Chat — thread list + thread view |
+| `/feedback` | Post-event ratings |
+
+### Delegate (`/delegate/*`)
+
+| Route | Page |
+|---|---|
+| `/delegate` | Dashboard — meeting tracker, upcoming meetings, unread messages |
+| `/delegate/schedule` | My Schedule — all confirmed meetings |
+| `/delegate/sponsors` | Sponsor Discovery — all sponsors ranked by match score |
+| `/delegate/agenda` | Event Agenda — with opt-in for optional sessions |
+| `/delegate/messages` | Chat — thread list + thread view |
+| `/delegate/feedback` | Post-event ratings |
