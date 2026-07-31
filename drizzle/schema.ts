@@ -47,6 +47,13 @@ export const events = mysqlTable("events", {
   endDate: timestamp("endDate").notNull(),
   // Matching algorithm weight configuration (JSON object)
   matchWeights: text("matchWeights"),
+  // Meeting configuration
+  meetingDurationMins: int("meetingDurationMins").default(20).notNull(),
+  meetingBufferMins: int("meetingBufferMins").default(15).notNull(),
+  // Minimum confirmed meetings required per delegate
+  minMeetings: int("minMeetings").default(8).notNull(),
+  // Whether sponsors are allowed to send their own meeting requests
+  sponsorRequestsEnabled: int("sponsorRequestsEnabled").default(0).notNull(),
   // Whether the event is live (visible to sponsors/delegates)
   isActive: int("isActive").default(0).notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
@@ -61,7 +68,7 @@ export type InsertEvent = typeof events.$inferInsert;
 /**
  * agendaSessions — the full event programme. Admin pre-loads all sessions.
  * Delegates can add optional sessions to their personal schedule.
- * Meeting time slots are also represented here as sessions of type 'meeting_block'.
+ * Meetings are free-floating 20-min slots — not tied to agenda blocks.
  */
 export const agendaSessions = mysqlTable("agendaSessions", {
   id: int("id").autoincrement().primaryKey(),
@@ -77,7 +84,6 @@ export const agendaSessions = mysqlTable("agendaSessions", {
     "arrival",
     "keynote",
     "session",
-    "meeting_block",
     "meal",
     "break",
     "social",
@@ -85,10 +91,8 @@ export const agendaSessions = mysqlTable("agendaSessions", {
   ]).notNull(),
   // Whether delegates can optionally add this session to their schedule
   isOptional: int("isOptional").default(0).notNull(),
-  // Whether this session is highlighted (e.g. gala dinner)
+  // Whether this session is highlighted (e.g. gala dinner, keynote)
   isHighlight: int("isHighlight").default(0).notNull(),
-  // Slot number within the day for meeting_block sessions (1, 2, 3...)
-  meetingSlotNumber: int("meetingSlotNumber"),
   sortOrder: int("sortOrder").default(0).notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
