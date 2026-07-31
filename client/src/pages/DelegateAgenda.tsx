@@ -31,7 +31,6 @@ type SessionType =
   | "arrival"
   | "keynote"
   | "session"
-  | "meeting_block"
   | "meal"
   | "break"
   | "social"
@@ -44,7 +43,7 @@ const typeConfig: Record<SessionType, { icon: React.ElementType; color: string; 
   break:         { icon: Coffee,    color: "text-slate-400",     bg: "bg-slate-400/10 border-slate-400/30",         label: "Break" },
   session:       { icon: Mic,       color: "text-blue-400",      bg: "bg-blue-400/10 border-blue-400/30",           label: "Session" },
   keynote:       { icon: Star,      color: "text-yellow-400",    bg: "bg-yellow-400/10 border-yellow-400/30",       label: "Keynote" },
-  meeting_block: { icon: Clock,     color: "text-emerald-400",   bg: "bg-emerald-400/10 border-emerald-400/30",     label: "Meetings" },
+
   wellness:      { icon: Sun,       color: "text-rose-400",      bg: "bg-rose-400/10 border-rose-400/30",           label: "Wellness" },
 };
 
