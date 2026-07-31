@@ -11,7 +11,6 @@ const sessionTypeEnum = z.enum([
   "arrival",
   "keynote",
   "session",
-  "meeting_block",
   "meal",
   "break",
   "social",
@@ -43,6 +42,10 @@ export const eventRouter = router({
         endDate: z.string(),
         matchWeights: z.string().optional(), // JSON string
         isActive: z.boolean().optional().default(false),
+        minMeetings: z.number().optional().default(8),
+        meetingDurationMins: z.number().optional().default(20),
+        meetingBufferMins: z.number().optional().default(15),
+        sponsorRequestsEnabled: z.boolean().optional().default(false),
       })
     )
     .mutation(async ({ input }) => {
@@ -55,6 +58,10 @@ export const eventRouter = router({
         endDate: new Date(input.endDate),
         matchWeights: input.matchWeights ?? null,
         isActive: input.isActive ? 1 : 0,
+        minMeetings: input.minMeetings ?? 8,
+        meetingDurationMins: input.meetingDurationMins ?? 20,
+        meetingBufferMins: input.meetingBufferMins ?? 15,
+        sponsorRequestsEnabled: input.sponsorRequestsEnabled ? 1 : 0,
       });
       return { success: true, id };
     }),
@@ -72,6 +79,10 @@ export const eventRouter = router({
         endDate: z.string().optional(),
         matchWeights: z.string().optional(),
         isActive: z.boolean().optional(),
+        minMeetings: z.number().optional(),
+        meetingDurationMins: z.number().optional(),
+        meetingBufferMins: z.number().optional(),
+        sponsorRequestsEnabled: z.boolean().optional(),
       })
     )
     .mutation(async ({ input }) => {
@@ -85,6 +96,10 @@ export const eventRouter = router({
         ...(rest.endDate !== undefined && { endDate: new Date(rest.endDate) }),
         ...(rest.matchWeights !== undefined && { matchWeights: rest.matchWeights }),
         ...(rest.isActive !== undefined && { isActive: rest.isActive ? 1 : 0 }),
+        ...(rest.minMeetings !== undefined && { minMeetings: rest.minMeetings }),
+        ...(rest.meetingDurationMins !== undefined && { meetingDurationMins: rest.meetingDurationMins }),
+        ...(rest.meetingBufferMins !== undefined && { meetingBufferMins: rest.meetingBufferMins }),
+        ...(rest.sponsorRequestsEnabled !== undefined && { sponsorRequestsEnabled: rest.sponsorRequestsEnabled ? 1 : 0 }),
       });
       return { success: true };
     }),
@@ -123,7 +138,6 @@ export const eventRouter = router({
         sessionType: sessionTypeEnum,
         isOptional: z.boolean().optional().default(false),
         isHighlight: z.boolean().optional().default(false),
-        meetingSlotNumber: z.number().optional(),
         sortOrder: z.number().optional().default(0),
       })
     )
@@ -140,7 +154,6 @@ export const eventRouter = router({
         sessionType: input.sessionType,
         isOptional: input.isOptional ? 1 : 0,
         isHighlight: input.isHighlight ? 1 : 0,
-        meetingSlotNumber: input.meetingSlotNumber ?? null,
         sortOrder: input.sortOrder ?? 0,
       });
       return { success: true, id };
@@ -161,7 +174,6 @@ export const eventRouter = router({
         sessionType: sessionTypeEnum.optional(),
         isOptional: z.boolean().optional(),
         isHighlight: z.boolean().optional(),
-        meetingSlotNumber: z.number().optional().nullable(),
         sortOrder: z.number().optional(),
       })
     )
@@ -178,7 +190,6 @@ export const eventRouter = router({
         ...(rest.sessionType !== undefined && { sessionType: rest.sessionType }),
         ...(rest.isOptional !== undefined && { isOptional: rest.isOptional ? 1 : 0 }),
         ...(rest.isHighlight !== undefined && { isHighlight: rest.isHighlight ? 1 : 0 }),
-        ...(rest.meetingSlotNumber !== undefined && { meetingSlotNumber: rest.meetingSlotNumber }),
         ...(rest.sortOrder !== undefined && { sortOrder: rest.sortOrder }),
       });
       return { success: true };
